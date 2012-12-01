@@ -1,0 +1,9 @@
+# Tools, notes, outputs
+__*.*
+__*
+
+# Flash Builder
+.metadata
+
+# Snap backups
+*.7z
