@@ -10,3 +10,5 @@ __*
 
 # Visual Studio
 *.suo
+bin/
+obj/
