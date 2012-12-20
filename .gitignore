@@ -7,3 +7,6 @@ __*
 
 # Snap backups
 *.7z
+
+# Visual Studio
+*.suo
