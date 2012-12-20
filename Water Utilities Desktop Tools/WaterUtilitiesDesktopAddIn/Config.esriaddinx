@@ -1,0 +1,184 @@
+﻿<!--
+ | Version 10.1.1
+ | Copyright 2012 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+-->
+
+<ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Water Utility Network Tools</Name>
+  <AddInID>{FD20EAB0-7ACB-4B35-AA41-753157745FD0}</AddInID>
+  <Description>ArcMap tools for Water, Wastewater and Stormwater</Description>
+  <Version>10.1.1.3</Version>
+  <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
+  <Author>Esri., Inc.</Author>
+  <Company>Esri., Inc.</Company>
+  <Date>11/1/2012</Date>
+  <Targets>
+    <Target name="Desktop" version="10.1" />
+  </Targets>
+  <AddIn language="CLR" library="WaterUtilityNetworkTools.dll" namespace="A4WaterUtilities">
+    <ArcMap>
+      <Commands>
+        <Button id="A4WaterUtilities_AddLaterals" class="AddLaterals" message="This tool creates a lateral between all select points and the main line." caption="Add a Lateral" tip="Add a Lateral" category="ArcGIS for Local Government" image="Images\AddLaterals.png" />
+        <Button id="A4WaterUtilities_AddLateralsFromMain" class="AddLateralsFromMain" message="This tool creates a lateral from all select points and the main line." caption="Add a Lateral from Tap location" tip="Add a Lateral from Tap location" category="ArcGIS for Local Government" image="Images\AddLateralsFromMain.png" />
+
+        <Button id="A4WaterUtilities_ConnectionChecker" class="ConnectionChecker" message="Checks the assets on the screen for errors in connectivity." caption="Connection Checker" tip="Evaluates the geometric network features in the visible extent to verify all junctions connect to a line and all edges connect to other edges via a junction" category="ArcGIS for Local Government" image="Images\ConnectionChecker.png" />
+        <Button id="A4WaterUtilities_ConnectSelected" class="ConnectSelected" message="Force the connection of geometric network assets." caption="Connect Selected" tip="Connects selected features to a geometric network" category="ArcGIS for Local Government" image="Images\ConnectSelected.png" />
+        <Button id="A4WaterUtilities_DisconnectSelected" class="DisconnectSelected" message="Force the disconnection of geometric network assets." caption="Disconnect Selected" tip="Disconnects selected features from a geometric network" category="ArcGIS for Local Government" image="Images\DisconnectSelected.png" />
+        <Button id="A4WaterUtilities_CreateJumpsOver" class="CreateJumpsOver" message="Adds over jumps to selected overlapping lines." caption="Create Jumps Over" tip="Creates a semicircle jump on selected line features over intersecting lines" category="ArcGIS for Local Government" image="Images\CreateJumpsOver.png" />
+        <Button id="A4WaterUtilities_CreateJumpsUnder" class="CreateJumpsUnder" message="Adds under jumps to selected lines." caption="Create Jumps Under" tip="Create under jumps for selected lines" category="ArcGIS for Local Government" image="Images\CreateJumpsUnder.png" />
+        <Button id="A4WaterUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Establishes flow direction for geometric network based values of AncillaryRole." caption="Establish Flow Direction" tip="Sets the flow of the visible geometric networks based on source and sinks" category="ArcGIS for Local Government" image="Images\EstablishFlow.png" />
+        <Button id="A4WaterUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establishes flow direction for geometric network based on digitized direction." caption="Establish Digitized Flow Direction " tip="Sets the flow of the visible geometric networks based on digitized direction of the line" category="ArcGIS for Local Government" image="Images\EstablishFlowDigitized.png" />
+        <Button id="A4WaterUtilities_ShowLayerWindow" class="ShowLayerWindow" message="Toggle Layer Viewer Window" caption="Toggle Layer Viewer Window" tip="Opens the layer window and builds a form using a specified layer" category="ArcGIS for Local Government" image="Images\LayerViewer.png" />
+        <Button id="A4WaterUtilities_ShowFlowArrows" class="ShowFlowArrows" message="Shows or hides flow direction arrows for first visible geometric network." caption="Show/Hide Flow Arrows" tip="Show/hide flow arrows" category="ArcGIS for Local Government" image="Images\ShowFlowArrows.png" />
+        <Button id="A4WaterUtilities_FlipLines" class="FlipLines" message="Flips all selected lines in highlighted layer." caption="Flip Selected Lines" tip="Flip the selected lines" category="ArcGIS for Local Government" image="Images\FlipLines.png" />
+        <Button id="A4WaterUtilities_FlipLinesFlow" class="FlipLinesFlow" message="Flips any selected lines in highlighted layer that are draw against the current flow direction." caption="Flip Lines To Match Flow" tip="Flip the selected lines to match flow" category="ArcGIS for Local Government" image="Images\FlipLinesFlow.png" />
+        <Button id="A4WaterUtilities_RotateSelected" class="RotateSelected" message="Calculates values for ROTATION field." caption="Rotate Selected Junctions" tip="Rotates select point features to match the orientation of a connecting line" category="ArcGIS for Local Government" image="Images\RotateSelected.png" />
+        <Button id="A4WaterUtilities_AdditionalRotate" class="AdditionalRotate" message="Adds additional sping to a feature." caption="Add Rotation to Feature" tip="Adds a predefined value to the rotation of selected point features" category="ArcGIS for Local Government" image="Images\RotateAddSpinSelected.png" />
+        <Button id="A4WaterUtilities_SplitLines" class="SplitLines" message="Splits lines at selected points." caption="Splits lines at selected points." tip="Splits line features where they intersect selected point features" category="ArcGIS for Local Government" image="Images\SplitLines.png" />
+        <Button id="A4WaterUtilities_SetMeasuresOnLines" class="SetMeasuresOnLines" message="Set Measures For Selected Lines." caption="Set Measures For Selected Lines." tip="Calculates M values for selected m-enabled lines. Values may be set with the digitized direction or against" category="ArcGIS for Local Government" image="Images\SetMeasures.png" />
+        <Button id="A4WaterUtilities_MergeGNLines" class="MergeGNLines" message="Merge Geometric Network Lines." caption="Merge Geometric Network Lines." tip="Merges multiple lines from a geometric network line feature class into a single feature" category="ArcGIS for Local Government" image="Images\merge.png" />
+        <Button id="A4WaterUtilities_ExportToExcel" class="ExportToExcel" message="Export selected features or records to Excel." caption="Export To Excel" tip="Export selected features to Microsoft Excel" category="ArcGIS for Local Government" image="Images\ExportToExcel.png" />
+        <Button id="A4WaterUtilities_IdentifySelected" class="IdentifySelected" message="Open the identify dialog using the currently selected features." caption="Identify Selected." tip="Identify the selected features" category="ArcGIS for Local Government" image="Images\IdentifySelected.png" />
+        <Button id="A4WaterUtilities_TraceSummaryIsolation" class="TraceSummaryIsolation" message="Perform a valve isolation on each main and summarizes the valves and meters." caption="Summary Isolation Trace." tip="Summarize the valves and meters along an isolation trace" category="ArcGIS for Local Government" image="Images\SummaryIsolationTrace.png" />
+        <Tool id="A4WaterUtilities_ToggleOperableStatus" class="ToggleOperableStatus" message="Click on a system valve to change its operable status." caption="Change Operable Status." tip="Change the operable status of a valve" category="ArcGIS for Local Government" image="Images\ToggleOperableStatus.png" />
+        <Button id="A4WaterUtilities_ClearTraceResults" class="ClearTraceResults" message="Unselect all features and remove trace graphics." caption="Clear Trace Results" tip="Clear the trace results" category="ArcGIS for Local Government" image="Images\TraceClear.png" />
+        <Tool id="A4WaterUtilities_TraceIsolation" class="TraceIsolation" message="Perform a valve isolation by clicking a location to start the trace." caption="Valve Isolation Trace" tip="Run a valve isolation trace" category="ArcGIS for Local Government" image="Images\TraceIsolationTool.png" />
+        <Button id="A4WaterUtilities_TraceIsolationRerun" class="TraceIsolationRerun" message="Perform a isolation trace with the current flags." caption="Perform a isolation trace with the current flags" tip="Run an isolation trace with the current flags" category="ArcGIS for Local Government" image="Images\TraceIsolationReRun.png" />
+        <Button id="A4WaterUtilities_TraceSecondaryIsolation" class="TraceSecondaryIsolation" message="Perform a secondary trace." caption="Secondary Isolation Trace" tip="Run a secondary isolation trace" category="ArcGIS for Local Government" image="Images\SecondaryTraceIsolation.png" />
+        <Tool id="A4WaterUtilities_TraceUpstream" class="TraceUpstream" message="Trace upstream by clicking a location to start the trace." caption="Upstream Trace" tip="Run an upstream trace" category="ArcGIS for Local Government" image="Images\TraceUpstreamTool.png" />
+        <Tool id="A4WaterUtilities_TraceDownstream" class="TraceDownstream" message="Trace downstream by clicking a location to start the trace." caption="Downstream Trace" tip="Run a downstream trace" category="ArcGIS for Local Government" image="Images\TraceDownstreamTool.png" />
+        <Button id="A4WaterUtilities_FlowAccumulation" class="FlowAccumulation" message="Calculates upstream/downstream flow accumulation for each selected feature and stores results in a specified field" caption="Calculates upstream/downstream flow accumulation" tip="Calculates upstream/downstream flow accumulation for each selected feature and stores results in a specified field" category="ArcGIS for Local Government" image="Images\FlowAccum.png" />
+        <Tool id="A4WaterUtilities_FlowAccumulationLoc" class="FlowAccumulationLoc" message="Calculates upstream/downstream flow accumulation at a specific point" caption="Calculates upstream/downstream flow accumulation " tip="Calculates upstream/downstream flow accumulation at a specific point" category="ArcGIS for Local Government" image="Images\FlowAccumLoc.png" />
+        <Tool id="A4WaterUtilities_FindClosest" class="FindClosest" message="Find closest asset" caption="Find closest asset" tip="Find the closest asset" category="ArcGIS for Local Government" image="Images\Test.png" />
+        <Tool id="A4WaterUtilities_AddFlag" class="AddFlag" message="Add a flag to the clicked network." caption="Add a Flag" tip="Add a flag" category="ArcGIS for Local Government" image="Images\AddFlag.png" />
+        <Tool id="A4WaterUtilities_AddBarrier" class="AddBarrier" message="Add a barrier to the clicked network." caption="Add a Barrier" tip="Add a barrier" category="ArcGIS for Local Government" image="Images\AddBarrier.png" />
+        <Tool id="A4WaterUtilities_RemoveFlagBarrier" class="RemoveFlagBarrier" message="Remove a flag or a barrier" caption="Remove a flag or a barrier" tip="Remove a flag or a barrier" category="ArcGIS for Local Government" image="Images\DeleteBarFlag.png" />
+       <!-- <Button id="A4WaterUtilities_AttributeTransferLoader" class="AttributeTransferLoaderButton" message="Attribute Transfer Loader" caption="Attribute Transfer Loader" tip="Attribute transfer loader" category="ArcGIS for Local Government" image="Images\attributeTransfer.png" />-->
+        <Button id="A4WaterUtilities_SelectJunctionsByEdgeCount" class="SelectByJunctionEdgeCount" message="Select Junctions by Edge Count" caption="Select Junctions by Edge Count" tip="Select junctions by edge count" category="ArcGIS for Local Government" image="Images\SelectJunctions.png" />
+        <Button id="A4WaterUtilities_ConnectClosests" class="ConnectClosests" message="Connects selected manholes to closest existing manhole." caption="Connect Manhole to Manhole" tip="Connects selected manholes to closest manhole" category="ArcGIS for Local Government" image="Images\ConnectClosests.png" />
+      
+        <Tool id="A4WaterUtilities_SewerProfile" class="SewerProfile" message="Profiling Tool" caption="Profiling Tool" tip="Profiling tool" category="ArcGIS for Local Government" image="Images\SewerProfile.png" />
+        <!--<Tool id="A4WaterUtilities_MoveConnections" class="MoveConnections" message="Move Connections from one line to another" caption="Move Connections from one line to another" tip="Move Connections from one line to another" category="ArcGIS for Local Government" image="Images\MoveConnections.png" />-->
+
+     <!--   <Button id="A4WaterUtilities_ShowConfigForm" class="ShowConfigForm" message="Show config information" caption="Show config information" tip="Display toolbar configuration file" category="ArcGIS for Local Government" image="Images\Config2.png" />-->
+      </Commands>
+      <Toolbars>
+        <Toolbar id="A4WaterUtilities_WaterUtilitiesEditTools" caption="Water Utility Network Editing" showInitially="false">
+          <Items>
+            <Button refID="A4WaterUtilities_Test" separator="true" />
+            <ToolPalette refID="esriArcMapUI.SelectByToolsPalette" separator="false" />
+            <Button refID="esriArcMapUI.ClearSelectionCommand" separator="false" />
+            <Tool refID="esriEditor.EditTool" separator="true" />
+        
+            <Button refID="esriEditor.AttributionCommand" separator="false" />
+            <Button refID="A4WaterUtilities_ConnectSelected" separator="true" />
+            <Button refID="A4WaterUtilities_DisconnectSelected" separator="false" />
+            <Button refID="esriEditor.ValidateSelectionCommand" separator="true" />
+            <Button refID="A4WaterUtilities_ConnectionChecker" separator="false" />
+            <Button refID="A4WaterUtilities_RotateSelected" separator="true" />
+            <Button refID="A4WaterUtilities_AdditionalRotate" separator="false" />
+            <Button refID="A4WaterUtilities_SplitLines" separator="true" />
+           <Button refID="A4WaterUtilities_MergeGNLines" separator="false" />
+            <Button refID="A4WaterUtilities_SetMeasuresOnLines" separator="false" />
+            <Button refID="A4WaterUtilities_CreateJumpsOver" separator="true" />
+            <Button refID="A4WaterUtilities_CreateJumpsUnder" separator="false" />
+            <Button refID="A4WaterUtilities_ShowLayerWindow" separator="true" />
+            <Button refID="A4WaterUtilities_AddLaterals" separator="false" />
+            <Button refID="A4WaterUtilities_AddLateralsFromMain" separator="false" />
+            <!--<Tool refID="A4WaterUtilities_MoveConnections" separator="false" />-->
+            <Button refID="A4WaterUtilities_ConnectClosests" separator="true" />
+      
+            <Button refID="A4WaterUtilities_EstablishFlowAncillary" separator="true" />
+            <Button refID="A4WaterUtilities_EstablishFlowDigitized" separator="false" />
+            <Button refID="A4WaterUtilities_ShowFlowArrows" separator="false" />
+            <Button refID="A4WaterUtilities_FlipLines" separator="true" />
+            <Button refID="A4WaterUtilities_FlipLinesFlow" separator="false" />
+            <Button refID="esriEditorExt.GNIncrementalLoaderWizardCommand" separator="true" />
+          
+          </Items>
+        </Toolbar>
+        <Toolbar id="A4WaterUtilities_ReportingToolbar" caption="Water Utility Network Reporting" showInitially="false">
+          <Items>
+           <Tool refID="A4WaterUtilities_TraceIsolation" separator="false" />
+            <Button refID="A4WaterUtilities_TraceIsolationRerun" />
+            <Button refID="A4WaterUtilities_TraceSecondaryIsolation" separator="false" />
+           
+            <Tool refID="A4WaterUtilities_TraceUpstream" separator="false" />
+            <Tool refID="A4WaterUtilities_TraceDownstream" separator="false" />
+            <Tool refID="A4WaterUtilities_FlowAccumulationLoc" separator="false" />
+           <Tool refID="A4WaterUtilities_AddFlag" separator="false" />
+            <Tool refID="A4WaterUtilities_AddBarrier" separator="false" />
+            <Tool refID="A4WaterUtilities_RemoveFlagBarrier" separator="false" />
+            <Tool refID="A4WaterUtilities_SewerProfile" separator="false" />
+
+            <Button refID="A4WaterUtilities_TraceSummaryIsolation" separator="false" />
+            <Button refID="A4WaterUtilities_FlowAccumulation" separator="false" />
+
+            <Button refID="A4WaterUtilities_ToggleOperableStatus" separator="true" />
+            <Button refID="A4WaterUtilities_ClearTraceResults" separator="false" />
+            <Button refID="A4WaterUtilities_ExportToExcel" separator="true" />
+            <Button refID="A4WaterUtilities_IdentifySelected" separator="false" />
+            <!--<Button refID="A4WaterUtilities_AttributeTransferLoader" separator="true" />-->
+            <Button refID="A4WaterUtilities_SelectJunctionsByEdgeCount" separator="true" />
+            <!--<Button refID="A4WaterUtilities_ShowConfigForm" separator="true" />-->
+          </Items>
+        </Toolbar>
+      </Toolbars>
+      <DockableWindows>
+        <DockableWindow id="A4WaterUtilities_LayerViewer" class="LayerWindow+AddinImpl" caption="Layer Viewer" image="Images\LayerViewer.png">
+          <InitialPlacement height="300" width="300" state="pinned" position="left" />
+        </DockableWindow>
+      </DockableWindows>
+      <Menus></Menus>
+      <Editor>
+        <Commands>
+
+          <Tool id="Esri_A4WaterUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Service Point and Lateral Line" caption="Service Point and Lateral Line" tip="Create a service point and connect it to the cloest line with a lateral" category="ArcGIS for Local Government" image="Images\AddLateralsConstructTool.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+          <Tool id="Esri_A4WaterUtilities_AddLateralsFromMainPointConstructionTool" class="AddLateralsFromMainPointConstructionTool" message="Tap Point and Lateral Line" caption="Tap Point and Lateral Line" tip="Create a tap point and lateral from the location on the main" category="ArcGIS for Local Government" image="Images\AddLateralsFromMainConstructTool.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+          
+          <Tool id="Esri_A4WaterUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Point and Split" caption="Point and Split" tip="Add a point and split an intersecting line" category="ArcGIS for Local Government" image="Images\SplitLinesAtLocation.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+          <Tool id="Esri_A4WaterUtilities_ConnectClosestsConstructTool" class="ConnectClosestsConstructTool" message="Point and Line" caption="Point and Line" tip="Creates a point and a line to the closest point" category="ArcGIS for Local Government" image="Images\ConnectClosestsConstructTool.png" >
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+          <Tool id="Esri_A4WaterUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Line with Points" caption="Line with Points" tip="Create a line with end points and points at the vertices" category="ArcGIS for Local Government" image="Images\AddLineWithEndPoints.png">
+            <Construction>
+              <Category>Polyline Construction</Category>
+              <Category>Geometric Network Line Construction</Category>
+            </Construction>
+          </Tool>
+        <!--<Tool id="Esri_A4WaterUtilities_PointsAlongLineTool" class="PointsAlongLineTool" message="Creates points at regular intervals along a sketch" caption="Points along a line" tip="Points along a line tool" category="ArcGIS for Local Government" image="Images\PointsAlongLineTool.png">
+          <Construction>
+            <Category>Point Construction</Category>
+          </Construction>
+        </Tool>-->
+        </Commands>
+      </Editor>
+    </ArcMap>
+  </AddIn>
+</ESRI.Configuration>
