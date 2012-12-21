@@ -16,24 +16,6 @@
  */
 
 
-/*
- | Version 10.1.1
- | Copyright 2012 Esri
- |
- | Licensed under the Apache License, Version 2.0 (the "License");
- | you may not use this file except in compliance with the License.
- | You may obtain a copy of the License at
- |
- |    http://www.apache.org/licenses/LICENSE-2.0
- |
- | Unless required by applicable law or agreed to in writing, software
- | distributed under the License is distributed on an "AS IS" BASIS,
- | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- | See the License for the specific language governing permissions and
- | limitations under the License.
- */
-
-
 using ESRI.ArcGIS.SystemUI;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.GeoDatabaseUI;
@@ -1192,7 +1174,7 @@ namespace A4LGSharedFunctions
         //        editProperties = null;
         //    }
 
-        //}  
+        //}
         //public static void ChangeVertexSymbol(ref IEditor3 vEditor, IMarkerSymbol markerSymbol, IMarkerSymbol currentMarkerSymbol)
         //{
         //    if (vEditor == null)
@@ -1218,7 +1200,7 @@ namespace A4LGSharedFunctions
         //        editProperties = null;
         //    }
 
-        //}  
+        //}
         //public static void ChangeVertexSymbol(IApplication app, IMarkerSymbol markerSymbol)
         //{
         //    IEditor3 vEditor  =null;
@@ -1239,7 +1221,7 @@ namespace A4LGSharedFunctions
 
         //    }
 
-        //}  
+        //}
         public static AddressInfo GetAddressInfo(IApplication app, IPoint pointLocation, string RoadLayerName, string FullNameField,
             string LeftToField, string RightToField, string LeftFromField, string RightFromField, bool searchOnLayer, double searchDistance)
         {
@@ -2379,7 +2361,7 @@ namespace A4LGSharedFunctions
                     }
                     else
                     {
-                        //          INetworkCollection pNetColl; 
+                        //          INetworkCollection pNetColl;
 
                         for (int i = 0; i < pNetAnalysisExt.NetworkCount; i++)
                         {
@@ -3389,7 +3371,7 @@ namespace A4LGSharedFunctions
                 if (snappedPoint == null)
                     return null;
 
-                // convert the EID to a feature class ID, feature ID, and sub ID  
+                // convert the EID to a feature class ID, feature ID, and sub ID
                 netElements = gn.Network as INetElements;
 
                 try
@@ -3608,7 +3590,7 @@ namespace A4LGSharedFunctions
 
                 if (snappedPoint == null) return null;
 
-                // convert the EID to a feature class ID, feature ID, and sub ID  
+                // convert the EID to a feature class ID, feature ID, and sub ID
                 netElements = gn.Network as INetElements;
                 int FCID = -1, FID = -1, subID = -1;
                 try
@@ -4786,7 +4768,7 @@ namespace A4LGSharedFunctions
                 //    ////add the edge flags to the network solver
                 //    //IEdgeFlag[] pEF = pEdgeFlags.ToArray();
 
-                //pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);    
+                //pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);
                 //}
 
 
@@ -5064,7 +5046,7 @@ namespace A4LGSharedFunctions
                 {
                     fLayer = (IFeatureLayer)layer;
                     dataset = (IDataset)fLayer;
-                    //&& fLayer.Selectable 
+                    //&& fLayer.Selectable
                     if (fLayer.Valid &&
                          IsInNetwork(fLayer.FeatureClass.FeatureClassID, gn, false))
                     {
@@ -5351,11 +5333,11 @@ namespace A4LGSharedFunctions
                 //                   an exception if file exists
                 //   FileMode.Append to create a new file or append
                 //                   to an existing file
-                //   FileMode.Create to create a new file or 
+                //   FileMode.Create to create a new file or
                 //                   truncate an existing file
 
                 //   FileAccess possibilities are:
-                //                   FileAccess.Read, 
+                //                   FileAccess.Read,
                 //                   FileAccess.Write,
                 //                   FileAccess.ReadWrite
                 fs = File.Open(sFileName,
@@ -5794,7 +5776,7 @@ namespace A4LGSharedFunctions
         //{
         //    IEditTemplateManager editTemplateMgr = null;
         //    ILayerExtensions layerExtensions;
-        //    try { 
+        //    try {
         //        layerExtensions = featLayer as ILayerExtensions;
 
         //        //Find the EditTemplateManager extension for the layer
@@ -5807,11 +5789,11 @@ namespace A4LGSharedFunctions
         //        }
         //        return editTemplateMgr;
         //    }
-        //    catch 
+        //    catch
         //    {
         //        return null;
         //    }
-        //    finally 
+        //    finally
         //    {
         //        layerExtensions = null;
         //    }
@@ -5823,14 +5805,14 @@ namespace A4LGSharedFunctions
             {
 
 
-                
+
                 ipEditTemplateMgr = GetEditTemplateManager(Layer);
-                
+
                 return ipEditTemplateMgr.Count;
             }
             catch (Exception ex)
             {
-             
+
                 return -1;
             }
           }
@@ -7920,7 +7902,7 @@ namespace A4LGSharedFunctions
                 av = map as IActiveView;
                 sd = av.ScreenDisplay;
 
-                //Create a new IdentifyDialog 
+                //Create a new IdentifyDialog
                 identifyDialog = new IdentifyDialogClass();
                 identifyDialog.Map = map;
                 identifyDialog.Display = sd;
@@ -11285,7 +11267,7 @@ namespace A4LGSharedFunctions
                     default:
                         //IEnumLayer pEn = new IEnumLayer();
                         return null;
-                        //return FindLayer(pMap,LayerType); 
+                        //return FindLayer(pMap,LayerType);
                         break;
                 }
                 return null;
@@ -12047,7 +12029,7 @@ namespace A4LGSharedFunctions
                     //fLayer = null;
                 }
                 if (editStarted)
-                {   // Stop the edit operation 
+                {   // Stop the edit operation
                     if (flowDirection == GNFlowDirection.AncillaryRole)
                         editor.StopOperation("Establish Flow");
                     else
@@ -13649,14 +13631,14 @@ namespace A4LGSharedFunctions
             return true;
 
             string strRegex = "^(https?://)"
-            + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //user@ 
-            + @"(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP- 199.194.52.184 
-            + "|" // allows either IP or domain 
-            + @"([0-9a-z_!~*'()-]+\.)*" // tertiary domain(s)- www. 
-            + @"([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // second level domain 
-            + "[a-z]{2,6})" // first level domain- .com or .museum 
-            + "(:[0-9]{1,4})?" // port number- :80 
-            + "((/?)|" // a slash isn't required if there is no file name 
+            + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //user@
+            + @"(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP- 199.194.52.184
+            + "|" // allows either IP or domain
+            + @"([0-9a-z_!~*'()-]+\.)*" // tertiary domain(s)- www.
+            + @"([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // second level domain
+            + "[a-z]{2,6})" // first level domain- .com or .museum
+            + "(:[0-9]{1,4})?" // port number- :80
+            + "((/?)|" // a slash isn't required if there is no file name
             + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
             Regex re = new Regex(strRegex);
 
@@ -13665,14 +13647,14 @@ namespace A4LGSharedFunctions
             else
             {
                 strRegex = "^(http?://)"
-               + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //user@ 
-               + @"(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP- 199.194.52.184 
-               + "|" // allows either IP or domain 
-               + @"([0-9a-z_!~*'()-]+\.)*" // tertiary domain(s)- www. 
-               + @"([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // second level domain 
-               + "[a-z]{2,6})" // first level domain- .com or .museum 
-               + "(:[0-9]{1,4})?" // port number- :80 
-               + "((/?)|" // a slash isn't required if there is no file name 
+               + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //user@
+               + @"(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP- 199.194.52.184
+               + "|" // allows either IP or domain
+               + @"([0-9a-z_!~*'()-]+\.)*" // tertiary domain(s)- www.
+               + @"([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // second level domain
+               + "[a-z]{2,6})" // first level domain- .com or .museum
+               + "(:[0-9]{1,4})?" // port number- :80
+               + "((/?)|" // a slash isn't required if there is no file name
                + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
                 re = new Regex(strRegex);
 
