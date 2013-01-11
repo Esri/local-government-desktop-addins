@@ -6353,6 +6353,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     else if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolygon)
                                                     {
+                                                        _copyPolygon = inFeature.Shape as IPolygon;
                                                         inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].X);
                                                     }
                                                     else

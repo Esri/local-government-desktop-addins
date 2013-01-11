@@ -8729,6 +8729,8 @@ namespace A4LGSharedFunctions
 
         public static List<IPoint> GetGeomCenter(IGeometry geo)
         {
+            
+
             IPoint pCenterPoint = null;
             List<IPoint> pCenterPoints = new List<IPoint>();
             IArea pArea = null;
@@ -8737,6 +8739,10 @@ namespace A4LGSharedFunctions
             IEnumGeometry enumGeometry = null;
             IGeometry geometry = null;
             IGeometryBag pGeoBag = null;
+            if (geo == null)
+            {
+                return pCenterPoints;
+            }
             try
             {
 
