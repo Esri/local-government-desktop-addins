@@ -131,7 +131,7 @@ namespace A4WaterUtilities
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
-            double snapVal = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5);
+            double snapVal = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
 
 
 
@@ -172,7 +172,7 @@ namespace A4WaterUtilities
         {
 
 
-            A4WaterUtilities.GeoNetTools.AddBarrier(ArcMap.Document.CurrentLocation, ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5));
+            A4WaterUtilities.GeoNetTools.AddBarrier(ArcMap.Document.CurrentLocation, ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0));
 
 
 
@@ -210,7 +210,7 @@ namespace A4WaterUtilities
 
 
             // IPoint point = ArcMap.Document.CurrentLocation;//ArcMap.Document.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(X, Y);
-            GeoNetTools.RemoveFlagBarrier(ArcMap.Document.CurrentLocation, ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5));
+            GeoNetTools.RemoveFlagBarrier(ArcMap.Document.CurrentLocation, ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0));
 
             base.OnMouseDown(arg);
 
@@ -438,7 +438,7 @@ namespace A4WaterUtilities
             string ISOoperableFieldNameSources = ConfigUtil.GetConfigValue("TraceIsolation_Operable_Field_Sources", "");
             string[] ISOoperableValues = ConfigUtil.GetConfigValue("TraceIsolation_Operable_Values", "").Split('|');
 
-            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5);
+            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
 
             IPoint point = ArcMap.Document.CurrentLocation;//ArcMap.Document.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(X, Y);
             IEnvelope env = GeoNetTools.ToggleOperableStatus(ArcMap.Application, point, true,
@@ -527,7 +527,7 @@ namespace A4WaterUtilities
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5);
+            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             bool selectEdges = false;
             if (Control.ModifierKeys == Keys.Control)
@@ -567,7 +567,7 @@ namespace A4WaterUtilities
         {
 
 
-            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5);
+            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             bool selectEdges = false;
             if (Control.ModifierKeys == Keys.Control)
@@ -617,7 +617,7 @@ namespace A4WaterUtilities
 
             string[] ISOoperableValues = ConfigUtil.GetConfigValue("TraceIsolation_Operable_Values", "").Split('|');
             string ISOvalveAddSQL = ConfigUtil.GetConfigValue("TraceIsolation_Valve_AddSQL", "");
-            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5);
+            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             string ClearFlagBeforeIso = ConfigUtil.GetConfigValue("TraceIsolation_ClearFlagsOnClick", "true");
 
             Globals.RemoveTraceGraphics(((IMxDocument)ArcMap.Application.Document).FocusMap, false);
@@ -687,7 +687,7 @@ namespace A4WaterUtilities
 
             string[] ISOoperableValues = ConfigUtil.GetConfigValue("TraceIsolation_Operable_Values", "").Split('|');
             string ISOvalveAddSQL = ConfigUtil.GetConfigValue("TraceIsolation_Valve_AddSQL", "");
-            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5);
+            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             string ClearFlagBeforeIso = ConfigUtil.GetConfigValue("TraceIsolation_ClearFlagsOnClick", "true");
 
             Globals.RemoveTraceGraphics(((IMxDocument)ArcMap.Application.Document).FocusMap, false);
@@ -759,7 +759,7 @@ namespace A4WaterUtilities
 
             string[] ISOoperableValues = ConfigUtil.GetConfigValue("TraceIsolation_Operable_Values", "").Split('|');
             string ISOvalveAddSQL = ConfigUtil.GetConfigValue("TraceIsolation_Valve_AddSQL", "");
-            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5);
+            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             string ClearFlagBeforeIso = ConfigUtil.GetConfigValue("TraceIsolation_ClearFlagsOnClick", "true");
 
 
@@ -814,7 +814,7 @@ namespace A4WaterUtilities
 
             string[] ISOoperableValues = ConfigUtil.GetConfigValue("TraceIsolation_Operable_Values", "").Split('|');
             string ISOvalveAddSQL = ConfigUtil.GetConfigValue("TraceIsolation_Valve_AddSQL", "");
-            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5);
+            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
 
 
             string TraceSum_LayerName = ConfigUtil.GetConfigValue("TraceIsolationSummary_LayerName", "");
@@ -881,7 +881,7 @@ namespace A4WaterUtilities
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5);
+            double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             List<ProfileGraphDetails> ProfileGraph = ConfigUtil.GetProfileGraphConfig();
             GeoNetTools.AddFlagsForSewerProfile(ArcMap.Application, SnapTol, ProfileGraph);
             ProfileGraph = null;
@@ -951,7 +951,7 @@ namespace A4WaterUtilities
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
-            GeoNetTools.CalculateFlowAccumAtLocation(ConfigUtil.GetFlowAccumConfig(), ArcMap.Application, Convert.ToDouble(ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5)));
+            GeoNetTools.CalculateFlowAccumAtLocation(ConfigUtil.GetFlowAccumConfig(), ArcMap.Application, Convert.ToDouble(ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0)));
 
         }
 

@@ -74,7 +74,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
-            double jumpDistance = ConfigUtil.GetConfigValue("CreateJumps_Distance", 10);
+            double jumpDistance = ConfigUtil.GetConfigValue("CreateJumps_Distance", 10.0);
             jumpDistance = jumpDistance * 2;  //doubled so the height of the jump will be represented by this number
 
             GeometryTools.CreateJumps(ArcMap.Application, GeometryTools.JumpTypes.Over, jumpDistance);
@@ -112,7 +112,7 @@ namespace A4WaterUtilities
         protected override void OnClick()
         {
 
-            double jumpDistance = ConfigUtil.GetConfigValue("CreateJumps_Distance", 10);
+            double jumpDistance = ConfigUtil.GetConfigValue("CreateJumps_Distance", 10.0);
             jumpDistance = jumpDistance * 2;  //doubled so the height of the jump will be represented by this number
 
             GeometryTools.CreateJumps(ArcMap.Application, GeometryTools.JumpTypes.Under, jumpDistance);
@@ -224,7 +224,7 @@ namespace A4WaterUtilities
 
             ESRI.ArcGIS.Geometry.IPoint point = ArcMap.Document.CurrentLocation;//ArcMap.Document.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(X, Y);
 
-            GeometryTools.SplitLinesAtClick(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5), point, true, false, true);
+            GeometryTools.SplitLinesAtClick(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5), point, true, false, true);
 
 
         }
@@ -260,7 +260,7 @@ namespace A4WaterUtilities
         {
 
 
-            GeometryTools.SplitLines(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5));
+            GeometryTools.SplitLines(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5));
 
 
 
@@ -294,7 +294,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
-            GeometryTools.RotateSelected(ArcMap.Application, ConfigUtil.GetConfigValue("RotateSelected_SpinAngle", 0), ConfigUtil.GetConfigValue("RotateSelected_DiameterFieldName", "DIAMETER"));
+            GeometryTools.RotateSelected(ArcMap.Application, ConfigUtil.GetConfigValue("RotateSelected_SpinAngle", 0.0), ConfigUtil.GetConfigValue("RotateSelected_DiameterFieldName", "DIAMETER"));
 
         }
 
@@ -330,7 +330,7 @@ namespace A4WaterUtilities
 
 
 
-            GeometryTools.AddRotate(ArcMap.Application, ConfigUtil.GetConfigValue("AddRotateSuspendAA", "true"), ConfigUtil.GetConfigValue("AdditionalRotate_SpinAngle", 0));
+            GeometryTools.AddRotate(ArcMap.Application, ConfigUtil.GetConfigValue("AddRotateSuspendAA", "true"), ConfigUtil.GetConfigValue("AdditionalRotate_SpinAngle", 0.0));
 
 
         }

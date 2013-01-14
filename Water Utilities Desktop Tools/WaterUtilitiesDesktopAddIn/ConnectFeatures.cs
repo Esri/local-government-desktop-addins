@@ -65,7 +65,7 @@ namespace A4WaterUtilities
 
             List<MoveConnectionsDetails> moveConnectionsConfig = ConfigUtil.GetMoveConnectionsConfig();
 
-            GeoNetTools.MoveConnectionsToNewLine(ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5), moveConnectionsConfig);
+            GeoNetTools.MoveConnectionsToNewLine(ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0), moveConnectionsConfig);
 
 
 

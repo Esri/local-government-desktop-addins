@@ -611,7 +611,7 @@ namespace A4WaterUtilities
 
 
 
-                GeometryTools.SplitLinesAtClick(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5), m_edSketch.Geometry as IPoint, false, true, false);
+                GeometryTools.SplitLinesAtClick(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5), m_edSketch.Geometry as IPoint, false, true, false);
 
 
 
