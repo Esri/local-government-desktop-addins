@@ -6119,8 +6119,8 @@ Partial Public Class CostEstimatingWindow
             g = cnt.CreateGraphics
             s = g.MeasureString(cnt.Text, cnt.Font)
 
-            If s.Width > 135 Then
-                Do Until s.Width < 125
+            If s.Width > 250 Then
+                Do Until s.Width < 240
                     cnt.Text = cnt.Text.Substring(0, cnt.Text.Length - 1)
 
                     s = g.MeasureString(cnt.Text, cnt.Font)
@@ -6128,7 +6128,7 @@ Partial Public Class CostEstimatingWindow
                 Loop
                 cnt.Text = cnt.Text + ".."
 
-                cnt.Width = 150
+                cnt.Width = 260
                 cnt.AutoSize = False
             Else
                 cnt.AutoSize = True
@@ -6137,7 +6137,7 @@ Partial Public Class CostEstimatingWindow
 
             If pTop + cnt.Height >= s_gpBxCIPCostingLayers.Height - 10 Then
                 pTop = 25
-                pleft = pleft + 150
+                pleft = pleft + 260
 
             End If
         Next
@@ -8115,6 +8115,9 @@ Partial Public Class CostEstimatingWindow
 
     End Class
 
+    Private Sub gpBxCIPCan_Enter(sender As System.Object, e As System.EventArgs) Handles gpBxCIPCan.Enter
+
+    End Sub
 End Class
 
 
