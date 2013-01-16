@@ -588,7 +588,7 @@ Partial Class CostEstimatingWindow
         'cboDefLayers
         '
         Me.cboDefLayers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboDefLayers.DropDownWidth = 300
+        Me.cboDefLayers.DropDownWidth = 550
         Me.cboDefLayers.Enabled = False
         Me.cboDefLayers.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold)
         Me.cboDefLayers.FormattingEnabled = True

@@ -774,7 +774,9 @@ Partial Public Class CostEstimatingWindow
                          UCase(strfld) = UCase("shape.len") Or UCase(strfld) = UCase("shape.area") Or _
                          UCase(strfld) = UCase("shape_length") Or _
                          UCase(strfld) = UCase("shape_len") Or UCase(strfld) = UCase("shape_area") Or _
-                           UCase(strfld) = UCase("LASTUPDATE") Or UCase(strfld) = UCase("LASTEDITOR") Then
+                           UCase(strfld) = UCase("LASTUPDATE") Or UCase(strfld) = UCase("LASTEDITOR") Or pDc.Editable = False _
+                           Or My.Globals.Variables.v_CIPLayerOver.FeatureClass.AreaField.Name = strfld Or My.Globals.Variables.v_CIPLayerOver.FeatureClass.LengthField.Name = strfld Then
+
 
 
                         'Reserved Columns
