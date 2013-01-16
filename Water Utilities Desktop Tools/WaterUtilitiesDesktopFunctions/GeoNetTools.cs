@@ -1840,62 +1840,65 @@ namespace A4WaterUtilities
                         count = 0;
                         // FCorLayer = true;
                         featureLayer = Globals.FindLayer((IMap)mxDoc.FocusMap, ((IDataset)featureClass).Name, ref FCorLayer) as IFeatureLayer;
-
-                        //Handle all non-orphan junction feature layers
-                        if (junFCName != featureClass.AliasName && featureLayer != null && (
-                                (Globals.isVisible((ILayer)featureLayer, (IMap)mxDoc.FocusMap) && CheckVisibleOnly) ||
-                                (CheckVisibleOnly == false)
-                            ))
+                        if (featureLayer != null)
                         {
-                            numberJunctions = 1;
-                            count = Globals.SelectJunctions(featureLayer, (IGeometry)activeView.Extent, numberJunctions, "LT", ref progressDialog, ref stepProgressor, ref trackCancel);
 
-                            if (count == 1)
+                            //Handle all non-orphan junction feature layers
+                            if (junFCName != featureClass.AliasName && featureLayer != null && (
+                                    (Globals.isVisible((ILayer)featureLayer, (IMap)mxDoc.FocusMap) && CheckVisibleOnly) ||
+                                    (CheckVisibleOnly == false)
+                                ))
                             {
-                                //Add lookup to config to see how many junctions a FC should connect to
-                                resultMessage += count + " asset from the " + featureLayer.Name + " layer does not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
-                            }
+                                numberJunctions = 1;
+                                count = Globals.SelectJunctions(featureLayer, (IGeometry)activeView.Extent, numberJunctions, "LT", ref progressDialog, ref stepProgressor, ref trackCancel);
 
-                            if (count > 1)
+                                if (count == 1)
+                                {
+                                    //Add lookup to config to see how many junctions a FC should connect to
+                                    resultMessage += count + " asset from the " + featureLayer.Name + " layer does not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                }
+
+                                if (count > 1)
+                                {
+                                    //Add lookup to config to see how many junctions a FC should connect to
+                                    resultMessage += count + " assets from the " + featureLayer.Name + " layer do not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                }
+
+
+                            }
+                            //Handle orphan junction feature layers
+                            else if (featureLayer != null && (
+                                    (Globals.isVisible((ILayer)featureLayer, (IMap)mxDoc.FocusMap) && CheckVisibleOnly) ||
+                                    (CheckVisibleOnly == false)
+                                ))
                             {
-                                //Add lookup to config to see how many junctions a FC should connect to
-                                resultMessage += count + " assets from the " + featureLayer.Name + " layer do not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                numberJunctions = 0;
+                                count = Globals.SelectJunctions(featureLayer, (IGeometry)activeView.Extent, numberJunctions, "EQ", ref progressDialog, ref stepProgressor, ref trackCancel);
+
+                                if (count == 1)
+                                {
+                                    resultMessage += count + " junction in the " + featureLayer.Name + " layer does not connect to any edges.  Start editing and re-run this command to remove this junction." + Environment.NewLine;// "\r\n";
+                                }
+
+                                if (count > 1)
+                                {
+                                    resultMessage += count + " junctions in the " + featureLayer.Name + " layer do not connect to any edges.  Start editing and re-run this command to remove these junctions." + Environment.NewLine;// "\r\n";
+                                }
+
+                                numberJunctions = 1;
+                                count = Globals.SelectJunctions(featureLayer, (IGeometry)activeView.Extent, numberJunctions, "EQ", ref progressDialog, ref stepProgressor, ref trackCancel);
+
+                                if (count == 1)
+                                {
+                                    resultMessage += count + " junction in the " + featureLayer.Name + " layer connects to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected " + featureLayer.Name + " features." + Environment.NewLine;// "\r\n";
+                                }
+
+                                if (count > 1)
+                                {
+                                    resultMessage += count + " junctions in the " + featureLayer.Name + " layer connect to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected " + featureLayer.Name + " features." + Environment.NewLine;// "\r\n";
+                                }
+
                             }
-
-
-                        }
-                        //Handle orphan junction feature layers
-                        else if (featureLayer != null && (
-                                (Globals.isVisible((ILayer)featureLayer, (IMap)mxDoc.FocusMap) && CheckVisibleOnly) ||
-                                (CheckVisibleOnly == false)
-                            ))
-                        {
-                            numberJunctions = 0;
-                            count = Globals.SelectJunctions(featureLayer, (IGeometry)activeView.Extent, numberJunctions, "EQ", ref progressDialog, ref stepProgressor, ref trackCancel);
-
-                            if (count == 1)
-                            {
-                                resultMessage += count + " junction in the " + featureLayer.Name + " layer does not connect to any edges.  Start editing and re-run this command to remove this junction." + Environment.NewLine;// "\r\n";
-                            }
-
-                            if (count > 1)
-                            {
-                                resultMessage += count + " junctions in the " + featureLayer.Name + " layer do not connect to any edges.  Start editing and re-run this command to remove these junctions." + Environment.NewLine;// "\r\n";
-                            }
-
-                            numberJunctions = 1;
-                            count = Globals.SelectJunctions(featureLayer, (IGeometry)activeView.Extent, numberJunctions, "EQ", ref progressDialog, ref stepProgressor, ref trackCancel);
-
-                            if (count == 1)
-                            {
-                                resultMessage += count + " junction in the " + featureLayer.Name + " layer connects to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected " + featureLayer.Name + " features." + Environment.NewLine;// "\r\n";
-                            }
-
-                            if (count > 1)
-                            {
-                                resultMessage += count + " junctions in the " + featureLayer.Name + " layer connect to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected " + featureLayer.Name + " features." + Environment.NewLine;// "\r\n";
-                            }
-
                         }
 
                     }
@@ -1914,26 +1917,28 @@ namespace A4WaterUtilities
                         count = 0;
                         FCorLayer = true;
                         featureLayer = Globals.FindLayer((IMap)mxDoc.FocusMap, ((IDataset)featureClass).Name, ref  FCorLayer) as IFeatureLayer;
-
-                        //Handle all non-orphan junction feature layers
-                        if ((Globals.isVisible((ILayer)featureLayer, (IMap)mxDoc.FocusMap) && CheckVisibleOnly) ||
-                                (CheckVisibleOnly == false))
+                        if (featureLayer != null)
                         {
-
-                            count = Globals.SelectEdges(featureLayer, (IGeometry)activeView.Extent, ref progressDialog, ref stepProgressor, ref trackCancel, geometricNetwork.OrphanJunctionFeatureClass.ObjectClassID);
-                            if (count == 1)
+                            //Handle all non-orphan junction feature layers
+                            if ((Globals.isVisible((ILayer)featureLayer, (IMap)mxDoc.FocusMap) && CheckVisibleOnly) ||
+                                    (CheckVisibleOnly == false))
                             {
-                                //Add lookup to config to see how many junctions a FC should connect to
-                                resultMessage += count + " asset from the " + featureLayer.Name + " layer does not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+
+                                count = Globals.SelectEdges(featureLayer, (IGeometry)activeView.Extent, ref progressDialog, ref stepProgressor, ref trackCancel, geometricNetwork.OrphanJunctionFeatureClass.ObjectClassID);
+                                if (count == 1)
+                                {
+                                    //Add lookup to config to see how many junctions a FC should connect to
+                                    resultMessage += count + " asset from the " + featureLayer.Name + " layer does not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                }
+
+                                if (count > 1)
+                                {
+                                    //Add lookup to config to see how many junctions a FC should connect to
+                                    resultMessage += count + " assets from the " + featureLayer.Name + " layer do not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                }
+
+
                             }
-
-                            if (count > 1)
-                            {
-                                //Add lookup to config to see how many junctions a FC should connect to
-                                resultMessage += count + " assets from the " + featureLayer.Name + " layer do not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
-                            }
-
-
                         }
 
 
@@ -1949,29 +1954,31 @@ namespace A4WaterUtilities
                         count = 0;
                         bool FCorLayerFeat = true;
                         featureLayer = Globals.FindLayer((IMap)mxDoc.FocusMap, ((IDataset)featureClass).Name, ref FCorLayerFeat) as IFeatureLayer;
-
-                        //Handle all non-orphan junction feature layers
-                        if ((Globals.isVisible((ILayer)featureLayer, (IMap)mxDoc.FocusMap) && CheckVisibleOnly) ||
-                                (CheckVisibleOnly == false))
+                        if (featureLayer != null)
                         {
 
-                            count = Globals.SelectEdges(featureLayer, (IGeometry)activeView.Extent, ref progressDialog, ref stepProgressor, ref trackCancel, geometricNetwork.OrphanJunctionFeatureClass.ObjectClassID);
-
-                            if (count == 1)
+                            //Handle all non-orphan junction feature layers
+                            if ((Globals.isVisible((ILayer)featureLayer, (IMap)mxDoc.FocusMap) && CheckVisibleOnly) ||
+                                    (CheckVisibleOnly == false))
                             {
-                                //Add lookup to config to see how many junctions a FC should connect to
-                                resultMessage += count + " asset from the " + featureLayer.Name + " layer does not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+
+                                count = Globals.SelectEdges(featureLayer, (IGeometry)activeView.Extent, ref progressDialog, ref stepProgressor, ref trackCancel, geometricNetwork.OrphanJunctionFeatureClass.ObjectClassID);
+
+                                if (count == 1)
+                                {
+                                    //Add lookup to config to see how many junctions a FC should connect to
+                                    resultMessage += count + " asset from the " + featureLayer.Name + " layer does not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                }
+
+                                if (count > 1)
+                                {
+                                    //Add lookup to config to see how many junctions a FC should connect to
+                                    resultMessage += count + " assets from the " + featureLayer.Name + " layer do not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                }
+
+
                             }
-
-                            if (count > 1)
-                            {
-                                //Add lookup to config to see how many junctions a FC should connect to
-                                resultMessage += count + " assets from the " + featureLayer.Name + " layer do not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
-                            }
-
-
                         }
-
 
                     }
                 }
