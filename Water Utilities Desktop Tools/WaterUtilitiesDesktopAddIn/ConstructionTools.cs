@@ -60,7 +60,7 @@ namespace A4WaterUtilities
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
-            
+            m_edSketch.GeometryType = esriGeometryType.esriGeometryPoint;
             // Activate a shape constructor based on the current sketch geometry
             if (m_edSketch.GeometryType == esriGeometryType.esriGeometryPoint | m_edSketch.GeometryType == esriGeometryType.esriGeometryMultipoint)
                 m_csc = new PointConstructorClass();
@@ -89,6 +89,8 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
+            if (m_edSketch.Geometry == null)
+                return;
             if (Control.ModifierKeys == Keys.Shift)
             {
                 // Finish part
@@ -99,18 +101,23 @@ namespace A4WaterUtilities
                 pso.Finish(null);
             }
             else
-                m_edSketch.FinishSketch();
+              
+                    m_edSketch.FinishSketch();
         }
 
         private void OnSketchModified()
         {
-            m_csc.SketchModified();
+            if (m_csc != null)
+
+                m_csc.SketchModified();
         }
+
+
 
         private void OnShapeConstructorChanged()
         {
-            // Activate a new constructor
-            m_csc.Deactivate();
+            if (m_csc != null)
+                m_csc.Deactivate();
             m_csc = null;
             m_csc = m_edSketch.ShapeConstructor;
             if (m_csc != null)
@@ -213,7 +220,7 @@ namespace A4WaterUtilities
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
-
+            m_edSketch.GeometryType = esriGeometryType.esriGeometryPoint;
             // Activate a shape constructor based on the current sketch geometry
             if (m_edSketch.GeometryType == esriGeometryType.esriGeometryPoint | m_edSketch.GeometryType == esriGeometryType.esriGeometryMultipoint)
                 m_csc = new PointConstructorClass();
@@ -242,6 +249,8 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
+            if (m_edSketch.Geometry == null)
+                return;
             if (Control.ModifierKeys == Keys.Shift)
             {
                 // Finish part
@@ -257,13 +266,15 @@ namespace A4WaterUtilities
 
         private void OnSketchModified()
         {
-            m_csc.SketchModified();
+            if (m_csc != null)
+
+                m_csc.SketchModified();
         }
 
         private void OnShapeConstructorChanged()
         {
-            // Activate a new constructor
-            m_csc.Deactivate();
+            if (m_csc != null)
+                m_csc.Deactivate();
             m_csc = null;
             m_csc = m_edSketch.ShapeConstructor;
             if (m_csc != null)
@@ -366,7 +377,7 @@ namespace A4WaterUtilities
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
-
+            m_edSketch.GeometryType = esriGeometryType.esriGeometryPolyline;
             // Activate a shape constructor based on the current sketch geometry
             if (m_edSketch.GeometryType == esriGeometryType.esriGeometryPoint | m_edSketch.GeometryType == esriGeometryType.esriGeometryMultipoint)
                 m_csc = new PointConstructorClass();
@@ -394,6 +405,8 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
+            if (m_edSketch.Geometry == null)
+                return;
             if (Control.ModifierKeys == Keys.Shift)
             {
                 // Finish part
@@ -406,16 +419,19 @@ namespace A4WaterUtilities
             else
                 m_edSketch.FinishSketch();
         }
-
         private void OnSketchModified()
         {
-            m_csc.SketchModified();
+            if (m_csc != null)
+
+                m_csc.SketchModified();
         }
+
+
 
         private void OnShapeConstructorChanged()
         {
-            // Activate a new constructor
-            m_csc.Deactivate();
+            if (m_csc != null)
+                m_csc.Deactivate();
             m_csc = null;
             m_csc = m_edSketch.ShapeConstructor;
             if (m_csc != null)
@@ -542,7 +558,7 @@ namespace A4WaterUtilities
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
-
+            m_edSketch.GeometryType = esriGeometryType.esriGeometryPoint;
             // Activate a shape constructor based on the current sketch geometry
             if (m_edSketch.GeometryType == esriGeometryType.esriGeometryPoint | m_edSketch.GeometryType == esriGeometryType.esriGeometryMultipoint)
                 m_csc = new PointConstructorClass();
@@ -570,6 +586,8 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
+            if (m_edSketch.Geometry == null)
+                return;
             if (Control.ModifierKeys == Keys.Shift)
             {
                 // Finish part
@@ -585,13 +603,16 @@ namespace A4WaterUtilities
 
         private void OnSketchModified()
         {
-            m_csc.SketchModified();
+            if (m_csc != null)
+
+                m_csc.SketchModified();
         }
+
 
         private void OnShapeConstructorChanged()
         {
-            // Activate a new constructor
-            m_csc.Deactivate();
+            if (m_csc != null)
+                m_csc.Deactivate();
             m_csc = null;
             m_csc = m_edSketch.ShapeConstructor;
             if (m_csc != null)
@@ -657,11 +678,12 @@ namespace A4WaterUtilities
 
         protected override void OnActivate()
         {
+            
 
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
-
+            m_edSketch.GeometryType = esriGeometryType.esriGeometryPoint;
             // Activate a shape constructor based on the current sketch geometry
             if (m_edSketch.GeometryType == esriGeometryType.esriGeometryPoint | m_edSketch.GeometryType == esriGeometryType.esriGeometryMultipoint)
                 m_csc = new PointConstructorClass();
@@ -689,6 +711,8 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
+            if (m_edSketch.Geometry == null)
+                return;
             if (Control.ModifierKeys == Keys.Shift)
             {
                 // Finish part
@@ -704,13 +728,15 @@ namespace A4WaterUtilities
 
         private void OnSketchModified()
         {
-            m_csc.SketchModified();
+            if (m_csc != null)
+
+             m_csc.SketchModified();
         }
 
         private void OnShapeConstructorChanged()
         {
-            // Activate a new constructor
-            m_csc.Deactivate();
+            if (m_csc != null)
+                m_csc.Deactivate();
             m_csc = null;
             m_csc = m_edSketch.ShapeConstructor;
             if (m_csc != null)
@@ -846,6 +872,8 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
+            if (m_edSketch.Geometry == null)
+                return;
             if (Control.ModifierKeys == Keys.Shift)
             {
                 // Finish part
@@ -861,13 +889,16 @@ namespace A4WaterUtilities
 
         private void OnSketchModified()
         {
-            m_csc.SketchModified();
+            if (m_csc != null)
+
+                m_csc.SketchModified();
         }
+
 
         private void OnShapeConstructorChanged()
         {
-            // Activate a new constructor
-            m_csc.Deactivate();
+            if (m_csc != null)
+                m_csc.Deactivate();
             m_csc = null;
             m_csc = m_edSketch.ShapeConstructor;
             if (m_csc != null)

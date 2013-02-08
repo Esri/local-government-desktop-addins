@@ -101,41 +101,83 @@ namespace A4LGAddressManagement
         #region ISketchTool Members
         void ISketchTool.AddPoint(IPoint point, bool Clone, bool allowUndo)
         {
-            m_csc.AddPoint(point, Clone, allowUndo);
+            if (m_csc != null)
+                m_csc.AddPoint(point, Clone, allowUndo);
         }
 
         IPoint ISketchTool.Anchor
         {
-            get { return m_csc.Anchor; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.Anchor;
+                else
+                    return null;
+
+            }
         }
 
         double ISketchTool.AngleConstraint
         {
-            get { return m_csc.AngleConstraint; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.AngleConstraint;
+                else
+                    return 0.0;
+            }
             set { m_csc.AngleConstraint = value; }
         }
 
         esriSketchConstraint ISketchTool.Constraint
         {
-            get { return m_csc.Constraint; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.Constraint;
+                else
+                    return esriSketchConstraint.esriConstraintNone;
+
+            }
             set { m_csc.Constraint = value; }
         }
 
         double ISketchTool.DistanceConstraint
         {
-            get { return m_csc.DistanceConstraint; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.DistanceConstraint;
+                else
+                    return 0.0;
+
+            }
             set { m_csc.DistanceConstraint = value; }
         }
 
         bool ISketchTool.IsStreaming
         {
-            get { return m_csc.IsStreaming; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.IsStreaming;
+                else
+                    return false;
+
+            }
             set { m_csc.IsStreaming = value; }
         }
 
         IPoint ISketchTool.Location
         {
-            get { return m_csc.Location; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.Location;
+                else
+                    return null;
+
+            }
         }
         #endregion
     }
@@ -221,41 +263,83 @@ namespace A4LGAddressManagement
         #region ISketchTool Members
         void ISketchTool.AddPoint(IPoint point, bool Clone, bool allowUndo)
         {
-            m_csc.AddPoint(point, Clone, allowUndo);
+            if (m_csc != null)
+                m_csc.AddPoint(point, Clone, allowUndo);
         }
 
         IPoint ISketchTool.Anchor
         {
-            get { return m_csc.Anchor; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.Anchor;
+                else
+                    return null;
+
+            }
         }
 
         double ISketchTool.AngleConstraint
         {
-            get { return m_csc.AngleConstraint; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.AngleConstraint;
+                else
+                    return 0.0;
+            }
             set { m_csc.AngleConstraint = value; }
         }
 
         esriSketchConstraint ISketchTool.Constraint
         {
-            get { return m_csc.Constraint; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.Constraint;
+                else
+                    return esriSketchConstraint.esriConstraintNone;
+
+            }
             set { m_csc.Constraint = value; }
         }
 
         double ISketchTool.DistanceConstraint
         {
-            get { return m_csc.DistanceConstraint; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.DistanceConstraint;
+                else
+                    return 0.0;
+
+            }
             set { m_csc.DistanceConstraint = value; }
         }
 
         bool ISketchTool.IsStreaming
         {
-            get { return m_csc.IsStreaming; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.IsStreaming;
+                else
+                    return false;
+
+            }
             set { m_csc.IsStreaming = value; }
         }
 
         IPoint ISketchTool.Location
         {
-            get { return m_csc.Location; }
+            get
+            {
+                if (m_csc != null)
+                    return m_csc.Location;
+                else
+                    return null;
+
+            }
         }
         #endregion
     }

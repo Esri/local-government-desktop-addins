@@ -8773,6 +8773,8 @@ namespace A4LGSharedFunctions
                         break;
                     case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon:
                         pPoly = geo as ESRI.ArcGIS.Geometry.IPolygon4;
+                        pPoly.SimplifySpaghetti();
+
                         if (pPoly.ExteriorRingCount > 1)
                         {
                             //Comps = new IPolygon[pPoly.ExteriorRingCount];

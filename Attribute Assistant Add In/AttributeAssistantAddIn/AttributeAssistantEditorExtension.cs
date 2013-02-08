@@ -90,6 +90,8 @@ namespace ArcGIS4LocalGovernment
         public static RotationCalculator rCalc;
         public static int _processCount = 0;
         public static IEditEvents_Event _editEvents;
+        public static IEditEvents2_Event _editEvents2; // SG Jan 2013
+        public static bool _onStopOperationEvent = true;// SG Jan 2013
 
         public static ISpatialReferenceFactory spatRefFact = new SpatialReferenceEnvironmentClass();
         public static IGeographicCoordinateSystem srWGS84 = spatRefFact.CreateGeographicCoordinateSystem((int)esriSRGeoCSType.esriSRGeoCS_WGS1984);
@@ -661,6 +663,7 @@ namespace ArcGIS4LocalGovernment
 
                 _editEvents.OnChangeFeature += FeatureChange;
                 _editEvents.OnCreateFeature += FeatureCreate;
+                _editEvents2.BeforeStopOperation += StopOperation; // SG Jan 2013
 
             }
             else
@@ -670,7 +673,7 @@ namespace ArcGIS4LocalGovernment
 
                 _editEvents.OnChangeFeature -= FeatureChange;
                 _editEvents.OnCreateFeature -= FeatureCreate;
-
+                _editEvents2.BeforeStopOperation -= StopOperation; // SG Jan 2013
 
 
 
@@ -681,10 +684,12 @@ namespace ArcGIS4LocalGovernment
         public static void StopChangeMonitor()
         {
             _editEvents.OnChangeFeature -= FeatureChange;
+            _editEvents2.BeforeStopOperation -= StopOperation; // SG Jan 2013
         }
         public static void StartChangeMonitor()
         {
             _editEvents.OnChangeFeature += FeatureChange;
+            _editEvents2.BeforeStopOperation += StopOperation; // SG Jan 2013
         }
         public static bool reInitExt()
         {
@@ -721,7 +726,7 @@ namespace ArcGIS4LocalGovernment
 
                 _editEvents.OnChangeFeature -= FeatureChange;
                 _editEvents.OnCreateFeature -= FeatureCreate;
-
+                _editEvents2.BeforeStopOperation -= StopOperation; // SG Jan 2013
                 _currentUserInfo = null;
             }
             catch (Exception ex)
@@ -730,6 +735,10 @@ namespace ArcGIS4LocalGovernment
 
             }
         }
+
+
+        public static event BeforeStopOperation stopOperation; // SG Jan 2013
+        public delegate void BeforeStopOperation(ESRI.ArcGIS.Geodatabase.IObject obj); // SG Jan 2013
 
         public static event OnChangeFeature changeFeature;
         public delegate void OnChangeFeature(ESRI.ArcGIS.Geodatabase.IObject obj);
@@ -740,6 +749,60 @@ namespace ArcGIS4LocalGovernment
 
         public static event OnManualFeature manualFeature;
         public delegate void OnManualFeature(ESRI.ArcGIS.Geodatabase.IObject obj);
+        public static void StopOperation() // SG Jan 2013
+        {
+            try
+            {
+
+                if (AAState._onStopOperationEvent == true)
+                {
+                    IWorkspaceEdit2 wsEdit = (IWorkspaceEdit2)AAState._editor.EditWorkspace;
+                    IDataChangesEx changes = wsEdit.get_EditDataChanges((esriEditDataChangesType)1); // for edit operation
+
+                    IEnumBSTR modClass = changes.ModifiedClasses;
+                    string modItem = modClass.Next();
+                    string classList = "";
+                    while (modItem != null)
+                    {
+                        classList = classList + modItem;
+                        modItem = modClass.Next();
+                        if (modItem != null)
+                            classList = classList + ", ";
+                    }
+                    string classItem = classList.Split(',')[0]; // might be a better way, but if this is "add selected" it should only be 1 class...
+                    classItem = classItem.Substring(classItem.LastIndexOf('.') + 1).ToUpper();
+                    //IFIDSet ids = changes.get_ChangedIDs(classItem,(esriDifferenceType)2); // get updates, there must be only 1...
+                    //int fID;
+                    //ids.Next(out fID);
+                    //int oid = 0;
+                    //while(fID != -1)
+                    //{
+                    //    oid = fID;
+                    //    ids.Next(out fID);
+                    //}
+                    // loop through selected features and find the selected on that matches this edit operation
+                    //
+                    if (AAState._editor.SelectionCount > 0)
+                    {
+                        IEnumFeature selection = AAState._editor.EditSelection;
+                        IObject obj = selection.Next();
+                        while (obj != null)
+                        {
+                            if (classItem == obj.Class.AliasName.ToUpper())
+                            {
+                                changeFeature((IObject)obj);
+                            }
+                            obj = selection.Next();
+                        }
+                    }
+                }
+                AAState._onStopOperationEvent = true; // indicate this was a stop operation event so onchange doesn't fire 2x
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("StopOperation:" + ex.Message + " \n");
+            }
+        }
         public static void FeatureChange(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
             try
@@ -959,6 +1022,7 @@ namespace ArcGIS4LocalGovernment
 
                 AAState.createFeature += OnCreateFeature;
                 AAState.manualFeature += OnManualFeature;
+                AAState.stopOperation += OnBeforeStopOperation; // SG Jan 2013
                 localEventAdded = true;
 
             }
@@ -1033,7 +1097,7 @@ namespace ArcGIS4LocalGovernment
             AAState._editEvents = (IEditEvents_Event)_editor;
             AAState._editEvents.OnStartEditing += OnStartEditing;
             AAState._editEvents.OnStopEditing += OnStopEditing;
-
+            AAState._editEvents2 = (IEditEvents2_Event)_editor;// SG Jan 2003-
 
 
             script = new MSScriptControl.ScriptControlClass();
@@ -1136,9 +1200,11 @@ namespace ArcGIS4LocalGovernment
                         AAState._editEvents = (IEditEvents_Event)AAState._editor;
                         AAState._editEvents.OnStartEditing -= OnStartEditing;
                         AAState._editEvents.OnStopEditing -= OnStopEditing;
+                        AAState._editEvents2 = (IEditEvents2_Event)AAState._editor;// SG Jan 2003
 
                         AAState._editor = null;
                         AAState._editEvents = null;
+                        AAState._editEvents2 = null;  // SG Jan 2003
 
                     }
                 }
@@ -1323,7 +1389,84 @@ namespace ArcGIS4LocalGovernment
 
             }
         }
+        private void OnBeforeStopOperation(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            IFeatureChanges pFeatChange = null;
 
+            MessageBox.Show("BeforeStopOperation");
+            try
+            {
+                //inFeature = obj as IFeature;
+
+
+                if (inFeature != null)
+                {
+
+                    pFeatChange = (IFeatureChanges)inFeature;
+                    if (pFeatChange.ShapeChanged)
+                    {
+                        //sendEvent(obj, "ON_STOPOPERATION");
+                    }
+                    else
+                    {
+                        //sendEvent(obj, "ON_STOPOPERATION");
+                    }
+                }
+                else
+                {
+                    //sendEvent(obj, "ON_STOPOPERATION");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("BeforeStopOperation:" + ex.Message);// + " \n" + obj.Class.AliasName + ": " + obj.OID);
+
+            }
+            finally
+            {
+                inFeature = null;
+
+            }
+        }
+        private void OnCreateRelationship(ESRI.ArcGIS.Geodatabase.IRelationship obj)
+        {
+            IFeatureChanges pFeatChange = null;
+            try
+            {
+                inFeature = obj as IFeature;
+                if (inFeature != null)
+                {
+
+                    pFeatChange = (IFeatureChanges)inFeature;
+                    if (pFeatChange.ShapeChanged)
+                    {
+                        //sendEvent(obj, "ON_CHANGEGEO");
+                    }
+                    else
+                    {
+                        //sendEvent(obj, "ON_CHANGE");
+                    }
+                }
+                else
+                {
+                    //sendEvent(obj, "ON_CHANGE");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("OnChangeFeature:" + ex.Message + " \n");
+
+            }
+            finally
+            {
+                inFeature = null;
+
+            }
+        }
         private void OnCreateFeature(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
             try
@@ -1385,7 +1528,7 @@ namespace ArcGIS4LocalGovernment
 
                     AAState.changeFeature -= OnChangeFeature;
                     AAState.createFeature -= OnCreateFeature;
-
+                    AAState.stopOperation -= OnBeforeStopOperation; // SG Jan 2013
 
                     if (AAState.Debug().ToUpper() == "TRUE")
                     {
@@ -1405,6 +1548,8 @@ namespace ArcGIS4LocalGovernment
                     List<IObject> changedFeatureGeoList = null;
                     try
                     {
+                        AAState._onStopOperationEvent = false; // SG Jan 2013 - on a real onchange event flag that it was not a stopoperation event from a source like "AddSelected"
+
                         AAState._processCount++;
                         //Set attributes based on the dynamic defaults configuration table
                         bool success = SetDynamicValues(inObject, mode, out changedFeatureList, out newFeatureList, out changedFeatureGeoList);
@@ -1487,6 +1632,7 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine("Wiring the events");
                     AAState.changeFeature += OnChangeFeature;
                     AAState.createFeature += OnCreateFeature;
+                    AAState.stopOperation += OnBeforeStopOperation; // SG Jan 2013
                 }
 
 
@@ -1508,6 +1654,8 @@ namespace ArcGIS4LocalGovernment
 
                 try
                 {
+                    AAState._onStopOperationEvent = false; // SG Jan 2013
+
                     foreach (IObject inObject in ObjectList)
                     {
                         AAState.WriteLine("#######################################################");
@@ -1523,8 +1671,8 @@ namespace ArcGIS4LocalGovernment
                                 inObject.Store();
                             }
                             catch
-                            { 
-                            
+                            {
+
                             }
                             if (!success)
                             {
@@ -2882,7 +3030,7 @@ namespace ArcGIS4LocalGovernment
 
                                                         IPolyline pTempLine = new PolylineClass();
                                                         pTempLine = Globals.CreateAngledLineFromLocationOnLine((IPoint)inFeature.Shape, sourceLayer,
-                                                            boolLayerOrFC, Globals.ConvertDegToRads(90), offsetVal, "true", true,false);
+                                                            boolLayerOrFC, Globals.ConvertDegToRads(90), offsetVal, "true", true, false);
 
                                                         IEditTemplate pTemp = null;
                                                         IFeature pFeat = null;
@@ -6353,8 +6501,28 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     else if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolygon)
                                                     {
-                                                        _copyPolygon = inFeature.Shape as IPolygon;
-                                                        inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].X);
+
+                                                        _copyPolygon = inFeature.ShapeCopy as IPolygon;
+                                                        if (valData.Trim() == "")
+                                                        {
+                                                            inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].X);
+                                                        }
+                                                        else
+                                                        {
+                                                            args = valData.Split('|');
+                                                            if (args[0].ToUpper() == "S")
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.FromPoint.X);
+                                                            }
+                                                            else if (args[0].ToUpper() == "E")
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.ToPoint.X);
+                                                            }
+                                                            else
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].X);
+                                                            }
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -6416,7 +6584,26 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         _copyPolygon = inFeature.ShapeCopy as IPolygon;
 
-                                                        inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].Y);
+                                                        if (valData.Trim() == "")
+                                                        {
+                                                            inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].Y);
+                                                        }
+                                                        else
+                                                        {
+                                                            args = valData.Split('|');
+                                                            if (args[0].ToUpper() == "S")
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.FromPoint.Y);
+                                                            }
+                                                            else if (args[0].ToUpper() == "E")
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.ToPoint.Y);
+                                                            }
+                                                            else
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].Y);
+                                                            }
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -6483,7 +6670,27 @@ namespace ArcGIS4LocalGovernment
                                                         _copyPolygon = inFeature.ShapeCopy as IPolygon;
                                                         _copyPolygon.Project(AAState._sr1);
 
-                                                        inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].Y);
+                                                        if (valData.Trim() == "")
+                                                        {
+                                                            inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].Y);
+                                                        }
+                                                        else
+                                                        {
+                                                            args = valData.Split('|');
+                                                            if (args[0].ToUpper() == "S")
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.FromPoint.Y);
+                                                            }
+                                                            else if (args[0].ToUpper() == "E")
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.ToPoint.Y);
+                                                            }
+                                                            else
+                                                            {
+
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].Y);
+                                                            }
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -6550,7 +6757,27 @@ namespace ArcGIS4LocalGovernment
                                                         _copyPolygon = inFeature.ShapeCopy as IPolygon;
                                                         _copyPolygon.Project(AAState._sr1);
 
-                                                        inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].X);
+                                                        if (valData.Trim() == "")
+                                                        {
+                                                            inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].X);
+                                                        }
+                                                        else
+                                                        {
+                                                            args = valData.Split('|');
+                                                            if (args[0].ToUpper() == "S")
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.FromPoint.X);
+                                                            }
+                                                            else if (args[0].ToUpper() == "E")
+                                                            {
+                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.ToPoint.X);
+                                                            }
+                                                            else
+                                                            {
+
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].X);
+                                                            }
+                                                        }
                                                     }
                                                     else
                                                     {
