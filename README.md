@@ -71,5 +71,5 @@ limitations under the License.
 A copy of the license is available in the repository's
 [license.txt](https://raw.github.com/Esri/local-government-desktop-addins/master/license.txt) file.
 
-[](Esri Tags: Local Government local government desktop addins Visual-Basic)
+[](Esri Tags: Local Government Desktop Addins Visual-Basic)
 [](Esri Language: C-Sharp)
