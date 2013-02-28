@@ -108,7 +108,7 @@ namespace A4LGAddressManagement
 
         private void OnSketchModified()
         {
-            if (m_csc != null)
+            if (Globals.IsShapeConstructorOkay(m_csc))
             m_csc.SketchModified();
             
         }
@@ -235,7 +235,7 @@ namespace A4LGAddressManagement
 
         private void OnSketchModified()
         {
-            if (m_csc != null)
+            if (Globals.IsShapeConstructorOkay(m_csc))
                 m_csc.SketchModified();
 
         }

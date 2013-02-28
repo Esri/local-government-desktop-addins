@@ -6863,7 +6863,20 @@ namespace A4LGSharedFunctions
                 pSub = null;
             }
         }
+        public static bool IsShapeConstructorOkay(IShapeConstructor m_csc)
+        {
+            if (m_csc == null)
+                return false;
 
+            if (m_csc.Enabled != true)
+                return false;
+
+            if (m_csc.Active)
+                return true;
+            else
+                m_csc.Activate();
+            return true;
+        }
         #endregion
 
         #region General_ComparasionTools

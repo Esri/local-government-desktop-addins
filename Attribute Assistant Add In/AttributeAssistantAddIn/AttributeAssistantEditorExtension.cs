@@ -12837,6 +12837,268 @@ namespace ArcGIS4LocalGovernment
                                                 AAState.WriteLine("                  Finished: INTERSECTING_FEATURE");
                                             }
                                             break;
+                                        case "INTERSECTING_BOOLEAN":
+                                            try
+                                            {
+                                                AAState.WriteLine("                  Trying: INTERSECTING_BOOLEAN");
+                                                if (inFeature != null & valData != null)
+                                                {
+                                                    AAState.WriteLine("                  Starting to process rule");
+                                                    sourceLayerName = "";
+                                                    string valTrue = "";
+                                                    string valFalse = "";
+
+                                                    found = false;
+                                                    AAState.WriteLine("                  Value Info is: " + valData);
+                                                    // Parse arguments
+                                                    args = valData.Split('|');
+                                                    //if (args.GetLength(0) >= 2)
+                                                    if (args.Length == 3)
+                                                    {
+                                                        AAState.intersectOptions strOpt = AAState.intersectOptions.First;
+                                                        switch (args.Length)
+                                                        {
+
+                                                            case 3:
+                                                                sourceLayerNames = args[0].ToString().Split(',');
+                                                                valTrue = args[1].ToString();
+                                                                valFalse = args[2].ToString();
+
+                                                                break;
+                                                            default: break;
+                                                        }
+
+
+
+
+
+
+                                                        for (int i = 0; i < sourceLayerNames.Length; i++)
+                                                        {
+                                                            sourceLayerName = sourceLayerNames[i].ToString().Trim();
+                                                            if (sourceLayerName != "")
+                                                            {
+                                                                boolLayerOrFC = true;
+
+
+
+
+
+
+
+
+                                                                if (sourceLayerName.Contains("("))
+                                                                {
+                                                                    string[] tempSplt = sourceLayerName.Split('(');
+                                                                    sourceLayerName = tempSplt[0].Trim();
+                                                                    sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+
+                                                                    if (tempSplt[1].ToUpper().Contains("LAYER)"))
+                                                                    {
+                                                                        boolLayerOrFC = true;
+                                                                    }
+
+
+                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURELAYER)"))
+                                                                    {
+                                                                        boolLayerOrFC = true;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURECLASS)"))
+                                                                    {
+                                                                        boolLayerOrFC = false;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("CLASS)"))
+                                                                    {
+                                                                        boolLayerOrFC = false;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURE)"))
+                                                                    {
+                                                                        boolLayerOrFC = false;
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+
+                                                                }
+                                                                // Get layer
+
+                                                                if (sourceLayer != null)
+                                                                {
+                                                                    AAState.WriteLine("                  Layer Found: " + sourceLayer.Name);
+
+
+                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid);
+                                                                    if (sFilter == null)
+                                                                    {
+                                                                        AAState.WriteLine("                  Filter is null, this will cause an error");
+                                                                        continue;
+                                                                    }
+
+
+                                                                    pFS = (IFeatureSelection)sourceLayer;
+                                                                    if (boolLayerOrFC)
+                                                                    {
+                                                                        AAState.WriteLine("                  Searching on Layer");
+                                                                        if (pFS.SelectionSet.Count > 0)
+                                                                        {
+                                                                            AAState.WriteLine("                  Searching on Selection Set");
+                                                                            pFS.SelectionSet.Search(sFilter, true, out cCurs);
+
+                                                                            fCursor = cCurs as IFeatureCursor;
+
+                                                                            AAState.WriteLine("                  Cursor created");
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            AAState.WriteLine("                  No Selected Features");
+                                                                            fCursor = sourceLayer.Search(sFilter, true);
+                                                                            AAState.WriteLine("                  Cursor created");
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        AAState.WriteLine("                  Searching on feature Class");
+                                                                        fCursor = sourceLayer.FeatureClass.Search(sFilter, true);
+                                                                        AAState.WriteLine("                  Cursor created");
+                                                                    }
+                                                                    if (fCursor == null)
+                                                                    {
+                                                                        AAState.WriteLine("                  Cursor is null");
+                                                                        continue;
+                                                                    }
+                                                                    AAState.WriteLine("                  Starting Loop of found features");
+                                                                    while ((sourceFeature = fCursor.NextFeature()) != null)
+                                                                    {
+                                                                        AAState.WriteLine("                  Checking Class");
+                                                                        if (sourceFeature.Class != inFeature.Class)
+                                                                        {
+                                                                            AAState.WriteLine("                  Different FCs");
+
+                                                                            found = true;
+
+                                                                        }
+                                                                        else if (sourceFeature.Class == inFeature.Class && sourceFeature.OID != inFeature.OID)
+                                                                        {
+                                                                            AAState.WriteLine("                  Same FC");
+
+
+                                                                            found = true;
+
+                                                                        }
+                                                                        if (found == true)
+                                                                            break;
+
+                                                                    }
+
+
+
+
+                                                                    if (found == false && AAState._CheckEnvelope)
+                                                                    {
+                                                                        sFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelEnvelopeIntersects;
+
+
+                                                                        pFS = (IFeatureSelection)sourceLayer;
+                                                                        if (boolLayerOrFC)
+                                                                        {
+                                                                            if (pFS.SelectionSet.Count > 0)
+                                                                            {
+                                                                                pFS.SelectionSet.Search(sFilter, true, out cCurs);
+                                                                                fCursor = cCurs as IFeatureCursor;
+
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                fCursor = sourceLayer.Search(sFilter, true);
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            fCursor = sourceLayer.FeatureClass.Search(sFilter, true);
+                                                                        }
+                                                                        sourceFeature = fCursor.NextFeature();
+                                                                        while (sourceFeature != null)
+                                                                        {
+
+
+
+                                                                            found = true;
+                                                                            break;
+
+
+
+                                                                        }
+
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    AAState.WriteLine("                  ERROR/WARNING: Source Layer not found: " + sourceLayerName);
+                                                                }
+
+                                                                if (found)
+                                                                {
+                                                                    break;
+                                                                }
+
+                                                            }
+                                                            else
+                                                            {
+                                                                AAState.WriteLine("                  ERROR/WARNING: Source Layer not found: " + sourceLayerName);
+                                                            }
+
+                                                        }
+
+
+
+                                                        if (found)
+                                                        {
+                                                           
+                                                            AAState.WriteLine("                  Setting Value: " + valTrue);
+
+                                                            inObject.set_Value(intFldIdxs[0], valTrue);
+                                                            AAState.WriteLine("                  Value Set");
+
+                                                            
+                                                        }
+                                                        else
+                                                        {
+                                                            AAState.WriteLine("                  Setting Value: " + valFalse);
+
+                                                            inObject.set_Value(intFldIdxs[0], valFalse);
+                                                            AAState.WriteLine("                  Value Set");
+
+                                                        
+                                                        }
+
+
+
+                                                    }
+                                                    else
+                                                    {
+                                                        AAState.WriteLine("                  ERROR: INTERSECTING_BOOLEAN: Value Info is not in the expected format");
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    AAState.WriteLine("                  ERROR: INTERSECTING_BOOLEAN: Input Feature or Value Info is null");
+                                                }
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                AAState.WriteLine("                  ERROR: INTERSECTING_BOOLEAN: " + ex.Message);
+                                            }
+                                            finally
+                                            {
+                                                AAState.WriteLine("                  Finished: INTERSECTING_BOOLEAN");
+                                            }
+                                            break;
                                         case "INTERSECTING_RASTER":
                                             try
                                             {

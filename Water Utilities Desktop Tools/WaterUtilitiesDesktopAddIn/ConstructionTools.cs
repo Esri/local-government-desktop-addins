@@ -89,25 +89,27 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
-            if (m_edSketch.Geometry == null)
-                return;
-            if (Control.ModifierKeys == Keys.Shift)
-            {
-                // Finish part
-                ISketchOperation pso = new SketchOperation();
-                pso.MenuString_2 = "Finish Sketch Part";
-                pso.Start(m_editor);
-                m_edSketch.FinishSketchPart();
-                pso.Finish(null);
-            }
-            else
+            //if (m_edSketch.Geometry == null)
+            //    return;
+            //if (m_edSketch.Geometry.IsEmpty )
+            //    return;
+            //if (Control.ModifierKeys == Keys.Shift)
+            //{
+            //    // Finish part
+            //    ISketchOperation pso = new SketchOperation();
+            //    pso.MenuString_2 = "Finish Sketch Part";
+            //    pso.Start(m_editor);
+            //    m_edSketch.FinishSketchPart();
+            //    pso.Finish(null);
+            //}
+            //else
               
-                    m_edSketch.FinishSketch();
+            //        m_edSketch.FinishSketch();
         }
 
         private void OnSketchModified()
         {
-            if (m_csc != null)
+            if (Globals.IsShapeConstructorOkay(m_csc))
 
                 m_csc.SketchModified();
         }
@@ -249,24 +251,24 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
-            if (m_edSketch.Geometry == null)
-                return;
-            if (Control.ModifierKeys == Keys.Shift)
-            {
-                // Finish part
-                ISketchOperation pso = new SketchOperation();
-                pso.MenuString_2 = "Finish Sketch Part";
-                pso.Start(m_editor);
-                m_edSketch.FinishSketchPart();
-                pso.Finish(null);
-            }
-            else
-                m_edSketch.FinishSketch();
+            //if (m_edSketch.Geometry == null)
+            //    return;
+            //if (Control.ModifierKeys == Keys.Shift)
+            //{
+            //    // Finish part
+            //    ISketchOperation pso = new SketchOperation();
+            //    pso.MenuString_2 = "Finish Sketch Part";
+            //    pso.Start(m_editor);
+            //    m_edSketch.FinishSketchPart();
+            //    pso.Finish(null);
+            //}
+            //else
+            //    m_edSketch.FinishSketch();
         }
 
         private void OnSketchModified()
         {
-            if (m_csc != null)
+            if (Globals.IsShapeConstructorOkay(m_csc))
 
                 m_csc.SketchModified();
         }
@@ -421,7 +423,7 @@ namespace A4WaterUtilities
         }
         private void OnSketchModified()
         {
-            if (m_csc != null)
+            if (Globals.IsShapeConstructorOkay(m_csc))
 
                 m_csc.SketchModified();
         }
@@ -586,24 +588,24 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
-            if (m_edSketch.Geometry == null)
-                return;
-            if (Control.ModifierKeys == Keys.Shift)
-            {
-                // Finish part
-                ISketchOperation pso = new SketchOperation();
-                pso.MenuString_2 = "Finish Sketch Part";
-                pso.Start(m_editor);
-                m_edSketch.FinishSketchPart();
-                pso.Finish(null);
-            }
-            else
-                m_edSketch.FinishSketch();
+            //if (m_edSketch.Geometry == null)
+            //    return;
+            //if (Control.ModifierKeys == Keys.Shift)
+            //{
+            //    // Finish part
+            //    ISketchOperation pso = new SketchOperation();
+            //    pso.MenuString_2 = "Finish Sketch Part";
+            //    pso.Start(m_editor);
+            //    m_edSketch.FinishSketchPart();
+            //    pso.Finish(null);
+            //}
+            //else
+            //    m_edSketch.FinishSketch();
         }
 
         private void OnSketchModified()
         {
-            if (m_csc != null)
+            if (Globals.IsShapeConstructorOkay(m_csc))
 
                 m_csc.SketchModified();
         }
@@ -711,24 +713,24 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
-            if (m_edSketch.Geometry == null)
-                return;
-            if (Control.ModifierKeys == Keys.Shift)
-            {
-                // Finish part
-                ISketchOperation pso = new SketchOperation();
-                pso.MenuString_2 = "Finish Sketch Part";
-                pso.Start(m_editor);
-                m_edSketch.FinishSketchPart();
-                pso.Finish(null);
-            }
-            else
-                m_edSketch.FinishSketch();
+            //if (m_edSketch.Geometry == null)
+            //    return;
+            //if (Control.ModifierKeys == Keys.Shift)
+            //{
+            //    // Finish part
+            //    ISketchOperation pso = new SketchOperation();
+            //    pso.MenuString_2 = "Finish Sketch Part";
+            //    pso.Start(m_editor);
+            //    m_edSketch.FinishSketchPart();
+            //    pso.Finish(null);
+            //}
+            //else
+            //    m_edSketch.FinishSketch();
         }
 
         private void OnSketchModified()
         {
-            if (m_csc != null)
+            if (Globals.IsShapeConstructorOkay(m_csc))
 
              m_csc.SketchModified();
         }
@@ -889,7 +891,7 @@ namespace A4WaterUtilities
 
         private void OnSketchModified()
         {
-            if (m_csc != null)
+            if (Globals.IsShapeConstructorOkay(m_csc))
 
                 m_csc.SketchModified();
         }
