@@ -15,7 +15,7 @@
  | limitations under the License.
  */
 
-
+using System.Globalization;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
@@ -82,7 +82,7 @@ namespace ArcGIS4LocalGovernment
     }
     public static class AAState
     {
-        public enum intersectOptions { Centroid, PromptMulti, First }
+        public enum intersectOptions { Centroid, PromptMulti, First, Last }
         public static ESRI.ArcGIS.esriSystem.IPropertySet2 lastValueProperties;
         public static string _filePath = "";
 
@@ -1799,6 +1799,9 @@ namespace ArcGIS4LocalGovernment
 
         public bool SetDynamicValues(IObject inObject, string mode, out List<IObject> ChangeFeatureList, out List<IObject> NewFeatureList, out List<IObject> ChangeFeatureGeoList)
         {
+            NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
+
+
             ChangeFeatureList = null;
             NewFeatureList = null;
             ChangeFeatureGeoList = null;
@@ -3089,6 +3092,23 @@ namespace ArcGIS4LocalGovernment
                                                     if (res == "External component has thrown an exception.")
                                                     {
                                                         AAState.WriteLine("                  The field specified was not a numeric field");
+
+                                                        AAState.WriteLine("                  Starting at 1 ");
+                                                        long val = 1;
+
+                                                        try
+                                                        {
+                                                            AAState.WriteLine("                  Trying to set value ");
+                                                            inObject.set_Value(intFldIdxs[0], val);
+                                                            AAState.WriteLine("                  Value set");
+
+
+
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            AAState.WriteLine("                  ERROR: Could not set value: " + ex.Message.ToString());
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -3098,8 +3118,51 @@ namespace ArcGIS4LocalGovernment
                                                             AAState.WriteLine("                  Value is numeric");
 
                                                             AAState.WriteLine("                  Trying to Incriment " + res);
-                                                            long val = (Convert.ToInt64(res) + 1);
-                                                            AAState.WriteLine("                  Incrimented to " + res);
+                                                            try
+                                                            {
+                                                                long val = (Convert.ToInt64(res) + 1);
+
+                                                                AAState.WriteLine("                  Incrimented to " + res);
+                                                                try
+                                                                {
+                                                                    AAState.WriteLine("                  Trying to set value " + res);
+                                                                    inObject.set_Value(intFldIdxs[0], val);
+                                                                    AAState.WriteLine("                  Value set" + res);
+
+
+
+                                                                }
+                                                                catch (Exception ex)
+                                                                {
+                                                                    AAState.WriteLine("                  ERROR: Could not set value: " + ex.Message.ToString());
+                                                                }
+
+                                                            }
+
+                                                            catch (Exception ex)
+                                                            {
+                                                                AAState.WriteLine("                  ERROR: Could not set value: " + ex.Message.ToString());
+                                                                AAState.WriteLine("                  Setting the value to 1");
+                                                                long val = 1;
+
+
+                                                                inObject.set_Value(intFldIdxs[0], val);
+                                                                AAState.WriteLine("                  Value set");
+
+
+
+                                                            }
+
+                                                        }
+
+
+                                                        else
+                                                        {
+                                                            AAState.WriteLine("                  Value is not numeric: " + res);
+
+                                                            AAState.WriteLine("                  Starting at 1 ");
+                                                            long val = 1;
+
                                                             try
                                                             {
                                                                 AAState.WriteLine("                  Trying to set value " + res);
@@ -3115,12 +3178,6 @@ namespace ArcGIS4LocalGovernment
                                                             }
 
 
-                                                        }
-
-
-                                                        else
-                                                        {
-                                                            AAState.WriteLine("                  Value is not numeric: " + res);
                                                         }
                                                     }
 
@@ -10871,6 +10928,60 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                     break;
+                                                                case esriFieldType.esriFieldTypeDouble:
+
+                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                    {
+                                                                        if (newValue.Contains("IsNull"))
+                                                                        {
+                                                                            newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "True");
+                                                                        }
+                                                                        else if (newValue.Contains("isNull"))
+                                                                        {
+                                                                            newValue = newValue.Replace("isNull([" + "_REPLACE_VAL_" + "])", "True");
+                                                                        }
+                                                                        else if (newValue.Contains("ISNULL"))
+                                                                        {
+                                                                            newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "True");
+                                                                        }
+                                                                        else if (inObject.get_Value(intTmpIdx) == null)
+                                                                        {
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
+                                                                        }
+                                                                        else if (inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                        {
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
+                                                                        }
+                                                                        else if (inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                        {
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "" + inObject.get_Value(intTmpIdx).ToString() + "");
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        if (newValue.Contains("IsNull"))
+                                                                        {
+                                                                            newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "False");
+                                                                        }
+
+                                                                        else
+                                                                        {
+                                                                        
+                                                                            double val;
+                                                                            Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
+
+
+
+                                                                            // '  string test2 = test.ToString("N",nfi);
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", val.ToString("N", nfi));
+                                                                        }
+                                                                    }
+
+                                                                    break;
 
                                                                 default:
                                                                     if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "")
@@ -10913,6 +11024,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                         else
                                                                         {
+
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", inObject.get_Value(intTmpIdx).ToString());
                                                                         }
                                                                     }
@@ -10928,6 +11040,8 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine("                  Checking to verify there is a field to store the expression");
                                                         if (intTargetFld > -1)
                                                         {
+                                                            AAState.WriteLine("Expression to be eval: " + newValue);
+
                                                             newValue = script.Eval(newValue).ToString();
                                                             if (newValue.ToUpper() == "<Null>".ToUpper())
                                                             {
@@ -12522,6 +12636,9 @@ namespace ArcGIS4LocalGovernment
                                                                     case "F":
                                                                         strOpt = AAState.intersectOptions.First;
                                                                         break;
+                                                                    case "L":
+                                                                        strOpt = AAState.intersectOptions.Last;
+                                                                        break;
                                                                     case "FIRST":
                                                                         strOpt = AAState.intersectOptions.First;
                                                                         break;
@@ -12657,6 +12774,27 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         pFoundFeat.Add(pOp);
                                                                                     }
+                                                                                    else if (strOpt == AAState.intersectOptions.Last)
+                                                                                    {
+
+                                                                                        Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
+                                                                                        pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        if (pOp.Display.Trim() != "")
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display;
+
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID;
+
+                                                                                        }
+                                                                                        pOp.OID = sourceFeature.OID;
+                                                                                        pOp.LayerName = sourceLayer.Name;
+
+                                                                                        pFoundFeat.Add(pOp);
+                                                                                    }
+
                                                                                     else
                                                                                     {
                                                                                         string test = sourceFeature.get_Value(sourceField).ToString();
@@ -12670,6 +12808,25 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
                                                                                     AAState.WriteLine("                  Same FC");
                                                                                     if (strOpt == AAState.intersectOptions.PromptMulti)
+                                                                                    {
+                                                                                        Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
+                                                                                        pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        if (pOp.Display.Trim() != "")
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display;
+
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID;
+
+                                                                                        }
+                                                                                        pOp.OID = sourceFeature.OID;
+                                                                                        pOp.LayerName = sourceLayer.Name;
+
+                                                                                        pFoundFeat.Add(pOp);
+                                                                                    }
+                                                                                    else if (strOpt == AAState.intersectOptions.Last)
                                                                                     {
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
@@ -12754,6 +12911,26 @@ namespace ArcGIS4LocalGovernment
                                                                                         pFoundFeat.Add(pOp);
 
                                                                                     }
+                                                                                    else if (strOpt == AAState.intersectOptions.Last)
+                                                                                    {
+                                                                                        Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
+                                                                                        pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        if (pOp.Display.Trim() != "")
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display;
+
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID;
+
+                                                                                        }
+                                                                                        pOp.OID = sourceFeature.OID;
+                                                                                        pOp.LayerName = sourceLayer.Name;
+
+                                                                                        pFoundFeat.Add(pOp);
+
+                                                                                    }
                                                                                     else
                                                                                     {
                                                                                         if (found)
@@ -12809,6 +12986,25 @@ namespace ArcGIS4LocalGovernment
                                                                     found = true;
 
                                                                 }
+                                                            }
+                                                            else if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.Last)
+                                                            {
+
+
+
+                                                                sourceFeature = sourceLayer.FeatureClass.GetFeature(pFoundFeat[pFoundFeat.Count - 1].OID);
+
+
+
+                                                                string test = sourceFeature.get_Value(sourceField).ToString();
+                                                                AAState.WriteLine("                  Setting Value: " + test);
+
+                                                                inObject.set_Value(intFldIdxs[0], sourceFeature.get_Value(sourceField));
+                                                                AAState.WriteLine("                  Value Set");
+
+                                                                found = true;
+
+
                                                             }
 
                                                         }
@@ -13057,13 +13253,13 @@ namespace ArcGIS4LocalGovernment
 
                                                         if (found)
                                                         {
-                                                           
+
                                                             AAState.WriteLine("                  Setting Value: " + valTrue);
 
                                                             inObject.set_Value(intFldIdxs[0], valTrue);
                                                             AAState.WriteLine("                  Value Set");
 
-                                                            
+
                                                         }
                                                         else
                                                         {
@@ -13072,7 +13268,7 @@ namespace ArcGIS4LocalGovernment
                                                             inObject.set_Value(intFldIdxs[0], valFalse);
                                                             AAState.WriteLine("                  Value Set");
 
-                                                        
+
                                                         }
 
 

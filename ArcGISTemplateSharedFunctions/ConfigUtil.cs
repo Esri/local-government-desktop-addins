@@ -411,6 +411,7 @@ namespace A4LGSharedFunctions
                 return "";
             }
         }
+
         public static double GetConfigValue(string keyname, double defaultValue)
         {
             XmlDocument oXml = null;

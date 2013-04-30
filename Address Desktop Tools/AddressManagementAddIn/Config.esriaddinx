@@ -29,7 +29,7 @@
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
-  <AddIn language="CLR" library="AddressManagementAddIn.dll" namespace="A4LGAddressManagement">
+  <AddIn language="CLR" library="AddressManagement.dll" namespace="A4LGAddressManagement">
     <ArcMap>
       <Commands>
         <Button id="A4LGAddressManagement_AddressFlipLines" class="AddressFlipLines" message="Flip Selected Roads and Swap their Parity" caption="Flip Selected Roads and Swap their Parity" tip="Flips the direction of a given road segment and swaps the right-left address range values to ensure they match the direction of the road segment" category= "ArcGIS for Local Government" image="Images\AddressFlipLines.png" />
