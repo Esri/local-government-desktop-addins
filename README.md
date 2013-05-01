@@ -78,6 +78,3 @@ A copy of the license is available in the repository's
 
 [](Esri Tags: Local Government Desktop Addins Visual-Basic)
 [](Esri Language: C-Sharp)
-
-[](Esri Tags: Water Utilities Data Management)
-[](Esri Language: C#)?
