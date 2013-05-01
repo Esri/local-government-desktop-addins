@@ -42,10 +42,10 @@
             this.gpBxconfigFiles = new System.Windows.Forms.GroupBox();
             this.btnPreview = new System.Windows.Forms.Button();
             this.gpBxLog = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnPrevLog = new System.Windows.Forms.Button();
             this.btnOpenLogLoc = new System.Windows.Forms.Button();
             this.txtBoxLogPath = new System.Windows.Forms.TextBox();
-            this.btnPrevLog = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.gpBxConfig.SuspendLayout();
             this.gpBxconfigFiles.SuspendLayout();
             this.gpBxLog.SuspendLayout();
@@ -189,6 +189,28 @@
             this.gpBxLog.TabStop = false;
             this.gpBxLog.Text = "Log File";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Location = new System.Drawing.Point(183, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(270, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Note:  You must have the AA turned off to open this file.";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label2.Visible = false;
+            // 
+            // btnPrevLog
+            // 
+            this.btnPrevLog.Location = new System.Drawing.Point(95, 49);
+            this.btnPrevLog.Name = "btnPrevLog";
+            this.btnPrevLog.Size = new System.Drawing.Size(82, 23);
+            this.btnPrevLog.TabIndex = 6;
+            this.btnPrevLog.Text = "Preview";
+            this.btnPrevLog.UseVisualStyleBackColor = true;
+            this.btnPrevLog.Click += new System.EventHandler(this.btnPrevLog_Click);
+            // 
             // btnOpenLogLoc
             // 
             this.btnOpenLogLoc.Location = new System.Drawing.Point(12, 49);
@@ -207,27 +229,6 @@
             this.txtBoxLogPath.ReadOnly = true;
             this.txtBoxLogPath.Size = new System.Drawing.Size(471, 20);
             this.txtBoxLogPath.TabIndex = 3;
-            // 
-            // btnPrevLog
-            // 
-            this.btnPrevLog.Location = new System.Drawing.Point(95, 49);
-            this.btnPrevLog.Name = "btnPrevLog";
-            this.btnPrevLog.Size = new System.Drawing.Size(82, 23);
-            this.btnPrevLog.TabIndex = 6;
-            this.btnPrevLog.Text = "Preview";
-            this.btnPrevLog.UseVisualStyleBackColor = true;
-            this.btnPrevLog.Click += new System.EventHandler(this.btnPrevLog_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Yellow;
-            this.label2.Location = new System.Drawing.Point(183, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(270, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Note:  You must have the AA turned off to open this file.";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ConfigForm
             // 

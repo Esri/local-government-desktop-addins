@@ -19,13 +19,18 @@ Esri's sample data can be [downloaded] (http://www.arcgis.com/home/item.html?id=
 
 ### Your Services
 
-[Detailed help](http://resources.arcgis.com/en/help/localgovernment/10.1/index.html#/ArcGIS_for_Local_Government_maps_and_apps/028s0000006t000000/)
+[Detailed help](http://www.arcgis.com/home/item.html?id=1835f8dbd35247369d4281d8914c48ca/)
 on the ArcGIS Resource Center can guide you in the setup and configuration of the desktop add-ins with your data.
 
 ### General Help
 [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
 
 ## Requirements
+
+* ArcGIS 10.2 SDK
+* .Net 4.0
+* Visual Studio 2010 or greater
+
 
 ### Esri Sample Data
 
@@ -73,3 +78,6 @@ A copy of the license is available in the repository's
 
 [](Esri Tags: Local Government Desktop Addins Visual-Basic)
 [](Esri Language: C-Sharp)
+
+[](Esri Tags: Water Utilities Data Management)
+[](Esri Language: C#)?
