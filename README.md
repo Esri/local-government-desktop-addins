@@ -76,5 +76,5 @@ limitations under the License.
 A copy of the license is available in the repository's
 [license.txt](https://raw.github.com/Esri/local-government-desktop-addins/master/license.txt) file.
 
-[](Esri Tags: Local-Government Water-Utility Local Government Desktop Addins Water Attribute-Assistant Desktop-Addins Water-Utility-Network-Editing Water-Utility-Network-Reporting Capital-Planning Visual-Basic)
+[](Esri Tags: Local-Government Water-Utility Utility Utilities Local Government Desktop Addins Water Attribute-Assistant Desktop-Addins Water-Utility-Network-Editing Water-Utility-Network-Reporting Capital-Planning Visual-Basic)
 [](Esri Language: C-Sharp)
