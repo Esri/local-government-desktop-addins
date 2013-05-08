@@ -46,6 +46,8 @@ Learn more about Esri's [ArcGIS for Local Government maps and apps](http://resou
 
 Show me a list of other [Local Government GitHub repositories](http://esri.github.io/#Local-Government).
 
+Show me a list of other [Utilities GitHub repositories](http://esri.github.io/#Utilities).
+
 Additional [information and sample data](http://www.arcgis.com/home/item.html?id=385978c927124489b4dc6110eded38df)
 are available for the destkop add-ins.
 
@@ -76,5 +78,5 @@ limitations under the License.
 A copy of the license is available in the repository's
 [license.txt](https://raw.github.com/Esri/local-government-desktop-addins/master/license.txt) file.
 
-[](Esri Tags: Local-Government Water-Utility Local Government Desktop Addins Water Attribute-Assistant Desktop-Addins Water-Utility-Network-Editing Water-Utility-Network-Reporting Capital-Planning Visual-Basic)
+[](Esri Tags: Local-Government Water-Utility Utility Utilities Local Government Desktop Addins Water Attribute-Assistant Desktop-Addins Water-Utility-Network-Editing Water-Utility-Network-Reporting Capital-Planning Visual-Basic)
 [](Esri Language: C-Sharp)

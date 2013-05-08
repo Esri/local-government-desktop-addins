@@ -554,7 +554,7 @@ Partial Class CostEstimatingWindow
         'btnSave
         '
         Me.btnSave.Enabled = False
-        Me.btnSave.Image = CType(resources.GetObject("btnSave.Image"), System.Drawing.Image)
+        Me.btnSave.Image = Global.ArcGIS4LocalGovernment.My.Resources.Resources.SaveEdits
         Me.btnSave.Location = New System.Drawing.Point(644, 14)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(26, 26)
@@ -565,7 +565,7 @@ Partial Class CostEstimatingWindow
         'btnStopEditing
         '
         Me.btnStopEditing.Enabled = False
-        Me.btnStopEditing.Image = CType(resources.GetObject("btnStopEditing.Image"), System.Drawing.Image)
+        Me.btnStopEditing.Image = Global.ArcGIS4LocalGovernment.My.Resources.Resources.StopEditing
         Me.btnStopEditing.Location = New System.Drawing.Point(614, 14)
         Me.btnStopEditing.Name = "btnStopEditing"
         Me.btnStopEditing.Size = New System.Drawing.Size(26, 26)
