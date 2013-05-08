@@ -199,7 +199,6 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Note:  You must have the AA turned off to open this file.";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label2.Visible = false;
             // 
             // btnPrevLog
             // 
