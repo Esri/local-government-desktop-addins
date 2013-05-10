@@ -32,9 +32,9 @@
   <AddIn language="CLR" library="AddressManagement.dll" namespace="A4LGAddressManagement">
     <ArcMap>
       <Commands>
-        <Button id="A4LGAddressManagement_AddressFlipLines" class="AddressFlipLines" message="Flip Selected Roads and Swap their Parity" caption="Flip Selected Roads and Swap their Parity" tip="Flips the direction of a given road segment and swaps the right-left address range values to ensure they match the direction of the road segment" category= "ArcGIS for Local Government" image="Images\AddressFlipLines.png" />
-        <Button id="A4LGAddressManagement_AddressFlipLinesNoAddress" class="AddressFlipLinesNoAddress" message="Flip Selected Roads" caption="Flip Selected Roads" tip="Flips the direction of a given road segment but does not change the right-left address range values" category= "ArcGIS for Local Government" image="Images\AddressFlipLinesNoAddress.png" />
-        <Button id="A4LGAddressManagement_CreateIntersectionPoints" class="AddressCreateIntersectionPoints" message="Create an intersection point layer" caption="Create an intersection point layer" tip="Creates an intersection point layer from the selected road segments" category= "ArcGIS for Local Government" image="Images\AddressPointAtIntersection.png" />
+        <Button id="A4LGAddressManagement_AddressFlipLines" class="AddressFlipLines" message="Flips the direction of a selected road segment and swaps the right to left address range values to ensure they match the direction of the road segment." caption="Flip Roads and Swap Parity" tip="Flip Roads and Swap Parity" category= "ArcGIS for Local Government" image="Images\AddressFlipLines.png" />
+        <Button id="A4LGAddressManagement_AddressFlipLinesNoAddress" class="AddressFlipLinesNoAddress" message="Flips the direction of a selected road segment but does not change the right to left address range values." caption="Flip Roads" tip="Flip Roads" category= "ArcGIS for Local Government" image="Images\AddressFlipLinesNoAddress.png" />
+        <Button id="A4LGAddressManagement_CreateIntersectionPoints" class="AddressCreateIntersectionPoints" message="Creates a point layer from the intersections of the selected road segments." caption="Create Intersection Point Layer" tip="Create Intersection Point Layer" category= "ArcGIS for Local Government" image="Images\AddressPointAtIntersection.png" />
       </Commands>
       <Toolbars>
         <Toolbar id="A4LGAddressManagement_LocalGovernmentAddress" caption="Address Editing" showInitially="false">
@@ -49,12 +49,12 @@
       <Editor>
         <Commands>
 
-          <Tool id="A4LGAddressManagement_CreateLineAndSplitIntersectingLines" class="CreateLineAndSplitIntersectingLines" message="Create Road and Split Intersecting Roads" caption="Create Road and Split Intersecting Roads" tip="Create Road and Split Intersecting Roads" category="ArcGIS for Local Government" image="Images\CreateLineAndSplitIntersectingLines.png">
+          <Tool id="A4LGAddressManagement_CreateLineAndSplitIntersectingLines" class="CreateLineAndSplitIntersectingLines" message="Creates a new road segment, splits the existing road segment, and prorates the address ranges on an existing road segment." caption="Create Road and Split Intersecting Road" tip="Create Road and Split Intersecting Road" category="ArcGIS for Local Government" image="Images\CreateLineAndSplitIntersectingLines.png">
             <Construction>
               <Category>Polyline Construction</Category>
             </Construction>
           </Tool>
-          <Tool id="A4LGAddressManagement_CreatePointAndRefPoint" class="CreatePointAndRefPoint" message="Add Site Address Point" caption="Add Site Address Point" tip="Add Site Address Point" category="ArcGIS for Local Government" image="Images\CreatePointAndRefPoint.png">
+          <Tool id="A4LGAddressManagement_CreatePointAndRefPoint" class="CreatePointAndRefPoint" message="Adds an address point and one or more site address points." caption="Add Site Address Point" tip="Add Site Address Point" category="ArcGIS for Local Government" image="Images\CreatePointAndRefPoint.png">
             <Construction>
               <Category>Point Construction</Category>
             </Construction>
