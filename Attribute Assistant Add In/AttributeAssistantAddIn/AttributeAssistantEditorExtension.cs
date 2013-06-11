@@ -6137,22 +6137,22 @@ namespace ArcGIS4LocalGovernment
 
 
 
-                                                                else if (args[0] == "TA_Streets_US_10")
-                                                                {
-                                                                    locatorURL = _agsOnlineLocators + args[0] + GeocodeStr + "/" + reverseGeocodeStr;
-                                                                    //       wkid = 102100;
-                                                                }
-                                                                else if (args[0] == "TA_Address_NA_10" || args[0] == "TA_Address_EU")
-                                                                {
-                                                                    locatorURL = _agsOnlineLocators + args[0] + GeocodeStr + "/" + reverseGeocodeStr;
-                                                                    //    wkid = 4326;
-                                                                }
-                                                                //Default to AGS Online USA geocode service
-                                                                else if (_agsOnlineLocators.Substring(_agsOnlineLocators.LastIndexOf('/', _agsOnlineLocators.Length - 2)).Contains("Locator"))
-                                                                {
-                                                                    locatorURL = _agsOnlineLocators + "TA_Address_NA_10" + GeocodeStr + "/" + reverseGeocodeStr;
-                                                                    //        wkid = 4326;
-                                                                }
+                                                                //else if (args[0] == "TA_Streets_US_10")
+                                                                //{
+                                                                //    locatorURL = _agsOnlineLocators + args[0] + GeocodeStr + "/" + reverseGeocodeStr;
+                                                                //    //       wkid = 102100;
+                                                                //}
+                                                                //else if (args[0] == "TA_Address_NA_10" || args[0] == "TA_Address_EU")
+                                                                //{
+                                                                //    locatorURL = _agsOnlineLocators + args[0] + GeocodeStr + "/" + reverseGeocodeStr;
+                                                                //    //    wkid = 4326;
+                                                                //}
+                                                                ////Default to AGS Online USA geocode service
+                                                                //else if (_agsOnlineLocators.Substring(_agsOnlineLocators.LastIndexOf('/', _agsOnlineLocators.Length - 2)).Contains("Locator"))
+                                                                //{
+                                                                //    locatorURL = _agsOnlineLocators + "TA_Address_NA_10" + GeocodeStr + "/" + reverseGeocodeStr;
+                                                                //    //        wkid = 4326;
+                                                                //}
                                                                 else
                                                                 {
                                                                     locatorURL = _agsOnlineLocators + GeocodeStr + "/" + reverseGeocodeStr; ;
@@ -6206,7 +6206,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                     }
                                                                 }
-                                                                catch
+                                                                catch (Exception ex)
                                                                 {
                                                                     AAState.WriteLine("                  Error getting service projection information");
                                                                     wkid = 4326;
@@ -6256,12 +6256,17 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    val = val + ", " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
+                                                                                    if (val.EndsWith(","))
+                                                                                        val = val + " " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
+                                                                                    else
+                                                                                        val = val + ", " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
+
                                                                                 }
                                                                             }
 
+                                                                            val = val.Trim();
                                                                         }
-                                                                        val = val.Trim();
+
                                                                         inFeature.set_Value(intFldIdxs[0], val);
 
                                                                     }
