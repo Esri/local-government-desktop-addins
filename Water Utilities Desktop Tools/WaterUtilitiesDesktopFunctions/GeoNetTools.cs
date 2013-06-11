@@ -5612,7 +5612,7 @@ namespace A4WaterUtilities
                 //}
                 if (junctionFlag != null)
                 {
-                    Marshal.ReleaseComObject(junctionFlag);
+                   // Marshal.ReleaseComObject(junctionFlag);
                 }
                 if (edgeFlag != null)
                 {
