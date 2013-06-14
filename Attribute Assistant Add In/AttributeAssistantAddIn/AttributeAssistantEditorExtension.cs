@@ -336,7 +336,7 @@ namespace ArcGIS4LocalGovernment
             }
 
         }
-        public static void createLastValueProperrtySet()
+        public static void createLastValuePropertySet()
         {
             try
             {
@@ -347,7 +347,26 @@ namespace ArcGIS4LocalGovernment
                     AAState.lastValueProperties = new PropertySetClass();
                 }
 
+                if (AAState._dt.Columns["ON_CHANGEGEO"] == null)
+                {
+                    MessageBox.Show("Dynamic value table is missing the ON_CHANGEGEO Column");
 
+                }
+                if (AAState._dt.Columns["ON_CHANGE"] == null)
+                {
+                    MessageBox.Show("Dynamic value table is missing the ON_CHANGE Column");
+
+                }
+                if (AAState._dt.Columns["ON_CREATE"] == null)
+                {
+                    MessageBox.Show("Dynamic value table is missing the ON_CREATE Column");
+
+                }
+                if (AAState._dt.Columns["ON_MANUAL"] == null)
+                {
+                    MessageBox.Show("Dynamic value table is missing the ON_MANUAL Column");
+
+                }
                 DataView dv = new DataView(AAState._dt);
                 dv.RowFilter = "ValueMethod = 'LAST_VALUE'";
                 string[] args;
@@ -371,6 +390,7 @@ namespace ArcGIS4LocalGovernment
                             {
                                 lstV.On_ChangeGeo = Globals.toBoolean(drv["ON_CHANGEGEO"].ToString());
                             }
+
                             lstV.On_Create = Globals.toBoolean(drv["ON_CREATE"].ToString());
                             lstV.On_Manual = Globals.toBoolean(drv["ON_MANUAL"].ToString());
 
@@ -695,7 +715,7 @@ namespace ArcGIS4LocalGovernment
         {
             AAState.indent = "";
             bool blState = AAState.initTable();
-            AAState.createLastValueProperrtySet();
+            AAState.createLastValuePropertySet();
             _currentUserInfo = new CurrentUserInfo(AAState._editor);
             return blState;
 
@@ -815,7 +835,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("OnChangeFeature:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("FeatureChange:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
 
             }
         }
@@ -831,7 +851,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("OnChangeFeature:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("FeatureGeoChange:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
 
             }
         }
@@ -1019,7 +1039,7 @@ namespace ArcGIS4LocalGovernment
             {
                 AAState.WriteLine("Attribute Assistant Adding Event Handlers");
                 AAState.changeFeature += OnChangeFeature;
-
+                AAState.changeGeoFeature += OnChangeGeoFeature;
                 AAState.createFeature += OnCreateFeature;
                 AAState.manualFeature += OnManualFeature;
                 AAState.stopOperation += OnBeforeStopOperation; // SG Jan 2013
@@ -1347,7 +1367,38 @@ namespace ArcGIS4LocalGovernment
         }
 
 
+        private void OnChangeGeoFeature(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
 
+
+            try
+            {
+
+
+                if (obj != null)
+                {
+
+                    inFeature = obj as IFeature;
+
+
+                    if (inFeature != null)
+                    {
+                        sendEvent(obj, "ON_CHANGEGEO");
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("OnChangeGeoFeature:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+
+            }
+            finally
+            {
+
+            }
+        }
         private void OnChangeFeature(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
             IFeatureChanges pFeatChange = null;
@@ -1527,6 +1578,7 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine("Unwiring the events");
 
                     AAState.changeFeature -= OnChangeFeature;
+                    AAState.changeGeoFeature -= OnChangeGeoFeature;
                     AAState.createFeature -= OnCreateFeature;
                     AAState.stopOperation -= OnBeforeStopOperation; // SG Jan 2013
 
@@ -1631,6 +1683,7 @@ namespace ArcGIS4LocalGovernment
                 {
                     AAState.WriteLine("Wiring the events");
                     AAState.changeFeature += OnChangeFeature;
+                    AAState.changeGeoFeature += OnChangeGeoFeature;
                     AAState.createFeature += OnCreateFeature;
                     AAState.stopOperation += OnBeforeStopOperation; // SG Jan 2013
                 }
@@ -4814,11 +4867,11 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         AAState.WriteLine("                     Feature and valueinfo is valid");
 
-                                                        AAState.WriteLine("                     Checking if feature is in a geometric network");
+                                                        AAState.WriteLine("                     Checking if feature is in a Geometric Network");
                                                         bool validFeat = false;
                                                         if (inFeature is INetworkFeature)
                                                         {
-                                                            AAState.WriteLine("                     Feature is in a geometric network");
+                                                            AAState.WriteLine("                     Feature is in a Geometric Network");
 
 
 
@@ -4920,7 +4973,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         else
                                                         {
-                                                            AAState.WriteLine("                     ERROR: Feature is not a geometric network feature");
+                                                            AAState.WriteLine("                     ERROR: Feature is not a Geometric Network feature");
 
                                                         }
                                                     }
@@ -5210,7 +5263,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                                     if (featset == null)
                                                                                     {
-                                                                                        AAState.WriteLine("                  Error splitting feature, the feature may be a geometric network feature");
+                                                                                        AAState.WriteLine("                  Error splitting feature, the feature may be a Geometric Network feature");
 
                                                                                     }
                                                                                     else
@@ -8692,7 +8745,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 else
                                                 {
-                                                    AAState.WriteLine("                  not an geometric network feature");
+                                                    AAState.WriteLine("                  not an Geometric Network feature");
                                                 }
 
                                             }
@@ -8830,7 +8883,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     else
                                                     {
-                                                        AAState.WriteLine("                  not an geometric network feature");
+                                                        AAState.WriteLine("                  not an Geometric Network feature");
                                                     }
                                                 }
                                                 else
@@ -8976,7 +9029,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     else
                                                     {
-                                                        AAState.WriteLine("                  not an geometric network feature");
+                                                        AAState.WriteLine("                  not an Geometric Network feature");
                                                     }
 
                                                 }
@@ -9764,7 +9817,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     else
                                                     {
-                                                        AAState.WriteLine("                  not an geometric network feature");
+                                                        AAState.WriteLine("                  not an Geometric Network feature");
                                                     }
                                                 }
                                                 else
@@ -9919,7 +9972,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     else
                                                     {
-                                                        AAState.WriteLine("                  not an geometric network feature");
+                                                        AAState.WriteLine("                  not an Geometric Network feature");
                                                     }
 
                                                 }
@@ -10975,7 +11028,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                         else
                                                                         {
-                                                                        
+
                                                                             double val;
                                                                             Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
 
@@ -12752,7 +12805,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 AAState.WriteLine("                  Cursor is null");
                                                                                 continue;
                                                                             }
-                                                                            AAState.WriteLine("                  Starring Loop of found features");
+                                                                            AAState.WriteLine("                  Starting Loop of found features");
                                                                             while ((sourceFeature = fCursor.NextFeature()) != null)
                                                                             {
                                                                                 AAState.WriteLine("                  Checking Class");
