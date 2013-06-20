@@ -890,11 +890,23 @@ namespace A4LGSharedFunctions
             {
                 Angle = 360 + Angle;
             }
+            if (Angle > 360)
+            {
+                Angle = Angle - 360;
+            }
             return Angle;
 
         }
         public static double ConvertDegToRads(double Angle)
         {
+            if (Angle < 0)
+            {
+                Angle = 360 + Angle;
+            }
+            if (Angle > 360)
+            {
+                Angle = Angle - 360;
+            }
             double pi = 0;
             pi = 4 * Math.Atan(1);
             return Angle * pi / 180;
@@ -906,6 +918,10 @@ namespace A4LGSharedFunctions
             if (Angle < 0)
             {
                 Angle = 360 + Angle;
+            }
+            if (Angle > 360)
+            {
+                Angle = Angle - 360;
             }
             return Angle;
 

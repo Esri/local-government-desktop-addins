@@ -3554,7 +3554,7 @@ namespace A4WaterUtilities
                 dirVal = "";
             }
 
-            if (dirVal == latDet.LookingUpstreamValue)
+            if (dirVal.ToUpper() == latDet.LookingUpstreamValue.ToUpper())
             {
                 dblAngleRad = Globals.ConvertDegToRads(Globals.ConvertRadsToDegrees(dblAngleRad) + 180);
             }

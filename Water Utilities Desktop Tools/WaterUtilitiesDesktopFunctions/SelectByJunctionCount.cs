@@ -331,7 +331,7 @@ namespace A4WaterUtilities
                 this.Hide();
                 (_app.Document as IMxDocument).ActiveView.Refresh();
                 
-                MessageBox.Show((_app.Document as IMxDocument).FocusMap.SelectionCount + " junctions where selected");
+                MessageBox.Show((_app.Document as IMxDocument).FocusMap.SelectionCount + " junctions were selected");
 
             }
         }
