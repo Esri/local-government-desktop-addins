@@ -2091,7 +2091,7 @@ namespace A4LGSharedFunctions
                     double lastDistance, distance;
 
                     // proxOp = (IProximityOperator)searchShape;
-                    lastDistance = 100;
+                    lastDistance = 9999999999;
 
                     for (long j = 0; j < pEnumEIDInfoEdges.Count; j++)
                     {

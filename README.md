@@ -10,7 +10,8 @@ The ArcGIS for Local Government Desktop Add-ins include a series of desktop tool
 * Water Utility Network Editing
 * Water Utility Network Reporting
 * Capital Planning
-
+* Address Data Management
+                                     
 ## Instructions
 
 ### Esri Sample Data

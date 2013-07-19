@@ -162,16 +162,16 @@ namespace A4WaterUtilities
                 (ArcMap.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, (ArcMap.Document as IMxDocument).ActiveView.Extent.Envelope);
 
 
-                if (resetFlow == "DIGITIZED")
+                if (resetFlow.ToUpper() == "DIGITIZED")
                 {
                     Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
 
                 }
-                else if (resetFlow  == "ROLE")
+                else if (resetFlow.ToUpper() == "ROLE")
                 {
                     Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
                 }
-                else if (resetFlow  == "Ancillary".ToUpper())
+                else if (resetFlow.ToUpper() == "Ancillary".ToUpper())
                 {
                     Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
                 }
@@ -319,16 +319,16 @@ namespace A4WaterUtilities
                 (ArcMap.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, (ArcMap.Document as IMxDocument).ActiveView.Extent.Envelope);
 
 
-                if (resetFlow == "DIGITIZED")
+                if (resetFlow.ToUpper() == "DIGITIZED")
                 {
                     Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
 
                 }
-                else if (resetFlow == "ROLE")
+                else if (resetFlow.ToUpper() == "ROLE")
                 {
                     Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
                 }
-                else if (resetFlow == "Ancillary".ToUpper())
+                else if (resetFlow.ToUpper() == "Ancillary".ToUpper())
                 {
                     Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
                 }

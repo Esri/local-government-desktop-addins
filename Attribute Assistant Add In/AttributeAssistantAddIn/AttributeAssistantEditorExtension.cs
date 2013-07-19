@@ -1853,8 +1853,9 @@ namespace ArcGIS4LocalGovernment
         public bool SetDynamicValues(IObject inObject, string mode, out List<IObject> ChangeFeatureList, out List<IObject> NewFeatureList, out List<IObject> ChangeFeatureGeoList)
         {
             NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
-
-
+            nfi.NumberGroupSeparator = "";
+            
+            
             ChangeFeatureList = null;
             NewFeatureList = null;
             ChangeFeatureGeoList = null;
