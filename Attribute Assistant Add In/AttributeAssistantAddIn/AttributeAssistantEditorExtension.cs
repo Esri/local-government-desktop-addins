@@ -2283,7 +2283,7 @@ namespace ArcGIS4LocalGovernment
                                     {
                                         int tem = inObject.Fields.FindFieldByAliasName(strFldName);
                                         intFldIdxs.Add(tem);
-                                        strFldAlias.Add(inObject.Fields.get_Field(inObject.Fields.FindField(strFldName)).AliasName);
+                                        strFldAlias.Add(inObject.Fields.get_Field(tem).AliasName);
 
                                         fieldObj = inObject.Fields.get_Field(tem);
 
@@ -3493,7 +3493,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     IRowChanges pRowCh = inObject as IRowChanges;
 
-                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false)
+                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false && mode != "ON_CREATE")
                                                     {
                                                         AAState.WriteLine("                  PROMPT: Target value did not change, skipping");
                                                         pRowCh = null;

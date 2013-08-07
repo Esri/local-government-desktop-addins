@@ -1219,11 +1219,13 @@ namespace ArcGIS4LocalGovernment
 
                                             AAState.WriteLine("AA - Removed the Feature Change event to run the create rules");
                                             AAState._editEvents.OnCreateFeature -= AAState.FeatureCreate;
+                                            AAState._editEvents.OnChangeFeature -= AAState.FeatureChange;
 
 
                                             try
                                             {
                                                 AAState.FeatureCreate(pObj);
+
                                                 feat.Store();
                                             }
                                             catch
@@ -1232,6 +1234,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                             AAState._editEvents.OnCreateFeature += AAState.FeatureCreate;
+                                            AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
                                             AAState.WriteLine("AA - Feature Change event readded after create rules");
 
 
