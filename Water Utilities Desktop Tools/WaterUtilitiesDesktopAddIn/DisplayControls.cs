@@ -28,66 +28,7 @@ using A4LGSharedFunctions;
 namespace A4WaterUtilities
 {
   
-    public class TestA4W: ESRI.ArcGIS.Desktop.AddIns.Button
-    {
-        public TestA4W()
-        {
-        }
-
-        protected override void OnClick()
-        {
-
-        }
-
-        protected override void OnUpdate()
-        {
-            Enabled = (ArcMap.Application != null);
-
-        }
-    }
-    //public class ShowConfigForm : ESRI.ArcGIS.Desktop.AddIns.Button
-    //{
-    //    //internal static ESRI.ArcGIS.Framework.IDockableWindow s_dockWindow;
-    //    ConfigForm m_ConfigForm;
-    //    public ShowConfigForm()
-    //    {
-    //    }
-
-    //    protected override void OnClick()
-    //    {
-    //        //DockableWindow pDockWin = getDockableWindow() as DockableWindow;
-    //        //if (pDockWin == null)
-    //        //    return;
-    //        //pDockWin.Show(!pDockWin.IsVisible());
-    //        //string ConfigPath = ConfigUtil.generateUserCachePath();
-         
-    //        //string[] ConfigFiles = ConfigUtil.GetConfigFiles();
-
-    //         m_ConfigForm = new ConfigForm();
-    //         m_ConfigForm.ShowDialog();
-
-    //    }
-
-    //    protected override void OnUpdate()
-    //    {
-    //        Enabled = (ArcMap.Application != null);
-
-    //    }
-    //    //private ESRI.ArcGIS.Framework.IDockableWindow getDockableWindow()
-    //    //{
-
-    //    //    // Only get/create the dockable window if they ask for it
-    //    //    if (s_dockWindow == null)
-    //    //    {
-    //    //        UID dockWinID = new UID();
-    //    //        dockWinID.Value = "A4WaterUtilities_ConfigDetails";
-    //    //        s_dockWindow = ArcMap.DockableWindowManager.GetDockableWindow(dockWinID);
-    //    //        //s_extension.UpdateSelCountDockWin()
-    //    //    }
-
-    //    //    return s_dockWindow;
-    //    //}
-    //}
+  
     public class ShowLayerWindow : ESRI.ArcGIS.Desktop.AddIns.Button
     {
         internal static ESRI.ArcGIS.Framework.IDockableWindow s_dockWindow;
@@ -99,6 +40,11 @@ namespace A4WaterUtilities
         
         protected override void OnClick()
         {
+            
+          
+           
+
+           
             DockableWindow pDockWin = getDockableWindow() as DockableWindow;
             if (pDockWin == null)
                 return;

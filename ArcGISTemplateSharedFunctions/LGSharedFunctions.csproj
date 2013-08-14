@@ -195,6 +195,11 @@
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ConfigUtil.cs" />
+    <Compile Include="UserMessages.es1.Designer.cs">
+      <DependentUpon>UserMessages.es.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="LastValueForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -224,6 +229,11 @@
       <DependentUpon>SelectTemplateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UserInfo.cs" />
+    <Compile Include="UserMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserMessages.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Loaded.config">
@@ -252,6 +262,10 @@
     <EmbeddedResource Include="ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserMessages.es.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserMessages.es1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="LastValueForm.resx">
       <DependentUpon>LastValueForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -263,6 +277,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SelectTemplateForm.resx">
       <DependentUpon>SelectTemplateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

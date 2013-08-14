@@ -41,6 +41,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Reflection;
 using System.Linq;
+using System.Resources;
 
 using stdole;
 
@@ -86,6 +87,7 @@ using Microsoft.VisualBasic;
 
 namespace A4LGSharedFunctions
 {
+    
     #region WindowsAPI Calls
     //Helper class for converting symbols
     // from the sandpit: http://kiwigis.blogspot.com/2009/05/accessing-esri-style-files-using-adonet.html
@@ -507,8 +509,48 @@ namespace A4LGSharedFunctions
     }
     #endregion //WindowsAPI calls
 
+    public  class Localizer
+    {
+
+        ResourceManager manager;
+
+        static Localizer localizer = new Localizer();
+
+        private Localizer()
+        {
+
+            manager = new ResourceManager("A4LGSharedFunctions.UserMessages", this.GetType().Assembly);
+
+        }
+
+        public static string GetString(string id)
+        {
+
+            string ret = localizer.manager.GetString(id);
+
+            if (ret == null)
+
+                throw new Exception(string.Format("The localized string for {0} is not found", id));
+
+            return ret;
+
+        }
+
+        //Example using different resource files
+         //string msg  = A4LGSharedFunctions.Localizer.GetString("Test");
+
+         //   System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("es");
+         //   System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.CreateSpecificCulture("es");
+         //   msg = A4LGSharedFunctions.Localizer.GetString("Test");
+
+    }
+
+
+
     public static class Globals
     {
+       
+
         public static string LogLocations = "";
 
         public static IFeature AddPointAlongLineWithIntersect(ref IApplication app, ref  IEditor editor, ICurve curve, IFeatureLayer pointFLayer, double targetPointDistance,
