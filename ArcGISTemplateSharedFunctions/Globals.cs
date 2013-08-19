@@ -553,6 +553,7 @@ namespace A4LGSharedFunctions
 
         public static string LogLocations = "";
 
+
         public static IFeature AddPointAlongLineWithIntersect(ref IApplication app, ref  IEditor editor, ICurve curve, IFeatureLayer pointFLayer, double targetPointDistance,
                                                          bool targetPointDistanceIsPercent, IEditTemplate editTemplate, IFeatureLayer pPolyFL,
                                                          string side)
@@ -821,7 +822,28 @@ namespace A4LGSharedFunctions
             }
 
         }
+        public static string FormatValueToFieldLength(IField pFld, string value)
+        {
+            try
+            {
 
+                if (value.Length > pFld.Length )
+                {
+                    return value.Substring(0, pFld.Length );
+
+                }
+                else
+                {
+                    return value;
+
+                }
+            }
+            catch
+            {
+                return value;
+            }
+        
+        }
         public static double ConvertClockPositionToDegrees(double value)
         {
             return value * (360 / 12);

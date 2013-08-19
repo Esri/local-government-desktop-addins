@@ -6749,8 +6749,9 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         _copyPoint = inFeature.ShapeCopy as IPoint;
                                                         _copyPoint.Project(AAState._sr1);
+                                                        inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPoint.Y.ToString()));
 
-                                                        inFeature.set_Value(intFldIdxs[0], _copyPoint.Y);
+                                                        
                                                     }
                                                     else if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolyline)
                                                     {
@@ -6759,22 +6760,28 @@ namespace ArcGIS4LocalGovernment
 
                                                         if (valData == "")
                                                         {
-                                                            inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolyline)[0].Y);
+                                                            inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolyline)[0].Y.ToString()));
+                                                            
                                                         }
                                                         else
                                                         {
                                                             args = valData.Split('|');
                                                             if (args[0].ToUpper() == "S")
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], _copyPolyline.FromPoint.Y);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolyline.FromPoint.Y.ToString()));
+                                                                
                                                             }
                                                             else if (args[0].ToUpper() == "E")
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], _copyPolyline.ToPoint.Y);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolyline.ToPoint.Y.ToString()));
+                                                                
+                                                                
                                                             }
                                                             else
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolyline)[0].Y);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolyline)[0].Y.ToString()));
+                                                                
+                                                                
                                                             }
 
                                                         }
@@ -6788,23 +6795,29 @@ namespace ArcGIS4LocalGovernment
 
                                                         if (valData.Trim() == "")
                                                         {
-                                                            inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].Y);
+                                                            inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolygon)[0].Y.ToString()));
+                                                                
+                                                            
                                                         }
                                                         else
                                                         {
                                                             args = valData.Split('|');
                                                             if (args[0].ToUpper() == "S")
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.FromPoint.Y);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolygon.FromPoint.Y.ToString()));
+                                                                
                                                             }
                                                             else if (args[0].ToUpper() == "E")
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.ToPoint.Y);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolygon.ToPoint.Y.ToString()));
+                                                                
+                                                                
                                                             }
                                                             else
                                                             {
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolygon)[0].Y.ToString()));
+                                                                
 
-                                                                inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].Y);
                                                             }
                                                         }
                                                     }
@@ -6837,7 +6850,9 @@ namespace ArcGIS4LocalGovernment
                                                         _copyPoint = inFeature.ShapeCopy as IPoint;
                                                         _copyPoint.Project(AAState._sr1);
 
-                                                        inFeature.set_Value(intFldIdxs[0], _copyPoint.X);
+
+                                                        inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]),_copyPoint.X.ToString()));
+                                                       
                                                     }
                                                     else if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolyline)
                                                     {
@@ -6846,22 +6861,31 @@ namespace ArcGIS4LocalGovernment
 
                                                         if (valData == "")
                                                         {
-                                                            inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolyline)[0].X);
+
+                                                            inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolyline)[0].X.ToString()));
+                                                       
+                                                            
                                                         }
                                                         else
                                                         {
                                                             args = valData.Split('|');
                                                             if (args[0].ToUpper() == "S")
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], _copyPolyline.FromPoint.X);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolyline.FromPoint.X.ToString()));
+                                                       
+
                                                             }
                                                             else if (args[0].ToUpper() == "E")
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], _copyPolyline.ToPoint.X);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolyline.ToPoint.X.ToString()));
+
+                                                                
                                                             }
                                                             else
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolyline)[0].X);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolyline)[0].X.ToString()));
+
+
                                                             }
 
                                                         }
@@ -6875,23 +6899,30 @@ namespace ArcGIS4LocalGovernment
 
                                                         if (valData.Trim() == "")
                                                         {
-                                                            inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].X);
+                                                            inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolygon)[0].X.ToString()));
+
+                                                            
                                                         }
                                                         else
                                                         {
                                                             args = valData.Split('|');
                                                             if (args[0].ToUpper() == "S")
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.FromPoint.X);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolygon.FromPoint.X.ToString()));
+
+                                                                
                                                             }
                                                             else if (args[0].ToUpper() == "E")
                                                             {
-                                                                inFeature.set_Value(intFldIdxs[0], _copyPolygon.ToPoint.X);
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolygon.ToPoint.X.ToString()));
+
+                                                                
                                                             }
                                                             else
                                                             {
+                                                                inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolygon)[0].X.ToString()));
 
-                                                                inFeature.set_Value(intFldIdxs[0], Globals.GetGeomCenter(_copyPolygon)[0].X);
+                                                                
                                                             }
                                                         }
                                                     }
