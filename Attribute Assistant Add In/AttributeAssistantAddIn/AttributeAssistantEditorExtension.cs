@@ -3292,7 +3292,7 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine("                  Checking Field in Edited Layer");
 
                                                         int fldIDSourecIdx = Globals.GetFieldIndex(inObject.Fields, sourceIDFieldName);
-                                                        if (fldIDSourecIdx > -1 && intFldIdxs.Count > 0)
+                                                        if (fldIDSourecIdx > -1 && intFldIdxs.Count > 0 )
                                                         {
                                                             if (inObject.get_Value(fldIDSourecIdx) != null && inObject.get_Value(fldIDSourecIdx) != DBNull.Value)
                                                             {
@@ -3400,6 +3400,8 @@ namespace ArcGIS4LocalGovernment
                                                                                             try
                                                                                             {
                                                                                                 inObject.set_Value(intFldIdxs[0], pRow.get_Value(fldValToCopyIdx));
+                                                                                                
+
                                                                                                 AAState.WriteLine("                  " + pRow.get_Value(fldValToCopyIdx).ToString() + " Set in related record");
                                                                                                 valSet = true;
                                                                                                 break;
@@ -3633,6 +3635,7 @@ namespace ArcGIS4LocalGovernment
                                                                                                 {
                                                                                                     pRow.set_Value(fldValToCopyIdx, inObject.get_Value(intFldIdxs[0]));
                                                                                                     pRow.Store();
+                                                                                                    
 
                                                                                                     AAState.WriteLine("                  " + inObject.get_Value(intFldIdxs[0]).ToString() + " Set in related record");
                                                                                                     valSet = true;

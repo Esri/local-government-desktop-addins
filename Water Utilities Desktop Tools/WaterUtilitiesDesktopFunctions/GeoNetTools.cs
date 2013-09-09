@@ -6176,8 +6176,12 @@ namespace A4WaterUtilities
 
 
                 }
-
-                pInsCur.Flush();
+                try
+                {
+                    pInsCur.Flush();
+                }
+                catch
+                { }
 
                 pWSEdit.StopEditOperation();
 
@@ -6215,8 +6219,8 @@ namespace A4WaterUtilities
                 //    }
                 //}
 
-                if (pInsCur != null)
-                    pInsCur.Flush();
+                //if (pInsCur != null)
+                //    pInsCur.Flush();
 
                 if (pProDlg != null)
                     pProDlg.HideDialog();
