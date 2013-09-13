@@ -11,7 +11,7 @@ The ArcGIS for Local Government Desktop Add-ins include a series of desktop tool
 * Water Utility Network Reporting
 * Capital Planning
 * Address Data Management
-                                     
+
 ## Instructions
 
 ### Esri Sample Data
@@ -63,7 +63,7 @@ Please see our [guidelines for contributing](https://github.com/esri/contributin
 
 ## Licensing
 
-Copyright 2012 Esri
+Copyright 2013 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

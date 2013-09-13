@@ -2,12 +2,6 @@
 __*.*
 __*
 
-# Flash Builder
-.metadata
-
-# Snap backups
-*.7z
-
 # Visual Studio
 *.suo
 *.vbproj.user
@@ -15,3 +9,6 @@ bin/
 obj/
 Debug/
 Release/
+
+# Snap backups
+*.7z
