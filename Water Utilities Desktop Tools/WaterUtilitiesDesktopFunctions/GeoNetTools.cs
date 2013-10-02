@@ -6336,9 +6336,9 @@ namespace A4WaterUtilities
                     {
                         if (!pProfileElemPropFirst.Name.Contains(ProfileGraph[i].Network_Name))
                         {
-                            MessageBox.Show("The network (" + ProfileGraph[i].Network_Name + ") was not found, please update the config to make the name of the layer in the mxd");
+                            //MessageBox.Show("The network (" + ProfileGraph[i].Network_Name + ") was not found, please update the config to make the name of the layer in the mxd");
 
-                            break;
+                            continue;
                         }
 
                     }
@@ -6347,17 +6347,17 @@ namespace A4WaterUtilities
 
                     if (pManholeLayer == null)
                     {
-                        MessageBox.Show("The point layer (" + ProfileGraph[i].Point_LayerName + ") was not found, please update the config to make the name of the layer in the mxd");
+                       // MessageBox.Show("The point layer (" + ProfileGraph[i].Point_LayerName + ") was not found, please update the config to make the name of the layer in the mxd");
 
-                        break;
+                        continue;
                     }
                     bool FCorLayerMain = true;
                     pMainLayer = (IFeatureLayer)Globals.FindLayer(pMxDoc.FocusMap, ProfileGraph[i].Line_LayerName, ref FCorLayerMain);
                     if (pMainLayer == null)
                     {
-                        MessageBox.Show("The Main layer (" + ProfileGraph[i].Line_LayerName + ") was not found, please update the config to make the name of the layer in the mxd");
+                       // MessageBox.Show("The Main layer (" + ProfileGraph[i].Line_LayerName + ") was not found, please update the config to make the name of the layer in the mxd");
 
-                        break;
+                        continue;
                     }
                     bool FCorLayerTap = true;
                     if (ProfileGraph[i].PointAlong_LayerName != "")
