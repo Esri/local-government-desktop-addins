@@ -19,13 +19,13 @@
   <Name>Water Utility Network Tools</Name>
   <AddInID>{FD20EAB0-7ACB-4B35-AA41-753157745FD0}</AddInID>
   <Description>ArcMap tools for Water, Wastewater and Stormwater</Description>
-  <Version>10.2</Version>
+  <Version>10.1.10</Version>
   <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>5/13/2013</Date>
+  <Date>10/1/2013</Date>
   <Targets>
-    <Target name="Desktop" version="10.2" />
+    <Target name="Desktop" version="10.1" />
   </Targets>
   <AddIn language="CLR" library="WaterUtilityNetworkTools.dll" namespace="A4WaterUtilities">
     <ArcMap>
@@ -99,9 +99,9 @@
             <Button refID="A4WaterUtilities_AddLateralsFromMain" separator="false" />
             <!--<Tool refID="A4WaterUtilities_MoveConnections" separator="false" />-->
             <Button refID="A4WaterUtilities_ConnectClosests" separator="true" />
-            <!--
+            
             <Button refID="A4WaterUtilities_EstablishFlowAncillary" separator="true" />
-            <Button refID="A4WaterUtilities_EstablishFlowDigitized" separator="false" />-->
+            <Button refID="A4WaterUtilities_EstablishFlowDigitized" separator="false" />
 
             <Button refID="A4WaterUtilities_ShowFlowArrows" separator="false" />
             <Button refID="A4WaterUtilities_FlipLines" separator="true" />
