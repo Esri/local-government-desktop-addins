@@ -340,13 +340,15 @@ namespace ArcGIS4LocalGovernment
         {
             try
             {
+                if (AAState._dt == null)
+                    return;
 
                 object nullObject = null;
                 if (AAState.lastValueProperties == null || _clearLastValue == true)
                 {
                     AAState.lastValueProperties = new PropertySetClass();
                 }
-
+                
                 if (AAState._dt.Columns["ON_CHANGEGEO"] == null)
                 {
                     MessageBox.Show("Dynamic value table is missing the ON_CHANGEGEO Column");

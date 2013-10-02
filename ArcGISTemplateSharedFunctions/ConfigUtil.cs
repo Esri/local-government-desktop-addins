@@ -27,6 +27,7 @@ using System.Collections;
 using System.Text;
 using System.Diagnostics;
 using System.Xml.Serialization;
+using Microsoft.Win32;
 
 //using MSUtil;
 //using LogQuery = Interop.MSUtil.LogQueryClass;
@@ -82,7 +83,7 @@ namespace A4LGSharedFunctions
         public string MergeType { get; set; }
         public string SplitType { get; set; }
     }
-   
+
     public static class ConfigUtil
     {
         // public delegate void ReloadEventHandler(object sender, EventArgs e);
@@ -139,8 +140,30 @@ namespace A4LGSharedFunctions
 
             try
             {
-                //ArcGIS4LocalGovernment\ConfigFiles
-                return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ArcGIS4LocalGovernment\\ConfigFiles");
+                string pathToUserProf;
+
+
+
+                if (Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\ArcGISSolutions\DesktopTools", "ConfigLocation", null) != null)
+                {
+                    pathToUserProf = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\ArcGISSolutions\DesktopTools", "ConfigLocation", null) as string;
+
+                }
+                else if (Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\ArcGISSolutions\DesktopTools", "ConfigLocation", null) != null)
+                {
+                    pathToUserProf = Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\ArcGISSolutions\DesktopTools", "ConfigLocation", null) as string;
+                }
+
+                else
+                {
+                    pathToUserProf = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ArcGIS4LocalGovernment\\ConfigFiles");
+                }
+                if (System.IO.Directory.Exists(pathToUserProf) == false)
+                {
+                    System.IO.Directory.CreateDirectory(pathToUserProf);
+                }
+
+                return pathToUserProf;
 
             }
             catch (Exception ex)
@@ -155,11 +178,8 @@ namespace A4LGSharedFunctions
         {
             try
             {
+
                 string pathToUserProf = generateUserCachePath();
-                if (System.IO.Directory.Exists(pathToUserProf) == false)
-                {
-                    System.IO.Directory.CreateDirectory(pathToUserProf);
-                }
 
 
 
@@ -340,11 +360,10 @@ namespace A4LGSharedFunctions
         {
             try
             {
+
+
                 string pathToUserProf = generateUserCachePath();
-                if (System.IO.Directory.Exists(pathToUserProf) == false)
-                {
-                    System.IO.Directory.CreateDirectory(pathToUserProf);
-                }
+             
 
                 if (pathToUserProf != "")
                 {
@@ -375,7 +394,11 @@ namespace A4LGSharedFunctions
             {
                 string pConfigFiles = "";
 
-                string AppPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+                string AppPath;
+                AppPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+
+
+
                 if (AppPath.IndexOf("file:\\") >= 0)
                     AppPath = AppPath.Replace("file:\\", "");
 
@@ -876,7 +899,7 @@ namespace A4LGSharedFunctions
                 pSingleEntries = null;
             }
         }
-        
+
         public static LayerViewerConfig GetLayerViewerConfig()
         {
 
@@ -1019,7 +1042,7 @@ namespace A4LGSharedFunctions
                 pSingleEntries = null;
             }
         }
-       
+
         public static List<AttributeTransferDetails> GetAttributeTransferConfig()
         {
 
@@ -1160,7 +1183,7 @@ namespace A4LGSharedFunctions
                     pSingleEntries = (AddLateralFromMainPointDetails)Globals.DeserializeObject(node, typeof(AddLateralFromMainPointDetails));
                     if (pSingleEntries != null)
                     {
-                       
+
                         pEntries.Add(pSingleEntries);
                     }
 
@@ -1414,7 +1437,7 @@ namespace A4LGSharedFunctions
 
 
             XmlDocument xmld = getConfigAsXMLDoc();
-            
+
             if (xmld == null) return null;
             XmlNodeList nodelist = default(XmlNodeList);
             XmlNode node = default(XmlNode);
@@ -1520,7 +1543,7 @@ namespace A4LGSharedFunctions
                 pSingleEntries = null;
             }
         }
-   
+
     }
 }
 

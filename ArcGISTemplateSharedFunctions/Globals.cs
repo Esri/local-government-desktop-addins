@@ -5694,15 +5694,38 @@ namespace A4LGSharedFunctions
         #endregion
 
         #region RegistryTools
-        public static string GetRegistryValue(string key, string name)
+        public static string GetRegistryValueLM(string key, string name)
         {
             string retVal = "";
-            //  string infoMessage = "";
-
-            // Open the registry key, always in HKLM.
             RegistryKey rootkey = Registry.LocalMachine;
-            // Open a sub key for reading.
-            // Debug.WriteLine("Key: " + key);
+           RegistryKey subkey = rootkey.OpenSubKey(key);
+            
+            // If the RegistryKey doesn't exist return null
+            if (subkey == null)
+            {
+                return retVal;
+            }
+            else
+            {
+                try
+                {
+                  
+                    RegistryValueKind valKind = subkey.GetValueKind(name);
+                    if (valKind == RegistryValueKind.DWord || valKind == RegistryValueKind.String)
+                        retVal = subkey.GetValue(name).ToString();
+                }
+                catch
+                {
+
+                }
+            }
+            return retVal;
+        }
+        public static string GetRegistryValueCU(string key, string name)
+        {
+            string retVal = "";
+       
+            RegistryKey rootkey = Registry.CurrentUser;
             RegistryKey subkey = rootkey.OpenSubKey(key);
             // If the RegistryKey doesn't exist return null
             if (subkey == null)
@@ -5726,7 +5749,6 @@ namespace A4LGSharedFunctions
             }
             return retVal;
         }
-
         #endregion
 
         #region EditingTools
