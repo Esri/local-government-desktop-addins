@@ -4506,6 +4506,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         if (intTargFld > -1)
                                                         {
+                                                            bool proceed = true;
 
                                                             if (pRowCh.get_OriginalValue(intFldIdxs[0]).ToString().Trim() == "")
                                                                 continue;
@@ -4532,7 +4533,7 @@ namespace ArcGIS4LocalGovernment
                                                                 string promptLayname;
 
                                                                 promptLayname = Globals.getClassName(sourceLayer);
-
+                                                              
                                                                 if (bPrompt)
                                                                 {
                                                                     if (MessageBox.Show("You are about to change " + featCnt + " rows in the " + promptLayname + " Feature Class, proceed?", "Cascade", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -4543,6 +4544,7 @@ namespace ArcGIS4LocalGovernment
                                                                     else
                                                                     {
                                                                         AAState.WriteLine("                  User declined prompt");
+                                                                        proceed = false;
 
                                                                     }
 
@@ -4551,37 +4553,39 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     AAState.WriteLine("                  Prompt surpressed");
                                                                 }
-                                                            }
-
-                                                            IFeatureCursor pCalcCursor = sourceLayer.FeatureClass.Update(pQFilt, false);
-                                                            IFeature updateFeat;
-                                                            if (ChangeFeatureList == null)
-                                                            {
-                                                                ChangeFeatureList = new List<IObject>();
-                                                            }
-                                                            while ((updateFeat = pCalcCursor.NextFeature()) != null)
-                                                            {
-
-                                                                updateFeat.set_Value(intTargFld, inObject.get_Value(intFldIdxs[0]));
-                                                                ChangeFeatureList.Add(updateFeat);
-
-                                                                if (!trackCancel.Continue())
+                                                                if (proceed)
                                                                 {
-                                                                    AAState.WriteLine("                     Abort Edit");
-                                                                    AAState._editor.AbortOperation();
-                                                                    return false;
+                                                                    IFeatureCursor pCalcCursor = sourceLayer.FeatureClass.Update(pQFilt, false);
+                                                                    IFeature updateFeat;
+                                                                    if (ChangeFeatureList == null)
+                                                                    {
+                                                                        ChangeFeatureList = new List<IObject>();
+                                                                    }
+                                                                    while ((updateFeat = pCalcCursor.NextFeature()) != null)
+                                                                    {
+
+                                                                        updateFeat.set_Value(intTargFld, inObject.get_Value(intFldIdxs[0]));
+                                                                        ChangeFeatureList.Add(updateFeat);
+
+                                                                        if (!trackCancel.Continue())
+                                                                        {
+                                                                            AAState.WriteLine("                     Abort Edit");
+                                                                            AAState._editor.AbortOperation();
+                                                                            return false;
+                                                                        }
+                                                                    }
+                                                                    updateFeat = null;
+
+                                                                    if (pCalcCursor != null)
+                                                                    {
+                                                                        Marshal.ReleaseComObject(pCalcCursor);
+                                                                    }
+                                                                    pCalcCursor = null;
+
+                                                                    pQFilt = null;
                                                                 }
                                                             }
-                                                            updateFeat = null;
-
-                                                            if (pCalcCursor != null)
-                                                            {
-                                                                Marshal.ReleaseComObject(pCalcCursor);
-                                                            }
-                                                            pCalcCursor = null;
-
-                                                            pQFilt = null;
-
+                                                          
                                                         }
                                                         else
                                                         {
