@@ -1649,15 +1649,19 @@ namespace A4LGSharedFunctions
             public OptionsToPresent()
             { }
 
-            public OptionsToPresent(int newOID, string newDisplay, string newLayerName)
+            public OptionsToPresent(int newOID, string newDisplay, string newLayerName, object newValue)
             {
                 OID = newOID;
                 Display = newDisplay;
                 LayerName = newLayerName;
+                Value = newValue;
+
             }
             public int OID { get; set; }
             public string Display { get; set; }
             public string LayerName { get; set; }
+            public object Value { get; set; }
+
             //public override int Compare(object x, object y)
             //{
             //    if (((OptionsToPresent)x).Display == ((OptionsToPresent)y).Display &&
