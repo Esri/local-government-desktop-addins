@@ -4506,6 +4506,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         if (intTargFld > -1)
                                                         {
+                                                            bool proceed = true;
 
                                                             if (pRowCh.get_OriginalValue(intFldIdxs[0]).ToString().Trim() == "")
                                                                 continue;
@@ -4532,7 +4533,7 @@ namespace ArcGIS4LocalGovernment
                                                                 string promptLayname;
 
                                                                 promptLayname = Globals.getClassName(sourceLayer);
-
+                                                              
                                                                 if (bPrompt)
                                                                 {
                                                                     if (MessageBox.Show("You are about to change " + featCnt + " rows in the " + promptLayname + " Feature Class, proceed?", "Cascade", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -4543,6 +4544,7 @@ namespace ArcGIS4LocalGovernment
                                                                     else
                                                                     {
                                                                         AAState.WriteLine("                  User declined prompt");
+                                                                        proceed = false;
 
                                                                     }
 
@@ -4551,37 +4553,39 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     AAState.WriteLine("                  Prompt surpressed");
                                                                 }
-                                                            }
-
-                                                            IFeatureCursor pCalcCursor = sourceLayer.FeatureClass.Update(pQFilt, false);
-                                                            IFeature updateFeat;
-                                                            if (ChangeFeatureList == null)
-                                                            {
-                                                                ChangeFeatureList = new List<IObject>();
-                                                            }
-                                                            while ((updateFeat = pCalcCursor.NextFeature()) != null)
-                                                            {
-
-                                                                updateFeat.set_Value(intTargFld, inObject.get_Value(intFldIdxs[0]));
-                                                                ChangeFeatureList.Add(updateFeat);
-
-                                                                if (!trackCancel.Continue())
+                                                                if (proceed)
                                                                 {
-                                                                    AAState.WriteLine("                     Abort Edit");
-                                                                    AAState._editor.AbortOperation();
-                                                                    return false;
+                                                                    IFeatureCursor pCalcCursor = sourceLayer.FeatureClass.Update(pQFilt, false);
+                                                                    IFeature updateFeat;
+                                                                    if (ChangeFeatureList == null)
+                                                                    {
+                                                                        ChangeFeatureList = new List<IObject>();
+                                                                    }
+                                                                    while ((updateFeat = pCalcCursor.NextFeature()) != null)
+                                                                    {
+
+                                                                        updateFeat.set_Value(intTargFld, inObject.get_Value(intFldIdxs[0]));
+                                                                        ChangeFeatureList.Add(updateFeat);
+
+                                                                        if (!trackCancel.Continue())
+                                                                        {
+                                                                            AAState.WriteLine("                     Abort Edit");
+                                                                            AAState._editor.AbortOperation();
+                                                                            return false;
+                                                                        }
+                                                                    }
+                                                                    updateFeat = null;
+
+                                                                    if (pCalcCursor != null)
+                                                                    {
+                                                                        Marshal.ReleaseComObject(pCalcCursor);
+                                                                    }
+                                                                    pCalcCursor = null;
+
+                                                                    pQFilt = null;
                                                                 }
                                                             }
-                                                            updateFeat = null;
-
-                                                            if (pCalcCursor != null)
-                                                            {
-                                                                Marshal.ReleaseComObject(pCalcCursor);
-                                                            }
-                                                            pCalcCursor = null;
-
-                                                            pQFilt = null;
-
+                                                          
                                                         }
                                                         else
                                                         {
@@ -12854,16 +12858,20 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        pOp.Value = sourceFeature.get_Value(sourceField);
+
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                         }
+                                                                                       
+
                                                                                         pOp.OID = sourceFeature.OID;
                                                                                         pOp.LayerName = sourceLayer.Name;
 
@@ -12874,14 +12882,16 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        pOp.Value = sourceFeature.get_Value(sourceField);
+
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         pOp.OID = sourceFeature.OID;
@@ -12906,14 +12916,16 @@ namespace ArcGIS4LocalGovernment
                                                                                     {
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        pOp.Value = sourceFeature.get_Value(sourceField);
+
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString(); 
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString(); 
 
                                                                                         }
                                                                                         pOp.OID = sourceFeature.OID;
@@ -12925,14 +12937,17 @@ namespace ArcGIS4LocalGovernment
                                                                                     {
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        pOp.Value = sourceFeature.get_Value(sourceField);
+
+                                                                                    
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString(); 
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString(); 
 
                                                                                         }
                                                                                         pOp.OID = sourceFeature.OID;
@@ -12990,14 +13005,17 @@ namespace ArcGIS4LocalGovernment
                                                                                     {
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        pOp.Value = sourceFeature.get_Value(sourceField);
+
+                                                                                    
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString(); 
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString(); 
 
                                                                                         }
                                                                                         pOp.OID = sourceFeature.OID;
@@ -13010,14 +13028,16 @@ namespace ArcGIS4LocalGovernment
                                                                                     {
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        pOp.Value = sourceFeature.get_Value(sourceField);
+
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString(); 
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID;
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString(); 
 
                                                                                         }
                                                                                         pOp.OID = sourceFeature.OID;
@@ -13070,12 +13090,13 @@ namespace ArcGIS4LocalGovernment
                                                                 Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, "Select A feature for " + sourceFieldName, "Select A feature for " + sourceFieldName, ComboBoxStyle.DropDownList);
                                                                 if (strRetVal != null)
                                                                 {
-                                                                    sourceFeature = sourceLayer.FeatureClass.GetFeature(strRetVal.OID);
+                                                                    //sourceFeature = sourceLayer.FeatureClass.GetFeature(strRetVal.OID);
 
-                                                                    string test = sourceFeature.get_Value(sourceField).ToString();
+
+                                                                    string test = strRetVal.Value.ToString();//sourceFeature.get_Value(sourceField).ToString();
                                                                     AAState.WriteLine("                  Setting Value: " + test);
 
-                                                                    inObject.set_Value(intFldIdxs[0], sourceFeature.get_Value(sourceField));
+                                                                    inObject.set_Value(intFldIdxs[0], strRetVal.Value);
                                                                     AAState.WriteLine("                  Value Set");
 
                                                                     found = true;
@@ -13087,14 +13108,14 @@ namespace ArcGIS4LocalGovernment
 
 
 
-                                                                sourceFeature = sourceLayer.FeatureClass.GetFeature(pFoundFeat[pFoundFeat.Count - 1].OID);
+                                                                //sourceFeature = sourceLayer.FeatureClass.GetFeature(pFoundFeat[pFoundFeat.Count - 1].OID);
 
 
 
-                                                                string test = sourceFeature.get_Value(sourceField).ToString();
+                                                                string test = pFoundFeat[pFoundFeat.Count - 1].Value.ToString(); //sourceFeature.get_Value(sourceField).ToString();
                                                                 AAState.WriteLine("                  Setting Value: " + test);
 
-                                                                inObject.set_Value(intFldIdxs[0], sourceFeature.get_Value(sourceField));
+                                                                inObject.set_Value(intFldIdxs[0], pFoundFeat[pFoundFeat.Count - 1].Value);
                                                                 AAState.WriteLine("                  Value Set");
 
                                                                 found = true;
@@ -14472,9 +14493,9 @@ namespace ArcGIS4LocalGovernment
                                     {
                                         if (strOpt == AAState.intersectOptions.PromptMulti)
                                         {
-                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                             {
-                                                strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                             }
                                         }
                                         else
@@ -14493,9 +14514,9 @@ namespace ArcGIS4LocalGovernment
                                     {
                                         if (strOpt == AAState.intersectOptions.PromptMulti)
                                         {
-                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                             {
-                                                strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                             }
                                         }
                                         else
@@ -14519,9 +14540,9 @@ namespace ArcGIS4LocalGovernment
 
                                                 if (strOpt == AAState.intersectOptions.PromptMulti)
                                                 {
-                                                    if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                                    if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                                     {
-                                                        strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                        strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                                     }
                                                 }
                                                 else
@@ -14544,9 +14565,9 @@ namespace ArcGIS4LocalGovernment
                                     {
                                         if (strOpt == AAState.intersectOptions.PromptMulti)
                                         {
-                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name)))
+                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name)))
                                             {
-                                                strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name));
+                                                strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name));
                                             }
                                         }
                                         else
@@ -14565,9 +14586,9 @@ namespace ArcGIS4LocalGovernment
                                     {
                                         if (strOpt == AAState.intersectOptions.PromptMulti)
                                         {
-                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name)))
+                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name)))
                                             {
-                                                strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name));
+                                                strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name));
                                             }
                                         }
                                         else
@@ -14591,9 +14612,9 @@ namespace ArcGIS4LocalGovernment
 
                                                 if (strOpt == AAState.intersectOptions.PromptMulti)
                                                 {
-                                                    if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name)))
+                                                    if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name)))
                                                     {
-                                                        strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name));
+                                                        strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name));
                                                     }
                                                 }
                                                 else
@@ -14618,9 +14639,9 @@ namespace ArcGIS4LocalGovernment
                                     {
                                         if (strOpt == AAState.intersectOptions.PromptMulti)
                                         {
-                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                             {
-                                                strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                             }
                                         }
                                         else
@@ -14639,9 +14660,9 @@ namespace ArcGIS4LocalGovernment
                                     {
                                         if (strOpt == AAState.intersectOptions.PromptMulti)
                                         {
-                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                             {
-                                                strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                             }
                                         }
                                         else
@@ -14665,9 +14686,9 @@ namespace ArcGIS4LocalGovernment
 
                                                 if (strOpt == AAState.intersectOptions.PromptMulti)
                                                 {
-                                                    if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                                    if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                                     {
-                                                        strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                        strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                                     }
                                                 }
                                                 else
@@ -14719,9 +14740,9 @@ namespace ArcGIS4LocalGovernment
                                         {
                                             if (strOpt == AAState.intersectOptions.PromptMulti)
                                             {
-                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                                 {
-                                                    strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                    strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                                 }
                                             }
                                             else
@@ -14740,9 +14761,9 @@ namespace ArcGIS4LocalGovernment
                                         {
                                             if (strOpt == AAState.intersectOptions.PromptMulti)
                                             {
-                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                                 {
-                                                    strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                    strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                                 }
                                             }
                                             else
@@ -14766,9 +14787,9 @@ namespace ArcGIS4LocalGovernment
 
                                                     if (strOpt == AAState.intersectOptions.PromptMulti)
                                                     {
-                                                        if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                                        if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                                         {
-                                                            strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                            strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                                         }
                                                     }
                                                     else
@@ -14791,9 +14812,9 @@ namespace ArcGIS4LocalGovernment
                                         {
                                             if (strOpt == AAState.intersectOptions.PromptMulti)
                                             {
-                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name)))
+                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name)))
                                                 {
-                                                    strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name));
+                                                    strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name));
                                                 }
                                             }
                                             else
@@ -14812,9 +14833,9 @@ namespace ArcGIS4LocalGovernment
                                         {
                                             if (strOpt == AAState.intersectOptions.PromptMulti)
                                             {
-                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name)))
+                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name)))
                                                 {
-                                                    strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name));
+                                                    strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name));
                                                 }
                                             }
                                             else
@@ -14839,9 +14860,9 @@ namespace ArcGIS4LocalGovernment
 
                                                     if (strOpt == AAState.intersectOptions.PromptMulti)
                                                     {
-                                                        if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name)))
+                                                        if (!strFiles.Contains(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name)))
                                                         {
-                                                            strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name));
+                                                            strFiles.Add(new Globals.OptionsToPresent(0, pLay.Name, pLay.Name, pLay.Name));
                                                         }
                                                     }
                                                     else
@@ -14866,9 +14887,9 @@ namespace ArcGIS4LocalGovernment
                                         {
                                             if (strOpt == AAState.intersectOptions.PromptMulti)
                                             {
-                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                                 {
-                                                    strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                    strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                                 }
                                             }
                                             else
@@ -14887,9 +14908,9 @@ namespace ArcGIS4LocalGovernment
                                         {
                                             if (strOpt == AAState.intersectOptions.PromptMulti)
                                             {
-                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                                 {
-                                                    strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                    strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                                 }
                                             }
                                             else
@@ -14913,9 +14934,9 @@ namespace ArcGIS4LocalGovernment
 
                                                     if (strOpt == AAState.intersectOptions.PromptMulti)
                                                     {
-                                                        if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay)))
+                                                        if (!strFiles.Contains(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay)))
                                                         {
-                                                            strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay));
+                                                            strFiles.Add(new Globals.OptionsToPresent(0, pathForLay, pathForLay, pathForLay));
                                                         }
                                                     }
                                                     else
