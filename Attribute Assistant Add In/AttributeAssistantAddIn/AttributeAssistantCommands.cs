@@ -70,12 +70,12 @@ namespace ArcGIS4LocalGovernment
         public AttributeAssistantLoadLastValue()
         {
 
-         
+
         }
 
         protected override void OnClick()
         {
-             AAState.promptLastValueProperrtySetOneForm();
+            AAState.promptLastValueProperrtySetOneForm();
 
         }
         protected override void Dispose(bool value)
@@ -98,26 +98,26 @@ namespace ArcGIS4LocalGovernment
         public AttributeAssistantToggleCommand()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
-   
+
         }
-       
+
         protected override void OnClick()
         {
 
             if (AAState.PerformUpdates)
             {
                 AAState.WriteLine("Attribute Assistant is being suspended");
-                AAState.PerformUpdates= false;
+                AAState.PerformUpdates = false;
 
                 AAState.unInitEditing();
             }
             else
             {
                 AAState.WriteLine("Attribute Assistant is activated ");
-                AAState.PerformUpdates= true;
+                AAState.PerformUpdates = true;
                 AAState.initEditing();
             }
-      
+
 
         }
         protected override void Dispose(bool value)
@@ -130,7 +130,7 @@ namespace ArcGIS4LocalGovernment
         {
             AAState.setIcon();
         }
-   
+
     }
     public class AttributeAssistantSuspendCommand : ESRI.ArcGIS.Desktop.AddIns.Button
     {
@@ -256,7 +256,7 @@ namespace ArcGIS4LocalGovernment
 
         protected override void OnClick()
         {
-            if (AAState.PerformUpdates== false)
+            if (AAState.PerformUpdates == false)
             {
                 MessageBox.Show("Please turn on the attribute assistant before using this tool");
                 return;
@@ -274,7 +274,7 @@ namespace ArcGIS4LocalGovernment
         protected override void OnUpdate()
         {
 
-            if (AAState.PerformUpdates== false)
+            if (AAState.PerformUpdates == false)
             {
                 Enabled = false;
 
@@ -285,7 +285,7 @@ namespace ArcGIS4LocalGovernment
             }
 
         }
- 
+
         public void RunChangeRules()
         {
             ICursor cursor = null; IFeatureCursor fCursor = null;
@@ -333,16 +333,61 @@ namespace ArcGIS4LocalGovernment
                 if (totalCount >= 1)
                 {
 
+
+
+
+
+
+
+
+
+
+
                     if (MessageBox.Show("Are you sure you wish to apply attribute assistant Change rules for the selected " + totalCount + " rows and features?",
                         "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
+
+
+                        ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
+
+                        ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
+
+                        // Set the properties of the Step Progressor
+                        System.Int32 int32_hWnd = ArcMap.Application.hWnd;
+                        ESRI.ArcGIS.esriSystem.IStepProgressor stepProgressor = progressDialogFactory.Create(trackCancel, int32_hWnd);
+                        stepProgressor.MinRange = 1;
+                        stepProgressor.MaxRange = totalCount;
+                        
+                        stepProgressor.StepValue = 1;
+                        stepProgressor.Message = "Running Change Rules";
+
+                        // Create the ProgressDialog. This automatically displays the dialog
+                        ESRI.ArcGIS.Framework.IProgressDialog2 progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
+
+                        // Set the properties of the ProgressDialog
+                        progressDialog2.CancelEnabled = true;
+                        progressDialog2.Description = "Processing 0 of " + totalCount.ToString() + ".";
+                        progressDialog2.Title = "Processing...";
+                        progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
+
+                        // Step. Do your big process here.
+                        System.Boolean boolean_Continue = false;
+                        boolean_Continue = true;
+                        System.Int32 progressVal = 0;
+
+                        ESRI.ArcGIS.esriSystem.IStatusBar statusBar = ArcMap.Application.StatusBar;
+                                       
+
+
+
+
 
                         ran = true;
 
 
                         editor.StartOperation();
 
-                       
+
                         //Get list of feature layers
                         UID geoFeatureLayerID = new UIDClass();
                         geoFeatureLayerID.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
@@ -355,6 +400,8 @@ namespace ArcGIS4LocalGovernment
                         // Create an edit operation enabling undo/redo
                         try
                         {
+
+
                             //   AAState.StopChangeMonitor();
                             while ((layer = enumLayer.Next()) != null)
                             {
@@ -375,6 +422,13 @@ namespace ArcGIS4LocalGovernment
                                         IFeature feat;
                                         while ((feat = (IFeature)fCursor.NextFeature()) != null)
                                         {
+                                            progressVal++;
+                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            
+                                           stepProgressor.Step();
+
+                                            statusBar.set_Message(0, progressVal.ToString());
+
                                             lastLay = fLayer.Name;
 
 
@@ -402,6 +456,14 @@ namespace ArcGIS4LocalGovernment
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
                                             AAState.WriteLine("AA - Feature Change event readded after change rules");
 
+                                            //Check if the cancel button was pressed. If so, stop process
+                                            boolean_Continue = trackCancel.Continue();
+                                            if (!boolean_Continue)
+                                            {
+                                                break;
+                                            }
+
+
                                         }
                                         if (feat != null)
                                             Marshal.ReleaseComObject(feat);
@@ -411,7 +473,24 @@ namespace ArcGIS4LocalGovernment
                                     }
 
                                 }
+                                else
+                                {
+                                    if (fLayer.Valid)
+                                    {
+                                        // Verify that this layer has selected features  
+                                        IFeatureClass fc = fLayer.FeatureClass;
+                                        fSel = (IFeatureSelection)fLayer;
+                                        if (fSel.SelectionSet.Count > 0)
+                                        {
+                                            progressVal = progressVal + fSel.SelectionSet.Count;
+                                            stepProgressor.OffsetPosition(progressVal);
+                                            
+                                            stepProgressor.Step();
 
+                                        }
+                                    }
+
+                                }
                             }
 
                         }
@@ -455,10 +534,18 @@ namespace ArcGIS4LocalGovernment
 
                                     if (tableSel.SelectionSet.Count > 0)
                                     {
+
                                         tableSel.SelectionSet.Search(null, false, out  cursor);
                                         IRow pRow;
                                         while ((pRow = (IRow)cursor.NextRow()) != null)
                                         {
+                                            progressVal++;
+                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            stepProgressor.Step();
+
+
+                                           statusBar.set_Message(0, progressVal.ToString());
+
                                             lastOID = pRow.OID;
                                             lastLay = stTable.Name;
 
@@ -479,13 +566,19 @@ namespace ArcGIS4LocalGovernment
 
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
                                             AAState.WriteLine("AA - Feature Change event readded after change rules");
-                                         
 
+                                            //Check if the cancel button was pressed. If so, stop process
+                                            boolean_Continue = trackCancel.Continue();
+                                            if (!boolean_Continue)
+                                            {
+                                                break;
+                                            }
                                         }
                                         if (pRow != null)
                                             Marshal.ReleaseComObject(pRow);
 
                                         pRow = null;
+                                       
 
                                     }
                                 }
@@ -515,7 +608,11 @@ namespace ArcGIS4LocalGovernment
                             }
 
                         }
-
+                        // Done
+                        trackCancel = null;
+                        stepProgressor = null;
+                        progressDialog2.HideDialog();
+                        progressDialog2 = null;
                     }
 
                 }
@@ -537,7 +634,7 @@ namespace ArcGIS4LocalGovernment
             finally
             {
                 if (ran)
-                    MessageBox.Show("Process has completed successfully");
+                  //  MessageBox.Show("Process has completed successfully");
 
                 if (cursor != null)
                     Marshal.ReleaseComObject(cursor);
@@ -603,7 +700,7 @@ namespace ArcGIS4LocalGovernment
             }
 
         }
-       
+
         public void RunChangeGeoRules()
         {
             ICursor cursor = null; IFeatureCursor fCursor = null;
@@ -625,7 +722,7 @@ namespace ArcGIS4LocalGovernment
 
 
                 long featCount = map.SelectionCount;
-                int totalCount =  Convert.ToInt32(featCount);
+                int totalCount = Convert.ToInt32(featCount);
 
 
                 if (totalCount >= 1)
@@ -634,6 +731,39 @@ namespace ArcGIS4LocalGovernment
                     if (MessageBox.Show("Are you sure you wish to apply attribute assistant Change rules for the selected " + totalCount + " rows and features?",
                         "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
+
+
+
+                        ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
+
+                        ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
+
+                        // Set the properties of the Step Progressor
+                        System.Int32 int32_hWnd = ArcMap.Application.hWnd;
+                        ESRI.ArcGIS.esriSystem.IStepProgressor stepProgressor = progressDialogFactory.Create(trackCancel, int32_hWnd);
+                        stepProgressor.MinRange = 1;
+                        stepProgressor.MaxRange = totalCount;
+
+                        stepProgressor.StepValue = 1;
+                        stepProgressor.Message = "Running Change Rules";
+
+                        // Create the ProgressDialog. This automatically displays the dialog
+                        ESRI.ArcGIS.Framework.IProgressDialog2 progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
+
+                        // Set the properties of the ProgressDialog
+                        progressDialog2.CancelEnabled = true;
+                        progressDialog2.Description = "Processing 0 of " + totalCount.ToString() + ".";
+                        progressDialog2.Title = "Processing...";
+                        progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
+
+                        // Step. Do your big process here.
+                        System.Boolean boolean_Continue = false;
+                        boolean_Continue = true;
+                        System.Int32 progressVal = 0;
+
+                        ESRI.ArcGIS.esriSystem.IStatusBar statusBar = ArcMap.Application.StatusBar;
+                                       
+
 
                         ran = true;
 
@@ -668,13 +798,23 @@ namespace ArcGIS4LocalGovernment
                                     if ((fc != null) && (fSel.SelectionSet.Count > 0))
                                     {
 
-                                       
+
 
                                         fSel.SelectionSet.Search(null, false, out cursor);
                                         fCursor = cursor as IFeatureCursor;
                                         IFeature feat;
                                         while ((feat = (IFeature)fCursor.NextFeature()) != null)
                                         {
+
+                                            progressVal++;
+                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+
+                                            stepProgressor.Step();
+
+                                            statusBar.set_Message(0, progressVal.ToString());
+
+
+
                                             lastLay = fLayer.Name;
 
 
@@ -699,7 +839,13 @@ namespace ArcGIS4LocalGovernment
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
                                             AAState.WriteLine("AA - Feature Change event readded after change rules");
 
-                                        
+                                            //Check if the cancel button was pressed. If so, stop process
+                                            boolean_Continue = trackCancel.Continue();
+                                            if (!boolean_Continue)
+                                            {
+                                                break;
+                                            }
+
 
                                         }
                                         if (feat != null)
@@ -735,7 +881,11 @@ namespace ArcGIS4LocalGovernment
                         }
 
 
-
+                        // Done
+                        trackCancel = null;
+                        stepProgressor = null;
+                        progressDialog2.HideDialog();
+                        progressDialog2 = null;
 
 
 
@@ -761,7 +911,7 @@ namespace ArcGIS4LocalGovernment
             finally
             {
                 if (ran)
-                    MessageBox.Show("Process has completed successfully");
+                    //MessageBox.Show("Process has completed successfully");
 
                 if (cursor != null)
                     Marshal.ReleaseComObject(cursor);
@@ -798,7 +948,7 @@ namespace ArcGIS4LocalGovernment
 
         protected override void OnClick()
         {
-            if (AAState.PerformUpdates== false)
+            if (AAState.PerformUpdates == false)
             {
                 MessageBox.Show("Please turn on the attribute assistant before using this tool");
                 return;
@@ -816,7 +966,7 @@ namespace ArcGIS4LocalGovernment
         protected override void OnUpdate()
         {
 
-            if (AAState.PerformUpdates== false)
+            if (AAState.PerformUpdates == false)
             {
                 Enabled = false;
 
@@ -877,6 +1027,40 @@ namespace ArcGIS4LocalGovernment
                     if (MessageBox.Show("Are you sure you wish to apply attribute assistant manual rules for the selected " + totalCount + " rows and features?",
                         "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
+
+
+
+                        ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
+
+                        ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
+
+                        // Set the properties of the Step Progressor
+                        System.Int32 int32_hWnd = ArcMap.Application.hWnd;
+                        ESRI.ArcGIS.esriSystem.IStepProgressor stepProgressor = progressDialogFactory.Create(trackCancel, int32_hWnd);
+                        stepProgressor.MinRange = 1;
+                        stepProgressor.MaxRange = totalCount;
+
+                        stepProgressor.StepValue = 1;
+                        stepProgressor.Message = "Running Manual Rules";
+
+                        // Create the ProgressDialog. This automatically displays the dialog
+                        ESRI.ArcGIS.Framework.IProgressDialog2 progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
+
+                        // Set the properties of the ProgressDialog
+                        progressDialog2.CancelEnabled = true;
+                        progressDialog2.Description = "Processing 0 of " + totalCount.ToString() + ".";
+                        progressDialog2.Title = "Processing...";
+                        progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
+
+                        // Step. Do your big process here.
+                        System.Boolean boolean_Continue = false;
+                        boolean_Continue = true;
+                        System.Int32 progressVal = 0;
+
+                        ESRI.ArcGIS.esriSystem.IStatusBar statusBar = ArcMap.Application.StatusBar;
+                                       
+
+
                         ran = true;
 
 
@@ -914,6 +1098,14 @@ namespace ArcGIS4LocalGovernment
                                         IFeature feat;
                                         while ((feat = (IFeature)fCursor.NextFeature()) != null)
                                         {
+
+                                            progressVal++;
+                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+
+                                            stepProgressor.Step();
+
+                                            statusBar.set_Message(0, progressVal.ToString());
+
                                             lastLay = fLayer.Name;
 
 
@@ -935,6 +1127,12 @@ namespace ArcGIS4LocalGovernment
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
                                             AAState.WriteLine("AA - Feature Change event readded after manual rules");
 
+                                            //Check if the cancel button was pressed. If so, stop process
+                                            boolean_Continue = trackCancel.Continue();
+                                            if (!boolean_Continue)
+                                            {
+                                                break;
+                                            }
                                         }
                                         if (feat != null)
                                             Marshal.ReleaseComObject(feat);
@@ -944,7 +1142,24 @@ namespace ArcGIS4LocalGovernment
                                     }
 
                                 }
+                                else
+                                {
+                                    if (fLayer.Valid)
+                                    {
+                                        // Verify that this layer has selected features  
+                                        IFeatureClass fc = fLayer.FeatureClass;
+                                        fSel = (IFeatureSelection)fLayer;
+                                        if (fSel.SelectionSet.Count > 0)
+                                        {
+                                            progressVal = progressVal + fSel.SelectionSet.Count;
+                                            stepProgressor.OffsetPosition(progressVal);
 
+                                            stepProgressor.Step();
+
+                                        }
+                                    }
+
+                                }
                             }
                         }
                         catch (Exception ex)
@@ -956,7 +1171,7 @@ namespace ArcGIS4LocalGovernment
                         }
                         finally
                         {
-                 
+
 
                         }
 
@@ -983,9 +1198,17 @@ namespace ArcGIS4LocalGovernment
                                         IRow pRow;
                                         while ((pRow = (IRow)cursor.NextRow()) != null)
                                         {
+
+                                            progressVal++;
+                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            stepProgressor.Step();
+
+
+                                            statusBar.set_Message(0, progressVal.ToString());
+
                                             lastOID = pRow.OID;
                                             lastLay = stTable.Name;
-                                           
+
                                             IObject pObj = pRow as IObject;
                                             AAState.WriteLine("AA - Removed the Feature Change event to run the manual rules");
                                             AAState._editEvents.OnChangeFeature -= AAState.FeatureChange;
@@ -1002,6 +1225,13 @@ namespace ArcGIS4LocalGovernment
 
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
                                             AAState.WriteLine("AA - Feature Change event readded after manual rules");
+                                            
+                                            //Check if the cancel button was pressed. If so, stop process
+                                            boolean_Continue = trackCancel.Continue();
+                                            if (!boolean_Continue)
+                                            {
+                                                break;
+                                            }
                                         }
                                         if (pRow != null)
                                             Marshal.ReleaseComObject(pRow);
@@ -1021,7 +1251,7 @@ namespace ArcGIS4LocalGovernment
                         }
                         finally
                         {
-                         
+
 
                         }
                         try
@@ -1034,6 +1264,11 @@ namespace ArcGIS4LocalGovernment
 
 
                         }
+                        // Done
+                        trackCancel = null;
+                        stepProgressor = null;
+                        progressDialog2.HideDialog();
+                        progressDialog2 = null;
                     }
 
                 }
@@ -1055,7 +1290,7 @@ namespace ArcGIS4LocalGovernment
             finally
             {
                 if (ran)
-                    MessageBox.Show("Process has completed successfully");
+                    //MessageBox.Show("Process has completed successfully");
 
                 if (cursor != null)
                     Marshal.ReleaseComObject(cursor);
@@ -1091,7 +1326,7 @@ namespace ArcGIS4LocalGovernment
 
         protected override void OnClick()
         {
-            if (AAState.PerformUpdates== false)
+            if (AAState.PerformUpdates == false)
             {
                 MessageBox.Show("Please turn on the attribute assistant before using this tool");
                 return;
@@ -1109,7 +1344,7 @@ namespace ArcGIS4LocalGovernment
         protected override void OnUpdate()
         {
 
-            if (AAState.PerformUpdates== false)
+            if (AAState.PerformUpdates == false)
             {
                 Enabled = false;
 
@@ -1120,7 +1355,7 @@ namespace ArcGIS4LocalGovernment
             }
 
         }
-  
+
         public void RunCreateRules()
         {
             ICursor cursor = null; IFeatureCursor fCursor = null;
@@ -1172,6 +1407,40 @@ namespace ArcGIS4LocalGovernment
                         "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
+
+
+                        ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
+
+                        ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
+
+                        // Set the properties of the Step Progressor
+                        System.Int32 int32_hWnd = ArcMap.Application.hWnd;
+                        ESRI.ArcGIS.esriSystem.IStepProgressor stepProgressor = progressDialogFactory.Create(trackCancel, int32_hWnd);
+                        stepProgressor.MinRange = 1;
+                        stepProgressor.MaxRange = totalCount;
+
+                        stepProgressor.StepValue = 1;
+                        stepProgressor.Message = "Running Change Rules";
+
+                        // Create the ProgressDialog. This automatically displays the dialog
+                        ESRI.ArcGIS.Framework.IProgressDialog2 progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
+
+                        // Set the properties of the ProgressDialog
+                        progressDialog2.CancelEnabled = true;
+                        progressDialog2.Description = "Processing 0 of " + totalCount.ToString() + ".";
+                        progressDialog2.Title = "Processing...";
+                        progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
+
+                        // Step. Do your big process here.
+                        System.Boolean boolean_Continue = false;
+                        boolean_Continue = true;
+                        System.Int32 progressVal = 0;
+
+                        ESRI.ArcGIS.esriSystem.IStatusBar statusBar = ArcMap.Application.StatusBar;
+                                       
+
+
+
                         ran = true;
 
 
@@ -1205,12 +1474,21 @@ namespace ArcGIS4LocalGovernment
                                     if ((fc != null) && (fSel.SelectionSet.Count > 0))
                                     {
 
-                                        
+
                                         fSel.SelectionSet.Search(null, false, out cursor);
                                         fCursor = cursor as IFeatureCursor;
                                         IFeature feat;
                                         while ((feat = (IFeature)fCursor.NextFeature()) != null)
                                         {
+
+
+                                            progressVal++;
+                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+
+                                            stepProgressor.Step();
+
+                                            statusBar.set_Message(0, progressVal.ToString());
+
 
                                             lastOID = feat.OID;
                                             lastLay = fLayer.Name;
@@ -1237,6 +1515,12 @@ namespace ArcGIS4LocalGovernment
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
                                             AAState.WriteLine("AA - Feature Change event readded after create rules");
 
+                                            //Check if the cancel button was pressed. If so, stop process
+                                            boolean_Continue = trackCancel.Continue();
+                                            if (!boolean_Continue)
+                                            {
+                                                break;
+                                            }
 
                                         }
                                         if (feat != null)
@@ -1247,7 +1531,24 @@ namespace ArcGIS4LocalGovernment
                                     }
 
                                 }
+                                else
+                                {
+                                    if (fLayer.Valid)
+                                    {
+                                        // Verify that this layer has selected features  
+                                        IFeatureClass fc = fLayer.FeatureClass;
+                                        fSel = (IFeatureSelection)fLayer;
+                                        if (fSel.SelectionSet.Count > 0)
+                                        {
+                                            progressVal = progressVal + fSel.SelectionSet.Count;
+                                            stepProgressor.OffsetPosition(progressVal);
 
+                                            stepProgressor.Step();
+
+                                        }
+                                    }
+
+                                }
                             }
 
                         }
@@ -1295,6 +1596,15 @@ namespace ArcGIS4LocalGovernment
                                         IRow pRow;
                                         while ((pRow = (IRow)cursor.NextRow()) != null)
                                         {
+
+                                            progressVal++;
+                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            stepProgressor.Step();
+
+
+                                            statusBar.set_Message(0, progressVal.ToString());
+
+
                                             lastOID = pRow.OID;
                                             lastLay = stTable.Name;
                                             IObject pObj = pRow as IObject;
@@ -1317,6 +1627,12 @@ namespace ArcGIS4LocalGovernment
                                             AAState._editEvents.OnCreateFeature += AAState.FeatureCreate;
                                             AAState.WriteLine("AA - Feature Change event readded after create rules");
 
+                                            //Check if the cancel button was pressed. If so, stop process
+                                            boolean_Continue = trackCancel.Continue();
+                                            if (!boolean_Continue)
+                                            {
+                                                break;
+                                            }
                                         }
                                         if (pRow != null)
                                             Marshal.ReleaseComObject(pRow);
@@ -1351,6 +1667,11 @@ namespace ArcGIS4LocalGovernment
 
                         }
 
+                        // Done
+                        trackCancel = null;
+                        stepProgressor = null;
+                        progressDialog2.HideDialog();
+                        progressDialog2 = null;
                     }
 
                 }
@@ -1372,7 +1693,7 @@ namespace ArcGIS4LocalGovernment
             finally
             {
                 if (ran)
-                    MessageBox.Show("Process has completed successfully");
+                 //  MessageBox.Show("Process has completed successfully");
 
                 if (cursor != null)
                     Marshal.ReleaseComObject(cursor);

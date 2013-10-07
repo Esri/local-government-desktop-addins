@@ -5877,6 +5877,73 @@ namespace A4LGSharedFunctions
 
             }
         }
+        public static string getDebugPath()
+        {
+            string tmp = ConfigUtil.GetConfigValue("AttributeAssistant_Debug_Path", "!none");
+
+            if (tmp == "!none")
+            {
+                tmp =System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\ArcGISSolutions";
+
+                if (System.IO.Directory.Exists(tmp))
+                {
+                    return tmp  + "\\AALogFile.txt";
+                }
+                else
+                {
+                    try
+                    {
+                        System.IO.Directory.CreateDirectory(tmp);
+                        return tmp + "\\AALogFile.txt";
+                    }
+                    catch
+                    {
+                        return PromptForSave();
+                    }
+                }
+                
+            }
+            else
+            {
+                if (System.IO.Directory.Exists(tmp))
+                {
+                    return tmp + "\\AALogFile.txt";
+                }
+                else
+                {
+                    try
+                    {
+                        System.IO.Directory.CreateDirectory(tmp);
+                        return tmp + "\\AALogFile.txt";
+                    }
+                    catch
+                    {
+                        tmp = System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\ArcGISSolutions";
+
+                        if (System.IO.Directory.Exists(tmp))
+                        {
+                            return tmp + "\\AALogFile.txt";
+                        }
+                        else
+                        {
+                            try
+                            {
+                                System.IO.Directory.CreateDirectory(tmp);
+                                return tmp + "\\AALogFile.txt";
+                            }
+                            catch
+                            {
+                                return PromptForSave();
+                            }
+                        }
+                
+                    }
+                }
+             return tmp;
+            }
+                
+
+        }
 
         //public static IEditTemplateManager GetTemplateManager(IFeatureLayer featLayer)
         //{

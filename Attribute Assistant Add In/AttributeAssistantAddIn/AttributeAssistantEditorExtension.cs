@@ -650,10 +650,10 @@ namespace ArcGIS4LocalGovernment
                 AAState.WriteLine("Attribute Assistant is on - InitEditing");
                 if (Debug().ToUpper() == "TRUE")
                 {
-                    AAState._filePath = Globals.PromptForSave();
+                    AAState._filePath = Globals.getDebugPath() ;
                     if (AAState._filePath != "")
                     {
-                        AAState._sw = Globals.createTextFile(AAState._filePath, FileMode.Create);
+                        AAState._sw = Globals.createTextFile(AAState._filePath , FileMode.Create);
 
 
                     }
@@ -1867,14 +1867,18 @@ namespace ArcGIS4LocalGovernment
 
             IJunctionFeature iJuncFeat = null;
             IEdgeFeature iEdgeFeat = null;
+                
+            
             //ProgressBar
-            ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = null;
-            ESRI.ArcGIS.esriSystem.IStepProgressor stepProgressor = null;
-            ESRI.ArcGIS.Framework.IProgressDialog2 progressDialog = null;
-            // Create a CancelTracker
-            ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
-            trackCancel.CancelOnKeyPress = true;
+            //ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = null;
+            //ESRI.ArcGIS.esriSystem.IStepProgressor stepProgressor = null;
+            //ESRI.ArcGIS.Framework.IProgressDialog2 progressDialog = null;
+            //// Create a CancelTracker
+            //ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
+            //trackCancel.CancelOnKeyPress = true;
             // trackCancel.CancelOnClick = true;
+
+
 
             try
             {
@@ -1970,24 +1974,27 @@ namespace ArcGIS4LocalGovernment
                     {
                         modeVal = mode + " = 1";
                     }
-                    System.Int32 int32_hWnd = ArcMap.Application.hWnd;
+                    
+                    
+                    //System.Int32 int32_hWnd = ArcMap.Application.hWnd;
 
-                    progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
-                    stepProgressor = progressDialogFactory.Create(trackCancel, int32_hWnd);
+                    //progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
+                    //stepProgressor = progressDialogFactory.Create(trackCancel, int32_hWnd);
 
-                    stepProgressor.MinRange = 0;
-                    stepProgressor.MaxRange = inObject.Fields.FieldCount;
-                    stepProgressor.StepValue = 1;
-                    stepProgressor.Message = "Attribute Assistant Progress";
-                    // Create the ProgressDialog. This automatically displays the dialog
-                    progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
+                    //stepProgressor.MinRange = 0;
+                    //stepProgressor.MaxRange = inObject.Fields.FieldCount;
+                    //stepProgressor.StepValue = 1;
+                    //stepProgressor.Message = "Attribute Assistant Progress";
+                    //// Create the ProgressDialog. This automatically displays the dialog
+                    //progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
-                    // Set the properties of the ProgressDialog
-                    progressDialog.CancelEnabled = true;
-                    progressDialog.Description = "Checking rules for " + inObject.Class.AliasName;
-                    progressDialog.Title = "Attribute Assistant Progress";
-                    progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
-                    progressDialog.ShowDialog();
+                    //// Set the properties of the ProgressDialog
+                    //progressDialog.CancelEnabled = true;
+                    ArcMap.Application.StatusBar.set_Message(0, "Checking rules for " + inObject.Class.AliasName);
+                    //progressDialog.Description = "Checking rules for " + inObject.Class.AliasName;
+                    //progressDialog.Title = "Attribute Assistant Progress";
+                    //progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
+                    //progressDialog.ShowDialog();
 
                     //Optional skip junctions feature class
                     //if (Globals.isOrpanJunction(inFeature))
@@ -1998,8 +2005,9 @@ namespace ArcGIS4LocalGovernment
                     _currentDatasetNameItems = _currentDataset.Name.Split('.');
                     tableName = _currentDatasetNameItems[_currentDatasetNameItems.GetLength(0) - 1];
 
-                    stepProgressor.Message = "Checking rules for edited feature: " + inObject.Class.AliasName;
-                    progressDialog.Description = "Checking rules for edited feature: " + inObject.Class.AliasName;
+                    ArcMap.Application.StatusBar.set_Message(0, "Checking rules for edited feature: " + inObject.Class.AliasName);
+                    //stepProgressor.Message = "Checking rules for edited feature: " + inObject.Class.AliasName;
+                   // progressDialog.Description = "Checking rules for edited feature: " + inObject.Class.AliasName;
                     AAState.WriteLine("***********************************************************");
                     AAState.WriteLine("############ " + DateTime.Now + " ################");
 
@@ -4567,12 +4575,12 @@ namespace ArcGIS4LocalGovernment
                                                                         updateFeat.set_Value(intTargFld, inObject.get_Value(intFldIdxs[0]));
                                                                         ChangeFeatureList.Add(updateFeat);
 
-                                                                        if (!trackCancel.Continue())
-                                                                        {
-                                                                            AAState.WriteLine("                     Abort Edit");
-                                                                            AAState._editor.AbortOperation();
-                                                                            return false;
-                                                                        }
+                                                                        //if (!trackCancel.Continue())
+                                                                        //{
+                                                                        //    AAState.WriteLine("                     Abort Edit");
+                                                                        //    AAState._editor.AbortOperation();
+                                                                        //    return false;
+                                                                        //}
                                                                     }
                                                                     updateFeat = null;
 
@@ -14364,10 +14372,10 @@ namespace ArcGIS4LocalGovernment
                     AAState.reInitExt();
 
                 }
-                if (progressDialog != null)
-                {
-                    progressDialog.HideDialog();
-                }
+                //if (progressDialog != null)
+                //{
+                //    progressDialog.HideDialog();
+                //}
                 AAState.WriteLine("DONE");
                 AAState.WriteLine("---------------------------------------");
                 if (fCursor != null)
@@ -14384,11 +14392,11 @@ namespace ArcGIS4LocalGovernment
 
                 iJuncFeat = null;
 
-                progressDialogFactory = null;
-                stepProgressor = null;
-                progressDialog = null;
-                trackCancel = null;
-
+                //progressDialogFactory = null;
+                //stepProgressor = null;
+                //progressDialog = null;
+                //trackCancel = null;
+                ArcMap.Application.StatusBar.set_Message(0, "AA Complete");
             }
 
         }
