@@ -235,6 +235,12 @@
     <AddInContent Include="Images\RunCreateRules.png" />
     <AddInContent Include="Images\RunManualRules.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\Configs\Water_LG\Loaded.config">
+      <Link>Loaded.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>esriAddIn</ZipFileExtension>
     <AddInTargetProduct>Desktop</AddInTargetProduct>

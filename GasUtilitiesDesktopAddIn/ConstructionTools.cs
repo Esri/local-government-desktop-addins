@@ -31,8 +31,9 @@ using ESRI.ArcGIS.ArcMap;
 using ESRI.ArcGIS.ArcMapUI;
 using ESRI.ArcGIS.Display;
 using A4LGSharedFunctions;
+using A4WaterUtilities;
 
-namespace A4WaterUtilities
+namespace A4GasUtilities
 {
     public partial class AddLateralsConstructionTool : ESRI.ArcGIS.Desktop.AddIns.Tool, IShapeConstructorTool, ISketchTool
     {
@@ -170,16 +171,16 @@ namespace A4WaterUtilities
 
                 if (resetFlow.ToUpper() == "DIGITIZED")
                 {
-                    Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
+                    Globals.GetCommand("A4GasUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
 
                 }
                 else if (resetFlow.ToUpper() == "ROLE")
                 {
-                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
+                    Globals.GetCommand("A4GasUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
                 }
                 else if (resetFlow.ToUpper() == "Ancillary".ToUpper())
                 {
-                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
+                    Globals.GetCommand("A4GasUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
                 }
                 else
                 {
@@ -327,16 +328,16 @@ namespace A4WaterUtilities
 
                 if (resetFlow.ToUpper() == "DIGITIZED")
                 {
-                    Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
+                    Globals.GetCommand("A4GasUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
 
                 }
                 else if (resetFlow.ToUpper() == "ROLE")
                 {
-                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
+                    Globals.GetCommand("A4GasUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
                 }
                 else if (resetFlow.ToUpper() == "Ancillary".ToUpper())
                 {
-                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
+                    Globals.GetCommand("A4GasUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
                 }
                 else
                 {
@@ -795,16 +796,16 @@ namespace A4WaterUtilities
 
             if (pRetVal.Options== "DIGITIZED")
             {
-                Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
+                Globals.GetCommand("A4GasUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
 
             }
             else if (pRetVal.Options == "ROLE")
             {
-                Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
+                Globals.GetCommand("A4GasUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
             }
             else if (pRetVal.Options == "Ancillary".ToUpper())
             {
-                Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
+                Globals.GetCommand("A4GasUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
             }
             else
             {

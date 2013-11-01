@@ -77,7 +77,6 @@
       <Toolbars>
         <Toolbar id="A4WaterUtilities_WaterUtilitiesEditTools" caption="Water Utility Network Editing" showInitially="false">
           <Items>
-            <Button refID="A4WaterUtilities_Test" separator="true" />
             <ToolPalette refID="esriArcMapUI.SelectByToolsPalette" separator="false" />
             <Button refID="esriArcMapUI.ClearSelectionCommand" separator="false" />
             <Tool refID="esriEditor.EditTool" separator="true" />

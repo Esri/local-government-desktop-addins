@@ -34,8 +34,9 @@ using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Display;
 using System.Runtime.InteropServices;
 using A4LGSharedFunctions;
+using A4WaterUtilities;
 
-namespace A4WaterUtilities
+namespace A4GasUtilities
 {
     public class EstablishFlowAncillary : ESRI.ArcGIS.Desktop.AddIns.Button
     {
