@@ -1023,17 +1023,10 @@ Namespace My
                 End If
                 Return retVal
             End Function
+                 
 
             Public Shared Function GetConfigFiles() As String()
-                ' string t = findConfigFile();
-                'Dim cmd1 As String = GetRegistryValue("SOFTWARE\ArcGISTemplates\", "WRCConstructionTools")
-                'If cmd1 = "" OrElse cmd1 Is Nothing Then
-                '    cmd1 = GetRegistryValue("SOFTWARE\Wow6432Node\ArcGISTemplates\", "WRCConstructionTools")
-                'End If
-
-                '  cmd1 = cmd1 + "\\bin\\ESRIRegAsm.exe";
-                'MessageBox.Show(cmd1);
-                'MessageBox.Show( System.IO.File.Exists(cmd1).ToString());
+              
                 Dim pPathToUserFolder As String = getUserFolder("ArcGIS4LocalGovernment", "ProjectCostingTools")
                 If File.Exists(System.IO.Path.Combine(pPathToUserFolder, "ProjectCost.Config")) Then
                     Return {System.IO.Path.Combine(pPathToUserFolder, "ProjectCost.Config")}
@@ -1236,19 +1229,39 @@ Namespace My
             'IsBoolean
             Public Shared Function getUserFolder(ByVal ParentFolder As String, ByVal ChildFolder As String) As String
 
+                Dim strPath As String
 
-                Dim strPath As String = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                If System.IO.Directory.Exists(strPath) = False Then
-                    System.IO.Directory.CreateDirectory(strPath)
+
+                If (Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\ArcGISSolutions\DesktopTools", "ConfigLocation", Nothing) <> Nothing) Then
+
+
+                    strPath = Registry.GetValue("HKEY_LOCAL_MACHINE\SOFTWARE\ArcGISSolutions\DesktopTools", "ConfigLocation", Nothing)
+
+
+
+                ElseIf (Registry.GetValue("HKEY_CURRENT_USER\SOFTWARE\ArcGISSolutions\DesktopTools", "ConfigLocation", Nothing) <> Nothing) Then
+
+                    strPath = Registry.GetValue("HKEY_CURRENT_USER\SOFTWARE\ArcGISSolutions\DesktopTools", "ConfigLocation", Nothing)
+                Else
+                    strPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+                    If System.IO.Directory.Exists(strPath) = False Then
+                        System.IO.Directory.CreateDirectory(strPath)
+                    End If
+                    strPath = System.IO.Path.Combine(strPath, ParentFolder)
+                    If System.IO.Directory.Exists(strPath) = False Then
+                        System.IO.Directory.CreateDirectory(strPath)
+                    End If
+                    strPath = System.IO.Path.Combine(strPath, ChildFolder)
+                    If System.IO.Directory.Exists(strPath) = False Then
+                        System.IO.Directory.CreateDirectory(strPath)
+                    End If
+
+
                 End If
-                strPath = System.IO.Path.Combine(strPath, ParentFolder)
-                If System.IO.Directory.Exists(strPath) = False Then
-                    System.IO.Directory.CreateDirectory(strPath)
-                End If
-                strPath = System.IO.Path.Combine(strPath, ChildFolder)
-                If System.IO.Directory.Exists(strPath) = False Then
-                    System.IO.Directory.CreateDirectory(strPath)
-                End If
+
+
+
+
 
                 Return strPath
 

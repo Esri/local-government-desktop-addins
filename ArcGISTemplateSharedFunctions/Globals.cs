@@ -5337,7 +5337,7 @@ namespace A4LGSharedFunctions
                 graphics = (IGraphicsContainer)map;
 
                 symb = new SimpleLineSymbolClass();
-                symb.Color = GetColor(255, 0, 0);
+                symb.Color = GetColor(255, 255, 0);
                 symb.Width = 2;
                 eidHelper = new EIDHelperClass();
                 eidHelper.GeometricNetwork = gn;

@@ -212,6 +212,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\Configs\Water_LG\Loaded.config">
+      <Link>Loaded.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>
