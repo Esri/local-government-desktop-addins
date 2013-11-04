@@ -25,7 +25,7 @@
   <Image>Images\AddressManagementAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>10/1/2013</Date>
+  <Date>11/4/2013</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
