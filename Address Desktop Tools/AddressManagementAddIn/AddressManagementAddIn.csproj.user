@@ -24,7 +24,7 @@
     <StartAction>Program</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <StartProgram>C:\Program Files (x86)\ArcGIS\Desktop10.0\Bin\ArcMap.exe</StartProgram>
+    <StartProgram>C:\Program Files %28x86%29\ArcGIS\Desktop10.2\bin\ArcMap.exe</StartProgram>
     <StartAction>Program</StartAction>
   </PropertyGroup>
 </Project>
