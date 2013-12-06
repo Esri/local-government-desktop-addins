@@ -21,20 +21,13 @@
   <Name>Captial Planning</Name>
   <AddInID>{7a5d203d-aa12-43bc-895e-443a7536b6ab}</AddInID>
   <Description>A cost estimating toolset for ArcGIS.  This toolset uses existing GIS Information and a series of lookup tables to provide a replacement or rehad cost for an asset.  It can also be used to design or sketch new infrastructure.</Description>
-<<<<<<< HEAD
+
   <Version>10.1.10</Version>
-=======
-  <Version>10.2.0.3</Version>
->>>>>>> 7b4328b1ede0d311a443e9dc7f90d9ce50bd8af6
   <Image>Images\CIPAddIn64.png</Image>
  
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-<<<<<<< HEAD
-  <Date>11/4/2013</Date>
-=======
   <Date>12/6/2013</Date>
->>>>>>> 7b4328b1ede0d311a443e9dc7f90d9ce50bd8af6
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
