@@ -3026,7 +3026,11 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine("                  ERROR: Target layer is not a line layer. " + targetLayerName);
                                                         continue;
                                                     }
-
+                                                    if (targetLayer is ICadastralFabricSubLayer2)
+                                                    {
+                                                      AAState.WriteLine("                  ERROR: CREATE_PERP_LINE is not supported for a fabric layer target. " + targetLayerName);
+                                                      continue;
+                                                    }
 
                                                     for (int i = 0; i < sourceLayerNames.Length; i++)
                                                     {

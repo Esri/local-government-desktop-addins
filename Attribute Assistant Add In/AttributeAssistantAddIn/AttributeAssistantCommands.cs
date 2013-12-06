@@ -1082,7 +1082,14 @@ namespace ArcGIS4LocalGovernment
                             {
                                 // Verify that this is a valid, visible layer and that this layer is editable
                                 fLayer = (IFeatureLayer)layer;
-                                if (fLayer.Valid && eLayers.IsEditable(fLayer))//fLayer.Visible &&
+                                bool bIsEditableFabricLayer = (fLayer is ICadastralFabricSubLayer2);
+                                if (bIsEditableFabricLayer)
+                                {
+                                  IDataset pDS = (IDataset)fLayer.FeatureClass;
+                                  IWorkspace pFabWS = pDS.Workspace;
+                                  bIsEditableFabricLayer = (bIsEditableFabricLayer && pFabWS.Equals(editor.EditWorkspace));
+                                }
+                                if (fLayer.Valid && (eLayers.IsEditable(fLayer) || bIsEditableFabricLayer))//fLayer.Visible &&
                                 {
                                     // Verify that this layer has selected features  
                                     IFeatureClass fc = fLayer.FeatureClass;
