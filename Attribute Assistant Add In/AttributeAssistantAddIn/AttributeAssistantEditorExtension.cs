@@ -348,7 +348,7 @@ namespace ArcGIS4LocalGovernment
                 {
                     AAState.lastValueProperties = new PropertySetClass();
                 }
-                
+
                 if (AAState._dt.Columns["ON_CHANGEGEO"] == null)
                 {
                     MessageBox.Show("Dynamic value table is missing the ON_CHANGEGEO Column");
@@ -650,10 +650,10 @@ namespace ArcGIS4LocalGovernment
                 AAState.WriteLine("Attribute Assistant is on - InitEditing");
                 if (Debug().ToUpper() == "TRUE")
                 {
-                    AAState._filePath = Globals.getDebugPath() ;
+                    AAState._filePath = Globals.getDebugPath();
                     if (AAState._filePath != "")
                     {
-                        AAState._sw = Globals.createTextFile(AAState._filePath , FileMode.Create);
+                        AAState._sw = Globals.createTextFile(AAState._filePath, FileMode.Create);
 
 
                     }
@@ -1856,8 +1856,8 @@ namespace ArcGIS4LocalGovernment
         {
             NumberFormatInfo nfi = new CultureInfo("en-US", false).NumberFormat;
             nfi.NumberGroupSeparator = "";
-            
-            
+
+
             ChangeFeatureList = null;
             NewFeatureList = null;
             ChangeFeatureGeoList = null;
@@ -1867,8 +1867,8 @@ namespace ArcGIS4LocalGovernment
 
             IJunctionFeature iJuncFeat = null;
             IEdgeFeature iEdgeFeat = null;
-                
-            
+
+
             //ProgressBar
             //ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = null;
             //ESRI.ArcGIS.esriSystem.IStepProgressor stepProgressor = null;
@@ -1974,8 +1974,8 @@ namespace ArcGIS4LocalGovernment
                     {
                         modeVal = mode + " = 1";
                     }
-                    
-                    
+
+
                     //System.Int32 int32_hWnd = ArcMap.Application.hWnd;
 
                     //progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -2007,7 +2007,7 @@ namespace ArcGIS4LocalGovernment
 
                     ArcMap.Application.StatusBar.set_Message(0, "Checking rules for edited feature: " + inObject.Class.AliasName);
                     //stepProgressor.Message = "Checking rules for edited feature: " + inObject.Class.AliasName;
-                   // progressDialog.Description = "Checking rules for edited feature: " + inObject.Class.AliasName;
+                    // progressDialog.Description = "Checking rules for edited feature: " + inObject.Class.AliasName;
                     AAState.WriteLine("***********************************************************");
                     AAState.WriteLine("############ " + DateTime.Now + " ################");
 
@@ -3302,7 +3302,7 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine("                  Checking Field in Edited Layer");
 
                                                         int fldIDSourecIdx = Globals.GetFieldIndex(inObject.Fields, sourceIDFieldName);
-                                                        if (fldIDSourecIdx > -1 && intFldIdxs.Count > 0 )
+                                                        if (fldIDSourecIdx > -1 && intFldIdxs.Count > 0)
                                                         {
                                                             if (inObject.get_Value(fldIDSourecIdx) != null && inObject.get_Value(fldIDSourecIdx) != DBNull.Value)
                                                             {
@@ -3410,7 +3410,7 @@ namespace ArcGIS4LocalGovernment
                                                                                             try
                                                                                             {
                                                                                                 inObject.set_Value(intFldIdxs[0], pRow.get_Value(fldValToCopyIdx));
-                                                                                                
+
 
                                                                                                 AAState.WriteLine("                  " + pRow.get_Value(fldValToCopyIdx).ToString() + " Set in related record");
                                                                                                 valSet = true;
@@ -3645,7 +3645,7 @@ namespace ArcGIS4LocalGovernment
                                                                                                 {
                                                                                                     pRow.set_Value(fldValToCopyIdx, inObject.get_Value(intFldIdxs[0]));
                                                                                                     pRow.Store();
-                                                                                                    
+
 
                                                                                                     AAState.WriteLine("                  " + inObject.get_Value(intFldIdxs[0]).ToString() + " Set in related record");
                                                                                                     valSet = true;
@@ -4541,7 +4541,7 @@ namespace ArcGIS4LocalGovernment
                                                                 string promptLayname;
 
                                                                 promptLayname = Globals.getClassName(sourceLayer);
-                                                              
+
                                                                 if (bPrompt)
                                                                 {
                                                                     if (MessageBox.Show("You are about to change " + featCnt + " rows in the " + promptLayname + " Feature Class, proceed?", "Cascade", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -4593,7 +4593,7 @@ namespace ArcGIS4LocalGovernment
                                                                     pQFilt = null;
                                                                 }
                                                             }
-                                                          
+
                                                         }
                                                         else
                                                         {
@@ -4646,17 +4646,21 @@ namespace ArcGIS4LocalGovernment
                                                         }
 
                                                         targetValue = args[0];
-
                                                         pRowCh = inObject as IRowChanges;
-                                                        if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false)
+                                                  
+                                                        if (intFldIdxs.Count > 0)
+                                                        {
+                                                       if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false && mode != "ON_CREATE")
                                                         {
                                                             AAState.WriteLine("                  COPY_FEATURE: Field listed in the Field Name did not change, skipping");
                                                             continue;
                                                         }
-                                                        if (inFeature.get_Value(intFldIdxs[0]).ToString() != targetValue.ToString())
-                                                        {
-                                                            AAState.WriteLine("                  COPY_FEATURE: Target value did not match listed value, skipping");
-                                                            continue;
+                                                     
+                                                            if (inFeature.get_Value(intFldIdxs[0]).ToString() != targetValue.ToString())
+                                                            {
+                                                                AAState.WriteLine("                  COPY_FEATURE: Target value did not match listed value, skipping");
+                                                                continue;
+                                                            }
                                                         }
 
                                                         bool FCorLayerTarget = true;
@@ -6768,7 +6772,7 @@ namespace ArcGIS4LocalGovernment
                                                         _copyPoint.Project(AAState._sr1);
                                                         inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPoint.Y.ToString()));
 
-                                                        
+
                                                     }
                                                     else if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolyline)
                                                     {
@@ -6778,7 +6782,7 @@ namespace ArcGIS4LocalGovernment
                                                         if (valData == "")
                                                         {
                                                             inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolyline)[0].Y.ToString()));
-                                                            
+
                                                         }
                                                         else
                                                         {
@@ -6786,19 +6790,19 @@ namespace ArcGIS4LocalGovernment
                                                             if (args[0].ToUpper() == "S")
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolyline.FromPoint.Y.ToString()));
-                                                                
+
                                                             }
                                                             else if (args[0].ToUpper() == "E")
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolyline.ToPoint.Y.ToString()));
-                                                                
-                                                                
+
+
                                                             }
                                                             else
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolyline)[0].Y.ToString()));
-                                                                
-                                                                
+
+
                                                             }
 
                                                         }
@@ -6813,8 +6817,8 @@ namespace ArcGIS4LocalGovernment
                                                         if (valData.Trim() == "")
                                                         {
                                                             inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolygon)[0].Y.ToString()));
-                                                                
-                                                            
+
+
                                                         }
                                                         else
                                                         {
@@ -6822,18 +6826,18 @@ namespace ArcGIS4LocalGovernment
                                                             if (args[0].ToUpper() == "S")
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolygon.FromPoint.Y.ToString()));
-                                                                
+
                                                             }
                                                             else if (args[0].ToUpper() == "E")
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolygon.ToPoint.Y.ToString()));
-                                                                
-                                                                
+
+
                                                             }
                                                             else
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolygon)[0].Y.ToString()));
-                                                                
+
 
                                                             }
                                                         }
@@ -6868,8 +6872,8 @@ namespace ArcGIS4LocalGovernment
                                                         _copyPoint.Project(AAState._sr1);
 
 
-                                                        inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]),_copyPoint.X.ToString()));
-                                                       
+                                                        inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPoint.X.ToString()));
+
                                                     }
                                                     else if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolyline)
                                                     {
@@ -6880,8 +6884,8 @@ namespace ArcGIS4LocalGovernment
                                                         {
 
                                                             inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolyline)[0].X.ToString()));
-                                                       
-                                                            
+
+
                                                         }
                                                         else
                                                         {
@@ -6889,14 +6893,14 @@ namespace ArcGIS4LocalGovernment
                                                             if (args[0].ToUpper() == "S")
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolyline.FromPoint.X.ToString()));
-                                                       
+
 
                                                             }
                                                             else if (args[0].ToUpper() == "E")
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolyline.ToPoint.X.ToString()));
 
-                                                                
+
                                                             }
                                                             else
                                                             {
@@ -6918,7 +6922,7 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolygon)[0].X.ToString()));
 
-                                                            
+
                                                         }
                                                         else
                                                         {
@@ -6927,19 +6931,19 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolygon.FromPoint.X.ToString()));
 
-                                                                
+
                                                             }
                                                             else if (args[0].ToUpper() == "E")
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), _copyPolygon.ToPoint.X.ToString()));
 
-                                                                
+
                                                             }
                                                             else
                                                             {
                                                                 inFeature.set_Value(intFldIdxs[0], Globals.FormatValueToFieldLength(inFeature.Fields.get_Field(intFldIdxs[0]), Globals.GetGeomCenter(_copyPolygon)[0].X.ToString()));
 
-                                                                
+
                                                             }
                                                         }
                                                     }
@@ -12878,7 +12882,7 @@ namespace ArcGIS4LocalGovernment
                                                                                             pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                         }
-                                                                                       
+
 
                                                                                         pOp.OID = sourceFeature.OID;
                                                                                         pOp.LayerName = sourceLayer.Name;
@@ -12928,12 +12932,12 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString(); 
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString(); 
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         pOp.OID = sourceFeature.OID;
@@ -12947,15 +12951,15 @@ namespace ArcGIS4LocalGovernment
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
                                                                                         pOp.Value = sourceFeature.get_Value(sourceField);
 
-                                                                                    
+
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString(); 
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString(); 
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         pOp.OID = sourceFeature.OID;
@@ -13015,15 +13019,15 @@ namespace ArcGIS4LocalGovernment
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
                                                                                         pOp.Value = sourceFeature.get_Value(sourceField);
 
-                                                                                    
+
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString(); 
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString(); 
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         pOp.OID = sourceFeature.OID;
@@ -13040,12 +13044,12 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString(); 
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString(); 
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                         }
                                                                                         pOp.OID = sourceFeature.OID;
