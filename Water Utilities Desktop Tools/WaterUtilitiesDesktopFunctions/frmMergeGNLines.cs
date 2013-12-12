@@ -79,8 +79,7 @@ namespace A4WaterUtilities
                 layer = mxdoc.SelectedLayer as ILayer;
                 if (layer == null)
                 {
-                    MessageBox.Show("You must have one higlighted layer in the TOC." + Environment.NewLine +
-                                     "Any selected lines in this layer will be merged.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_6") + Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("TOC_5"));
                     return false;
                 }
 
@@ -88,7 +87,7 @@ namespace A4WaterUtilities
                 fLayer = layer as IFeatureLayer;
                 if (fLayer == null)
                 {
-                    MessageBox.Show("The highlighted layer in the TOC must be a feature layer.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_1"));
                     return false;
                 }
 
@@ -100,7 +99,7 @@ namespace A4WaterUtilities
                 //Verify that it is a line layer
                 if (fc.ShapeType != esriGeometryType.esriGeometryPolyline)
                 {
-                    MessageBox.Show("The highlighted layer in the TOC must contain lines.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_2"));
                     return false;
                 }
                 //Verify that the layer is part of a geometric network if using the establish flow by AnicillaryRole
@@ -111,7 +110,7 @@ namespace A4WaterUtilities
                 netFC = fc as INetworkClass;
                 if (netFC == null)
                 {
-                    MessageBox.Show("The highlighted layer in the TOC must be part of a geometric network.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_3"));
                     return false;
                 }
 
@@ -159,7 +158,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Loading Merge Features\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn") + A4LGSharedFunctions.Localizer.GetString("MergeOprt_1") + "\r\n" + ex.Message);
                 return false;
             }
             finally
@@ -215,7 +214,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error changing merge feature\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn") + A4LGSharedFunctions.Localizer.GetString("MergeOprt_2") + "\r\n" + ex.Message);
             }
             finally
             {
@@ -263,7 +262,7 @@ namespace A4WaterUtilities
                 //The Next button doesn't get enabled until at least 1 FC is selected, but just in case...
                 if (lstMergeFeatures.Items.Count == 0)
                 {
-                    MessageBox.Show("Must have one feature selected before continuing");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("SlctOneFtr"));
                     return;
                 }
 
@@ -281,7 +280,7 @@ namespace A4WaterUtilities
 
                 if (strOID == null)
                 {
-                    MessageBox.Show("Please select a main to merge in the dialog");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("SlctMainFtr"));
                     return;
 
                 }
@@ -659,7 +658,7 @@ namespace A4WaterUtilities
                 if (pGeomColl.GeometryCount > 1)
                 {
                     m_editor.AbortOperation();
-                    MessageBox.Show("Merge operation aborted.\r\nMultipart edge geometries are not supported, selected features may form multipart feature.", "Error on Merge Network Features");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("SlctOneFtr") , A4LGSharedFunctions.Localizer.GetString("ErrorOn") + A4LGSharedFunctions.Localizer.GetString("MergeOprt_4"));
                     this.Close();
                     return;
                 }
@@ -697,7 +696,7 @@ namespace A4WaterUtilities
 
                 }
                 //finish edit operation
-                m_editor.StopOperation("Merge Network Features");
+                m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("MergeOprt_4"));
 
                 //refresh features
 
@@ -718,17 +717,17 @@ namespace A4WaterUtilities
             {
                 if (ex.Message.ToString().Contains("Key cannot be null"))
                 {
-                    MessageBox.Show("Error merging features\r\n" + "The display field is used to merge the features, the field contains nulls, try setting the display field to the Object ID field");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn")  + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + A4LGSharedFunctions.Localizer.GetString("MergeOprt_6"));
                 }
                 else
                 {
-                    MessageBox.Show("Error merging features\r\n" + ex.Message);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn")  + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + ex.Message);
                 }
 
                 try
                 {
                     //finish edit operation
-                    m_editor.StopOperation("Merge Network Features");
+                    m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("MergeOprt_4"));
 
                 }
                 catch
@@ -769,7 +768,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error merging features\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn")  + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + ex.Message);
             }
 
         }

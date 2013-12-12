@@ -52,7 +52,7 @@
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 1;
-            this.btnOK.Text = "OK";
+            this.btnOK.Text = A4LGSharedFunctions.Localizer.GetString("OK");
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
@@ -62,7 +62,7 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = A4LGSharedFunctions.Localizer.GetString("Cancel");
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -73,7 +73,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(291, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "Choose the feature with which other features will be merged:";
+            this.label1.Text = A4LGSharedFunctions.Localizer.GetString("MergeSlct_1");
             // 
             // chkMergeElevationData
             // 
@@ -82,7 +82,7 @@
             this.chkMergeElevationData.Name = "chkMergeElevationData";
             this.chkMergeElevationData.Size = new System.Drawing.Size(330, 17);
             this.chkMergeElevationData.TabIndex = 4;
-            this.chkMergeElevationData.Text = "Merge Upstream and Downstream Elevation Data when present.";
+            this.chkMergeElevationData.Text = A4LGSharedFunctions.Localizer.GetString("MergeSlct_2");
             this.chkMergeElevationData.UseVisualStyleBackColor = true;
             // 
             // frmMergeGNLines
@@ -96,7 +96,7 @@
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lstMergeFeatures);
             this.Name = "frmMergeGNLines";
-            this.Text = "Merge Network Features";
+            this.Text = A4LGSharedFunctions.Localizer.GetString("MergeOprt_4");
             this.Load += new System.EventHandler(this.frmMergeGNLines_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -117,7 +117,1144 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActiveLayer" xml:space="preserve">
+    <value>Active Layer:</value>
+  </data>
+  <data name="AddFlagOrClickReturnStatement" xml:space="preserve">
+    <value>Error_The trace locations are found, please add a flag or click a location on the network.</value>
+  </data>
+  <data name="AddInAuthor" xml:space="preserve">
+    <value>Esri., Inc.</value>
+  </data>
+  <data name="AddInCompany" xml:space="preserve">
+    <value>Esri., Inc.</value>
+  </data>
+  <data name="AddInDate" xml:space="preserve">
+    <value>12/6/2013</value>
+  </data>
+  <data name="AddInDesc" xml:space="preserve">
+    <value>ArcMap tools for Water, Wastewater and Stormwater</value>
+  </data>
+  <data name="AddInName" xml:space="preserve">
+    <value>Water Utility Network Tools</value>
+  </data>
+  <data name="AddInVersion" xml:space="preserve">
+    <value>10.2.0.3</value>
+  </data>
+  <data name="AddLine" xml:space="preserve">
+    <value>Adding line </value>
+  </data>
+  <data name="AddPtsAndSplitLn" xml:space="preserve">
+    <value>Add Point and split line</value>
+  </data>
+  <data name="ALT_1" xml:space="preserve">
+    <value>Add Lateral Tools</value>
+  </data>
+  <data name="AssetFromThe" xml:space="preserve">
+    <value> asset from the </value>
+  </data>
+  <data name="AssetsFromThe" xml:space="preserve">
+    <value> assets from the </value>
+  </data>
+  <data name="AttrTrasftLoadRError_1" xml:space="preserve">
+    <value>A source or target field value is null</value>
+  </data>
+  <data name="CalibrateLn" xml:space="preserve">
+    <value>Calibrate Lines</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CanceledReturnStatement" xml:space="preserve">
+    <value>Canceled</value>
+  </data>
+  <data name="Clck2Pts" xml:space="preserve">
+    <value>Please Click Two Points for Tracing</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConnectAsset" xml:space="preserve">
+    <value>Connecting Asset </value>
+  </data>
+  <data name="ConstrOptions" xml:space="preserve">
+    <value>Construction Options</value>
+  </data>
+  <data name="ConstrPtsAlongLine" xml:space="preserve">
+    <value>Construct points along a line</value>
+  </data>
+  <data name="ConstructionToolsAsk_1" xml:space="preserve">
+    <value> was not found, the point along feature will not be added! \nContinue?</value>
+  </data>
+  <data name="ConstructionToolsAsk_2" xml:space="preserve">
+    <value> was found, but the datasource is not set! \nContinue?</value>
+  </data>
+  <data name="ConstructionToolsAsk_3" xml:space="preserve">
+    <value> was found for a point along layer, but the geometry is not a point</value>
+  </data>
+  <data name="ConstructionToolsError_1" xml:space="preserve">
+    <value>Unable to add lines.</value>
+  </data>
+  <data name="ConstructionToolsError_2" xml:space="preserve">
+    <value>Mains and target lines muct be in different feature classes.</value>
+  </data>
+  <data name="ConstructionToolsError_3" xml:space="preserve">
+    <value> is not a polygon layer</value>
+  </data>
+  <data name="ConstructionToolsError_4" xml:space="preserve">
+    <value> is not editable or is not a point layer</value>
+  </data>
+  <data name="ConstructionToolsError_5a" xml:space="preserve">
+    <value>A line was not found in</value>
+  </data>
+  <data name="ConstructionToolsError_5b" xml:space="preserve">
+    <value>with in</value>
+  </data>
+  <data name="ConstructionToolsError_5c" xml:space="preserve">
+    <value>units.\r\nThis tool honors a selection set and will only look at selected features, try again after clearing the selected features.</value>
+  </data>
+  <data name="ConstructionToolsError_6" xml:space="preserve">
+    <value>The lateral distance was 0, skipping this feature</value>
+  </data>
+  <data name="ConstructionToolsError_7" xml:space="preserve">
+    <value>A closest line was not found in the specified distance with the provided parameters, skipping</value>
+  </data>
+  <data name="ConstructionToolsError_8" xml:space="preserve">
+    <value>The Point Along feature class was not found</value>
+  </data>
+  <data name="ConstructionToolsError_9" xml:space="preserve">
+    <value>Error trying to store the ID of the pipe on the feature\r\n</value>
+  </data>
+  <data name="ConstructionToolsLbl_1" xml:space="preserve">
+    <value>Connect Closest</value>
+  </data>
+  <data name="ConstructionToolsLbl_2" xml:space="preserve">
+    <value>Add Laterals</value>
+  </data>
+  <data name="ConstructionToolsLbl_3" xml:space="preserve">
+    <value>Create Single</value>
+  </data>
+  <data name="ConstructionToolsLbl_4" xml:space="preserve">
+    <value>Create Dual</value>
+  </data>
+  <data name="ConstructionToolsLbl_6" xml:space="preserve">
+    <value>Add Laterals Taps</value>
+  </data>
+  <data name="ConstructionToolsMess_1" xml:space="preserve">
+    <value>Layer representing mains was not found.  Configuration indicated feature class name: </value>
+  </data>
+  <data name="ConstructionToolsMess_2" xml:space="preserve">
+    <value>Layer representing mains was not a line layer: </value>
+  </data>
+  <data name="ConstructionToolsMess_3" xml:space="preserve">
+    <value>Layer representing target lines was not found.  Configuration indicated feature class name: </value>
+  </data>
+  <data name="ConstructionToolsMess_4" xml:space="preserve">
+    <value>Layer representing target lines is not a line layer: </value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Count</value>
+  </data>
+  <data name="CrtAssetAndLat" xml:space="preserve">
+    <value>Create asset and lateral</value>
+  </data>
+  <data name="CrtLnWithPts" xml:space="preserve">
+    <value>Create line with points</value>
+  </data>
+  <data name="CrtPtsAlongLine" xml:space="preserve">
+    <value>Create points along a line</value>
+  </data>
+  <data name="CrtPtsToEnd" xml:space="preserve">
+    <value>Create additional points on ends</value>
+  </data>
+  <data name="CT_1" xml:space="preserve">
+    <value>Costing Tools - CIPProjectWindow: ShuffleControls</value>
+  </data>
+  <data name="CT_2" xml:space="preserve">
+    <value>Costing Tools - CIPProjectWindow: AddControls</value>
+  </data>
+  <data name="CurrentOID" xml:space="preserve">
+    <value>Currently Processing ObjectID: </value>
+  </data>
+  <data name="DataToolsLbl1" xml:space="preserve">
+    <value>Data Tools</value>
+  </data>
+  <data name="DataToolsMess_1" xml:space="preserve">
+    <value>Select some features before running this command.</value>
+  </data>
+  <data name="DataToolsMess_2" xml:space="preserve">
+    <value>Hint: Make some layers selectable before running a trace.</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="DontFindFlowEltReturnStatement" xml:space="preserve">
+    <value>Error_Error in Finding Flow Elements</value>
+  </data>
+  <data name="EditCtrl" xml:space="preserve">
+    <value>edit control</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error : </value>
+  </data>
+  <data name="ErrorInThe" xml:space="preserve">
+    <value>Error in the </value>
+  </data>
+  <data name="ErrorOn" xml:space="preserve">
+    <value>Error on </value>
+  </data>
+  <data name="ExportAsset" xml:space="preserve">
+    <value>Export asset </value>
+  </data>
+  <data name="ExportXL" xml:space="preserve">
+    <value>Export to Excel</value>
+  </data>
+  <data name="ExportXLError" xml:space="preserve">
+    <value>there was an error export to Excel, verify you have 2003 or newer of excel installed</value>
+  </data>
+  <data name="FeatNotFound" xml:space="preserve">
+    <value>No Features Found</value>
+  </data>
+  <data name="FeatureIn" xml:space="preserve">
+    <value>Feature in </value>
+  </data>
+  <data name="Field" xml:space="preserve">
+    <value>Field </value>
+  </data>
+  <data name="FinishSktchPrt" xml:space="preserve">
+    <value>Finish Sketch Part</value>
+  </data>
+  <data name="ForLn" xml:space="preserve">
+    <value> for line </value>
+  </data>
+  <data name="ForSltedLn" xml:space="preserve">
+    <value> for the selected lines.</value>
+  </data>
+  <data name="GeometryToolsAsk_1" xml:space="preserve">
+    <value>Calibrate lines using the digitized direction?</value>
+  </data>
+  <data name="GeometryToolsError_1" xml:space="preserve">
+    <value>Must have at least one layer in your map.</value>
+  </data>
+  <data name="GeometryToolsError_2" xml:space="preserve">
+    <value>The highlighted layer datasource is not set.</value>
+  </data>
+  <data name="GeometryToolsError_3" xml:space="preserve">
+    <value>The highlighted layer does not support Measures.</value>
+  </data>
+  <data name="GeometryToolsError_4" xml:space="preserve">
+    <value>No features are selected in the highlighed layer.</value>
+  </data>
+  <data name="GeometryToolsError_5" xml:space="preserve">
+    <value> Has null geometry</value>
+  </data>
+  <data name="GeometryToolsError_6" xml:space="preserve">
+    <value>None of the editable layers with selected features have rotation specified. \nIn Layer properties on the Symbology tab, click Advanced to set the rotation field and type.</value>
+  </data>
+  <data name="GeometryToolsError_7" xml:space="preserve">
+    <value>No Editable lines with selected features where found</value>
+  </data>
+  <data name="GeometryToolsError_8" xml:space="preserve">
+    <value>There was an error creating the jump, this usually occurs when two more intersecting lines are to close.  The resulting jump may have an invalid gemeotry, check the sketch(double click to show the vertex's and make sure the geometry looks the same)</value>
+  </data>
+  <data name="GeometryToolsError_9" xml:space="preserve">
+    <value>The selected Segment is not long enough to create the jump</value>
+  </data>
+  <data name="GeometryToolsLbl_1" xml:space="preserve">
+    <value>Set Measures</value>
+  </data>
+  <data name="GeometryToolsLbl_2" xml:space="preserve">
+    <value>Rotate Points</value>
+  </data>
+  <data name="GeometryToolsLbl_3" xml:space="preserve">
+    <value>Add Rotate</value>
+  </data>
+  <data name="GeometryToolsLbl_4" xml:space="preserve">
+    <value>Split Lines At Location</value>
+  </data>
+  <data name="GeometryToolsLbl_5" xml:space="preserve">
+    <value>Split Lines</value>
+  </data>
+  <data name="GeometryToolsLbl_6" xml:space="preserve">
+    <value>Create Jumps</value>
+  </data>
+  <data name="GeometryToolsLbl_7" xml:space="preserve">
+    <value>Flip Lines</value>
+  </data>
+  <data name="GeometryToolsLbl_8" xml:space="preserve">
+    <value>Flip Lines to Match Flow</value>
+  </data>
+  <data name="GeometryToolsMess_1" xml:space="preserve">
+    <value>Setting Rotation Value for Selected Points</value>
+  </data>
+  <data name="GeometryToolsMess_2" xml:space="preserve">
+    <value>Building Layer List </value>
+  </data>
+  <data name="GeometryToolsMess_3" xml:space="preserve">
+    <value>Layer Added: </value>
+  </data>
+  <data name="GeometryToolsMess_4a" xml:space="preserve">
+    <value>Checking Layer: </value>
+  </data>
+  <data name="GeometryToolsMess_4b" xml:space="preserve">
+    <value>Checking Row </value>
+  </data>
+  <data name="GeometryToolsMess_4c" xml:space="preserve">
+    <value> for Layer: </value>
+  </data>
+  <data name="GeometryToolsMess_5" xml:space="preserve">
+    <value>Any selected lines in this layer will be flipped.</value>
+  </data>
+  <data name="GeometryToolsProc_1" xml:space="preserve">
+    <value>Setting Measure</value>
+  </data>
+  <data name="GeometryToolsProc_10" xml:space="preserve">
+    <value>Splitting At Selected Points</value>
+  </data>
+  <data name="GeometryToolsProc_11" xml:space="preserve">
+    <value>Splitting line </value>
+  </data>
+  <data name="GeometryToolsProc_12" xml:space="preserve">
+    <value>Creating Jumps</value>
+  </data>
+  <data name="GeometryToolsProc_2" xml:space="preserve">
+    <value>Set M's</value>
+  </data>
+  <data name="GeometryToolsProc_3" xml:space="preserve">
+    <value>Rotating points </value>
+  </data>
+  <data name="GeometryToolsProc_4" xml:space="preserve">
+    <value>Adding rotation to point </value>
+  </data>
+  <data name="GeometryToolsProc_5" xml:space="preserve">
+    <value>Rotate Selected</value>
+  </data>
+  <data name="GeometryToolsProc_6" xml:space="preserve">
+    <value>Rotating point </value>
+  </data>
+  <data name="GeometryToolsProc_7" xml:space="preserve">
+    <value>Splitting Selected Lines at Location</value>
+  </data>
+  <data name="GeometryToolsProc_8" xml:space="preserve">
+    <value>Splitting lines at Location</value>
+  </data>
+  <data name="GeometryToolsProc_9" xml:space="preserve">
+    <value>Split Lines At Points</value>
+  </data>
+  <data name="GeometryToolsRealName_1" xml:space="preserve">
+    <value>SplitLinesAsClick</value>
+  </data>
+  <data name="GeoNetToolsAlias_1" xml:space="preserve">
+    <value>Ground Elevation</value>
+  </data>
+  <data name="GeoNetToolsAlias_11" xml:space="preserve">
+    <value>Facilty ID</value>
+  </data>
+  <data name="GeoNetToolsAlias_12" xml:space="preserve">
+    <value>Measure</value>
+  </data>
+  <data name="GeoNetToolsAlias_13" xml:space="preserve">
+    <value>Elevation</value>
+  </data>
+  <data name="GeoNetToolsAlias_14" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="GeoNetToolsAlias_15" xml:space="preserve">
+    <value>From Measure</value>
+  </data>
+  <data name="GeoNetToolsAlias_16" xml:space="preserve">
+    <value>To Measure</value>
+  </data>
+  <data name="GeoNetToolsAlias_17" xml:space="preserve">
+    <value>From Elevation</value>
+  </data>
+  <data name="GeoNetToolsAlias_18" xml:space="preserve">
+    <value>To Elevation</value>
+  </data>
+  <data name="GeoNetToolsAlias_2" xml:space="preserve">
+    <value>Line Elevation(Downstream Measures)</value>
+  </data>
+  <data name="GeoNetToolsAlias_3" xml:space="preserve">
+    <value>Line Elevation(Upstream Measures)</value>
+  </data>
+  <data name="GeoNetToolsAlias_4" xml:space="preserve">
+    <value>Point Top Elevation</value>
+  </data>
+  <data name="GeoNetToolsAlias_5" xml:space="preserve">
+    <value>Point Bottom Elevation</value>
+  </data>
+  <data name="GeoNetToolsAlias_6" xml:space="preserve">
+    <value>Top Elevation</value>
+  </data>
+  <data name="GeoNetToolsAlias_7" xml:space="preserve">
+    <value>Bottom Elevation</value>
+  </data>
+  <data name="GeoNetToolsAlias_8" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="GeoNetToolsAsk_11a" xml:space="preserve">
+    <value>With this extent and layer visibility, you will be checking connectivity for </value>
+  </data>
+  <data name="GeoNetToolsAsk_11b" xml:space="preserve">
+    <value> features.</value>
+  </data>
+  <data name="GeoNetToolsAsk_9a" xml:space="preserve">
+    <value>Are you sure you wish to disconnect the selected </value>
+  </data>
+  <data name="GeoNetToolsAsk_9b" xml:space="preserve">
+    <value> features?</value>
+  </data>
+  <data name="GeoNetToolsDesc_1" xml:space="preserve">
+    <value>Setting Flow Direction</value>
+  </data>
+  <data name="GeoNetToolsDesc_10" xml:space="preserve">
+    <value>Diconnecting Assets to the geometric network.</value>
+  </data>
+  <data name="GeoNetToolsDesc_11" xml:space="preserve">
+    <value>Checking geometric networks connections...</value>
+  </data>
+  <data name="GeoNetToolsDesc_14a" xml:space="preserve">
+    <value>Find Connected Trace</value>
+  </data>
+  <data name="GeoNetToolsDesc_14b" xml:space="preserve">
+    <value>Downstream Trace</value>
+  </data>
+  <data name="GeoNetToolsDesc_14c" xml:space="preserve">
+    <value>Upstream Trace</value>
+  </data>
+  <data name="GeoNetToolsDesc_15a" xml:space="preserve">
+    <value>Find Closest</value>
+  </data>
+  <data name="GeoNetToolsDesc_16a" xml:space="preserve">
+    <value>Isolation Trace</value>
+  </data>
+  <data name="GeoNetToolsDesc_18a" xml:space="preserve">
+    <value>Progress of the Summary Iso Trace Tool</value>
+  </data>
+  <data name="GeoNetToolsDesc_19a" xml:space="preserve">
+    <value>Finding Path</value>
+  </data>
+  <data name="GeoNetToolsDesc_7" xml:space="preserve">
+    <value>Connecting Assets to the geometric network.</value>
+  </data>
+  <data name="GeoNetToolsDone_10" xml:space="preserve">
+    <value>Disconnect Selected</value>
+  </data>
+  <data name="GeoNetToolsDone_11a" xml:space="preserve">
+    <value>Delete disconnected </value>
+  </data>
+  <data name="GeoNetToolsDone_13a" xml:space="preserve">
+    <value>Move Features To New Main</value>
+  </data>
+  <data name="GeoNetToolsDone_18a" xml:space="preserve">
+    <value>Trace Successful</value>
+  </data>
+  <data name="GeoNetToolsDone_20a" xml:space="preserve">
+    <value>Accumulation completed for </value>
+  </data>
+  <data name="GeoNetToolsDone_20b" xml:space="preserve">
+    <value>Flow Accumulation Complete</value>
+  </data>
+  <data name="GeoNetToolsErrorLbl_2" xml:space="preserve">
+    <value>Unable to Trace</value>
+  </data>
+  <data name="GeoNetToolsError_10" xml:space="preserve">
+    <value>Nothing To Disconnect</value>
+  </data>
+  <data name="GeoNetToolsError_11a" xml:space="preserve">
+    <value>No geometric networks found.</value>
+  </data>
+  <data name="GeoNetToolsError_12a" xml:space="preserve">
+    <value>Operable status cannot be toggled since feature class </value>
+  </data>
+  <data name="GeoNetToolsError_12b" xml:space="preserve">
+    <value> is not in map.</value>
+  </data>
+  <data name="GeoNetToolsError_12c" xml:space="preserve">
+    <value>Toggle Operational Status</value>
+  </data>
+  <data name="GeoNetToolsError_13a" xml:space="preserve">
+    <value>The source and target feature are in different feature classes</value>
+  </data>
+  <data name="GeoNetToolsError_13b" xml:space="preserve">
+    <value> was not able to be moved</value>
+  </data>
+  <data name="GeoNetToolsError_13c" xml:space="preserve">
+    <value>Error Selecting Location for Moving connections \r\n</value>
+  </data>
+  <data name="GeoNetToolsError_16a" xml:space="preserve">
+    <value>Error setting the Operable Valves, no operable valves where found\n</value>
+  </data>
+  <data name="GeoNetToolsError_17a" xml:space="preserve">
+    <value>The geometric network was not found</value>
+  </data>
+  <data name="GeoNetToolsError_17b" xml:space="preserve">
+    <value>GN and Trace flags are null</value>
+  </data>
+  <data name="GeoNetToolsError_18a" xml:space="preserve">
+    <value> layer is not part of a geometric network.</value>
+  </data>
+  <data name="GeoNetToolsError_18b" xml:space="preserve">
+    <value> features are selected. Please create a selection set and try again.</value>
+  </data>
+  <data name="GeoNetToolsError_18c" xml:space="preserve">
+    <value> feature class was not found, add it to the map.</value>
+  </data>
+  <data name="GeoNetToolsError_18d" xml:space="preserve">
+    <value> feature class datasource is not set.</value>
+  </data>
+  <data name="GeoNetToolsError_18e" xml:space="preserve">
+    <value> layer must be editable.</value>
+  </data>
+  <data name="GeoNetToolsError_18f" xml:space="preserve">
+    <value> not found in results feature class.</value>
+  </data>
+  <data name="GeoNetToolsError_19a" xml:space="preserve">
+    <value>A location was not found</value>
+  </data>
+  <data name="GeoNetToolsError_19b" xml:space="preserve">
+    <value>) was not found</value>
+  </data>
+  <data name="GeoNetToolsError_19c" xml:space="preserve">
+    <value>The Downstream elevation field(</value>
+  </data>
+  <data name="GeoNetToolsError_19d" xml:space="preserve">
+    <value>The Upstream elevation field(</value>
+  </data>
+  <data name="GeoNetToolsError_19e" xml:space="preserve">
+    <value>) was not found for layer: </value>
+  </data>
+  <data name="GeoNetToolsError_19f" xml:space="preserve">
+    <value>The ID field(</value>
+  </data>
+  <data name="GeoNetToolsError_1a" xml:space="preserve">
+    <value>Flow direction for </value>
+  </data>
+  <data name="GeoNetToolsError_1b" xml:space="preserve">
+    <value> not set.  No feature classes have source/sink capability.</value>
+  </data>
+  <data name="GeoNetToolsError_1c" xml:space="preserve">
+    <value>You must recreate your geometric network to use this command on this network.</value>
+  </data>
+  <data name="GeoNetToolsError_2" xml:space="preserve">
+    <value>There are no visible layers that participate in a geometric network.</value>
+  </data>
+  <data name="GeoNetToolsError_20a" xml:space="preserve">
+    <value> feature layer was found, but datasource was not set.</value>
+  </data>
+  <data name="GeoNetToolsError_20b" xml:space="preserve">
+    <value>Must be editing the workspace containing </value>
+  </data>
+  <data name="GeoNetToolsError_20c" xml:space="preserve">
+    <value>The config does not contain any entries for the accumlation trace</value>
+  </data>
+  <data name="GeoNetToolsError_20d" xml:space="preserve">
+    <value> does not contain </value>
+  </data>
+  <data name="GeoNetToolsError_20e" xml:space="preserve">
+    <value> field.</value>
+  </data>
+  <data name="GeoNetToolsError_20f" xml:space="preserve">
+    <value>No location or layer found, check the location where you clicked or the config file.</value>
+  </data>
+  <data name="GeoNetToolsError_8a" xml:space="preserve">
+    <value>None of the layers with selected features are editable network features.</value>
+  </data>
+  <data name="GeoNetToolsError_8b" xml:space="preserve">
+    <value>Nothing To Connect</value>
+  </data>
+  <data name="GeoNetToolsLbl_11" xml:space="preserve">
+    <value>Check Connections</value>
+  </data>
+  <data name="GeoNetToolsLbl_13a" xml:space="preserve">
+    <value>Move Feature Flag</value>
+  </data>
+  <data name="GeoNetToolsLbl_13b" xml:space="preserve">
+    <value>Deactivating AA</value>
+  </data>
+  <data name="GeoNetToolsLbl_16a" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <data name="GeoNetToolsLbl_16b" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="GeoNetToolsLbl_17a" xml:space="preserve">
+    <value>Trace Path</value>
+  </data>
+  <data name="GeoNetToolsLbl_18a" xml:space="preserve">
+    <value>Summary Isolation Trace</value>
+  </data>
+  <data name="GeoNetToolsLbl_2" xml:space="preserve">
+    <value>Desktop Tools</value>
+  </data>
+  <data name="GeoNetToolsLbl_20a" xml:space="preserve">
+    <value>Flow Accumulation Tools</value>
+  </data>
+  <data name="GeoNetToolsLbl_3" xml:space="preserve">
+    <value>Add Flag</value>
+  </data>
+  <data name="GeoNetToolsMess_10a" xml:space="preserve">
+    <value>Diconnecting Features from </value>
+  </data>
+  <data name="GeoNetToolsMess_11a" xml:space="preserve">
+    <value> unneeded junction in </value>
+  </data>
+  <data name="GeoNetToolsMess_11b" xml:space="preserve">
+    <value> has been removed.</value>
+  </data>
+  <data name="GeoNetToolsMess_11c" xml:space="preserve">
+    <value> unneeded junctions in </value>
+  </data>
+  <data name="GeoNetToolsMess_11d" xml:space="preserve">
+    <value> have been removed.</value>
+  </data>
+  <data name="GeoNetToolsMess_11e" xml:space="preserve">
+    <value> has been selected.</value>
+  </data>
+  <data name="GeoNetToolsMess_11f" xml:space="preserve">
+    <value> have been selected.</value>
+  </data>
+  <data name="GeoNetToolsMess_11g" xml:space="preserve">
+    <value> layer does not meet the connectivity criteria.</value>
+  </data>
+  <data name="GeoNetToolsMess_11h" xml:space="preserve">
+    <value> layer do not meet the connectivity criteria.</value>
+  </data>
+  <data name="GeoNetToolsMess_11i" xml:space="preserve">
+    <value> layer does not connect to any edges.  Start editing and re-run this command to remove this junction.</value>
+  </data>
+  <data name="GeoNetToolsMess_11j" xml:space="preserve">
+    <value> layer do not connect to any edges.  Start editing and re-run this command to remove these junctions.</value>
+  </data>
+  <data name="GeoNetToolsMess_11k" xml:space="preserve">
+    <value> layer connects to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected </value>
+  </data>
+  <data name="GeoNetToolsMess_11l" xml:space="preserve">
+    <value> layer connect to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected </value>
+  </data>
+  <data name="GeoNetToolsMess_13a" xml:space="preserve">
+    <value>Please select some valves to proceed</value>
+  </data>
+  <data name="GeoNetToolsMess_13b" xml:space="preserve">
+    <value>Please start editing the layers that was clicked</value>
+  </data>
+  <data name="GeoNetToolsMess_13c" xml:space="preserve">
+    <value>This tool is designed to work only on Complex Edges</value>
+  </data>
+  <data name="GeoNetToolsMess_14a" xml:space="preserve">
+    <value>Clearing Selection and Graphics</value>
+  </data>
+  <data name="GeoNetToolsMess_14b" xml:space="preserve">
+    <value>Setting up solver</value>
+  </data>
+  <data name="GeoNetToolsMess_14c" xml:space="preserve">
+    <value>Adding flag to solver</value>
+  </data>
+  <data name="GeoNetToolsMess_14d" xml:space="preserve">
+    <value>Running Trace</value>
+  </data>
+  <data name="GeoNetToolsMess_14e" xml:space="preserve">
+    <value>No downstream features were found.</value>
+  </data>
+  <data name="GeoNetToolsMess_14f" xml:space="preserve">
+    <value>Verify that flow direction has been calculated.</value>
+  </data>
+  <data name="GeoNetToolsMess_14g" xml:space="preserve">
+    <value>No upstream features were found.</value>
+  </data>
+  <data name="GeoNetToolsMess_14h" xml:space="preserve">
+    <value>Creating Results</value>
+  </data>
+  <data name="GeoNetToolsMess_15a" xml:space="preserve">
+    <value>Setting trace flags</value>
+  </data>
+  <data name="GeoNetToolsMess_15b" xml:space="preserve">
+    <value>No features in the </value>
+  </data>
+  <data name="GeoNetToolsMess_15c" xml:space="preserve">
+    <value> feature can be reached from this location.</value>
+  </data>
+  <data name="GeoNetToolsMess_15d" xml:space="preserve">
+    <value>The </value>
+  </data>
+  <data name="GeoNetToolsMess_15e" xml:space="preserve">
+    <value> feature class was not found in the network you clicked.</value>
+  </data>
+  <data name="GeoNetToolsMess_15f" xml:space="preserve">
+    <value>Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.</value>
+  </data>
+  <data name="GeoNetToolsMess_16a" xml:space="preserve">
+    <value>No operable </value>
+  </data>
+  <data name="GeoNetToolsMess_16b" xml:space="preserve">
+    <value>Add a </value>
+  </data>
+  <data name="GeoNetToolsMess_16c" xml:space="preserve">
+    <value> feature at an appropriate location on the network or </value>
+  </data>
+  <data name="GeoNetToolsMess_16d" xml:space="preserve">
+    <value> change your configuration file to specify a different feature class to use to stop the trace.</value>
+  </data>
+  <data name="GeoNetToolsMess_16e" xml:space="preserve">
+    <value>This issue could be caused by the barriers on the network</value>
+  </data>
+  <data name="GeoNetToolsMess_18a" xml:space="preserve">
+    <value>Creating the Summary Layer</value>
+  </data>
+  <data name="GeoNetToolsMess_1a" xml:space="preserve">
+    <value>Flow direction established for </value>
+  </data>
+  <data name="GeoNetToolsMess_1b" xml:space="preserve">
+    <value> geometric network(s).</value>
+  </data>
+  <data name="GeoNetToolsMess_20a" xml:space="preserve">
+    <value>Finding Accumulation for </value>
+  </data>
+  <data name="GeoNetToolsMess_20b" xml:space="preserve">
+    <value>Flow Accumulation for feature with OID: </value>
+  </data>
+  <data name="GeoNetToolsMess_7" xml:space="preserve">
+    <value>Connecting Features from</value>
+  </data>
+  <data name="GeoNetToolsProc_1" xml:space="preserve">
+    <value>Setting Flow</value>
+  </data>
+  <data name="GeoNetToolsProc_10" xml:space="preserve">
+    <value>Diconnecting Features</value>
+  </data>
+  <data name="GeoNetToolsProc_13a" xml:space="preserve">
+    <value>Moving Connections</value>
+  </data>
+  <data name="GeoNetToolsProc_13b" xml:space="preserve">
+    <value>Getting Connected Features</value>
+  </data>
+  <data name="GeoNetToolsProc_13c" xml:space="preserve">
+    <value>Disconnecting the main</value>
+  </data>
+  <data name="GeoNetToolsProc_13d" xml:space="preserve">
+    <value>Moving Features</value>
+  </data>
+  <data name="GeoNetToolsProc_14a" xml:space="preserve">
+    <value>Trace Flow</value>
+  </data>
+  <data name="GeoNetToolsProc_15a" xml:space="preserve">
+    <value>Finding Connected Assets</value>
+  </data>
+  <data name="GeoNetToolsProc_15b" xml:space="preserve">
+    <value>Saving connected assets</value>
+  </data>
+  <data name="GeoNetToolsProc_16a" xml:space="preserve">
+    <value>Getting Source and Valve Layers</value>
+  </data>
+  <data name="GeoNetToolsProc_16b" xml:space="preserve">
+    <value>Finding first valves</value>
+  </data>
+  <data name="GeoNetToolsProc_16c" xml:space="preserve">
+    <value>Setting barriers on operables valves</value>
+  </data>
+  <data name="GeoNetToolsProc_16d" xml:space="preserve">
+    <value>Warning, no operable valves were found</value>
+  </data>
+  <data name="GeoNetToolsProc_16e" xml:space="preserve">
+    <value>Setting Operable Valves as Barriers</value>
+  </data>
+  <data name="GeoNetToolsProc_16f" xml:space="preserve">
+    <value>Running first trace</value>
+  </data>
+  <data name="GeoNetToolsProc_16g" xml:space="preserve">
+    <value>Saving valves that stopped the trace</value>
+  </data>
+  <data name="GeoNetToolsProc_16h" xml:space="preserve">
+    <value>Tracing to find the source</value>
+  </data>
+  <data name="GeoNetToolsProc_16i" xml:space="preserve">
+    <value>Saving Sources</value>
+  </data>
+  <data name="GeoNetToolsProc_16j" xml:space="preserve">
+    <value> change your configuration file to specify a different feature class as a possible water source.</value>
+  </data>
+  <data name="GeoNetToolsProc_16k" xml:space="preserve">
+    <value>Tracing to find reachable sources</value>
+  </data>
+  <data name="GeoNetToolsProc_16l" xml:space="preserve">
+    <value>Setting barriers for final trace</value>
+  </data>
+  <data name="GeoNetToolsProc_16m" xml:space="preserve">
+    <value>Finding directly reachable sources</value>
+  </data>
+  <data name="GeoNetToolsProc_16n" xml:space="preserve">
+    <value>Removing directly reachable sources</value>
+  </data>
+  <data name="GeoNetToolsProc_16o" xml:space="preserve">
+    <value> feature can be reached from this location other than those that would be isolated by a shutdown.</value>
+  </data>
+  <data name="GeoNetToolsProc_16p" xml:space="preserve">
+    <value>Verifying Results</value>
+  </data>
+  <data name="GeoNetToolsProc_16q" xml:space="preserve">
+    <value>Tracing to get final results</value>
+  </data>
+  <data name="GeoNetToolsProc_18a" xml:space="preserve">
+    <value> mains.</value>
+  </data>
+  <data name="GeoNetToolsProc_18b" xml:space="preserve">
+    <value>Tracing: </value>
+  </data>
+  <data name="GeoNetToolsProc_19a" xml:space="preserve">
+    <value>Creating Profile Graph</value>
+  </data>
+  <data name="GeoNetToolsProc_2" xml:space="preserve">
+    <value>Establish Flow</value>
+  </data>
+  <data name="GeoNetToolsProc_3" xml:space="preserve">
+    <value>Establish Flow by Digitized Direction</value>
+  </data>
+  <data name="GeoNetToolsProc_4" xml:space="preserve">
+    <value>Finding Network</value>
+  </data>
+  <data name="GeoNetToolsProc_5" xml:space="preserve">
+    <value>Finding flag</value>
+  </data>
+  <data name="GeoNetToolsProc_6" xml:space="preserve">
+    <value>Finding barrier</value>
+  </data>
+  <data name="GeoNetToolsProc_7" xml:space="preserve">
+    <value>Connecting Features</value>
+  </data>
+  <data name="GeoNetToolsProc_8" xml:space="preserve">
+    <value>Connect Selected</value>
+  </data>
+  <data name="GeoNetToolsTitle_1" xml:space="preserve">
+    <value>Geometric Network Tools</value>
+  </data>
+  <data name="GeoNetToolsTitle_10" xml:space="preserve">
+    <value>Diconnecting</value>
+  </data>
+  <data name="GeoNetToolsTitle_11" xml:space="preserve">
+    <value>Connection Checker</value>
+  </data>
+  <data name="GeoNetToolsTitle_14a" xml:space="preserve">
+    <value>Find Connected Trace</value>
+  </data>
+  <data name="GeoNetToolsTitle_14b" xml:space="preserve">
+    <value>Downstream Trace</value>
+  </data>
+  <data name="GeoNetToolsTitle_14c" xml:space="preserve">
+    <value>Upstream Trace</value>
+  </data>
+  <data name="GeoNetToolsTitle_15a" xml:space="preserve">
+    <value>Find Closest</value>
+  </data>
+  <data name="GeoNetToolsTitle_16a" xml:space="preserve">
+    <value>Isolation Trace</value>
+  </data>
+  <data name="GeoNetToolsTitle_18a" xml:space="preserve">
+    <value>Processing...</value>
+  </data>
+  <data name="GeoNetToolsTitle_19a" xml:space="preserve">
+    <value>Tracing</value>
+  </data>
+  <data name="GeoNetToolsTitle_7" xml:space="preserve">
+    <value>Connecting</value>
+  </data>
+  <data name="GeoNetToolsWait_1" xml:space="preserve">
+    <value>Establishing flow direction. Please wait....</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value> in </value>
+  </data>
+  <data name="Is" xml:space="preserve">
+    <value> is </value>
+  </data>
+  <data name="IsNowOperable" xml:space="preserve">
+    <value> operable status is now </value>
+  </data>
+  <data name="JunctionInThe" xml:space="preserve">
+    <value> junction in the </value>
+  </data>
+  <data name="JunctionsInThe" xml:space="preserve">
+    <value> junctions in the </value>
+  </data>
+  <data name="LambdaReturnStatement" xml:space="preserve">
+    <value>Error_The </value>
+  </data>
+  <data name="LayerNotFoundReturnStatement" xml:space="preserve">
+    <value>Layer no found in newtork</value>
+  </data>
+  <data name="LineLength" xml:space="preserve">
+    <value>Line Length:</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="LoadImg" xml:space="preserve">
+    <value>loading an image</value>
+  </data>
+  <data name="LV_1" xml:space="preserve">
+    <value>Layer Viewer - LayerWindow: initAddin</value>
+  </data>
+  <data name="LW_1" xml:space="preserve">
+    <value>LayerWindow - New</value>
+  </data>
+  <data name="LW_10" xml:space="preserve">
+    <value>LayerWindow - tbCntlDisplay_Resize</value>
+  </data>
+  <data name="LW_11" xml:space="preserve">
+    <value>LayerWindow - CenterButton</value>
+  </data>
+  <data name="LW_12" xml:space="preserve">
+    <value>LayerWindow - setButtonState</value>
+  </data>
+  <data name="LW_2" xml:space="preserve">
+    <value>LayerWindow - s_BtnNextClick</value>
+  </data>
+  <data name="LW_3" xml:space="preserve">
+    <value>LayerWindow - s_BtnZoomToClick</value>
+  </data>
+  <data name="LW_4" xml:space="preserve">
+    <value>Layer Window - s_BtnPreviousClick</value>
+  </data>
+  <data name="LW_5" xml:space="preserve">
+    <value>Layer Window - s_BtnRefreshClick</value>
+  </data>
+  <data name="LW_7" xml:space="preserve">
+    <value>LayerWindow - LoadCursor</value>
+  </data>
+  <data name="LW_8" xml:space="preserve">
+    <value>LayerWindow - s_gpBoxOptions_Click</value>
+  </data>
+  <data name="LW_9" xml:space="preserve">
+    <value>LayerWindow - s_cboLayers_SelectedIndexChanged</value>
+  </data>
+  <data name="Measure_1" xml:space="preserve">
+    <value>Any selected lines in this layer will have it measures set.</value>
+  </data>
+  <data name="MergeOprt_1" xml:space="preserve">
+    <value>Loading Merge Features</value>
+  </data>
+  <data name="MergeOprt_2" xml:space="preserve">
+    <value>Changing Merge Feature</value>
+  </data>
+  <data name="MergeOprt_3" xml:space="preserve">
+    <value>Merge operation aborted.\r\nMultipart edge geometries are not supported, selected features may form multipart feature.</value>
+  </data>
+  <data name="MergeOprt_4" xml:space="preserve">
+    <value>Merge Network Features</value>
+  </data>
+  <data name="MergeOprt_5" xml:space="preserve">
+    <value>merging features</value>
+  </data>
+  <data name="MergeOprt_6" xml:space="preserve">
+    <value>The display field is used to merge the features, the field contains nulls, try setting the display field to the Object ID field</value>
+  </data>
+  <data name="MergeSlct_1" xml:space="preserve">
+    <value>Choose the feature with which other features will be merged</value>
+  </data>
+  <data name="MergeSlct_2" xml:space="preserve">
+    <value>Merge Upstream and Downstream Elevation Data when present.</value>
+  </data>
+  <data name="MustBEditg" xml:space="preserve">
+    <value>Must be editing.</value>
+  </data>
+  <data name="NbOfPts" xml:space="preserve">
+    <value>Number of points</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No </value>
+  </data>
+  <data name="NoError" xml:space="preserve">
+    <value>No errors found.</value>
+  </data>
+  <data name="NoFeaturesReturnStatement" xml:space="preserve">
+    <value>Error_No features</value>
+  </data>
+  <data name="NoFlagReturnStatement" xml:space="preserve">
+    <value>Error_No flags are found!</value>
+  </data>
+  <data name="NoFtrFndOnClck" xml:space="preserve">
+    <value>A feature was not found at the location you clicked</value>
+  </data>
+  <data name="NotIntersectReturnStatement" xml:space="preserve">
+    <value>Error_The location does not intersect a main, please try again.</value>
+  </data>
+  <data name="NoWaterSourceIdentifiedReturnStatement" xml:space="preserve">
+    <value>Error_No Enabled water sources can be identified, make sure a valid water source is feeding this system and its Enabled field is set to true(this is probably the issue)</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value> of </value>
+  </data>
+  <data name="OID" xml:space="preserve">
+    <value> Object ID: </value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Click for options</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value> or </value>
+  </data>
+  <data name="OutOf" xml:space="preserve">
+    <value> out of </value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>Proceed?</value>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Query:</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Scale" xml:space="preserve">
+    <value>Scale:</value>
+  </data>
+  <data name="SetValue" xml:space="preserve">
+    <value> (Set This Value First)</value>
+  </data>
+  <data name="SlctLbl_1" xml:space="preserve">
+    <value>Select a config to load:</value>
+  </data>
+  <data name="SlctLbl_2" xml:space="preserve">
+    <value>Select Config for Attribute Transfer</value>
+  </data>
+  <data name="SlctMainFtr" xml:space="preserve">
+    <value>Please select a main to merge in the dialog</value>
+  </data>
+  <data name="SlctOneFtr" xml:space="preserve">
+    <value>Must have one feature selected before continuing</value>
+  </data>
+  <data name="SlctSrcAndTarget" xml:space="preserve">
+    <value>Please Select a source and then a target line</value>
+  </data>
+  <data name="SltByJctCountLbl_1" xml:space="preserve">
+    <value>Junction Layers</value>
+  </data>
+  <data name="SltByJctCountLbl_10" xml:space="preserve">
+    <value>X Max:</value>
+  </data>
+  <data name="SltByJctCountLbl_11" xml:space="preserve">
+    <value>Y Max:</value>
+  </data>
+  <data name="SltByJctCountLbl_12" xml:space="preserve">
+    <value>X Min:</value>
+  </data>
+  <data name="SltByJctCountLbl_13" xml:space="preserve">
+    <value>User Defined</value>
+  </data>
+  <data name="SltByJctCountLbl_14" xml:space="preserve">
+    <value>Current Extent</value>
+  </data>
+  <data name="SltByJctCountLbl_15" xml:space="preserve">
+    <value>Full Extent</value>
+  </data>
+  <data name="SltByJctCountLbl_16" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="SltByJctCountLbl_17" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="SltByJctCountLbl_18" xml:space="preserve">
+    <value>Edge Count</value>
+  </data>
+  <data name="SltByJctCountLbl_19" xml:space="preserve">
+    <value>Maximum Edge Count</value>
+  </data>
+  <data name="SltByJctCountLbl_2" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="SltByJctCountLbl_20" xml:space="preserve">
+    <value>Minimum Edge Count</value>
+  </data>
+  <data name="SltByJctCountLbl_21" xml:space="preserve">
+    <value>Select Junction by Edge Count</value>
+  </data>
+  <data name="SltByJctCountLbl_22" xml:space="preserve">
+    <value>Select by Junction</value>
+  </data>
+  <data name="SltByJctCountLbl_3" xml:space="preserve">
+    <value>Deselect All</value>
+  </data>
+  <data name="SltByJctCountLbl_4" xml:space="preserve">
+    <value>Selection Options</value>
+  </data>
+  <data name="SltByJctCountLbl_5" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="SltByJctCountLbl_6" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="SltByJctCountLbl_7" xml:space="preserve">
+    <value>Y Min:</value>
+  </data>
+  <data name="SltByJctCountLbl_8" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="SltByJctCountLbl_9" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="SltByJctCountMess_1" xml:space="preserve">
+    <value> junctions were selected</value>
+  </data>
+  <data name="SltByJctCountProc_1" xml:space="preserve">
+    <value>Selecting junctions by edge count</value>
+  </data>
+  <data name="SltByJctCountProc_2" xml:space="preserve">
+    <value>Selecting junctions for </value>
+  </data>
+  <data name="SltByJctCountProc_3" xml:space="preserve">
+    <value>Checking feature </value>
+  </data>
+  <data name="SourceFrom" xml:space="preserve">
+    <value>Source from </value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value> Step: </value>
+  </data>
+  <data name="StrtEditing" xml:space="preserve">
+    <value>Please Start Editing</value>
+  </data>
+  <data name="SubTpChange" xml:space="preserve">
+    <value>subtype change</value>
+  </data>
   <data name="Test" xml:space="preserve">
     <value>English</value>
+  </data>
+  <data name="TOC_1" xml:space="preserve">
+    <value>The highlighted layer in the TOC must be a feature layer.</value>
+  </data>
+  <data name="TOC_2" xml:space="preserve">
+    <value>The highlighted layer in the TOC must contain lines.</value>
+  </data>
+  <data name="TOC_3" xml:space="preserve">
+    <value>The highlighted layer in the TOC must be part of a geometric network.</value>
+  </data>
+  <data name="TOC_5" xml:space="preserve">
+    <value>Any selected lines in this layer will be merged.</value>
+  </data>
+  <data name="TOC_6" xml:space="preserve">
+    <value>You must have one higlighted layer in the TOC.</value>
+  </data>
+  <data name="ValveFrom" xml:space="preserve">
+    <value>Valve from </value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="WithOID" xml:space="preserve">
+    <value> with an OID of </value>
+  </data>
+  <data name="ZoomOn" xml:space="preserve">
+    <value>Zoom on record change</value>
+  </data>
+  <data name="ZoomTo" xml:space="preserve">
+    <value>Zoom To</value>
   </data>
 </root>

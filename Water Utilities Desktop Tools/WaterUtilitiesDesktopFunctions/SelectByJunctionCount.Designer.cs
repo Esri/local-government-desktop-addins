@@ -69,7 +69,7 @@
             this.gpBoxLayers.Size = new System.Drawing.Size(424, 183);
             this.gpBoxLayers.TabIndex = 0;
             this.gpBoxLayers.TabStop = false;
-            this.gpBoxLayers.Text = "Junction Layers";
+            this.gpBoxLayers.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_1");
             // 
             // btnSelectAll
             // 
@@ -77,7 +77,7 @@
             this.btnSelectAll.Name = "btnSelectAll";
             this.btnSelectAll.Size = new System.Drawing.Size(75, 23);
             this.btnSelectAll.TabIndex = 2;
-            this.btnSelectAll.Text = "Select All";
+            this.btnSelectAll.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_2");
             this.btnSelectAll.UseVisualStyleBackColor = true;
             this.btnSelectAll.Click += new System.EventHandler(this.btnSelectAll_Click);
             // 
@@ -87,7 +87,7 @@
             this.btnDeselectAll.Name = "btnDeselectAll";
             this.btnDeselectAll.Size = new System.Drawing.Size(75, 23);
             this.btnDeselectAll.TabIndex = 1;
-            this.btnDeselectAll.Text = "Deselect All";
+            this.btnDeselectAll.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_3");
             this.btnDeselectAll.UseVisualStyleBackColor = true;
             this.btnDeselectAll.Click += new System.EventHandler(this.btnDeselectAll_Click);
             // 
@@ -118,7 +118,7 @@
             this.groupBox2.Size = new System.Drawing.Size(424, 124);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Selection Options";
+            this.groupBox2.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_4");
            // this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
             // 
             // lblYMin
@@ -128,7 +128,7 @@
             this.lblYMin.Name = "lblYMin";
             this.lblYMin.Size = new System.Drawing.Size(41, 13);
             this.lblYMin.TabIndex = 11;
-            this.lblYMin.Text = "label10";
+            this.lblYMin.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_5");
             // 
             // lblYMax
             // 
@@ -137,7 +137,7 @@
             this.lblYMax.Name = "lblYMax";
             this.lblYMax.Size = new System.Drawing.Size(35, 13);
             this.lblYMax.TabIndex = 10;
-            this.lblYMax.Text = "label9";
+            this.lblYMax.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_6");
             // 
             // label8
             // 
@@ -146,7 +146,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(37, 13);
             this.label8.TabIndex = 9;
-            this.label8.Text = "Y Min:";
+            this.label8.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_7");
             // 
             // lblXMin
             // 
@@ -155,7 +155,7 @@
             this.lblXMin.Name = "lblXMin";
             this.lblXMin.Size = new System.Drawing.Size(35, 13);
             this.lblXMin.TabIndex = 8;
-            this.lblXMin.Text = "label7";
+            this.lblXMin.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_8");
             //this.lblXMin.Click += new System.EventHandler(this.label7_Click);
             // 
             // lblXMax
@@ -165,7 +165,7 @@
             this.lblXMax.Name = "lblXMax";
             this.lblXMax.Size = new System.Drawing.Size(35, 13);
             this.lblXMax.TabIndex = 7;
-            this.lblXMax.Text = "label6";
+            this.lblXMax.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_9");
            // this.lblXMax.Click += new System.EventHandler(this.label6_Click);
             // 
             // label5
@@ -175,7 +175,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(40, 13);
             this.label5.TabIndex = 6;
-            this.label5.Text = "X Max:";
+            this.label5.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_10");
            // this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label4
@@ -185,7 +185,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(40, 13);
             this.label4.TabIndex = 5;
-            this.label4.Text = "Y Max:";
+            this.label4.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_11");
             // 
             // label3
             // 
@@ -194,7 +194,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 13);
             this.label3.TabIndex = 4;
-            this.label3.Text = "X Min:";
+            this.label3.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_12");
             //this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // btnDrawExtent
@@ -214,7 +214,7 @@
             this.rdoUserDefExt.Name = "rdoUserDefExt";
             this.rdoUserDefExt.Size = new System.Drawing.Size(87, 17);
             this.rdoUserDefExt.TabIndex = 2;
-            this.rdoUserDefExt.Text = "User Defined";
+            this.rdoUserDefExt.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_13");
             this.rdoUserDefExt.UseVisualStyleBackColor = true;
             this.rdoUserDefExt.Visible = false;
             this.rdoUserDefExt.CheckedChanged += new System.EventHandler(this.rdoExtent_CheckedChanged);
@@ -228,7 +228,7 @@
             this.rdoCurrentExtent.Size = new System.Drawing.Size(92, 17);
             this.rdoCurrentExtent.TabIndex = 1;
             this.rdoCurrentExtent.TabStop = true;
-            this.rdoCurrentExtent.Text = "Current Extent";
+            this.rdoCurrentExtent.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_14");
             this.rdoCurrentExtent.UseVisualStyleBackColor = true;
             this.rdoCurrentExtent.CheckedChanged += new System.EventHandler(this.rdoExtent_CheckedChanged);
             // 
@@ -239,7 +239,7 @@
             this.rdoFullExtent.Name = "rdoFullExtent";
             this.rdoFullExtent.Size = new System.Drawing.Size(74, 17);
             this.rdoFullExtent.TabIndex = 0;
-            this.rdoFullExtent.Text = "Full Extent";
+            this.rdoFullExtent.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_15");
             this.rdoFullExtent.UseVisualStyleBackColor = true;
             this.rdoFullExtent.CheckedChanged += new System.EventHandler(this.rdoExtent_CheckedChanged);
             // 
@@ -249,7 +249,7 @@
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 2;
-            this.btnClose.Text = "Close";
+            this.btnClose.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_16");
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -259,7 +259,7 @@
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(75, 23);
             this.btnSelect.TabIndex = 3;
-            this.btnSelect.Text = "Select";
+            this.btnSelect.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_17");
             this.btnSelect.UseVisualStyleBackColor = true;
             this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
@@ -274,7 +274,7 @@
             this.groupBox1.Size = new System.Drawing.Size(424, 55);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Edge Count";
+            this.groupBox1.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_18");
             // 
             // label2
             // 
@@ -283,7 +283,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(110, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Maximum Edge Count";
+            this.label2.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_19");
             // 
             // label1
             // 
@@ -292,7 +292,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(107, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Minimum Edge Count";
+            this.label1.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_20");
             // 
             // numMaxEdge
             // 
@@ -329,7 +329,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.gpBoxLayers);
             this.Name = "frmSelectByJunctionCount";
-            this.Text = "Select Junction by Edge Count";
+            this.Text = A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_21");
             this.gpBoxLayers.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();

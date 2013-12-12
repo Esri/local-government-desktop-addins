@@ -270,7 +270,7 @@ namespace A4WaterUtilities
             catch (Exception ex)
             {
 
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Error") + ex.Message);
                 return false;
             }
             finally
@@ -295,7 +295,7 @@ namespace A4WaterUtilities
     public static class ConnectClosest
     {
 
-        private static string _caption = "Connect Closest";
+        private static string _caption = A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1");
         public static returnFeatArray ConnectClosestFeatureAtPoint(IApplication app, List<ConnectClosestDetails> connectClosestLayers, IPoint location, string LayerName, bool logOperation, Keys mod)
         {
 
@@ -353,7 +353,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", _caption);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), _caption);
                     //editor = null;
 
                     return null;
@@ -511,7 +511,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show("Error in the ConnectClosestFeatureAtPoint\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.Message, ex.Source);
 
                     }
 
@@ -538,7 +538,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the ConnectClosestFeatureAtPoint\n" + ex.Message, "Connect Closest");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
                 return null;
             }
             finally
@@ -627,7 +627,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", _caption);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), _caption);
                     //_editor = null;
 
                     return null;
@@ -726,7 +726,7 @@ namespace A4WaterUtilities
                         stepProgressor.MaxRange = connectClosestLayers.Count;
                         progressDialog.Title = (connectClosestLayers[k] as ConnectClosestDetails).Line_Layer;
                         stepProgressor.Message = (connectClosestLayers[k] as ConnectClosestDetails).Line_Layer;
-                        progressDialog.Description = "Connecting Asset 1 of " + pointFeatureSelection.SelectionSet.Count + ".";
+                        progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("ConnectAsset") + "1" + A4LGSharedFunctions.Localizer.GetString("Of") + pointFeatureSelection.SelectionSet.Count + ".";
                     }
 
                     int total = pointFeatureSelection.SelectionSet.Count;
@@ -770,8 +770,8 @@ namespace A4WaterUtilities
                             if (suppressDialog == false)
                             {
                                 //Update progress bar
-                                progressDialog.Description = "Connecting Asset " + i.ToString() + " of " + total.ToString() + "." + Environment.NewLine +
-                                  "Currently Processing ObjectID: " + pointFeature.OID;
+                                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("ConnectAsset") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + "." + Environment.NewLine +
+                                  A4LGSharedFunctions.Localizer.GetString("CurrentOID") + pointFeature.OID;
                                 stepProgressor.Step();
                             }
                             ESRI.ArcGIS.esriSystem.IStatusBar statusBar = app.StatusBar;
@@ -854,7 +854,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show("Error in the ConnectClosestFeature\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.Message, ex.Source);
 
                         // Cleanup
                         if (progressDialog != null)
@@ -872,7 +872,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the ConnectClosestFeature\n" + ex.Message, "Connect Closest");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
                 return null;
             }
             finally
@@ -913,7 +913,7 @@ namespace A4WaterUtilities
 
     public static class AddLateralsLinesCmds
     {
-        private static string _caption = "Add Laterals";
+        private static string _caption = A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2");
 
 
 
@@ -974,7 +974,7 @@ namespace A4WaterUtilities
                 editor = Globals.getEditor(app);
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", _caption);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), _caption);
                     editor = null;
 
                     return "";
@@ -1019,32 +1019,32 @@ namespace A4WaterUtilities
 
                     if (matchLineFLayer == null)
                     {
-                        MessageBox.Show("Layer representing mains was not found.  Configuration indicated feature class name: '" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_1") + "'" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (matchLineFLayer.FeatureClass == null)
                     {
-                        MessageBox.Show("Layer representing mains was not found.  Configuration indicated feature class name: '" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_1") + "'" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (matchLineFLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPolyline)
                     {
-                        MessageBox.Show("Layer representing mains was not a line layer: '" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_2") + "'" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (targetLineFLayer == null)
                     {
-                        MessageBox.Show("Layer representing target lines was not found.  Configuration indicated feature class name: '" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_3") + "'" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (targetLineFLayer.FeatureClass == null)
                     {
-                        MessageBox.Show("Layer representing target lines was not found.  Configuration indicated feature class name: '" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_3") + "'" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (targetLineFLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPolyline)
                     {
-                        MessageBox.Show("Layer representing target lines is not a line layer: '" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_4") + "'" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
                         return "";
                     }
 
@@ -1062,7 +1062,7 @@ namespace A4WaterUtilities
                     //Confirm that the two line layers are different Feature classes
                     if ((matchLineFLayer.FeatureClass.CLSID == targetLineFLayer.FeatureClass.CLSID) && (matchLineFLayer.FeatureClass.AliasName == targetLineFLayer.FeatureClass.AliasName))
                     {
-                        MessageBox.Show("Mains and target lines muct be in different feature classes.", "Unable to add lines.");
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1") , A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2") );
                         return "";
                     }
 
@@ -1113,14 +1113,14 @@ namespace A4WaterUtilities
                                 pointAlongLayer.PointAlongLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].PointAlong[j].LayerName, ref FCorLayerPointsAlong);
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was not found, the point along feature will not be added! \nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
                                 }
                                 else if (pointAlongLayer.PointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was not found, the point along feature will not be added! \nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -1128,13 +1128,13 @@ namespace A4WaterUtilities
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was found, but the datasource is not set! \nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPoint)
                                 {
-                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was found for a point along layer, but the geometry is not a point", "Warning");
+                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3") , A4LGSharedFunctions.Localizer.GetString("Warning") );
 
                                     return "";
                                 }
@@ -1150,7 +1150,7 @@ namespace A4WaterUtilities
                                 pointAlongLayer.FoundAsLayer = FCorLayerTemp;
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was not found, the point along feature will not be added! \nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -1166,7 +1166,7 @@ namespace A4WaterUtilities
                                         {
                                             if (pointAlongLayer.PolygonIntersectLayer.FeatureClass.ShapeType != ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon)
                                             {
-                                                MessageBox.Show(addLateralsDetails[k].PointAlong[j].PolygonOffsetLayerName + " is not a polygon layer");
+                                                MessageBox.Show(addLateralsDetails[k].PointAlong[j].PolygonOffsetLayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_3"));
 
 
                                                 return "";
@@ -1180,7 +1180,7 @@ namespace A4WaterUtilities
                                 {
                                     if (!(eLayers.IsEditable(pointAlongLayer.PointAlongLayer)) || (pointAlongLayer.PointAlongLayer.FeatureClass.ShapeType != ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPoint))
                                     {
-                                        MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " is not editable or is not a point layer");
+                                        MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_4"));
 
 
                                         return "";
@@ -1280,7 +1280,7 @@ namespace A4WaterUtilities
 
                         // Set the properties of the ProgressDialog
                         progressDialog.CancelEnabled = true;
-                        progressDialog.Description = "Adding line " + i.ToString() + " of " + total.ToString() + ".";
+                        progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("AddLine") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
                         progressDialog.Title = _caption;
                         progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
                         progressDialog.ShowDialog();
@@ -1342,8 +1342,8 @@ namespace A4WaterUtilities
                                 if (suppressDialog == false)
                                 {
                                     //Update progress bar
-                                    progressDialog.Description = "Adding line " + i.ToString() + " of " + total.ToString() + "." + Environment.NewLine +
-                                      "Currently Processing ObjectID: " + pointFeature.OID;
+                                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("AddLine") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + "." + Environment.NewLine +
+                                      A4LGSharedFunctions.Localizer.GetString("CurrentOID") + pointFeature.OID;
                                     stepProgressor.Step();
                                 }
                                 ESRI.ArcGIS.esriSystem.IStatusBar statusBar = app.StatusBar;
@@ -1373,8 +1373,8 @@ namespace A4WaterUtilities
                                         if (suppressDialog == false)
                                         {
                                             //Update progress bar
-                                            progressDialog.Description = "Adding line " + i.ToString() + " of " + total.ToString() + "." + Environment.NewLine +
-                                              "Currently Processing ObjectID: " + pointFeature.OID;
+                                            progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("AddLine") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + "." + Environment.NewLine +
+                                              A4LGSharedFunctions.Localizer.GetString("CurrentOID") + pointFeature.OID;
                                             stepProgressor.Step();
                                         }
                                         //Obtain both starting points
@@ -1560,7 +1560,7 @@ namespace A4WaterUtilities
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show("Error in the Add Laterals\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
 
                             }
                             finally
@@ -1606,7 +1606,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show("Error in Add Laterals\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
 
 
                     }
@@ -1665,7 +1665,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Laterals \n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
                 return "";
             }
             finally
@@ -1832,14 +1832,14 @@ namespace A4WaterUtilities
                     }
                     else
                     {
-                        MessageBox.Show("The lateral distance was 0, skipping this feature");
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_6"));
                         return false;
 
                     }
                 }
                 else
                 {
-                    MessageBox.Show("A line was not found in " + matchLineFLayer.Name + " with in " + searchDistance + " units.\r\nThis tool honors a selection set and will only look at selected features, try again after clearing the selected features.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_5a") + matchLineFLayer.Name + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_5b") + searchDistance + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_5c"));
 
                     return false;
 
@@ -1848,7 +1848,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Create Single\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_3") + "\n" + ex.Message, ex.Source);
                 return false;
             }
 
@@ -2099,7 +2099,7 @@ namespace A4WaterUtilities
                         }
                         else
                         {
-                            MessageBox.Show("The lateral distance was 0, skipping this feature");
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_6"));
                             return false;
 
                         }
@@ -2107,7 +2107,7 @@ namespace A4WaterUtilities
                 }
                 else
                 {
-                    MessageBox.Show("A closest line was not found in the specified distance with the provided parameters, skipping");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_7"));
                     return false;
 
                 }
@@ -2115,7 +2115,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Create Dual\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_4") + "\n" + ex.Message, ex.Source);
                 return false;
             }
 
@@ -2157,7 +2157,7 @@ namespace A4WaterUtilities
                 }
                 if (pointFeature == null)
                 {
-                    MessageBox.Show("The Point Along feature class was not found");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_8"));
                     return;
 
                 }
@@ -2183,7 +2183,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error trying to store the ID of the pipe on the feature\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_9") + ex.Message);
 
             }
         }
@@ -2252,7 +2252,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the CreateToAndTurnPoints: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "CreateToAndTurnPoints: " + ex.Message);
             }
             finally
             {
@@ -2543,7 +2543,7 @@ namespace A4WaterUtilities
             catch (Exception ex)
             {
 
-                MessageBox.Show("Error in DeleteExistingFeatures\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExistingFeatures\r\n" + ex.Message);
 
             }
             finally
@@ -2598,7 +2598,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in DeleteExisitingJunction: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExisitingJunction: " + ex.Message);
             }
             finally
             {
@@ -2627,7 +2627,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in DeleteNeeded: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteNeeded: " + ex.Message);
                 return false;
 
             }
@@ -2668,7 +2668,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in DeleteTargetPoints: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteTargetPoints: " + ex.Message);
 
             }
             finally
@@ -2727,7 +2727,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in DeleteOrphanJunctions: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteOrphanJunctions: " + ex.Message);
             }
             finally
             {
@@ -2882,7 +2882,7 @@ namespace A4WaterUtilities
             }
 
         }
-        private static string _caption = "Add Laterals Taps";
+        private static string _caption = A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_6");
 
         public static string AddLateralsFromMainPoint(IApplication app, List<AddLateralFromMainPointDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store)
         {
@@ -2942,7 +2942,7 @@ namespace A4WaterUtilities
                 editor = Globals.getEditor(app);
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", _caption);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), _caption);
                     editor = null;
 
                     return "";
@@ -2987,32 +2987,32 @@ namespace A4WaterUtilities
 
                     if (matchLineFLayer == null)
                     {
-                        MessageBox.Show("Layer representing mains was not found.  Configuration indicated feature class name: '" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_1") + "'" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (matchLineFLayer.FeatureClass == null)
                     {
-                        MessageBox.Show("Layer representing mains was not found.  Configuration indicated feature class name: '" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_1") + "'" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (matchLineFLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPolyline)
                     {
-                        MessageBox.Show("Layer representing mains was not a line layer: '" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_2") + "'" + addLateralsDetails[k].MainLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (targetLineFLayer == null)
                     {
-                        MessageBox.Show("Layer representing target lines was not found.  Configuration indicated feature class name: '" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_3") + "'" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (targetLineFLayer.FeatureClass == null)
                     {
-                        MessageBox.Show("Layer representing target lines was not found.  Configuration indicated feature class name: '" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_3") + "'" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
                         return "";
                     }
                     if (targetLineFLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPolyline)
                     {
-                        MessageBox.Show("Layer representing target lines is not a line layer: '" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsMess_4") + "'" + addLateralsDetails[k].LateralLine_LayerName + "'.", _caption);
                         return "";
                     }
 
@@ -3030,7 +3030,7 @@ namespace A4WaterUtilities
                     //Confirm that the two line layers are different Feature classes
                     if ((matchLineFLayer.FeatureClass.CLSID == targetLineFLayer.FeatureClass.CLSID) && (matchLineFLayer.FeatureClass.AliasName == targetLineFLayer.FeatureClass.AliasName))
                     {
-                        MessageBox.Show("Mains and target lines muct be in different feature classes.", "Unable to add lines.");
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1") , A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2") );
                         return "";
                     }
 
@@ -3081,14 +3081,14 @@ namespace A4WaterUtilities
                                 pointAlongLayer.PointAlongLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].PointAlong[j].LayerName, ref FCorLayerPointsAlong);
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was not found, the point along feature will not be added! \nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
                                 }
                                 else if (pointAlongLayer.PointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was not found, the point along feature will not be added! \nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -3096,13 +3096,13 @@ namespace A4WaterUtilities
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was found, but the datasource is not set! \nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPoint)
                                 {
-                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was found for a point along layer, but the geometry is not a point", "Warning");
+                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3") , A4LGSharedFunctions.Localizer.GetString("Warning") );
 
                                     return "";
                                 }
@@ -3118,7 +3118,7 @@ namespace A4WaterUtilities
                                 pointAlongLayer.FoundAsLayer = FCorLayerTemp;
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " was not found, the point along feature will not be added! \nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -3134,7 +3134,7 @@ namespace A4WaterUtilities
                                         {
                                             if (pointAlongLayer.PolygonIntersectLayer.FeatureClass.ShapeType != ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon)
                                             {
-                                                MessageBox.Show(addLateralsDetails[k].PointAlong[j].PolygonOffsetLayerName + " is not a polygon layer");
+                                                MessageBox.Show(addLateralsDetails[k].PointAlong[j].PolygonOffsetLayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_3"));
 
 
                                                 return "";
@@ -3148,7 +3148,7 @@ namespace A4WaterUtilities
                                 {
                                     if (!(eLayers.IsEditable(pointAlongLayer.PointAlongLayer)) || (pointAlongLayer.PointAlongLayer.FeatureClass.ShapeType != ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPoint))
                                     {
-                                        MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + " is not editable or is not a point layer");
+                                        MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_4"));
 
 
                                         return "";
@@ -3219,7 +3219,7 @@ namespace A4WaterUtilities
 
                         // Set the properties of the ProgressDialog
                         progressDialog.CancelEnabled = true;
-                        progressDialog.Description = "Adding line " + i.ToString() + " of " + total.ToString() + ".";
+                        progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("AddLine") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
                         progressDialog.Title = _caption;
                         progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
                         progressDialog.ShowDialog();
@@ -3274,8 +3274,8 @@ namespace A4WaterUtilities
                                 if (suppressDialog == false)
                                 {
                                     //Update progress bar
-                                    progressDialog.Description = "Adding line " + i.ToString() + " of " + total.ToString() + "." + Environment.NewLine +
-                                      "Currently Processing ObjectID: " + pointFeature.OID;
+                                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("AddLine") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + "." + Environment.NewLine +
+                                      A4LGSharedFunctions.Localizer.GetString("CurrentOID") + pointFeature.OID;
                                     stepProgressor.Step();
                                 }
                                 ESRI.ArcGIS.esriSystem.IStatusBar statusBar = app.StatusBar;
@@ -3294,7 +3294,7 @@ namespace A4WaterUtilities
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show("Error in the Add Laterals\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
 
                             }
                             finally
@@ -3340,7 +3340,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show("Error in Add Laterals\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
 
 
                     }
@@ -3399,7 +3399,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Laterals \n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
                 return "";
             }
             finally
