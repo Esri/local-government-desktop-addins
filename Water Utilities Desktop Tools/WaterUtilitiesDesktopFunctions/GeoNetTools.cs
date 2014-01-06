@@ -128,7 +128,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Ground Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_1");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(2, pField);
@@ -152,7 +152,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Line Elevation(Downstream Measures)";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_2");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(4, pField);
@@ -165,7 +165,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Line Elevation(Upstream Measures)";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_3");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(5, pField);
@@ -178,7 +178,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Point Top Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_4");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(6, pField);
@@ -191,7 +191,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Point Bottom Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_5");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(7, pField);
@@ -227,7 +227,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Top Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_6");
             pFieldEdit.IsNullable_2 = false;
 
 
@@ -251,7 +251,7 @@ namespace A4WaterUtilities
             pFieldEdit.Name_2 = "BOTELEV";
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
-            pFieldEdit.AliasName_2 = "Bottom Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_7");
             pFieldEdit.Scale_2 = 1;
 
             pFieldEdit.IsNullable_2 = false;
@@ -263,7 +263,7 @@ namespace A4WaterUtilities
 
             pFieldEdit.Name_2 = "ID";
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;
-            pFieldEdit.AliasName_2 = "ID";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_8");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(3, pField);
@@ -299,7 +299,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Top Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_6");
             pFieldEdit.IsNullable_2 = false;
 
 
@@ -323,7 +323,7 @@ namespace A4WaterUtilities
             pFieldEdit.Name_2 = "BOTELEV";
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
-            pFieldEdit.AliasName_2 = "Bottom Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_7");
             pFieldEdit.Scale_2 = 1;
 
             pFieldEdit.IsNullable_2 = false;
@@ -335,7 +335,7 @@ namespace A4WaterUtilities
 
             pFieldEdit.Name_2 = "ID";
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;
-            pFieldEdit.AliasName_2 = "ID";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_8");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(3, pField);
@@ -363,7 +363,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Facilty ID";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_11");
             pFieldEdit.IsNullable_2 = true;
             pFieldsEdit.set_Field(0, pField);
 
@@ -374,7 +374,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Measure";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_12");
             pFieldEdit.IsNullable_2 = false;
             pFieldsEdit.set_Field(1, pField);
 
@@ -385,7 +385,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_13");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(2, pField);
@@ -396,7 +396,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;
             pFieldEdit.Length_2 = 150;
 
-            pFieldEdit.AliasName_2 = "Label";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_14");
             pFieldEdit.IsNullable_2 = true;
             pFieldsEdit.set_Field(3, pField);
 
@@ -424,7 +424,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Facilty ID";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_11");
             pFieldEdit.IsNullable_2 = true;
             pFieldsEdit.set_Field(0, pField);
 
@@ -435,7 +435,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Measure";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_12");
             pFieldEdit.IsNullable_2 = false;
             pFieldsEdit.set_Field(1, pField);
 
@@ -446,7 +446,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_13");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(2, pField);
@@ -475,7 +475,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Facilty ID";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_11");
             pFieldEdit.IsNullable_2 = true;
             pFieldsEdit.set_Field(0, pField);
 
@@ -486,7 +486,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "From Measure";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_15");
             pFieldEdit.IsNullable_2 = false;
             pFieldsEdit.set_Field(1, pField);
 
@@ -497,7 +497,7 @@ namespace A4WaterUtilities
             pFieldEdit.Precision_2 = 10;
             pFieldEdit.Scale_2 = 1;
             pFieldEdit.IsNullable_2 = false;
-            pFieldEdit.AliasName_2 = "To Measure";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_16");
             pFieldsEdit.set_Field(2, pField);
 
 
@@ -507,7 +507,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "From Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_17");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(3, pField);
@@ -519,7 +519,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "To Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_18");
             pFieldEdit.IsNullable_2 = false;
 
             pFieldsEdit.set_Field(4, pField);
@@ -556,7 +556,7 @@ namespace A4WaterUtilities
             pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDouble;
             pFieldEdit.Precision_2 = 20;
             pFieldEdit.Scale_2 = 8;
-            pFieldEdit.AliasName_2 = "Ground Elevation";
+            pFieldEdit.AliasName_2 = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_1");
 
             pFieldEdit.IsNullable_2 = false;
 
@@ -630,7 +630,7 @@ namespace A4WaterUtilities
 
                     catch (Exception ex)
                     {
-                        MessageBox.Show("ShowArrows\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.Message, ex.Source);
                         return;
                     }
                 }
@@ -638,7 +638,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ShowArrows\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.Message, ex.Source);
                 return;
             }
             finally
@@ -685,7 +685,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Desktop Tools");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_2"));
                     return;
                 }
 
@@ -696,7 +696,7 @@ namespace A4WaterUtilities
                 appCursor.SetCursor(2);
 
                 ESRI.ArcGIS.esriSystem.IStatusBar statusBar = app.StatusBar;
-                statusBar.set_Message(0, "Establishing flow direction. Please wait....");
+                statusBar.set_Message(0, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsWait_1"));
 
                 //Get NA Extension in order to update the current network with the first visible network
                 pUID = new UIDClass();
@@ -732,8 +732,8 @@ namespace A4WaterUtilities
 
                     // Set the properties of the ProgressDialog
                     progressDialog.CancelEnabled = false;
-                    progressDialog.Description = "Setting Flow Direction";
-                    progressDialog.Title = "Geometric Network Tools";
+                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_1");
+                    progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_1");
                     progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressSpiral;
 
                     bool editStarted = false;
@@ -772,14 +772,14 @@ namespace A4WaterUtilities
                             //    stepProgressor.Step();
                             //    continue;
                             //}
-                            stepProgressor.Message = "Setting Flow";// +fLayer.Name;
+                            stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_1");// +fLayer.Name;
                             //Establish flow using AncillaryRole values
                             if (flowDirection == Globals.GNFlowDirection.AncillaryRole)
                             {
                                 enumFC = gn.get_ClassesByNetworkAncillaryRole(esriNetworkClassAncillaryRole.esriNCARSourceSink);
                                 if (enumFC.Next() == null)
-                                    MessageBox.Show("Flow direction for " + gn.FeatureDataset.Name + " not set.  No feature classes have source/sink capability." + Environment.NewLine +
-                                                    "You must recreate your geometric network to use this command on this network.", "Establish Flow");
+                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_1a") + gn.FeatureDataset.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_1b") + Environment.NewLine +
+                                                    A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_1c"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2"));
                                 else
                                 {
                                     gn.EstablishFlowDirection();
@@ -809,7 +809,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show("EstablishFlow\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2") + "\n" + ex.Message, ex.Source);
                     }
                     finally
                     {
@@ -826,22 +826,22 @@ namespace A4WaterUtilities
                     if (editStarted)
                     {   // Stop the edit operation 
                         if (flowDirection == Globals.GNFlowDirection.AncillaryRole)
-                            editor.StopOperation("Establish Flow");
+                            editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2"));
                         else
-                            editor.StopOperation("Establish Flow by Digitized Direction");
+                            editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_3"));
                     }
                     object Missing = Type.Missing;
                     mxdoc = app.Document as IMxDocument;
                     mxdoc.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, Missing, mxdoc.ActiveView.Extent);
 
                     if (app != null)
-                        app.StatusBar.set_Message(2, "Flow direction established for " + calcCount + " geometric network(s).");
+                        app.StatusBar.set_Message(2, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_1a") + calcCount + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_1b"));
 
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("EstablishFlow\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2") + "\n" + ex.Message, ex.Source);
                 return;
 
 
@@ -911,7 +911,7 @@ namespace A4WaterUtilities
                 pStepPro.MaxRange = 6;
                 pStepPro.StepValue = 1;
                 pStepPro.Position = 0;
-                pStepPro.Message = "Finding Network";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
 
 
                 gnList = Globals.GetGeometricNetworksCurrentlyVisible(ref pMap);
@@ -919,13 +919,13 @@ namespace A4WaterUtilities
 
                 if (gnList == null || gnList.Count == 0)
                 {
-                    MessageBox.Show("There are no visible layers that participate in a geometric network.", "Unable to Trace");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_2"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsErrorLbl_2"));
                     return;
                 }
 
                 // Create junction or edge flag at start of trace - also returns geometric network, snapped point, and EID of junction
 
-                pStepPro.Message = "Finding flag";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_5");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -978,7 +978,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Flag: " + ex.ToString());
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_3") + ": " + ex.ToString());
 
             }
             finally
@@ -1046,7 +1046,7 @@ namespace A4WaterUtilities
                 pStepPro.MaxRange = 6;
                 pStepPro.StepValue = 1;
                 pStepPro.Position = 0;
-                pStepPro.Message = "Finding Network";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
 
 
                 gnList = Globals.GetGeometricNetworksCurrentlyVisible(ref pMap);
@@ -1054,12 +1054,12 @@ namespace A4WaterUtilities
 
                 if (gnList == null || gnList.Count == 0)
                 {
-                    MessageBox.Show("There are no visible layers that participate in a geometric network.", "Unable to Trace");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_2"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsErrorLbl_2"));
                     return;
                 }
 
                 // Create junction or edge flag at start of trace - also returns geometric network, snapped point, and EID of junction
-                pStepPro.Message = "Finding barrier";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_6");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -1110,7 +1110,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Flag: " + ex.ToString());
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_3") + ": " + ex.ToString());
 
             }
             finally
@@ -1173,20 +1173,20 @@ namespace A4WaterUtilities
                 pStepPro.MaxRange = 6;
                 pStepPro.StepValue = 1;
                 pStepPro.Position = 0;
-                pStepPro.Message = "Finding Network";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
 
 
                 gnList = Globals.GetGeometricNetworksCurrentlyVisible(ref pMap);
 
                 if (gnList == null || gnList.Count == 0)
                 {
-                    MessageBox.Show("There are no visible layers that participate in a geometric network.", "Unable to Trace");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_2"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsErrorLbl_2"));
                     return;
                 }
 
                 // Create junction or edge flag at start of trace - also returns geometric network, snapped point, and EID of junction
 
-                pStepPro.Message = "Finding flag/barrier";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_5") + "/" + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_6");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -1220,7 +1220,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Flag: " + ex.ToString());
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_3") + ": " + ex.ToString());
 
             }
             finally
@@ -1254,7 +1254,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Desktop Tools");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_2"));
                     return;
                 }
                 eLayers = (IEditLayers)editor;
@@ -1266,7 +1266,7 @@ namespace A4WaterUtilities
                 {
                     ////If above threshold, prompt to cancel
                     //if ((map.SelectionCount > 1) &&
-                    //   (MessageBox.Show("Are you sure you wish to connect the selected " + map.SelectionCount + " features?", "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No))
+                    //   (MessageBox.Show("Are you sure you wish to connect the selected " + map.SelectionCount + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAsk_9b"), A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No))
                     //  return;
 
                     bool test = false;
@@ -1311,7 +1311,7 @@ namespace A4WaterUtilities
                         animationProgressor.Play(0, -1, -1);
 
 
-                        statusBar.set_Message(0, "Connecting Features");
+                        statusBar.set_Message(0, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_7"));
 
 
                         // Create a CancelTracker
@@ -1325,15 +1325,15 @@ namespace A4WaterUtilities
                         stepProgressor.MinRange = 0;
                         stepProgressor.MaxRange = lyrCnt - 1;
                         stepProgressor.StepValue = 1;
-                        stepProgressor.Message = "Connecting Features";
+                        stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_7");
 
                         // Create the ProgressDialog. This automatically displays the dialog
                         progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                         // Set the properties of the ProgressDialog
                         progressDialog2.CancelEnabled = true;
-                        progressDialog2.Description = "Connecting Assets to the geometric network.";
-                        progressDialog2.Title = "Connecting";
+                        progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_7");
+                        progressDialog2.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_7");
                         progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
 
                         // Step. Do your big process here.
@@ -1353,7 +1353,7 @@ namespace A4WaterUtilities
                             fLayer = (IFeatureLayer)layer;
                             if (fLayer.Valid && fLayer.Visible && eLayers.IsEditable(fLayer))
                             {
-                                stepProgressor.Message = "Connecting Features from " + fLayer.Name;
+                                stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_7") + fLayer.Name;
                                 // Verify selected features and network  
                                 netClass = fLayer.FeatureClass as INetworkClass;
                                 fSel = (IFeatureSelection)fLayer;
@@ -1398,13 +1398,13 @@ namespace A4WaterUtilities
                         }
 
                         // Stop the edit operation 
-                        editor.StopOperation("Connect Selected");
+                        editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_8"));
                     }
 
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show("ConnectSelected\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_8") + "\n" + ex.Message, ex.Source);
                         return;
                     }
                     finally
@@ -1450,14 +1450,14 @@ namespace A4WaterUtilities
 
                     //Alert the user know if no work was performed
                     if (!(test))
-                        MessageBox.Show("None of the layers with selected features are editable network features.", "Nothing To Connect");
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_8a"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_8b"));
                     else
                         av.Refresh();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ConnectSelected\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_8") + "\n" + ex.Message, ex.Source);
                 return;
             }
             finally
@@ -1479,7 +1479,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Desktop Tools");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_2"));
                     return;
                 }
                 IEditLayers eLayers = (IEditLayers)editor;
@@ -1491,7 +1491,7 @@ namespace A4WaterUtilities
                 {
                     //If above threshold, prompt to cancel
                     if ((map.SelectionCount > 1) &&
-                       (MessageBox.Show("Are you sure you wish to disconnect the selected " + map.SelectionCount + " features?", "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No))
+                       (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAsk_9a") + map.SelectionCount + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAsk_9b"), A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No))
                         return;
 
                     bool test = false;
@@ -1535,7 +1535,7 @@ namespace A4WaterUtilities
                         animationProgressor.Play(0, -1, -1);
 
 
-                        statusBar.set_Message(0, "Connecting Features");
+                        statusBar.set_Message(0, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_7"));
 
 
                         // Create a CancelTracker
@@ -1549,15 +1549,15 @@ namespace A4WaterUtilities
                         stepProgressor.MinRange = 0;
                         stepProgressor.MaxRange = lyrCnt - 1;
                         stepProgressor.StepValue = 1;
-                        stepProgressor.Message = "Diconnecting Features";
+                        stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_10");
 
                         // Create the ProgressDialog. This automatically displays the dialog
                         progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                         // Set the properties of the ProgressDialog
                         progressDialog2.CancelEnabled = true;
-                        progressDialog2.Description = "Diconnecting Assets to the geometric network.";
-                        progressDialog2.Title = "Diconnecting";
+                        progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_10");
+                        progressDialog2.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_10");
                         progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
 
                         // Step. Do your big process here.
@@ -1573,7 +1573,7 @@ namespace A4WaterUtilities
                             fLayer = (IFeatureLayer)layer;
                             if (fLayer.Valid && fLayer.Visible && eLayers.IsEditable(fLayer))
                             {
-                                stepProgressor.Message = "Diconnecting Features from " + fLayer.Name;
+                                stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_10a") + fLayer.Name;
 
                                 // Verify selected features and network  
                                 INetworkClass netClass = fLayer.FeatureClass as INetworkClass;
@@ -1620,13 +1620,13 @@ namespace A4WaterUtilities
                         }
 
                         // Stop the edit operation 
-                        editor.StopOperation("Disconnect Selected");
+                        editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_10"));
 
                     }
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show("DisconnectSelected\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_10") + "\n" + ex.Message, ex.Source);
                         return;
                     }
                     finally
@@ -1653,14 +1653,14 @@ namespace A4WaterUtilities
 
                     //Alert the user know if no work was performed
                     if (!(test))
-                        MessageBox.Show("None of the layers with selected features are editable network features.", "Nothing To Disconnect");
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_8a"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_10"));
                     else
                         activeView.Refresh();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("DisconnectSelected\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_10") + "\n" + ex.Message, ex.Source);
                 return;
             }
 
@@ -1693,7 +1693,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState == esriEditState.esriStateNotEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Desktop Tools");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_2"));
                     return;
                 }
                 mxDoc = (IMxDocument)app.Document;
@@ -1706,7 +1706,7 @@ namespace A4WaterUtilities
                 long total = Globals.GetTotalVisibleNetworkFeatures(map);
                 if (total > 1000)
                 {
-                    if (MessageBox.Show("With this extent and layer visibility, you will be checking connectivity for " + total + " features.", "Proceed?", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No)
+                    if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAsk_11a") + total + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAsk_11b"), A4LGSharedFunctions.Localizer.GetString("Proceed"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No)
                     {
                         return;
                     }
@@ -1722,7 +1722,7 @@ namespace A4WaterUtilities
 
                 if (gnList.Count == 0)
                 {
-                    MessageBox.Show("No geometric networks found.", "Desktop Tools");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_11a"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_2"));
                     return;
                 }
 
@@ -1760,8 +1760,8 @@ namespace A4WaterUtilities
 
                 // Set the properties of the ProgressDialog
                 progressDialog.CancelEnabled = false;
-                progressDialog.Description = "Checking geometric networks connections... ";
-                progressDialog.Title = "Connection Checker";
+                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_11");
+                progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_11");
                 progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
 
                 for (int i = 0; i < gnList.Count; i++)
@@ -1801,32 +1801,32 @@ namespace A4WaterUtilities
                                 fSel = (IFeatureSelection)featureLayer;
                                 enumFeatures = editor.EditSelection as IEnumFeature;
                                 Globals.DeleteFeatures(enumFeatures);
-                                editor.StopOperation("Delete disconnected " + featureLayer.Name);
+                                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_11a") + featureLayer.Name);
                             }
                             catch (Exception ex)
                             {
                                 editor.AbortOperation();
-                                MessageBox.Show("CheckConnections\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_11") + "\n" + ex.Message, ex.Source);
                             }
                             countDeleted = +count;
                             if (count == 1)
                             {
-                                resultMessage2 += +count + " unneeded junction in " + featureLayer.Name + " has been removed." + Environment.NewLine;
+                                resultMessage2 += +count + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11a") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11b") + Environment.NewLine;
                             }
                             else if (count > 1)
                             {
-                                resultMessage2 += count + " unneeded junctions in " + featureLayer.Name + " have been removed." + Environment.NewLine;
+                                resultMessage2 += count + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11c") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11d") + Environment.NewLine;
                             }
                         }
                         else
                         {
                             if (count == 1)
                             {
-                                resultMessage2 += +count + " unneeded junction in " + featureLayer.Name + " has been selected." + Environment.NewLine;
+                                resultMessage2 += +count + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11a") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11e") + Environment.NewLine;
                             }
                             else if (count > 1)
                             {
-                                resultMessage2 += count + " unneeded junctions in " + featureLayer.Name + " have been selected." + Environment.NewLine;
+                                resultMessage2 += count + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11c") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11f") + Environment.NewLine;
                             }
                         }
                     }
@@ -1855,13 +1855,13 @@ namespace A4WaterUtilities
                                 if (count == 1)
                                 {
                                     //Add lookup to config to see how many junctions a FC should connect to
-                                    resultMessage += count + " asset from the " + featureLayer.Name + " layer does not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("AssetFromThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11g") + Environment.NewLine;// "\r\n";
                                 }
 
                                 if (count > 1)
                                 {
                                     //Add lookup to config to see how many junctions a FC should connect to
-                                    resultMessage += count + " assets from the " + featureLayer.Name + " layer do not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("AssetsFromThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11h") + Environment.NewLine;// "\r\n";
                                 }
 
 
@@ -1877,12 +1877,12 @@ namespace A4WaterUtilities
 
                                 if (count == 1)
                                 {
-                                    resultMessage += count + " junction in the " + featureLayer.Name + " layer does not connect to any edges.  Start editing and re-run this command to remove this junction." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("JunctionInThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11i") + Environment.NewLine;// "\r\n";
                                 }
 
                                 if (count > 1)
                                 {
-                                    resultMessage += count + " junctions in the " + featureLayer.Name + " layer do not connect to any edges.  Start editing and re-run this command to remove these junctions." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("JunctionsInThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11j") + Environment.NewLine;// "\r\n";
                                 }
 
                                 numberJunctions = 1;
@@ -1890,12 +1890,12 @@ namespace A4WaterUtilities
 
                                 if (count == 1)
                                 {
-                                    resultMessage += count + " junction in the " + featureLayer.Name + " layer connects to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected " + featureLayer.Name + " features." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("JunctionInThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11k") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAsk_11b") + Environment.NewLine;// "\r\n";
                                 }
 
                                 if (count > 1)
                                 {
-                                    resultMessage += count + " junctions in the " + featureLayer.Name + " layer connect to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected " + featureLayer.Name + " features." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("JunctionsInThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11l") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAsk_11b") + Environment.NewLine;// "\r\n";
                                 }
 
                             }
@@ -1928,13 +1928,13 @@ namespace A4WaterUtilities
                                 if (count == 1)
                                 {
                                     //Add lookup to config to see how many junctions a FC should connect to
-                                    resultMessage += count + " asset from the " + featureLayer.Name + " layer does not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("AssetFromThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11g") + Environment.NewLine;// "\r\n";
                                 }
 
                                 if (count > 1)
                                 {
                                     //Add lookup to config to see how many junctions a FC should connect to
-                                    resultMessage += count + " assets from the " + featureLayer.Name + " layer do not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("AssetsFromThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11h") + Environment.NewLine;// "\r\n";
                                 }
 
 
@@ -1967,13 +1967,13 @@ namespace A4WaterUtilities
                                 if (count == 1)
                                 {
                                     //Add lookup to config to see how many junctions a FC should connect to
-                                    resultMessage += count + " asset from the " + featureLayer.Name + " layer does not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("AssetFromThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11g") + Environment.NewLine;// "\r\n";
                                 }
 
                                 if (count > 1)
                                 {
                                     //Add lookup to config to see how many junctions a FC should connect to
-                                    resultMessage += count + " assets from the " + featureLayer.Name + " layer do not meet the connectivity criteria." + Environment.NewLine;// "\r\n";
+                                    resultMessage += count + A4LGSharedFunctions.Localizer.GetString("AssetsFromThe") + featureLayer.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_11h") + Environment.NewLine;// "\r\n";
                                 }
 
 
@@ -2010,13 +2010,13 @@ namespace A4WaterUtilities
                 resultMessage += resultMessage2;
 
                 if (resultMessage == "")
-                    resultMessage = "No errors found.";
+                    resultMessage = A4LGSharedFunctions.Localizer.GetString("NoError");
 
 
                 if (progressDialog != null)
                     progressDialog.HideDialog();
                 //Report results
-                System.Windows.Forms.MessageBox.Show(resultMessage, "Connection Checker", System.Windows.Forms.MessageBoxButtons.OK);
+                System.Windows.Forms.MessageBox.Show(resultMessage, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_11"), System.Windows.Forms.MessageBoxButtons.OK);
 
             }
 
@@ -2024,7 +2024,7 @@ namespace A4WaterUtilities
             {
 
 
-                System.Windows.Forms.MessageBox.Show("ConnectionChecker\n" + ex.Message);
+                System.Windows.Forms.MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_11") + "\n" + ex.Message);
             }
             finally
             {
@@ -2152,7 +2152,7 @@ namespace A4WaterUtilities
                 }
                 if (lyrFnd == false)
                 {
-                    MessageBox.Show("Operable status cannot be toggled since feature class " + ISOvalveFeatureLayerName + " or " + ISOsourceFeatureLayerName + " is not in map.", "Toggle Operational Status");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12a") + ISOvalveFeatureLayerName + A4LGSharedFunctions.Localizer.GetString("Or") + ISOsourceFeatureLayerName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12b"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c"));
                     return null;
                 }
 
@@ -2190,7 +2190,7 @@ namespace A4WaterUtilities
 
                     if (!workEdit.IsBeingEdited())
                     {
-                        MessageBox.Show("Please Start Editing");
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("StrtEditing"));
                         return null;
                     }
 
@@ -2300,9 +2300,9 @@ namespace A4WaterUtilities
                             string disEx = pIDS.FindDisplayString((IObject)feat);
 
 
-                            // MessageBox.Show("Valve: " + targetFeature.get_Value(targetFeature.Fields.FindField(valveFLayer.DisplayField)).ToString() + " operable status is now " + disVal);
+                            // MessageBox.Show("Valve: " + targetFeature.get_Value(targetFeature.Fields.FindField(valveFLayer.DisplayField)).ToString() + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
                             if (showMessage)
-                                MessageBox.Show("Valve from " + valveFLayer.Name + ": " + disEx + " operable status is now " + disVal);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ValveFrom") + valveFLayer.Name + ": " + disEx + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
 
                             Globals.FlashGeometry(feat.Shape, Globals.GetColor(255, 0, 0), mxdoc.ActiveView.ScreenDisplay, 150);
 
@@ -2312,7 +2312,7 @@ namespace A4WaterUtilities
                         {
                             editor.AbortOperation();
 
-                            MessageBox.Show("ToggleOperableStatus\n" + ex.Message, ex.Source);
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c") + "\n" + ex.Message, ex.Source);
                             return null;
                         }
                         finally
@@ -2374,7 +2374,7 @@ namespace A4WaterUtilities
 
                         if (!workEdit.IsBeingEdited())
                         {
-                            MessageBox.Show("Please Start Editing");
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("StrtEditing"));
                             continue;
                         }
 
@@ -2463,10 +2463,10 @@ namespace A4WaterUtilities
                                 string disEx = pIDS.FindDisplayString((IObject)feat);
 
 
-                                // MessageBox.Show("source: " + targetFeature.get_Value(targetFeature.Fields.FindField(sourceFLayer.DisplayField)).ToString() + " operable status is now " + disVal);
+                                // MessageBox.Show("source: " + targetFeature.get_Value(targetFeature.Fields.FindField(sourceFLayer.DisplayField)).ToString() + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
                                 if (showMessage)
-                                    MessageBox.Show("Source from " + sourceFLayer.Name + ": " + disEx + " operable status is now " + disVal);
-                                //  MessageBox.Show("source: " + disEx + " operable status is now " + disVal);
+                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("SourceFrom") + sourceFLayer.Name + ": " + disEx + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
+                                //  MessageBox.Show("source: " + disEx + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
 
                                 Globals.FlashGeometry(feat.Shape, Globals.GetColor(255, 0, 0), mxdoc.ActiveView.ScreenDisplay, 150);
 
@@ -2475,7 +2475,7 @@ namespace A4WaterUtilities
                             catch (Exception ex)
                             {
                                 editor.AbortOperation();
-                                MessageBox.Show("ToggleOperableStatus\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c") + "\n" + ex.Message, ex.Source);
                                 return null;
                             }
                             finally
@@ -2507,7 +2507,7 @@ namespace A4WaterUtilities
                 }
                 if (retEnv == null)
                 {
-                    MessageBox.Show("Please select some valves to proceed");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_13a"));
                 }
 
                 return retEnv;
@@ -2515,7 +2515,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ToggleOperableStatus\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c") + "\n" + ex.Message, ex.Source);
                 return null;
             }
             finally
@@ -2628,7 +2628,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Desktop Tools");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_2"));
                     return;
                 }
 
@@ -2638,7 +2638,7 @@ namespace A4WaterUtilities
 
                 if (pFeature == null)
                 {
-                    MessageBox.Show("A feature was not found at the location you clicked");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("NoFtrFndOnClck"));
                     return;
                 }
 
@@ -2668,12 +2668,12 @@ namespace A4WaterUtilities
 
                 if (Globals.IsEditable(ref pFeature, ref editor) == false)
                 {
-                    MessageBox.Show("Please start editing the layers that was clicked");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_13b"));
                     return;
                 }
                 if (pFeature.FeatureType != esriFeatureType.esriFTComplexEdge)
                 {
-                    MessageBox.Show("This tool is designed to work only on Complex Edges");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_13c"));
                     return;
                 }
                 pRGBColor = Globals.GetColor(255, 0, 0);
@@ -2705,7 +2705,7 @@ namespace A4WaterUtilities
                             string[] firstVals = pMoveElemPropFirst.Name.ToString().Split(':');
                             if (firstVals[1] != pFeature.Class.ObjectClassID.ToString())
                             {
-                                MessageBox.Show("The source and targe feature are in different feature classes");
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_13a"));
                                 return;
 
                             }
@@ -2727,7 +2727,7 @@ namespace A4WaterUtilities
                 element = (IElement)lineElem;
                 element.Geometry = pFeature.ShapeCopy;
                 elementProp = element as IElementProperties3;
-                elementProp.Name = "MoveFeatureFlag:" + pFeature.Class.ObjectClassID.ToString() + ":" + pFeature.OID;
+                elementProp.Name = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_13a") + ": " + pFeature.Class.ObjectClassID.ToString() + ":" + pFeature.OID;
 
                 elementProp.ReferenceScale = pMxDoc.FocusMap.ReferenceScale;
                 gc.AddElement(element, 0);
@@ -2755,7 +2755,7 @@ namespace A4WaterUtilities
                     animationProgressor.Play(0, -1, -1);
 
 
-                    statusBar.set_Message(0, "Moving Connections");
+                    statusBar.set_Message(0, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_13a"));
 
 
                     // Create a CancelTracker
@@ -2769,15 +2769,15 @@ namespace A4WaterUtilities
                     stepProgressor.MinRange = 0;
                     stepProgressor.MaxRange = 4;
                     stepProgressor.StepValue = 1;
-                    stepProgressor.Message = "Moving Connections";
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_13a");
 
                     // Create the ProgressDialog. This automatically displays the dialog
                     progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                     // Set the properties of the ProgressDialog
                     progressDialog2.CancelEnabled = true;
-                    progressDialog2.Description = "Moving Connections";
-                    progressDialog2.Title = "Moving Connections";
+                    progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_13a");
+                    progressDialog2.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_13a");
                     progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressSpiral;
 
 
@@ -2792,7 +2792,7 @@ namespace A4WaterUtilities
                         return;
                     }
                     stepProgressor.Step();
-                    stepProgressor.Message = "Deactivating AA";
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_13b");
                     //ProfileFindPath();
                     pCmdItem = Globals.GetCommand("ArcGIS4LocalGovernment_AttributeAssistantSuspendOffCommand", app);
                     if (pCmdItem != null)
@@ -2817,7 +2817,7 @@ namespace A4WaterUtilities
                         return;
                     }
                     stepProgressor.Step();
-                    stepProgressor.Message = "Getting Connected Features";
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_13b");
 
 
                     for (int i = 0; i < iCEdge.JunctionFeatureCount; i++)
@@ -2850,7 +2850,7 @@ namespace A4WaterUtilities
                         return;
                     }
                     stepProgressor.Step();
-                    stepProgressor.Message = "Disconnecting the main";
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_13c");
 
                     pNetworkSourceFeature.Disconnect();
 
@@ -2861,7 +2861,7 @@ namespace A4WaterUtilities
                         return;
                     }
                     stepProgressor.Step();
-                    stepProgressor.Message = "Moving Features";
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_13d");
                     string msg = "";
                     List<IFeature> pM = new List<IFeature>();
                     for (int i = 0; i < OIDs.Count; i++)
@@ -2900,12 +2900,12 @@ namespace A4WaterUtilities
                             {
                                 if (msg == "")
                                 {
-                                    msg = "Feature in " + (FCs[i] as IFeatureClass).AliasName + " with an OID of " + pMoveFeat.OID + " was not able to be moved";
+                                    msg = A4LGSharedFunctions.Localizer.GetString("FeatureIn") + (FCs[i] as IFeatureClass).AliasName + A4LGSharedFunctions.Localizer.GetString("WithOID") + pMoveFeat.OID + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_13b");
 
                                 }
                                 else
                                 {
-                                    msg = msg + "\nFeature in " + (FCs[i] as IFeatureClass).AliasName + " with an OID of " + pMoveFeat.OID + " was not able to be moved";
+                                    msg = msg + "\n" + A4LGSharedFunctions.Localizer.GetString("FeatureIn") + (FCs[i] as IFeatureClass).AliasName + A4LGSharedFunctions.Localizer.GetString("WithOID") + pMoveFeat.OID + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_13b");
 
                                 }
                             }
@@ -2927,12 +2927,12 @@ namespace A4WaterUtilities
                     ////    {
                     ////        if (msg == "")
                     ////        {
-                    ////            msg = "Feature in " + (pF.Class as IFeatureClass).AliasName + " with an OID of " + pMoveFeat.OID + " was not able to be moved";
+                    ////            msg = A4LGSharedFunctions.Localizer.GetString("FeatureIn") + (pF.Class as IFeatureClass).AliasName + A4LGSharedFunctions.Localizer.GetString("WithOID") + pMoveFeat.OID + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_13b");
 
                     ////        }
                     ////        else
                     ////        {
-                    ////            msg = msg + "\nFeature in " + (pF.Class as IFeatureClass).AliasName + " with an OID of " + pMoveFeat.OID + " was not able to be moved";
+                    ////            msg = msg + "\n" + A4LGSharedFunctions.Localizer.GetString("FeatureIn") + (pF.Class as IFeatureClass).AliasName + A4LGSharedFunctions.Localizer.GetString("WithOID") + pMoveFeat.OID + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_13b");
 
                     ////        }
                     ////    }
@@ -2956,7 +2956,7 @@ namespace A4WaterUtilities
                         return;
                     }
                     stepProgressor.Step();
-                    stepProgressor.Message = "Complete";
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("Complete");
 
 
 
@@ -2983,14 +2983,14 @@ namespace A4WaterUtilities
                 catch
                 { }
 
-                MessageBox.Show("Error Selecting Location for Moving connections \r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_13c") + ex.Message);
                 return;
             }
             finally
             {
                 try
                 {
-                    editor.StopOperation("Move Features To New Main");
+                    editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_13a"));
                 }
                 catch
                 { }
@@ -3108,18 +3108,18 @@ namespace A4WaterUtilities
                 pProDlg.CancelEnabled = true;
                 if (flow == esriFlowMethod.esriFMConnected)
                 {
-                    pProDlg.Description = "Find Connected Trace";
-                    pProDlg.Title = "Find Connected Trace";
+                    pProDlg.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_14a");
+                    pProDlg.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_14a");
                 }
                 else if (flow == esriFlowMethod.esriFMDownstream)
                 {
-                    pProDlg.Description = "Downstream Trace";
-                    pProDlg.Title = "Downstream Trace";
+                    pProDlg.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_14b");
+                    pProDlg.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_14b");
                 }
                 else if (flow == esriFlowMethod.esriFMUpstream)
                 {
-                    pProDlg.Description = "Upstream Trace";
-                    pProDlg.Title = "Upstream Trace";
+                    pProDlg.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_14c");
+                    pProDlg.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_14c");
                 }
 
                 pProDlg.Animation = esriProgressAnimationTypes.esriProgressGlobe;
@@ -3131,7 +3131,7 @@ namespace A4WaterUtilities
                 pStepPro.MaxRange = 8;
                 pStepPro.StepValue = 1;
                 pStepPro.Position = 0;
-                pStepPro.Message = "Finding Network";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
 
 
                 gnList = Globals.GetGeometricNetworksCurrentlyVisible(ref map);
@@ -3139,11 +3139,11 @@ namespace A4WaterUtilities
 
                 if (gnList == null || gnList.Count == 0)
                 {
-                    MessageBox.Show("There are no visible layers that participate in a geometric network.", "Unable to Trace");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_2"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsErrorLbl_2"));
                     return;
                 }
 
-                pStepPro.Message = "Clearing Selection and Graphics";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14a");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -3162,7 +3162,7 @@ namespace A4WaterUtilities
                 Globals.ClearSelected(map, true);
 
                 // Create junction or edge flag at start of trace - also returns geometric network, snapped point, and EID of junction
-                pStepPro.Message = "Finding flag";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_5");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -3194,7 +3194,7 @@ namespace A4WaterUtilities
                 }
 
 
-                pStepPro.Message = "Setting up solver";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14b");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -3239,7 +3239,7 @@ namespace A4WaterUtilities
 
                 traceFlowSolver.TraceIndeterminateFlow = traceIndeterminate;
 
-                pStepPro.Message = "Adding flag to solver";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14c");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -3282,7 +3282,7 @@ namespace A4WaterUtilities
 
                 Globals.AddFlagsToTraceSolver(pNetFlags.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
 
-                pStepPro.Message = "Running Trace";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14d");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -3304,18 +3304,18 @@ namespace A4WaterUtilities
                 {
                     if (flow == esriFlowMethod.esriFMDownstream)
                         MessageBox.Show(
-                          "No downstream features were found." + Environment.NewLine + Environment.NewLine +
-                          "Verify that flow direction has been calculated."
-                        , "Trace Downstream");
+                          A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14e") + Environment.NewLine + Environment.NewLine +
+                          A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14f")
+                        , A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_14b"));
                     else
                         MessageBox.Show(
-                          "No upstream features were found." + Environment.NewLine + Environment.NewLine +
-                          "Verify that flow direction has been calculated."
-                          , "Trace Upstream");
+                          A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14g") + Environment.NewLine + Environment.NewLine +
+                          A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14f")
+                          , A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_14c"));
                     return;
                 }
 
-                pStepPro.Message = "Creating Results";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14h");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -3358,7 +3358,7 @@ namespace A4WaterUtilities
 
 
                 // add set flow direction buttons
-                pStepPro.Message = "Completed";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("Complete");
                 pStepPro.Step();
                 boolCont = pTrkCan.Continue();
 
@@ -3378,7 +3378,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Trace Flow: " + ex.ToString());
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_14a") + ": " + ex.ToString());
                 if (pProDlg != null)
                 {
 
@@ -3520,8 +3520,8 @@ namespace A4WaterUtilities
                     // Set the properties of the ProgressDialog  
                     pProDlg.CancelEnabled = true;
 
-                    pProDlg.Description = "Find Closest";
-                    pProDlg.Title = "Find Closest";
+                    pProDlg.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_15a");
+                    pProDlg.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_15a");
 
 
                     pProDlg.Animation = esriProgressAnimationTypes.esriProgressGlobe;
@@ -3533,11 +3533,11 @@ namespace A4WaterUtilities
                     pStepPro.MaxRange = 18;
                     pStepPro.StepValue = 1;
                     pStepPro.Position = 0;
-                    pStepPro.Message = "Finding Network";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
 
 
 
-                    pStepPro.Message = "Clearing Selection and Graphics";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14a");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
 
@@ -3549,12 +3549,12 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Canceled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
                 }
                 if (processEvent)
                 {
-                    pStepPro.Message = "Finding Network";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -3568,7 +3568,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
                 gnList = Globals.GetGeometricNetworksCurrentlyVisible(ref map);
@@ -3576,7 +3576,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Clearing Selection and Graphics";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14a");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -3590,7 +3590,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
                 // Create junction or edge flag at start of trace - also returns geometric network, snapped point, and EID of junction
@@ -3598,7 +3598,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Setting trace flags";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15a");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -3612,7 +3612,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
                 startNetFlag = new List<INetFlag>();// null;// Globals.GetJunctionFlag(x, y, map, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID) as INetFlag;
@@ -3658,7 +3658,7 @@ namespace A4WaterUtilities
                     if (gn == null || startNetFlag.Count == 0)
                     {
 
-                        return "Error_No flags are found!";
+                        return A4LGSharedFunctions.Localizer.GetString("NoFlagReturnStatement");
                     }
                     traceFlowSolver = new TraceFlowSolverClass() as ITraceFlowSolverGEN;
                     netSolver = traceFlowSolver as INetSolver;
@@ -3705,7 +3705,7 @@ namespace A4WaterUtilities
                 }
                 if (pNetFlags.Count == 0)
                 {
-                    return "Error_The trace locations are found, please add a flag or click a location on the network.";
+                    return A4LGSharedFunctions.Localizer.GetString("AddFlagOrClickReturnStatement");
 
                 }
 
@@ -3713,20 +3713,20 @@ namespace A4WaterUtilities
                 if (gn == null || pNetFlags.Count == 0)
                 {
 
-                    return "Error_The location does not intersect a main, please try again.";
+                    return A4LGSharedFunctions.Localizer.GetString("NotIntersectReturnStatement");
                 }
 
                 bool fndAsLayer = false;
                 pClosestLayer = Globals.FindLayer(app, targetFLName, ref fndAsLayer) as IFeatureLayer;
                 if (pClosestLayer == null)
                 {
-                    return "Layer no found in newtork";
+                    return A4LGSharedFunctions.Localizer.GetString("LayerNotFoundReturnStatement");
                 }
                 if (processEvent)
                 {
 
 
-                    pStepPro.Message = "Finding Connected Assets";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_15a");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -3746,7 +3746,7 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = "Error in the FindFlowEndElements";
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "FindFlowEndElements";
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -3760,9 +3760,9 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Canceled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
-                    return "Error_Error in Finding Flow Elements";
+                    return A4LGSharedFunctions.Localizer.GetString("DontFindFlowEltReturnStatement");
                     //MessageBox.Show("Error in the FindFlowEndElements");
                 }
 
@@ -3774,7 +3774,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Saving connected assets";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_15b");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -3788,7 +3788,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
                 if (pClosestLayer.FeatureClass != null)
@@ -3802,11 +3802,11 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = ("No features in the " + targetFLName + " feature can be reached from this location.");
+                        pStepPro.Message = (A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15b") + targetFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15c"));
 
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
-                        return "Error_No features";
+                        return A4LGSharedFunctions.Localizer.GetString("NoFeaturesReturnStatement");
                     }
 
                 }
@@ -3818,7 +3818,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
 
@@ -3865,9 +3865,9 @@ namespace A4WaterUtilities
                     //netFlag1.UserClassID = valveEIDInfo.Feature.Class.ObjectClassID;
                     //netFlag1.UserID = valveEIDInfo.Feature.OID;
                     //netFlag1.UserSubID = 0;
-                    //netFlag1.Label = "Origin";
+                    //netFlag1.Label = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_16a");
                     //AddFlagToTraceSolver(netFlag1, ref traceFlowSolver, out junctionFlag, out edgeFlag);
-                    // startNetFlag[0].Label = "Origin";
+                    // startNetFlag[0].Label = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_16a");
                     //    startNetFlag[0].UserSubID = 0;
 
                     //Set the second (and last) trace flag at this source
@@ -3877,7 +3877,7 @@ namespace A4WaterUtilities
                     //netFlag2.UserClassID = eidInfo.Feature.Class.ObjectClassID;
                     //netFlag2.UserID = eidInfo.Feature.OID;
                     //netFlag2.UserSubID = 0;
-                    //netFlag2.Label = "Destination";
+                    //netFlag2.Label = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_16b");
 
                     eidInfo = entry.Value as IEIDInfo;
                     IPoint pTmpPnt = eidInfo.Feature.Shape as IPoint;
@@ -3922,7 +3922,7 @@ namespace A4WaterUtilities
                 //    pStepPro = null;
                 //    pProDlg = null;
                 //    pProDFact = null;
-                //    return "Canceled";
+                //    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 //}
                 //pointAlong++;
                 //traceFlowSolver = new TraceFlowSolverClass() as ITraceFlowSolverGEN;
@@ -3958,7 +3958,7 @@ namespace A4WaterUtilities
                 //if (processEvent)
                 //{
 
-                //    pStepPro.Message = "Completed";
+                //    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("Complete");
                 //    pStepPro.Step();
                 //    boolCont = pTrkCan.Continue();
                 //}
@@ -3972,7 +3972,7 @@ namespace A4WaterUtilities
                 //    pStepPro = null;
                 //    pProDlg = null;
                 //    pProDFact = null;
-                //    return "Canceled";
+                //    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 //}
 
                 //if (snappedPoint != null)
@@ -4291,8 +4291,8 @@ namespace A4WaterUtilities
                     // Set the properties of the ProgressDialog  
                     pProDlg.CancelEnabled = true;
 
-                    pProDlg.Description = "Isolation Trace";
-                    pProDlg.Title = "Isolation Trace";
+                    pProDlg.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_16a");
+                    pProDlg.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_16a");
 
 
                     pProDlg.Animation = esriProgressAnimationTypes.esriProgressGlobe;
@@ -4304,11 +4304,11 @@ namespace A4WaterUtilities
                     pStepPro.MaxRange = 18;
                     pStepPro.StepValue = 1;
                     pStepPro.Position = 0;
-                    pStepPro.Message = "Finding Network";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
 
 
 
-                    pStepPro.Message = "Clearing Selection and Graphics";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14a");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
 
@@ -4320,12 +4320,12 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Canceled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
                 }
                 if (processEvent)
                 {
-                    pStepPro.Message = "Finding Network";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -4339,7 +4339,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
                 pointAlong++;
 
@@ -4349,7 +4349,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Clearing Selection and Graphics";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_14a");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -4363,7 +4363,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
                 pointAlong++;
 
@@ -4372,7 +4372,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Setting trace flags";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15a");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -4386,7 +4386,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
                 startNetFlag = new List<INetFlag>();// null;// Globals.GetJunctionFlag(x, y, map, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID) as INetFlag;
@@ -4433,7 +4433,7 @@ namespace A4WaterUtilities
                     if (gn == null || startNetFlag.Count == 0)
                     {
 
-                        return "Error_No flags are found!";
+                        return A4LGSharedFunctions.Localizer.GetString("NoFlagReturnStatement");
                     }
                     traceFlowSolver = new TraceFlowSolverClass() as ITraceFlowSolverGEN;
                     netSolver = traceFlowSolver as INetSolver;
@@ -4479,7 +4479,7 @@ namespace A4WaterUtilities
                 }
                 if (pNetFlags.Count == 0)
                 {
-                    return "Error_The trace locations are found, please add a flag or click a location on the network.";
+                    return A4LGSharedFunctions.Localizer.GetString("AddFlagOrClickReturnStatement");
 
                 }
 
@@ -4487,14 +4487,14 @@ namespace A4WaterUtilities
                 if (gn == null || pNetFlags.Count == 0)
                 {
 
-                    return "Error_The location does not intersect a main, please try again.";
+                    return A4LGSharedFunctions.Localizer.GetString("NotIntersectReturnStatement");
                 }
                 pointAlong++;
                 if (processEvent)
                 {
 
 
-                    pStepPro.Message = "Getting Source and Valve Layers";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16a");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -4508,7 +4508,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Cancelled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
                 //Find feature classes
                 sourceFLs = sourceFLName.Split('|');
@@ -4578,7 +4578,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Getting Source and Valve Layers";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16a");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -4592,7 +4592,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Cancelled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
                 pointAlong++;
                 if (valveFCs == null)
@@ -4600,8 +4600,8 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = "The " + valveFLName + " feature class was not found in the network you clicked." + Environment.NewLine +
-                            "Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.";
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15d") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15e") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15f");
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -4615,10 +4615,10 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Cancelled"; ;
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement"); ;
                     }
-                    return "Error_The " + valveFLName + " feature class was not found in the network you clicked." + Environment.NewLine +
-                            "Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.";
+                    return A4LGSharedFunctions.Localizer.GetString("LambdaReturnStatement") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15e") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15f");
                 }
                 pointAlong++;
                 if (valveFCs.Count == 0)
@@ -4626,8 +4626,8 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = "The " + valveFLName + " feature class was not found in the network you clicked." + Environment.NewLine +
-                            "Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.";
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15d") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15e") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15f");
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -4641,10 +4641,10 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Cancelled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
-                    return "Error_The " + valveFLName + " feature class was not found in the network you clicked." + Environment.NewLine +
-                            "Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.";
+                    return A4LGSharedFunctions.Localizer.GetString("LambdaReturnStatement") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15e") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15f");
                 }
 
                 if (sourceFC == null)
@@ -4652,8 +4652,8 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = "The " + sourceFLs + " feature class was not found in the network you clicked." + Environment.NewLine +
-                            "Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.";
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15d") + sourceFLs + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15e") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15f");
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -4667,10 +4667,10 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Cancelled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
-                    return "Error_The " + sourceFLs + " feature class was not found in the network you clicked." + Environment.NewLine +
-                            "Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.";
+                    return A4LGSharedFunctions.Localizer.GetString("LambdaReturnStatement") + sourceFLs + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15e") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15f");
                 }
                 pointAlong++;
                 if (sourceFC.Length == 0)
@@ -4678,8 +4678,8 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = "The " + sourceFLs + " feature class was not found in the network you clicked." + Environment.NewLine +
-                            "Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.";
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15d") + sourceFLs + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15e") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15f");
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -4693,10 +4693,10 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Cancelled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
-                    return "Error_The " + sourceFLs + " feature class was not found in the network you clicked." + Environment.NewLine +
-                            "Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.";
+                    return A4LGSharedFunctions.Localizer.GetString("LambdaReturnStatement") + sourceFLs + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15e") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15f");
                 }
 
                 pointAlong++;
@@ -4704,7 +4704,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Finding first valves";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16b");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -4718,7 +4718,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Cancelled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
 
@@ -4728,7 +4728,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Setting barriers on operables valves";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16c");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -4742,7 +4742,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Cancelled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
 
@@ -4758,7 +4758,7 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = "Warning, no operable valves were found";
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16d");
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -4772,7 +4772,7 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Cancelled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
                 }
 
@@ -4783,7 +4783,7 @@ namespace A4WaterUtilities
                         if (processEvent)
                         {
 
-                            pStepPro.Message = "Warning, no operable valves were found";
+                            pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16d");
                             pStepPro.Step();
                             boolCont = pTrkCan.Continue();
                         }
@@ -4797,7 +4797,7 @@ namespace A4WaterUtilities
                             pStepPro = null;
                             pProDlg = null;
                             pProDFact = null;
-                            return "Cancelled";
+                            return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                         }
                     }
                     else
@@ -4808,7 +4808,7 @@ namespace A4WaterUtilities
                             if (processEvent)
                             {
 
-                                pStepPro.Message = "Setting Operable Valves as Barriers";
+                                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16e");
                                 pStepPro.Step();
                                 boolCont = pTrkCan.Continue();
                             }
@@ -4822,7 +4822,7 @@ namespace A4WaterUtilities
                                 pStepPro = null;
                                 pProDlg = null;
                                 pProDFact = null;
-                                return "Canceled";
+                                return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                             }
                             foreach (IFeatureClass valveFC in valveFCs)
                             {
@@ -4843,10 +4843,10 @@ namespace A4WaterUtilities
 
 
 
-                                pStepPro.Message = "Error setting the Operable Valves, no operable valves where found\n" + Ex.Message;
+                                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_16a") + Ex.Message;
                                 pStepPro.Step();
                                 boolCont = pTrkCan.Continue();
-                                return "Canceled";
+                                return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                             }
 
 
@@ -4858,7 +4858,7 @@ namespace A4WaterUtilities
                                 pStepPro = null;
                                 pProDlg = null;
                                 pProDFact = null;
-                                return "Canceled";
+                                return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                             }
                         }
                     }
@@ -4867,7 +4867,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Running first trace";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16f");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -4881,7 +4881,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
                 try
@@ -4895,7 +4895,7 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = "Error in the FindFlowEndElements";
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "FindFlowEndElements";
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -4909,9 +4909,9 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Canceled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
-                    return "Error_Error in Finding Flow Elements";
+                    return A4LGSharedFunctions.Localizer.GetString("DontFindFlowEltReturnStatement");
                     //MessageBox.Show("Error in the FindFlowEndElements");
                 }
                 pointAlong++;
@@ -4923,7 +4923,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Saving valves that stopped the trace";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16g");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -4937,7 +4937,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
                 pointAlong++;
 
@@ -4958,11 +4958,11 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = ("No operable" + valveFLName + " feature can be reached from this location." + Environment.NewLine +
+                        pStepPro.Message = (A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16a") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15c") + Environment.NewLine +
                             Environment.NewLine +
-                            "Add a " + valveFLName + " feature at an appropriate location on the network or " + Environment.NewLine +
-                            "change your configuration file to specify a different feature class to use to stop the trace." + Environment.NewLine +
-                            "This issue could be caused by the barriers on the network");
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16b") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16c") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16d") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16e"));
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -4976,20 +4976,20 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Canceled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
 
-                    return "Error_No operable" + valveFLName + " feature can be reached from this location." + Environment.NewLine +
+                    return A4LGSharedFunctions.Localizer.GetString("Error") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16a") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15c") + Environment.NewLine +
                             Environment.NewLine +
-                            "Add a " + valveFLName + " feature at an appropriate location on the network or " + Environment.NewLine +
-                            "change your configuration file to specify a different feature class to use to stop the trace." + Environment.NewLine +
-                            "This issue could be caused by the barriers on the network";
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16b") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16c") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16d") + Environment.NewLine +
+                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16e");
                 }
                 pointAlong++;
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Tracing to find the source";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16h");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -5003,7 +5003,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
 
@@ -5029,7 +5029,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Saving Sources";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16i");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -5043,7 +5043,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
                 sourceEIDInfoHT = new Hashtable();
@@ -5060,10 +5060,10 @@ namespace A4WaterUtilities
                     {
 
 
-                        pStepPro.Message = "No " + sourceFLName + " feature can be reached from this location." + Environment.NewLine +
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("No") + sourceFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15c") + Environment.NewLine +
                          Environment.NewLine +
-                         "Add a " + sourceFLName + " feature at an appropriate location on the network or " + Environment.NewLine +
-                         "change your configuration file to specify a different feature class as a possible water source.";
+                         A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16b") + sourceFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16c") + Environment.NewLine +
+                         A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16j");
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -5079,15 +5079,15 @@ namespace A4WaterUtilities
                         pProDFact = null;
                         return null;
                     }
-                    return "Error_No " + sourceFLName + " feature can be reached from this location." + Environment.NewLine +
+                    return A4LGSharedFunctions.Localizer.GetString("Error") + A4LGSharedFunctions.Localizer.GetString("No") + sourceFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15c") + Environment.NewLine +
                          Environment.NewLine +
-                         "Add a " + sourceFLName + " feature at an appropriate location on the network or " + Environment.NewLine +
-                         "change your configuration file to specify a different feature class as a possible water source.";
+                         A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16b") + sourceFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16c") + Environment.NewLine +
+                         A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16j");
                 }
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Tracing to find reachable sources";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16k");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -5117,7 +5117,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Setting barriers for final trace";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16l");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -5131,7 +5131,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
 
@@ -5140,7 +5140,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Finding directly reachable sources";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16m");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -5154,7 +5154,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
                 netElementBarrier = new SelectionSetBarriersClass();
                 totalreachcount = 0;
@@ -5187,7 +5187,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Removing directly reachable sources";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16n");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -5201,7 +5201,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
                 pointAlong++;
                 foreach (DictionaryEntry entry in sourceDirectEIDInfoHT)
@@ -5215,10 +5215,10 @@ namespace A4WaterUtilities
                     if (processEvent)
                     {
 
-                        pStepPro.Message = "No " + sourceFLName + " feature can be reached from this location other than those that would be isolated by a shutdown." + Environment.NewLine +
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("No") + sourceFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16o") + Environment.NewLine +
                          Environment.NewLine +
-                         "Add a " + sourceFLName + " feature at an appropriate location on the network or " + Environment.NewLine +
-                         "change your configuration file to specify a different feature class as a possible water source.";
+                         A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16b") + sourceFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16c") + Environment.NewLine +
+                         A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16j");
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
                     }
@@ -5232,18 +5232,18 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return "Canceled";
+                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
-                    return "Error_No " + sourceFLName + " feature can be reached from this location other than those that would be isolated by a shutdown." + Environment.NewLine +
+                    return A4LGSharedFunctions.Localizer.GetString("Error") + A4LGSharedFunctions.Localizer.GetString("No") + sourceFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16o") + Environment.NewLine +
                          Environment.NewLine +
-                         "Add a " + sourceFLName + " feature at an appropriate location on the network or " + Environment.NewLine +
-                         "change your configuration file to specify a different feature class as a possible water source.";
+                         A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16b") + sourceFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16c") + Environment.NewLine +
+                         A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16j");
                 }
                 pointAlong++;//22
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Verifying Results";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16p");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -5257,7 +5257,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
 
@@ -5350,7 +5350,7 @@ namespace A4WaterUtilities
                             netFlag1.UserClassID = valveEIDInfo.Feature.Class.ObjectClassID;
                             netFlag1.UserID = valveEIDInfo.Feature.OID;
                             netFlag1.UserSubID = 0;
-                            netFlag1.Label = "Origin";
+                            netFlag1.Label = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_16a");
                             //AddFlagToTraceSolver(netFlag1, ref traceFlowSolver, out junctionFlag, out edgeFlag);
 
                             //Set the second (and last) trace flag at this source
@@ -5358,7 +5358,7 @@ namespace A4WaterUtilities
                             netFlag2.UserClassID = sourceEIDInfo.Feature.Class.ObjectClassID;
                             netFlag2.UserID = sourceEIDInfo.Feature.OID;
                             netFlag2.UserSubID = 0;
-                            netFlag2.Label = "Destination";
+                            netFlag2.Label = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_16b");
 
                             Globals.AddTwoJunctionFlagsToTraceSolver(ref traceFlowSolver, netFlag1, netFlag2);
 
@@ -5418,13 +5418,13 @@ namespace A4WaterUtilities
                     if (ZeroSourceCont)
                         hasSourceValveHT = noSourceValveHT;
                     else
-                        return "Error_No Enabled water sources can be identified, make sure a valid water source is feeding this system and its Enabled field is set to true(this is probably the issue)";
+                        return A4LGSharedFunctions.Localizer.GetString("NoWaterSourceIdentifiedReturnStatement");
 
                 }
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Tracing to get final results";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_16q");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -5438,7 +5438,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
                 pointAlong++;
                 traceFlowSolver = new TraceFlowSolverClass() as ITraceFlowSolverGEN;
@@ -5474,7 +5474,7 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
 
-                    pStepPro.Message = "Completed";
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("Complete");
                     pStepPro.Step();
                     boolCont = pTrkCan.Continue();
                 }
@@ -5488,7 +5488,7 @@ namespace A4WaterUtilities
                     pStepPro = null;
                     pProDlg = null;
                     pProDFact = null;
-                    return "Canceled";
+                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                 }
 
                 if (snappedPoint != null)
@@ -5772,7 +5772,7 @@ namespace A4WaterUtilities
                 gnList = Globals.GetGeometricNetworks(ref map);
                 if (gnList == null)
                 {
-                    MessageBox.Show("The geometric network was not found");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_17a"));
                     return "";
                 }
 
@@ -5813,7 +5813,7 @@ namespace A4WaterUtilities
 
                 if (gn == null || pNetFlags.Count < 1)
                 {
-                    return ("GN and Trace flags are null");
+                    return (A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_17b"));
 
                 }
 
@@ -5894,7 +5894,7 @@ namespace A4WaterUtilities
             }
             catch (Exception Ex)
             {
-                MessageBox.Show("TracePath\n" + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_17a") + "\n" + Ex.Message);
                 return "";
 
             }
@@ -5946,7 +5946,7 @@ namespace A4WaterUtilities
                 mainsFL = (IFeatureLayer)Globals.FindLayer(((IMxDocument)app.Document).FocusMap, mainsFLName, ref FCorLayerMains);
                 if (mainsFL == null)
                 {
-                    MessageBox.Show("The " + mainsFLName + " feature class was not found.\r\n Check the TraceIsolationSummary_Main_FeatureLayer tag in the config");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15d") + mainsFLName + " feature class was not found.\r\n Check the TraceIsolationSummary_Main_FeatureLayer tag in the config");
                     return;
                 }
                 mainFC = mainsFL.FeatureClass;
@@ -5966,7 +5966,7 @@ namespace A4WaterUtilities
                 mainsNetwork = mainFC as INetworkClass;
                 if ((mainsNetwork == null) || (mainsNetwork.GeometricNetwork == null))
                 {
-                    MessageBox.Show("The " + mainsFLName + " layer is not part of a geometric network.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15d") + mainsFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18a"));
                     return;
                 }
 
@@ -5976,8 +5976,8 @@ namespace A4WaterUtilities
                 int FeatureCount = 0;
                 if (mainsFS.SelectionSet.Count == 0)
                 {
-                    MessageBox.Show("No " + mainsFL.Name + " features are selected. Please create a selection set and try again.",
-                        "Summary Isolation Trace", MessageBoxButtons.OK);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("No") + mainsFL.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18b"),
+                        A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"), MessageBoxButtons.OK);
 
                     return;
 
@@ -5994,8 +5994,8 @@ namespace A4WaterUtilities
 
                 // Set the properties of the ProgressDialog  
                 pProDlg.CancelEnabled = true;
-                pProDlg.Description = "Progress of the Summary Iso Trace Tool";
-                pProDlg.Title = "Processing...";
+                pProDlg.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_18a");
+                pProDlg.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_18a");
                 pProDlg.Animation = esriProgressAnimationTypes.esriProgressGlobe;
 
                 // Set the properties of the Step Progressor  
@@ -6004,7 +6004,7 @@ namespace A4WaterUtilities
                 pStepPro.MinRange = 1;
                 pStepPro.MaxRange = FeatureCount - 1;
                 pStepPro.StepValue = 1;
-                pStepPro.Message = "Creating the Summary Layer";
+                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_18a");
 
 
                 // Get Results feature class and test its schema
@@ -6012,12 +6012,12 @@ namespace A4WaterUtilities
                 resultsLayer = (IFeatureLayer)Globals.FindLayer(((IMxDocument)app.Document).FocusMap, traceSum_LayerName, ref FCorLayerResults);
                 if (resultsLayer == null)
                 {
-                    MessageBox.Show("The " + traceSum_LayerName + " feature class was not found, add it to the map.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15d") + traceSum_LayerName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18c"));
                     return;
                 }
                 if (resultsLayer.FeatureClass == null)
                 {
-                    MessageBox.Show("The " + traceSum_LayerName + " feature class datasource is not set.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15d") + traceSum_LayerName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18d"));
                     return;
                 }
                 resultsFC = resultsLayer.FeatureClass;
@@ -6034,7 +6034,7 @@ namespace A4WaterUtilities
                 if (alreadyEditing == false)
                 {
 
-                    MessageBox.Show("The " + traceSum_LayerName + " layer must be editable.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15d") + traceSum_LayerName + " layer must be editable.");
                     return;
 
                 }
@@ -6050,28 +6050,28 @@ namespace A4WaterUtilities
 
                 if (resultsFacilityIDFieldPosition == -1)
                 {
-                    MessageBox.Show("Field " + traceSum_FacilityIDField + " not found in results feature class.", "Summary Isolation");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_FacilityIDField + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
                     return;
                 }
                 //if (resultsDateFieldPosition == -1)
                 //{
-                //    MessageBox.Show("Field " + traceSum_DateFieldName + " not found in results feature class.", "Summary Isolation");
+                //    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_DateFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
                 //    return;
                 //}
 
                 if (resultsValveCountFieldPosition == -1)
                 {
-                    MessageBox.Show("Field " + traceSum_ValveCountFieldName + " not found in results feature class.", "Summary Isolation");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_ValveCountFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
                     return;
                 }
                 if (resultsMeterCountFieldPosition == -1)
                 {
-                    MessageBox.Show("Field " + traceSum_MeterCountFieldName + " not found in results feature class.", "Summary Isolation");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_MeterCountFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
                     return;
                 }
                 if (resultsCritMeterCountFieldPosition == -1)
                 {
-                    MessageBox.Show("Field " + traceSum_CritMeterCountFieldName + " not found in results feature class.", "Summary Isolation");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_CritMeterCountFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
                     return;
                 }
 
@@ -6103,7 +6103,7 @@ namespace A4WaterUtilities
                         Globals.ClearGNFlags(app, Globals.GNTypes.Flags);
 
                         pMainsFeat = mainsFL.FeatureClass.GetFeature(intCurID);
-                        pStepPro.Message = "Tracing: " + pStepPro.Position + " of " + FeatureCount + " mains.";
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_18b") + pStepPro.Position + A4LGSharedFunctions.Localizer.GetString("Of") + FeatureCount + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_18a");
 
 
                         pCurve = (ICurve)pMainsFeat.Shape;
@@ -6118,13 +6118,13 @@ namespace A4WaterUtilities
                             intValveCount = Convert.ToInt32(resVals[0]);
                             intMeterCount = Convert.ToInt32(resVals[1]);
                             intCritMeterCount = Convert.ToInt32(resVals[2]);
-                            comments = "Trace Successful";
+                            comments = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_18a");
                         }
                         else
                         {
                             comments = result;
                         }
-                        // pStepPro.Message = "Saving Result: " + pStepPro.Position + " of " + FeatureCount + " mains.";
+                        // pStepPro.Message = "Saving Result: " + pStepPro.Position + A4LGSharedFunctions.Localizer.GetString("Of") + FeatureCount + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_18a");
 
                         pSumFeatBuf.Shape = pMainsFeat.ShapeCopy;
                         if (resultsDateFieldPosition > -1)
@@ -6164,9 +6164,9 @@ namespace A4WaterUtilities
                     }
                     catch (Exception Ex)
                     {
-                        System.Diagnostics.Debug.WriteLine(Ex.Message + " Step:" + pStepPro.Position);
+                        System.Diagnostics.Debug.WriteLine(Ex.Message + A4LGSharedFunctions.Localizer.GetString("Step") + pStepPro.Position);
 
-                        System.Diagnostics.Trace.WriteLine(Ex.Message + " Step:" + pStepPro.Position);
+                        System.Diagnostics.Trace.WriteLine(Ex.Message + A4LGSharedFunctions.Localizer.GetString("Step") + pStepPro.Position);
                         //    MessageBox.Show(Ex.Message);
                     }
                     intCurID = pSelectIDs.Next();
@@ -6189,7 +6189,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("TraceIsolationSummary\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a") + "\n" + ex.Message);
 
                 if (pWSEdit != null)
                 {
@@ -6422,7 +6422,7 @@ namespace A4WaterUtilities
                             animationProgressor.Play(0, -1, -1);
 
 
-                            statusBar.set_Message(0, "Creating Profile Graph");
+                            statusBar.set_Message(0, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_19a"));
 
 
                             // Create a CancelTracker
@@ -6436,15 +6436,15 @@ namespace A4WaterUtilities
                             stepProgressor.MinRange = 0;
                             stepProgressor.MaxRange = 3;
                             stepProgressor.StepValue = 1;
-                            stepProgressor.Message = "Finding Path";
+                            stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_19a");
 
                             // Create the ProgressDialog. This automatically displays the dialog
                             progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                             // Set the properties of the ProgressDialog
                             progressDialog2.CancelEnabled = true;
-                            progressDialog2.Description = "Finding Path";
-                            progressDialog2.Title = "Tracing";
+                            progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDesc_19a");
+                            progressDialog2.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_19a");
                             progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressSpiral;
 
                             // Step. Do your big process here.
@@ -6462,7 +6462,7 @@ namespace A4WaterUtilities
                                 return;
                             }
                             stepProgressor.Step();
-                            stepProgressor.Message = "Creating Profile";
+                            stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_19a");
                             if (juncEIDs != null && edgeEIDs != null)
                             {
                                 GeoNetTools.ProfileGetRelatedElevData(app, ProfileGraph, gn, edgeEIDs, juncEIDs, i, ref pManholeLayer, ref pMainLayer, ref pTapLayer);
@@ -6494,14 +6494,14 @@ namespace A4WaterUtilities
                 }
 
 
-                MessageBox.Show("A location was not found");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19a"));
 
 
 
             }
             catch (Exception Ex)
             {
-                MessageBox.Show("Error in the AddFlagsForSewerProfile " + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "AddFlagsForSewerProfile " + Ex.Message);
             }
             finally
             {
@@ -6686,11 +6686,11 @@ namespace A4WaterUtilities
                 int intDownStreamFld = pFLMain.FeatureClass.Fields.FindField(ProfileGraph[CurrentDetail].Line_DownStreamElevationField);
                 if (intDownStreamFld < 0)
                 {
-                    MessageBox.Show("The Downstream elevation field(" + ProfileGraph[CurrentDetail].Line_DownStreamElevationField + ") was not found");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19c") + ProfileGraph[CurrentDetail].Line_DownStreamElevationField + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19b"));
                 }
                 if (intUpStreamFld < 0)
                 {
-                    MessageBox.Show("The Upstream elevation field(" + ProfileGraph[CurrentDetail].Line_UpStreamElevationField + ") was not found");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19d") + ProfileGraph[CurrentDetail].Line_UpStreamElevationField + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19b"));
                 }
                 for (int i = 0; i < pResultEdges.Count; i++)
                 {
@@ -7033,15 +7033,15 @@ namespace A4WaterUtilities
                                 int intIdFld = pFl.FeatureClass.Fields.FindField(ProfileGraph[CurrentDetail].Lines_Along[i].Line_IDField);
                                 if (intIdFld < 0)
                                 {
-                                    MessageBox.Show("The ID field(" + ProfileGraph[CurrentDetail].Lines_Along[i].Line_IDField + ") was not found for layer: " + ProfileGraph[CurrentDetail].Lines_Along[i].Layer_Name);
+                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19f") + ProfileGraph[CurrentDetail].Lines_Along[i].Line_IDField + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19e") + ProfileGraph[CurrentDetail].Lines_Along[i].Layer_Name);
                                 }
                                 if (intDownStreamFld < 0)
                                 {
-                                    MessageBox.Show("The Downstream elevation field(" + ProfileGraph[CurrentDetail].Lines_Along[i].Line_DownStreamElevationField + ") was not found for layer: " + ProfileGraph[CurrentDetail].Lines_Along[i].Layer_Name);
+                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19c") + ProfileGraph[CurrentDetail].Lines_Along[i].Line_DownStreamElevationField + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19e") + ProfileGraph[CurrentDetail].Lines_Along[i].Layer_Name);
                                 }
                                 if (intUpStreamFld < 0)
                                 {
-                                    MessageBox.Show("The Upstream elevation field(" + ProfileGraph[CurrentDetail].Lines_Along[i].Line_UpStreamElevationField + ") was not found for layer: " + ProfileGraph[CurrentDetail].Lines_Along[i].Layer_Name);
+                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19d") + ProfileGraph[CurrentDetail].Lines_Along[i].Line_UpStreamElevationField + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_19e") + ProfileGraph[CurrentDetail].Lines_Along[i].Layer_Name);
                                 }
 
 
@@ -7063,7 +7063,7 @@ namespace A4WaterUtilities
             }
             catch (Exception Ex)
             {
-                MessageBox.Show("Error in the ProfileGetRelatedSewerElevData " + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ProfileGetRelatedSewerElevData " + Ex.Message);
             }
             finally
             {
@@ -7586,7 +7586,7 @@ namespace A4WaterUtilities
 
                     //  pSeriesProps.whereClause = whereClause
                     pAreaSeriesProps.InLegend = true; //show legend   ' false = don't show legend
-                    pAreaSeriesProps.Name = ProfileGraph[CurrentDetail].Elevation_LayerName;//"Ground Elevation";
+                    pAreaSeriesProps.Name = ProfileGraph[CurrentDetail].Elevation_LayerName;//A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_1");
                     //pSeriesProps.LabelField = "OBJECTID";
                     pAreaSeriesProps.ValueFormat = "0 ";
                     pAreaSeriesProps.SetField(0, strXDataFldName); // timefldName
@@ -7694,7 +7694,7 @@ namespace A4WaterUtilities
 
 
                 pScatterSeriesProps.InLegend = false; // show legend   ' false = don't show legend
-                pScatterSeriesProps.Name = "Label";
+                pScatterSeriesProps.Name = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_14");
                 //pSeriesProps.LabelField = "OBJECTID"
                 pScatterSeriesProps.ValueFormat = " ";
                 pScatterSeriesProps.HorizontalAxis = 3;
@@ -8057,7 +8057,7 @@ namespace A4WaterUtilities
 
                 ////   IDataGraphTAxisProperties pHort = pDataGraphT.AxisProperties[0];
 
-                //pDataGraphT.AxisProperties[0].Title = "Elevation";
+                //pDataGraphT.AxisProperties[0].Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_13");
                 //pDataGraphT.AxisProperties[0].AutomaticMaximum = true;
                 //pDataGraphT.AxisProperties[0].AutomaticMinimum = true;
                 ////pDataGraphT.AxisProperties[0].Minimum = minChartVal - 5;
@@ -8117,7 +8117,7 @@ namespace A4WaterUtilities
 
                 ////  pSeriesProps.whereClause = whereClause
                 //pAreaSeriesProps.InLegend = true; //show legend   ' false = don't show legend
-                //pAreaSeriesProps.Name = "Ground Elevation";
+                //pAreaSeriesProps.Name = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsAlias_1");
                 ////pSeriesProps.LabelField = "OBJECTID";
                 //pAreaSeriesProps.ValueFormat = "0 ";
                 //pAreaSeriesProps.SetField(0, strXDataFldName); // timefldName
@@ -8280,7 +8280,7 @@ namespace A4WaterUtilities
             }
             catch (Exception Ex)
             {
-                MessageBox.Show("Error in the ProfileCreateGraph " + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ProfileCreateGraph " + Ex.Message);
             }
             finally
             {
@@ -8391,7 +8391,7 @@ namespace A4WaterUtilities
                 pEditor = Globals.getEditor(app);
                 if (pEditor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"));
                     return;
                 }
                 bool boolCont = true;
@@ -8420,13 +8420,13 @@ namespace A4WaterUtilities
 
                     if (pFLayer.FeatureClass == null)
                     {
-                        MessageBox.Show(sumAcc.LayerName + " feature layer was found, but datasource was not set.");
+                        MessageBox.Show(sumAcc.LayerName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20a"));
                         continue;
                     }
 
                     if (Globals.IsEditable(ref pFLayer, ref pEditor) == false)
                     {
-                        MessageBox.Show("Must be editing the workspace containing " + sumAcc.LayerName + ".");
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20b") + sumAcc.LayerName + ".");
                     }
 
                     pFSel = pFLayer as IFeatureSelection;
@@ -8442,7 +8442,7 @@ namespace A4WaterUtilities
                     lSumFieldLoc = pFLayer.FeatureClass.Fields.FindField(sumAcc.SumFlowField);
                     if (lSumFieldLoc == -1)
                     {
-                        MessageBox.Show(sumAcc.LayerName + " does not contain " + sumAcc.SumFlowField + " field.");
+                        MessageBox.Show(sumAcc.LayerName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20d") + sumAcc.SumFlowField + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20e"));
                         return;
                     }
 
@@ -8454,15 +8454,15 @@ namespace A4WaterUtilities
 
 
                     // Set the properties of the ProgressDialog  
-                    pProDlg.Description = "Finding Accumulation for " + sumAcc.LayerName;
-                    pProDlg.Title = "Finding Accumulation for " + sumAcc.LayerName;
+                    pProDlg.Description = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_20a") + sumAcc.LayerName;
+                    pProDlg.Title = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_20a") + sumAcc.LayerName;
 
 
                     pStepPro.MinRange = 0;
                     pStepPro.MaxRange = pFSel.SelectionSet.Count;
                     pStepPro.StepValue = 1;
                     pStepPro.Position = 0;
-                    pStepPro.Message = "Finding Accumulation for " + sumAcc.LayerName + " 0 out of " + pFSel.SelectionSet.Count;
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_20a") + sumAcc.LayerName + " 0" + A4LGSharedFunctions.Localizer.GetString("OutOf") + pFSel.SelectionSet.Count;
 
 
                     try
@@ -8480,7 +8480,7 @@ namespace A4WaterUtilities
                     while ((pFeature = pFCursor.NextFeature()) != null)
                     {
 
-                        pStepPro.Message = "Finding Accumulation for " + sumAcc.LayerName + cnt + " out of " + pFSel.SelectionSet.Count;
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_20a") + sumAcc.LayerName + cnt + A4LGSharedFunctions.Localizer.GetString("OutOf") + pFSel.SelectionSet.Count;
                         pStepPro.Step();
                         boolCont = pTrkCan.Continue();
 
@@ -8509,19 +8509,19 @@ namespace A4WaterUtilities
                         cnt++;
                     }
 
-                    pEditor.StopOperation("Accumulation completed for " + sumAcc.LayerName);
+                    pEditor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_20a") + sumAcc.LayerName);
 
 
 
                 }
 
 
-                MessageBox.Show("Flow Accumulation Complete");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_20b"));
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Flow Accumulation Tools\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_20a") + "\n" + ex.Message);
             }
             finally
             {
@@ -8580,9 +8580,9 @@ namespace A4WaterUtilities
                 if (pMap == null)
                     return;
                 if (sumFlowAcc == null)
-                    MessageBox.Show("The config does not contain any entries for the accumlation trace");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20c"));
                 if (sumFlowAcc.Count == 0)
-                    MessageBox.Show("The config does not contain any entries for the accumlation trace");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20c"));
                 bool flowCalced = false;
                 foreach (FlowLayerDetails sumAcc in sumFlowAcc)
                 {
@@ -8600,7 +8600,7 @@ namespace A4WaterUtilities
 
                     if (pFLayer.FeatureClass == null)
                     {
-                        MessageBox.Show(sumAcc.LayerName + " feature layer was found, but datasource was not set.");
+                        MessageBox.Show(sumAcc.LayerName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20a"));
                         continue;
                     }
 
@@ -8608,7 +8608,7 @@ namespace A4WaterUtilities
                     lSumFieldLoc = pFLayer.FeatureClass.Fields.FindField(sumAcc.SumFlowField);
                     if (lSumFieldLoc == -1)
                     {
-                        MessageBox.Show(sumAcc.LayerName + " does not contain " + sumAcc.SumFlowField + " field.");
+                        MessageBox.Show(sumAcc.LayerName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20b") + sumAcc.SumFlowField + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20e"));
                         return;
                     }
 
@@ -8670,7 +8670,7 @@ namespace A4WaterUtilities
                         retAcc = Globals.ReturnAccumulation(ref app, ref pFeature, sumAcc.WeightName, sumAcc.FlowDirection);
                         if (Globals.IsNumeric(retAcc))
                         {
-                            MessageBox.Show("Flow Accumulation for feature with OID: " + pFeature.OID + " in " + pFLayer.Name + " is " + retAcc + ".");
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_20b") + pFeature.OID + A4LGSharedFunctions.Localizer.GetString("In") + pFLayer.Name + A4LGSharedFunctions.Localizer.GetString("Is") + retAcc + ".");
                             //pFeature.set_Value(lSumFieldLoc, retAcc);
                             //pFeature.Store();
                         }
@@ -8681,12 +8681,12 @@ namespace A4WaterUtilities
                 }
 
                 if (flowCalced == false)
-                    MessageBox.Show("No location or layer found, check the location where you clicked or the config file.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_20f"));
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Flow Accumulation Tools\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_20a") + "\n" + ex.Message);
             }
             finally
             {

@@ -116,7 +116,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the LayerWindow - New" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_1") + Environment.NewLine + ex.Message);
 
             }
         }
@@ -218,7 +218,7 @@ namespace A4WaterUtilities
             try
             {
                 v_ViewerRecordIndex = v_ViewerRecordIndex + 1;
-                s_lblCount.Text = v_ViewerRecordIndex + 1 + " out of " + v_ViewerLayerCursorArray.Count;
+                s_lblCount.Text = v_ViewerRecordIndex + 1 + A4LGSharedFunctions.Localizer.GetString("OutOf") + v_ViewerLayerCursorArray.Count;
 
                 pFeat = v_ViewerLayerCursorArray[v_ViewerRecordIndex] as IFeature;
                 LoadFeatureToViewer(pFeat);
@@ -231,7 +231,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - s_BtnNextClick" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_2") + Environment.NewLine + ex.Message);
 
             }
             finally
@@ -255,7 +255,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - s_BtnZoomToClick" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_3") + Environment.NewLine + ex.Message);
 
             }
             finally
@@ -269,7 +269,7 @@ namespace A4WaterUtilities
             try
             {
                 v_ViewerRecordIndex = v_ViewerRecordIndex - 1;
-                s_lblCount.Text = v_ViewerRecordIndex + 1 + " out of " + v_ViewerLayerCursorArray.Count;
+                s_lblCount.Text = v_ViewerRecordIndex + 1 + A4LGSharedFunctions.Localizer.GetString("OutOf") + v_ViewerLayerCursorArray.Count;
 
                 pFeat = v_ViewerLayerCursorArray[v_ViewerRecordIndex] as IFeature;
                 LoadFeatureToViewer(pFeat);
@@ -284,7 +284,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Layer Window - s_BtnPreviousClick" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_4") + Environment.NewLine + ex.Message);
 
             }
             finally
@@ -303,7 +303,7 @@ namespace A4WaterUtilities
                 if (LoadCursor() == false)
                 {
                     v_ViewerRecordIndex = -1;
-                    s_lblCount.Text = "No Features Found";//v_ViewerRecordIndex + 1 + " out of " + v_ViewerLayerCursorArray.Count;
+                    s_lblCount.Text = A4LGSharedFunctions.Localizer.GetString("FeatNotFound");//v_ViewerRecordIndex + 1 + A4LGSharedFunctions.Localizer.GetString("OutOf") + v_ViewerLayerCursorArray.Count;
 
                     v_ViewerLayerCursorArray.Clear();
                     v_ViewerLayerCursor = null;
@@ -313,7 +313,7 @@ namespace A4WaterUtilities
                 }
                 if (v_ViewerLayerCursorArray == null) {
                     v_ViewerRecordIndex = -1;
-                    s_lblCount.Text = "No Features Found";//v_ViewerRecordIndex + 1 + " out of " + v_ViewerLayerCursorArray.Count;
+                    s_lblCount.Text = A4LGSharedFunctions.Localizer.GetString("FeatNotFound");//v_ViewerRecordIndex + 1 + A4LGSharedFunctions.Localizer.GetString("OutOf") + v_ViewerLayerCursorArray.Count;
 
                     v_ViewerLayerCursor = null;
                     setButtonState();
@@ -322,7 +322,7 @@ namespace A4WaterUtilities
                 if (v_ViewerLayerCursorArray.Count == 0)
                 {
                     v_ViewerRecordIndex = -1;
-                    s_lblCount.Text = "No Features Found";//v_ViewerRecordIndex + 1 + " out of " + v_ViewerLayerCursorArray.Count;
+                    s_lblCount.Text = A4LGSharedFunctions.Localizer.GetString("FeatNotFound");//v_ViewerRecordIndex + 1 + A4LGSharedFunctions.Localizer.GetString("OutOf") + v_ViewerLayerCursorArray.Count;
 
                     v_ViewerLayerCursor = null;
                     setButtonState();
@@ -330,7 +330,7 @@ namespace A4WaterUtilities
                 }
 
                 v_ViewerRecordIndex = 0;
-                s_lblCount.Text = v_ViewerRecordIndex + 1 + " out of " + v_ViewerLayerCursorArray.Count;
+                s_lblCount.Text = v_ViewerRecordIndex + 1 + A4LGSharedFunctions.Localizer.GetString("OutOf") + v_ViewerLayerCursorArray.Count;
 
                 pFeat = v_ViewerLayerCursorArray[v_ViewerRecordIndex] as IFeature;
 
@@ -346,7 +346,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Layer Window - s_BtnRefreshClick" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_5") + Environment.NewLine + ex.Message);
 
             }
             finally
@@ -425,7 +425,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Layer Viewer - LayerWindow: initAddin" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LV_1") + Environment.NewLine + ex.Message);
 
 
             }
@@ -475,7 +475,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - LoadCursor" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_7") + Environment.NewLine + ex.Message);
 
                 return false;
             }
@@ -697,7 +697,7 @@ namespace A4WaterUtilities
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" + Environment.NewLine + ex.Message);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_1") + Environment.NewLine + ex.Message);
 
                 }
 
@@ -832,8 +832,8 @@ namespace A4WaterUtilities
 
                                         pCurTabPage = new TabPage();
                                         int pgNum = pTbPageCo.Length + 1;
-                                        pCurTabPage.Name = "Page " + pgNum;
-                                        pCurTabPage.Text = "Page " + pgNum;
+                                        pCurTabPage.Name = A4LGSharedFunctions.Localizer.GetString("Page") + pgNum;
+                                        pCurTabPage.Text = A4LGSharedFunctions.Localizer.GetString("Page") + pgNum;
 
                                         pCntlNextTop = pTopPadding;
                                         pCntlNextLeft = pLeftPadding;
@@ -926,7 +926,7 @@ namespace A4WaterUtilities
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" + Environment.NewLine + ex.Message);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_1") + Environment.NewLine + ex.Message);
 
                 }
 
@@ -1054,7 +1054,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: AddControls" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_2") + Environment.NewLine + ex.Message);
 
             }
 
@@ -1619,7 +1619,7 @@ namespace A4WaterUtilities
                             //Create a lable for the field name
                             pLbl = new Label();
                             //Apply the field alias to the field name
-                            pLbl.Text = strAli + " (Set This Value First)";
+                            pLbl.Text = strAli + A4LGSharedFunctions.Localizer.GetString("SetValue");
                             //Link the field to the name of the control
                             pLbl.Name = "lblEdit" + strfld;
 
@@ -2508,7 +2508,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: AddControls" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_2") + Environment.NewLine + ex.Message);
 
             }
 
@@ -2542,7 +2542,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the edit control loading an image" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LoadImg") + Environment.NewLine + ex.Message);
 
             }
         }
@@ -2829,7 +2829,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the edit control subtype change" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("SubTpChange") + Environment.NewLine + ex.Message);
 
             }
         }
@@ -2855,7 +2855,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - s_gpBoxOptions_Click" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_8") + Environment.NewLine + ex.Message);
 
             }
 
@@ -2897,7 +2897,7 @@ namespace A4WaterUtilities
                 if (v_ViewerLayerCursorArray.Count == 0)
                     return;
                 v_ViewerRecordIndex = 0;
-                s_lblCount.Text = v_ViewerRecordIndex + 1 + " out of " + v_ViewerLayerCursorArray.Count;
+                s_lblCount.Text = v_ViewerRecordIndex + 1 + A4LGSharedFunctions.Localizer.GetString("OutOf") + v_ViewerLayerCursorArray.Count;
 
                 IFeature pFeat = v_ViewerLayerCursorArray[v_ViewerRecordIndex] as IFeature;
 
@@ -2913,7 +2913,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - s_cboLayers_SelectedIndexChanged" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_9") + Environment.NewLine + ex.Message);
 
             }
         }
@@ -2937,7 +2937,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - tbCntlDisplay_Resize" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_10") + Environment.NewLine + ex.Message);
 
 
             }
@@ -2960,7 +2960,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - CenterButton" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_11") + Environment.NewLine + ex.Message);
 
 
             }
@@ -3026,7 +3026,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - setButtonState" + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_12") + Environment.NewLine + ex.Message);
 
 
             }

@@ -44,19 +44,19 @@ namespace A4WaterUtilities
         {
             if (m_Editor == null)
             {
-                MessageBox.Show("Please Start Editing");   
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("StrtEditing"));   
                 return;
             }
             if (m_Editor.EditState == esriEditState.esriStateNotEditing)
             {
-                MessageBox.Show("Please Start Editing");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("StrtEditing"));
                 return;
             }
             
             base.OnActivate();
             Globals.RemoveTraceGraphics(ArcMap.Document.FocusMap, true);
          
-            MessageBox.Show("Please Select a source and then a target line");
+            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("SlctSrcAndTarget"));
 
         }
 
@@ -142,7 +142,7 @@ namespace A4WaterUtilities
             else
             {
             }
-            m_editor.StopOperation("Create asset and lateral");
+            m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
         
         }
 
@@ -217,7 +217,7 @@ namespace A4WaterUtilities
             else
             {
             }
-            m_editor.StopOperation("Create asset and lateral");
+            m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
 
         }
 
@@ -277,7 +277,7 @@ namespace A4WaterUtilities
 
 
           
-           // m_editor.StopOperation("Create asset and lateral");
+           // m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
 
         }
 

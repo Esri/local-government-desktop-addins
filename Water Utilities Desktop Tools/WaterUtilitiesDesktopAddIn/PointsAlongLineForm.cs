@@ -80,7 +80,7 @@ namespace A4WaterUtilities
        }
       
       this.Cursor = Cursors.Default;
-      m_editor.StopOperation("Create points along a line");
+      m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtPtsAlongLine"));
       this.Close();
      }
 
