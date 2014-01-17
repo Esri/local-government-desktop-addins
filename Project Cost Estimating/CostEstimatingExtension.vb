@@ -195,7 +195,7 @@ Public Class CostEstimatingExtension
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckForCIPLayers" & vbCrLf & ex.Message)
+            ' MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckForCIPLayers" & vbCrLf & ex.Message)
 
 
         End Try
