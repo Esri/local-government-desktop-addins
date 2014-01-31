@@ -2,7 +2,7 @@
 
 The ArcGIS for Local Government Desktop Add-ins include a series of desktop toolbars that optimize data management workflows. The toolbars are used in ArcGIS for Local Government editing maps like: Water Utility Network Editing, Address Data Management, Water Utility Capital Planning, Special Event Planning, and Pre-Fire Planning.
 
-![Image of Desktop Add-ins](https://raw.github.com/Esri/local-government-desktop-addins/master/local-government-desktop-addins.png "Desktop Add-ins")
+![Image of Desktop Add-ins](local-government-desktop-addins.png "Desktop Add-ins")
 
 ## Features
 
@@ -78,7 +78,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 A copy of the license is available in the repository's
-[LICENSE.txt](https://raw.github.com/Esri/local-government-desktop-addins/master/LICENSE.txt) file.
+[LICENSE.txt](LICENSE.txt) file.
 
 [](Esri Tags: Local-Government Water-Utility Utility Utilities Local Government Desktop Addins Water Attribute-Assistant Desktop-Addins Water-Utility-Network-Editing Water-Utility-Network-Reporting Capital-Planning Visual-Basic)
 [](Esri Language: C-Sharp)
