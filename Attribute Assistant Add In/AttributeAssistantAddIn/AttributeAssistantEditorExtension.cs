@@ -779,42 +779,46 @@ namespace ArcGIS4LocalGovernment
                 if (AAState._onStopOperationEvent == true)
                 {
                     IWorkspaceEdit2 wsEdit = (IWorkspaceEdit2)AAState._editor.EditWorkspace;
-                    IDataChangesEx changes = wsEdit.get_EditDataChanges((esriEditDataChangesType)1); // for edit operation
+                    if (wsEdit.IsInEditOperation == true)
+                    {
+                        IDataChangesEx changes = wsEdit.get_EditDataChanges((esriEditDataChangesType)1); // for edit operation
 
-                    IEnumBSTR modClass = changes.ModifiedClasses;
-                    string modItem = modClass.Next();
-                    string classList = "";
-                    while (modItem != null)
-                    {
-                        classList = classList + modItem;
-                        modItem = modClass.Next();
-                        if (modItem != null)
-                            classList = classList + ", ";
-                    }
-                    string classItem = classList.Split(',')[0]; // might be a better way, but if this is "add selected" it should only be 1 class...
-                    classItem = classItem.Substring(classItem.LastIndexOf('.') + 1).ToUpper();
-                    //IFIDSet ids = changes.get_ChangedIDs(classItem,(esriDifferenceType)2); // get updates, there must be only 1...
-                    //int fID;
-                    //ids.Next(out fID);
-                    //int oid = 0;
-                    //while(fID != -1)
-                    //{
-                    //    oid = fID;
-                    //    ids.Next(out fID);
-                    //}
-                    // loop through selected features and find the selected on that matches this edit operation
-                    //
-                    if (AAState._editor.SelectionCount > 0)
-                    {
-                        IEnumFeature selection = AAState._editor.EditSelection;
-                        IObject obj = selection.Next();
-                        while (obj != null)
+                        IEnumBSTR modClass = changes.ModifiedClasses;
+                        string modItem = modClass.Next();
+                        string classList = "";
+                        while (modItem != null)
                         {
-                            if (classItem == obj.Class.AliasName.ToUpper())
+                            classList = classList + modItem;
+                            modItem = modClass.Next();
+                            if (modItem != null)
+                                classList = classList + ", ";
+                        }
+                        string classItem = classList.Split(',')[0]; // might be a better way, but if this is "add selected" it should only be 1 class...
+                        classItem = classItem.Substring(classItem.LastIndexOf('.') + 1).ToUpper();
+                        //IFIDSet ids = changes.get_ChangedIDs(classItem,(esriDifferenceType)2); // get updates, there must be only 1...
+                        //int fID;
+                        //ids.Next(out fID);
+                        //int oid = 0;
+                        //while(fID != -1)
+                        //{
+                        //    oid = fID;
+                        //    ids.Next(out fID);
+                        //}
+                        // loop through selected features and find the selected on that matches this edit operation
+                        //
+                        if (AAState._editor.SelectionCount > 0)
+                        {
+                            IEnumFeature selection = AAState._editor.EditSelection;
+                            IObject obj = selection.Next();
+                            while (obj != null)
                             {
-                                changeFeature((IObject)obj);
+                                if (classItem == obj.Class.AliasName.ToUpper())
+                                {
+                                    changeFeature((IObject)obj);
+                                }
+                                obj = selection.Next();
                             }
-                            obj = selection.Next();
+
                         }
                     }
                 }
