@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterUtilitiesDesktopAddIn", "Water Utilities Desktop Tools\WaterUtilitiesDesktopAddIn\WaterUtilitiesDesktopAddIn.csproj", "{085C6A19-83A8-4396-83F6-62C7E4B16AC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterUtilitiesDesktopFunctions", "Water Utilities Desktop Tools\WaterUtilitiesDesktopFunctions\WaterUtilitiesDesktopFunctions.csproj", "{A1285DE2-50A3-4121-A119-4715810F3232}"

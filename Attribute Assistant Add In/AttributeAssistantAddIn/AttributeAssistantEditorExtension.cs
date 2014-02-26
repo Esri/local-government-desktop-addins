@@ -2734,7 +2734,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                         for (int i = 0; i < sourceFieldNums.Length; i++)
                                                                         {
-                                                                            inObject.set_Value(intFldIdxs[i], strVals[i]);
+                                                                            inObject.set_Value(intFldIdxs[i], (strVals[i].Trim()));
                                                                         }
 
                                                                     }
