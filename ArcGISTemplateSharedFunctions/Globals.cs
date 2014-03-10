@@ -7498,27 +7498,28 @@ namespace A4LGSharedFunctions
 
                     try
                     {
-                        double dblTol = .001;
+                        //double dblTol = .001;
                         pSourceGeo = inGeo as IPoint;
                         //pSourceGeo.SpatialReference = ((inFeature.Class as IFeatureClass) as IGeoDataset).SpatialReference;
                         if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != null)
                         {
                             pSourceGeo.Project((sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
                             //pSourceGeo.Project(AAState._editor.Map.SpatialReference);
-
-
                         }
-                        dblTol = GetXYTolerance(sourceLayer);
-                        searchEnvelope = new EnvelopeClass();
-                        searchEnvelope.XMin = 0 - dblTol;
-                        searchEnvelope.YMin = 0 - dblTol;
-                        searchEnvelope.XMax = 0 + dblTol;
-                        searchEnvelope.YMax = 0 + dblTol;
-                        searchEnvelope.CenterAt(pSourceGeo as IPoint);
-                        if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != null)
-                        {
-                            searchEnvelope.SpatialReference = ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
-                        }
+
+                        pGeo = pSourceGeo; // Use the point, not the envelope
+
+                        //dblTol = GetXYTolerance(sourceLayer);
+                        //searchEnvelope = new EnvelopeClass();
+                        //searchEnvelope.XMin = 0 - dblTol;
+                        //searchEnvelope.YMin = 0 - dblTol;
+                        //searchEnvelope.XMax = 0 + dblTol;
+                        //searchEnvelope.YMax = 0 + dblTol;
+                        //searchEnvelope.CenterAt(pSourceGeo as IPoint);
+                        //if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != null)
+                        //{
+                        //    searchEnvelope.SpatialReference = ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
+                        //}
                         //searchEnvelope.SpatialReference = (AAState._editor.Map.SpatialReference);
 
 
@@ -7538,7 +7539,10 @@ namespace A4LGSharedFunctions
                         //}
                         //else
                         //{
-                        pGeo = Globals.Env2Polygon(searchEnvelope);
+
+                        //pGeo = Globals.Env2Polygon(searchEnvelope);
+
+
                         // }
                         //searchEnvelope.Expand(.1, .1, true);
                         //searchEnvelope.Expand(searchDistance, searchDistance, false);
