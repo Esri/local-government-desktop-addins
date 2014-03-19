@@ -215,6 +215,7 @@
     <Content Include="..\..\Configs\Water_LG\Loaded.config">
       <Link>Loaded.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <None Include="Images\Open2.png" />
   </ItemGroup>

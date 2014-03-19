@@ -1858,7 +1858,8 @@ namespace A4LGSharedFunctions
             INetElements pNetElements = null;
             IEdgeFeature pEdge = null;
             IFeature pToFeature = null;
-            INetFlag pJuncFlag = null;
+            INetFlag pFlag = null;
+            
             INetSolverWeights pNetSolverW = null;
             IJunctionFlag junctionFlag;
             IEdgeFlag edgeFlag;
@@ -1922,34 +1923,41 @@ namespace A4LGSharedFunctions
                 //Get Junction for trace
                 if (pFeature.FeatureType == esriFeatureType.esriFTComplexEdge || pFeature.FeatureType == esriFeatureType.esriFTSimpleEdge)
                 {
+
                     pEdge = pFeature as IEdgeFeature;
-                    pToFeature = pEdge.ToJunctionFeature as IFeature;
 
+                    pToFeature = pFeature;
+                    int lUserSubId = -1;
+                    int lUserClassId = 0, lUserId = 0;
+                    int lEID;
+                    if (pFeature.FeatureType == esriFeatureType.esriFTComplexEdge )
+                    {
 
+                        IComplexNetworkFeature pCNetFeature = (IComplexNetworkFeature)pFeature;
+                
+                        lEID = pCNetFeature.FindEdgeEID((pEdge.ToJunctionFeature.GeometryForJunctionElement[0]) as IPoint);
+                        pNetElements.QueryIDs(lEID, esriElementType.esriETEdge, out lUserClassId, out lUserId, out lUserSubId);
+                        pCNetFeature = null;
 
-                    // If pFeature.FeatureType = esriFTComplexEdge Then
-                    //  Set pCNetFeature = pFeature
-                    //  Set pEdgeFeature = pFeature
-                    //  lEID = pCNetFeature.FindEdgeEID(pEdgeFeature.ToJunctionFeature.GeometryForJunctionElement(0))
-                    //  pNetElements.QueryIDs lEID, esriETEdge, lUserClassId, lUserId, lUserSubId
-                    //Else
-                    //  lUserSubId = -1
-                    //End If
+                    }
 
-                    //'Create a new edge flag
-                    //Set pEdgeFlag = New EdgeFlag
-                    //pEdgeFlag.UserClassID = pFeature.Class.ObjectClassID
-                    //pEdgeFlag.UserID = pFeature.OID
-                    //pEdgeFlag.UserSubID = lUserSubId
-
-                    //'Add edge flag to trace flow solver
-                    //Set pEFlags(0) = pEdgeFlag
-                    //pNewTrace.PutEdgeOrigins 1, pEFlags(0)
+                    pFlag = new EdgeFlagClass();
+                    pFlag.UserClassID = pToFeature.Class.ObjectClassID;
+                    pFlag.UserID = pToFeature.OID;
+                    pFlag.UserSubID = lUserSubId;
+                    
 
                 }
                 else if (pFeature.FeatureType == esriFeatureType.esriFTSimpleJunction || pFeature.FeatureType == esriFeatureType.esriFTComplexJunction)
                 {
                     pToFeature = pFeature;
+
+                    //Create a new junction flag
+                    pFlag = new JunctionFlagClass();
+                    pFlag.UserClassID = pToFeature.Class.ObjectClassID;
+                    pFlag.UserID = pToFeature.OID;
+                    pFlag.UserSubID = 0;
+
                 }
                 else
                 {
@@ -1957,30 +1965,24 @@ namespace A4LGSharedFunctions
 
                 }
 
-                //Create a new junction flag
-                pJuncFlag = new JunctionFlagClass();
-                pJuncFlag.UserClassID = pToFeature.Class.ObjectClassID;
-                pJuncFlag.UserID = pToFeature.OID;
-                pJuncFlag.UserSubID = 0;
 
 
 
-
-                AddFlagToTraceSolver(pJuncFlag, ref traceFlowSolver, out junctionFlag, out edgeFlag);
+                AddFlagToTraceSolver(pFlag, ref traceFlowSolver, out junctionFlag, out edgeFlag);
 
                 //Get trace weights
                 if (pNetWeight != null)
                 {
                     pNetSolverW = traceFlowSolver as INetSolverWeights;
                     pNetSolverW.JunctionWeight = pNetWeight;
-                    if (flowMethod == esriFlowMethod.esriFMUpstream)
-                    {
-                        pNetSolverW.ToFromEdgeWeight = pNetWeight;
-                    }
-                    else
-                    {
-                        pNetSolverW.FromToEdgeWeight = pNetWeight;
-                    }
+                    //if (flowMethod == esriFlowMethod.esriFMUpstream)
+                    //{
+                    //    pNetSolverW.ToFromEdgeWeight = pNetWeight;
+                    //}
+                    //else
+                    //{
+                    //    pNetSolverW.FromToEdgeWeight = pNetWeight;
+                    //}
                 }
 
                 //Run this trace
@@ -2011,7 +2013,7 @@ namespace A4LGSharedFunctions
                 pNetElements = null;
                 pEdge = null;
                 pToFeature = null;
-                pJuncFlag = null;
+                pFlag = null;
                 pNetSolverW = null;
                 junctionFlag = null;
                 edgeFlag = null;
