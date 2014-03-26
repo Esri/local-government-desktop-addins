@@ -874,7 +874,7 @@
     <value>Saving Sources</value>
   </data>
   <data name="GeoNetToolsProc_16j" xml:space="preserve">
-    <value> change your configuration file to specify a different feature class as a possible water source.</value>
+    <value> change your configuration file to specify a different feature class as a possible source.</value>
   </data>
   <data name="GeoNetToolsProc_16k" xml:space="preserve">
     <value>Tracing to find reachable sources</value>
@@ -1081,7 +1081,7 @@
     <value>Error_The location does not intersect a main, please try again.</value>
   </data>
   <data name="NoWaterSourceIdentifiedReturnStatement" xml:space="preserve">
-    <value>Error_No Enabled water sources can be identified, make sure a valid water source is feeding this system and its Enabled field is set to true(this is probably the issue)</value>
+    <value>Error_No Enabled water sources can be identified, make sure a valid source is feeding this system and its Enabled field is set to true(this is probably the issue)</value>
   </data>
   <data name="Of" xml:space="preserve">
     <value> of </value>
@@ -2564,5 +2564,11 @@
   </data>
   <data name="AttributeAssistantEditorChain198" xml:space="preserve">
     <value>                  Warning: Unsupported type</value>
+  </data>
+  <data name="ExportBarriersName" xml:space="preserve">
+    <value>Barriers</value>
+  </data>
+  <data name="ExportFlagsName" xml:space="preserve">
+    <value>Flags</value>
   </data>
 </root>

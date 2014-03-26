@@ -214,6 +214,7 @@
   <ItemGroup>
     <None Include="Images\Open2.png" />
     <AddInContent Include="Images\ArcGISAddin1.png" />
+    <AddInContent Include="Images\ExportFlagBarriers.png" />
     <Content Include="Loaded.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -319,4 +320,7 @@
     </ESRIAddInProperties>
     <VisualStudio />
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)Loaded.Config" "C:\Users\mich3661\AppData\Roaming\ArcGIS4LocalGovernment\ConfigFiles"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

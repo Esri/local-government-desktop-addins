@@ -85,7 +85,7 @@ namespace A4WaterUtilities
     }
     public static class GeoNetTools
     {
-      
+
         public enum GNTraceType { Upstream, Downstream, Isolation, SummaryIsolation, SecondaryIsolation, NewIsolation, IsolationRerun }
         private static IFields createProfileFields()
         {
@@ -759,7 +759,7 @@ namespace A4WaterUtilities
                         {
 
                             gn = gnList[i] as IGeometricNetwork;
-                           // fLayer = Globals.FindLayerByFeatureClass(pMap, gn.OrphanJunctionFeatureClass, false);
+                            // fLayer = Globals.FindLayerByFeatureClass(pMap, gn.OrphanJunctionFeatureClass, false);
                             //if (fLayer == null)
                             //{
                             //    MessageBox.Show("Unable to set flow direction for " + gn.FeatureDataset.Name + ".  Add the " + gn.OrphanJunctionFeatureClass.AliasName + " to your map and try again, if needed", "Establish Flow Direction");
@@ -2854,7 +2854,7 @@ namespace A4WaterUtilities
 
                     pNetworkSourceFeature.Disconnect();
 
-                   
+
                     boolean_Continue = trackCancel.Continue();
                     if (!boolean_Continue)
                     {
@@ -4193,8 +4193,7 @@ namespace A4WaterUtilities
         }
 
 
-
-
+       
         public static string TraceIsolation(double[] x, double[] y, IApplication app, string sourceFLName, string valveFLName, string operableFieldNameValves, string operableFieldNameSources,
                                   double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName, string MeterCritField, string MeterCritVal)
         {
@@ -5612,7 +5611,7 @@ namespace A4WaterUtilities
                 //}
                 if (junctionFlag != null)
                 {
-                   // Marshal.ReleaseComObject(junctionFlag);
+                    // Marshal.ReleaseComObject(junctionFlag);
                 }
                 if (edgeFlag != null)
                 {
@@ -6347,7 +6346,7 @@ namespace A4WaterUtilities
 
                     if (pManholeLayer == null)
                     {
-                       // MessageBox.Show("The point layer (" + ProfileGraph[i].Point_LayerName + ") was not found, please update the config to make the name of the layer in the mxd");
+                        // MessageBox.Show("The point layer (" + ProfileGraph[i].Point_LayerName + ") was not found, please update the config to make the name of the layer in the mxd");
 
                         continue;
                     }
@@ -6355,7 +6354,7 @@ namespace A4WaterUtilities
                     pMainLayer = (IFeatureLayer)Globals.FindLayer(pMxDoc.FocusMap, ProfileGraph[i].Line_LayerName, ref FCorLayerMain);
                     if (pMainLayer == null)
                     {
-                       // MessageBox.Show("The Main layer (" + ProfileGraph[i].Line_LayerName + ") was not found, please update the config to make the name of the layer in the mxd");
+                        // MessageBox.Show("The Main layer (" + ProfileGraph[i].Line_LayerName + ") was not found, please update the config to make the name of the layer in the mxd");
 
                         continue;
                     }
@@ -8587,7 +8586,7 @@ namespace A4WaterUtilities
                 foreach (FlowLayerDetails sumAcc in sumFlowAcc)
                 {
                     if (flowCalced == true)
-                        break; 
+                        break;
 
                     bool boolFoundAsLayer = true;
 
@@ -8675,7 +8674,7 @@ namespace A4WaterUtilities
                             //pFeature.Store();
                         }
                     }
-                    flowCalced =true;
+                    flowCalced = true;
 
 
                 }
