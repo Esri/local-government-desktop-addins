@@ -2071,13 +2071,6 @@ namespace A4WaterUtilities
         public static IEnvelope ToggleOperableStatus(IApplication app, IPoint point, bool showMessage, string ISOvalveFeatureLayerName, string ISOsourceFeatureLayerName, string ISOoperableFieldNameValves, string ISOoperableFieldNameSources, string[] ISOoperableValues, double SnapTol)
         {
 
-            //m_ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
-            //m_ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
-
-
-            //m_ISOoperableFieldNameValves = ConfigUtil.GetConfigValue("TraceIsolation_Operable_Field_Valves", "");
-            //m_ISOoperableFieldNameSources = ConfigUtil.GetConfigValue("TraceIsolation_Operable_Field_Sources", "");
-            //m_ISOoperableValues = ConfigUtil.GetConfigValue("TraceIsolation_Operable_Values", "").Split('|');
             IFeatureCursor fcursor = null;
             ICursor ccursor = null;
             IFeature feat = null;
@@ -2224,23 +2217,23 @@ namespace A4WaterUtilities
                                 if (feat.get_Value(operableFieldPos) == null)
                                 {
                                     feat.set_Value(operableFieldPos, ISOoperableValues[1]);
-                                    disVal = "True";
+                                    disVal = ISOoperableValues[1];
                                 }
 
                                 else if (feat.get_Value(operableFieldPos) is DBNull)
                                 {
                                     feat.set_Value(operableFieldPos, ISOoperableValues[1]);
-                                    disVal = "True";
+                                    disVal = ISOoperableValues[1];
                                 }
                                 else if (feat.get_Value(operableFieldPos).ToString() == ISOoperableValues[0])
                                 {
                                     feat.set_Value(operableFieldPos, ISOoperableValues[1]);
-                                    disVal = "True";
+                                    disVal = ISOoperableValues[1];
                                 }
                                 else
                                 {
                                     feat.set_Value(operableFieldPos, ISOoperableValues[0]);
-                                    disVal = "False";
+                                    disVal = ISOoperableValues[0];
                                 }
                             }
                             else

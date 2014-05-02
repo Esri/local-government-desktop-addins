@@ -133,7 +133,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 10.2.0.3.
+        ///   Looks up a localized string similar to 10.2.0.4.
         /// </summary>
         internal static string AddInVersion {
             get {

@@ -980,7 +980,7 @@ namespace ArcGIS4LocalGovernment
         string GeocodeStr = "GeocodeServer";
         string reverseGeocodeStr = "ReverseGeocode";
 
-        private string _agsOnlineLocators = "http://tasks.arcgisonline.com/ArcGIS/rest/services/Locators/TA_Streets_US_10/GeocodeServer/";
+        private string _agsOnlineLocators = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
 
         //Retrieve configuration from XML config file (overrides defaults set above)
         private void GetConfigSettings()
@@ -6291,6 +6291,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
+                                                                    AAState.WriteLine(ex.Message);
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain96"));
                                                                     wkid = 4326;
                                                                 }
@@ -6354,8 +6355,10 @@ namespace ArcGIS4LocalGovernment
 
                                                                     }
                                                                 }
-                                                                catch
+                                                                catch (Exception ex)
                                                                 {
+                                                                    AAState.WriteLine(ex.Message);
+                                                                    
                                                                 }
                                                                 finally
                                                                 {

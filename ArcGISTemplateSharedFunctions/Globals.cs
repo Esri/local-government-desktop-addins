@@ -13176,29 +13176,31 @@ namespace A4LGSharedFunctions
                 pLay = pEnumLayer.Next();
                 while (!(pLay == null))
                 {
-                    if (!(pLay is IGroupLayer))
-                    {
-                        if (pLay is IDataset)
+                    if (pLay.Valid){
+                        if (!(pLay is IGroupLayer))
                         {
-                            pDataset = (IDataset)pLay;
-                            if (pDataset.Workspace.WorkspaceFactory is InMemoryWorkspaceFactoryClass)
+                            if (pLay is IDataset)
                             {
-                                return pDataset.Workspace;
-
-                            }
-
-                        }
-                        else if (pLay is IBasemapSubLayer)
-                        {
-                            if (((IBasemapSubLayer)pLay).Layer is IDataset)
-                            {
-                                pDataset = (IDataset)((IBasemapSubLayer)pLay).Layer;
-
                                 pDataset = (IDataset)pLay;
-                                if (pDataset.Workspace.WorkspaceFactory is InMemoryWorkspaceFactory)
+                                if (pDataset.Workspace.WorkspaceFactory is InMemoryWorkspaceFactoryClass)
                                 {
                                     return pDataset.Workspace;
 
+                                }
+
+                            }
+                            else if (pLay is IBasemapSubLayer)
+                            {
+                                if (((IBasemapSubLayer)pLay).Layer is IDataset)
+                                {
+                                    pDataset = (IDataset)((IBasemapSubLayer)pLay).Layer;
+
+                                    pDataset = (IDataset)pLay;
+                                    if (pDataset.Workspace.WorkspaceFactory is InMemoryWorkspaceFactory)
+                                    {
+                                        return pDataset.Workspace;
+
+                                    }
                                 }
                             }
                         }
