@@ -12885,13 +12885,33 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
+                                                                                            if (boolLayerOrFC == true) 
+                                                                                            {
+                                                                                                 pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
 
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                pOp.Display = sourceLayer.FeatureClass.AliasName + ": " + pOp.Display + " value = " + pOp.Value.ToString();
+
+                                                                                            }
+                                                                                           
+                                                                                       
                                                                                         }
                                                                                         else
                                                                                         {
-                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
+                                                                                            if (boolLayerOrFC == true)
+                                                                                            {
+                                                                                                pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                pOp.Display = sourceLayer.FeatureClass.AliasName + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
+
+                                                                                            }
+                                                                                           
+                                                                                           
                                                                                         }
 
 
