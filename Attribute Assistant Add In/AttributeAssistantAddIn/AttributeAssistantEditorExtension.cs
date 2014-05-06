@@ -1353,7 +1353,10 @@ namespace ArcGIS4LocalGovernment
                     if (AAState._editor.EditWorkspace != null)
                     {
                         IWorkspaceEditControl pWorkspaceEditControl = AAState._editor.EditWorkspace as IWorkspaceEditControl;
-                        pWorkspaceEditControl.SetStoreEventsRequired();
+                        if (pWorkspaceEditControl != null)
+                        {
+                            pWorkspaceEditControl.SetStoreEventsRequired();
+                        }
                         pWorkspaceEditControl = null;
                     }
                 }

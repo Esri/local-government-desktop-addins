@@ -87,7 +87,7 @@ using Microsoft.VisualBasic;
 
 namespace A4LGSharedFunctions
 {
-    
+
     #region WindowsAPI Calls
     //Helper class for converting symbols
     // from the sandpit: http://kiwigis.blogspot.com/2009/05/accessing-esri-style-files-using-adonet.html
@@ -509,7 +509,7 @@ namespace A4LGSharedFunctions
     }
     #endregion //WindowsAPI calls
 
-    public  class Localizer
+    public class Localizer
     {
 
         ResourceManager manager;
@@ -537,11 +537,11 @@ namespace A4LGSharedFunctions
         }
 
         //Example using different resource files
-         //string msg  = A4LGSharedFunctions.Localizer.GetString("Test");
+        //string msg  = A4LGSharedFunctions.Localizer.GetString("Test");
 
-         //   System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("es");
-         //   System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.CreateSpecificCulture("es");
-         //   msg = A4LGSharedFunctions.Localizer.GetString("Test");
+        //   System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.CreateSpecificCulture("es");
+        //   System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.CreateSpecificCulture("es");
+        //   msg = A4LGSharedFunctions.Localizer.GetString("Test");
 
     }
 
@@ -549,7 +549,7 @@ namespace A4LGSharedFunctions
 
     public static class Globals
     {
-       
+
 
         public static string LogLocations = "";
 
@@ -828,9 +828,9 @@ namespace A4LGSharedFunctions
             try
             {
 
-                if (value.Length > pFld.Length )
+                if (value.Length > pFld.Length)
                 {
-                    return value.Substring(0, pFld.Length );
+                    return value.Substring(0, pFld.Length);
 
                 }
                 else
@@ -843,7 +843,7 @@ namespace A4LGSharedFunctions
             {
                 return value;
             }
-        
+
         }
         public static double ConvertClockPositionToDegrees(double value)
         {
@@ -854,7 +854,7 @@ namespace A4LGSharedFunctions
            double RadianAngle, double LineLength, string AddAngleToLineAngle, bool StartAtInput, bool CheckSelection)
         {
 
-             IPoint snapPnt = null;
+            IPoint snapPnt = null;
             IPolyline pPolyline = null;
             IFeature geoMainLine = null;
             IPoint pNewPt = null;
@@ -884,7 +884,7 @@ namespace A4LGSharedFunctions
                 double angleOfLine = 0;
                 if (geoMainLine != null)
                 {
-                    snapPnt = Globals.GetPointOnLine(inPoint,(IGeometry) geoMainLine.ShapeCopy, searchDist, out side);
+                    snapPnt = Globals.GetPointOnLine(inPoint, (IGeometry)geoMainLine.ShapeCopy, searchDist, out side);
                     //snapPnt = inPoint;
                     angleOfLine = Globals.GetAngleOfLineAtPoint((IPolyline)geoMainLine.ShapeCopy, snapPnt, searchDist);
                 }
@@ -1860,7 +1860,7 @@ namespace A4LGSharedFunctions
             IEdgeFeature pEdge = null;
             IFeature pToFeature = null;
             INetFlag pFlag = null;
-            
+
             INetSolverWeights pNetSolverW = null;
             IJunctionFlag junctionFlag;
             IEdgeFlag edgeFlag;
@@ -1931,11 +1931,11 @@ namespace A4LGSharedFunctions
                     int lUserSubId = -1;
                     int lUserClassId = 0, lUserId = 0;
                     int lEID;
-                    if (pFeature.FeatureType == esriFeatureType.esriFTComplexEdge )
+                    if (pFeature.FeatureType == esriFeatureType.esriFTComplexEdge)
                     {
 
                         IComplexNetworkFeature pCNetFeature = (IComplexNetworkFeature)pFeature;
-                
+
                         lEID = pCNetFeature.FindEdgeEID((pEdge.ToJunctionFeature.GeometryForJunctionElement[0]) as IPoint);
                         pNetElements.QueryIDs(lEID, esriElementType.esriETEdge, out lUserClassId, out lUserId, out lUserSubId);
                         pCNetFeature = null;
@@ -1946,7 +1946,7 @@ namespace A4LGSharedFunctions
                     pFlag.UserClassID = pToFeature.Class.ObjectClassID;
                     pFlag.UserID = pToFeature.OID;
                     pFlag.UserSubID = lUserSubId;
-                    
+
 
                 }
                 else if (pFeature.FeatureType == esriFeatureType.esriFTSimpleJunction || pFeature.FeatureType == esriFeatureType.esriFTComplexJunction)
@@ -4747,7 +4747,7 @@ namespace A4LGSharedFunctions
 
             }
         }
-        public static void getFlagsBarriers(IApplication app,out List<ESRI.ArcGIS.Geometry.IPoint> Flags, out List<ESRI.ArcGIS.Geometry.IPoint> Barriers)
+        public static void getFlagsBarriers(IApplication app, out List<ESRI.ArcGIS.Geometry.IPoint> Flags, out List<ESRI.ArcGIS.Geometry.IPoint> Barriers)
         {
             Flags = new List<ESRI.ArcGIS.Geometry.IPoint>();
             Barriers = new List<ESRI.ArcGIS.Geometry.IPoint>();
@@ -4763,7 +4763,7 @@ namespace A4LGSharedFunctions
 
             INetworkAnalysisExtBarriers pNetworkAnalysisExtBarriers = null;
             INetworkAnalysisExtFlags pNetworkAnalysisExtFlags = null;
-          
+
             IFlagDisplay pFlagDisplay = null;
 
             IClone pCl = null;
@@ -4805,7 +4805,7 @@ namespace A4LGSharedFunctions
 
                             pCl = (IClone)pFlagDisplay.Geometry;
 
-                      
+
 
                             Barriers.Add((IPoint)pCl.Clone());
 
@@ -4823,12 +4823,12 @@ namespace A4LGSharedFunctions
 
                             pCl = (IClone)pFlagDisplay.Geometry;
                             Barriers.Add((IPoint)pCl.Clone());
-                     
+
                         }
 
 
                     }
-                  
+
 
 
                     pNetworkAnalysisExtFlags = (INetworkAnalysisExtFlags)pNetAnalysisExt;
@@ -4842,7 +4842,7 @@ namespace A4LGSharedFunctions
                             pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtFlags.get_EdgeFlag(i);
                             pCl = (IClone)pFlagDisplay.Geometry;
                             Flags.Add((IPoint)pCl.Clone());
-                          
+
                         }
 
 
@@ -4861,7 +4861,7 @@ namespace A4LGSharedFunctions
                             pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtFlags.get_JunctionFlag(i);
                             pCl = (IClone)pFlagDisplay.Geometry;
                             Flags.Add((IPoint)pCl.Clone());
-                          
+
                         }
 
                     }
@@ -4870,7 +4870,7 @@ namespace A4LGSharedFunctions
             }
             catch
             {
-             
+
             }
             finally
             {
@@ -5479,7 +5479,7 @@ namespace A4LGSharedFunctions
 
                 symb = new SimpleLineSymbolClass();
                 lineColors = ConfigUtil.GetConfigValue("traceResultsLineColor", "255,0,0");
-                string[] strColors  =  lineColors.Split(',');
+                string[] strColors = lineColors.Split(',');
 
                 symb.Color = GetColor(Convert.ToInt32(strColors[0]), Convert.ToInt32(strColors[1]), Convert.ToInt32(strColors[2]));
                 symb.Width = 2;
@@ -5846,8 +5846,8 @@ namespace A4LGSharedFunctions
         {
             string retVal = "";
             RegistryKey rootkey = Registry.LocalMachine;
-           RegistryKey subkey = rootkey.OpenSubKey(key);
-            
+            RegistryKey subkey = rootkey.OpenSubKey(key);
+
             // If the RegistryKey doesn't exist return null
             if (subkey == null)
             {
@@ -5857,7 +5857,7 @@ namespace A4LGSharedFunctions
             {
                 try
                 {
-                  
+
                     RegistryValueKind valKind = subkey.GetValueKind(name);
                     if (valKind == RegistryValueKind.DWord || valKind == RegistryValueKind.String)
                         retVal = subkey.GetValue(name).ToString();
@@ -5872,7 +5872,7 @@ namespace A4LGSharedFunctions
         public static string GetRegistryValueCU(string key, string name)
         {
             string retVal = "";
-       
+
             RegistryKey rootkey = Registry.CurrentUser;
             RegistryKey subkey = rootkey.OpenSubKey(key);
             // If the RegistryKey doesn't exist return null
@@ -6027,11 +6027,11 @@ namespace A4LGSharedFunctions
 
             if (tmp == "!none")
             {
-                tmp =System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\ArcGISSolutions";
+                tmp = System.Environment.GetEnvironmentVariable("USERPROFILE") + "\\ArcGISSolutions";
 
                 if (System.IO.Directory.Exists(tmp))
                 {
-                    return tmp  + "\\AALogFile.txt";
+                    return tmp + "\\AALogFile.txt";
                 }
                 else
                 {
@@ -6045,7 +6045,7 @@ namespace A4LGSharedFunctions
                         return PromptForSave();
                     }
                 }
-                
+
             }
             else
             {
@@ -6080,12 +6080,12 @@ namespace A4LGSharedFunctions
                                 return PromptForSave();
                             }
                         }
-                
+
                     }
                 }
-             return tmp;
+                return tmp;
             }
-                
+
 
         }
 
@@ -6115,9 +6115,9 @@ namespace A4LGSharedFunctions
         //        layerExtensions = null;
         //    }
         //}
-          public static int GetEditTemplateCount( IFeatureLayer Layer)
+        public static int GetEditTemplateCount(IFeatureLayer Layer)
         {
-            IEditTemplateManager ipEditTemplateMgr = null ;
+            IEditTemplateManager ipEditTemplateMgr = null;
             try
             {
 
@@ -6132,26 +6132,26 @@ namespace A4LGSharedFunctions
 
                 return -1;
             }
-          }
+        }
 
-          public static IEditTemplate GetEditTemplateByIndex(IFeatureLayer Layer, int Index)
-          {
-              IEditTemplateManager ipEditTemplateMgr = null;
-              try
-              {
+        public static IEditTemplate GetEditTemplateByIndex(IFeatureLayer Layer, int Index)
+        {
+            IEditTemplateManager ipEditTemplateMgr = null;
+            try
+            {
 
 
 
-                  ipEditTemplateMgr = GetEditTemplateManager(Layer);
+                ipEditTemplateMgr = GetEditTemplateManager(Layer);
 
-                  return ipEditTemplateMgr.get_EditTemplate(Index);
-              }
-              catch (Exception ex)
-              {
+                return ipEditTemplateMgr.get_EditTemplate(Index);
+            }
+            catch (Exception ex)
+            {
 
-                  return null ;
-              }
-          }
+                return null;
+            }
+        }
         public static IEditTemplate GetEditTemplate(string TemplateName, IFeatureLayer Layer)
         {
             try
@@ -6224,7 +6224,7 @@ namespace A4LGSharedFunctions
 
                     if (idx == 0)
                     {
-                         return null;
+                        return null;
                     }
                     else if (idx == 1)
                     {
@@ -7225,7 +7225,7 @@ namespace A4LGSharedFunctions
             //Create color
             IRgbColor color;
             color = new RgbColorClass();
-  
+
             color.Red = r;  //TODO: UserConfig
             color.Green = g;  //TODO: UserConfig
             color.Blue = b;  //TODO: UserConfig
@@ -9064,7 +9064,7 @@ namespace A4LGSharedFunctions
 
         public static List<IPoint> GetGeomCenter(IGeometry geo)
         {
-            
+
 
             IPoint pCenterPoint = null;
             List<IPoint> pCenterPoints = new List<IPoint>();
@@ -10020,7 +10020,7 @@ namespace A4LGSharedFunctions
                         degs = 360 + degs;
 
                     double rads = (degs + angle) * (Math.PI / 180);
-               
+
                     pCl = (IClone)turnPoint;
 
                     pStraightLinePoint = (IPoint)pCl.Clone();
@@ -12800,7 +12800,7 @@ namespace A4LGSharedFunctions
                 geomDefEdit.GeometryType_2 = GeoType;
                 geomDefEdit.SpatialReference_2 = pSpatRef;
 
-              
+
                 return pFields;
 
             }
@@ -12809,7 +12809,7 @@ namespace A4LGSharedFunctions
                 return null;
             }
         }
-     
+
         public static IFields createFeatureClassFieldsFromTableFields(IFields fields, ISpatialReference pSpatRef, esriGeometryType GeoType)
         {
 
@@ -13176,7 +13176,8 @@ namespace A4LGSharedFunctions
                 pLay = pEnumLayer.Next();
                 while (!(pLay == null))
                 {
-                    if (pLay.Valid){
+                    if (pLay.Valid)
+                    {
                         if (!(pLay is IGroupLayer))
                         {
                             if (pLay is IDataset)
@@ -13187,6 +13188,13 @@ namespace A4LGSharedFunctions
                                     return pDataset.Workspace;
 
                                 }
+                                else if (pDataset.Workspace.WorkspaceFactory.WorkspaceType.ToString() == "99")
+                                {
+                                    return pDataset.Workspace;
+
+                                }
+
+
 
                             }
                             else if (pLay is IBasemapSubLayer)
