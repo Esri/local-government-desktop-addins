@@ -10450,6 +10450,7 @@ namespace ArcGIS4LocalGovernment
                                                     sequenceFixedWidth = "";
                                                     sequencePadding = 0;
                                                     formatString = "";
+                                                    bool onlyWhenNull = false;
 
                                                     // Parse arguments
                                                     if (valData == null) break;
@@ -10467,132 +10468,147 @@ namespace ArcGIS4LocalGovernment
                                                             sequenceFixedWidth = args[1].ToString();
                                                             formatString = args[2].ToString();
                                                             break;
+                                                        case 4:  // sequenceColumnName|sequenceFixedWidth|formatString
+                                                            sequenceColumnName = args[0].ToString();
+                                                            sequenceFixedWidth = args[1].ToString();
+                                                            formatString = args[2].ToString();
+                                                            onlyWhenNull =   args[3].ToString().ToUpper() == "TRUE" ? true : false;
+
+                                                            break;
                                                         default: break;
                                                     }
-
-                                                    //Check for requested zero padding of sequence number
-                                                    if (sequenceFixedWidth != "")
-                                                        int.TryParse(sequenceFixedWidth.ToString(), out sequencePadding);
-                                                    if (sequencePadding > 25)
+                                                    object val = inObject.get_Value(intFldIdxs[0]);
+                                                    bool proceed = true;
+                                                    if (onlyWhenNull && (inObject.get_Value(intFldIdxs[0]) != null && inObject.get_Value(intFldIdxs[0]) != DBNull.Value))
                                                     {
-
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain116"));
-                                                        AAState.WriteLine("                  WARNING: " + sequencePadding + " 0's is what you have");
-
+                                                        proceed = false;
                                                     }
-                                                    else if (sequencePadding > 50)
+                                                    if (proceed)
                                                     {
-                                                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain117"));
-                                                    }
-                                                    qFilter = new QueryFilterClass();
-                                                    qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
-                                                    cCurs = AAState._gentab.Update(qFilter, false);
-                                                    sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
-                                                    //get value of first row, increment it, and return incremented value
-                                                    for (int j = 0; j < 51; j++)
-                                                    {
-                                                        row = cCurs.NextRow();
-                                                        if (row == null)
+                                                        //Check for requested zero padding of sequence number
+                                                        if (sequenceFixedWidth != "")
+                                                            int.TryParse(sequenceFixedWidth.ToString(), out sequencePadding);
+                                                        if (sequencePadding > 25)
                                                         {
-                                                            break;
-                                                        }
-                                                        if (row.get_Value(sequenceColumnNum) == null)
-                                                        {
-                                                            sequenceValue = 0;
-                                                        }
-                                                        else if (row.get_Value(sequenceColumnNum).ToString() == "")
-                                                        {
-                                                            sequenceValue = 0;
-                                                        }
-                                                        else
-                                                            sequenceValue = Convert.ToInt32(row.get_Value(sequenceColumnNum));
 
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain116"));
+                                                            AAState.WriteLine("                  WARNING: " + sequencePadding + " 0's is what you have");
 
-                                                        // _editEvents.OnChangeFeature -= OnChangeFeature;
-                                                        // _editEvents.OnCreateFeature -= OnCreateFeature;
-                                                        int sequenceInt = 1;
-
-                                                        if (AAState._gentab.Fields.FindField("SEQINTERV") > 0)
+                                                        }
+                                                        else if (sequencePadding > 50)
                                                         {
-                                                            if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != null)
+                                                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain117"));
+                                                        }
+                                                        qFilter = new QueryFilterClass();
+                                                        qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
+                                                        cCurs = AAState._gentab.Update(qFilter, false);
+                                                        sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
+                                                        //get value of first row, increment it, and return incremented value
+                                                        for (int j = 0; j < 51; j++)
+                                                        {
+                                                            row = cCurs.NextRow();
+                                                            if (row == null)
                                                             {
-                                                                if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != DBNull.Value)
-                                                                    sequenceInt = Convert.ToInt32(row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")));
+                                                                break;
                                                             }
-                                                        }
-                                                        sequenceValue = sequenceValue + sequenceInt;
-
-                                                        row.set_Value(sequenceColumnNum, sequenceValue);
-                                                        AAState.WriteLine("                  " + row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue);
-                                                        //AAState.changeFeature -= OnChangeFeature;
-                                                        //AAState.createFeature -= OnCreateFeature;
-
-                                                        row.Store();
-                                                        //AAState.changeFeature += OnChangeFeature;
-                                                        //AAState.createFeature += OnCreateFeature;
-
-                                                        //  _editEvents.OnChangeFeature += OnChangeFeature;
-                                                        //  _editEvents.OnCreateFeature += OnCreateFeature;
-                                                        if (Convert.ToInt32(row.get_Value(sequenceColumnNum)) == sequenceValue)
-                                                            break;
-
-                                                    }
-                                                    if (sequenceValue == -1)
-                                                    {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ao"));
-                                                    }
-
-                                                    else
-                                                    {
-                                                        if (inObject.Fields.get_Field(intFldIdxs[0]).Type == esriFieldType.esriFieldTypeString)
-                                                            if (formatString == null || formatString == "" || formatString.ToLower().IndexOf("[seq]") == -1)
+                                                            if (row.get_Value(sequenceColumnNum) == null)
                                                             {
-                                                                string setVal = (sequenceValue.ToString("D" + sequencePadding) + sequencePostfix).ToString();
+                                                                sequenceValue = 0;
+                                                            }
+                                                            else if (row.get_Value(sequenceColumnNum).ToString() == "")
+                                                            {
+                                                                sequenceValue = 0;
+                                                            }
+                                                            else
+                                                                sequenceValue = Convert.ToInt32(row.get_Value(sequenceColumnNum));
 
-                                                                if (inObject.Fields.get_Field(intFldIdxs[0]).Length < setVal.Length && inObject.Fields.get_Field(intFldIdxs[0]).Length != 0)
+
+                                                            // _editEvents.OnChangeFeature -= OnChangeFeature;
+                                                            // _editEvents.OnCreateFeature -= OnCreateFeature;
+                                                            int sequenceInt = 1;
+
+                                                            if (AAState._gentab.Fields.FindField("SEQINTERV") > 0)
+                                                            {
+                                                                if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != null)
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sequenceValue + " is to long for field " + row.Fields.get_Field(sequenceColumnNum).AliasName);
+                                                                    if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != DBNull.Value)
+                                                                        sequenceInt = Convert.ToInt32(row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")));
+                                                                }
+                                                            }
+                                                            sequenceValue = sequenceValue + sequenceInt;
+
+                                                            row.set_Value(sequenceColumnNum, sequenceValue);
+                                                            AAState.WriteLine("                  " + row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue);
+                                                            //AAState.changeFeature -= OnChangeFeature;
+                                                            //AAState.createFeature -= OnCreateFeature;
+
+                                                            row.Store();
+                                                            //AAState.changeFeature += OnChangeFeature;
+                                                            //AAState.createFeature += OnCreateFeature;
+
+                                                            //  _editEvents.OnChangeFeature += OnChangeFeature;
+                                                            //  _editEvents.OnCreateFeature += OnCreateFeature;
+                                                            if (Convert.ToInt32(row.get_Value(sequenceColumnNum)) == sequenceValue)
+                                                                break;
+
+                                                        }
+                                                        if (sequenceValue == -1)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ao"));
+                                                        }
+
+                                                        else
+                                                        {
+                                                            if (inObject.Fields.get_Field(intFldIdxs[0]).Type == esriFieldType.esriFieldTypeString)
+                                                                if (formatString == null || formatString == "" || formatString.ToLower().IndexOf("[seq]") == -1)
+                                                                {
+                                                                    string setVal = (sequenceValue.ToString("D" + sequencePadding) + sequencePostfix).ToString();
+
+                                                                    if (inObject.Fields.get_Field(intFldIdxs[0]).Length < setVal.Length && inObject.Fields.get_Field(intFldIdxs[0]).Length != 0)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sequenceValue + " is to long for field " + row.Fields.get_Field(sequenceColumnNum).AliasName);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        inObject.set_Value(intFldIdxs[0], (sequenceValue.ToString("D" + sequencePadding) + sequencePostfix).Trim());
+                                                                        AAState.WriteLine("                  " + inObject.Fields.get_Field(intFldIdxs[0]).AliasName + " set to " + sequenceValue.ToString("D" + sequencePadding) + sequencePostfix);
+
+                                                                    }
+
+
+
                                                                 }
                                                                 else
                                                                 {
-                                                                    inObject.set_Value(intFldIdxs[0], (sequenceValue.ToString("D" + sequencePadding) + sequencePostfix).Trim());
-                                                                    AAState.WriteLine("                  " + inObject.Fields.get_Field(intFldIdxs[0]).AliasName + " set to " + sequenceValue.ToString("D" + sequencePadding) + sequencePostfix);
+
+
+                                                                    int locIdx = formatString.ToUpper().IndexOf("[SEQ]");
+                                                                    if (locIdx >= 0)
+                                                                    {
+                                                                        formatString = formatString.Remove(locIdx, 5);
+                                                                        formatString = formatString.Insert(locIdx, sequenceValue.ToString("D" + sequencePadding));
+                                                                    }
+                                                                    //formatString = formatString.Replace("[seq]", sequenceValue.ToString("D" + sequencePadding));
+
+
+                                                                    if (inObject.Fields.get_Field(intFldIdxs[0]).Length < formatString.Length && inObject.Fields.get_Field(intFldIdxs[0]).Length != 0)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + formatString + " is to long for field " + row.Fields.get_Field(sequenceColumnNum).AliasName);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        inObject.set_Value(intFldIdxs[0], formatString.Trim());
+                                                                        AAState.WriteLine("                  " + inObject.Fields.get_Field(intFldIdxs[0]).AliasName + " set to " + formatString);
+                                                                    }
+
 
                                                                 }
-
-
-
-                                                            }
                                                             else
                                                             {
 
-
-                                                                int locIdx = formatString.ToUpper().IndexOf("[SEQ]");
-                                                                if (locIdx >= 0)
-                                                                {
-                                                                    formatString = formatString.Remove(locIdx, 5);
-                                                                    formatString = formatString.Insert(locIdx, sequenceValue.ToString("D" + sequencePadding));
-                                                                }
-                                                                //formatString = formatString.Replace("[seq]", sequenceValue.ToString("D" + sequencePadding));
-
-
-                                                                if (inObject.Fields.get_Field(intFldIdxs[0]).Length < formatString.Length && inObject.Fields.get_Field(intFldIdxs[0]).Length != 0)
-                                                                {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + formatString + " is to long for field " + row.Fields.get_Field(sequenceColumnNum).AliasName);
-                                                                }
-                                                                else
-                                                                {
-                                                                    inObject.set_Value(intFldIdxs[0], formatString.Trim());
-                                                                    AAState.WriteLine("                  " + inObject.Fields.get_Field(intFldIdxs[0]).AliasName + " set to " + formatString);
-                                                                }
-
-
+                                                                inObject.set_Value(intFldIdxs[0], sequenceValue);
+                                                                AAState.WriteLine("                  " + sequenceColumnNum + " changed to " + sequenceValue);
                                                             }
-                                                        else
-                                                        {
-
-                                                            inObject.set_Value(intFldIdxs[0], sequenceValue);
-                                                            AAState.WriteLine("                  " + sequenceColumnNum + " changed to " + sequenceValue);
                                                         }
                                                     }
 

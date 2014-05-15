@@ -898,6 +898,7 @@ namespace ArcGIS4LocalGovernment
                     MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantError_2a"));
 
                 }
+                activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
 
             }
 
@@ -1247,6 +1248,7 @@ namespace ArcGIS4LocalGovernment
                                     }
                                 }
                             }
+                            activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
                         }
                         catch (Exception ex)
                         {
@@ -1381,7 +1383,7 @@ namespace ArcGIS4LocalGovernment
 
                 IMap map = editor.Map;
                 IActiveView activeView = map as IActiveView;
-
+                
 
                 IStandaloneTable stTable;
 
@@ -1558,6 +1560,7 @@ namespace ArcGIS4LocalGovernment
                                 }
                             }
 
+                            activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
                         }
                         catch (Exception ex)
                         {
