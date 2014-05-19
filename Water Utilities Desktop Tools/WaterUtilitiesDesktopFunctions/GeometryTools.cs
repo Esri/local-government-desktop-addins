@@ -269,7 +269,7 @@ namespace A4WaterUtilities
             string rotationFieldName;
             int rotationFieldPos;
             int count;
-            Nullable<double> angle;
+            double angle;
             IActiveView activeView = null;
             IInvalidArea invalid = null;
             IEnvelope ext = null;
@@ -425,7 +425,7 @@ namespace A4WaterUtilities
                                         }
                                         else
                                         {
-                                            angle = (double)pointFeature.get_Value(rotationFieldPos);
+                                             Double.TryParse( pointFeature.get_Value(rotationFieldPos).ToString(),out angle);
                                         }
                                         angle = angle + addSpinAngle;
                                         if (angle > 360) angle -= 360;

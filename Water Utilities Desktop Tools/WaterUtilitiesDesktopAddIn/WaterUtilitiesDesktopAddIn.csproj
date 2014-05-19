@@ -217,6 +217,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <AddInContent Include="Config.es-ES.xml">
+      <SubType>Designer</SubType>
+    </AddInContent>
+    <AddInContent Include="Config.fr-FR.xml" />
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>

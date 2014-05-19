@@ -2571,4 +2571,16 @@
   <data name="ExportFlagsName" xml:space="preserve">
     <value>Flags</value>
   </data>
+  <data name="AttributeAssistantEditorCheck_1" xml:space="preserve">
+    <value>on</value>
+  </data>
+  <data name="AttributeAssistantEditorCheck_2" xml:space="preserve">
+    <value>off</value>
+  </data>
+  <data name="AttributeAssistantEditorCheck_3" xml:space="preserve">
+    <value>off</value>
+  </data>
+  <data name="AttributeAssistantEditorCheck_4" xml:space="preserve">
+    <value>startup</value>
+  </data>
 </root>

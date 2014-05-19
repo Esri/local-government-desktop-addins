@@ -195,11 +195,6 @@
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ConfigUtil.cs" />
-    <Compile Include="UserMessages.es1.Designer.cs">
-      <DependentUpon>UserMessages.es.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="LastValueForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -234,6 +229,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserMessages.es-ES.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserMessages.es-ES.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserMessages.fr-FR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserMessages.fr-FR.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -256,10 +261,6 @@
     <EmbeddedResource Include="ConfigForm.resx">
       <DependentUpon>ConfigForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserMessages.es.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>UserMessages.es1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="LastValueForm.resx">
       <DependentUpon>LastValueForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -271,6 +272,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SelectTemplateForm.resx">
       <DependentUpon>SelectTemplateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserMessages.es-ES.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserMessages.es-ES.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserMessages.fr-FR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserMessages.fr-FR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UserMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -518,6 +518,9 @@ namespace A4LGSharedFunctions
 
         private Localizer()
         {
+           //Console.WriteLine(System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
+           // System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            //Console.WriteLine(System.Threading.Thread.CurrentThread.CurrentUICulture.ToString()); 
 
             manager = new ResourceManager("A4LGSharedFunctions.UserMessages", this.GetType().Assembly);
 

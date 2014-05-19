@@ -105,7 +105,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-   <Compile Include="LastValueForm.cs">
+    <Compile Include="LastValueForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LastValueForm.Designer.cs">
@@ -215,6 +215,7 @@
   </ItemGroup>
   <ItemGroup>
     <AddInContent Include="Images\Config2.png" />
+    <AddInContent Include="Config.es-ES.xml" />
     <Content Include="Images\Old\AttributeAssistantAddIn.png" />
     <Content Include="Images\Old\AttributeAssistantToogleOff.bmp" />
     <Content Include="Images\Old\AttributeAssistantToogleOff.png" />

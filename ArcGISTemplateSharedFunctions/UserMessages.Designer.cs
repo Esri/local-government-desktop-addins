@@ -2086,6 +2086,42 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to on.
+        /// </summary>
+        internal static string AttributeAssistantEditorCheck_1 {
+            get {
+                return ResourceManager.GetString("AttributeAssistantEditorCheck_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to off.
+        /// </summary>
+        internal static string AttributeAssistantEditorCheck_2 {
+            get {
+                return ResourceManager.GetString("AttributeAssistantEditorCheck_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to off.
+        /// </summary>
+        internal static string AttributeAssistantEditorCheck_3 {
+            get {
+                return ResourceManager.GetString("AttributeAssistantEditorCheck_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to startup.
+        /// </summary>
+        internal static string AttributeAssistantEditorCheck_4 {
+            get {
+                return ResourceManager.GetString("AttributeAssistantEditorCheck_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Editor Extension Initialized.
         /// </summary>
         internal static string AttributeAssistantEditorDone_3a {

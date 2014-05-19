@@ -151,7 +151,7 @@ namespace ArcGIS4LocalGovernment
                 if (commandItem == null)
                     return;
 
-                if (AAState.PerformUpdates && !commandItem.Caption.ToString().Contains("on"))
+                if (AAState.PerformUpdates && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_1"))) //on
                 {
 
 
@@ -160,7 +160,7 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1a"));
 
                 }
-                else if (AAState.PerformUpdates == false && !commandItem.Caption.ToString().Contains("off"))
+                else if (AAState.PerformUpdates == false && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_2")) && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_3"))) //off
                 {
 
                     commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
@@ -168,7 +168,7 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
 
                 }
-                else if (commandItem.Caption.ToString().Contains("startup"))
+                else if (commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_4"))) //startup
                 {
 
                     if (AAState.PerformUpdates)
