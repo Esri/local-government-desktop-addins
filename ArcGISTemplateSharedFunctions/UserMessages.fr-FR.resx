@@ -2578,42 +2578,42 @@
     <value>Zoom sur</value>
   </data>
   <data name="lstValueFormText" xml:space="preserve">
-    <value>Select the Last Value entry to change, use &lt;null&gt; for null.</value>
+    <value>Sélectionnez l'entrée Last Value à modifier, saisissez &lt;null&gt; pour une valeur null</value>
   </data>
   <data name="lstValueFormTitle" xml:space="preserve">
-    <value>Last Value Array</value>
+    <value>Tableau des dernières valeurs</value>
   </data>
   <data name="AAOptionDialogOption" xml:space="preserve">
-    <value>Select Option</value>
+    <value>Sélectionnez une option</value>
   </data>
   <data name="AAOptionDialogTemplate" xml:space="preserve">
-    <value>Select Template</value>
+    <value>Sélectionnez un modèle</value>
   </data>
   <data name="ConfigDlgConfigFiles" xml:space="preserve">
-    <value>Configuration Files</value>
+    <value>Fichiers de configuration</value>
   </data>
   <data name="ConfigDlgFilePath" xml:space="preserve">
-    <value>Config File Path</value>
+    <value>Chemin du fichier de configuration</value>
   </data>
   <data name="ConfigDlgLoad" xml:space="preserve">
-    <value>Load</value>
+    <value>Charger</value>
   </data>
   <data name="ConfigDlgLoadedConfig" xml:space="preserve">
-    <value>Loaded Config</value>
+    <value>Configuration chargée</value>
   </data>
   <data name="ConfigDlgLogFile" xml:space="preserve">
-    <value>Log File</value>
+    <value>Fichier de log</value>
   </data>
   <data name="ConfigDlgNote" xml:space="preserve">
-    <value>Note:  You must have the AA turned off to open this file.</value>
+    <value>Note : L'assistant d'attribut doit être désactivé pour ouvrir ce fichier</value>
   </data>
   <data name="ConfigDlgOpenLoc" xml:space="preserve">
-    <value>Open Location</value>
+    <value>Ouvrir l'emplacement</value>
   </data>
   <data name="ConfigDlgPreview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Prévisualisation</value>
   </data>
   <data name="ConfigDlgText" xml:space="preserve">
-    <value>Config and Log File Dialog</value>
+    <value>Fichier de configuration et de log</value>
   </data>
 </root>

@@ -3406,42 +3406,55 @@
     <comment>[TEMP_TRAD]Zoom To</comment>
   </data>
   <data name="lstValueFormText" xml:space="preserve">
-    <value>Select the Last Value entry to change, use &lt;null&gt; for null.</value>
+    <value>Seleccionar la entrada de Último Valor a cambiar, utilizar &lt;null&gt; para valores null.</value>
+    <comment>Select the Last Value entry to change, use &lt;null&gt; for null.</comment>
   </data>
   <data name="lstValueFormTitle" xml:space="preserve">
-    <value>Last Value Array</value>
+    <value>Array de Último Valor</value>
+    <comment>Last Value Array</comment>
   </data>
   <data name="AAOptionDialogOption" xml:space="preserve">
-    <value>Select Option</value>
+    <value>Seleccionar una opción</value>
+    <comment>Select Option</comment>
   </data>
   <data name="AAOptionDialogTemplate" xml:space="preserve">
-    <value>Select Template</value>
+    <value>Seleccionar una plantilla</value>
+    <comment>Select Template</comment>
   </data>
   <data name="ConfigDlgConfigFiles" xml:space="preserve">
-    <value>Configuration Files</value>
+    <value>Archivos de configuración</value>
+    <comment>Configuration Files</comment>
   </data>
   <data name="ConfigDlgFilePath" xml:space="preserve">
-    <value>Config File Path</value>
+    <value>Ruta del archivo de configuración</value>
+    <comment>Config File Path</comment>
   </data>
   <data name="ConfigDlgLoad" xml:space="preserve">
-    <value>Load</value>
+    <value>Cargar</value>
+    <comment>Load</comment>
   </data>
   <data name="ConfigDlgLoadedConfig" xml:space="preserve">
-    <value>Loaded Config</value>
+    <value>Archivo de configuración cargado</value>
+    <comment>Loaded Config</comment>
   </data>
   <data name="ConfigDlgLogFile" xml:space="preserve">
-    <value>Log File</value>
+    <value>Archivo de log</value>
+    <comment>Log File</comment>
   </data>
   <data name="ConfigDlgNote" xml:space="preserve">
-    <value>Note:  You must have the AA turned off to open this file.</value>
+    <value>Nota: Debe tener apagado el AA para abrir este archivo.</value>
+    <comment>Note:  You must have the AA turned off to open this file</comment>
   </data>
   <data name="ConfigDlgOpenLoc" xml:space="preserve">
-    <value>Open Location</value>
+    <value>Abrir ubicación</value>
+    <comment>Open Location</comment>
   </data>
   <data name="ConfigDlgPreview" xml:space="preserve">
-    <value>Preview</value>
+    <value>Previsualizar</value>
+    <comment>Preview</comment>
   </data>
   <data name="ConfigDlgText" xml:space="preserve">
-    <value>Config and Log File Dialog</value>
+    <value>Archivos de configuración y de log</value>
+    <comment>Config and Log File Dialog</comment>
   </data>
 </root>
