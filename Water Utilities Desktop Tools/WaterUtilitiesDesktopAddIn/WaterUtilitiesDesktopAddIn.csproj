@@ -220,7 +220,9 @@
     <AddInContent Include="Config.es-ES.xml">
       <SubType>Designer</SubType>
     </AddInContent>
-    <AddInContent Include="Config.fr-FR.xml" />
+    <AddInContent Include="Config.fr-FR.xml">
+      <SubType>Designer</SubType>
+    </AddInContent>
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>

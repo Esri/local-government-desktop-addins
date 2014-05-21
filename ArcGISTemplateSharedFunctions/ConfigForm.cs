@@ -53,13 +53,32 @@ namespace A4LGSharedFunctions
         public ConfigForm()
         {
             InitializeComponent();
+
+            try
+            {
+                this.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgText");
+
+                this.btnLoadConfig.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgConfigFiles");
+                this.btnOpenConfigLoc.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgOpenLoc");
+                this.btnOpenLogLoc.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgOpenLoc");
+                this.label1.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgFilePath");
+                this.btnPreviewLoaded.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgPreview");
+                this.btnPreview.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgPreview");
+                this.btnPrevLog.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgPreview");
+                this.lblConfig.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgLoadedConfig");
+                this.gpBxconfigFiles.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgConfigFiles");
+                this.gpBxLog.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgLogFile");
+                this.label2.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgNote");
+            }
+            catch
+            { }
             initForm();
 
             m_ReloadMonitor = new ReloadMonitor();
             if (m_ReloadMonitor == null)
                 MessageBox.Show("Reloading config file is not enabled, error in event handler");
-            
-            
+
+
         }
         private void initForm()
         {
@@ -128,7 +147,7 @@ namespace A4LGSharedFunctions
 
                 MessageBox.Show("Config file has been changed");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("btnLoadConfig\n" + ex.Message);
 
@@ -153,7 +172,7 @@ namespace A4LGSharedFunctions
         {
             string myDocspath = m_LoadedConfig.FullName;
 
-            
+
             string windir = Environment.GetEnvironmentVariable("WINDIR");
             System.Diagnostics.Process prc = new System.Diagnostics.Process();
             prc.StartInfo.FileName = windir + @"\explorer.exe";
@@ -181,6 +200,6 @@ namespace A4LGSharedFunctions
             Process.Start(psi);
         }
 
-      
+
     }
 }

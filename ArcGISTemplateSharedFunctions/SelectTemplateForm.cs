@@ -35,6 +35,12 @@ namespace A4LGSharedFunctions
         public SelectTemplateForm()
         {            
             InitializeComponent();
+            try{
+            this.Text= A4LGSharedFunctions.Localizer.GetString("AAOptionDialogTemplate");
+            }
+            catch
+            {
+            }
             //s_lblLayer =  lblLayer;
             //s_cboSelectTemplate = cboSelectTemplate ;
         }

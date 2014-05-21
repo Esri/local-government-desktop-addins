@@ -2583,4 +2583,43 @@
   <data name="AttributeAssistantEditorCheck_4" xml:space="preserve">
     <value>startup</value>
   </data>
+  <data name="AAOptionDialogOption" xml:space="preserve">
+    <value>Select Option</value>
+  </data>
+  <data name="AAOptionDialogTemplate" xml:space="preserve">
+    <value>Select Template</value>
+  </data>
+  <data name="lstValueFormText" xml:space="preserve">
+    <value>Select the Last Value entry to change, use &lt;null&gt; for null.</value>
+  </data>
+  <data name="lstValueFormTitle" xml:space="preserve">
+    <value>Last Value Array</value>
+  </data>
+  <data name="ConfigDlgConfigFiles" xml:space="preserve">
+    <value>Configuration Files</value>
+  </data>
+  <data name="ConfigDlgFilePath" xml:space="preserve">
+    <value>Config File Path</value>
+  </data>
+  <data name="ConfigDlgLoad" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="ConfigDlgLoadedConfig" xml:space="preserve">
+    <value>Loaded Config</value>
+  </data>
+  <data name="ConfigDlgLogFile" xml:space="preserve">
+    <value>Log File</value>
+  </data>
+  <data name="ConfigDlgNote" xml:space="preserve">
+    <value>Note:  You must have the AA turned off to open this file.</value>
+  </data>
+  <data name="ConfigDlgOpenLoc" xml:space="preserve">
+    <value>Open Location</value>
+  </data>
+  <data name="ConfigDlgPreview" xml:space="preserve">
+    <value>Preview</value>
+  </data>
+  <data name="ConfigDlgText" xml:space="preserve">
+    <value>Config and Log File Dialog</value>
+  </data>
 </root>

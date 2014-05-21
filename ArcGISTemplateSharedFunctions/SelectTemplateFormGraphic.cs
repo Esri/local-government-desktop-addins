@@ -54,6 +54,12 @@ namespace A4LGSharedFunctions
         public SelectTemplateFormGraphic(IFeatureLayer featLayer)
         {            
             InitializeComponent();
+            try{
+            this.Text = A4LGSharedFunctions.Localizer.GetString("AAOptionDialogTemplate");
+            }
+            catch
+            {
+            }
             _featLayer = featLayer;
             LoadListView();
         }

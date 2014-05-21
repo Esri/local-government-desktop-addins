@@ -70,6 +70,24 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Option.
+        /// </summary>
+        internal static string AAOptionDialogOption {
+            get {
+                return ResourceManager.GetString("AAOptionDialogOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Template.
+        /// </summary>
+        internal static string AAOptionDialogTemplate {
+            get {
+                return ResourceManager.GetString("AAOptionDialogTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Active Layer:.
         /// </summary>
         internal static string ActiveLayer {
@@ -4192,6 +4210,87 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Configuration Files.
+        /// </summary>
+        internal static string ConfigDlgConfigFiles {
+            get {
+                return ResourceManager.GetString("ConfigDlgConfigFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Config File Path.
+        /// </summary>
+        internal static string ConfigDlgFilePath {
+            get {
+                return ResourceManager.GetString("ConfigDlgFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load.
+        /// </summary>
+        internal static string ConfigDlgLoad {
+            get {
+                return ResourceManager.GetString("ConfigDlgLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loaded Config.
+        /// </summary>
+        internal static string ConfigDlgLoadedConfig {
+            get {
+                return ResourceManager.GetString("ConfigDlgLoadedConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log File.
+        /// </summary>
+        internal static string ConfigDlgLogFile {
+            get {
+                return ResourceManager.GetString("ConfigDlgLogFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note:  You must have the AA turned off to open this file..
+        /// </summary>
+        internal static string ConfigDlgNote {
+            get {
+                return ResourceManager.GetString("ConfigDlgNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Location.
+        /// </summary>
+        internal static string ConfigDlgOpenLoc {
+            get {
+                return ResourceManager.GetString("ConfigDlgOpenLoc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preview.
+        /// </summary>
+        internal static string ConfigDlgPreview {
+            get {
+                return ResourceManager.GetString("ConfigDlgPreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Config and Log File Dialog.
+        /// </summary>
+        internal static string ConfigDlgText {
+            get {
+                return ResourceManager.GetString("ConfigDlgText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm.
         /// </summary>
         internal static string Confirm {
@@ -6663,6 +6762,24 @@ namespace A4LGSharedFunctions {
         internal static string LoadImg {
             get {
                 return ResourceManager.GetString("LoadImg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the Last Value entry to change, use &lt;null&gt; for null..
+        /// </summary>
+        internal static string lstValueFormText {
+            get {
+                return ResourceManager.GetString("lstValueFormText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Value Array.
+        /// </summary>
+        internal static string lstValueFormTitle {
+            get {
+                return ResourceManager.GetString("lstValueFormTitle", resourceCulture);
             }
         }
         

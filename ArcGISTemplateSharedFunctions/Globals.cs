@@ -13347,7 +13347,7 @@ namespace A4LGSharedFunctions
 
                     k += 1;
                     //Update progress bar
-                    progressDialog.Description = "Checking " + pFL.Name + " " + k.ToString() + " of " + totSel.ToString() + ".";
+                    progressDialog.Description = pFL.Name + ": " + A4LGSharedFunctions.Localizer.GetString("SltByJctCountProc_3") + k.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + totSel.ToString() + ".";
                     stepProgressor.Step();
 
                     //Check if the cancel button was pressed. If so, stop process
@@ -13515,7 +13515,7 @@ namespace A4LGSharedFunctions
 
                     k += 1;
                     //Update progress bar
-                    progressDialog.Description = "Checking " + pFL.Name + " " + k.ToString() + " of " + totSel.ToString() + ".";
+                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("SltByJctCountProc_3") + ": " + pFL.Name + " " + k.ToString() + A4LGSharedFunctions.Localizer.GetString("of") + totSel.ToString() + ".";
                     stepProgressor.Step();
 
                     //Check if the cancel button was pressed. If so, stop process

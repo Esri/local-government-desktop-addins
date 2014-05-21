@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.gpBxHeader = new System.Windows.Forms.GroupBox();
+            this.lblHeader = new System.Windows.Forms.Label();
             this.gpBoxFooter = new System.Windows.Forms.GroupBox();
+            this.btnOk = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.gpBoxMain = new System.Windows.Forms.GroupBox();
             this.dgLastVal = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOk = new System.Windows.Forms.Button();
             this.gpBxHeader.SuspendLayout();
             this.gpBoxFooter.SuspendLayout();
             this.gpBoxMain.SuspendLayout();
@@ -43,13 +43,23 @@
             // 
             // gpBxHeader
             // 
-            this.gpBxHeader.Controls.Add(this.label1);
+            this.gpBxHeader.Controls.Add(this.lblHeader);
             this.gpBxHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.gpBxHeader.Location = new System.Drawing.Point(0, 0);
             this.gpBxHeader.Name = "gpBxHeader";
             this.gpBxHeader.Size = new System.Drawing.Size(399, 41);
             this.gpBxHeader.TabIndex = 0;
             this.gpBxHeader.TabStop = false;
+            // 
+            // lblHeader
+            // 
+            this.lblHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblHeader.Location = new System.Drawing.Point(3, 16);
+            this.lblHeader.Name = "lblHeader";
+            this.lblHeader.Size = new System.Drawing.Size(393, 22);
+            this.lblHeader.TabIndex = 0;
+            this.lblHeader.Text = "Select the Last Value entry to change, use <null> for null.";
+            this.lblHeader.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // gpBoxFooter
             // 
@@ -61,6 +71,28 @@
             this.gpBoxFooter.Size = new System.Drawing.Size(399, 52);
             this.gpBoxFooter.TabIndex = 1;
             this.gpBoxFooter.TabStop = false;
+            // 
+            // btnOk
+            // 
+            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnOk.Location = new System.Drawing.Point(231, 17);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.TabIndex = 1;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(312, 17);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 0;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // gpBoxMain
             // 
@@ -83,38 +115,6 @@
             this.dgLastVal.RowHeadersVisible = false;
             this.dgLastVal.Size = new System.Drawing.Size(393, 284);
             this.dgLastVal.TabIndex = 0;
-            // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Location = new System.Drawing.Point(3, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(393, 22);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Select the Last Value entry to change, use <null> for null.";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(312, 17);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 0;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // btnOk
-            // 
-            this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(231, 17);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 1;
-            this.btnOk.Text = "OK";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
             // 
             // LastValueForm
             // 
@@ -140,7 +140,7 @@
         private System.Windows.Forms.GroupBox gpBoxFooter;
         private System.Windows.Forms.GroupBox gpBoxMain;
         private System.Windows.Forms.DataGridView dgLastVal;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnCancel;
     }
