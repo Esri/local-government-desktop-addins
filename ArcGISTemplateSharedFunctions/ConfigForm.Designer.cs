@@ -55,7 +55,7 @@
             // 
             this.btnOpenConfigLoc.Location = new System.Drawing.Point(13, 123);
             this.btnOpenConfigLoc.Name = "btnOpenConfigLoc";
-            this.btnOpenConfigLoc.Size = new System.Drawing.Size(82, 23);
+            this.btnOpenConfigLoc.Size = new System.Drawing.Size(144, 23);
             this.btnOpenConfigLoc.TabIndex = 0;
             this.btnOpenConfigLoc.Text = "Open location";
             this.btnOpenConfigLoc.UseVisualStyleBackColor = true;
@@ -83,7 +83,7 @@
             // 
             this.btnLoadConfig.Location = new System.Drawing.Point(13, 57);
             this.btnLoadConfig.Name = "btnLoadConfig";
-            this.btnLoadConfig.Size = new System.Drawing.Size(82, 23);
+            this.btnLoadConfig.Size = new System.Drawing.Size(145, 23);
             this.btnLoadConfig.TabIndex = 3;
             this.btnLoadConfig.Text = "Load";
             this.btnLoadConfig.UseVisualStyleBackColor = true;
@@ -116,9 +116,9 @@
             // 
             // btnPreviewLoaded
             // 
-            this.btnPreviewLoaded.Location = new System.Drawing.Point(383, 37);
+            this.btnPreviewLoaded.Location = new System.Drawing.Point(316, 52);
             this.btnPreviewLoaded.Name = "btnPreviewLoaded";
-            this.btnPreviewLoaded.Size = new System.Drawing.Size(82, 23);
+            this.btnPreviewLoaded.Size = new System.Drawing.Size(145, 23);
             this.btnPreviewLoaded.TabIndex = 5;
             this.btnPreviewLoaded.Text = "Preview";
             this.btnPreviewLoaded.UseVisualStyleBackColor = true;
@@ -126,9 +126,9 @@
             // 
             // btnReload
             // 
-            this.btnReload.Location = new System.Drawing.Point(300, 37);
+            this.btnReload.Location = new System.Drawing.Point(316, 23);
             this.btnReload.Name = "btnReload";
-            this.btnReload.Size = new System.Drawing.Size(82, 23);
+            this.btnReload.Size = new System.Drawing.Size(145, 23);
             this.btnReload.TabIndex = 7;
             this.btnReload.Text = "Reload";
             this.btnReload.UseVisualStyleBackColor = true;
@@ -169,7 +169,7 @@
             // 
             this.btnPreview.Location = new System.Drawing.Point(300, 28);
             this.btnPreview.Name = "btnPreview";
-            this.btnPreview.Size = new System.Drawing.Size(82, 23);
+            this.btnPreview.Size = new System.Drawing.Size(145, 23);
             this.btnPreview.TabIndex = 4;
             this.btnPreview.Text = "Preview";
             this.btnPreview.UseVisualStyleBackColor = true;
@@ -191,20 +191,19 @@
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Location = new System.Drawing.Point(183, 54);
+            this.label2.Location = new System.Drawing.Point(13, 73);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(270, 13);
+            this.label2.Size = new System.Drawing.Size(476, 17);
             this.label2.TabIndex = 7;
             this.label2.Text = "Note:  You must have the AA turned off to open this file.";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnPrevLog
             // 
-            this.btnPrevLog.Location = new System.Drawing.Point(95, 49);
+            this.btnPrevLog.Location = new System.Drawing.Point(162, 46);
             this.btnPrevLog.Name = "btnPrevLog";
-            this.btnPrevLog.Size = new System.Drawing.Size(82, 23);
+            this.btnPrevLog.Size = new System.Drawing.Size(145, 23);
             this.btnPrevLog.TabIndex = 6;
             this.btnPrevLog.Text = "Preview";
             this.btnPrevLog.UseVisualStyleBackColor = true;
@@ -212,9 +211,9 @@
             // 
             // btnOpenLogLoc
             // 
-            this.btnOpenLogLoc.Location = new System.Drawing.Point(12, 49);
+            this.btnOpenLogLoc.Location = new System.Drawing.Point(12, 46);
             this.btnOpenLogLoc.Name = "btnOpenLogLoc";
-            this.btnOpenLogLoc.Size = new System.Drawing.Size(82, 23);
+            this.btnOpenLogLoc.Size = new System.Drawing.Size(145, 23);
             this.btnOpenLogLoc.TabIndex = 2;
             this.btnOpenLogLoc.Text = "Open location";
             this.btnOpenLogLoc.UseVisualStyleBackColor = true;

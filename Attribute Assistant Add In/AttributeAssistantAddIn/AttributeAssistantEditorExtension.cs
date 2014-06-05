@@ -2030,7 +2030,7 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14j") + inObject.Class.AliasName);
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14k") + "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND VALUEMETHOD = 'Last_Value'");
                     AAState._dv.RowFilter = "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND VALUEMETHOD = 'Last_Value'";
-                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14l")  + AAState._dv.Count.ToString());
+                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14l") + AAState._dv.Count.ToString());
 
                     if (AAState._dv.Count > 0)
                     {
@@ -2038,17 +2038,17 @@ namespace ArcGIS4LocalGovernment
                         for (int retRows = 0; retRows < AAState._dv.Count; retRows++)
                         {
                             DataRowView drv = AAState._dv[retRows];
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14m")  + drv["FIELDNAME"].ToString());
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14m") + drv["FIELDNAME"].ToString());
 
                             int fldLoc = inObject.Fields.FindField(drv["FIELDNAME"].ToString());
 
                             if (fldLoc > 0)
                             {
-                                AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14n")  + fldLoc);
+                                AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14n") + fldLoc);
 
                                 if (pRowChLast.get_ValueChanged(fldLoc))
                                 {
-                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14o") );
+                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14o"));
 
                                     try
                                     {
@@ -2066,7 +2066,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     if (lstVal.Value != null)
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p") );
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
                                                         AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc).ToString());
                                                         lstVal.Value = inObject.get_Value(fldLoc);
 
@@ -2075,7 +2075,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     else
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p") );
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
                                                         AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc));
                                                         lstVal.Value = inObject.get_Value(fldLoc);
 
@@ -2087,12 +2087,12 @@ namespace ArcGIS4LocalGovernment
                                                 {
                                                     if (mode == "ON_CREATE")
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14q") );
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14q"));
 
                                                     }
                                                     else
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p") );
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
                                                         AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": NULL");
                                                         lstVal.Value = null;
                                                         AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
@@ -2104,12 +2104,12 @@ namespace ArcGIS4LocalGovernment
                                             {
                                                 if (mode == "ON_CREATE")
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14q") );
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14q"));
 
                                                 }
                                                 else
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p") );
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
                                                     AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": NULL");
                                                     lstVal.Value = null;
                                                     AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
@@ -2145,7 +2145,7 @@ namespace ArcGIS4LocalGovernment
                                 }
                                 else
                                 {
-                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14r") );
+                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14r"));
 
                                 }
                             }
@@ -2161,17 +2161,17 @@ namespace ArcGIS4LocalGovernment
 
 
 
-                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14s")  + inObject.Class.AliasName);
+                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14s") + inObject.Class.AliasName);
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14k") + "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND " + modeVal);
                     AAState._dv.RowFilter = "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND " + modeVal;
-                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14l")  + AAState._dv.Count.ToString());
+                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14l") + AAState._dv.Count.ToString());
                     if (AAState._processCount > 2)
                     {
                         System.Threading.Thread.Sleep(400);
                     }
                     if (AAState._processCount > 15)
                     {
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14t") );
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14t"));
 
                         return false;
 
@@ -2179,31 +2179,31 @@ namespace ArcGIS4LocalGovernment
                     if (AAState._dv.Count > 0)
                     {
                         bool proc = false;
-                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14u") );
+                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14u"));
 
                         for (int retRows = 0; retRows < AAState._dv.Count; retRows++)
                         {
                             DataRowView drv = AAState._dv[retRows];
 
                             AAState.WriteLine("    ------------------------------------------------");
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14v") );
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14w")  + (retRows + 1).ToString());
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14x")  + drv["TABLENAME"].ToString());
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14y")  + drv["FIELDNAME"].ToString());
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14z")  + drv["VALUEINFO"].ToString());
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aa")  + drv["VALUEMETHOD"].ToString());
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ab")  + drv["ON_CREATE"].ToString());
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ac")  + drv["ON_CHANGE"].ToString());
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14v"));
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14w") + (retRows + 1).ToString());
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14x") + drv["TABLENAME"].ToString());
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14y") + drv["FIELDNAME"].ToString());
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14z") + drv["VALUEINFO"].ToString());
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aa") + drv["VALUEMETHOD"].ToString());
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ab") + drv["ON_CREATE"].ToString());
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ac") + drv["ON_CHANGE"].ToString());
                             if (AAState._dv.Table.Columns.Contains("RUNORDER"))
-                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ad")  + drv["RUNORDER"].ToString());
+                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ad") + drv["RUNORDER"].ToString());
 
                             AAState.WriteLine("");
 
-                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ae") );
+                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ae"));
                             valFC = drv["TABLENAME"].ToString().Trim();
                             if (valFC.Contains("|"))
                             {
-                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14af") );
+                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14af"));
                                 string[] spliVal = valFC.Split('|');
                                 List<string> validSubtypes = new List<string>(spliVal[1].Split(','));
                                 List<string> inValidSubtypes;
@@ -2229,42 +2229,42 @@ namespace ArcGIS4LocalGovernment
                                             {
                                                 if (inValidSubtypes.Contains(obSubVal.ToString()))
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ag") );
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ag"));
                                                     proc = false;
                                                     continue;
                                                 }
                                                 else
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ah") );
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ah"));
                                                 }
                                             }
 
                                             else if (validSubtypes.Contains(obSubVal.ToString()))
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ah") );
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ah"));
                                             }
                                             else
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ag") );
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ag"));
                                                 proc = false;
                                                 continue;
                                             }
                                         }
                                         else
                                         {
-                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ai") );
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ai"));
                                             proc = false;
                                             continue;
                                         }
                                     }
                                     else
                                     {
-                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aj") );
+                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aj"));
                                     }
                                 }
                                 else
                                 {
-                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aj") );
+                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aj"));
                                 }
 
                             }
@@ -2292,7 +2292,7 @@ namespace ArcGIS4LocalGovernment
                                         int tem = inObject.Fields.FindField(strFldName);
                                         intFldIdxs.Add(tem);
                                         fieldObj = inObject.Fields.get_Field(tem);
-                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ak")  + inObject.Fields.get_Field(inObject.Fields.FindField(strFldName)).AliasName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14al")  + tem);
+                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ak") + inObject.Fields.get_Field(inObject.Fields.FindField(strFldName)).AliasName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14al") + tem);
 
                                         proc = true;
                                     }
@@ -2304,7 +2304,7 @@ namespace ArcGIS4LocalGovernment
 
                                         fieldObj = inObject.Fields.get_Field(tem);
 
-                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ak")  + strFldName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14al")  + tem);
+                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ak") + strFldName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14al") + tem);
 
                                         proc = true;
                                     }
@@ -2313,7 +2313,7 @@ namespace ArcGIS4LocalGovernment
                                         intFldIdxs.Add(-1);
                                         strFldAlias.Add("{Not Found}");
 
-                                        AAState.WriteLine("      " + strFldName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am") );
+                                        AAState.WriteLine("      " + strFldName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
 
                                         fieldObj = null;
                                         proc = false;
@@ -2322,7 +2322,7 @@ namespace ArcGIS4LocalGovernment
                             }
                             else if (drv["FIELDNAME"].ToString() == "#")
                             {
-                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14an") );
+                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14an"));
                                 IRowChanges pRowCh = null;
                                 IField pTmpFld = null;
                                 pRowCh = inObject as IRowChanges;
@@ -2342,7 +2342,7 @@ namespace ArcGIS4LocalGovernment
                                     {
                                         if (pRowCh.get_ValueChanged(i) == true)
                                         {
-                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ao")  + pTmpFld.Name + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ap") );
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ao") + pTmpFld.Name + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ap"));
                                             strFldNames.Add(pTmpFld.Name);
                                             intFldIdxs.Add(i);
                                             proc = true;
@@ -2357,7 +2357,7 @@ namespace ArcGIS4LocalGovernment
                             }
                             else
                             {
-                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aq") );
+                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aq"));
                                 fieldObj = null;
                                 proc = true;
                             }
@@ -2376,7 +2376,7 @@ namespace ArcGIS4LocalGovernment
 
                                             try
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FIELD_TRIGGER" );
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FIELD_TRIGGER");
                                                 if (inFeature != null & valData != null)
                                                 {
 
@@ -2559,7 +2559,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayerName + " data source is not set");
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayerName + " data source is not set");
                                                                     continue;
                                                                 }
                                                             }
@@ -2580,14 +2580,14 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayerName + " data source is not set");
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayerName + " data source is not set");
                                                                     continue;
                                                                 }
 
                                                             }
                                                             if (matchingLayFnd == false)
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayerName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayerName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
                                                                 continue;
                                                             }
                                                             sqlSyntax = (ISQLSyntax)(pDs.Workspace);
@@ -3035,8 +3035,8 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     if (targetLayer is ICadastralFabricSubLayer2)
                                                     {
-                                                      AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14i") + targetLayerName);
-                                                      continue;
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14i") + targetLayerName);
+                                                        continue;
                                                     }
 
                                                     for (int i = 0; i < sourceLayerNames.Length; i++)
@@ -3776,7 +3776,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     if (intFldIdxs.Count != 2)
                                                     {
-                                                        AAState.WriteLine( A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bn"));
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bn"));
                                                         continue;
                                                     }
 
@@ -3838,7 +3838,7 @@ namespace ArcGIS4LocalGovernment
                                                         IFeatureClass iFC = inFeature.Class as IFeatureClass;
                                                         if (sourceLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolygon)
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayer + " is a polygon layer");
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayer + " is a polygon layer");
 
                                                             break;
                                                         }
@@ -3975,7 +3975,7 @@ namespace ArcGIS4LocalGovernment
                                                         args = valData.Split('|');
                                                         if (args.Length < 2)
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + "SIDE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bm"));
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SIDE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bm"));
                                                             continue;
                                                         }
 
@@ -3988,7 +3988,7 @@ namespace ArcGIS4LocalGovernment
                                                                 inputFieldName = args[2].ToString();
                                                                 break;
                                                             default:
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + "SIDE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bm"));
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SIDE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bm"));
                                                                 continue;
 
                                                         }
@@ -4658,15 +4658,15 @@ namespace ArcGIS4LocalGovernment
 
                                                         targetValue = args[0];
                                                         pRowCh = inObject as IRowChanges;
-                                                  
+
                                                         if (intFldIdxs.Count > 0)
                                                         {
-                                                       if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false && mode != "ON_CREATE")
-                                                        {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain44"));
-                                                            continue;
-                                                        }
-                                                     
+                                                            if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false && mode != "ON_CREATE")
+                                                            {
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain44"));
+                                                                continue;
+                                                            }
+
                                                             if (inFeature.get_Value(intFldIdxs[0]).ToString() != targetValue.ToString())
                                                             {
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain45"));
@@ -5613,12 +5613,12 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayerName + " data source is not set");
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayerName + " data source is not set");
                                                                 }
                                                             }
                                                             else
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayerName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayerName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
                                                             }
                                                         }
                                                         else
@@ -5737,7 +5737,7 @@ namespace ArcGIS4LocalGovernment
                                                         intersectFieldPos = intersectLayer.FeatureClass.Fields.FindField(intersectLayerFieldName);
                                                         if (intersectFieldPos < 0)
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14r") +"(" + intersectLayerFieldName + ") not found");
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14r") + "(" + intersectLayerFieldName + ") not found");
                                                             break;
                                                         }
 
@@ -6361,7 +6361,7 @@ namespace ArcGIS4LocalGovernment
                                                                 catch (Exception ex)
                                                                 {
                                                                     AAState.WriteLine(ex.Message);
-                                                                    
+
                                                                 }
                                                                 finally
                                                                 {
@@ -7015,7 +7015,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + ex.Message);
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + ex.Message);
                                                         }
 
                                                     }
@@ -7561,7 +7561,7 @@ namespace ArcGIS4LocalGovernment
                                                                             }
                                                                             else
                                                                             {
-                                                                                AAState.WriteLine("                  " + iSJunc + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am") );
+                                                                                AAState.WriteLine("                  " + iSJunc + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                                             }
                                                                             pRow = null;
 
@@ -7715,25 +7715,9 @@ namespace ArcGIS4LocalGovernment
 
                                                                                             break;
                                                                                         case "CONCAT":
-                                                                                            if (textRes.Contains(valToTest.ToString() + ConcatDelim))
-                                                                                            {
-                                                                                            }
-                                                                                            else if (textRes.Contains(ConcatDelim + valToTest.ToString()))
-                                                                                            {
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                if (textRes == "")
-                                                                                                {
-                                                                                                    textRes += valToTest.ToString();
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                    textRes += ConcatDelim + valToTest.ToString();
-                                                                                                }
-                                                                                            }
+                                                                                            concatFunc(valToTest.ToString(), ref textRes);
 
-
+                                                                                         
                                                                                             break;
                                                                                         default:
                                                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
@@ -7748,28 +7732,8 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
 
                                                                                     case "CONCAT":
-                                                                                        if (textRes.Contains(test.ToString() + ConcatDelim))
-                                                                                        {
-                                                                                        }
-                                                                                        else if (textRes.Contains(ConcatDelim + test.ToString()))
-                                                                                        {
-                                                                                        }
-                                                                                        else
-                                                                                        {
-
-
-
-                                                                                            if (textRes == "")
-                                                                                            {
-                                                                                                textRes += test;
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                textRes += ConcatDelim + test;
-                                                                                            }
-                                                                                        }
-
-
+                                                                                        concatFunc(test.ToString(), ref textRes);
+                                                                                      
                                                                                         break;
                                                                                     default:
                                                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -7968,26 +7932,9 @@ namespace ArcGIS4LocalGovernment
 
                                                                                             break;
                                                                                         case "CONCAT":
-                                                                                            if (textRes.Contains(valToTest.ToString() + ConcatDelim))
-                                                                                            {
-                                                                                            }
-                                                                                            else if (textRes.Contains(ConcatDelim + valToTest.ToString()))
-                                                                                            {
-                                                                                            }
-                                                                                            else
-                                                                                            {
-
-                                                                                                if (textRes == "")
-                                                                                                {
-                                                                                                    textRes += valToTest.ToString();
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                    textRes += ConcatDelim + valToTest.ToString();
-                                                                                                }
-
-                                                                                            }
-
+                                                                                            concatFunc(valToTest.ToString(), ref textRes);
+                                                                                      
+                                                                                         
                                                                                             break;
                                                                                         default:
                                                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
@@ -8002,26 +7949,9 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
 
                                                                                     case "CONCAT":
-                                                                                        if (textRes.Contains(test.ToString() + ConcatDelim))
-                                                                                        {
-                                                                                        }
-                                                                                        else if (textRes.Contains(ConcatDelim + test.ToString()))
-                                                                                        {
-                                                                                        }
-                                                                                        else
-                                                                                        {
-
-                                                                                            if (textRes == "")
-                                                                                            {
-                                                                                                textRes += test;
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                textRes += ConcatDelim + test;
-                                                                                            }
-
-                                                                                        }
-
+                                                                                        concatFunc(test.ToString(), ref textRes);
+                                                                                      
+                                                                                      
                                                                                         break;
                                                                                     default:
                                                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -8214,26 +8144,9 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         break;
                                                                                     case "CONCAT":
-                                                                                        if (textRes.Contains(valToTest.ToString() + ConcatDelim))
-                                                                                        {
-                                                                                        }
-                                                                                        else if (textRes.Contains(ConcatDelim + valToTest.ToString()))
-                                                                                        {
-                                                                                        }
-                                                                                        else
-                                                                                        {
-
-                                                                                            if (textRes == "")
-                                                                                            {
-                                                                                                textRes += valToTest.ToString();
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                textRes += ConcatDelim + valToTest.ToString();
-                                                                                            }
-
-                                                                                        }
-
+                                                                                        concatFunc(valToTest.ToString(), ref textRes);
+                                                                                     
+                                                                                        
                                                                                         break;
                                                                                     default:
                                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
@@ -8248,26 +8161,10 @@ namespace ArcGIS4LocalGovernment
                                                                             {
 
                                                                                 case "CONCAT":
-                                                                                    if (textRes.Contains(test.ToString() + ConcatDelim))
-                                                                                    {
-                                                                                    }
-                                                                                    else if (textRes.Contains(ConcatDelim + test.ToString()))
-                                                                                    {
-                                                                                    }
-                                                                                    else
-                                                                                    {
 
-                                                                                        if (textRes == "")
-                                                                                        {
-                                                                                            textRes += test;
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            textRes += ConcatDelim + test;
-                                                                                        }
-                                                                                    }
-
-
+                                                                                    concatFunc(test.ToString(), ref textRes);
+                                                                                     
+                                                                                  
                                                                                     break;
                                                                                 default:
                                                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -8678,7 +8575,7 @@ namespace ArcGIS4LocalGovernment
                                                                 inObject.set_Value(intFldIdxs[0], ((IFeature)iJuncFeat).get_Value(juncField));
                                                             }
                                                             else
-                                                                AAState.WriteLine("                  " + netField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am") );
+                                                                AAState.WriteLine("                  " + netField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                         }
                                                         else
                                                             AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bc"));
@@ -8801,7 +8698,7 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             else
                                                             {
-                                                                AAState.WriteLine("                  " + netField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am") );
+                                                                AAState.WriteLine("                  " + netField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                             }
                                                         }
                                                     }
@@ -8939,7 +8836,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
-                                                                    AAState.WriteLine("                  " + netField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am") );
+                                                                    AAState.WriteLine("                  " + netField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                                 }
                                                             }
                                                         }
@@ -9083,7 +8980,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
-                                                                    AAState.WriteLine("                  " + netField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am") );
+                                                                    AAState.WriteLine("                  " + netField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                                 }
                                                             }
 
@@ -9243,7 +9140,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    AAState.WriteLine("                  " + iSJunc + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am") );
+                                                                                    AAState.WriteLine("                  " + iSJunc + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                                                 }
                                                                                 pRow = null;
 
@@ -10472,7 +10369,7 @@ namespace ArcGIS4LocalGovernment
                                                             sequenceColumnName = args[0].ToString();
                                                             sequenceFixedWidth = args[1].ToString();
                                                             formatString = args[2].ToString();
-                                                            onlyWhenNull =   args[3].ToString().ToUpper() == "TRUE" ? true : false;
+                                                            onlyWhenNull = args[3].ToString().ToUpper() == "TRUE" ? true : false;
 
                                                             break;
                                                         default: break;
@@ -10737,14 +10634,14 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     if (intersectLayer == null)
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aq") +"(" + intersectLayerName + ") not found");
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aq") + "(" + intersectLayerName + ") not found");
                                                         break;
                                                     }
                                                     //Find Area Field
                                                     intersectFieldPos = intersectLayer.FeatureClass.FindField(intersectLayerFieldName);
                                                     if (intersectFieldPos < 0)
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14as") +"(" + intersectLayerFieldName + ") not found");
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14as") + "(" + intersectLayerFieldName + ") not found");
                                                         break;
                                                     }
 
@@ -12154,25 +12051,9 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                         break;
                                                                                                     case "CONCAT":
-                                                                                                        if (textRes.Contains(valToTest.ToString() + ConcatDelim))
-                                                                                                        {
-                                                                                                        }
-                                                                                                        else if (textRes.Contains(ConcatDelim + valToTest.ToString()))
-                                                                                                        {
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-
-                                                                                                            if (textRes == "")
-                                                                                                            {
-                                                                                                                textRes += valToTest.ToString();
-                                                                                                            }
-                                                                                                            else
-                                                                                                            {
-                                                                                                                textRes += ConcatDelim + valToTest.ToString();
-                                                                                                            }
-
-                                                                                                        }
+                                                                                                        concatFunc(valToTest.ToString(), ref textRes);
+                                                                                 
+                                                                                                  
 
                                                                                                         break;
                                                                                                     default:
@@ -12188,26 +12069,8 @@ namespace ArcGIS4LocalGovernment
                                                                                             {
 
                                                                                                 case "CONCAT":
-                                                                                                    if (textRes.Contains(test.ToString() + ConcatDelim))
-                                                                                                    {
-                                                                                                    }
-                                                                                                    else if (textRes.Contains(ConcatDelim + test.ToString()))
-                                                                                                    {
-                                                                                                    }
-                                                                                                    else
-                                                                                                    {
-
-                                                                                                        if (textRes == "")
-                                                                                                        {
-                                                                                                            textRes += test;
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            textRes += ConcatDelim + test;
-                                                                                                        }
-                                                                                                    }
-
-
+                                                                                                    concatFunc(test.ToString(), ref textRes);
+                                                                                 
                                                                                                     break;
                                                                                                 default:
                                                                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -12265,26 +12128,9 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                         break;
                                                                                                     case "CONCAT":
-                                                                                                        if (textRes.Contains(valToTest.ToString() + ConcatDelim))
-                                                                                                        {
-                                                                                                        }
-                                                                                                        else if (textRes.Contains(ConcatDelim + valToTest.ToString()))
-                                                                                                        {
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-
-                                                                                                            if (textRes == "")
-                                                                                                            {
-                                                                                                                textRes += valToTest.ToString();
-                                                                                                            }
-                                                                                                            else
-                                                                                                            {
-                                                                                                                textRes += ConcatDelim + valToTest.ToString();
-                                                                                                            }
-
-
-                                                                                                        }
+                                                                                                        concatFunc(valToTest.ToString(), ref textRes);
+                                                                                 
+                                                                                                    
                                                                                                         break;
                                                                                                     default:
                                                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
@@ -12299,26 +12145,9 @@ namespace ArcGIS4LocalGovernment
                                                                                             {
 
                                                                                                 case "CONCAT":
-                                                                                                    if (textRes.Contains(test.ToString() + ConcatDelim))
-                                                                                                    {
-                                                                                                    }
-                                                                                                    else if (textRes.Contains(ConcatDelim + test.ToString()))
-                                                                                                    {
-                                                                                                    }
-                                                                                                    else
-                                                                                                    {
+                                                                                                    concatFunc(test.ToString(), ref textRes);
+                                                                                 
 
-                                                                                                        if (textRes == "")
-                                                                                                        {
-                                                                                                            textRes += test;
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            textRes += ConcatDelim + test;
-                                                                                                        }
-
-
-                                                                                                    }
                                                                                                     break;
                                                                                                 default:
                                                                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -12502,23 +12331,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         break;
                                                                                     case "CONCAT":
-                                                                                        if (textRes.Contains(valToTest.ToString() + ConcatDelim))
-                                                                                        {
-                                                                                        }
-                                                                                        else if (textRes.Contains(ConcatDelim + valToTest.ToString()))
-                                                                                        {
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            if (textRes == "")
-                                                                                            {
-                                                                                                textRes += valToTest.ToString();
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                                textRes += ConcatDelim + valToTest.ToString();
-                                                                                            }
-                                                                                        }
+                                                                                        concatFunc(valToTest.ToString(), ref textRes);
+                                                                                 
 
 
                                                                                         break;
@@ -12535,24 +12349,9 @@ namespace ArcGIS4LocalGovernment
                                                                             {
 
                                                                                 case "CONCAT":
-                                                                                    if (textRes.Contains(test.ToString() + ConcatDelim))
-                                                                                    {
-                                                                                    }
-                                                                                    else if (textRes.Contains(ConcatDelim + test.ToString()))
-                                                                                    {
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        if (textRes == "")
-                                                                                        {
-                                                                                            textRes += test;
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            textRes += ConcatDelim + test;
-                                                                                        }
-                                                                                    }
-
+                                                                                    concatFunc(test.ToString(), ref textRes);
+                                                                                 
+                                                                                  
 
                                                                                     break;
                                                                                 default:
@@ -12904,9 +12703,9 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         if (pOp.Display.Trim() != "")
                                                                                         {
-                                                                                            if (boolLayerOrFC == true) 
+                                                                                            if (boolLayerOrFC == true)
                                                                                             {
-                                                                                                 pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
+                                                                                                pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
 
                                                                                             }
                                                                                             else
@@ -12914,8 +12713,8 @@ namespace ArcGIS4LocalGovernment
                                                                                                 pOp.Display = sourceLayer.FeatureClass.AliasName + ": " + pOp.Display + " value = " + pOp.Value.ToString();
 
                                                                                             }
-                                                                                           
-                                                                                       
+
+
                                                                                         }
                                                                                         else
                                                                                         {
@@ -12929,8 +12728,8 @@ namespace ArcGIS4LocalGovernment
                                                                                                 pOp.Display = sourceLayer.FeatureClass.AliasName + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                             }
-                                                                                           
-                                                                                           
+
+
                                                                                         }
 
 
@@ -13819,7 +13618,7 @@ namespace ArcGIS4LocalGovernment
                                                             IFeatureClass iFC = inFeature.Class as IFeatureClass;
                                                             if (sourceLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolygon)
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayer + " is a polygon layer");
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayer + " is a polygon layer");
 
                                                                 break;
                                                             }
@@ -14008,7 +13807,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayer + ": field: " + sourceFieldName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayer + ": field: " + sourceFieldName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
                                                                 }
                                                             }
                                                             else { }
@@ -14262,13 +14061,13 @@ namespace ArcGIS4LocalGovernment
                                                                     }
                                                                     else
                                                                     {
-                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayer + ": field: " + sourceFieldName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayer + ": field: " + sourceFieldName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
                                                                     }
 
                                                                 }
                                                                 else
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + sourceLayer + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayer + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
                                                                 }
                                                             }
                                                             else
@@ -14352,7 +14151,7 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             if (lstVal.Value != null)
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p") );
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
                                                                 if (mode == "ON_CREATE" && (inObject.get_Value(intFldIdxs[p]) == null || inObject.get_Value(intFldIdxs[p]).ToString() == ""))
                                                                 {
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain187"));
@@ -14376,7 +14175,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p") );
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
                                                                     AAState.WriteLine("                           " + strFldNames[p] + ": " + inObject.get_Value(intFldIdxs[p]).ToString());
                                                                     lstVal.Value = inObject.get_Value(intFldIdxs[p]);
 
@@ -15034,7 +14833,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a")  + ex.Message);
+                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + ex.Message);
             }
             finally
             {
@@ -15048,6 +14847,41 @@ namespace ArcGIS4LocalGovernment
                 pSpatFilt = null;
                 pFLay = null;
             }
+        }
+        private void concatFunc(string val, ref string result)
+        {
+            if (result == "")
+            {
+                result += val.ToString();
+            }
+            else if (!result.Contains(ConcatDelim))
+            {
+                if (result != val.ToString())
+                {
+                    result += ConcatDelim + val.ToString();
+                }
+            }
+            else if (result.Contains(val.ToString() + ConcatDelim))
+            {
+            }
+            else if (result.Contains(ConcatDelim + val.ToString()))
+            {
+            }
+            else
+            {
+
+                if (result == "")
+                {
+                    result += val.ToString();
+                }
+                else
+                {
+                    result += ConcatDelim + val.ToString();
+                }
+
+            }
+            
+
         }
         #endregion
     }
