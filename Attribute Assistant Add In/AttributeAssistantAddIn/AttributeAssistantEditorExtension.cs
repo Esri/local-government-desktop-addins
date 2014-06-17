@@ -92,9 +92,12 @@ namespace ArcGIS4LocalGovernment
         public static IEditEvents_Event _editEvents;
         public static IEditEvents2_Event _editEvents2; // SG Jan 2013
         public static bool _onStopOperationEvent = true;// SG Jan 2013
+        //private static Type factoryType = Type.GetTypeFromProgID("esriGeometry.SpatialReferenceEnvironment");
 
-        public static ISpatialReferenceFactory spatRefFact = new SpatialReferenceEnvironmentClass();
-        public static IGeographicCoordinateSystem srWGS84 = spatRefFact.CreateGeographicCoordinateSystem((int)esriSRGeoCSType.esriSRGeoCS_WGS1984);
+        //private static System.Object obj = Activator.CreateInstance(factoryType);
+        //public static ISpatialReferenceFactory spatRefFact = obj as ISpatialReferenceFactory;
+        ////public static ISpatialReferenceFactory spatRefFact = new SpatialReferenceEnvironmentClass();
+        //public static IGeographicCoordinateSystem srWGS84 = spatRefFact.CreateGeographicCoordinateSystem((int)esriSRGeoCSType.esriSRGeoCS_WGS1984);
         public static CurrentUserInfo _currentUserInfo;
         private static string _Debug = "false";
         public static string Debug()
@@ -1125,23 +1128,29 @@ namespace ArcGIS4LocalGovernment
             AAState._editEvents.OnStopEditing += OnStopEditing;
             AAState._editEvents2 = (IEditEvents2_Event)_editor;// SG Jan 2003-
 
+            try
+            {
+                script = new MSScriptControl.ScriptControlClass();
+                script.AllowUI = false;
+                script.Language = "VBScript";
+                script.UseSafeSubset = true;
 
-            script = new MSScriptControl.ScriptControlClass();
-            script.AllowUI = false;
-            script.Language = "VBScript";
-            script.UseSafeSubset = true;
+                string strScript = "function iif(psdStr, trueStr, falseStr)" + System.Environment.NewLine +
+                    "On Error Resume Next" + System.Environment.NewLine +
+                    "if psdStr then" + System.Environment.NewLine +
+                            "iif = trueStr" + System.Environment.NewLine +
+                          "else " + System.Environment.NewLine +
+                            "iif = falseStr" + System.Environment.NewLine +
+                          "end if" + System.Environment.NewLine +
+                        "end function" + System.Environment.NewLine;
+                script.AddCode(strScript);
 
-            string strScript = "function iif(psdStr, trueStr, falseStr)" + System.Environment.NewLine +
-                "On Error Resume Next" + System.Environment.NewLine +
-                "if psdStr then" + System.Environment.NewLine +
-                        "iif = trueStr" + System.Environment.NewLine +
-                      "else " + System.Environment.NewLine +
-                        "iif = falseStr" + System.Environment.NewLine +
-                      "end if" + System.Environment.NewLine +
-                    "end function" + System.Environment.NewLine;
-            script.AddCode(strScript);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
 
-
+            }
             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_9b") + newValue);
 
 
