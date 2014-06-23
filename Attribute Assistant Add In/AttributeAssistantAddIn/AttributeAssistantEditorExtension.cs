@@ -50,8 +50,6 @@ using System.Reflection;
 
 using A4LGSharedFunctions;
 
-
-
 namespace ArcGIS4LocalGovernment
 {
 
@@ -2483,7 +2481,7 @@ namespace ArcGIS4LocalGovernment
 
                                                             }
                                                         }
-                                                        if (valueChanged == false)
+                                                        if (valueChanged == false && mode != "ON_CREATE")
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain12"));
                                                             continue;
