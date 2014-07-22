@@ -10405,57 +10405,132 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         qFilter = new QueryFilterClass();
                                                         qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
-                                                        cCurs = AAState._gentab.Update(qFilter, false);
+
                                                         sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
-                                                        //get value of first row, increment it, and return incremented value
-                                                        for (int j = 0; j < 51; j++)
+                                                        
+                                                        using (ComReleaser comReleaser = new ComReleaser())
                                                         {
-                                                            row = cCurs.NextRow();
-                                                            if (row == null)
-                                                            {
-                                                                break;
-                                                            }
-                                                            if (row.get_Value(sequenceColumnNum) == null)
-                                                            {
-                                                                sequenceValue = 0;
-                                                            }
-                                                            else if (row.get_Value(sequenceColumnNum).ToString() == "")
-                                                            {
-                                                                sequenceValue = 0;
-                                                            }
-                                                            else
-                                                                sequenceValue = Convert.ToInt32(row.get_Value(sequenceColumnNum));
+                                                            // Use ITable.Update to create an update cursor.
+                                                            ICursor seq_updateCursor = AAState._gentab.Update(qFilter, true);
+                                                            comReleaser.ManageLifetime(seq_updateCursor);
 
-
-                                                            // _editEvents.OnChangeFeature -= OnChangeFeature;
-                                                            // _editEvents.OnCreateFeature -= OnCreateFeature;
-                                                            int sequenceInt = 1;
-
-                                                            if (AAState._gentab.Fields.FindField("SEQINTERV") > 0)
+                                                            IRow seq_row = null;
+                                                            
+                                                            for (int j = 0; j < 51; j++)
                                                             {
-                                                                if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != null)
+                                                                seq_row = seq_updateCursor.NextRow();
+                                                                if (seq_row == null)
                                                                 {
-                                                                    if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != DBNull.Value)
-                                                                        sequenceInt = Convert.ToInt32(row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")));
+                                                                    break;
                                                                 }
+                                                               
+                                                                int sequenceInt = 1;
+
+                                                                if (AAState._gentab.Fields.FindField("SEQINTERV") > 0)
+                                                                {
+                                                                    object seqInt = seq_row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV"));
+                                                                    if ( seqInt != null)
+                                                                    {
+                                                                        if (seqInt != DBNull.Value)
+                                                                            try
+                                                                            {
+                                                                                sequenceInt = Convert.ToInt32(seqInt);
+                                                                            }
+                                                                            catch { 
+                                                                                
+                                                                            }
+                                                                    }
+                                                                }
+                                                                object seqValue = seq_row.get_Value(sequenceColumnNum);
+
+                                                                if (seqValue == null)
+                                                                {
+                                                                    sequenceValue = 0;
+                                                                }
+                                                                else if (seqValue.ToString() == "")
+                                                                {
+                                                                    sequenceValue = 0;
+                                                                }
+                                                                else
+                                                                    try
+                                                                    {
+                                                                        sequenceValue = Convert.ToInt32(seqValue);
+                                                                    }
+                                                                    catch
+                                                                    {
+                                                                        sequenceValue = 0;
+                                                                    }
+
+                                                                sequenceValue = sequenceValue + sequenceInt;
+
+                                                                seq_row.set_Value(sequenceColumnNum, sequenceValue);
+                                                                seq_updateCursor.UpdateRow(seq_row);
+                                                                //try
+                                                                //{
+                                                                //    seq_updateCursor.Flush();
+                                                                //}
+                                                                //catch
+                                                                //{ }
+                                                                AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue);
+                                                                if (Convert.ToInt32(seq_row.get_Value(sequenceColumnNum)) == sequenceValue)
+                                                                    break;
+                                                          
                                                             }
-                                                            sequenceValue = sequenceValue + sequenceInt;
-
-                                                            row.set_Value(sequenceColumnNum, sequenceValue);
-                                                            AAState.WriteLine("                  " + row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue);
-                                                            //AAState.changeFeature -= OnChangeFeature;
-                                                            //AAState.createFeature -= OnCreateFeature;
-
-                                                            row.Store();
-                                                            //AAState.changeFeature += OnChangeFeature;
-                                                            //AAState.createFeature += OnCreateFeature;
-
-                                                            //  _editEvents.OnChangeFeature += OnChangeFeature;
-                                                            //  _editEvents.OnCreateFeature += OnCreateFeature;
-                                                            if (Convert.ToInt32(row.get_Value(sequenceColumnNum)) == sequenceValue)
-                                                                break;
-
+                                                                
+                                                            
                                                         }
+
+                                                        //cCurs = AAState._gentab.Update(qFilter, false);
+                                                        //sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
+                                                        ////get value of first row, increment it, and return incremented value
+                                                        //for (int j = 0; j < 51; j++)
+                                                        //{
+                                                        //    row = cCurs.NextRow();
+                                                        //    if (row == null)
+                                                        //    {
+                                                        //        break;
+                                                        //    }
+                                                        //    if (row.get_Value(sequenceColumnNum) == null)
+                                                        //    {
+                                                        //        sequenceValue = 0;
+                                                        //    }
+                                                        //    else if (row.get_Value(sequenceColumnNum).ToString() == "")
+                                                        //    {
+                                                        //        sequenceValue = 0;
+                                                        //    }
+                                                        //    else
+                                                        //        sequenceValue = Convert.ToInt32(row.get_Value(sequenceColumnNum));
+
+
+                                                        //    // _editEvents.OnChangeFeature -= OnChangeFeature;
+                                                        //    // _editEvents.OnCreateFeature -= OnCreateFeature;
+                                                        //    int sequenceInt = 1;
+
+                                                        //    if (AAState._gentab.Fields.FindField("SEQINTERV") > 0)
+                                                        //    {
+                                                        //        if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != null)
+                                                        //        {
+                                                        //            if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != DBNull.Value)
+                                                        //                sequenceInt = Convert.ToInt32(row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")));
+                                                        //        }
+                                                        //    }
+                                                        //    sequenceValue = sequenceValue + sequenceInt;
+
+                                                        //    row.set_Value(sequenceColumnNum, sequenceValue);
+                                                        //    AAState.WriteLine("                  " + row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue);
+                                                        //    //AAState.changeFeature -= OnChangeFeature;
+                                                        //    //AAState.createFeature -= OnCreateFeature;
+
+                                                        //    row.Store();
+                                                        //    //AAState.changeFeature += OnChangeFeature;
+                                                        //    //AAState.createFeature += OnCreateFeature;
+
+                                                        //    //  _editEvents.OnChangeFeature += OnChangeFeature;
+                                                        //    //  _editEvents.OnCreateFeature += OnCreateFeature;
+                                                        //    if (Convert.ToInt32(row.get_Value(sequenceColumnNum)) == sequenceValue)
+                                                        //        break;
+
+                                                       // }
                                                         if (sequenceValue == -1)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ao"));

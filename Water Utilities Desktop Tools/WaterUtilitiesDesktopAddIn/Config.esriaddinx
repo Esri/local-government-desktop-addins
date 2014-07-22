@@ -72,7 +72,8 @@
 
         <Button id="A4WaterUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Establishes flow direction for Geometric Network based values of AncillaryRole." caption="Establish Flow Direction" tip="Establish Flow Direction" category="ArcGIS for Local Government" image="Images\EstablishFlow.png" />
         <Button id="A4WaterUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establishes flow direction for Geometric Network based on digitized direction." caption="Establish Digitized Flow Direction" tip="Establish Digitized Flow Direction" category="ArcGIS for Local Government" image="Images\EstablishFlowDigitized.png" />
-
+        <Button id="A4WaterUtilities_AttributeTransferLoader" class="AttributeTransferLoaderButton" message="Attribute Transfer Loader" caption="Attribute Transfer Loader" tip="Attribute transfer loader" category="ArcGIS for Local Government" image="Images\attributeTransfer.png" />
+        
       </Commands>
       <Toolbars>
         <Toolbar id="A4WaterUtilities_WaterUtilitiesEditTools" caption="Water Utility Network Editing" showInitially="false">
@@ -131,6 +132,7 @@
             <Button refID="A4WaterUtilities_ExportToExcel" separator="true" />
             <Button refID="A4WaterUtilities_IdentifySelected" separator="false" />
             <Button refID="A4WaterUtilities_SelectJunctionsByEdgeCount" separator="true" />
+            <Button refID="A4WaterUtilities_AttributeTransferLoader" separator="true" />
 
           </Items>
         </Toolbar>

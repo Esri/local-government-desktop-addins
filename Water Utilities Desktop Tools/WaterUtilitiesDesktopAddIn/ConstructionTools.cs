@@ -524,6 +524,9 @@ namespace A4WaterUtilities
                 pLstFeat = null;
 
                 m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtLnWithPts"));
+                (ArcMap.Application.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, null);
+               
+               
             }
             catch { }
             finally

@@ -93,10 +93,10 @@ namespace A4WaterUtilities
                         continue;
                     else if (pStartPointLayer.FeatureClass == null)
                         continue;
-                    if (pAlongPointLayer == null)
-                        continue;
-                    else if (pAlongPointLayer.FeatureClass == null)
-                        continue;
+                    //if (pAlongPointLayer == null)
+                    //    continue;
+                    //else if (pAlongPointLayer.FeatureClass == null)
+                    //    continue;
                     if (pEndPointLayer == null)
                         continue;
                     else if (pEndPointLayer.FeatureClass == null)
@@ -106,8 +106,11 @@ namespace A4WaterUtilities
 
                     if (!Globals.IsEditable(ref pStartPointLayer, ref editor))
                         return false;
-                    if (!Globals.IsEditable(ref pAlongPointLayer, ref editor))
-                        return false;
+                    if (pAlongPointLayer != null)
+                    {
+                        if (!Globals.IsEditable(ref pAlongPointLayer, ref editor))
+                            return false;
+                    }
                     if (!Globals.IsEditable(ref pEndPointLayer, ref editor))
                         return false;
                     //IFeatureLayer pPointLay = Globals.FindLayer(app, pDet.pointLayerName) as IFeatureLayer;
@@ -122,8 +125,11 @@ namespace A4WaterUtilities
                         //pEditTempEnd = Globals.PromptAndGetEditTemplate(app, pEndPointLayer, pDet.Point_End_EditTemplate, "Template for End Layer: " + pEndPointLayer.Name);
 
                         pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, pDet.Point_Start_EditTemplate);
-                        pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, pDet.Point_Along_EditTemplate);
+                        if (pAlongPointLayer != null)
+                        {
+                            pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, pDet.Point_Along_EditTemplate);
 
+                        }
                         pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, pDet.Point_End_EditTemplate);
 
 
@@ -136,8 +142,10 @@ namespace A4WaterUtilities
                         //pEditTempEnd = Globals.PromptAndGetEditTemplate(app, pEndPointLayer, "", "Template for End Layer: " + pEndPointLayer.Name);
 
                         pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, "");
-                        pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, "");
-
+                        if (pAlongPointLayer != null)
+                        {
+                            pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, "");
+                        }
                         pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, "");
 
 
@@ -174,6 +182,7 @@ namespace A4WaterUtilities
                             }
                             else if (pntIdx == pPointColl.PointCount - 1)
                             {
+
                                 if (pEditTempEnd == null)
                                 {
 
@@ -190,15 +199,18 @@ namespace A4WaterUtilities
                             }
                             else
                             {
-                                if (pEditTempAlong != null)
+                                if (pAlongPointLayer != null)
                                 {
-                                    pPntFeat = Globals.CreateFeature(ppnt, pEditTempAlong, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
-                                }
-                                else
-                                {
-                                    pPntFeat = Globals.CreateFeature(ppnt, pAlongPointLayer, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
+                                    if (pEditTempAlong != null)
+                                    {
+                                        pPntFeat = Globals.CreateFeature(ppnt, pEditTempAlong, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
+                                    }
+                                    else
+                                    {
+                                        pPntFeat = Globals.CreateFeature(ppnt, pAlongPointLayer, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
+                                    }
                                 }
                             }
 
