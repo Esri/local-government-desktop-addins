@@ -1,0 +1,2619 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AA_CultureInfo" xml:space="preserve">
+    <value>fr-FR</value>
+  </data>
+  <data name="ActiveLayer" xml:space="preserve">
+    <value>Couche active :</value>
+  </data>
+  <data name="AddFlagOrClickReturnStatement" xml:space="preserve">
+    <value>Erreur_Emplacements de parcours trouvés ; ajoutez un drapeau ou cliquez sur un emplacement du réseau.</value>
+  </data>
+  <data name="AddInAuthor" xml:space="preserve">
+    <value>Esri., Inc.</value>
+  </data>
+  <data name="AddInCompany" xml:space="preserve">
+    <value>Esri., Inc.</value>
+  </data>
+  <data name="AddInDate" xml:space="preserve">
+    <value>12/6/2013</value>
+  </data>
+  <data name="AddInDesc" xml:space="preserve">
+    <value>Outils ArcMap pour les réseaux de distribution d'eau et d'assainissement</value>
+  </data>
+  <data name="AddInName" xml:space="preserve">
+    <value>Outils de réseaux de distribution d'eau</value>
+  </data>
+  <data name="AddInVersion" xml:space="preserve">
+    <value>10.2.0.3</value>
+  </data>
+  <data name="AddLine" xml:space="preserve">
+    <value>Ajout de la ligne </value>
+  </data>
+  <data name="AddPtsAndSplitLn" xml:space="preserve">
+    <value>Ajouter un point et fractionner la ligne</value>
+  </data>
+  <data name="ALT_1" xml:space="preserve">
+    <value>Outils d'ajout branchements</value>
+  </data>
+  <data name="AssetFromThe" xml:space="preserve">
+    <value> équipement de la couche </value>
+  </data>
+  <data name="AssetsFromThe" xml:space="preserve">
+    <value> équipements de la couche </value>
+  </data>
+  <data name="AttributeAssistantAsk_2a" xml:space="preserve">
+    <value>Voulez-vous vraiment appliquer les règles de modification préconisées par l'Assistant des attributs pour les </value>
+  </data>
+  <data name="AttributeAssistantAsk_2b" xml:space="preserve">
+    <value> lignes et entités sélectionnées ?</value>
+  </data>
+  <data name="AttributeAssistantAsk_3a" xml:space="preserve">
+    <value>Voulez-vous vraiment appliquer les règles manuelles de l'Assistant des attributs pour les </value>
+  </data>
+  <data name="AttributeAssistantAsk_4a" xml:space="preserve">
+    <value>Voulez-vous vraiment appliquer les règles de création de l'Assistant des attributs pour les </value>
+  </data>
+  <data name="AttributeAssistantDesc_2a" xml:space="preserve">
+    <value>Traitement de 0 sur </value>
+  </data>
+  <data name="AttributeAssistantDone_2a" xml:space="preserve">
+    <value>Exécuter les règles de modification - Entités</value>
+  </data>
+  <data name="AttributeAssistantDone_4a" xml:space="preserve">
+    <value>Exécuter les règles manuelles - Entités</value>
+  </data>
+  <data name="AttributeAssistantDone_5a" xml:space="preserve">
+    <value>Exécuter les règles de création - Entités</value>
+  </data>
+  <data name="AttributeAssistantEditorCapt_1a" xml:space="preserve">
+    <value>L'Assistant des attributs est activé</value>
+  </data>
+  <data name="AttributeAssistantEditorCapt_1b" xml:space="preserve">
+    <value>L'Assistant des attributs est désactivé</value>
+  </data>
+  <data name="AttributeAssistantEditorCapt_2a" xml:space="preserve">
+    <value>Champ de dernière valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorCapt_2b" xml:space="preserve">
+    <value>Valeur actuelle</value>
+  </data>
+  <data name="AttributeAssistantEditorCapt_2c" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="AttributeAssistantEditorChain0" xml:space="preserve">
+    <value>GetConfigDataTable : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain1" xml:space="preserve">
+    <value>createLastValueProperrtySet : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain10" xml:space="preserve">
+    <value>Vérification des règles pour l'entité mise à jour : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain100" xml:space="preserve">
+    <value>                  Angle de rotation introuvable ou erreur en sortie</value>
+  </data>
+  <data name="AttributeAssistantEditorChain101" xml:space="preserve">
+    <value>                  Angle de rotation défini sur : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain102" xml:space="preserve">
+    <value>                  Angle de rotation défini</value>
+  </data>
+  <data name="AttributeAssistantEditorChain103" xml:space="preserve">
+    <value>                  L'entité est une entité réseau</value>
+  </data>
+  <data name="AttributeAssistantEditorChain104" xml:space="preserve">
+    <value>                  L'entité est une entité de jonction</value>
+  </data>
+  <data name="AttributeAssistantEditorChain105" xml:space="preserve">
+    <value>                  Nombre de tronçons : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain106" xml:space="preserve">
+    <value>                  Vérification si le tronçon est un tronçon d'origine ou de destination</value>
+  </data>
+  <data name="AttributeAssistantEditorChain107" xml:space="preserve">
+    <value>                  Le tronçon est un tronçon de destination</value>
+  </data>
+  <data name="AttributeAssistantEditorChain108" xml:space="preserve">
+    <value>                  Obtention du champ à partir du tronçon de destination</value>
+  </data>
+  <data name="AttributeAssistantEditorChain109" xml:space="preserve">
+    <value>                  Vérification si le tronçon est un tronçon d'origine ; ignorer</value>
+  </data>
+  <data name="AttributeAssistantEditorChain11" xml:space="preserve">
+    <value>  Définition de l'ordre de tri : champ - RUNORDER</value>
+  </data>
+  <data name="AttributeAssistantEditorChain110" xml:space="preserve">
+    <value>                  Le tronçon est un tronçon d'origine</value>
+  </data>
+  <data name="AttributeAssistantEditorChain111" xml:space="preserve">
+    <value>                  Obtention du champ à partir du tronçon d'origine</value>
+  </data>
+  <data name="AttributeAssistantEditorChain112" xml:space="preserve">
+    <value>                  Vérification si le tronçon est un tronçon de destination ; ignorer</value>
+  </data>
+  <data name="AttributeAssistantEditorChain113" xml:space="preserve">
+    <value>                  Obtention du champ à partir du tronçon</value>
+  </data>
+  <data name="AttributeAssistantEditorChain114" xml:space="preserve">
+    <value>                  Analyse des informations de valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorChain115" xml:space="preserve">
+    <value>                  Pas une entité de réseau</value>
+  </data>
+  <data name="AttributeAssistantEditorChain116" xml:space="preserve">
+    <value>                  AVERTISSEMENT : vous essayez de remplir votre ID avec plus de 25 zéros</value>
+  </data>
+  <data name="AttributeAssistantEditorChain117" xml:space="preserve">
+    <value>Vous essayez d'ajouter 50 positions à votre ID ; ceci n'est pas pris en charge. Corrigez votre table de valeurs dynamiques</value>
+  </data>
+  <data name="AttributeAssistantEditorChain118" xml:space="preserve">
+    <value>                  Vérification pour déterminer la présence d'un champ pour stocker l'expression</value>
+  </data>
+  <data name="AttributeAssistantEditorChain119" xml:space="preserve">
+    <value>                  Définition de la valeur nulle</value>
+  </data>
+  <data name="AttributeAssistantEditorChain12" xml:space="preserve">
+    <value>                  VALIDATE_ATTRIBUTE_LOOKUP : La ou les valeurs cibles n'ont pas changé ; ignorer</value>
+  </data>
+  <data name="AttributeAssistantEditorChain120" xml:space="preserve">
+    <value>                  Définition de la valeur sur : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain121" xml:space="preserve">
+    <value>                  Vérification des champs dans la couche source</value>
+  </data>
+  <data name="AttributeAssistantEditorChain122" xml:space="preserve">
+    <value>                  Détection d'une table à remplir</value>
+  </data>
+  <data name="AttributeAssistantEditorChain123" xml:space="preserve">
+    <value>                  Tentative de création d'une ligne dans la table cible</value>
+  </data>
+  <data name="AttributeAssistantEditorChain124" xml:space="preserve">
+    <value>                  Ligne créée</value>
+  </data>
+  <data name="AttributeAssistantEditorChain125" xml:space="preserve">
+    <value>                  Tentative de copie de l'ID</value>
+  </data>
+  <data name="AttributeAssistantEditorChain126" xml:space="preserve">
+    <value>                  ID copié avec succès</value>
+  </data>
+  <data name="AttributeAssistantEditorChain127" xml:space="preserve">
+    <value>                  Tentative de copie de la valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorChain128" xml:space="preserve">
+    <value>                  Ligne stockée avec succès</value>
+  </data>
+  <data name="AttributeAssistantEditorChain129" xml:space="preserve">
+    <value>                  Distance de recherche spécifiée</value>
+  </data>
+  <data name="AttributeAssistantEditorChain13" xml:space="preserve">
+    <value>                  Recherche de la couche : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain130" xml:space="preserve">
+    <value>                  Boucle sur les couches</value>
+  </data>
+  <data name="AttributeAssistantEditorChain131" xml:space="preserve">
+    <value>                  Boucle sur les champs</value>
+  </data>
+  <data name="AttributeAssistantEditorChain132" xml:space="preserve">
+    <value>                  Vérification s'il s'agit d'une entité réseau</value>
+  </data>
+  <data name="AttributeAssistantEditorChain133" xml:space="preserve">
+    <value>                  Tentative de stockage : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain134" xml:space="preserve">
+    <value>                  Début du traitement de la règle</value>
+  </data>
+  <data name="AttributeAssistantEditorChain135" xml:space="preserve">
+    <value>                  Informations de valeur : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain136" xml:space="preserve">
+    <value>                  Couche trouvée : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain137" xml:space="preserve">
+    <value>                  Le filtre a une valeur nulle ; cela va entraîner une erreur</value>
+  </data>
+  <data name="AttributeAssistantEditorChain138" xml:space="preserve">
+    <value>                  Recherche dans la couche</value>
+  </data>
+  <data name="AttributeAssistantEditorChain139" xml:space="preserve">
+    <value>                  Recherche dans l'ensemble de sélection</value>
+  </data>
+  <data name="AttributeAssistantEditorChain14" xml:space="preserve">
+    <value>                  Couche de recherche </value>
+  </data>
+  <data name="AttributeAssistantEditorChain140" xml:space="preserve">
+    <value>                  Curseur créé</value>
+  </data>
+  <data name="AttributeAssistantEditorChain141" xml:space="preserve">
+    <value>                  Aucune entité sélectionnée</value>
+  </data>
+  <data name="AttributeAssistantEditorChain142" xml:space="preserve">
+    <value>                  Recherche dans la classe d'entités</value>
+  </data>
+  <data name="AttributeAssistantEditorChain143" xml:space="preserve">
+    <value>                  Le curseur a une valeur nulle</value>
+  </data>
+  <data name="AttributeAssistantEditorChain144" xml:space="preserve">
+    <value>                  Démarrage de la boucle des entités trouvées</value>
+  </data>
+  <data name="AttributeAssistantEditorChain145" xml:space="preserve">
+    <value>                  Vérification de la classe</value>
+  </data>
+  <data name="AttributeAssistantEditorChain146" xml:space="preserve">
+    <value>                  Classes d'entités différentes</value>
+  </data>
+  <data name="AttributeAssistantEditorChain147" xml:space="preserve">
+    <value>                  Définition de la valeur : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain148" xml:space="preserve">
+    <value>                  Classe d'entités identique</value>
+  </data>
+  <data name="AttributeAssistantEditorChain149" xml:space="preserve">
+    <value>Sélectionner une entité pour </value>
+  </data>
+  <data name="AttributeAssistantEditorChain15" xml:space="preserve">
+    <value> trouvée : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain150" xml:space="preserve">
+    <value>                  ERREUR : INTERSECTING_FEATURE : le nom du champ source a une valeur nulle</value>
+  </data>
+  <data name="AttributeAssistantEditorChain151" xml:space="preserve">
+    <value>                  ERREUR : INTERSECTING_FEATURE : les informations de valeur ne présentent pas le format attendu</value>
+  </data>
+  <data name="AttributeAssistantEditorChain152" xml:space="preserve">
+    <value>                  ERREUR : INTERSECTING_FEATURE : entité en entrée ou informations de valeur nulles</value>
+  </data>
+  <data name="AttributeAssistantEditorChain153" xml:space="preserve">
+    <value>                  ERREUR : INTERSECTING_BOOLEAN : les informations de valeur ne présentent pas le format attendu</value>
+  </data>
+  <data name="AttributeAssistantEditorChain154" xml:space="preserve">
+    <value>                  ERREUR : INTERSECTING_BOOLEAN : entité en entrée ou informations de valeur nulles</value>
+  </data>
+  <data name="AttributeAssistantEditorChain155" xml:space="preserve">
+    <value>                  ERREUR/AVERTISSEMENT : valeur de cellule ou raster introuvable : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain156" xml:space="preserve">
+    <value>                  Obtention de la liste des </value>
+  </data>
+  <data name="AttributeAssistantEditorChain157" xml:space="preserve">
+    <value> couches</value>
+  </data>
+  <data name="AttributeAssistantEditorChain158" xml:space="preserve">
+    <value>                  Liste obtenue à partir de </value>
+  </data>
+  <data name="AttributeAssistantEditorChain159" xml:space="preserve">
+    <value>                  Démarrage de la boucle</value>
+  </data>
+  <data name="AttributeAssistantEditorChain16" xml:space="preserve">
+    <value>                  Détection d'un champ dans la table de recherche</value>
+  </data>
+  <data name="AttributeAssistantEditorChain160" xml:space="preserve">
+    <value>                  Quitter la boucle de couches</value>
+  </data>
+  <data name="AttributeAssistantEditorChain161" xml:space="preserve">
+    <value>                  ERREUR : géocode introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorChain162" xml:space="preserve">
+    <value>Sélectionner une couche d'intersection pour </value>
+  </data>
+  <data name="AttributeAssistantEditorChain163" xml:space="preserve">
+    <value>Sélectionner une couche d'intersection</value>
+  </data>
+  <data name="AttributeAssistantEditorChain164" xml:space="preserve">
+    <value>Erreur lors de la définition de la valeur dans Intersecting_Layer_Details</value>
+  </data>
+  <data name="AttributeAssistantEditorChain165" xml:space="preserve">
+    <value>                  ERREUR : les informations de valeur ne sont pas correctes</value>
+  </data>
+  <data name="AttributeAssistantEditorChain166" xml:space="preserve">
+    <value>                  Le texte est trop long, définition de la valeur par défaut sur : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain167" xml:space="preserve">
+    <value>                  Valeur définie sur : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain168" xml:space="preserve">
+    <value>                  ERREUR : méthode de valeur incorrecte</value>
+  </data>
+  <data name="AttributeAssistantEditorChain169" xml:space="preserve">
+    <value>                  Recherche de la couche</value>
+  </data>
+  <data name="AttributeAssistantEditorChain17" xml:space="preserve">
+    <value>                  Le nombre de champs indiqués ne correspond pas</value>
+  </data>
+  <data name="AttributeAssistantEditorChain170" xml:space="preserve">
+    <value>                  Il existe un ensemble de sélection ; vérification des entités sélectionnées uniquement</value>
+  </data>
+  <data name="AttributeAssistantEditorChain171" xml:space="preserve">
+    <value>                  Recherche de la classe d'entités</value>
+  </data>
+  <data name="AttributeAssistantEditorChain172" xml:space="preserve">
+    <value>                  Les classes d'entités sont différentes</value>
+  </data>
+  <data name="AttributeAssistantEditorChain173" xml:space="preserve">
+    <value>                  Aucun champ correspondant spécifié</value>
+  </data>
+  <data name="AttributeAssistantEditorChain174" xml:space="preserve">
+    <value>Erreur dans l'entité la plus proche - Opérateur de proximité.  Cela peut être dû à la présence de données altérées dans la couche. Exécutez l'outil de géotraitement de vérification/réparation de la géométrie sur votre couche</value>
+  </data>
+  <data name="AttributeAssistantEditorChain175" xml:space="preserve">
+    <value>                  correspondant aux champs spécifiés</value>
+  </data>
+  <data name="AttributeAssistantEditorChain176" xml:space="preserve">
+    <value>                  Champs trouvés</value>
+  </data>
+  <data name="AttributeAssistantEditorChain177" xml:space="preserve">
+    <value>                  Champs introuvables</value>
+  </data>
+  <data name="AttributeAssistantEditorChain178" xml:space="preserve">
+    <value>                  ERREUR : nom de la couche source absent</value>
+  </data>
+  <data name="AttributeAssistantEditorChain179" xml:space="preserve">
+    <value>TableName :</value>
+  </data>
+  <data name="AttributeAssistantEditorChain18" xml:space="preserve">
+    <value>                  Champs manquants : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain180" xml:space="preserve">
+    <value>  FieldName :</value>
+  </data>
+  <data name="AttributeAssistantEditorChain181" xml:space="preserve">
+    <value>ValueMethod :</value>
+  </data>
+  <data name="AttributeAssistantEditorChain182" xml:space="preserve">
+    <value>  ValueData :</value>
+  </data>
+  <data name="AttributeAssistantEditorChain183" xml:space="preserve">
+    <value>Message : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain184" xml:space="preserve">
+    <value>Message de l'Assistant des attributs</value>
+  </data>
+  <data name="AttributeAssistantEditorChain185" xml:space="preserve">
+    <value>ERREUR : TableName :</value>
+  </data>
+  <data name="AttributeAssistantEditorChain186" xml:space="preserve">
+    <value>      Règle non traitée</value>
+  </data>
+  <data name="AttributeAssistantEditorChain187" xml:space="preserve">
+    <value>                           Valeur nulle dans la méthode de création ; aucun stockage dans le tableau des dernières valeurs</value>
+  </data>
+  <data name="AttributeAssistantEditorChain188" xml:space="preserve">
+    <value>        Erreur lors de la définition de la dernière valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorChain189" xml:space="preserve">
+    <value>Erreur lors du traitement des règles</value>
+  </data>
+  <data name="AttributeAssistantEditorChain19" xml:space="preserve">
+    <value>                     Annuler la mise à jour</value>
+  </data>
+  <data name="AttributeAssistantEditorChain190" xml:space="preserve">
+    <value>Message :</value>
+  </data>
+  <data name="AttributeAssistantEditorChain191" xml:space="preserve">
+    <value>Fin de l'exécution de l'Assistant des attributs</value>
+  </data>
+  <data name="AttributeAssistantEditorChain192" xml:space="preserve">
+    <value>getDefaultRows : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain193" xml:space="preserve">
+    <value>GetView : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain194" xml:space="preserve">
+    <value>                  Vérification </value>
+  </data>
+  <data name="AttributeAssistantEditorChain195" xml:space="preserve">
+    <value>                  Tentative </value>
+  </data>
+  <data name="AttributeAssistantEditorChain196" xml:space="preserve">
+    <value>                  Géométrie d'intersection </value>
+  </data>
+  <data name="AttributeAssistantEditorChain197" xml:space="preserve">
+    <value>                  Sans intersection </value>
+  </data>
+  <data name="AttributeAssistantEditorChain198" xml:space="preserve">
+    <value>                  Avertissement : type non pris en charge</value>
+  </data>
+  <data name="AttributeAssistantEditorChain2" xml:space="preserve">
+    <value>promptLastValueProperrtySet : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain20" xml:space="preserve">
+    <value>                  Inviter l'utilisateur à entrer des informations</value>
+  </data>
+  <data name="AttributeAssistantEditorChain21" xml:space="preserve">
+    <value>Sélectionner une valeur valide à stocker pour </value>
+  </data>
+  <data name="AttributeAssistantEditorChain22" xml:space="preserve">
+    <value>                  Valeur sélectionnée : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain23" xml:space="preserve">
+    <value>                  Une correspondance exacte a été trouvée</value>
+  </data>
+  <data name="AttributeAssistantEditorChain24" xml:space="preserve">
+    <value>                  PREVIOUS_VALUE : La ou les valeurs cibles n'ont pas changé ; ignorer</value>
+  </data>
+  <data name="AttributeAssistantEditorChain25" xml:space="preserve">
+    <value>                  Champ introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorChain26" xml:space="preserve">
+    <value>                 L'entité en entrée n'est pas une ligne</value>
+  </data>
+  <data name="AttributeAssistantEditorChain27" xml:space="preserve">
+    <value>                 Obtention d'un angle pour l'entité</value>
+  </data>
+  <data name="AttributeAssistantEditorChain28" xml:space="preserve">
+    <value>                  Angle calculé : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain29" xml:space="preserve">
+    <value>                  Angle stocké</value>
+  </data>
+  <data name="AttributeAssistantEditorChain3" xml:space="preserve">
+    <value>StopOperation :</value>
+  </data>
+  <data name="AttributeAssistantEditorChain30" xml:space="preserve">
+    <value>                  Impossible de stocker l'angle</value>
+  </data>
+  <data name="AttributeAssistantEditorChain31" xml:space="preserve">
+    <value>                  Terminé</value>
+  </data>
+  <data name="AttributeAssistantEditorChain32" xml:space="preserve">
+    <value>                  AVERTISSEMENT : les champs en entrée ne sont pas utilisés pour cet outil</value>
+  </data>
+  <data name="AttributeAssistantEditorChain33" xml:space="preserve">
+    <value>                  Modèle trouvé</value>
+  </data>
+  <data name="AttributeAssistantEditorChain34" xml:space="preserve">
+    <value>                  Ajouté à la liste des nouvelles entités</value>
+  </data>
+  <data name="AttributeAssistantEditorChain35" xml:space="preserve">
+    <value>                  Obtention de la valeur max. pour le champ : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain36" xml:space="preserve">
+    <value>                  Valeur retournée : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain37" xml:space="preserve">
+    <value>                  Le champ spécifié n'est pas un champ numérique</value>
+  </data>
+  <data name="AttributeAssistantEditorChain38" xml:space="preserve">
+    <value>                     Côté droit</value>
+  </data>
+  <data name="AttributeAssistantEditorChain39" xml:space="preserve">
+    <value>                     Côté gauche</value>
+  </data>
+  <data name="AttributeAssistantEditorChain40" xml:space="preserve">
+    <value>                  Ignorer ; aucun enregistrement correspondant n'a été trouvé</value>
+  </data>
+  <data name="AttributeAssistantEditorChain41" xml:space="preserve">
+    <value>                  L'utilisateur a accepté l'invite</value>
+  </data>
+  <data name="AttributeAssistantEditorChain42" xml:space="preserve">
+    <value>                  L'utilisateur a refusé l'invite</value>
+  </data>
+  <data name="AttributeAssistantEditorChain43" xml:space="preserve">
+    <value>                  Invite supprimée</value>
+  </data>
+  <data name="AttributeAssistantEditorChain44" xml:space="preserve">
+    <value>                  COPY_FEATURE : le champ indiqué dans le nom de champ n'a pas changé ; ignorer</value>
+  </data>
+  <data name="AttributeAssistantEditorChain45" xml:space="preserve">
+    <value>                  COPY_FEATURE : la valeur cible ne correspond pas à la valeur indiquée ; ignorer</value>
+  </data>
+  <data name="AttributeAssistantEditorChain46" xml:space="preserve">
+    <value>                  AVERTISSEMENT : COPY_FEATURE : définition de la valeur : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain47" xml:space="preserve">
+    <value>L'opération CUT n'est pas prise en charge actuellement</value>
+  </data>
+  <data name="AttributeAssistantEditorChain48" xml:space="preserve">
+    <value>                     ERREUR : les informations de valeur ne sont pas correctes</value>
+  </data>
+  <data name="AttributeAssistantEditorChain49" xml:space="preserve">
+    <value>                     Vérification si une entité figure dans un réseau géométrique</value>
+  </data>
+  <data name="AttributeAssistantEditorChain5" xml:space="preserve">
+    <value>OnShutdown : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain50" xml:space="preserve">
+    <value>                     L'entité figure dans un réseau géométrique</value>
+  </data>
+  <data name="AttributeAssistantEditorChain51" xml:space="preserve">
+    <value>                     Pas de valeur pour les champs spécifiés</value>
+  </data>
+  <data name="AttributeAssistantEditorChain52" xml:space="preserve">
+    <value>                     Règle de connexion valide trouvée</value>
+  </data>
+  <data name="AttributeAssistantEditorChain53" xml:space="preserve">
+    <value>                     ERREUR : valeur de connexion non numérique</value>
+  </data>
+  <data name="AttributeAssistantEditorChain54" xml:space="preserve">
+    <value>                     ERREUR : l'entité n'est pas une entité de réseau géométrique</value>
+  </data>
+  <data name="AttributeAssistantEditorChain55" xml:space="preserve">
+    <value>                     Ligne à surveiller spécifiée</value>
+  </data>
+  <data name="AttributeAssistantEditorChain56" xml:space="preserve">
+    <value>                     Vérification des champs à comparer : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain57" xml:space="preserve">
+    <value>                     Obtention des modèles pour la classe d'entités</value>
+  </data>
+  <data name="AttributeAssistantEditorChain58" xml:space="preserve">
+    <value>                     Vérification </value>
+  </data>
+  <data name="AttributeAssistantEditorChain59" xml:space="preserve">
+    <value>                     La couche est une couche d'entités</value>
+  </data>
+  <data name="AttributeAssistantEditorChain6" xml:space="preserve">
+    <value>BeforeStopOperation</value>
+  </data>
+  <data name="AttributeAssistantEditorChain60" xml:space="preserve">
+    <value>                     Obtention du gestionnaire de modèles de mise à jour</value>
+  </data>
+  <data name="AttributeAssistantEditorChain61" xml:space="preserve">
+    <value>                     Vérification des modèles</value>
+  </data>
+  <data name="AttributeAssistantEditorChain62" xml:space="preserve">
+    <value>                     Le modèle a trouvé un état : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain63" xml:space="preserve">
+    <value>                     AVERTISSEMENT : aucune couche n'a été trouvée !</value>
+  </data>
+  <data name="AttributeAssistantEditorChain64" xml:space="preserve">
+    <value>                     Les champs surveillés n'ont pas été modifiés</value>
+  </data>
+  <data name="AttributeAssistantEditorChain65" xml:space="preserve">
+    <value>                  Recherche de </value>
+  </data>
+  <data name="AttributeAssistantEditorChain66" xml:space="preserve">
+    <value>                  Couche trouvée </value>
+  </data>
+  <data name="AttributeAssistantEditorChain67" xml:space="preserve">
+    <value>                  Source de données valide pour </value>
+  </data>
+  <data name="AttributeAssistantEditorChain68" xml:space="preserve">
+    <value>                  Vérification du type de géométrie de la source</value>
+  </data>
+  <data name="AttributeAssistantEditorChain69" xml:space="preserve">
+    <value>                  Recherche </value>
+  </data>
+  <data name="AttributeAssistantEditorChain7" xml:space="preserve">
+    <value>OnChangeFeature :</value>
+  </data>
+  <data name="AttributeAssistantEditorChain70" xml:space="preserve">
+    <value>pour l'entité d'intersection</value>
+  </data>
+  <data name="AttributeAssistantEditorChain71" xml:space="preserve">
+    <value>                  Fractionnement du nombre d'entités d'intersection : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain72" xml:space="preserve">
+    <value>                  La ligne à fractionner est une ligne de réseau géométrique ; cette opération n'est pas valide pour ces types d'entités</value>
+  </data>
+  <data name="AttributeAssistantEditorChain73" xml:space="preserve">
+    <value>                  Ajout d'entités à fractionner au tableau pour appeler l'extension de l'Assistant des attributs</value>
+  </data>
+  <data name="AttributeAssistantEditorChain74" xml:space="preserve">
+    <value>                  Fractionner l'entité </value>
+  </data>
+  <data name="AttributeAssistantEditorChain75" xml:space="preserve">
+    <value> en </value>
+  </data>
+  <data name="AttributeAssistantEditorChain76" xml:space="preserve">
+    <value>                  Le fractionnement n'a retourné aucune entité</value>
+  </data>
+  <data name="AttributeAssistantEditorChain77" xml:space="preserve">
+    <value>                  Erreur lors du fractionnement de l'entité ; l'entité est peut-être une entité de réseau géométrique</value>
+  </data>
+  <data name="AttributeAssistantEditorChain78" xml:space="preserve">
+    <value>                  Avertissement : impossible de trouver une couche d'intersection : </value>
+  </data>
+  <data name="AttributeAssistantEditorChain79" xml:space="preserve">
+    <value>                  AVERTISSEMENT :  distance de recherche non spécifiée, 0 défini par défaut</value>
+  </data>
+  <data name="AttributeAssistantEditorChain8" xml:space="preserve">
+    <value>AddSelected</value>
+  </data>
+  <data name="AttributeAssistantEditorChain80" xml:space="preserve">
+    <value>                  Vérification de l'appariement des champs</value>
+  </data>
+  <data name="AttributeAssistantEditorChain81" xml:space="preserve">
+    <value>                  Appariement des champs vérifié</value>
+  </data>
+  <data name="AttributeAssistantEditorChain82" xml:space="preserve">
+    <value>                  Recherche de l'entité la plus proche</value>
+  </data>
+  <data name="AttributeAssistantEditorChain83" xml:space="preserve">
+    <value>                  Entités trouvées ; boucle pour la plus proche</value>
+  </data>
+  <data name="AttributeAssistantEditorChain84" xml:space="preserve">
+    <value>                  L'entité la plus proche est à une distance de </value>
+  </data>
+  <data name="AttributeAssistantEditorChain85" xml:space="preserve">
+    <value> avec un OID de </value>
+  </data>
+  <data name="AttributeAssistantEditorChain86" xml:space="preserve">
+    <value>                  Tentative de copie </value>
+  </data>
+  <data name="AttributeAssistantEditorChain87" xml:space="preserve">
+    <value> vers </value>
+  </data>
+  <data name="AttributeAssistantEditorChain88" xml:space="preserve">
+    <value>                  Aucune entité n'a été trouvée ; champs définis par défaut</value>
+  </data>
+  <data name="AttributeAssistantEditorChain89" xml:space="preserve">
+    <value>                  Évaluation de la valeur de longueur minimale</value>
+  </data>
+  <data name="AttributeAssistantEditorChain9" xml:space="preserve">
+    <value>L'Assistant des attributs a échoué ou a été annulé</value>
+  </data>
+  <data name="AttributeAssistantEditorChain90" xml:space="preserve">
+    <value>Ligne trop courte</value>
+  </data>
+  <data name="AttributeAssistantEditorChain91" xml:space="preserve">
+    <value>                  Tentative d'obtention du localisateur d'adresses</value>
+  </data>
+  <data name="AttributeAssistantEditorChain92" xml:space="preserve">
+    <value>                  Localisateur d'adresses inversées trouvé</value>
+  </data>
+  <data name="AttributeAssistantEditorChain93" xml:space="preserve">
+    <value>                  Récupération de l'emplacement pour inverser le géocodage</value>
+  </data>
+  <data name="AttributeAssistantEditorChain94" xml:space="preserve">
+    <value>                  Emplacement récupéré</value>
+  </data>
+  <data name="AttributeAssistantEditorChain95" xml:space="preserve">
+    <value>                  Définition de la distance</value>
+  </data>
+  <data name="AttributeAssistantEditorChain96" xml:space="preserve">
+    <value>                  Erreur lors de l'obtention des informations de projection de service</value>
+  </data>
+  <data name="AttributeAssistantEditorChain97" xml:space="preserve">
+    <value>                  Impossible d'obtenir l'emplacement pour inverser le géocodage</value>
+  </data>
+  <data name="AttributeAssistantEditorChain98" xml:space="preserve">
+    <value>                  Aucune information de valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorChain99" xml:space="preserve">
+    <value>                  Nom d'utilisateur : </value>
+  </data>
+  <data name="AttributeAssistantEditorCheck_1" xml:space="preserve">
+    <value>on</value>
+  </data>
+  <data name="AttributeAssistantEditorCheck_2" xml:space="preserve">
+    <value>off</value>
+  </data>
+  <data name="AttributeAssistantEditorCheck_3" xml:space="preserve">
+    <value>off</value>
+  </data>
+  <data name="AttributeAssistantEditorCheck_4" xml:space="preserve">
+    <value>startup</value>
+  </data>
+  <data name="AttributeAssistantEditorDone_3a" xml:space="preserve">
+    <value>Extension de l'éditeur initialisée</value>
+  </data>
+  <data name="AttributeAssistantEditorError_10a" xml:space="preserve">
+    <value>Erreur dans les événements de configuration de l'éditeur : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_11a" xml:space="preserve">
+    <value>Erreur lors du démarrage de l'événement de mise à jour : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_12a" xml:space="preserve">
+    <value>Erreur lors de l'envoi de l'objet événement : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_13a" xml:space="preserve">
+    <value> - Créé à l'aide de règles de l'Assistant des attributs - En cours d'exécution </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14a" xml:space="preserve">
+    <value>                  ERREUR : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14aa" xml:space="preserve">
+    <value>Erreur lors de l'obtention des coordonnées à partir de l'axe médian : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ab" xml:space="preserve">
+    <value>Erreur lors de l'obtention des coordonnées à partir de l'axe médian, GET_ADDRESS_FROM_CENTERLINE</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ac" xml:space="preserve">
+    <value>Erreur lors de l'obtention de l'emplacement, GET_ADDRESS_FROM_CENTERLINE</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ad" xml:space="preserve">
+    <value>Format de valdata incorrect</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ae" xml:space="preserve">
+    <value>Localisateur d'adresses inversées introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14af" xml:space="preserve">
+    <value>L'URL du géocodeur n'est pas à l'extrémité Rest</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ag" xml:space="preserve">
+    <value>Format de date/heure non valide</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ah" xml:space="preserve">
+    <value>Géométrie non prise en charge</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ai" xml:space="preserve">
+    <value>Type de statistique non pris en charge : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14aj" xml:space="preserve">
+    <value>La valeur n'a pas été définie sur l'entité : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ak" xml:space="preserve">
+    <value>Les entités en entrée ont une valeur nulle</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14al" xml:space="preserve">
+    <value>définition de la valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14am" xml:space="preserve">
+    <value>Champ source introuvable : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14an" xml:space="preserve">
+    <value>erreur</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ao" xml:space="preserve">
+    <value>Séquence introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ap" xml:space="preserve">
+    <value>table introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14aq" xml:space="preserve">
+    <value>Méthode de valeur incorrecte</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ar" xml:space="preserve">
+    <value>Couche d'entités d'intersection</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14as" xml:space="preserve">
+    <value>Champ de couche d'entités d'intersection</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14at" xml:space="preserve">
+    <value>Entité d'intersection introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14au" xml:space="preserve">
+    <value>Numéro de séquence introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14av" xml:space="preserve">
+    <value>Évaluation de l'expression pour l'entité dans </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14aw" xml:space="preserve">
+    <value>Copie impossible : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ax" xml:space="preserve">
+    <value>Table à renseigner introuvable : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ay" xml:space="preserve">
+    <value>ID ou champ à copier introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14az" xml:space="preserve">
+    <value>Le nom du champ n'est pas valide</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14b" xml:space="preserve">
+    <value>                  ERREUR/AVERTISSEMENT : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ba" xml:space="preserve">
+    <value>Définition de la méthode de valeur non valide</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bb" xml:space="preserve">
+    <value>Définition de la valeur : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bc" xml:space="preserve">
+    <value>Le champ source ou le champ cible est introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bd" xml:space="preserve">
+    <value>L'appariement des champs n'est pas défini correctement</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14be" xml:space="preserve">
+    <value>La couche cible n'est pas modifiable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bf" xml:space="preserve">
+    <value>La couche cible et la couche source présentent des types de géométrie différents</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bg" xml:space="preserve">
+    <value>Couche cible introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bh" xml:space="preserve">
+    <value>Les informations de valeur ne disposent pas de suffisamment de paramètres</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bi" xml:space="preserve">
+    <value>Champ introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bj" xml:space="preserve">
+    <value>Couche cible introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bk" xml:space="preserve">
+    <value>La valeur cible n'a pas changé ; ignorer</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bl" xml:space="preserve">
+    <value>Les informations de valeur ne disposent pas de suffisamment de paramètres</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bm" xml:space="preserve">
+    <value>Les informations de valeur ne disposent pas de suffisamment de paramètres</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14bn" xml:space="preserve">
+    <value>2 champs dans le nom de champ sont requis pour cet outil</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14c" xml:space="preserve">
+    <value>Impossible de stocker la valeur : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14ck" xml:space="preserve">
+    <value>ID de valeur nulle</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14d" xml:space="preserve">
+    <value>valuemethod n'est pas défini correctement pour cette règle</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14e" xml:space="preserve">
+    <value>Informations de valeur non valides :</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14f" xml:space="preserve">
+    <value>Pas une entité ou informations de valeur manquantes</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14g" xml:space="preserve">
+    <value>Couche cible introuvable.</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14h" xml:space="preserve">
+    <value>La couche cible n'est pas une couche de lignes.</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14i" xml:space="preserve">
+    <value>CREATE_PERP_LINE n'est pas pris en charge pour une cible de couche de structure.</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14j" xml:space="preserve">
+    <value>Impossible de définir la valeur : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14k" xml:space="preserve">
+    <value>ID ou champ à renseigner introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14l" xml:space="preserve">
+    <value>Informations de valeur non prises en charge : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14m" xml:space="preserve">
+    <value>pas une entité ou pas d'informations de valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14n" xml:space="preserve">
+    <value>copie de </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14o" xml:space="preserve">
+    <value>Impossible de trouver le champ </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14p" xml:space="preserve">
+    <value>L'entité n'est pas une ligne</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14q" xml:space="preserve">
+    <value>Méthode de valeur non prise en charge : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14r" xml:space="preserve">
+    <value>Champ de couche d'entités d'équipements</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14s" xml:space="preserve">
+    <value>Aucun équipement sélectionné dans </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14t" xml:space="preserve">
+    <value>Trop d'équipements sont sélectionnés dans </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14u" xml:space="preserve">
+    <value>Couche d'équipements</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14v" xml:space="preserve">
+    <value>Champ de couche d'équipements</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14w" xml:space="preserve">
+    <value>Le champ est un nombre, ce qui n'est pas le cas de la valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14x" xml:space="preserve">
+    <value>Le champ est un nombre, ce qui n'est pas le cas de la valeur : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_14y" xml:space="preserve">
+    <value>La partie des champs valuemethod ne dispose pas de suffisamment de champs</value>
+  </data>
+  <data name="AttributeAssistantEditorError_14z" xml:space="preserve">
+    <value>Erreur lors de la définition des valeurs de champ, GET_ADDRESS_FROM_CENTERLINE</value>
+  </data>
+  <data name="AttributeAssistantEditorError_1a" xml:space="preserve">
+    <value>Erreur lors du réglage du bouton de basculement de l'Assistant des attributs : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_1b" xml:space="preserve">
+    <value>WriteLine : </value>
+  </data>
+  <data name="AttributeAssistantEditorError_4a" xml:space="preserve">
+    <value>Erreur lors de l'arrêt de la mise à jour : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_11a" xml:space="preserve">
+    <value>Début de la mise à jour avec l'Assistant des attributs</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_12a" xml:space="preserve">
+    <value>La fonction d'envoi et de réalisation des mises à jour de l'Assistant des attributs est désactivée</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_12b" xml:space="preserve">
+    <value>Nombre de processus : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_12c" xml:space="preserve">
+    <value>La dernière entité correspond et le nombre de processus est connu</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14a" xml:space="preserve">
+    <value>La valeur de réalisation des mises à jour est définie sur False (faux)</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14aa" xml:space="preserve">
+    <value>        ValueMethod : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ab" xml:space="preserve">
+    <value>        À la création : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ac" xml:space="preserve">
+    <value>        Lors d'une modification : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ad" xml:space="preserve">
+    <value>        Ordre : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ae" xml:space="preserve">
+    <value>      Détection d'une restriction de sous-type</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14af" xml:space="preserve">
+    <value>        Restriction de sous-type trouvée</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ag" xml:space="preserve">
+    <value>        Ignorer ; il ne s'agit pas du sous-type défini</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ah" xml:space="preserve">
+    <value>        Le sous-type est valide</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ai" xml:space="preserve">
+    <value>        Ignorer, le sous-type n'est pas défini</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14aj" xml:space="preserve">
+    <value>        ERREUR : la couche n'a pas de sous-type</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ak" xml:space="preserve">
+    <value>      Nom du champ : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14al" xml:space="preserve">
+    <value> trouvé à l'index : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14am" xml:space="preserve">
+    <value> Champ introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14an" xml:space="preserve">
+    <value>      Le champ est défini comme mis à jour</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ao" xml:space="preserve">
+    <value>      Ajout </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ap" xml:space="preserve">
+    <value> à un tableau de champs</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14aq" xml:space="preserve">
+    <value>      Le champ n'est pas spécifié, est vide ou est défini pour un usage général.</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ar" xml:space="preserve">
+    <value>                  Tentative : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14as" xml:space="preserve">
+    <value>                  Terminé : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14at" xml:space="preserve">
+    <value>Annulation de la configuration des événements</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14au" xml:space="preserve">
+    <value>Configuration des événements</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14av" xml:space="preserve">
+    <value>Des informations de valeur incorrectes n'ont pas été trouvées</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14aw" xml:space="preserve">
+    <value>Champ non défini</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ax" xml:space="preserve">
+    <value>                  Champ indiqué modifié</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ay" xml:space="preserve">
+    <value>                  Correspondance de valeurs</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14az" xml:space="preserve">
+    <value>                  Valeur définie</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14b" xml:space="preserve">
+    <value>Table de valeurs dynamiques manquante - Nom dans la config : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ba" xml:space="preserve">
+    <value>Aucune information de valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bb" xml:space="preserve">
+    <value> est introuvable</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bc" xml:space="preserve">
+    <value>pas une entité tronçon</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bd" xml:space="preserve">
+    <value>pas une entité de réseau géométrique</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14be" xml:space="preserve">
+    <value>champ non modifié</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bf" xml:space="preserve">
+    <value>Restriction de couche trouvée. Nom de classe de la jonction : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bg" xml:space="preserve">
+    <value>La restriction de couche ne correspond pas ; rupture</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bh" xml:space="preserve">
+    <value>La restriction de couche correspond ; détection d'une restriction de champ</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bi" xml:space="preserve">
+    <value>Aucun tronçon connecté trouvé</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bj" xml:space="preserve">
+    <value>pas une entité de jonction</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bk" xml:space="preserve">
+    <value>Il ne s'agit pas d'une entité de réseau géométrique</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bl" xml:space="preserve">
+    <value>Les valeurs ne correspondent pas</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bm" xml:space="preserve">
+    <value>Informations de valeur et restriction de champ manquantes</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bn" xml:space="preserve">
+    <value>Recherche d'un champ appelé </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bo" xml:space="preserve">
+    <value> dans la table de génération des ID</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bp" xml:space="preserve">
+    <value>remplacer le champ : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bq" xml:space="preserve">
+    <value>  par une valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14br" xml:space="preserve">
+    <value>Expression à évaluer : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bs" xml:space="preserve">
+    <value>Obtention des informations de valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bt" xml:space="preserve">
+    <value>Vérification des valeurs</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bu" xml:space="preserve">
+    <value>Valeur trouvée </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bv" xml:space="preserve">
+    <value>Valeur utilisée </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bw" xml:space="preserve">
+    <value>Fournissez une valeur pour</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bx" xml:space="preserve">
+    <value>Clause Where : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14by" xml:space="preserve">
+    <value>Entité trouvée : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bz" xml:space="preserve">
+    <value> Couche trouvée</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14c" xml:space="preserve">
+    <value>la table des valeurs dynamiques dv.table a une valeur nulle</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ca" xml:space="preserve">
+    <value>Fractionnement des informations de valeur : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cb" xml:space="preserve">
+    <value>L'entité et les informations de valeur sont valides</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cc" xml:space="preserve">
+    <value>Distance trouvée : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cd" xml:space="preserve">
+    <value>Valeur copiée avec succès</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ce" xml:space="preserve">
+    <value>Enregistrement associé introuvable.</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cf" xml:space="preserve">
+    <value>Tentative de copie de la valeur à partir de l'enregistrement</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cg" xml:space="preserve">
+    <value>Tentative de copie de la valeur dans l'enregistrement</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ch" xml:space="preserve">
+    <value> Défini dans l'enregistrement associé</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ci" xml:space="preserve">
+    <value>Détection d'un enregistrement associé</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cj" xml:space="preserve">
+    <value>Vérification du champ dans la couche mise à jour</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ck" xml:space="preserve">
+    <value>La valeur cible n'a pas changé ; ignorer</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cl" xml:space="preserve">
+    <value>Détection d'un enregistrement de jointure</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cm" xml:space="preserve">
+    <value>Démarrage à 1</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cn" xml:space="preserve">
+    <value>Valeur non numérique : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14co" xml:space="preserve">
+    <value>Tentative de définition de la valeur </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cp" xml:space="preserve">
+    <value>Définition de la valeur sur 1</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cq" xml:space="preserve">
+    <value>Incrémenté à </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cr" xml:space="preserve">
+    <value>Tentative d'incrémentation </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cs" xml:space="preserve">
+    <value>Valeur numérique</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14d" xml:space="preserve">
+    <value>Démarrage de l'Assistant des attributs</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14e" xml:space="preserve">
+    <value>L'objet en entrée a une valeur nulle</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14f" xml:space="preserve">
+    <value>La règle de dernière valeur a été modifiée ; mise à jour du tableau des dernières valeurs</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14g" xml:space="preserve">
+    <value>La table de valeurs dynamiques correspond à la table en cours de mise à jour ; ignorer</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14h" xml:space="preserve">
+    <value> il manque une colonne</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14i" xml:space="preserve">
+    <value>Vérification des règles pour </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14j" xml:space="preserve">
+    <value>  Interrogation de la table pour connaître la dernière valeur pour la couche : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14k" xml:space="preserve">
+    <value>  Requête utilisée : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14l" xml:space="preserve">
+    <value>  Nombre de résultats : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14m" xml:space="preserve">
+    <value>       Recherche de </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14n" xml:space="preserve">
+    <value> champ trouvé à la position : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14o" xml:space="preserve">
+    <value> A changé</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14p" xml:space="preserve">
+    <value>                      Définition de la dernière valeur</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14q" xml:space="preserve">
+    <value>                      Ignorer les valeurs nulles à la création</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14r" xml:space="preserve">
+    <value> N'a pas changé</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14s" xml:space="preserve">
+    <value>  Interrogation de la table pour connaître les règles de la couche : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14t" xml:space="preserve">
+    <value>Plus de 15 processus sont en cours d'exécution ; il est fort probable que vos règles soient à l'origine d'une boucle infinie.  Une règle créant une nouvelle entité avec le caractère * (astérisque) dans le nom de la table peut entraîner ce problème.</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14u" xml:space="preserve">
+    <value>  Boucle sur les lignes</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14v" xml:space="preserve">
+    <value>      Informations sur la ligne</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14w" xml:space="preserve">
+    <value>        Numéro de ligne </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14x" xml:space="preserve">
+    <value>        TableName : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14y" xml:space="preserve">
+    <value>        FieldName : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_14z" xml:space="preserve">
+    <value>        ValueInfo : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_1a" xml:space="preserve">
+    <value>L'Assistant des attributs est en cours d'activation</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_1b" xml:space="preserve">
+    <value>L'Assistant des attributs est en cours de désactivation</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_1c" xml:space="preserve">
+    <value>Il manque la colonne ON_CHANGEGEO dans la table de valeurs dynamiques</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_1d" xml:space="preserve">
+    <value>Il manque la colonne ON_CHANGE dans la table de valeurs dynamiques</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_1e" xml:space="preserve">
+    <value>Il manque la colonne ON_CREATE dans la table de valeurs dynamiques</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_1f" xml:space="preserve">
+    <value>Il manque la colonne ON_MANUAL dans la table de valeurs dynamiques</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_1g" xml:space="preserve">
+    <value>Vous avez spécifié SHAPE dans une entrée de dernière valeur de l'Assistant des attributs, ce qui n'est pas pris en charge</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_2a" xml:space="preserve">
+    <value>Le tableau des dernières valeurs n'a pas été créé ; activez l'extension</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_2b" xml:space="preserve">
+    <value>Définir propriété pour </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_2c" xml:space="preserve">
+    <value>Valeur actuelle : </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_2d" xml:space="preserve">
+    <value>Utilisez &lt;null&gt; pour une valeur nulle</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_3a" xml:space="preserve">
+    <value>L'Assistant des attributs est désactivé - InitEditing1</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_3b" xml:space="preserve">
+    <value>L'Assistant des attributs est en cours de désactivation - InitEditing2</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_3c" xml:space="preserve">
+    <value>L'Assistant des attributs est en cours de désactivation - InitEditing FileWorkspace</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_3d" xml:space="preserve">
+    <value>L'Assistant des attributs est activé - InitEditing</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_4a" xml:space="preserve">
+    <value>Fermeture du fichier journal </value>
+  </data>
+  <data name="AttributeAssistantEditorMess_5a" xml:space="preserve">
+    <value>L'Assistant des attributs est désactivé - initialisation</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_5b" xml:space="preserve">
+    <value>L'Assistant des attributs est activé - initialisation</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_5c" xml:space="preserve">
+    <value>Ajout de gestionnaires d'événements par l'Assistant des attributs</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_6a" xml:space="preserve">
+    <value>Nouveau document</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_7a" xml:space="preserve">
+    <value>L'Assistant des attributs est désactivé - fermeture du document</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_8a" xml:space="preserve">
+    <value>L'Assistant des attributs est désactivé - recharge</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_9a" xml:space="preserve">
+    <value>L'Assistant des attributs est désactivé - démarrage</value>
+  </data>
+  <data name="AttributeAssistantEditorMess_9b" xml:space="preserve">
+    <value>                  script à traiter : </value>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14a" xml:space="preserve">
+    <value>ERREUR/AVERTISSEMENT : </value>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14b" xml:space="preserve">
+    <value>La couche source n'est pas modifiable : </value>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14c" xml:space="preserve">
+    <value>Couche source introuvable : </value>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14d" xml:space="preserve">
+    <value>valeur retournée non numérique : </value>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14e" xml:space="preserve">
+    <value>la chaîne de la couche source est vide</value>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14f" xml:space="preserve">
+    <value>Source de données non valide : </value>
+  </data>
+  <data name="AttributeAssistantError_2a" xml:space="preserve">
+    <value>ERREUR LORS DE L'ACTIVATION DE L'ASSISTANT DES ATTRIBUTS. Redémarrez ArcMap</value>
+  </data>
+  <data name="AttributeAssistantMess_1a" xml:space="preserve">
+    <value>L'Assistant des attributs est en cours d'interruption</value>
+  </data>
+  <data name="AttributeAssistantMess_1b" xml:space="preserve">
+    <value>L'Assistant des attributs est activé</value>
+  </data>
+  <data name="AttributeAssistantMess_1c" xml:space="preserve">
+    <value>L'Assistant des attributs est en cours d'activation après avoir été interrompu</value>
+  </data>
+  <data name="AttributeAssistantMess_1d" xml:space="preserve">
+    <value>L'Assistant des attributs n'est pas interrompu</value>
+  </data>
+  <data name="AttributeAssistantMess_1e" xml:space="preserve">
+    <value>L'Assistant des attributs est interrompu</value>
+  </data>
+  <data name="AttributeAssistantMess_1f" xml:space="preserve">
+    <value>Activez l'Assistant des attributs avant d'utiliser cet outil</value>
+  </data>
+  <data name="AttributeAssistantMess_1g" xml:space="preserve">
+    <value>Passez en mode édition pour exécuter cet outil</value>
+  </data>
+  <data name="AttributeAssistantMess_2a" xml:space="preserve">
+    <value>Exécution des règles de modification</value>
+  </data>
+  <data name="AttributeAssistantMess_2b" xml:space="preserve">
+    <value>Assistant des attributs - Suppression de l'événement de modification d'entité pour exécuter les règles de modification</value>
+  </data>
+  <data name="AttributeAssistantMess_2c" xml:space="preserve">
+    <value>Assistant des attributs - Suppression de l'événement de modification d'entité pour exécuter les règles de modification</value>
+  </data>
+  <data name="AttributeAssistantMess_2d" xml:space="preserve">
+    <value>Sélectionnez des lignes ou des entités pour exécuter ce processus.</value>
+  </data>
+  <data name="AttributeAssistantMess_4a" xml:space="preserve">
+    <value>Assistant des attributs - Suppression de l'événement de modification d'entité pour exécuter les règles manuelles</value>
+  </data>
+  <data name="AttributeAssistantMess_4b" xml:space="preserve">
+    <value>Assistant des attributs - Lecture de l'événement de modification d'entité après les règles manuelles</value>
+  </data>
+  <data name="AttributeAssistantMess_5a" xml:space="preserve">
+    <value>Assistant des attributs - Suppression de l'événement de modification d'entité pour exécuter les règles de création</value>
+  </data>
+  <data name="AttributeAssistantMess_5b" xml:space="preserve">
+    <value>Assistant des attributs - Lecture de l'événement de modification d'entité après les règles de création</value>
+  </data>
+  <data name="AttributeAssistantProc_2a" xml:space="preserve">
+    <value>Traitement en cours </value>
+  </data>
+  <data name="AttributeAssistantTitle_2a" xml:space="preserve">
+    <value>Traitement en cours...</value>
+  </data>
+  <data name="AttrTrasftLoadRError_1" xml:space="preserve">
+    <value>Un champ cible ou source a une valeur nulle</value>
+  </data>
+  <data name="CalibrateLn" xml:space="preserve">
+    <value>Calibrer les lignes</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="CanceledReturnStatement" xml:space="preserve">
+    <value>Annulé</value>
+  </data>
+  <data name="Clck2Pts" xml:space="preserve">
+    <value>Cliquez sur deux points pour définir le parcours</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirmer</value>
+  </data>
+  <data name="ConnectAsset" xml:space="preserve">
+    <value>Connexion de l'équipement </value>
+  </data>
+  <data name="ConstrOptions" xml:space="preserve">
+    <value>Options de construction</value>
+  </data>
+  <data name="ConstrPtsAlongLine" xml:space="preserve">
+    <value>Construire des points le long d'une ligne</value>
+  </data>
+  <data name="ConstructionToolsAsk_1" xml:space="preserve">
+    <value> introuvable, l'entité de point d'alignement ne sera pas ajoutée ! \nContinuer ?</value>
+  </data>
+  <data name="ConstructionToolsAsk_2" xml:space="preserve">
+    <value> trouvé, mais la source de données n'est pas définie ! \nContinuer ?</value>
+  </data>
+  <data name="ConstructionToolsAsk_3" xml:space="preserve">
+    <value> trouvé pour une couche de points d'alignement, mais la géométrie n'est pas celle d'un point</value>
+  </data>
+  <data name="ConstructionToolsError_1" xml:space="preserve">
+    <value>Impossible d'ajouter des lignes.</value>
+  </data>
+  <data name="ConstructionToolsError_2" xml:space="preserve">
+    <value>Les canalisations et les lignes cibles doivent figurer dans des classes d'entités différentes.</value>
+  </data>
+  <data name="ConstructionToolsError_3" xml:space="preserve">
+    <value> n'est pas une couche de polygones</value>
+  </data>
+  <data name="ConstructionToolsError_4" xml:space="preserve">
+    <value> n'est ni modifiable ni une couche de points</value>
+  </data>
+  <data name="ConstructionToolsError_5a" xml:space="preserve">
+    <value>Ligne introuvable dans</value>
+  </data>
+  <data name="ConstructionToolsError_5b" xml:space="preserve">
+    <value>dans une distance de</value>
+  </data>
+  <data name="ConstructionToolsError_5c" xml:space="preserve">
+    <value>unités.\r\nCet outil traite un ensemble de sélection et n'examine que les entités sélectionnées ; réessayez après avoir désélectionné les entités.</value>
+  </data>
+  <data name="ConstructionToolsError_6" xml:space="preserve">
+    <value>La distance de branchement était de 0 ; cette entité est ignorée</value>
+  </data>
+  <data name="ConstructionToolsError_7" xml:space="preserve">
+    <value>Aucune ligne plus proche n'a été trouvée à la distance spécifiée dans les paramètres fournis ; ignorer</value>
+  </data>
+  <data name="ConstructionToolsError_8" xml:space="preserve">
+    <value>La classe d'entités de points d'alignement est introuvable</value>
+  </data>
+  <data name="ConstructionToolsError_9" xml:space="preserve">
+    <value>Erreur lors de la tentative de stockage de l'ID du conduit sur l'entité\r\n</value>
+  </data>
+  <data name="ConstructionToolsLbl_1" xml:space="preserve">
+    <value>Connecter les plus proches</value>
+  </data>
+  <data name="ConstructionToolsLbl_2" xml:space="preserve">
+    <value>Ajouter des branchements</value>
+  </data>
+  <data name="ConstructionToolsLbl_3" xml:space="preserve">
+    <value>Créer un élément unique</value>
+  </data>
+  <data name="ConstructionToolsLbl_4" xml:space="preserve">
+    <value>Créer un élément double</value>
+  </data>
+  <data name="ConstructionToolsLbl_6" xml:space="preserve">
+    <value>Ajouter des robinets de branchements</value>
+  </data>
+  <data name="ConstructionToolsMess_1" xml:space="preserve">
+    <value>La couche représentant des canalisations est introuvable.  La configuration indique le nom d'une classe d'entités : </value>
+  </data>
+  <data name="ConstructionToolsMess_2" xml:space="preserve">
+    <value>La couche représentant des canalisations n'est pas une couche de lignes : </value>
+  </data>
+  <data name="ConstructionToolsMess_3" xml:space="preserve">
+    <value>La couche représentant des lignes cibles est introuvable.  La configuration indique le nom d'une classe d'entités : </value>
+  </data>
+  <data name="ConstructionToolsMess_4" xml:space="preserve">
+    <value>La couche représentant des lignes cibles n'est pas une couche de lignes : </value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="CrtAssetAndLat" xml:space="preserve">
+    <value>Créer un équipement et un branchement</value>
+  </data>
+  <data name="CrtLnWithPts" xml:space="preserve">
+    <value>Créer une ligne avec des points</value>
+  </data>
+  <data name="CrtPtsAlongLine" xml:space="preserve">
+    <value>Créer des points le long d'une ligne</value>
+  </data>
+  <data name="CrtPtsToEnd" xml:space="preserve">
+    <value>Créer des points supplémentaires aux extrémités</value>
+  </data>
+  <data name="CT_1" xml:space="preserve">
+    <value>Outils d'estimation - CIPProjectWindow : ShuffleControls</value>
+  </data>
+  <data name="CT_2" xml:space="preserve">
+    <value>Outils d'estimation - CIPProjectWindow : AddControls</value>
+  </data>
+  <data name="CurrentOID" xml:space="preserve">
+    <value>ID de l'objet en cours de traitement : </value>
+  </data>
+  <data name="DataToolsLbl1" xml:space="preserve">
+    <value>Outils de données</value>
+  </data>
+  <data name="DataToolsMess_1" xml:space="preserve">
+    <value>Sélectionnez des entités avant d'exécuter cette commande.</value>
+  </data>
+  <data name="DataToolsMess_2" xml:space="preserve">
+    <value>Suggestion : rendez certaines couches sélectionnables avant d'exécuter un parcours.</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="DontFindFlowEltReturnStatement" xml:space="preserve">
+    <value>Erreur_Erreur lors de la recherche d'éléments de flux</value>
+  </data>
+  <data name="EditCtrl" xml:space="preserve">
+    <value>contrôle de mise à jour</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Erreur : </value>
+  </data>
+  <data name="ErrorInThe" xml:space="preserve">
+    <value>Erreur dans </value>
+  </data>
+  <data name="ErrorOn" xml:space="preserve">
+    <value>Erreur sur </value>
+  </data>
+  <data name="ExportAsset" xml:space="preserve">
+    <value>Exporter équipement </value>
+  </data>
+  <data name="ExportXL" xml:space="preserve">
+    <value>Exporter vers Excel</value>
+  </data>
+  <data name="ExportXLError" xml:space="preserve">
+    <value>Erreur lors de l'exportation vers Excel ; vérifiez que Excel 2003 ou une version plus récente est installée</value>
+  </data>
+  <data name="FeatNotFound" xml:space="preserve">
+    <value>Aucune entité trouvée</value>
+  </data>
+  <data name="FeatureIn" xml:space="preserve">
+    <value>Entité dans </value>
+  </data>
+  <data name="Field" xml:space="preserve">
+    <value>Champ </value>
+  </data>
+  <data name="FinishSktchPrt" xml:space="preserve">
+    <value>Terminer la partie de la construction</value>
+  </data>
+  <data name="ForLn" xml:space="preserve">
+    <value> pour la ligne </value>
+  </data>
+  <data name="ForSltedLn" xml:space="preserve">
+    <value> pour les lignes sélectionnées.</value>
+  </data>
+  <data name="GeometryToolsAsk_1" xml:space="preserve">
+    <value>Calibrer les lignes d'après le sens de numérisation ?</value>
+  </data>
+  <data name="GeometryToolsError_1" xml:space="preserve">
+    <value>Votre carte doit contenir au moins une couche.</value>
+  </data>
+  <data name="GeometryToolsError_2" xml:space="preserve">
+    <value>La source de données de la couche sélectionnée n'est pas définie.</value>
+  </data>
+  <data name="GeometryToolsError_3" xml:space="preserve">
+    <value>La couche sélectionnée ne prend pas en charge les mesures.</value>
+  </data>
+  <data name="GeometryToolsError_4" xml:space="preserve">
+    <value>Aucune entité sélectionnée dans la couche mise en surbrillance.</value>
+  </data>
+  <data name="GeometryToolsError_5" xml:space="preserve">
+    <value> A une géométrie nulle</value>
+  </data>
+  <data name="GeometryToolsError_6" xml:space="preserve">
+    <value>Aucune rotation n'est spécifiée pour les couches modifiables contenant les entités sélectionnées. \nDans Propriétés de la couche, sous l'onglet Symbologie, cliquez sur Avancé pour définir le champ et le type de rotation.</value>
+  </data>
+  <data name="GeometryToolsError_7" xml:space="preserve">
+    <value>Aucune ligne modifiable avec des entités sélectionnées n'a été trouvée</value>
+  </data>
+  <data name="GeometryToolsError_8" xml:space="preserve">
+    <value>Erreur lors de la création du saut ; cela se produit généralement lorsque deux lignes qui se croisent sont trop proches.  Le saut résultant peut présenter une géométrie incorrecte ; vérifiez la construction (double-cliquez pour afficher les sommets et assurez-vous que la géométrie présente le même aspect)</value>
+  </data>
+  <data name="GeometryToolsError_9" xml:space="preserve">
+    <value>Le segment sélectionné n'est pas assez long pour créer le saut</value>
+  </data>
+  <data name="GeometryToolsLbl_1" xml:space="preserve">
+    <value>Définir les mesures</value>
+  </data>
+  <data name="GeometryToolsLbl_2" xml:space="preserve">
+    <value>Rotation des points</value>
+  </data>
+  <data name="GeometryToolsLbl_3" xml:space="preserve">
+    <value>Ajouter une rotation</value>
+  </data>
+  <data name="GeometryToolsLbl_4" xml:space="preserve">
+    <value>Fractionner les lignes à l'emplacement</value>
+  </data>
+  <data name="GeometryToolsLbl_5" xml:space="preserve">
+    <value>Fractionner les lignes</value>
+  </data>
+  <data name="GeometryToolsLbl_6" xml:space="preserve">
+    <value>Créer des sauts</value>
+  </data>
+  <data name="GeometryToolsLbl_7" xml:space="preserve">
+    <value>Inverser les lignes</value>
+  </data>
+  <data name="GeometryToolsLbl_8" xml:space="preserve">
+    <value>Inverser les lignes pour s'adapter à l'écoulement</value>
+  </data>
+  <data name="GeometryToolsMess_1" xml:space="preserve">
+    <value>Définition de la valeur de rotation pour les points sélectionnés</value>
+  </data>
+  <data name="GeometryToolsMess_2" xml:space="preserve">
+    <value>Construction de la liste des couches </value>
+  </data>
+  <data name="GeometryToolsMess_3" xml:space="preserve">
+    <value>Couche ajoutée : </value>
+  </data>
+  <data name="GeometryToolsMess_4a" xml:space="preserve">
+    <value>Vérification de la couche : </value>
+  </data>
+  <data name="GeometryToolsMess_4b" xml:space="preserve">
+    <value>Vérification de la ligne </value>
+  </data>
+  <data name="GeometryToolsMess_4c" xml:space="preserve">
+    <value> pour la couche : </value>
+  </data>
+  <data name="GeometryToolsMess_5" xml:space="preserve">
+    <value>Chaque ligne sélectionnée dans cette couche sera inversée.</value>
+  </data>
+  <data name="GeometryToolsProc_1" xml:space="preserve">
+    <value>Définition de la mesure</value>
+  </data>
+  <data name="GeometryToolsProc_10" xml:space="preserve">
+    <value>Fractionnement aux points sélectionnés</value>
+  </data>
+  <data name="GeometryToolsProc_11" xml:space="preserve">
+    <value>Fractionnement de la ligne </value>
+  </data>
+  <data name="GeometryToolsProc_12" xml:space="preserve">
+    <value>Création de sauts</value>
+  </data>
+  <data name="GeometryToolsProc_2" xml:space="preserve">
+    <value>Définir les valeurs M</value>
+  </data>
+  <data name="GeometryToolsProc_3" xml:space="preserve">
+    <value>Rotation des points </value>
+  </data>
+  <data name="GeometryToolsProc_4" xml:space="preserve">
+    <value>Ajout d'une rotation au point </value>
+  </data>
+  <data name="GeometryToolsProc_5" xml:space="preserve">
+    <value>Rotation de la sélection</value>
+  </data>
+  <data name="GeometryToolsProc_6" xml:space="preserve">
+    <value>Rotation du point </value>
+  </data>
+  <data name="GeometryToolsProc_7" xml:space="preserve">
+    <value>Fractionnement des lignes sélectionnées à l'emplacement</value>
+  </data>
+  <data name="GeometryToolsProc_8" xml:space="preserve">
+    <value>Fractionnement des lignes à l'emplacement</value>
+  </data>
+  <data name="GeometryToolsProc_9" xml:space="preserve">
+    <value>Fractionner les lignes aux points</value>
+  </data>
+  <data name="GeometryToolsRealName_1" xml:space="preserve">
+    <value>SplitLinesAsClick</value>
+  </data>
+  <data name="GeoNetToolsAlias_1" xml:space="preserve">
+    <value>Altitude du sol</value>
+  </data>
+  <data name="GeoNetToolsAlias_11" xml:space="preserve">
+    <value>ID de la ressource</value>
+  </data>
+  <data name="GeoNetToolsAlias_12" xml:space="preserve">
+    <value>Mesure</value>
+  </data>
+  <data name="GeoNetToolsAlias_13" xml:space="preserve">
+    <value>Altitude</value>
+  </data>
+  <data name="GeoNetToolsAlias_14" xml:space="preserve">
+    <value>Étiquette</value>
+  </data>
+  <data name="GeoNetToolsAlias_15" xml:space="preserve">
+    <value>De la mesure</value>
+  </data>
+  <data name="GeoNetToolsAlias_16" xml:space="preserve">
+    <value>Vers la mesure</value>
+  </data>
+  <data name="GeoNetToolsAlias_17" xml:space="preserve">
+    <value>De l'altitude</value>
+  </data>
+  <data name="GeoNetToolsAlias_18" xml:space="preserve">
+    <value>Vers l'altitude</value>
+  </data>
+  <data name="GeoNetToolsAlias_2" xml:space="preserve">
+    <value>Altitude de ligne (mesures en aval)</value>
+  </data>
+  <data name="GeoNetToolsAlias_3" xml:space="preserve">
+    <value>Altitude de ligne (mesures en amont)</value>
+  </data>
+  <data name="GeoNetToolsAlias_4" xml:space="preserve">
+    <value>Altitude max.</value>
+  </data>
+  <data name="GeoNetToolsAlias_5" xml:space="preserve">
+    <value>Altitude min.</value>
+  </data>
+  <data name="GeoNetToolsAlias_6" xml:space="preserve">
+    <value>Altitude max.</value>
+  </data>
+  <data name="GeoNetToolsAlias_7" xml:space="preserve">
+    <value>Altitude min.</value>
+  </data>
+  <data name="GeoNetToolsAlias_8" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="GeoNetToolsAsk_11a" xml:space="preserve">
+    <value>Avec cette étendue et cette visibilité de couche, vous allez vérifier la connectivité de </value>
+  </data>
+  <data name="GeoNetToolsAsk_11b" xml:space="preserve">
+    <value> entités.</value>
+  </data>
+  <data name="GeoNetToolsAsk_9a" xml:space="preserve">
+    <value>Voulez-vous vraiment déconnecter les entités </value>
+  </data>
+  <data name="GeoNetToolsAsk_9b" xml:space="preserve">
+    <value> sélectionnées ?</value>
+  </data>
+  <data name="GeoNetToolsDesc_1" xml:space="preserve">
+    <value>Définition du sens d'écoulement</value>
+  </data>
+  <data name="GeoNetToolsDesc_10" xml:space="preserve">
+    <value>Déconnexion des équipements du réseau géométrique.</value>
+  </data>
+  <data name="GeoNetToolsDesc_11" xml:space="preserve">
+    <value>Vérification des connexions de réseau géométrique...</value>
+  </data>
+  <data name="GeoNetToolsDesc_14a" xml:space="preserve">
+    <value>Rechercher le parcours connecté</value>
+  </data>
+  <data name="GeoNetToolsDesc_14b" xml:space="preserve">
+    <value>Parcours en aval</value>
+  </data>
+  <data name="GeoNetToolsDesc_14c" xml:space="preserve">
+    <value>Parcours en amont</value>
+  </data>
+  <data name="GeoNetToolsDesc_15a" xml:space="preserve">
+    <value>Rechercher les plus proches</value>
+  </data>
+  <data name="GeoNetToolsDesc_16a" xml:space="preserve">
+    <value>Schéma d'arrêt d'eau</value>
+  </data>
+  <data name="GeoNetToolsDesc_18a" xml:space="preserve">
+    <value>Progression de l'outil Parcours d'isolation de récapitulation</value>
+  </data>
+  <data name="GeoNetToolsDesc_19a" xml:space="preserve">
+    <value>Recherche du chemin d'accès</value>
+  </data>
+  <data name="GeoNetToolsDesc_7" xml:space="preserve">
+    <value>Connexion des équipements au réseau géométrique.</value>
+  </data>
+  <data name="GeoNetToolsDone_10" xml:space="preserve">
+    <value>Déconnecter la sélection</value>
+  </data>
+  <data name="GeoNetToolsDone_11a" xml:space="preserve">
+    <value>Supprimer les équipements déconnectés </value>
+  </data>
+  <data name="GeoNetToolsDone_13a" xml:space="preserve">
+    <value>Déplacer les entités vers la nouvelle canalisation</value>
+  </data>
+  <data name="GeoNetToolsDone_18a" xml:space="preserve">
+    <value>Parcours exécuté avec succès</value>
+  </data>
+  <data name="GeoNetToolsDone_20a" xml:space="preserve">
+    <value>Accumulation terminée pour </value>
+  </data>
+  <data name="GeoNetToolsDone_20b" xml:space="preserve">
+    <value>Accumulation de l'écoulement terminée</value>
+  </data>
+  <data name="GeoNetToolsErrorLbl_2" xml:space="preserve">
+    <value>Parcours impossible</value>
+  </data>
+  <data name="GeoNetToolsError_10" xml:space="preserve">
+    <value>Rien à déconnecter</value>
+  </data>
+  <data name="GeoNetToolsError_11a" xml:space="preserve">
+    <value>Aucun réseau géométrique trouvé.</value>
+  </data>
+  <data name="GeoNetToolsError_12a" xml:space="preserve">
+    <value>L'état de fonctionnement ne peut pas être inversé car la classe d'entités </value>
+  </data>
+  <data name="GeoNetToolsError_12b" xml:space="preserve">
+    <value> n'est pas sur la carte.</value>
+  </data>
+  <data name="GeoNetToolsError_12c" xml:space="preserve">
+    <value>Inverser l'état de fonctionnement</value>
+  </data>
+  <data name="GeoNetToolsError_13a" xml:space="preserve">
+    <value>L'entité source et l'entité cible appartiennent à des classes d'entités différentes</value>
+  </data>
+  <data name="GeoNetToolsError_13b" xml:space="preserve">
+    <value> n'a pas pu être déplacé</value>
+  </data>
+  <data name="GeoNetToolsError_13c" xml:space="preserve">
+    <value>Erreur lors de la sélection de l'emplacement pour le déplacement de connexions \r\n</value>
+  </data>
+  <data name="GeoNetToolsError_16a" xml:space="preserve">
+    <value>Erreur lors de la définition des vannes actionnables ; aucune vanne actionnable trouvée\n</value>
+  </data>
+  <data name="GeoNetToolsError_17a" xml:space="preserve">
+    <value>Réseau géométrique introuvable</value>
+  </data>
+  <data name="GeoNetToolsError_17b" xml:space="preserve">
+    <value>Les drapeaux GN et Parcours ont une valeur nulle</value>
+  </data>
+  <data name="GeoNetToolsError_18a" xml:space="preserve">
+    <value> n'appartient pas à un réseau géométrique.</value>
+  </data>
+  <data name="GeoNetToolsError_18b" xml:space="preserve">
+    <value> entités sont sélectionnées. Créez un ensemble de sélection et réessayez.</value>
+  </data>
+  <data name="GeoNetToolsError_18c" xml:space="preserve">
+    <value> est introuvable ; ajoutez-la à la carte.</value>
+  </data>
+  <data name="GeoNetToolsError_18d" xml:space="preserve">
+    <value> non définie.</value>
+  </data>
+  <data name="GeoNetToolsError_18e" xml:space="preserve">
+    <value> doit être modifiable.</value>
+  </data>
+  <data name="GeoNetToolsError_18f" xml:space="preserve">
+    <value> introuvable dans la classe d'entités des résultats.</value>
+  </data>
+  <data name="GeoNetToolsError_19a" xml:space="preserve">
+    <value>Aucun emplacement n'a été trouvé</value>
+  </data>
+  <data name="GeoNetToolsError_19b" xml:space="preserve">
+    <value>) introuvable</value>
+  </data>
+  <data name="GeoNetToolsError_19c" xml:space="preserve">
+    <value>Champ d'altitude en aval (</value>
+  </data>
+  <data name="GeoNetToolsError_19d" xml:space="preserve">
+    <value>Champ d'altitude en amont (</value>
+  </data>
+  <data name="GeoNetToolsError_19e" xml:space="preserve">
+    <value>) introuvable pour la couche : </value>
+  </data>
+  <data name="GeoNetToolsError_19f" xml:space="preserve">
+    <value>Champ ID (</value>
+  </data>
+  <data name="GeoNetToolsError_1a" xml:space="preserve">
+    <value>Sens d'écoulement pour </value>
+  </data>
+  <data name="GeoNetToolsError_1b" xml:space="preserve">
+    <value> non défini.  Aucune source/cuvette potentielle pour les classes d'entités.</value>
+  </data>
+  <data name="GeoNetToolsError_1c" xml:space="preserve">
+    <value>Vous devez recréer votre réseau géométrique pour utiliser cette commande sur le réseau.</value>
+  </data>
+  <data name="GeoNetToolsError_2" xml:space="preserve">
+    <value>Aucune couche visible ne participe à un réseau géométrique.</value>
+  </data>
+  <data name="GeoNetToolsError_20a" xml:space="preserve">
+    <value> couche d'entités trouvée, mais la source de données n'est pas définie.</value>
+  </data>
+  <data name="GeoNetToolsError_20b" xml:space="preserve">
+    <value>Mise à jour requise de l'espace de travail contenant </value>
+  </data>
+  <data name="GeoNetToolsError_20c" xml:space="preserve">
+    <value>La configuration ne contient aucune entrée pour le parcours d'accumulation</value>
+  </data>
+  <data name="GeoNetToolsError_20d" xml:space="preserve">
+    <value> ne contient pas </value>
+  </data>
+  <data name="GeoNetToolsError_20e" xml:space="preserve">
+    <value> le champ.</value>
+  </data>
+  <data name="GeoNetToolsError_20f" xml:space="preserve">
+    <value>Aucun emplacement ou couche n'a été trouvé ; vérifiez le fichier de configuration ou l'emplacement où vous avez cliqué.</value>
+  </data>
+  <data name="GeoNetToolsError_8a" xml:space="preserve">
+    <value>Aucune des couches contenant les entités sélectionnées ne sont des entités de réseau modifiables.</value>
+  </data>
+  <data name="GeoNetToolsError_8b" xml:space="preserve">
+    <value>Rien à connecter</value>
+  </data>
+  <data name="GeoNetToolsLbl_11" xml:space="preserve">
+    <value>Vérifier les connexions</value>
+  </data>
+  <data name="GeoNetToolsLbl_13a" xml:space="preserve">
+    <value>Déplacer le drapeau de l'entité</value>
+  </data>
+  <data name="GeoNetToolsLbl_13b" xml:space="preserve">
+    <value>Désactivation de l'Assistant des attributs</value>
+  </data>
+  <data name="GeoNetToolsLbl_16a" xml:space="preserve">
+    <value>Origine</value>
+  </data>
+  <data name="GeoNetToolsLbl_16b" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="GeoNetToolsLbl_17a" xml:space="preserve">
+    <value>Trajectoire du parcours</value>
+  </data>
+  <data name="GeoNetToolsLbl_18a" xml:space="preserve">
+    <value>Parcours d'isolation de récapitulation</value>
+  </data>
+  <data name="GeoNetToolsLbl_2" xml:space="preserve">
+    <value>Outils de bureau</value>
+  </data>
+  <data name="GeoNetToolsLbl_20a" xml:space="preserve">
+    <value>Outils d'accumulation de l'écoulement</value>
+  </data>
+  <data name="GeoNetToolsLbl_3" xml:space="preserve">
+    <value>Ajouter un drapeau</value>
+  </data>
+  <data name="GeoNetToolsMess_10a" xml:space="preserve">
+    <value>Déconnexion des entités de </value>
+  </data>
+  <data name="GeoNetToolsMess_11a" xml:space="preserve">
+    <value> jonction inutile dans </value>
+  </data>
+  <data name="GeoNetToolsMess_11b" xml:space="preserve">
+    <value> supprimée.</value>
+  </data>
+  <data name="GeoNetToolsMess_11c" xml:space="preserve">
+    <value> jonctions inutiles dans </value>
+  </data>
+  <data name="GeoNetToolsMess_11d" xml:space="preserve">
+    <value> supprimées.</value>
+  </data>
+  <data name="GeoNetToolsMess_11e" xml:space="preserve">
+    <value> sélectionnée.</value>
+  </data>
+  <data name="GeoNetToolsMess_11f" xml:space="preserve">
+    <value> sélectionnées.</value>
+  </data>
+  <data name="GeoNetToolsMess_11g" xml:space="preserve">
+    <value> ne correspond pas aux critères de connectivité.</value>
+  </data>
+  <data name="GeoNetToolsMess_11h" xml:space="preserve">
+    <value> ne correspondent pas aux critères de connectivité.</value>
+  </data>
+  <data name="GeoNetToolsMess_11i" xml:space="preserve">
+    <value> n'est connectée à aucun tronçon.  Passez en mode édition et réexécutez cette commande pour supprimer cette jonction.</value>
+  </data>
+  <data name="GeoNetToolsMess_11j" xml:space="preserve">
+    <value> ne sont connectées à aucun tronçon.  Passez en mode édition et réexécutez cette commande pour supprimer ces jonctions.</value>
+  </data>
+  <data name="GeoNetToolsMess_11k" xml:space="preserve">
+    <value> n'est connectée qu'à un seul tronçon. Cela peut être dû à un conduit déconnecté ou à un équipement manquant. Vérifiez les entités </value>
+  </data>
+  <data name="GeoNetToolsMess_11l" xml:space="preserve">
+    <value> ne sont connectées qu'à un seul tronçon. Cela peut être dû à un conduit déconnecté ou à un équipement manquant. Vérifiez les entités </value>
+  </data>
+  <data name="GeoNetToolsMess_13a" xml:space="preserve">
+    <value>Sélectionnez des vannes pour continuer</value>
+  </data>
+  <data name="GeoNetToolsMess_13b" xml:space="preserve">
+    <value>Commencez à mettre à jour les couches sélectionnées</value>
+  </data>
+  <data name="GeoNetToolsMess_13c" xml:space="preserve">
+    <value>Cet outil est conçu pour des tronçons complexes uniquement</value>
+  </data>
+  <data name="GeoNetToolsMess_14a" xml:space="preserve">
+    <value>Effacement de la sélection et des graphiques</value>
+  </data>
+  <data name="GeoNetToolsMess_14b" xml:space="preserve">
+    <value>Configuration du solveur</value>
+  </data>
+  <data name="GeoNetToolsMess_14c" xml:space="preserve">
+    <value>Ajout d'un drapeau au solveur</value>
+  </data>
+  <data name="GeoNetToolsMess_14d" xml:space="preserve">
+    <value>Exécution du parcours</value>
+  </data>
+  <data name="GeoNetToolsMess_14e" xml:space="preserve">
+    <value>Aucune entité trouvée en aval.</value>
+  </data>
+  <data name="GeoNetToolsMess_14f" xml:space="preserve">
+    <value>Vérifiez que le sens d'écoulement a été calculé.</value>
+  </data>
+  <data name="GeoNetToolsMess_14g" xml:space="preserve">
+    <value>Aucune entité trouvée en amont.</value>
+  </data>
+  <data name="GeoNetToolsMess_14h" xml:space="preserve">
+    <value>Création des résultats</value>
+  </data>
+  <data name="GeoNetToolsMess_15a" xml:space="preserve">
+    <value>Définition des drapeaux de parcours</value>
+  </data>
+  <data name="GeoNetToolsMess_15b" xml:space="preserve">
+    <value>Aucune entité dans </value>
+  </data>
+  <data name="GeoNetToolsMess_15c" xml:space="preserve">
+    <value> l'entité ne peut être atteinte depuis cet emplacement.</value>
+  </data>
+  <data name="GeoNetToolsMess_15d" xml:space="preserve">
+    <value>La </value>
+  </data>
+  <data name="GeoNetToolsMess_15e" xml:space="preserve">
+    <value> classe d'entités est introuvable dans le réseau sélectionné.</value>
+  </data>
+  <data name="GeoNetToolsMess_15f" xml:space="preserve">
+    <value>Soit vous avez désigné le mauvais réseau, soit le fichier de configuration doit être modifié pour s'adapter à vos données.</value>
+  </data>
+  <data name="GeoNetToolsMess_16a" xml:space="preserve">
+    <value>Aucune </value>
+  </data>
+  <data name="GeoNetToolsMess_16b" xml:space="preserve">
+    <value>Ajoutez une entité </value>
+  </data>
+  <data name="GeoNetToolsMess_16c" xml:space="preserve">
+    <value> à un endroit approprié sur le réseau ou </value>
+  </data>
+  <data name="GeoNetToolsMess_16d" xml:space="preserve">
+    <value> modifiez votre fichier de configuration pour y spécifier une classe d'entités différente à utiliser pour arrêter le parcours.</value>
+  </data>
+  <data name="GeoNetToolsMess_16e" xml:space="preserve">
+    <value>Ce problème peut être dû aux barrières sur le réseau</value>
+  </data>
+  <data name="GeoNetToolsMess_18a" xml:space="preserve">
+    <value>Création de la couche de récapitulation</value>
+  </data>
+  <data name="GeoNetToolsMess_1a" xml:space="preserve">
+    <value>Sens d'écoulement établi pour </value>
+  </data>
+  <data name="GeoNetToolsMess_1b" xml:space="preserve">
+    <value> réseau(x) géométrique(s).</value>
+  </data>
+  <data name="GeoNetToolsMess_20a" xml:space="preserve">
+    <value>Recherche de l'accumulation pour </value>
+  </data>
+  <data name="GeoNetToolsMess_20b" xml:space="preserve">
+    <value>Accumulation de l'écoulement pour l'entité portant l'OID : </value>
+  </data>
+  <data name="GeoNetToolsMess_7" xml:space="preserve">
+    <value>Connexion des entités de</value>
+  </data>
+  <data name="GeoNetToolsProc_1" xml:space="preserve">
+    <value>Définition de l'écoulement</value>
+  </data>
+  <data name="GeoNetToolsProc_10" xml:space="preserve">
+    <value>Déconnexion des entités</value>
+  </data>
+  <data name="GeoNetToolsProc_13a" xml:space="preserve">
+    <value>Déplacement des connexions</value>
+  </data>
+  <data name="GeoNetToolsProc_13b" xml:space="preserve">
+    <value>Obtention des entités connectées</value>
+  </data>
+  <data name="GeoNetToolsProc_13c" xml:space="preserve">
+    <value>Déconnexion de la canalisation</value>
+  </data>
+  <data name="GeoNetToolsProc_13d" xml:space="preserve">
+    <value>Déplacement des entités</value>
+  </data>
+  <data name="GeoNetToolsProc_14a" xml:space="preserve">
+    <value>Écoulement du parcours</value>
+  </data>
+  <data name="GeoNetToolsProc_15a" xml:space="preserve">
+    <value>Recherche des équipements connectés</value>
+  </data>
+  <data name="GeoNetToolsProc_15b" xml:space="preserve">
+    <value>Enregistrement des équipements connectés</value>
+  </data>
+  <data name="GeoNetToolsProc_16a" xml:space="preserve">
+    <value>Obtention des couches Vanne et Source</value>
+  </data>
+  <data name="GeoNetToolsProc_16b" xml:space="preserve">
+    <value>Recherche des premières vannes</value>
+  </data>
+  <data name="GeoNetToolsProc_16c" xml:space="preserve">
+    <value>Mise en place de barrières sur les vannes actionnables</value>
+  </data>
+  <data name="GeoNetToolsProc_16d" xml:space="preserve">
+    <value>Avertissement, aucune vanne actionnable trouvée</value>
+  </data>
+  <data name="GeoNetToolsProc_16e" xml:space="preserve">
+    <value>Définition des vannes actionnables en tant que barrières</value>
+  </data>
+  <data name="GeoNetToolsProc_16f" xml:space="preserve">
+    <value>Exécution du premier parcours</value>
+  </data>
+  <data name="GeoNetToolsProc_16g" xml:space="preserve">
+    <value>Enregistrement des vannes qui ont arrêté le parcours</value>
+  </data>
+  <data name="GeoNetToolsProc_16h" xml:space="preserve">
+    <value>Parcours pour trouver la source</value>
+  </data>
+  <data name="GeoNetToolsProc_16i" xml:space="preserve">
+    <value>Enregistrement des sources</value>
+  </data>
+  <data name="GeoNetToolsProc_16j" xml:space="preserve">
+    <value> modifiez votre fichier de configuration pour y spécifier une classe d'entités différente en tant que source d'eau potentielle.</value>
+  </data>
+  <data name="GeoNetToolsProc_16k" xml:space="preserve">
+    <value>Parcours pour trouver des sources accessibles</value>
+  </data>
+  <data name="GeoNetToolsProc_16l" xml:space="preserve">
+    <value>Mise en place de barrières pour le parcours final</value>
+  </data>
+  <data name="GeoNetToolsProc_16m" xml:space="preserve">
+    <value>Recherche de sources accessibles directement</value>
+  </data>
+  <data name="GeoNetToolsProc_16n" xml:space="preserve">
+    <value>Suppression des sources accessibles directement</value>
+  </data>
+  <data name="GeoNetToolsProc_16o" xml:space="preserve">
+    <value> entité ne peut être atteinte depuis cet emplacement, ou celles qui le peuvent sont isolées par une barrière.</value>
+  </data>
+  <data name="GeoNetToolsProc_16p" xml:space="preserve">
+    <value>Vérification des résultats</value>
+  </data>
+  <data name="GeoNetToolsProc_16q" xml:space="preserve">
+    <value>Parcours pour obtenir les résultats définitifs</value>
+  </data>
+  <data name="GeoNetToolsProc_18a" xml:space="preserve">
+    <value> canalisations.</value>
+  </data>
+  <data name="GeoNetToolsProc_18b" xml:space="preserve">
+    <value>Parcours : </value>
+  </data>
+  <data name="GeoNetToolsProc_19a" xml:space="preserve">
+    <value>Création du diagramme de profil</value>
+  </data>
+  <data name="GeoNetToolsProc_2" xml:space="preserve">
+    <value>Établir l'écoulement</value>
+  </data>
+  <data name="GeoNetToolsProc_3" xml:space="preserve">
+    <value>Établir l'écoulement d'après le sens de numérisation</value>
+  </data>
+  <data name="GeoNetToolsProc_4" xml:space="preserve">
+    <value>Recherche du réseau</value>
+  </data>
+  <data name="GeoNetToolsProc_5" xml:space="preserve">
+    <value>Recherche de drapeau</value>
+  </data>
+  <data name="GeoNetToolsProc_6" xml:space="preserve">
+    <value>Recherche de barrière</value>
+  </data>
+  <data name="GeoNetToolsProc_7" xml:space="preserve">
+    <value>Connexion des entités</value>
+  </data>
+  <data name="GeoNetToolsProc_8" xml:space="preserve">
+    <value>Connecter la sélection</value>
+  </data>
+  <data name="GeoNetToolsTitle_1" xml:space="preserve">
+    <value>Outils de réseau géométrique</value>
+  </data>
+  <data name="GeoNetToolsTitle_10" xml:space="preserve">
+    <value>Déconnexion</value>
+  </data>
+  <data name="GeoNetToolsTitle_11" xml:space="preserve">
+    <value>Vérificateur de connexions</value>
+  </data>
+  <data name="GeoNetToolsTitle_14a" xml:space="preserve">
+    <value>Rechercher le parcours connecté</value>
+  </data>
+  <data name="GeoNetToolsTitle_14b" xml:space="preserve">
+    <value>Parcours en aval</value>
+  </data>
+  <data name="GeoNetToolsTitle_14c" xml:space="preserve">
+    <value>Parcours en amont</value>
+  </data>
+  <data name="GeoNetToolsTitle_15a" xml:space="preserve">
+    <value>Rechercher les plus proches</value>
+  </data>
+  <data name="GeoNetToolsTitle_16a" xml:space="preserve">
+    <value>Schéma d'arrêt d'eau</value>
+  </data>
+  <data name="GeoNetToolsTitle_18a" xml:space="preserve">
+    <value>Traitement en cours...</value>
+  </data>
+  <data name="GeoNetToolsTitle_19a" xml:space="preserve">
+    <value>Parcours</value>
+  </data>
+  <data name="GeoNetToolsTitle_7" xml:space="preserve">
+    <value>Connexion</value>
+  </data>
+  <data name="GeoNetToolsWait_1" xml:space="preserve">
+    <value>Établissement du sens d'écoulement. Patientez...</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value> dans </value>
+  </data>
+  <data name="Is" xml:space="preserve">
+    <value> est </value>
+  </data>
+  <data name="IsNowOperable" xml:space="preserve">
+    <value> l'état de fonctionnement est maintenant </value>
+  </data>
+  <data name="JunctionInThe" xml:space="preserve">
+    <value> jonction dans la couche </value>
+  </data>
+  <data name="JunctionsInThe" xml:space="preserve">
+    <value> jonctions dans la couche </value>
+  </data>
+  <data name="LambdaReturnStatement" xml:space="preserve">
+    <value>Erreur_ </value>
+  </data>
+  <data name="LayerNotFoundReturnStatement" xml:space="preserve">
+    <value>Couche introuvable dans le réseau</value>
+  </data>
+  <data name="LineLength" xml:space="preserve">
+    <value>Longueur de la ligne :</value>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Charger</value>
+  </data>
+  <data name="LoadImg" xml:space="preserve">
+    <value>chargement d'une image</value>
+  </data>
+  <data name="LV_1" xml:space="preserve">
+    <value>Visionneuse de couches - LayerWindow : initAddin</value>
+  </data>
+  <data name="LW_1" xml:space="preserve">
+    <value>LayerWindow - Nouveau</value>
+  </data>
+  <data name="LW_10" xml:space="preserve">
+    <value>LayerWindow - tbCntlDisplay_Resize</value>
+  </data>
+  <data name="LW_11" xml:space="preserve">
+    <value>LayerWindow - CenterButton</value>
+  </data>
+  <data name="LW_12" xml:space="preserve">
+    <value>LayerWindow - setButtonState</value>
+  </data>
+  <data name="LW_2" xml:space="preserve">
+    <value>LayerWindow - s_BtnNextClick</value>
+  </data>
+  <data name="LW_3" xml:space="preserve">
+    <value>LayerWindow - s_BtnZoomToClick</value>
+  </data>
+  <data name="LW_4" xml:space="preserve">
+    <value>Fenêtre de couche - s_BtnPreviousClick</value>
+  </data>
+  <data name="LW_5" xml:space="preserve">
+    <value>Fenêtre de couche - s_BtnRefreshClick</value>
+  </data>
+  <data name="LW_7" xml:space="preserve">
+    <value>LayerWindow - LoadCursor</value>
+  </data>
+  <data name="LW_8" xml:space="preserve">
+    <value>LayerWindow - s_gpBoxOptions_Click</value>
+  </data>
+  <data name="LW_9" xml:space="preserve">
+    <value>LayerWindow - s_cboLayers_SelectedIndexChanged</value>
+  </data>
+  <data name="Measure_1" xml:space="preserve">
+    <value>Les mesures de chaque ligne sélectionnée dans cette couche seront définies.</value>
+  </data>
+  <data name="MergeOprt_1" xml:space="preserve">
+    <value>Chargement des entités de fusion</value>
+  </data>
+  <data name="MergeOprt_2" xml:space="preserve">
+    <value>Changement de l'entité de fusion</value>
+  </data>
+  <data name="MergeOprt_3" xml:space="preserve">
+    <value>Opération de fusion annulée.\r\nLes géométries à tronçons multi-parties ne sont pas prises en charge ; les entités sélectionnées peuvent former une entité multi-parties.</value>
+  </data>
+  <data name="MergeOprt_4" xml:space="preserve">
+    <value>Fusionner les entités réseau</value>
+  </data>
+  <data name="MergeOprt_5" xml:space="preserve">
+    <value>fusion des entités</value>
+  </data>
+  <data name="MergeOprt_6" xml:space="preserve">
+    <value>Le champ d'affichage permet de fusionner les entités ; ce champ contient des valeurs nulles. Essayez de définir le champ d'affichage sur le champ ID de l'objet</value>
+  </data>
+  <data name="MergeSlct_1" xml:space="preserve">
+    <value>Choisissez l'entité avec laquelle d'autres entités seront fusionnées</value>
+  </data>
+  <data name="MergeSlct_2" xml:space="preserve">
+    <value>Fusionnez les données d'altitude en amont et en aval lorsqu'elles sont présentes.</value>
+  </data>
+  <data name="MustBEditg" xml:space="preserve">
+    <value>Mode édition requis.</value>
+  </data>
+  <data name="NbOfPts" xml:space="preserve">
+    <value>Nombre de points</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Aucune entité </value>
+  </data>
+  <data name="NoError" xml:space="preserve">
+    <value>Aucune erreur trouvée.</value>
+  </data>
+  <data name="NoFeaturesReturnStatement" xml:space="preserve">
+    <value>Erreur_Aucune entité</value>
+  </data>
+  <data name="NoFlagReturnStatement" xml:space="preserve">
+    <value>Erreur_Aucun drapeau n'a été trouvé !</value>
+  </data>
+  <data name="NoFtrFndOnClck" xml:space="preserve">
+    <value>Entité introuvable à l'emplacement où vous avez cliqué</value>
+  </data>
+  <data name="NotIntersectReturnStatement" xml:space="preserve">
+    <value>Erreur_Pas d'intersection avec une canalisation dans la zone ; veuillez réessayer.</value>
+  </data>
+  <data name="NoWaterSourceIdentifiedReturnStatement" xml:space="preserve">
+    <value>Erreur_Aucune source d'eau autorisée n'a pu être identifiée ; assurez-vous que le système est approvisionné par une source d'eau valide dont le champ Autorisé (Enabled) est défini avec la valeur True (probable cause du problème)</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value> de </value>
+  </data>
+  <data name="OID" xml:space="preserve">
+    <value> ID de l'objet : </value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Cliquez pour voir les options</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value> ou </value>
+  </data>
+  <data name="OutOf" xml:space="preserve">
+    <value> sur </value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>Continuer ?</value>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Requête :</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Actualiser</value>
+  </data>
+  <data name="Scale" xml:space="preserve">
+    <value>Échelle :</value>
+  </data>
+  <data name="SetValue" xml:space="preserve">
+    <value> (Définir cette valeur en premier)</value>
+  </data>
+  <data name="SlctLbl_1" xml:space="preserve">
+    <value>Sélectionner une configuration à charger :</value>
+  </data>
+  <data name="SlctLbl_2" xml:space="preserve">
+    <value>Sélectionner une configuration pour le transfert d'attributs</value>
+  </data>
+  <data name="SlctMainFtr" xml:space="preserve">
+    <value>Sélectionnez une canalisation à fusionner dans la boîte de dialogue</value>
+  </data>
+  <data name="SlctOneFtr" xml:space="preserve">
+    <value>Une entité doit être sélectionnée pour pouvoir continuer</value>
+  </data>
+  <data name="SlctSrcAndTarget" xml:space="preserve">
+    <value>Sélectionnez une source, puis une ligne cible</value>
+  </data>
+  <data name="SltByJctCountLbl_1" xml:space="preserve">
+    <value>Couches de jonction</value>
+  </data>
+  <data name="SltByJctCountLbl_10" xml:space="preserve">
+    <value>X max :</value>
+  </data>
+  <data name="SltByJctCountLbl_11" xml:space="preserve">
+    <value>Y max :</value>
+  </data>
+  <data name="SltByJctCountLbl_12" xml:space="preserve">
+    <value>X min :</value>
+  </data>
+  <data name="SltByJctCountLbl_13" xml:space="preserve">
+    <value>Défini par l'utilisateur</value>
+  </data>
+  <data name="SltByJctCountLbl_14" xml:space="preserve">
+    <value>Étendue courante</value>
+  </data>
+  <data name="SltByJctCountLbl_15" xml:space="preserve">
+    <value>Étendue totale</value>
+  </data>
+  <data name="SltByJctCountLbl_16" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="SltByJctCountLbl_17" xml:space="preserve">
+    <value>Sélectionner</value>
+  </data>
+  <data name="SltByJctCountLbl_18" xml:space="preserve">
+    <value>Nombre de tronçons</value>
+  </data>
+  <data name="SltByJctCountLbl_19" xml:space="preserve">
+    <value>Nombre maximal de tronçons</value>
+  </data>
+  <data name="SltByJctCountLbl_2" xml:space="preserve">
+    <value>Tout sélectionner</value>
+  </data>
+  <data name="SltByJctCountLbl_20" xml:space="preserve">
+    <value>Nombre minimal de tronçons</value>
+  </data>
+  <data name="SltByJctCountLbl_21" xml:space="preserve">
+    <value>Sélectionner une jonction par nombre de tronçons</value>
+  </data>
+  <data name="SltByJctCountLbl_22" xml:space="preserve">
+    <value>Sélectionner par jonction</value>
+  </data>
+  <data name="SltByJctCountLbl_3" xml:space="preserve">
+    <value>Tout désélectionner</value>
+  </data>
+  <data name="SltByJctCountLbl_4" xml:space="preserve">
+    <value>Options de sélection</value>
+  </data>
+  <data name="SltByJctCountLbl_5" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="SltByJctCountLbl_6" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="SltByJctCountLbl_7" xml:space="preserve">
+    <value>Y min :</value>
+  </data>
+  <data name="SltByJctCountLbl_8" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="SltByJctCountLbl_9" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="SltByJctCountMess_1" xml:space="preserve">
+    <value> jonctions ont été sélectionnées</value>
+  </data>
+  <data name="SltByJctCountProc_1" xml:space="preserve">
+    <value>Sélection de jonctions par nombre de tronçons</value>
+  </data>
+  <data name="SltByJctCountProc_2" xml:space="preserve">
+    <value>Sélection de jonctions pour </value>
+  </data>
+  <data name="SltByJctCountProc_3" xml:space="preserve">
+    <value>Vérification de l'entité </value>
+  </data>
+  <data name="SourceFrom" xml:space="preserve">
+    <value>Source de </value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value> Étape : </value>
+  </data>
+  <data name="StrtEditing" xml:space="preserve">
+    <value>Passez en mode édition</value>
+  </data>
+  <data name="SubTpChange" xml:space="preserve">
+    <value>changement de sous-type</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Français</value>
+  </data>
+  <data name="TOC_1" xml:space="preserve">
+    <value>La couche sélectionnée dans la table des matières doit être une couche d'entités.</value>
+  </data>
+  <data name="TOC_2" xml:space="preserve">
+    <value>La couche sélectionnée dans la table des matières doit contenir des lignes.</value>
+  </data>
+  <data name="TOC_3" xml:space="preserve">
+    <value>La couche sélectionnée dans la table des matières doit faire partie d'un réseau géométrique.</value>
+  </data>
+  <data name="TOC_5" xml:space="preserve">
+    <value>Chaque ligne sélectionnée dans cette couche sera fusionnée.</value>
+  </data>
+  <data name="TOC_6" xml:space="preserve">
+    <value>Vous devez sélectionner une couche dans la table des matières.</value>
+  </data>
+  <data name="ValveFrom" xml:space="preserve">
+    <value>Vanne de </value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Avertissement</value>
+  </data>
+  <data name="WithOID" xml:space="preserve">
+    <value> avec un OID de </value>
+  </data>
+  <data name="ZoomOn" xml:space="preserve">
+    <value>Zoom lors d'un changement d'enregistrement</value>
+  </data>
+  <data name="ZoomTo" xml:space="preserve">
+    <value>Zoom sur</value>
+  </data>
+  <data name="lstValueFormText" xml:space="preserve">
+    <value>Sélectionnez l'entrée Last Value à modifier, saisissez &lt;null&gt; pour une valeur null</value>
+  </data>
+  <data name="lstValueFormTitle" xml:space="preserve">
+    <value>Tableau des dernières valeurs</value>
+  </data>
+  <data name="AAOptionDialogOption" xml:space="preserve">
+    <value>Sélectionnez une option</value>
+  </data>
+  <data name="AAOptionDialogTemplate" xml:space="preserve">
+    <value>Sélectionnez un modèle</value>
+  </data>
+  <data name="ConfigDlgConfigFiles" xml:space="preserve">
+    <value>Fichiers de configuration</value>
+  </data>
+  <data name="ConfigDlgFilePath" xml:space="preserve">
+    <value>Chemin du fichier de configuration</value>
+  </data>
+  <data name="ConfigDlgLoad" xml:space="preserve">
+    <value>Charger</value>
+  </data>
+  <data name="ConfigDlgLoadedConfig" xml:space="preserve">
+    <value>Configuration chargée</value>
+  </data>
+  <data name="ConfigDlgLogFile" xml:space="preserve">
+    <value>Fichier de log</value>
+  </data>
+  <data name="ConfigDlgNote" xml:space="preserve">
+    <value>Note : L'assistant d'attribut doit être désactivé pour ouvrir ce fichier</value>
+  </data>
+  <data name="ConfigDlgOpenLoc" xml:space="preserve">
+    <value>Ouvrir l'emplacement</value>
+  </data>
+  <data name="ConfigDlgPreview" xml:space="preserve">
+    <value>Prévisualisation</value>
+  </data>
+  <data name="ConfigDlgText" xml:space="preserve">
+    <value>Fichier de configuration et de log</value>
+  </data>
+</root>

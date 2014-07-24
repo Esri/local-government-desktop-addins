@@ -19,11 +19,15 @@
   <Name>Water Utility Network Tools</Name>
   <AddInID>{FD20EAB0-7ACB-4B35-AA41-753157745FD0}</AddInID>
   <Description>ArcMap tools for Water, Wastewater and Stormwater</Description>
+<<<<<<< HEAD
   <Version>10.1.10</Version>
+=======
+  <Version>10.2.0.5</Version>
+>>>>>>> e94716431011dc323f8b4df058b51f7b7f8b8106
   <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>12/6/2013</Date>
+  <Date>6/26/2014</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
@@ -72,7 +76,8 @@
 
         <Button id="A4WaterUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Establishes flow direction for Geometric Network based values of AncillaryRole." caption="Establish Flow Direction" tip="Establish Flow Direction" category="ArcGIS for Local Government" image="Images\EstablishFlow.png" />
         <Button id="A4WaterUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establishes flow direction for Geometric Network based on digitized direction." caption="Establish Digitized Flow Direction" tip="Establish Digitized Flow Direction" category="ArcGIS for Local Government" image="Images\EstablishFlowDigitized.png" />
-
+        <Button id="A4WaterUtilities_AttributeTransferLoader" class="AttributeTransferLoaderButton" message="Attribute Transfer Loader" caption="Attribute Transfer Loader" tip="Attribute transfer loader" category="ArcGIS for Local Government" image="Images\attributeTransfer.png" />
+        
       </Commands>
       <Toolbars>
         <Toolbar id="A4WaterUtilities_WaterUtilitiesEditTools" caption="Water Utility Network Editing" showInitially="false">
@@ -131,6 +136,7 @@
             <Button refID="A4WaterUtilities_ExportToExcel" separator="true" />
             <Button refID="A4WaterUtilities_IdentifySelected" separator="false" />
             <Button refID="A4WaterUtilities_SelectJunctionsByEdgeCount" separator="true" />
+            <Button refID="A4WaterUtilities_AttributeTransferLoader" separator="true" />
 
           </Items>
         </Toolbar>

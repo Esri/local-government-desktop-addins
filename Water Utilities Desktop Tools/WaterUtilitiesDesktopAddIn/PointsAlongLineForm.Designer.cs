@@ -60,7 +60,7 @@ namespace A4WaterUtilities
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(66, 13);
       this.label1.TabIndex = 0;
-      this.label1.Text = "Line Length:";
+      this.label1.Text = A4LGSharedFunctions.Localizer.GetString("LineLength");
       // 
       // tbLineLength
       // 
@@ -82,7 +82,7 @@ namespace A4WaterUtilities
       this.groupBox1.Size = new System.Drawing.Size(257, 107);
       this.groupBox1.TabIndex = 2;
       this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "Construction Options";
+      this.groupBox1.Text = A4LGSharedFunctions.Localizer.GetString("ConstrOptions");
       // 
       // txtDist
       // 
@@ -106,7 +106,7 @@ namespace A4WaterUtilities
       this.chkEnds.Name = "chkEnds";
       this.chkEnds.Size = new System.Drawing.Size(177, 17);
       this.chkEnds.TabIndex = 2;
-      this.chkEnds.Text = "Create additional points on ends";
+      this.chkEnds.Text = A4LGSharedFunctions.Localizer.GetString("CrtPtsToEnd");
       this.chkEnds.UseVisualStyleBackColor = true;
       // 
       // rbDist
@@ -117,7 +117,7 @@ namespace A4WaterUtilities
       this.rbDist.Size = new System.Drawing.Size(67, 17);
       this.rbDist.TabIndex = 1;
       this.rbDist.TabStop = true;
-      this.rbDist.Text = "Distance";
+      this.rbDist.Text = A4LGSharedFunctions.Localizer.GetString("Distance");
       this.rbDist.UseVisualStyleBackColor = true;
       // 
       // rbNOP
@@ -129,7 +129,7 @@ namespace A4WaterUtilities
       this.rbNOP.Size = new System.Drawing.Size(105, 17);
       this.rbNOP.TabIndex = 0;
       this.rbNOP.TabStop = true;
-      this.rbNOP.Text = "Number of points";
+      this.rbNOP.Text = A4LGSharedFunctions.Localizer.GetString("NbOfPts");
       this.rbNOP.UseVisualStyleBackColor = true;
       // 
       // cmdCancel
@@ -138,7 +138,7 @@ namespace A4WaterUtilities
       this.cmdCancel.Name = "cmdCancel";
       this.cmdCancel.Size = new System.Drawing.Size(75, 23);
       this.cmdCancel.TabIndex = 3;
-      this.cmdCancel.Text = "Cancel";
+      this.cmdCancel.Text = A4LGSharedFunctions.Localizer.GetString("Cancel");
       this.cmdCancel.UseVisualStyleBackColor = true;
       this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
       // 
@@ -148,7 +148,7 @@ namespace A4WaterUtilities
       this.cmdOK.Name = "cmdOK";
       this.cmdOK.Size = new System.Drawing.Size(75, 23);
       this.cmdOK.TabIndex = 4;
-      this.cmdOK.Text = "OK";
+      this.cmdOK.Text = A4LGSharedFunctions.Localizer.GetString("OK");
       this.cmdOK.UseVisualStyleBackColor = true;
       this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
       // 
@@ -167,7 +167,7 @@ namespace A4WaterUtilities
       this.Name = "PointsAlongLineForm";
       this.ShowIcon = false;
       this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-      this.Text = "Construct points along a line";
+      this.Text = A4LGSharedFunctions.Localizer.GetString("ConstrPtsAlongLine");
       this.groupBox1.ResumeLayout(false);
       this.groupBox1.PerformLayout();
       this.ResumeLayout(false);

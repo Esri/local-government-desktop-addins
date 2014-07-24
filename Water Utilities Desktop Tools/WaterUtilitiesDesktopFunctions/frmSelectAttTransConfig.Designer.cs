@@ -40,7 +40,7 @@
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 0;
-            this.btnLoad.Text = "Load";
+            this.btnLoad.Text = A4LGSharedFunctions.Localizer.GetString("Load");
             this.btnLoad.UseVisualStyleBackColor = true;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
@@ -61,7 +61,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(128, 15);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Select a config to load:";
+            this.label1.Text = A4LGSharedFunctions.Localizer.GetString("SlctLbl_1");
             // 
             // btnCancel
             // 
@@ -69,7 +69,7 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
-            this.btnCancel.Text = "Cancel";
+            this.btnCancel.Text = A4LGSharedFunctions.Localizer.GetString("Cancel");
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -83,7 +83,7 @@
             this.Controls.Add(this.cboConfigs);
             this.Controls.Add(this.btnLoad);
             this.Name = "frmSelectConfig";
-            this.Text = "Select Config for Attribute Transfer";
+            this.Text = A4LGSharedFunctions.Localizer.GetString("SlctLbl_2");
             this.Load += new System.EventHandler(this.frmSelectConfig_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -87,7 +87,7 @@ namespace A4WaterUtilities
         private Excel.Workbook objBook;
         private Excel.Worksheet objSheet;
 
-        private string messageBoxHeader = "Data Tools";
+        private string messageBoxHeader = A4LGSharedFunctions.Localizer.GetString("DataToolsLbl1");
 
         public DataTools(IApplication app)
         {
@@ -174,7 +174,7 @@ namespace A4WaterUtilities
 
                 if ((selectionInTable == false) && (feat == null))
                 {
-                    MessageBox.Show("Select some features before running this command." + Environment.NewLine + "Hint: Make some layers selectable before running a trace.", messageBoxHeader);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("DataToolsMess_1") + Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("DataToolsMess_2"), messageBoxHeader);
                     return;
                 }
                 // Create a CancelTracker
@@ -191,14 +191,14 @@ namespace A4WaterUtilities
                 stepProgressor.MinRange = 0;
                 stepProgressor.MaxRange = mxdoc.FocusMap.SelectionCount;
                 stepProgressor.StepValue = 1;
-                stepProgressor.Message = "Export to Excel";
+                stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("ExportXL");
                 // Create the ProgressDialog. This automatically displays the dialog
                 progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                 // Set the properties of the ProgressDialog
                 progressDialog.CancelEnabled = true;
-                progressDialog.Description = "Export asset 1 of " + mxdoc.FocusMap.SelectionCount.ToString() + ".";
-                progressDialog.Title = "Export to Excel";
+                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("ExportAsset") + "1" + A4LGSharedFunctions.Localizer.GetString("Of") + mxdoc.FocusMap.SelectionCount.ToString() + ".";
+                progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("ExportXL");
                 progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
                 progressDialog.ShowDialog();
 
@@ -515,7 +515,7 @@ namespace A4WaterUtilities
 
                 Feat = FCursor.NextFeature();
                 //  stepProgressor.Step();
-                // progressDialog.Description = "Export asset " + stepProgressor.Position + " of " + MxDoc.FocusMap.SelectionCount.ToString() + ".";
+                // progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("ExportAsset") + stepProgressor.Position + A4LGSharedFunctions.Localizer.GetString("Of") + MxDoc.FocusMap.SelectionCount.ToString() + ".";
 
                 while (Feat != null)
                 {
@@ -622,7 +622,7 @@ namespace A4WaterUtilities
                     }
 
                     stepProgressor.Step();
-                    progressDialog.Description = "Export asset " + stepProgressor.Position + " of " + MxDoc.FocusMap.SelectionCount.ToString() + ".";
+                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("ExportAsset") + stepProgressor.Position + A4LGSharedFunctions.Localizer.GetString("Of") + MxDoc.FocusMap.SelectionCount.ToString() + ".";
 
 
                     Feat = FCursor.NextFeature();
@@ -653,7 +653,7 @@ namespace A4WaterUtilities
             }
             catch
             {
-                MessageBox.Show("there was an error export to Excel, verify you have 2003 or newer of excel installed");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ExportXLError"));
 
             }
             finally
@@ -821,7 +821,7 @@ namespace A4WaterUtilities
 
                 TabRow = Cursor.NextRow();
                 //stepProgressor.Step();
-                //     progressDialog.Description = "Export asset " + stepProgressor.Position + " of " + MxDoc.FocusMap.SelectionCount.ToString() + ".";
+                //     progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("ExportAsset") + stepProgressor.Position + A4LGSharedFunctions.Localizer.GetString("Of") + MxDoc.FocusMap.SelectionCount.ToString() + ".";
 
                 while (TabRow != null)
                 {
@@ -897,7 +897,7 @@ namespace A4WaterUtilities
                         }
                     }
                     stepProgressor.Step();
-                    progressDialog.Description = "Export asset " + stepProgressor.Position + " of " + MxDoc.FocusMap.SelectionCount.ToString() + ".";
+                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("ExportAsset") + stepProgressor.Position + A4LGSharedFunctions.Localizer.GetString("Of") + MxDoc.FocusMap.SelectionCount.ToString() + ".";
 
                     TabRow = Cursor.NextRow();
                 }
@@ -927,7 +927,7 @@ namespace A4WaterUtilities
             }
             catch
             {
-                MessageBox.Show("there was an error export to Excel, verify you have 2003 or newer of excel installed");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ExportXLError"));
 
             }
             finally
@@ -973,7 +973,7 @@ namespace A4WaterUtilities
                     //Globals.IdentifySelectedDockable(_app);
                     Globals.IdentifySelected(((IMxDocument)_app.Document).FocusMap);
                 else
-                    MessageBox.Show("Select some features before running this command." + Environment.NewLine + "Hint: Make some layers selectable before running a trace.", messageBoxHeader);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("DataToolsMess_1") + Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("DataToolsMess_2"), messageBoxHeader);
 
             }
             catch (Exception ex)

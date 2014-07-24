@@ -32,6 +32,10 @@ namespace ArcGIS4LocalGovernment
         public LastValueForm()
         {
             InitializeComponent();
+            lblHeader.Text = A4LGSharedFunctions.Localizer.GetString("lstValueFormText");
+            this.Text = A4LGSharedFunctions.Localizer.GetString("lstValueFormTitle");
+            btnOk.Text = A4LGSharedFunctions.Localizer.GetString("OK");
+            btnCancel.Text = A4LGSharedFunctions.Localizer.GetString("Cancel");
         }
         public void setDataTable(DataTable dt)
         {

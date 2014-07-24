@@ -64,7 +64,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState == esriEditState.esriStateNotEditing)
                 {
-                    MessageBox.Show("This requires editing, please start editing");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg") + " " + A4LGSharedFunctions.Localizer.GetString("StrtEditing"));
                     return;
                 }
 
@@ -116,13 +116,13 @@ namespace A4WaterUtilities
                         {
                             if (attConfig.FromToFields[i] == null || attConfig.FromToFields[i] == null)
                             {
-                                MessageBox.Show("A source or target field value is null");
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttrTrasftLoadRError_1"));
                                 return;
 
                             }
                             if (attConfig.FromToFields[i].SourceField == null || attConfig.FromToFields[i].SourceField == null)
                             {
-                                MessageBox.Show("A source or target field value is null");
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttrTrasftLoadRError_1"));
                                 return;
 
                             }
@@ -159,7 +159,7 @@ namespace A4WaterUtilities
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error in LoadAttributeTransfer: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "LoadAttributeTransfer: " + ex.Message);
             }
             finally
             {

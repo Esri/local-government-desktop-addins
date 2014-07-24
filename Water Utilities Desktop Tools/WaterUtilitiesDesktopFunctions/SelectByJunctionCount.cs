@@ -86,7 +86,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("LoadJunctionsFeatureLayers\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "LoadJunctionsFeatureLayers\n" + ex.Message);
             }
             //foreach (IFeatureLayer pJL in pJuncLayers)
             //{
@@ -233,14 +233,14 @@ namespace A4WaterUtilities
                 stepProgressor.MinRange = 0;
                 stepProgressor.MaxRange = lstJunctionLayers.Items.Count;
                 stepProgressor.StepValue = 1;
-                stepProgressor.Message = "Selecting junctions by edge count";
+                stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("SltByJctCountProc_1");
                 // Create the ProgressDialog. This automatically displays the dialog
                 progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                 // Set the properties of the ProgressDialog
                 progressDialog.CancelEnabled = true;
-                progressDialog.Description = "Selecting junctions by edge count";
-                progressDialog.Title = "Selecting junctions by edge count";
+                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("SltByJctCountProc_1");
+                progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("SltByJctCountProc_1");
                 progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
                 progressDialog.ShowDialog();
 
@@ -252,7 +252,7 @@ namespace A4WaterUtilities
                     {
                         return;
                     }
-                    progressDialog.Description = "Selecting junctions for " + lstJunctionLayers.Items[i].ToString();
+                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("SltByJctCountProc_2") + lstJunctionLayers.Items[i].ToString();
                     if (lstJunctionLayers.GetItemCheckState(i) == CheckState.Checked)
                     {
                         bool FCorLayer = true;
@@ -278,7 +278,7 @@ namespace A4WaterUtilities
                                     {
                                         return;
                                     }
-                                    stepProgressor.Message = "Checking feature " + loopCnt + " of " + featCnt;
+                                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("SltByJctCountProc_3") + loopCnt + A4LGSharedFunctions.Localizer.GetString("Of") + featCnt;
                                 
                                     if (pFeat is SimpleJunctionFeature)
                                     {
@@ -304,7 +304,7 @@ namespace A4WaterUtilities
             catch (Exception Ex)
 
             {
-                MessageBox.Show("Error in Select by Junction \r\n" + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_22") + "\r\n" + Ex.Message);
 
             }
             finally
@@ -331,7 +331,7 @@ namespace A4WaterUtilities
                 this.Hide();
                 (_app.Document as IMxDocument).ActiveView.Refresh();
                 
-                MessageBox.Show((_app.Document as IMxDocument).FocusMap.SelectionCount + " junctions were selected");
+                MessageBox.Show((_app.Document as IMxDocument).FocusMap.SelectionCount + A4LGSharedFunctions.Localizer.GetString("SltByJctCountMess_1"));
 
             }
         }

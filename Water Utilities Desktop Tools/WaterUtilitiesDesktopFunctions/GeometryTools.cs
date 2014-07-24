@@ -77,7 +77,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Set Measures");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_1"));
                     return;
                 }
                 mxdoc = app.Document as IMxDocument;
@@ -86,7 +86,7 @@ namespace A4WaterUtilities
                 map = mxdoc.FocusMap;
                 if (map.LayerCount < 1)
                 {
-                    MessageBox.Show("Must have at least one layer in your map.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_1"));
                     return;
                 }
 
@@ -94,8 +94,8 @@ namespace A4WaterUtilities
 
                 if (layer == null)
                 {
-                    MessageBox.Show("You must have one higlighted layer in the TOC." + Environment.NewLine +
-                                     "Any selected lines in this layer will have it measures set.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_6") + Environment.NewLine +
+                                     A4LGSharedFunctions.Localizer.GetString("Measure_1"));
                     return;
                 }
 
@@ -103,7 +103,7 @@ namespace A4WaterUtilities
                 fLayer = layer as IFeatureLayer;
                 if (fLayer == null)
                 {
-                    MessageBox.Show("The highlighted layer in the TOC must be a feature layer.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_1"));
                     return;
                 }
 
@@ -111,13 +111,13 @@ namespace A4WaterUtilities
                 fc = fLayer.FeatureClass;
                 if (fc == null)
                 {
-                    MessageBox.Show("The highlighted layer datasource is not set.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_2"));
                     return;
 
                 }
                 if (fc.Fields.get_Field(fc.Fields.FindField(fc.ShapeFieldName)).GeometryDef.HasM == false)
                 {
-                    MessageBox.Show("The highlighted layer does not support Measures.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_3"));
                     return;
 
                 }
@@ -126,18 +126,18 @@ namespace A4WaterUtilities
                 //Verify that it is a line layer
                 if (fc.ShapeType != esriGeometryType.esriGeometryPolyline)
                 {
-                    MessageBox.Show("The highlighted layer in the TOC must contain lines.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_2"));
                     return;
                 }
                 //Verify Layer Selection
                 if (fSel.SelectionSet.Count == 0)
                 {
-                    MessageBox.Show("No features are selected in the highlighed layer.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_4"));
                     return;
                 }
 
                 bool WithDig = true;
-                if (MessageBox.Show("Calibrate lines using the digitized direction?", "Calibrate Lines", MessageBoxButtons.YesNo) == DialogResult.No)
+                if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("CalibrateLn"), MessageBoxButtons.YesNo) == DialogResult.No)
                 {
                     WithDig = false;
                 }
@@ -156,15 +156,15 @@ namespace A4WaterUtilities
                 stepProgressor.MinRange = 0;
                 stepProgressor.MaxRange = fSel.SelectionSet.Count;
                 stepProgressor.StepValue = 1;
-                stepProgressor.Message = "Setting Measure for line " + 1 + " of " + fSel.SelectionSet.Count.ToString() + ".";
+                stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_1") + A4LGSharedFunctions.Localizer.GetString("ForLn") + 1 + A4LGSharedFunctions.Localizer.GetString("Of") + fSel.SelectionSet.Count.ToString() + ".";
 
                 // Create the ProgressDialog. This automatically displays the dialog
                 progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                 // Set the properties of the ProgressDialog
                 progressDialog.CancelEnabled = true;
-                progressDialog.Description = "Setting Meaures";
-                progressDialog.Title = "Setting measures for the selected lines.";
+                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_1");
+                progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_1") + A4LGSharedFunctions.Localizer.GetString("ForSltedLn");
                 progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriDownloadFile;
                 //Step through each selected line in the highlighted layer
                 fSel.SelectionSet.Search(null, false, out pCursor);
@@ -178,7 +178,7 @@ namespace A4WaterUtilities
                 while ((pFeature != null))
                 {
 
-                    stepProgressor.Message = "Setting measure for line " + intCount + " of " + fSel.SelectionSet.Count.ToString() + ".";
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_1") + A4LGSharedFunctions.Localizer.GetString("ForLn") + intCount + A4LGSharedFunctions.Localizer.GetString("Of") + fSel.SelectionSet.Count.ToString() + ".";
                     if (pFeature.Shape is IMSegmentation)
                     {
                         try
@@ -199,12 +199,12 @@ namespace A4WaterUtilities
                             }
                             else
                             {
-                                MessageBox.Show(" Object ID: " + pFeature.OID + " Has null geometry");
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("OID") + pFeature.OID + A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_5"));
                             }
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("SetMeasures\n" + ex.Message + " Object ID: " + pFeature.OID);
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_1") + "\n" + ex.Message + A4LGSharedFunctions.Localizer.GetString("OID") + pFeature.OID);
                         }
                     }
 
@@ -215,12 +215,12 @@ namespace A4WaterUtilities
 
                 }
 
-                editor.StopOperation("Set M's");
+                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_2"));
             }
             catch (Exception ex)
             {
                 editor.AbortOperation();
-                MessageBox.Show("SetMeasures\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_1") + "\n" + ex.Message, ex.Source);
                 return;
             }
             finally
@@ -269,7 +269,7 @@ namespace A4WaterUtilities
             string rotationFieldName;
             int rotationFieldPos;
             int count;
-            Nullable<double> angle;
+            double angle;
             IActiveView activeView = null;
             IInvalidArea invalid = null;
             IEnvelope ext = null;
@@ -305,7 +305,7 @@ namespace A4WaterUtilities
                 eLayers = (IEditLayers)editor;
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"));
                     return;
                 }
 
@@ -329,7 +329,7 @@ namespace A4WaterUtilities
                     stepProgressor.MinRange = 0;
                     stepProgressor.MaxRange = total;
                     stepProgressor.StepValue = 1;
-                    stepProgressor.Message = "Setting Rotation Value for Selected Points";
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsMess_1");
 
                     // Create the ProgressDialog. This automatically displays the dialog
 
@@ -337,8 +337,8 @@ namespace A4WaterUtilities
 
                     // Set the properties of the ProgressDialog
                     progressDialog.CancelEnabled = true;
-                    progressDialog.Description = "Rotating points " + total.ToString() + ".";
-                    progressDialog.Title = "Rotate Points";
+                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_3") + total.ToString() + ".";
+                    progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_2");
                     progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriDownloadFile;
 
                     // Prep rotation calculator
@@ -425,7 +425,7 @@ namespace A4WaterUtilities
                                         }
                                         else
                                         {
-                                            angle = (double)pointFeature.get_Value(rotationFieldPos);
+                                             Double.TryParse( pointFeature.get_Value(rotationFieldPos).ToString(),out angle);
                                         }
                                         angle = angle + addSpinAngle;
                                         if (angle > 360) angle -= 360;
@@ -436,7 +436,7 @@ namespace A4WaterUtilities
                                         //Update progress bar
                                         i += 1;
                                         stepProgressor.Step();
-                                        progressDialog.Description = "Adding rotation to point " + i.ToString() + " of " + total.ToString() + ".";
+                                        progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_4") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
 
                                         //Check if the cancel button was pressed. If so, stop process
                                         if (!trackCancel.Continue())
@@ -460,7 +460,7 @@ namespace A4WaterUtilities
                                 }
 
                                 // Stop the edit operation 
-                                editor.StopOperation("Rotate Selected");
+                                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5"));
 
                             }
 
@@ -474,7 +474,7 @@ namespace A4WaterUtilities
 
                     //Alert the user know if no work was performed
                     if (!(test))
-                        MessageBox.Show("None of the editable layers with selected features have rotation specified. \nIn Layer properties on the Symbology tab, click Advanced to set the rotation field and type.", "Add Rotate");
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_6"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_3"));
 
                     //Redraw invalid areas or entire map
                     if (i > 0)
@@ -489,7 +489,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("RotateSeleceted\n" + ex.Message, "RotateSelected");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5"));
                 return;
             }
             finally
@@ -574,7 +574,7 @@ namespace A4WaterUtilities
                 eLayers = (IEditLayers)editor;
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"));
                     return;
                 }
 
@@ -608,15 +608,15 @@ namespace A4WaterUtilities
                     stepProgressor.MinRange = 0;
                     stepProgressor.MaxRange = total;
                     stepProgressor.StepValue = 1;
-                    stepProgressor.Message = "Setting Rotation Value for Selected Points";
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsMess_1");
 
                     // Create the ProgressDialog. This automatically displays the dialog
                     progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                     // Set the properties of the ProgressDialog
                     progressDialog.CancelEnabled = true;
-                    progressDialog.Description = "Rotating points " + total.ToString() + ".";
-                    progressDialog.Title = "Rotate Points";
+                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_3") + total.ToString() + ".";
+                    progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_2");
                     progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriDownloadFile;
 
                     // Prep rotation calculator
@@ -697,7 +697,7 @@ namespace A4WaterUtilities
                                         //Update progress bar
                                         i += 1;
                                         stepProgressor.Step();
-                                        progressDialog.Description = "Rotating point " + i.ToString() + " of " + total.ToString() + ".";
+                                        progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_6") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
 
                                         //Check if the cancel button was pressed. If so, stop process
                                         if (!trackCancel.Continue())
@@ -715,12 +715,12 @@ namespace A4WaterUtilities
                                 {
                                     editor.AbortOperation();
                                     progressDialog.HideDialog();
-                                    MessageBox.Show("RotateSelected\n" + ex.Message, ex.Source);
+                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5") + "\n" + ex.Message, ex.Source);
                                     return;
                                 }
 
                                 // Stop the edit operation 
-                                editor.StopOperation("Rotate Selected");
+                                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5"));
 
                             }
 
@@ -734,7 +734,7 @@ namespace A4WaterUtilities
 
                     //Alert the user know if no work was performed
                     if (!(test))
-                        MessageBox.Show("None of the editable layers with selected features have rotation specified. \nIn Layer properties on the Symbology tab, click Advanced to set the rotation field and type.", "RotateSelected");
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_6"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5"));
 
                     //Redraw invalid areas or entire map
                     if (i > 0)
@@ -749,7 +749,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("RotateSelected\n" + ex.Message, "RotateSelected");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5"));
                 return;
             }
             finally
@@ -836,7 +836,7 @@ namespace A4WaterUtilities
 
         //        if (editor.EditState != esriEditState.esriStateEditing)
         //        {
-        //            MessageBox.Show("Must be editing.", "Split Lines At Location");
+        //            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_4"));
         //            return;
         //        }
 
@@ -894,15 +894,15 @@ namespace A4WaterUtilities
         //        stepProgressor.MinRange = 1;
         //        stepProgressor.MaxRange = 1;
         //        stepProgressor.StepValue = 1;
-        //        stepProgressor.Message = "Splitting Selected Lines at Location";
+        //        stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_7");
 
         //        // Create the ProgressDialog. This automatically displays the dialog
         //        progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
         //        // Set the properties of the ProgressDialog
         //        progressDialog.CancelEnabled = true;
-        //        progressDialog.Description = "Splitting lines at Location";
-        //        progressDialog.Title = "Splitting Selected Lines at Location";
+        //        progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_8");
+        //        progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_7");
         //        progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriDownloadFile;
 
         //        //Create an edit operation enabling undo/redo
@@ -1206,14 +1206,14 @@ namespace A4WaterUtilities
 
         //            //Update progress bar
         //            i += 1;
-        //            progressDialog.Description = "Splitting lines at Location";
+        //            progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_8");
         //            ESRI.ArcGIS.esriSystem.IStatusBar statusBar = app.StatusBar;
         //            statusBar.set_Message(0, i.ToString());
         //        }
         //        catch (Exception ex)
         //        {
 
-        //            MessageBox.Show("SplitLinesAsClick\n" + ex.Message, "SplitLinesAtClick");
+        //            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
         //            if (logEditOperation)
         //                editor.AbortOperation();
 
@@ -1232,12 +1232,12 @@ namespace A4WaterUtilities
 
         //        //Stop the edit operation 
         //        if (logEditOperation)
-        //            editor.StopOperation("Split Lines At Points");
+        //            editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_9"));
 
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show("SplitLinesAtClick\n" + ex.Message, "SplitLinesAtClick");
+        //        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
         //        return;
         //    }
         //    finally
@@ -1338,7 +1338,7 @@ namespace A4WaterUtilities
         //        editor = Globals.getEditor(app);
         //        if (editor.EditState != esriEditState.esriStateEditing)
         //        {
-        //            MessageBox.Show("Must be editing.", "Split Lines");
+        //            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
         //            return;
         //        }
 
@@ -1397,15 +1397,15 @@ namespace A4WaterUtilities
         //        stepProgressor.MinRange = 0;
         //        stepProgressor.MaxRange = total;
         //        stepProgressor.StepValue = 1;
-        //        stepProgressor.Message = "Splitting At Selected Points";
+        //        stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_10");
 
         //        // Create the ProgressDialog. This automatically displays the dialog
         //        progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor;
 
         //        // Set the properties of the ProgressDialog
         //        progressDialog.CancelEnabled = true;
-        //        progressDialog.Description = "Splitting line " + i.ToString() + " of " + total.ToString() + ".";
-        //        progressDialog.Title = "Split Lines At Points";
+        //        progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_11") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
+        //        progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_9");
         //        progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriDownloadFile;
 
         //        //Create an edit operation enabling undo/redo
@@ -1573,7 +1573,7 @@ namespace A4WaterUtilities
 
         //                    //Update progress bar
         //                    i += 1;
-        //                    progressDialog.Description = "Splitting line " + i.ToString() + " of " + total.ToString() + ".";
+        //                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_11") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
         //                    stepProgressor.Step();
         //                    ESRI.ArcGIS.esriSystem.IStatusBar statusBar = app.StatusBar;
         //                    statusBar.set_Message(0, i.ToString());
@@ -1591,7 +1591,7 @@ namespace A4WaterUtilities
         //        catch (Exception ex)
         //        {
         //            editor.AbortOperation();
-        //            MessageBox.Show("SplitLines\n" + ex.Message, "Split Lines");
+        //            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
         //            return;
         //        }
         //        finally
@@ -1618,12 +1618,12 @@ namespace A4WaterUtilities
 
 
         //        //Stop the edit operation 
-        //        editor.StopOperation("Split Lines At Points");
+        //        editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_9"));
 
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show("SplitLines\n" + ex.Message, "Split Lines");
+        //        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
         //        return;
         //    }
         //    finally
@@ -1731,7 +1731,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Split Lines At Location");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_4"));
                     return;
                 }
 
@@ -1789,15 +1789,15 @@ namespace A4WaterUtilities
                 stepProgressor.MinRange = 1;
                 stepProgressor.MaxRange = 1;
                 stepProgressor.StepValue = 1;
-                stepProgressor.Message = "Splitting Selected Lines at Location";
+                stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_7");
 
                 // Create the ProgressDialog. This automatically displays the dialog
                 progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                 // Set the properties of the ProgressDialog
                 progressDialog.CancelEnabled = true;
-                progressDialog.Description = "Splitting lines at Location";
-                progressDialog.Title = "Splitting Selected Lines at Location";
+                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_8");
+                progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_7");
                 progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriDownloadFile;
 
                 //Create an edit operation enabling undo/redo
@@ -2103,14 +2103,14 @@ namespace A4WaterUtilities
 
                     //Update progress bar
                     i += 1;
-                    progressDialog.Description = "Splitting lines at Location";
+                    progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_8");
                     ESRI.ArcGIS.esriSystem.IStatusBar statusBar = app.StatusBar;
                     statusBar.set_Message(0, i.ToString());
                 }
                 catch (Exception ex)
                 {
 
-                    MessageBox.Show("SplitLinesAsClick\n" + ex.Message, "SplitLinesAtClick");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
                     if (logEditOperation)
                         editor.AbortOperation();
 
@@ -2129,12 +2129,12 @@ namespace A4WaterUtilities
 
                 //Stop the edit operation 
                 if (logEditOperation)
-                    editor.StopOperation("Split Lines At Points");
+                    editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_9"));
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("SplitLinesAtClick\n" + ex.Message, "SplitLinesAtClick");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
                 return;
             }
             finally
@@ -2235,7 +2235,7 @@ namespace A4WaterUtilities
                 editor = Globals.getEditor(app);
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Split Lines");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
                     return;
                 }
 
@@ -2294,15 +2294,15 @@ namespace A4WaterUtilities
                 stepProgressor.MinRange = 0;
                 stepProgressor.MaxRange = total;
                 stepProgressor.StepValue = 1;
-                stepProgressor.Message = "Splitting At Selected Points";
+                stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_10");
 
                 // Create the ProgressDialog. This automatically displays the dialog
                 progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor;
 
                 // Set the properties of the ProgressDialog
                 progressDialog.CancelEnabled = true;
-                progressDialog.Description = "Splitting line " + i.ToString() + " of " + total.ToString() + ".";
-                progressDialog.Title = "Split Lines At Points";
+                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_11") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
+                progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_9");
                 progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriDownloadFile;
 
                 //Create an edit operation enabling undo/redo
@@ -2473,7 +2473,7 @@ namespace A4WaterUtilities
 
                             //Update progress bar
                             i += 1;
-                            progressDialog.Description = "Splitting line " + i.ToString() + " of " + total.ToString() + ".";
+                            progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_11") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
                             stepProgressor.Step();
                             ESRI.ArcGIS.esriSystem.IStatusBar statusBar = app.StatusBar;
                             statusBar.set_Message(0, i.ToString());
@@ -2491,7 +2491,7 @@ namespace A4WaterUtilities
                 catch (Exception ex)
                 {
                     editor.AbortOperation();
-                    MessageBox.Show("SplitLines\n" + ex.Message, "Split Lines");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
                     return;
                 }
                 finally
@@ -2518,12 +2518,12 @@ namespace A4WaterUtilities
 
 
                 //Stop the edit operation 
-                editor.StopOperation("Split Lines At Points");
+                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_9"));
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("SplitLines\n" + ex.Message, "Split Lines");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
                 return;
             }
             finally
@@ -2604,7 +2604,7 @@ namespace A4WaterUtilities
                 editor = Globals.getEditor(app);
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Create Jumps");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_6"));
                     return;
                 }
 
@@ -2629,8 +2629,8 @@ namespace A4WaterUtilities
 
                 // Set the properties of the ProgressDialog
                 progressDialog.CancelEnabled = false;
-                progressDialog.Description = "Creating Jumps... ";
-                progressDialog.Title = "Creating Jumps";
+                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_12") +"...";
+                progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_12");
                 progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
 
                 mxdoc = (IMxDocument)app.Document;
@@ -2651,7 +2651,7 @@ namespace A4WaterUtilities
                 while (layer != null)
                 {
                     fLayer = (IFeatureLayer)layer;
-                    stepProgressor.Message = "Building Layer List " + fLayer.Name;
+                    stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsMess_2") + fLayer.Name;
                     if (fLayer.Valid && (fLayer.FeatureClass.ShapeType == ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline)
                        && (fLayer.Visible))
                     {
@@ -2661,7 +2661,7 @@ namespace A4WaterUtilities
                             fSel = fLayer as IFeatureSelection;
                             if (fSel.SelectionSet.Count > 0)
                             {
-                                stepProgressor.Message = "Layer Added: " + fLayer.Name;
+                                stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsMess_3") + fLayer.Name;
                                 lineLayers.Add(fLayer);
                             }
                         }
@@ -2670,7 +2670,7 @@ namespace A4WaterUtilities
                 }
                 if (lineLayers.Count == 0)
                 {
-                    MessageBox.Show("No Editable lines with selected features where found");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_7"));
                     return;
 
                 }
@@ -2779,7 +2779,7 @@ namespace A4WaterUtilities
                     // Step through all line layers with selection sets                
                     foreach (IFeatureLayer lineLayer in lineLayers)
                     {
-                        stepProgressor.Message = "Checking Layer: " + lineLayer.Name;
+                        stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsMess_4a") + lineLayer.Name;
                         // Get cursor of selected lines 
                         lineSel = (IFeatureSelection)lineLayer;
                         sel = lineSel.SelectionSet as ISelectionSet2;
@@ -2790,7 +2790,7 @@ namespace A4WaterUtilities
                         while ((lineFeature = (IFeature)lineCursor.NextRow()) != null)
                         {
                             idx++;
-                            stepProgressor.Message = "Checking Row " + idx + " for Layer: " + lineLayer.Name;
+                            stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsMess_4b") + idx + A4LGSharedFunctions.Localizer.GetString("GeometryToolsMess_4c") + lineLayer.Name;
                             if (lineFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolyline)
                             {
                                 selCurve = (IPolycurve3)lineFeature.ShapeCopy;
@@ -2884,7 +2884,7 @@ namespace A4WaterUtilities
                                                                 }
                                                                 catch
                                                                 {
-                                                                    MessageBox.Show("There was an error creating the jump, this usually occurs when two more intersecting lines are to close.  The resulting jump may have an invalid gemeotry, check the sketch(double click to show the vertex's and make sure the geometry looks the same)");
+                                                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_8"));
 
                                                                     continue;
                                                                 }
@@ -2898,7 +2898,7 @@ namespace A4WaterUtilities
                                                                 }
                                                                 catch
                                                                 {
-                                                                    MessageBox.Show("There was an error creating the jump, this usually occurs when two more intersecting lines are to close.  The resulting jump may have an invalid gemeotry, check the sketch(double click to show the vertex's and make sure the geometry looks the same)");
+                                                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_8"));
                                                                     continue;
                                                                 }
                                                             }
@@ -2912,7 +2912,7 @@ namespace A4WaterUtilities
                                                                 }
                                                                 catch
                                                                 {
-                                                                    MessageBox.Show("There was an error creating the jump, this usually occurs when two more intersecting lines are to close.  The resulting jump may have an invalid gemeotry, check the sketch(double click to show the vertex's and make sure the geometry looks the same)");
+                                                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_8"));
                                                                     continue;
                                                                 }
                                                             }
@@ -2924,7 +2924,7 @@ namespace A4WaterUtilities
                                                                 }
                                                                 catch
                                                                 {
-                                                                    MessageBox.Show("There was an error creating the jump, this usually occurs when two more intersecting lines are to close.  The resulting jump may have an invalid gemeotry, check the sketch(double click to show the vertex's and make sure the geometry looks the same)");
+                                                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_8"));
                                                                     continue;
                                                                 }
                                                             }
@@ -2993,7 +2993,7 @@ namespace A4WaterUtilities
                                                 }
                                                 else
                                                 {
-                                                    MessageBox.Show("The selected Segment is not long enough to create the jump");
+                                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_9"));
                                                 }
                                             }
 
@@ -3008,7 +3008,7 @@ namespace A4WaterUtilities
                 catch (Exception ex)
                 {
                     editor.AbortOperation();
-                    MessageBox.Show("CreateJumps\n" + ex.Message, ex.Source);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_6") + "\n" + ex.Message, ex.Source);
                 }
 
                 finally
@@ -3074,13 +3074,13 @@ namespace A4WaterUtilities
                 }
 
                 // Stop the edit operation 
-                editor.StopOperation("Create Jumps");
+                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_6"));
 
               
             }
             catch (Exception ex)
             {
-                MessageBox.Show("CreateJumps\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_6") + "\n" + ex.Message, ex.Source);
                 return;
             }
             finally
@@ -3159,7 +3159,7 @@ namespace A4WaterUtilities
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "Flip Lines");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7"));
                     return;
                 }
 
@@ -3167,7 +3167,7 @@ namespace A4WaterUtilities
                 map = editor.Map;
                 if (map.LayerCount < 1)
                 {
-                    MessageBox.Show("Must have at least one layer in your map.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_1"));
                     return;
                 }
 
@@ -3176,8 +3176,8 @@ namespace A4WaterUtilities
                 layer = mxdoc.SelectedLayer as ILayer;
                 if (layer == null)
                 {
-                    MessageBox.Show("You must have one higlighted layer in the TOC." + Environment.NewLine +
-                                     "Any selected lines in this layer will be flipped.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_6") + Environment.NewLine +
+                                     A4LGSharedFunctions.Localizer.GetString("GeometryToolsMess_5"));
                     return;
                 }
 
@@ -3185,7 +3185,7 @@ namespace A4WaterUtilities
                 fLayer = layer as IFeatureLayer;
                 if (fLayer == null)
                 {
-                    MessageBox.Show("The highlighted layer in the TOC must be a feature layer.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_1"));
                     return;
                 }
 
@@ -3196,7 +3196,7 @@ namespace A4WaterUtilities
                 //Verify that it is a line layer
                 if (fc.ShapeType != esriGeometryType.esriGeometryPolyline)
                 {
-                    MessageBox.Show("The highlighted layer in the TOC must contain lines.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_2"));
                     return;
                 }
                 //Verify that the layer is part of a geometric network if using the establish flow by AnicillaryRole
@@ -3205,7 +3205,7 @@ namespace A4WaterUtilities
 
                 if (FlipType == FlipTypes.FlipLinesToMatchFlow && netFC == null)
                 {
-                    MessageBox.Show("The highlighted layer in the TOC must be part of a geometric network.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("TOC_3"));
                     return;
                 }
 
@@ -3220,14 +3220,14 @@ namespace A4WaterUtilities
                 //Verify it has some features selected
                 if (fSel.SelectionSet.Count < 1)
                 {
-                    MessageBox.Show("No features selected in the highlighted layer.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsError_4"));
                     return;
                 }
 
 
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
-                    MessageBox.Show("Must be editing.", "FlipLines");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7"));
                     return;
                 }
 
@@ -3316,7 +3316,7 @@ namespace A4WaterUtilities
                 catch (Exception ex)
                 {
                     editor.AbortOperation();
-                    MessageBox.Show("FlipLines\n" + ex.Message, ex.Source);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7") + "\n" + ex.Message, ex.Source);
                 }
                 finally
                 {
@@ -3336,9 +3336,9 @@ namespace A4WaterUtilities
                 }
                 // Stop the edit operation 
                 if (FlipType == FlipTypes.FlipLines)
-                    editor.StopOperation("Flip Lines");
+                    editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7"));
                 else
-                    editor.StopOperation("Flip Lines to Match Flow");
+                    editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_8"));
 
                 // object Missing = Type.Missing;
                 //mxdoc.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection,Missing, mxdoc.ActiveView.Extent);
@@ -3347,7 +3347,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("FlipLines\n" + ex.Message, "FlipLines");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7"));
                 return;
             }
             finally

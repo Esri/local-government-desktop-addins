@@ -1,1 +1,1 @@
-copy "$(TargetDir)Config.Config" "C:\Users\mich3661\AppData\Roaming\ArcGISTemplates\EditingTemplate\Config"
+copy "$(TargetDir)Config.Config" "C:\Users\mich3661\AppData\Roaming\ArcGIS4LocalGovernment\ConfigFiles"

@@ -875,7 +875,7 @@ namespace A4WaterUtilities
             Globals.ClearGNFlags(ArcMap.Application, Globals.GNTypes.Barries);
             Globals.ClearGNFlags(ArcMap.Application, Globals.GNTypes.Results);
             base.OnActivate();
-            MessageBox.Show("Please Click Two Points for Tracing");
+            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Clck2Pts"));
 
         }
 

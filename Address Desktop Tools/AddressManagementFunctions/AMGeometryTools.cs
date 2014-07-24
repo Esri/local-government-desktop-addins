@@ -332,8 +332,12 @@ namespace A4LGAddressManagement
                     {
                         pWS = Globals.CreateInMemoryWorkspace();
                     }
-                    
 
+                    if (pWS == null)
+                    {
+                        return;
+
+                    }
                     pIntPoint = Globals.createFeatureClassInMemory("Intersections", createIntersectionFields((fLayer as IGeoDataset).SpatialReference), pWS, esriFeatureType.esriFTSimple);
                     pFT = new FeatureLayerClass();
                     pFT.FeatureClass = pIntPoint;

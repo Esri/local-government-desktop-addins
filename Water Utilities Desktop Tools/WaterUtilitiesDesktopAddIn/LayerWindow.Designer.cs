@@ -56,7 +56,7 @@
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(35, 13);
             this.lblCount.TabIndex = 9;
-            this.lblCount.Text = "Count";
+            this.lblCount.Text = A4LGSharedFunctions.Localizer.GetString("Count");
             // 
             // splContMain
             // 
@@ -98,7 +98,7 @@
             this.btnZoomTo.Name = "btnZoomTo";
             this.btnZoomTo.Size = new System.Drawing.Size(75, 23);
             this.btnZoomTo.TabIndex = 10;
-            this.btnZoomTo.Text = "Zoom To";
+            this.btnZoomTo.Text = A4LGSharedFunctions.Localizer.GetString("ZoomTo");
             this.btnZoomTo.UseVisualStyleBackColor = true;
             // 
             // btnNext
@@ -116,7 +116,7 @@
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 7;
-            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.Text = A4LGSharedFunctions.Localizer.GetString("Refresh");
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
@@ -144,7 +144,7 @@
             this.gpBoxOptions.Size = new System.Drawing.Size(481, 87);
             this.gpBoxOptions.TabIndex = 1;
             this.gpBoxOptions.TabStop = false;
-            this.gpBoxOptions.Text = "Click for options";
+            this.gpBoxOptions.Text = A4LGSharedFunctions.Localizer.GetString("Options");
             // 
             // Label3
             // 
@@ -153,7 +153,7 @@
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(37, 13);
             this.Label3.TabIndex = 7;
-            this.Label3.Text = "Scale:";
+            this.Label3.Text = A4LGSharedFunctions.Localizer.GetString("Scale");
             // 
             // txtScale
             // 
@@ -169,7 +169,7 @@
             this.Label2.Name = "Label2";
             this.Label2.Size = new System.Drawing.Size(38, 13);
             this.Label2.TabIndex = 5;
-            this.Label2.Text = "Query:";
+            this.Label2.Text = A4LGSharedFunctions.Localizer.GetString("Query");
             // 
             // chkZoomToOnAdvance
             // 
@@ -178,7 +178,7 @@
             this.chkZoomToOnAdvance.Name = "chkZoomToOnAdvance";
             this.chkZoomToOnAdvance.Size = new System.Drawing.Size(140, 17);
             this.chkZoomToOnAdvance.TabIndex = 4;
-            this.chkZoomToOnAdvance.Text = "Zoom on record change";
+            this.chkZoomToOnAdvance.Text = A4LGSharedFunctions.Localizer.GetString("ZoomOn");
             this.chkZoomToOnAdvance.UseVisualStyleBackColor = true;
             // 
             // txtQuery
@@ -197,7 +197,7 @@
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(69, 13);
             this.Label1.TabIndex = 2;
-            this.Label1.Text = "Active Layer:";
+            this.Label1.Text = A4LGSharedFunctions.Localizer.GetString("ActiveLayer");
             // 
             // cboLayers
             // 

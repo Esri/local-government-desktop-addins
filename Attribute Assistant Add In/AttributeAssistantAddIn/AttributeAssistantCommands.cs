@@ -106,14 +106,14 @@ namespace ArcGIS4LocalGovernment
 
             if (AAState.PerformUpdates)
             {
-                AAState.WriteLine("Attribute Assistant is being suspended");
+                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1a"));
                 AAState.PerformUpdates = false;
 
                 AAState.unInitEditing();
             }
             else
             {
-                AAState.WriteLine("Attribute Assistant is activated ");
+                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1b"));
                 AAState.PerformUpdates = true;
                 AAState.initEditing();
             }
@@ -146,14 +146,14 @@ namespace ArcGIS4LocalGovernment
 
             if (AAState._Suspend)
             {
-                AAState.WriteLine("Attribute Assistant is being actived from suspended");
+                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1c"));
                 AAState._Suspend = false;
 
             }
             else
             {
 
-                AAState.WriteLine("Attribute Assistant is being suspended");
+                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1a"));
                 AAState._Suspend = true;
 
             }
@@ -186,7 +186,7 @@ namespace ArcGIS4LocalGovernment
         {
 
             AAState._Suspend = false;
-            AAState.WriteLine("Attribute Assistant is not suspended");
+            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1d"));
 
 
         }
@@ -215,7 +215,7 @@ namespace ArcGIS4LocalGovernment
         {
 
             AAState._Suspend = true;
-            AAState.WriteLine("Attribute Assistant is suspended");
+            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1e"));
 
 
         }
@@ -258,13 +258,13 @@ namespace ArcGIS4LocalGovernment
         {
             if (AAState.PerformUpdates == false)
             {
-                MessageBox.Show("Please turn on the attribute assistant before using this tool");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1f"));
                 return;
 
             }
             if (_editor.EditState == esriEditState.esriStateNotEditing)
             {
-                MessageBox.Show("Please start editing to run this tool");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1g"));
                 return;
 
             }
@@ -343,8 +343,8 @@ namespace ArcGIS4LocalGovernment
 
 
 
-                    if (MessageBox.Show("Are you sure you wish to apply attribute assistant Change rules for the selected " + totalCount + " rows and features?",
-                        "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
+                        A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
 
@@ -359,15 +359,15 @@ namespace ArcGIS4LocalGovernment
                         stepProgressor.MaxRange = totalCount;
                         
                         stepProgressor.StepValue = 1;
-                        stepProgressor.Message = "Running Change Rules";
+                        stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2a");
 
                         // Create the ProgressDialog. This automatically displays the dialog
                         ESRI.ArcGIS.Framework.IProgressDialog2 progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                         // Set the properties of the ProgressDialog
                         progressDialog2.CancelEnabled = true;
-                        progressDialog2.Description = "Processing 0 of " + totalCount.ToString() + ".";
-                        progressDialog2.Title = "Processing...";
+                        progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantDesc_2a") + totalCount.ToString() + ".";
+                        progressDialog2.Title = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantTitle_2a");
                         progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
 
                         // Step. Do your big process here.
@@ -423,7 +423,7 @@ namespace ArcGIS4LocalGovernment
                                         while ((feat = (IFeature)fCursor.NextFeature()) != null)
                                         {
                                             progressVal++;
-                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantProc_2a") + progressVal + A4LGSharedFunctions.Localizer.GetString("Of") + totalCount.ToString() + ".";
                                             
                                            stepProgressor.Step();
 
@@ -439,7 +439,7 @@ namespace ArcGIS4LocalGovernment
 
 
 
-                                            AAState.WriteLine("AA - Removed the Feature Change event to run the change rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2c"));
                                             AAState._editEvents.OnChangeFeature -= AAState.FeatureChange;
 
 
@@ -454,7 +454,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
-                                            AAState.WriteLine("AA - Feature Change event readded after change rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2b"));
 
                                             //Check if the cancel button was pressed. If so, stop process
                                             boolean_Continue = trackCancel.Continue();
@@ -507,7 +507,7 @@ namespace ArcGIS4LocalGovernment
                             try
                             {
                                 // Stop the edit operation 
-                                editor.StopOperation("Run Change Rules - Features");
+                                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantDone_2a"));
                             }
                             catch (Exception ex)
                             { }
@@ -540,7 +540,7 @@ namespace ArcGIS4LocalGovernment
                                         while ((pRow = (IRow)cursor.NextRow()) != null)
                                         {
                                             progressVal++;
-                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantProc_2a") + progressVal + A4LGSharedFunctions.Localizer.GetString("Of") + totalCount.ToString() + ".";
                                             stepProgressor.Step();
 
 
@@ -550,7 +550,7 @@ namespace ArcGIS4LocalGovernment
                                             lastLay = stTable.Name;
 
                                             IObject pObj = pRow as IObject;
-                                            AAState.WriteLine("AA - Removed the Feature Change event to run the change rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2c"));
                                             AAState._editEvents.OnChangeFeature -= AAState.FeatureChange;
 
 
@@ -565,7 +565,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
-                                            AAState.WriteLine("AA - Feature Change event readded after change rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2b"));
 
                                             //Check if the cancel button was pressed. If so, stop process
                                             boolean_Continue = trackCancel.Continue();
@@ -599,11 +599,11 @@ namespace ArcGIS4LocalGovernment
                             try
                             {
                                 // Stop the edit operation 
-                                editor.StopOperation("Run Change Rules - Features");
+                                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantDone_2a"));
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show("ERROR TURNING ON THE AA, Restart ArcMap");
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantError_2a"));
 
                             }
 
@@ -618,7 +618,7 @@ namespace ArcGIS4LocalGovernment
                 }
                 else
                 {
-                    MessageBox.Show("Please select some features or rows to run this process.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantError_2a"));
 
                 }
 
@@ -673,13 +673,13 @@ namespace ArcGIS4LocalGovernment
         {
             if (AAState.PerformUpdates == false)
             {
-                MessageBox.Show("Please turn on the attribute assistant before using this tool");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1f"));
                 return;
 
             }
             if (_editor.EditState == esriEditState.esriStateNotEditing)
             {
-                MessageBox.Show("Please start editing to run this tool");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1g"));
                 return;
 
             }
@@ -728,8 +728,8 @@ namespace ArcGIS4LocalGovernment
                 if (totalCount >= 1)
                 {
 
-                    if (MessageBox.Show("Are you sure you wish to apply attribute assistant Change rules for the selected " + totalCount + " rows and features?",
-                        "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
+                        A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
 
@@ -745,15 +745,15 @@ namespace ArcGIS4LocalGovernment
                         stepProgressor.MaxRange = totalCount;
 
                         stepProgressor.StepValue = 1;
-                        stepProgressor.Message = "Running Change Rules";
+                        stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2a");
 
                         // Create the ProgressDialog. This automatically displays the dialog
                         ESRI.ArcGIS.Framework.IProgressDialog2 progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                         // Set the properties of the ProgressDialog
                         progressDialog2.CancelEnabled = true;
-                        progressDialog2.Description = "Processing 0 of " + totalCount.ToString() + ".";
-                        progressDialog2.Title = "Processing...";
+                        progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantDesc_2a") + totalCount.ToString() + ".";
+                        progressDialog2.Title = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantTitle_2a");
                         progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
 
                         // Step. Do your big process here.
@@ -807,7 +807,7 @@ namespace ArcGIS4LocalGovernment
                                         {
 
                                             progressVal++;
-                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantProc_2a") + progressVal + A4LGSharedFunctions.Localizer.GetString("Of") + totalCount.ToString() + ".";
 
                                             stepProgressor.Step();
 
@@ -822,7 +822,7 @@ namespace ArcGIS4LocalGovernment
                                             IObject pObj = feat as IObject;
 
 
-                                            AAState.WriteLine("AA - Removed the Feature Change event to run the change rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2c"));
                                             AAState._editEvents.OnChangeFeature -= AAState.FeatureChange;
 
 
@@ -837,7 +837,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
-                                            AAState.WriteLine("AA - Feature Change event readded after change rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2b"));
 
                                             //Check if the cancel button was pressed. If so, stop process
                                             boolean_Continue = trackCancel.Continue();
@@ -895,9 +895,10 @@ namespace ArcGIS4LocalGovernment
                 }
                 else
                 {
-                    MessageBox.Show("Please select some features or rows to run this process.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantError_2a"));
 
                 }
+                activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
 
             }
 
@@ -950,13 +951,13 @@ namespace ArcGIS4LocalGovernment
         {
             if (AAState.PerformUpdates == false)
             {
-                MessageBox.Show("Please turn on the attribute assistant before using this tool");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1f"));
                 return;
 
             }
             if (_editor.EditState == esriEditState.esriStateNotEditing)
             {
-                MessageBox.Show("Please start editing to run this tool");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1g"));
                 return;
 
             }
@@ -1024,8 +1025,8 @@ namespace ArcGIS4LocalGovernment
                 {
                     editor.StartOperation();
 
-                    if (MessageBox.Show("Are you sure you wish to apply attribute assistant manual rules for the selected " + totalCount + " rows and features?",
-                        "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_3a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
+                        A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
 
@@ -1048,8 +1049,8 @@ namespace ArcGIS4LocalGovernment
 
                         // Set the properties of the ProgressDialog
                         progressDialog2.CancelEnabled = true;
-                        progressDialog2.Description = "Processing 0 of " + totalCount.ToString() + ".";
-                        progressDialog2.Title = "Processing...";
+                        progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantDesc_2a") + totalCount.ToString() + ".";
+                        progressDialog2.Title = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantTitle_2a");
                         progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
 
                         // Step. Do your big process here.
@@ -1107,7 +1108,7 @@ namespace ArcGIS4LocalGovernment
                                         {
 
                                             progressVal++;
-                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantProc_2a") + progressVal + A4LGSharedFunctions.Localizer.GetString("Of") + totalCount.ToString() + ".";
 
                                             stepProgressor.Step();
 
@@ -1118,7 +1119,7 @@ namespace ArcGIS4LocalGovernment
 
                                             lastOID = feat.OID;
                                             IObject pObj = feat as IObject;
-                                            AAState.WriteLine("AA - Removed the Feature Change event to run the manual rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_4a"));
                                             AAState._editEvents.OnChangeFeature -= AAState.FeatureChange;
 
 
@@ -1132,7 +1133,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
-                                            AAState.WriteLine("AA - Feature Change event readded after manual rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_4b"));
 
                                             //Check if the cancel button was pressed. If so, stop process
                                             boolean_Continue = trackCancel.Continue();
@@ -1207,7 +1208,7 @@ namespace ArcGIS4LocalGovernment
                                         {
 
                                             progressVal++;
-                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantProc_2a") + progressVal + A4LGSharedFunctions.Localizer.GetString("Of") + totalCount.ToString() + ".";
                                             stepProgressor.Step();
 
 
@@ -1217,7 +1218,7 @@ namespace ArcGIS4LocalGovernment
                                             lastLay = stTable.Name;
 
                                             IObject pObj = pRow as IObject;
-                                            AAState.WriteLine("AA - Removed the Feature Change event to run the manual rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_4a"));
                                             AAState._editEvents.OnChangeFeature -= AAState.FeatureChange;
 
 
@@ -1231,7 +1232,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
-                                            AAState.WriteLine("AA - Feature Change event readded after manual rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_4b"));
                                             
                                             //Check if the cancel button was pressed. If so, stop process
                                             boolean_Continue = trackCancel.Continue();
@@ -1247,6 +1248,7 @@ namespace ArcGIS4LocalGovernment
                                     }
                                 }
                             }
+                            activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
                         }
                         catch (Exception ex)
                         {
@@ -1263,7 +1265,7 @@ namespace ArcGIS4LocalGovernment
                         }
                         try
                         {
-                            editor.StopOperation("Run Manual Rules - Features");
+                            editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantDone_4a"));
 
                         }
                         catch
@@ -1281,7 +1283,7 @@ namespace ArcGIS4LocalGovernment
                 }
                 else
                 {
-                    MessageBox.Show("Please select some features or rows to run this process.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantError_2a"));
 
                 }
 
@@ -1335,13 +1337,13 @@ namespace ArcGIS4LocalGovernment
         {
             if (AAState.PerformUpdates == false)
             {
-                MessageBox.Show("Please turn on the attribute assistant before using this tool");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1f"));
                 return;
 
             }
             if (_editor.EditState == esriEditState.esriStateNotEditing)
             {
-                MessageBox.Show("Please start editing to run this tool");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1g"));
                 return;
 
             }
@@ -1381,7 +1383,7 @@ namespace ArcGIS4LocalGovernment
 
                 IMap map = editor.Map;
                 IActiveView activeView = map as IActiveView;
-
+                
 
                 IStandaloneTable stTable;
 
@@ -1410,8 +1412,8 @@ namespace ArcGIS4LocalGovernment
                 if (totalCount >= 1)
                 {
 
-                    if (MessageBox.Show("Are you sure you wish to apply attribute assistant Create rules for the selected " + totalCount + " rows and features?",
-                        "Confirm", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_4a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
+                        A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
 
@@ -1427,15 +1429,15 @@ namespace ArcGIS4LocalGovernment
                         stepProgressor.MaxRange = totalCount;
 
                         stepProgressor.StepValue = 1;
-                        stepProgressor.Message = "Running Change Rules";
+                        stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2a");
 
                         // Create the ProgressDialog. This automatically displays the dialog
                         ESRI.ArcGIS.Framework.IProgressDialog2 progressDialog2 = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor; // Explict Cast
 
                         // Set the properties of the ProgressDialog
                         progressDialog2.CancelEnabled = true;
-                        progressDialog2.Description = "Processing 0 of " + totalCount.ToString() + ".";
-                        progressDialog2.Title = "Processing...";
+                        progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantDesc_2a") + totalCount.ToString() + ".";
+                        progressDialog2.Title = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantTitle_2a");
                         progressDialog2.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
 
                         // Step. Do your big process here.
@@ -1490,7 +1492,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                             progressVal++;
-                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantProc_2a") + progressVal + A4LGSharedFunctions.Localizer.GetString("Of") + totalCount.ToString() + ".";
 
                                             stepProgressor.Step();
 
@@ -1502,7 +1504,7 @@ namespace ArcGIS4LocalGovernment
                                             IObject pObj = feat as IObject;
 
 
-                                            AAState.WriteLine("AA - Removed the Feature Change event to run the create rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_5a"));
                                             AAState._editEvents.OnCreateFeature -= AAState.FeatureCreate;
                                             AAState._editEvents.OnChangeFeature -= AAState.FeatureChange;
 
@@ -1520,7 +1522,7 @@ namespace ArcGIS4LocalGovernment
 
                                             AAState._editEvents.OnCreateFeature += AAState.FeatureCreate;
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
-                                            AAState.WriteLine("AA - Feature Change event readded after create rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_5b"));
 
                                             //Check if the cancel button was pressed. If so, stop process
                                             boolean_Continue = trackCancel.Continue();
@@ -1558,6 +1560,7 @@ namespace ArcGIS4LocalGovernment
                                 }
                             }
 
+                            activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
                         }
                         catch (Exception ex)
                         {
@@ -1572,7 +1575,7 @@ namespace ArcGIS4LocalGovernment
                             try
                             {
                                 // Stop the edit operation 
-                                editor.StopOperation("Run Create Rules - Features");
+                                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantDone_5a"));
                             }
                             catch (Exception ex)
                             { }
@@ -1605,7 +1608,7 @@ namespace ArcGIS4LocalGovernment
                                         {
 
                                             progressVal++;
-                                            progressDialog2.Description = "Processing " + progressVal + " of " + totalCount.ToString() + ".";
+                                            progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantProc_2a") + progressVal + A4LGSharedFunctions.Localizer.GetString("Of") + totalCount.ToString() + ".";
                                             stepProgressor.Step();
 
 
@@ -1617,7 +1620,7 @@ namespace ArcGIS4LocalGovernment
                                             IObject pObj = pRow as IObject;
 
 
-                                            AAState.WriteLine("AA - Removed the Feature Change event to run the create rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_5a"));
                                             AAState._editEvents.OnCreateFeature -= AAState.FeatureCreate;
 
 
@@ -1632,7 +1635,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                             AAState._editEvents.OnCreateFeature += AAState.FeatureCreate;
-                                            AAState.WriteLine("AA - Feature Change event readded after create rules");
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_5b"));
 
                                             //Check if the cancel button was pressed. If so, stop process
                                             boolean_Continue = trackCancel.Continue();
@@ -1664,11 +1667,11 @@ namespace ArcGIS4LocalGovernment
                             try
                             {
                                 // Stop the edit operation 
-                                editor.StopOperation("Run Create Rules - Features");
+                                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantDone_5a"));
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show("ERROR TURNING ON THE AA, Restart ArcMap");
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantError_2a"));
 
                             }
 
@@ -1684,7 +1687,7 @@ namespace ArcGIS4LocalGovernment
                 }
                 else
                 {
-                    MessageBox.Show("Please select some features or rows to run this process.");
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantError_2a"));
 
                 }
 

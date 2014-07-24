@@ -103,7 +103,7 @@ namespace A4WaterUtilities
             //{
             //    // Finish part
             //    ISketchOperation pso = new SketchOperation();
-            //    pso.MenuString_2 = "Finish Sketch Part";
+            //    pso.MenuString_2 = A4LGSharedFunctions.Localizer.GetString("FinishSktchPrt");
             //    pso.Start(m_editor);
             //    m_edSketch.FinishSketchPart();
             //    pso.Finish(null);
@@ -184,11 +184,13 @@ namespace A4WaterUtilities
                 else
                 {
                 }
-                m_editor.StopOperation("Create asset and lateral");
+                m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
+
+                //(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error in the Add Lateral Tools: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ALT_1") + ex.Message);
                 m_editor.AbortOperation();
 
             }
@@ -263,7 +265,7 @@ namespace A4WaterUtilities
             //{
             //    // Finish part
             //    ISketchOperation pso = new SketchOperation();
-            //    pso.MenuString_2 = "Finish Sketch Part";
+            //    pso.MenuString_2 = A4LGSharedFunctions.Localizer.GetString("FinishSktchPrt");
             //    pso.Start(m_editor);
             //    m_edSketch.FinishSketchPart();
             //    pso.Finish(null);
@@ -341,11 +343,11 @@ namespace A4WaterUtilities
                 else
                 {
                 }
-                m_editor.StopOperation("Create asset and lateral");
+                m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Lateral Tools: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ALT_1") + ex.Message);
                 m_editor.AbortOperation();
 
             }
@@ -419,7 +421,7 @@ namespace A4WaterUtilities
             {
                 // Finish part
                 ISketchOperation pso = new SketchOperation();
-                pso.MenuString_2 = "Finish Sketch Part";
+                pso.MenuString_2 = A4LGSharedFunctions.Localizer.GetString("FinishSktchPrt");
                 pso.Start(m_editor);
                 m_edSketch.FinishSketchPart();
                 pso.Finish(null);
@@ -521,7 +523,10 @@ namespace A4WaterUtilities
                 }
                 pLstFeat = null;
 
-                m_editor.StopOperation("Create line with points");
+                m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtLnWithPts"));
+                (ArcMap.Application.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, null);
+               
+               
             }
             catch { }
             finally
@@ -600,7 +605,7 @@ namespace A4WaterUtilities
             //{
             //    // Finish part
             //    ISketchOperation pso = new SketchOperation();
-            //    pso.MenuString_2 = "Finish Sketch Part";
+            //    pso.MenuString_2 = A4LGSharedFunctions.Localizer.GetString("FinishSktchPrt");
             //    pso.Start(m_editor);
             //    m_edSketch.FinishSketchPart();
             //    pso.Finish(null);
@@ -645,12 +650,12 @@ namespace A4WaterUtilities
 
 
                 pFeat.Store();
-                m_editor.StopOperation("Add Point and split line");
+                m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AddPtsAndSplitLn"));
 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Point and Split\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("AddPtsAndSplitLn") + "\n" + ex.Message);
                 m_editor.AbortOperation();
 
             }
@@ -725,7 +730,7 @@ namespace A4WaterUtilities
             //{
             //    // Finish part
             //    ISketchOperation pso = new SketchOperation();
-            //    pso.MenuString_2 = "Finish Sketch Part";
+            //    pso.MenuString_2 = A4LGSharedFunctions.Localizer.GetString("FinishSktchPrt");
             //    pso.Start(m_editor);
             //    m_edSketch.FinishSketchPart();
             //    pso.Finish(null);
@@ -811,7 +816,7 @@ namespace A4WaterUtilities
             }
             //            addLat.AddLateralAtPoint(m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name);
 
-            m_editor.StopOperation("Create asset and lateral");
+            m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
 
             //IEnvelope pEnv = pFeat.Shape.Envelope;
             //pEnv.Expand(8, 8, true);
@@ -886,7 +891,7 @@ namespace A4WaterUtilities
             {
                 // Finish part
                 ISketchOperation pso = new SketchOperation();
-                pso.MenuString_2 = "Finish Sketch Part";
+                pso.MenuString_2 = A4LGSharedFunctions.Localizer.GetString("FinishSktchPrt");
                 pso.Start(m_editor);
                 m_edSketch.FinishSketchPart();
                 pso.Finish(null);
