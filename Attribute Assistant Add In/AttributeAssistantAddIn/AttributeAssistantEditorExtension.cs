@@ -7159,14 +7159,77 @@ namespace ArcGIS4LocalGovernment
                                             try
                                             {
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "LENGTH");
+                                                bool geoDesic = false;
+
                                                 if (inFeature != null)
                                                 {
-                                                    curve = (ICurve)inFeature.Shape;
-                                                    if (curve != null)
+
+                                                    if (!String.IsNullOrEmpty(valData))
                                                     {
-                                                        inObject.set_Value(intFldIdxs[0], curve.Length);
+                                                        args = valData.Split('|');
+                                                        if (args.Length == 1)
+                                                        {
+
+                                                            if (args[0].ToUpper() == "TRUE")
+                                                                geoDesic = true;
+                                                            if (args[0].ToUpper() == "GEODESIC")
+                                                                geoDesic = true;
+
+                                                        }
                                                     }
+                                                    if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryLine || inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolyline)
+                                                    {
+                                                        if (geoDesic && (inFeature.Class as IGeoDataset).SpatialReference is IProjectedCoordinateSystem)
+                                                        {
+                                                            IPolycurveGeodetic pCurDes = (IPolycurveGeodetic)inFeature.Shape;
+                                                            if (pCurDes != null)
+                                                            {
+                                                                IProjectedCoordinateSystem pProjSys = (IProjectedCoordinateSystem)(inFeature.Class as IGeoDataset).SpatialReference;
+
+                                                                inObject.set_Value(intFldIdxs[0], pCurDes.get_LengthGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pProjSys.CoordinateUnit));
+
+                                                                pProjSys = null;
+
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            curve = (ICurve)inFeature.Shape;
+                                                            if (curve != null)
+                                                            {
+                                                                inObject.set_Value(intFldIdxs[0], curve.Length);
+                                                            }
+                                                        }
+                                                    }
+                                                    else if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolygon)
+                                                    {
+                                                        if (geoDesic && (inFeature.Class as IGeoDataset).SpatialReference is IProjectedCoordinateSystem)
+                                                        {
+                                                            IAreaGeodetic pArDes = (IAreaGeodetic)inFeature.Shape;
+                                                            if (pArDes != null)
+                                                            {
+
+                                                                IProjectedCoordinateSystem pProjSys = (IProjectedCoordinateSystem)(inFeature.Class as IGeoDataset).SpatialReference;
+
+                                                                inObject.set_Value(intFldIdxs[0], pArDes.get_AreaGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pProjSys.CoordinateUnit));
+
+                                                                pProjSys = null;
+                                                            }
+                                                            pArDes = null;
+                                                        }
+                                                        else
+                                                        {
+                                                            IArea pAr = (IArea)inFeature.Shape;
+                                                            if (pAr != null)
+                                                            {
+                                                                inObject.set_Value(intFldIdxs[0], pAr.Area);
+                                                            }
+                                                            pAr = null;
+                                                        }
+                                                    }
+
                                                 }
+
 
                                             }
                                             catch (Exception ex)
@@ -7724,7 +7787,7 @@ namespace ArcGIS4LocalGovernment
                                                                                         case "CONCAT":
                                                                                             concatFunc(valToTest.ToString(), ref textRes);
 
-                                                                                         
+
                                                                                             break;
                                                                                         default:
                                                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
@@ -7740,7 +7803,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                                     case "CONCAT":
                                                                                         concatFunc(test.ToString(), ref textRes);
-                                                                                      
+
                                                                                         break;
                                                                                     default:
                                                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -7940,8 +8003,8 @@ namespace ArcGIS4LocalGovernment
                                                                                             break;
                                                                                         case "CONCAT":
                                                                                             concatFunc(valToTest.ToString(), ref textRes);
-                                                                                      
-                                                                                         
+
+
                                                                                             break;
                                                                                         default:
                                                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
@@ -7957,8 +8020,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                     case "CONCAT":
                                                                                         concatFunc(test.ToString(), ref textRes);
-                                                                                      
-                                                                                      
+
+
                                                                                         break;
                                                                                     default:
                                                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -8152,8 +8215,8 @@ namespace ArcGIS4LocalGovernment
                                                                                         break;
                                                                                     case "CONCAT":
                                                                                         concatFunc(valToTest.ToString(), ref textRes);
-                                                                                     
-                                                                                        
+
+
                                                                                         break;
                                                                                     default:
                                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
@@ -8170,8 +8233,8 @@ namespace ArcGIS4LocalGovernment
                                                                                 case "CONCAT":
 
                                                                                     concatFunc(test.ToString(), ref textRes);
-                                                                                     
-                                                                                  
+
+
                                                                                     break;
                                                                                 default:
                                                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -10407,7 +10470,7 @@ namespace ArcGIS4LocalGovernment
                                                         qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
 
                                                         sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
-                                                        
+
                                                         using (ComReleaser comReleaser = new ComReleaser())
                                                         {
                                                             // Use ITable.Update to create an update cursor.
@@ -10415,7 +10478,7 @@ namespace ArcGIS4LocalGovernment
                                                             comReleaser.ManageLifetime(seq_updateCursor);
 
                                                             IRow seq_row = null;
-                                                            
+
                                                             for (int j = 0; j < 51; j++)
                                                             {
                                                                 seq_row = seq_updateCursor.NextRow();
@@ -10423,21 +10486,22 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     break;
                                                                 }
-                                                               
+
                                                                 int sequenceInt = 1;
 
                                                                 if (AAState._gentab.Fields.FindField("SEQINTERV") > 0)
                                                                 {
                                                                     object seqInt = seq_row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV"));
-                                                                    if ( seqInt != null)
+                                                                    if (seqInt != null)
                                                                     {
                                                                         if (seqInt != DBNull.Value)
                                                                             try
                                                                             {
                                                                                 sequenceInt = Convert.ToInt32(seqInt);
                                                                             }
-                                                                            catch { 
-                                                                                
+                                                                            catch
+                                                                            {
+
                                                                             }
                                                                     }
                                                                 }
@@ -10474,10 +10538,10 @@ namespace ArcGIS4LocalGovernment
                                                                 AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue);
                                                                 if (Convert.ToInt32(seq_row.get_Value(sequenceColumnNum)) == sequenceValue)
                                                                     break;
-                                                          
+
                                                             }
-                                                                
-                                                            
+
+
                                                         }
 
                                                         //cCurs = AAState._gentab.Update(qFilter, false);
@@ -10530,7 +10594,7 @@ namespace ArcGIS4LocalGovernment
                                                         //    if (Convert.ToInt32(row.get_Value(sequenceColumnNum)) == sequenceValue)
                                                         //        break;
 
-                                                       // }
+                                                        // }
                                                         if (sequenceValue == -1)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ao"));
@@ -12134,8 +12198,8 @@ namespace ArcGIS4LocalGovernment
                                                                                                         break;
                                                                                                     case "CONCAT":
                                                                                                         concatFunc(valToTest.ToString(), ref textRes);
-                                                                                 
-                                                                                                  
+
+
 
                                                                                                         break;
                                                                                                     default:
@@ -12152,7 +12216,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                 case "CONCAT":
                                                                                                     concatFunc(test.ToString(), ref textRes);
-                                                                                 
+
                                                                                                     break;
                                                                                                 default:
                                                                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -12211,8 +12275,8 @@ namespace ArcGIS4LocalGovernment
                                                                                                         break;
                                                                                                     case "CONCAT":
                                                                                                         concatFunc(valToTest.ToString(), ref textRes);
-                                                                                 
-                                                                                                    
+
+
                                                                                                         break;
                                                                                                     default:
                                                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
@@ -12228,7 +12292,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                 case "CONCAT":
                                                                                                     concatFunc(test.ToString(), ref textRes);
-                                                                                 
+
 
                                                                                                     break;
                                                                                                 default:
@@ -12414,7 +12478,7 @@ namespace ArcGIS4LocalGovernment
                                                                                         break;
                                                                                     case "CONCAT":
                                                                                         concatFunc(valToTest.ToString(), ref textRes);
-                                                                                 
+
 
 
                                                                                         break;
@@ -12432,8 +12496,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                 case "CONCAT":
                                                                                     concatFunc(test.ToString(), ref textRes);
-                                                                                 
-                                                                                  
+
+
 
                                                                                     break;
                                                                                 default:
@@ -14962,7 +15026,7 @@ namespace ArcGIS4LocalGovernment
                 }
 
             }
-            
+
 
         }
         #endregion
