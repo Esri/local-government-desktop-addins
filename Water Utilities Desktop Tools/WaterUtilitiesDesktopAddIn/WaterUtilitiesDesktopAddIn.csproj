@@ -327,6 +327,7 @@
     <VisualStudio />
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)Loaded.Config" "C:\Users\mich3661\AppData\Roaming\ArcGIS4LocalGovernment\ConfigFiles"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
