@@ -12938,8 +12938,36 @@ namespace ArcGIS4LocalGovernment
                                                                         AAState.WriteLine("                  " + sourceFieldName + ": at " + sourceField);
                                                                         if (sourceField > -1)
                                                                         {
+                                                                            try
+                                                                            {
+                                                                                ISpatialReferenceResolution pSRResolution;
 
-                                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid);
+                                                                                ISpatialReferenceResolution pSRResolution2;
+
+                                                                         
+                                                                                pSRResolution = ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference) as ISpatialReferenceResolution;
+                                                                                pSRResolution2 = AAState._editor.Map.SpatialReference as ISpatialReferenceResolution;
+
+                                                                                double dblTol = pSRResolution.get_XYResolution(false);
+                                                                                dblTol = dblTol * 10;
+                                                                                
+                                                                                double dblTol2 = pSRResolution2.get_XYResolution(false);
+                                                                                dblTol2 =dblTol2 * 10; 
+
+                                                                                if (dblTol2 > dblTol )
+                                                                                {
+                                                                                    dblTol = dblTol2;
+                                                                                }
+
+                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, dblTol, strOpt == AAState.intersectOptions.Centroid);
+                                                                                pSRResolution = null;
+                                                                                pSRResolution2 = null;
+                                                                            }
+                                                                            catch
+                                                                            {
+                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid);
+
+                                                                            }
                                                                             if (sFilter == null)
                                                                             {
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain137"));
