@@ -1870,6 +1870,8 @@ namespace ArcGIS4LocalGovernment
         {
             NumberFormatInfo nfi = new CultureInfo(A4LGSharedFunctions.Localizer.GetString("AA_CultureInfo"), false).NumberFormat;
             nfi.NumberGroupSeparator = "";
+            nfi.NumberDecimalSeparator = ".";
+            nfi.CurrencyDecimalSeparator = ".";
 
 
             ChangeFeatureList = null;
