@@ -7120,6 +7120,18 @@ namespace ArcGIS4LocalGovernment
                                                             AAState.rCalc.DiameterFieldName = args[2].ToString();
 
                                                         }
+
+                                                        else if (args.Length == 4)
+                                                        {
+                                                            if (args[0].Substring(0, 1).ToLower() == "a")
+                                                                AAState.rCalc.RotationType = esriSymbolRotationType.esriRotateSymbolArithmetic;
+                                                            if (Globals.IsNumeric(args[1].ToString()))
+                                                                AAState.rCalc.SpinAngle = Convert.ToDouble(args[1]);
+                                                            AAState.rCalc.UseDiameter = true;
+                                                            AAState.rCalc.DiameterFieldName = args[2].ToString();
+                                                            AAState.rCalc.OnlyLayerName = args[3].ToString();
+
+                                                        }
                                                         else
                                                         {
                                                             AAState.rCalc.RotationType = esriSymbolRotationType.esriRotateSymbolGeographic;
@@ -11173,7 +11185,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 intDigits = 2;
                                                                             }
                                                                             nfi.NumberDecimalDigits = intDigits;
-                                                                          
+
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", val.ToString("N", nfi));
                                                                         }
                                                                     }

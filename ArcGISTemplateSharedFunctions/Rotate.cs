@@ -41,7 +41,7 @@ namespace A4LGSharedFunctions
 {
     class Rotate
     {
-        public double RotatePoint(IMap pMap, IFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld)
+        public double RotatePoint(IMap pMap, IFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName)
         {
             IFeatureClass pPointFC = default(IFeatureClass);
             ISpatialFilter pSFilter = default(ISpatialFilter);
@@ -104,7 +104,7 @@ namespace A4LGSharedFunctions
                 {
 
 
-                    if (pFLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolyline & pFLayer.Visible)
+                    if (pFLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolyline && pFLayer.Visible && (strLayerName == "" || strLayerName == Globals.getClassName((IDataset)pFLayer.FeatureClass)))
                     {
                         //Apply the filter this line layer
                         pLineCursor = pFLayer.FeatureClass.Search(pSFilter, true);
@@ -284,7 +284,7 @@ namespace A4LGSharedFunctions
             }
 
         }
-        public double RotatePointByNetwork(IMap pMap, INetworkFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld)
+        public double RotatePointByNetwork(IMap pMap, INetworkFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName )
         {
             //This routine is used by both RotateDuringCreateFeature and RotateSelectedFeature.
             //It contains all of logic for determining the rotation angle.
@@ -333,65 +333,60 @@ namespace A4LGSharedFunctions
 
                         }
                     }
-                    pLstInt.Add(((IFeature)pEdgeFeat).Class.ObjectClassID.ToString() + " " + ((IFeature)pEdgeFeat).OID.ToString());
-
-
-
 
                     pTempFeat = (IFeature)pEdgeFeat;
 
-
-
-
-                    dblAngle = Globals.GetAngleOfLineAtPoint((IPolyline)pTempFeat.ShapeCopy, pPoint,Globals.GetXYTolerance(pPoint));
-                    dblAngle = Globals.ConvertRadsToDegrees(dblAngle);
-
-
-                    //Convert to geographic degrees(zero north clockwise)
-                    if (!(bArithmeticAngle))
+                    if (strLayerName == Globals.getClassName((IDataset)pTempFeat.Class) || strLayerName == "" || strLayerName == null)
                     {
-                        dblAngle = Globals.ConvertArithmeticToGeographic(dblAngle);
+                        pLstInt.Add(((IFeature)pEdgeFeat).Class.ObjectClassID.ToString() + " " + ((IFeature)pEdgeFeat).OID.ToString());
+
+                        dblAngle = Globals.GetAngleOfLineAtPoint((IPolyline)pTempFeat.ShapeCopy, pPoint, Globals.GetXYTolerance(pPoint));
+                        dblAngle = Globals.ConvertRadsToDegrees(dblAngle);
+
+
+                        //Convert to geographic degrees(zero north clockwise)
+                        if (!(bArithmeticAngle))
+                        {
+                            dblAngle = Globals.ConvertArithmeticToGeographic(dblAngle);
+                        }
+
+
+
+                        //Round angle
+                        dblAngle = Math.Round(dblAngle, 4);
+
+                        //Find diameter field, if it exists
+                        iLineDiameterFieldPos = ((IFeature)pEdgeFeat).Fields.FindField(strDiameterFld);
+
+                        //Get diameter of line
+                        if (iLineDiameterFieldPos < 0)
+                        {
+                            dblDiameter = -9999;
+                        }
+                        else if (((IFeature)pEdgeFeat).get_Value(iLineDiameterFieldPos) == null)
+                        {
+                            dblDiameter = -9999;
+                        }
+                        else if (object.ReferenceEquals(((IFeature)pEdgeFeat).get_Value(iLineDiameterFieldPos), DBNull.Value))
+                        {
+                            dblDiameter = -9999;
+                        }
+                        else
+                        {
+                            double.TryParse(((IFeature)pEdgeFeat).get_Value(iLineDiameterFieldPos).ToString(), out dblDiameter);
+                        }
+
+
+                        //add this line (angle and diameter) to a collection of line info for this point
+                        cAngles.Add(dblAngle);
+
+                        if (dblDiameter != -9999)
+                        {
+                            cDiameters.Add(dblDiameter);
+                        }
+
                     }
-
-
-
-                    //Round angle
-                    dblAngle = Math.Round(dblAngle, 4);
-
-                    //Find diameter field, if it exists
-                    iLineDiameterFieldPos = ((IFeature)pEdgeFeat).Fields.FindField(strDiameterFld);
-
-                    //Get diameter of line
-                    if (iLineDiameterFieldPos < 0)
-                    {
-                        dblDiameter = -9999;
-                    }
-                    else if (((IFeature)pEdgeFeat).get_Value(iLineDiameterFieldPos) == null)
-                    {
-                        dblDiameter = -9999;
-                    }
-                    else if (object.ReferenceEquals(((IFeature)pEdgeFeat).get_Value(iLineDiameterFieldPos), DBNull.Value))
-                    {
-                        dblDiameter = -9999;
-                    }
-                    else
-                    {
-                        double.TryParse(((IFeature)pEdgeFeat).get_Value(iLineDiameterFieldPos).ToString(), out dblDiameter);
-                    }
-
-
-                    //add this line (angle and diameter) to a collection of line info for this point
-                    cAngles.Add(dblAngle);
-
-                    if (dblDiameter != -9999)
-                    {
-                        cDiameters.Add(dblDiameter);
-                    }
-
-
-                    //Next j
-
-
+                    
 
                 }
 
