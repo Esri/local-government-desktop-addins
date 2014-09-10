@@ -11115,6 +11115,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                     break;
+                                                                case esriFieldType.esriFieldTypeSingle:
                                                                 case esriFieldType.esriFieldTypeDouble:
 
                                                                     if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "")
@@ -11162,8 +11163,17 @@ namespace ArcGIS4LocalGovernment
                                                                             Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
 
 
-
-                                                                            // '  string test2 = test.ToString("N",nfi);
+                                                                            int intDigits = 2;
+                                                                            if (val.ToString().IndexOf(".") >= 0)
+                                                                            {
+                                                                                intDigits = val.ToString().Split('.')[1].Length;
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                intDigits = 2;
+                                                                            }
+                                                                            nfi.NumberDecimalDigits = intDigits;
+                                                                          
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", val.ToString("N", nfi));
                                                                         }
                                                                     }
@@ -12946,17 +12956,17 @@ namespace ArcGIS4LocalGovernment
 
                                                                                 ISpatialReferenceResolution pSRResolution2;
 
-                                                                         
+
                                                                                 pSRResolution = ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference) as ISpatialReferenceResolution;
                                                                                 pSRResolution2 = AAState._editor.Map.SpatialReference as ISpatialReferenceResolution;
 
                                                                                 double dblTol = pSRResolution.get_XYResolution(false);
                                                                                 dblTol = dblTol * 10;
-                                                                                
-                                                                                double dblTol2 = pSRResolution2.get_XYResolution(false);
-                                                                                dblTol2 =dblTol2 * 10; 
 
-                                                                                if (dblTol2 > dblTol )
+                                                                                double dblTol2 = pSRResolution2.get_XYResolution(false);
+                                                                                dblTol2 = dblTol2 * 10;
+
+                                                                                if (dblTol2 > dblTol)
                                                                                 {
                                                                                     dblTol = dblTol2;
                                                                                 }
