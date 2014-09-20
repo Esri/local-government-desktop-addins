@@ -156,7 +156,7 @@ namespace A4LGSharedFunctions
 
                 else
                 {
-                    pathToUserProf = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ArcGIS4LocalGovernment\\ConfigFiles");
+                    pathToUserProf = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ArcGISSolutions\\ConfigFiles");
                 }
                 if (System.IO.Directory.Exists(pathToUserProf) == false)
                 {

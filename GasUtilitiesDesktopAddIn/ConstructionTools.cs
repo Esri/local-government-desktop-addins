@@ -647,7 +647,7 @@ namespace A4GasUtilities
 
                 pFeat.Store();
                 m_editor.StopOperation("Add Point and split line");
-
+                (ArcMap.Application.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, pFeat, null);
             }
             catch (Exception ex)
             {
@@ -657,6 +657,8 @@ namespace A4GasUtilities
             }
             finally
             {
+               
+                 
                 pFeat = null;
             }
         }
