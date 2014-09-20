@@ -16,7 +16,7 @@ The ArcGIS for Local Government Desktop Add-ins include a series of desktop tool
 
 ### Esri Sample Data
 
-Esri's sample data can be [downloaded] (http://www.arcgis.com/home/item.html?id=385978c927124489b4dc6110eded38df) with this repository to extend the destkop add-ins.
+Esri's sample data can be [downloaded] (http://www.arcgis.com/home/item.html?id=385978c927124489b4dc6110eded38df) with this repository to extend the desktop add-ins.
 
 ### Your Services
 
@@ -50,7 +50,7 @@ Show me a list of other [Local Government GitHub repositories](http://esri.githu
 Show me a list of other [Utilities GitHub repositories](http://esri.github.io/#Utilities).
 
 Additional [information and sample data](http://www.arcgis.com/home/item.html?id=385978c927124489b4dc6110eded38df)
-are available for the destkop add-ins.
+are available for the desktop add-ins.
 
 ## Issues
 

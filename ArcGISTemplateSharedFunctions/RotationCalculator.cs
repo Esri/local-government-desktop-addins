@@ -58,6 +58,11 @@ namespace A4LGSharedFunctions
             get { return m_diameterFieldName; }
             set { m_diameterFieldName = value; }
         }
+        public string OnlyLayerName
+        {
+            get { return m_onlyLayerName; }
+            set { m_onlyLayerName = value; }
+        }
         public double SpinAngle
         {
             get { return m_spinAngle; }
@@ -67,6 +72,7 @@ namespace A4LGSharedFunctions
         private esriSymbolRotationType m_rotationType;
         private Boolean m_useDiameter;
         private string m_diameterFieldName;
+        private string m_onlyLayerName;
         private double m_spinAngle;
 
         #endregion
@@ -98,13 +104,13 @@ namespace A4LGSharedFunctions
 
                     if (!(inFeature is INetworkFeature))
                     {
-                        rotationAngle = rotFunc.RotatePoint(pMxDoc.FocusMap, inFeature, m_rotationType == esriSymbolRotationType.esriRotateSymbolArithmetic, m_diameterFieldName);
+                        rotationAngle = rotFunc.RotatePoint(pMxDoc.FocusMap, inFeature, m_rotationType == esriSymbolRotationType.esriRotateSymbolArithmetic, m_diameterFieldName,m_onlyLayerName);
 
 
                     }
                     else
                     {
-                        rotationAngle = rotFunc.RotatePointByNetwork(pMxDoc.FocusMap, (INetworkFeature)inFeature, m_rotationType == esriSymbolRotationType.esriRotateSymbolArithmetic, m_diameterFieldName);
+                        rotationAngle = rotFunc.RotatePointByNetwork(pMxDoc.FocusMap, (INetworkFeature)inFeature, m_rotationType == esriSymbolRotationType.esriRotateSymbolArithmetic, m_diameterFieldName,m_onlyLayerName);
 
                     }
 

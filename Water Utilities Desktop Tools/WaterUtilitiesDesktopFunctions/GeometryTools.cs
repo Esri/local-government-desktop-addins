@@ -2119,8 +2119,6 @@ namespace A4WaterUtilities
                 }
                 finally
                 {
-                    mxdoc.ActiveView.Refresh();
-
                     progressDialog.HideDialog();
 
                 }

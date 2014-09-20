@@ -518,8 +518,8 @@ namespace A4LGSharedFunctions
 
         private Localizer()
         {
-           //Console.WriteLine(System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
-           // System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            //Console.WriteLine(System.Threading.Thread.CurrentThread.CurrentCulture.ToString());
+            // System.Threading.Thread.CurrentThread.CurrentUICulture = System.Threading.Thread.CurrentThread.CurrentCulture;
             //Console.WriteLine(System.Threading.Thread.CurrentThread.CurrentUICulture.ToString()); 
 
             manager = new ResourceManager("A4LGSharedFunctions.UserMessages", this.GetType().Assembly);
@@ -7714,12 +7714,26 @@ namespace A4LGSharedFunctions
                         pGeo = GetGeomCenter(inGeo)[0];
                     else
                         pGeo = inGeo;
-
+                    try
+                    {
+                        if (searchDistance != 0.0)
+                        {
+                            pTopo = pGeo as ITopologicalOperator;
+                            pGeo = pTopo.Buffer(searchDistance);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                     //pGeo.SpatialReference = ((inFeature.Class as IFeatureClass) as IGeoDataset).SpatialReference;
                     if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != null)
                     {
-                        if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != (sourceLayer.FeatureClass as IGeoDataset).SpatialReference)
-                            pGeo.Project((sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
+                        if (pGeo.SpatialReference != null)
+                        {
+                            if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != pGeo.SpatialReference)
+                                pGeo.Project((sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
+                        }
+
                     }
                     // pGeo.Project(AAState._editor.Map.SpatialReference);
 
@@ -7728,11 +7742,7 @@ namespace A4LGSharedFunctions
                     // sFilter.FilterOwnsGeometry = true;
 
                 }
-                if (searchDistance != 0.0)
-                {
-                    pTopo = pGeo as ITopologicalOperator;
-                    pGeo = pTopo.Buffer(searchDistance);
-                }
+
                 sFilter.Geometry = pGeo;
 
                 return sFilter;
