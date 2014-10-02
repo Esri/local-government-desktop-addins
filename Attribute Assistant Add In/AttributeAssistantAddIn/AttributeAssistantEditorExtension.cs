@@ -3329,6 +3329,7 @@ namespace ArcGIS4LocalGovernment
                                                                 if (inObject.get_Value(fldIDSourecIdx).ToString() != "")
                                                                 {
 
+                                                                    List<Globals.OptionsToPresent> pFoundFeat = new List<Globals.OptionsToPresent>();
 
                                                                     for (int i = 0; i < targetLayerNames.Length; i++)
                                                                     {
@@ -3361,22 +3362,32 @@ namespace ArcGIS4LocalGovernment
 
                                                                                     }
                                                                                     IFeatureCursor pCurs;
+                                                                                    IFeatureSelection pFeatSel;
+                                                                                    pFeatSel = (IFeatureSelection)sourceLayer;
+                                                                                    if (pFeatSel.SelectionSet.Count > 0)
+                                                                                    {
+                                                                                        ICursor pCurstemp;
+                                                                                        pFeatSel.SelectionSet.Search(pQFilt, true, out pCurstemp);
+                                                                                        pCurs = (IFeatureCursor)pCurstemp;
 
-                                                                                    pCurs = sourceLayer.FeatureClass.Search(pQFilt, true);
+                                                                                    }
+                                                                                    else
+                                                                                    {
+
+                                                                                        pCurs = sourceLayer.FeatureClass.Search(pQFilt, true);
+                                                                                    }
+
                                                                                     IFeature pRow;
                                                                                     while ((pRow = pCurs.NextFeature()) != null)
                                                                                     {
-                                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
-                                                                                        try
-                                                                                        {
-                                                                                            inObject.set_Value(intFldIdxs[0], pRow.get_Value(fldValToCopyIdx));
-                                                                                            break;
+                                                                                        Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
 
-                                                                                        }
-                                                                                        catch
-                                                                                        {
-                                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + inObject.get_Value(fldValToCopyIdx) + " to field: " + strFldNames[0]);
-                                                                                        }
+                                                                                        pOp.Display = Globals.GetDomainDisplay(pRow.get_Value(fldValToCopyIdx), pRow as IObject, sourceLayer.FeatureClass.Fields.get_Field(fieldCopy));
+                                                                                        pOp.Value = pRow.get_Value(fldValToCopyIdx);
+                                                                                        pOp.OID = pRow.OID;
+                                                                                        pOp.LayerName = targetLayerName;
+
+                                                                                        pFoundFeat.Add(pOp);
 
                                                                                         pRow = null;
                                                                                     }
@@ -3400,74 +3411,116 @@ namespace ArcGIS4LocalGovernment
                                                                             else
                                                                             {
 
-                                                                                ITable pTable = Globals.FindTable(AAState._editor.Map, targetLayerName);
-                                                                                if (pTable != null)
+                                                                                IStandaloneTable pSTable = Globals.FindStandAloneTable(AAState._editor.Map, targetLayerName);
+                                                                                if (pSTable != null)
                                                                                 {
-                                                                                    int fldValToCopyIdx = Globals.GetFieldIndex(pTable.Fields, targetFieldName);
-                                                                                    int fldIDTargetIdx = Globals.GetFieldIndex(pTable.Fields, targetIDFieldName);
-                                                                                    if (fldIDTargetIdx > -1 && fldValToCopyIdx > -1)
+                                                                                    if (pSTable.Table != null)
                                                                                     {
-                                                                                        IQueryFilter pQFilt = Globals.createQueryFilter();
-                                                                                        if (pTable.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeString)
+                                                                                        int fldValToCopyIdx = Globals.GetFieldIndex(pSTable.Table.Fields, targetFieldName);
+                                                                                        int fldIDTargetIdx = Globals.GetFieldIndex(pSTable.Table.Fields, targetIDFieldName);
+                                                                                        if (fldIDTargetIdx > -1 && fldValToCopyIdx > -1)
                                                                                         {
-                                                                                            pQFilt.WhereClause = "" + pTable.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString() + "'";
-
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            pQFilt.WhereClause = pTable.Fields.get_Field(fldIDTargetIdx).Name + " = " + inObject.get_Value(fldIDSourecIdx);
-
-                                                                                        }
-                                                                                        ICursor pCurs;
-
-                                                                                        pCurs = pTable.Search(pQFilt, true);
-                                                                                        IRow pRow;
-                                                                                        bool valSet = false;
-                                                                                        pRow = pCurs.NextRow();
-                                                                                        while (pRow != null)
-                                                                                        {
-                                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
-                                                                                            try
+                                                                                            IQueryFilter pQFilt = Globals.createQueryFilter();
+                                                                                            if (pSTable.Table.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeString)
                                                                                             {
-                                                                                                inObject.set_Value(intFldIdxs[0], pRow.get_Value(fldValToCopyIdx));
-
-
-                                                                                                AAState.WriteLine("                  " + pRow.get_Value(fldValToCopyIdx).ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ch"));
-                                                                                                valSet = true;
-                                                                                                break;
+                                                                                                pQFilt.WhereClause = "" + pSTable.Table.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString() + "'";
 
                                                                                             }
-                                                                                            catch
+                                                                                            else
                                                                                             {
-                                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + inObject.get_Value(fldValToCopyIdx) + " to field: " + strFldNames[0]);
-                                                                                            }
+                                                                                                pQFilt.WhereClause = pSTable.Table.Fields.get_Field(fldIDTargetIdx).Name + " = " + inObject.get_Value(fldIDSourecIdx);
 
+                                                                                            }
+                                                                                            ICursor pCurs;
+                                                                                            ITableSelection pTabSel = null;
+
+
+                                                                                            pTabSel = (ITableSelection)pSTable;
+                                                                                            if (pTabSel.SelectionSet.Count > 0)
+                                                                                            {
+                                                                                                pTabSel.SelectionSet.Search(pQFilt, true, out pCurs);
+                                                                                            }
+                                                                                            else
+                                                                                            {
+
+                                                                                                pCurs = pSTable.Table.Search(pQFilt, true);
+                                                                                            }
+                                                                                            IRow pRow;
+                                                                                            bool valSet = false;
                                                                                             pRow = pCurs.NextRow();
+                                                                                            while (pRow != null)
+                                                                                            {
 
+                                                                                                Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
+
+                                                                                                pOp.Display = Globals.GetDomainDisplay(pRow.get_Value(fldValToCopyIdx), pRow as IObject, pSTable.Table.Fields.get_Field(fieldCopy));
+                                                                                                pOp.Value = pRow.get_Value(fldValToCopyIdx);
+                                                                                                pOp.OID = pRow.OID;
+                                                                                                pOp.LayerName = targetLayerName;
+
+                                                                                                pFoundFeat.Add(pOp);
+
+                                                                                                pRow = pCurs.NextRow();
+
+                                                                                            }
+                                                                                            pRow = null;
+                                                                                            if (valSet)
+                                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cd"));
+                                                                                            else
+                                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ce"));
+
+                                                                                            if (pCurs != null)
+                                                                                                Marshal.ReleaseComObject(pCurs);
+                                                                                            pCurs = null;
                                                                                         }
-                                                                                        pRow = null;
-                                                                                        if (valSet)
-                                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cd"));
                                                                                         else
-                                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ce"));
-
-                                                                                        if (pCurs != null)
-                                                                                            Marshal.ReleaseComObject(pCurs);
-                                                                                        pCurs = null;
-
+                                                                                        {
+                                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14k"));
+                                                                                        }
                                                                                     }
                                                                                     else
                                                                                     {
-                                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14k"));
+                                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ax") + targetLayerName);
+                                                                             
                                                                                     }
+                                                                                  
+
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ax") + sourceLayerName);
+                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ax") + targetLayerName);
                                                                                 }
-                                                                                pTable = null;
-
+                                                                                pSTable = null;
                                                                             }
+                                                                        }
+                                                                    }
+                                                                    if (pFoundFeat.Count == 0)
+                                                                    { }
+                                                                    else if (pFoundFeat.Count == 1)
+                                                                    {
+                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
+                                                                        try
+                                                                        {
+                                                                            inObject.set_Value(intFldIdxs[0], pFoundFeat[0].Value);
+
+                                                                        }
+                                                                        catch
+                                                                        {
+                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + pFoundFeat[0].Value + " to field: " + strFldNames[0]);
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList);
+                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
+                                                                        try
+                                                                        {
+                                                                            inObject.set_Value(intFldIdxs[0], strRetVal.Value);
+
+                                                                        }
+                                                                        catch
+                                                                        {
+                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + strRetVal.Value + " to field: " + strFldNames[0]);
                                                                         }
                                                                     }
                                                                 }
@@ -14410,7 +14463,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayer + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + sourceLayerName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
                                                                 }
                                                             }
                                                             else

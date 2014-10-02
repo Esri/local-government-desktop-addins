@@ -1027,7 +1027,7 @@ Namespace My
 
             Public Shared Function GetConfigFiles() As String()
               
-                Dim pPathToUserFolder As String = getUserFolder("ArcGIS4LocalGovernment", "ProjectCostingTools")
+                Dim pPathToUserFolder As String = getUserFolder("ArcGISSolutions", "ProjectCostingTools")
                 If File.Exists(System.IO.Path.Combine(pPathToUserFolder, "ProjectCost.Config")) Then
                     Return {System.IO.Path.Combine(pPathToUserFolder, "ProjectCost.Config")}
 

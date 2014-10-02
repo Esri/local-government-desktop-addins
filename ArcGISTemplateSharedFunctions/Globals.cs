@@ -11056,7 +11056,7 @@ namespace A4LGSharedFunctions
 
             }
         }
-        public static string GetDomainDisplay(object Value, IFeature Feature, IField Field)
+        public static string GetDomainDisplay(object Value, IObject Feature, IField Field)
         {
             try
             {
