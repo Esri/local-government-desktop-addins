@@ -323,5 +323,6 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)Loaded.Config" "C:\Users\mich3661\AppData\Roaming\ArcGISSolutions\ConfigFiles"</PostBuildEvent>
   </PropertyGroup>
 </Project>
