@@ -1013,7 +1013,10 @@ namespace A4WaterUtilities
 
                         if (inFeatures.Class.CLSID.ToString() != pointFLayer.FeatureClass.CLSID.ToString())
                             continue;
-
+                        if (inFeatures.Class.ObjectClassID.ToString() != pointFLayer.FeatureClass.ObjectClassID.ToString())
+                            continue;
+                        if (inFeatures.Class.AliasName.ToString() != pointFLayer.FeatureClass.AliasName.ToString())
+                            continue;
                     }
                     //Report any problems before exiting
                     if (pointFLayer == null)
