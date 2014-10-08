@@ -782,45 +782,53 @@ namespace ArcGIS4LocalGovernment
                     IWorkspaceEdit2 wsEdit = (IWorkspaceEdit2)AAState._editor.EditWorkspace;
                     if (wsEdit.IsInEditOperation == true)
                     {
-                        IDataChangesEx changes = wsEdit.get_EditDataChanges((esriEditDataChangesType)1); // for edit operation
-
-                        IEnumBSTR modClass = changes.ModifiedClasses;
-                        string modItem = modClass.Next();
-                        string classList = "";
-                        while (modItem != null)
+                        try
                         {
-                            classList = classList + modItem;
-                            modItem = modClass.Next();
-                            if (modItem != null)
-                                classList = classList + ", ";
-                        }
-                        string classItem = classList.Split(',')[0]; // might be a better way, but if this is "add selected" it should only be 1 class...
-                        classItem = classItem.Substring(classItem.LastIndexOf('.') + 1).ToUpper();
-                        //IFIDSet ids = changes.get_ChangedIDs(classItem,(esriDifferenceType)2); // get updates, there must be only 1...
-                        //int fID;
-                        //ids.Next(out fID);
-                        //int oid = 0;
-                        //while(fID != -1)
-                        //{
-                        //    oid = fID;
-                        //    ids.Next(out fID);
-                        //}
-                        // loop through selected features and find the selected on that matches this edit operation
-                        //
-                        if (AAState._editor.SelectionCount > 0)
-                        {
-                            IEnumFeature selection = AAState._editor.EditSelection;
-                            IObject obj = selection.Next();
-                            while (obj != null)
+                            
+                            IDataChangesEx changes = wsEdit.get_EditDataChanges(esriEditDataChangesType.esriEditDataChangesWithinOperation); // for edit operation
+                            IEnumBSTR modClass = changes.ModifiedClasses;
+                            string modItem = modClass.Next();
+                            string classList = "";
+                            while (modItem != null)
                             {
-                                if (classItem == obj.Class.AliasName.ToUpper())
-                                {
-                                    changeFeature((IObject)obj);
-                                }
-                                obj = selection.Next();
+                                classList = classList + modItem;
+                                modItem = modClass.Next();
+                                if (modItem != null)
+                                    classList = classList + ", ";
                             }
+                            string classItem = classList.Split(',')[0]; // might be a better way, but if this is "add selected" it should only be 1 class...
+                            classItem = classItem.Substring(classItem.LastIndexOf('.') + 1).ToUpper();
+                            //IFIDSet ids = changes.get_ChangedIDs(classItem,(esriDifferenceType)2); // get updates, there must be only 1...
+                            //int fID;
+                            //ids.Next(out fID);
+                            //int oid = 0;
+                            //while(fID != -1)
+                            //{
+                            //    oid = fID;
+                            //    ids.Next(out fID);
+                            //}
+                            // loop through selected features and find the selected on that matches this edit operation
+                            //
+                            if (AAState._editor.SelectionCount > 0)
+                            {
+                                IEnumFeature selection = AAState._editor.EditSelection;
+                                IObject obj = selection.Next();
+                                while (obj != null)
+                                {
+                                    if (classItem == obj.Class.AliasName.ToUpper())
+                                    {
+                                        changeFeature((IObject)obj);
+                                    }
+                                    obj = selection.Next();
+                                }
 
+                            }
                         }
+                        catch
+                        { 
+                        
+                        }
+                        
                     }
                 }
                 AAState._onStopOperationEvent = true; // indicate this was a stop operation event so onchange doesn't fire 2x
