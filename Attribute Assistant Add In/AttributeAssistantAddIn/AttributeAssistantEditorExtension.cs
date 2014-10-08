@@ -11082,9 +11082,11 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bp") + testField.Name + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bq"));
                                                             int fldLen = strTmpFldName.Length;
-                                                            string tmpStr1 = newValue.Substring(0, indFld + 1);
-                                                            string tmpStr2 = newValue.Substring(indFld + fldLen + 1);
-                                                            newValue = tmpStr1 + "_REPLACE_VAL_" + tmpStr2;
+                                                            newValue = newValue.Replace("[" + strTmpFldName + "]", "[_REPLACE_VAL_]");
+
+                                                            //string tmpStr1 = newValue.Substring(0, indFld + 1);
+                                                            //string tmpStr2 = newValue.Substring(indFld + fldLen + 1);
+                                                            //newValue = tmpStr1 + "_REPLACE_VAL_" + tmpStr2;
 
                                                             switch (testField.Type)
                                                             {
@@ -11128,10 +11130,9 @@ namespace ArcGIS4LocalGovernment
                                                                             newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "False");
                                                                         }
 
-                                                                        else
-                                                                        {
+                                                                        
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
-                                                                        }
+                                                                        
                                                                     }
 
 
@@ -11178,10 +11179,9 @@ namespace ArcGIS4LocalGovernment
                                                                             newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "False");
                                                                         }
 
-                                                                        else
-                                                                        {
+                                                                      
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
-                                                                        }
+                                                                        
                                                                     }
 
 
@@ -11229,9 +11229,7 @@ namespace ArcGIS4LocalGovernment
                                                                             newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "False");
                                                                         }
 
-                                                                        else
-                                                                        {
-
+                                                                      
                                                                             double val;
                                                                             Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
 
@@ -11248,7 +11246,7 @@ namespace ArcGIS4LocalGovernment
                                                                             nfi.NumberDecimalDigits = intDigits;
 
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", val.ToString("N", nfi));
-                                                                        }
+                                                                        
                                                                     }
 
                                                                     break;
@@ -11292,11 +11290,10 @@ namespace ArcGIS4LocalGovernment
                                                                             newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "False");
                                                                         }
 
-                                                                        else
-                                                                        {
+                                                                        
 
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", inObject.get_Value(intTmpIdx).ToString());
-                                                                        }
+                                                                        
                                                                     }
 
                                                                     break;
