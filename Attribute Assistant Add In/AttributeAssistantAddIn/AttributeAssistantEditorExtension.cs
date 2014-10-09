@@ -782,45 +782,53 @@ namespace ArcGIS4LocalGovernment
                     IWorkspaceEdit2 wsEdit = (IWorkspaceEdit2)AAState._editor.EditWorkspace;
                     if (wsEdit.IsInEditOperation == true)
                     {
-                        IDataChangesEx changes = wsEdit.get_EditDataChanges((esriEditDataChangesType)1); // for edit operation
+                        try
+                        {
 
-                        IEnumBSTR modClass = changes.ModifiedClasses;
-                        string modItem = modClass.Next();
-                        string classList = "";
-                        while (modItem != null)
-                        {
-                            classList = classList + modItem;
-                            modItem = modClass.Next();
-                            if (modItem != null)
-                                classList = classList + ", ";
-                        }
-                        string classItem = classList.Split(',')[0]; // might be a better way, but if this is "add selected" it should only be 1 class...
-                        classItem = classItem.Substring(classItem.LastIndexOf('.') + 1).ToUpper();
-                        //IFIDSet ids = changes.get_ChangedIDs(classItem,(esriDifferenceType)2); // get updates, there must be only 1...
-                        //int fID;
-                        //ids.Next(out fID);
-                        //int oid = 0;
-                        //while(fID != -1)
-                        //{
-                        //    oid = fID;
-                        //    ids.Next(out fID);
-                        //}
-                        // loop through selected features and find the selected on that matches this edit operation
-                        //
-                        if (AAState._editor.SelectionCount > 0)
-                        {
-                            IEnumFeature selection = AAState._editor.EditSelection;
-                            IObject obj = selection.Next();
-                            while (obj != null)
+                            IDataChangesEx changes = wsEdit.get_EditDataChanges(esriEditDataChangesType.esriEditDataChangesWithinOperation); // for edit operation
+                            IEnumBSTR modClass = changes.ModifiedClasses;
+                            string modItem = modClass.Next();
+                            string classList = "";
+                            while (modItem != null)
                             {
-                                if (classItem == obj.Class.AliasName.ToUpper())
-                                {
-                                    changeFeature((IObject)obj);
-                                }
-                                obj = selection.Next();
+                                classList = classList + modItem;
+                                modItem = modClass.Next();
+                                if (modItem != null)
+                                    classList = classList + ", ";
                             }
+                            string classItem = classList.Split(',')[0]; // might be a better way, but if this is "add selected" it should only be 1 class...
+                            classItem = classItem.Substring(classItem.LastIndexOf('.') + 1).ToUpper();
+                            //IFIDSet ids = changes.get_ChangedIDs(classItem,(esriDifferenceType)2); // get updates, there must be only 1...
+                            //int fID;
+                            //ids.Next(out fID);
+                            //int oid = 0;
+                            //while(fID != -1)
+                            //{
+                            //    oid = fID;
+                            //    ids.Next(out fID);
+                            //}
+                            // loop through selected features and find the selected on that matches this edit operation
+                            //
+                            if (AAState._editor.SelectionCount > 0)
+                            {
+                                IEnumFeature selection = AAState._editor.EditSelection;
+                                IObject obj = selection.Next();
+                                while (obj != null)
+                                {
+                                    if (classItem == obj.Class.AliasName.ToUpper())
+                                    {
+                                        changeFeature((IObject)obj);
+                                    }
+                                    obj = selection.Next();
+                                }
+
+                            }
+                        }
+                        catch
+                        {
 
                         }
+
                     }
                 }
                 AAState._onStopOperationEvent = true; // indicate this was a stop operation event so onchange doesn't fire 2x
@@ -3481,9 +3489,9 @@ namespace ArcGIS4LocalGovernment
                                                                                     else
                                                                                     {
                                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ax") + targetLayerName);
-                                                                             
+
                                                                                     }
-                                                                                  
+
 
                                                                                 }
                                                                                 else
@@ -3908,7 +3916,7 @@ namespace ArcGIS4LocalGovernment
                                                         if (sourceLayer != null)
                                                         {
 
-                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false);
+                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false,AAState._editor.Map.SpatialReference);
 
                                                             pFS = (IFeatureSelection)sourceLayer;
                                                             if (boolLayerOrFC)
@@ -5262,7 +5270,7 @@ namespace ArcGIS4LocalGovernment
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain67") + intersectLayerName);
                                                                         double snapTol = Globals.GetXYTolerance(intersectLayer);
-                                                                        sFilter = Globals.createSpatialFilter(intersectLayer, inFeature, false);
+                                                                        sFilter = Globals.createSpatialFilter(intersectLayer, inFeature, false, AAState._editor.Map.SpatialReference);
 
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain68"));
 
@@ -5551,13 +5559,13 @@ namespace ArcGIS4LocalGovernment
 
                                                                         if (searchDistance > 0)
                                                                         {
-                                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false);
+                                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false,(ISpatialReference) AAState._editor.Map.SpatialReference);
 
 
                                                                         }
                                                                         else
                                                                         {
-                                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false);
+                                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false, AAState._editor.Map.SpatialReference);
 
                                                                         }
 
@@ -9629,7 +9637,7 @@ namespace ArcGIS4LocalGovernment
                                                                             if (inObject.Class.ObjectClassID != sourceLayer.FeatureClass.ObjectClassID)
                                                                             {
 
-                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false);
+                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false, AAState._editor.Map.SpatialReference);
 
                                                                                 pFS = (IFeatureSelection)sourceLayer;
                                                                                 if (boolLayerOrFC)
@@ -10865,7 +10873,7 @@ namespace ArcGIS4LocalGovernment
                                                     pSearchGeo.SpatialReference = (inFeature.Class as IGeoDataset).SpatialReference;
                                                     pSearchGeo.Project((intersectLayer as IGeoDataset).SpatialReference);
 
-                                                    sFilter = Globals.createSpatialFilter(intersectLayer, inFeature, false);
+                                                    sFilter = Globals.createSpatialFilter(intersectLayer, inFeature, false, AAState._editor.Map.SpatialReference);
 
                                                     pFS = (IFeatureSelection)intersectLayer;
                                                     if (boolLayerOrFC)
@@ -11074,9 +11082,11 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bp") + testField.Name + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bq"));
                                                             int fldLen = strTmpFldName.Length;
-                                                            string tmpStr1 = newValue.Substring(0, indFld + 1);
-                                                            string tmpStr2 = newValue.Substring(indFld + fldLen + 1);
-                                                            newValue = tmpStr1 + "_REPLACE_VAL_" + tmpStr2;
+                                                            newValue = newValue.Replace("[" + strTmpFldName + "]", "[_REPLACE_VAL_]");
+
+                                                            //string tmpStr1 = newValue.Substring(0, indFld + 1);
+                                                            //string tmpStr2 = newValue.Substring(indFld + fldLen + 1);
+                                                            //newValue = tmpStr1 + "_REPLACE_VAL_" + tmpStr2;
 
                                                             switch (testField.Type)
                                                             {
@@ -11120,10 +11130,9 @@ namespace ArcGIS4LocalGovernment
                                                                             newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "False");
                                                                         }
 
-                                                                        else
-                                                                        {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
-                                                                        }
+
+                                                                        newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+
                                                                     }
 
 
@@ -11170,10 +11179,9 @@ namespace ArcGIS4LocalGovernment
                                                                             newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "False");
                                                                         }
 
-                                                                        else
-                                                                        {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
-                                                                        }
+
+                                                                        newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
+
                                                                     }
 
 
@@ -11221,26 +11229,24 @@ namespace ArcGIS4LocalGovernment
                                                                             newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "False");
                                                                         }
 
+
+                                                                        double val;
+                                                                        Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
+
+
+                                                                        int intDigits = 2;
+                                                                        if (val.ToString().IndexOf(".") >= 0)
+                                                                        {
+                                                                            intDigits = val.ToString().Split('.')[1].Length;
+                                                                        }
                                                                         else
                                                                         {
-
-                                                                            double val;
-                                                                            Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
-
-
-                                                                            int intDigits = 2;
-                                                                            if (val.ToString().IndexOf(".") >= 0)
-                                                                            {
-                                                                                intDigits = val.ToString().Split('.')[1].Length;
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                intDigits = 2;
-                                                                            }
-                                                                            nfi.NumberDecimalDigits = intDigits;
-
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", val.ToString("N", nfi));
+                                                                            intDigits = 2;
                                                                         }
+                                                                        nfi.NumberDecimalDigits = intDigits;
+
+                                                                        newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", val.ToString("N", nfi));
+
                                                                     }
 
                                                                     break;
@@ -11284,11 +11290,10 @@ namespace ArcGIS4LocalGovernment
                                                                             newValue = newValue.Replace("IsNull([" + "_REPLACE_VAL_" + "])", "False");
                                                                         }
 
-                                                                        else
-                                                                        {
 
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", inObject.get_Value(intTmpIdx).ToString());
-                                                                        }
+
+                                                                        newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", inObject.get_Value(intTmpIdx).ToString());
+
                                                                     }
 
                                                                     break;
@@ -11659,7 +11664,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                                 if (sourceField > -1)
                                                                                 {
-                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false);
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false, AAState._editor.Map.SpatialReference);
 
 
                                                                                     int fldIdx = Globals.GetFieldIndex(inFeature.Fields, targetFieldName);
@@ -12008,7 +12013,7 @@ namespace ArcGIS4LocalGovernment
                                                                             if (sourceField > -1)
                                                                             {
 
-                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false);
+                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false, AAState._editor.Map.SpatialReference);
 
 
                                                                                 pFS = (IFeatureSelection)sourceLayer;
@@ -12208,7 +12213,7 @@ namespace ArcGIS4LocalGovernment
                                                                             if (sourceField > -1)
                                                                             {
 
-                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false);
+                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false, AAState._editor.Map.SpatialReference);
 
                                                                                 pFS = (IFeatureSelection)sourceLayer;
                                                                                 if (boolLayerOrFC)
@@ -12558,7 +12563,7 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     if (sourceLayer.FeatureClass != null)
                                                                     {
-                                                                        sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false);
+                                                                        sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false, AAState._editor.Map.SpatialReference);
 
                                                                         if (boolLayerOrFC)
                                                                         {
@@ -13036,13 +13041,13 @@ namespace ArcGIS4LocalGovernment
                                                                                     dblTol = dblTol2;
                                                                                 }
 
-                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, dblTol, strOpt == AAState.intersectOptions.Centroid);
+                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                 pSRResolution = null;
                                                                                 pSRResolution2 = null;
                                                                             }
                                                                             catch
                                                                             {
-                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid);
+                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
 
                                                                             }
                                                                             if (sFilter == null)
@@ -13498,7 +13503,7 @@ namespace ArcGIS4LocalGovernment
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain136") + sourceLayer.Name);
 
 
-                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid);
+                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                     if (sFilter == null)
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain137"));
@@ -14024,7 +14029,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                 if (sourceField > -1)
                                                                 {
-                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false);
+                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false, AAState._editor.Map.SpatialReference);
 
                                                                     pFS = (IFeatureSelection)sourceLayer;
                                                                     if (boolLayerOrFC)
@@ -14285,7 +14290,7 @@ namespace ArcGIS4LocalGovernment
                                                                     if (sourceField > -1)
                                                                     {
 
-                                                                        sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false);
+                                                                        sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false, AAState._editor.Map.SpatialReference);
                                                                         pFS = (IFeatureSelection)sourceLayer;
                                                                         if (boolLayerOrFC)
                                                                         {

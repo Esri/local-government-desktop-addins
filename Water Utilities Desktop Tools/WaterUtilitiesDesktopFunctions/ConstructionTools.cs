@@ -1017,6 +1017,7 @@ namespace A4WaterUtilities
                             continue;
                         if (inFeatures.Class.AliasName.ToString() != pointFLayer.FeatureClass.AliasName.ToString())
                             continue;
+
                     }
                     //Report any problems before exiting
                     if (pointFLayer == null)
@@ -1761,7 +1762,7 @@ namespace A4WaterUtilities
                     CreateToAndTurnPoints(mainCurve, thisPoint, out toPoint, out turnPoint, doglegDistance, DistAsPercent);
 
                     //Create the new line
-                    polyline = Globals.CreatePolylineFromPointsNewTurn(thisPoint, turnPoint, toPoint, ref matchLineFLayer, ref lineFeature, SearchOnLayer, angle);
+                    polyline = Globals.CreatePolylineFromPointsNewTurn(thisPoint, turnPoint, toPoint, ref matchLineFLayer, ref lineFeature, SearchOnLayer, angle, editor.Map.SpatialReference);
                     //If requested, store pipe id in the point
                     StorePipeInfoPointFeature(lineFeature, pointFeature, fromToPairs, store);
 
@@ -1932,7 +1933,7 @@ namespace A4WaterUtilities
 
                     //Create the new base line (possibly hooked)
 
-                    polyline = Globals.CreatePolylineFromPointsNewTurn(joinPoint, turnPoint, toPoint, ref matchLineFLayer, ref lineFeature, SearchOnLayer, angle);
+                    polyline = Globals.CreatePolylineFromPointsNewTurn(joinPoint, turnPoint, toPoint, ref matchLineFLayer, ref lineFeature, SearchOnLayer, angle,editor.Map.SpatialReference);
 
 
                     //If requested, store pipe id in the point
