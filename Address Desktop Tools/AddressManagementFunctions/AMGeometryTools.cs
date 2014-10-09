@@ -359,7 +359,7 @@ namespace A4LGAddressManagement
                             if (!oidProcessed.Contains(id))
                             {
                                 featSelectedLine = fc.GetFeature(id);
-                                pSpatFilt = Globals.createSpatialFilter(fLayer, featSelectedLine.Shape, false);
+                                pSpatFilt = Globals.createSpatialFilter(fLayer, featSelectedLine.Shape, false, map.SpatialReference);
 
                                 pFeatCurs = fLayer.FeatureClass.Search(pSpatFilt, true);
                                 while ((featIntersectLine = pFeatCurs.NextFeature()) != null)
@@ -1314,7 +1314,7 @@ namespace A4LGAddressManagement
 
                 locationForDebug = "About to search for OIDS" + pNewFeat.OID;
 
-                List<int> intOIDs = Globals.GetIntersectingFeaturesOIDs(pNewFeat.ShapeCopy, fLayer, false, pNewFeat.OID);
+                List<int> intOIDs = Globals.GetIntersectingFeaturesOIDs(pNewFeat.ShapeCopy, fLayer, false, pNewFeat.OID, map.SpatialReference);
                 if (intOIDs == null)
                     return;
                 if (intOIDs.Count == 0)

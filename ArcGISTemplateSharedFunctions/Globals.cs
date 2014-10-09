@@ -7622,7 +7622,7 @@ namespace A4LGSharedFunctions
             }
         }
 
-        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IGeometry inGeo, double searchDistance, bool useCentroid)
+        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IGeometry inGeo, double searchDistance, bool useCentroid,ISpatialReference mapSpatRef )
         {
             IGeometry pGeo = null;
             ISpatialFilter sFilter = null;
@@ -7639,7 +7639,7 @@ namespace A4LGSharedFunctions
 
 
                 if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != null)
-                    sFilter.set_OutputSpatialReference(sourceLayer.FeatureClass.ShapeFieldName, (sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
+                    sFilter.set_OutputSpatialReference(sourceLayer.FeatureClass.ShapeFieldName, mapSpatRef);//(sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
                 //sFilter.set_OutputSpatialReference(sourceLayer.FeatureClass.ShapeFieldName, AAState._editor.Map.SpatialReference);
                 if (inGeo.GeometryType == esriGeometryType.esriGeometryPoint)
                 {
@@ -7648,10 +7648,23 @@ namespace A4LGSharedFunctions
                     {
                         //double dblTol = .001;
                         pSourceGeo = inGeo as IPoint;
+                        try
+                        {
+                            if (searchDistance != 0.0)
+                            {
+                                pTopo = inGeo as ITopologicalOperator;
+                                pSourceGeo = pTopo.Buffer(searchDistance);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                        
                         //pSourceGeo.SpatialReference = ((inFeature.Class as IFeatureClass) as IGeoDataset).SpatialReference;
                         if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != null)
                         {
-                            pSourceGeo.Project((sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
+                            //pSourceGeo.Project((sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
+                            pSourceGeo.Project(mapSpatRef);
                             //pSourceGeo.Project(AAState._editor.Map.SpatialReference);
                         }
 
@@ -7761,20 +7774,20 @@ namespace A4LGSharedFunctions
                 pTopo = null;
             }
         }
-        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IFeature inFeature, double searchDistance, bool useCentroid)
+        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IFeature inFeature, double searchDistance, bool useCentroid, ISpatialReference mapSpatRef)
         {
-            return createSpatialFilter(sourceLayer, inFeature.ShapeCopy, searchDistance, useCentroid);
+            return createSpatialFilter(sourceLayer, inFeature.ShapeCopy, searchDistance, useCentroid, mapSpatRef);
 
         }
 
-        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IFeature inFeature, bool useCentroid)
+        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IFeature inFeature, bool useCentroid, ISpatialReference mapSpatRef)
         {
-            return createSpatialFilter(sourceLayer, inFeature, 0.0, useCentroid);
+            return createSpatialFilter(sourceLayer, inFeature, 0.0, useCentroid, mapSpatRef);
 
         }
-        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IGeometry inGeo, bool useCentroid)
+        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IGeometry inGeo, bool useCentroid, ISpatialReference mapSpatRef)
         {
-            return createSpatialFilter(sourceLayer, inGeo, 0.0, useCentroid);
+            return createSpatialFilter(sourceLayer, inGeo, 0.0, useCentroid, mapSpatRef);
 
         }
         public enum statsType
@@ -9362,7 +9375,7 @@ namespace A4LGSharedFunctions
             }
         }
 
-        public static List<IFeature> GetIntersectingFeatures(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, bool boolRecycle, int IgnoreOID)
+        public static List<IFeature> GetIntersectingFeatures(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, bool boolRecycle, int IgnoreOID,ISpatialReference mapSpatRef)
         {
 
             ISpatialFilter pSpatFilt = null;
@@ -9371,7 +9384,7 @@ namespace A4LGSharedFunctions
             IFeature pFeat = null;
             try
             {
-                pSpatFilt = createSpatialFilter(pLayerToSearch, pSourceGeo, false);
+                pSpatFilt = createSpatialFilter(pLayerToSearch, pSourceGeo, false, mapSpatRef);
                 if (boolSearchLayer)
                     pFeatCurs = pLayerToSearch.Search(pSpatFilt, boolRecycle);
                 else
@@ -9406,7 +9419,7 @@ namespace A4LGSharedFunctions
 
 
         }
-        public static List<IGeometry> GetIntersectingGeometry(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, bool boolRecycle, int IgnoreOID)
+        public static List<IGeometry> GetIntersectingGeometry(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, bool boolRecycle, int IgnoreOID,ISpatialReference mapSpatRef)
         {
 
             ISpatialFilter pSpatFilt = null;
@@ -9415,7 +9428,7 @@ namespace A4LGSharedFunctions
             IFeature pFeat = null;
             try
             {
-                pSpatFilt = createSpatialFilter(pLayerToSearch, pSourceGeo, false);
+                pSpatFilt = createSpatialFilter(pLayerToSearch, pSourceGeo, false, mapSpatRef);
                 if (boolSearchLayer)
                     pFeatCurs = pLayerToSearch.Search(pSpatFilt, boolRecycle);
                 else
@@ -9451,7 +9464,7 @@ namespace A4LGSharedFunctions
 
         }
 
-        public static List<int> GetIntersectingFeaturesOIDs(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, int IgnoreOID)
+        public static List<int> GetIntersectingFeaturesOIDs(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, int IgnoreOID, ISpatialReference mapSpatRef)
         {
 
             ISpatialFilter pSpatFilt = null;
@@ -9460,7 +9473,7 @@ namespace A4LGSharedFunctions
             IFeature pFeat = null;
             try
             {
-                pSpatFilt = createSpatialFilter(pLayerToSearch, pSourceGeo, false);
+                pSpatFilt = createSpatialFilter(pLayerToSearch, pSourceGeo, false, mapSpatRef);
 
                 //   bool fit = pSpatFilt.FilterOwnsGeometry;
 
@@ -9969,7 +9982,7 @@ namespace A4LGSharedFunctions
 
         }
 
-        public static IPolyline CreatePolylineFromPointsNewTurn(IPoint fromPoint, IPoint turnPoint, IPoint toPoint, ref IFeatureLayer pMainLayer, ref IFeature lineFeature, bool SearchOnLayer, double angle)
+        public static IPolyline CreatePolylineFromPointsNewTurn(IPoint fromPoint, IPoint turnPoint, IPoint toPoint, ref IFeatureLayer pMainLayer, ref IFeature lineFeature, bool SearchOnLayer, double angle, ISpatialReference mapSpat)
         {
             object Missing = null;
             IPolyline newPolyLine = null;
@@ -10155,7 +10168,7 @@ namespace A4LGSharedFunctions
                         }
                         else
                         {
-                            pIntGeo = Globals.GetIntersectingGeometry(newPolyLine, pMainLayer, false, true, -1);
+                            pIntGeo = Globals.GetIntersectingGeometry(newPolyLine, pMainLayer, false, true, -1, mapSpat);
 
                             if (pIntGeo.Count > 0)
                             {
@@ -10204,7 +10217,7 @@ namespace A4LGSharedFunctions
                             else
                             {
 
-                                pIntGeo = Globals.GetIntersectingGeometry(newPolyLine, pMainLayer, false, true, -1);
+                                pIntGeo = Globals.GetIntersectingGeometry(newPolyLine, pMainLayer, false, true, -1, mapSpat);
 
                                 if (pIntGeo.Count > 0)
                                 {
