@@ -3994,7 +3994,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ERROR TURNING ON THE AA, Restart ArcMap.
+        ///   Looks up a localized string similar to No features selected.
         /// </summary>
         internal static string AttributeAssistantError_2a {
             get {

@@ -603,7 +603,7 @@ namespace ArcGIS4LocalGovernment
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantError_2a"));
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a ) + " " + ex.Message"));
 
                             }
 
@@ -1671,7 +1671,7 @@ namespace ArcGIS4LocalGovernment
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantError_2a"));
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a ) + " " + ex.Message"));
 
                             }
 
