@@ -1627,7 +1627,7 @@
     <value>                  script to process: </value>
   </data>
   <data name="AttributeAssistantError_2a" xml:space="preserve">
-    <value>ERROR TURNING ON THE AA, Restart ArcMap</value>
+    <value>No features selected</value>
   </data>
   <data name="AttributeAssistantMess_2b" xml:space="preserve">
     <value>AA - Removed the Feature Change event to run the change rules</value>

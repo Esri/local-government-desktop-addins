@@ -276,10 +276,12 @@
     <EmbeddedResource Include="UserMessages.es-ES.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UserMessages.es-ES.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserMessages.fr-FR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UserMessages.fr-FR.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
