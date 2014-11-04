@@ -483,6 +483,7 @@ namespace A4LGAddressManagement
 
         }
 
+
         public static void FlipLines(IApplication app, List<AddressCenterlineDetails> pAddressDet, bool FlipRanges)
         {
             IEditor editor = null;
@@ -496,7 +497,7 @@ namespace A4LGAddressManagement
             IFeatureSelection fSel = null;
             IFeatureLayer fLayer = null;
 
-
+            bool bRoadFlipped = false;
             int LFidx, LTidx, RFidx, RTidx;
 
             try
@@ -530,7 +531,7 @@ namespace A4LGAddressManagement
 
                 //Get highlighted layer in the TOC
                 mxdoc = app.Document as IMxDocument;
-               // bool foundAsFC = false;
+                // bool foundAsFC = false;
                 layers = Globals.FindLayersByClassName(app, pAddressDet[0].FeatureClassName);
                 // Maintain OId list
                 if (layers == null)
@@ -590,7 +591,7 @@ namespace A4LGAddressManagement
                     //Verify it has some features selected
                     if (fSel.SelectionSet.Count < 1)
                     {
-                        //  MessageBox.Show("No features selected in the " + pAddressDet[0].FeatureClassName + " Layer.");
+                        //MessageBox.Show("No features selected in the " + pAddressDet[0].FeatureClassName + " Layer.");
                         continue;
                     }
 
@@ -656,7 +657,7 @@ namespace A4LGAddressManagement
                                     feat.set_Value(RTidx, TempVal);
                                 }
                                 oidProcessed.Add(feat.OID);
-
+                                bRoadFlipped = true;
                                 feat.Store();
                             }
                         }
@@ -678,10 +679,24 @@ namespace A4LGAddressManagement
                     }
                     // Stop the edit operation 
                 }
-                editor.StopOperation("Address Flip Lines");
-                MessageBox.Show("Address lines flipped");
 
-                mxdoc.ActiveView.Refresh();
+
+                if (bRoadFlipped)
+                {
+                    editor.StopOperation("Address Flip Lines");
+                    MessageBox.Show("Address lines flipped");
+
+                    mxdoc.ActiveView.Refresh();
+
+
+
+                }
+                else
+                {
+                    MessageBox.Show("No Features Selected, please select some features and try again");
+                    editor.AbortOperation();
+
+                }
 
             }
             catch (Exception ex)
@@ -707,7 +722,7 @@ namespace A4LGAddressManagement
 
         }
         public static AddressReturnInfo AddPointWithRef(IApplication app, IPoint pPnt, List<CreatePointWithReferenceDetails> createPointDetails,
-            ILayer targetLayer, ref int idxConfig)
+          ILayer targetLayer, ref int idxConfig)
         {
             //ISpatialFilter sFilter= null;
             //IFeatureCursor pFeatCur = null;
