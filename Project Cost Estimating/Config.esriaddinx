@@ -1,7 +1,7 @@
 ﻿
 <!--
- | Version 10.2
- | Copyright 2013 Esri
+ | Version 10.1
+ | Copyright 2014 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -22,12 +22,12 @@
   <AddInID>{7a5d203d-aa12-43bc-895e-443a7536b6ab}</AddInID>
   <Description>A cost estimating toolset for ArcGIS.  This toolset uses existing GIS Information and a series of lookup tables to provide a replacement or rehad cost for an asset.  It can also be used to design or sketch new infrastructure.</Description>
 
-   <Version>10.1.13</Version>
+   <Version>10.1.14</Version>
   <Image>Images\CIPAddIn64.png</Image>
  
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>10/9/2014</Date>
+  <Date>11/4/2014</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>

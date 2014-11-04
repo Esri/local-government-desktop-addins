@@ -1,6 +1,6 @@
 ﻿<!--
- | Version 10.2
- | Copyright 2013 Esri
+ | Version 10.1
+ | Copyright 2014 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@
   <Name>Water Utility Network Tools</Name>
   <AddInID>{FD20EAB0-7ACB-4B35-AA41-753157745FD0}</AddInID>
   <Description>ArcMap tools for Water, Wastewater and Stormwater</Description>
-   <Version>10.1.13</Version>
+   <Version>10.1.14</Version>
   <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>10/9/2014</Date>
+  <Date>11/4/2014</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>

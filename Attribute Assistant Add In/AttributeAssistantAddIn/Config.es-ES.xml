@@ -1,6 +1,6 @@
 ﻿<!--
- | Version 10.2
- | Copyright 2013 Esri
+ | Version 10.1
+ | Copyright 2014 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@
   <Name>Attribute Assistant</Name>
   <AddInID>{5CAD338F-775E-44D8-A342-8DC123BF8E7B}</AddInID>
   <Description>Allows attributes to be automatically populated as features are created or modified based on a series of user defined rules.</Description>
-   <Version>10.1.13</Version>
+   <Version>10.1.14</Version>
   <Image>Images\AttributeAssistantAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>10/9/2014</Date>
+  <Date>11/4/2014</Date>
   <Targets>
     <Target name="Desktop" version="10.2" />
   </Targets>
