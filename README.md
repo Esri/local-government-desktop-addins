@@ -80,5 +80,5 @@ limitations under the License.
 A copy of the license is available in the repository's
 [LICENSE.txt](LICENSE.txt) file.
 
-[](Esri Tags: Local-Government Water-Utility Utility Utilities Local Government Desktop Addins Water Attribute-Assistant Desktop-Addins Water-Utility-Network-Editing Water-Utility-Network-Reporting Capital-Planning Visual-Basic)
+[](Esri Tags: ArcGISSolutions Local-Government Water-Utility Utility Utilities Local Government Desktop Addins Water Attribute-Assistant Desktop-Addins Water-Utility-Network-Editing Water-Utility-Network-Reporting Capital-Planning Visual-Basic)
 [](Esri Language: C-Sharp)
