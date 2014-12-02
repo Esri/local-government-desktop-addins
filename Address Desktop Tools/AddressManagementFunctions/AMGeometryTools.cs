@@ -483,6 +483,7 @@ namespace A4LGAddressManagement
 
         }
 
+
         public static void FlipLines(IApplication app, List<AddressCenterlineDetails> pAddressDet, bool FlipRanges)
         {
             IEditor editor = null;
@@ -530,7 +531,7 @@ namespace A4LGAddressManagement
 
                 //Get highlighted layer in the TOC
                 mxdoc = app.Document as IMxDocument;
-               // bool foundAsFC = false;
+                // bool foundAsFC = false;
                 layers = Globals.FindLayersByClassName(app, pAddressDet[0].FeatureClassName);
                 // Maintain OId list
                 if (layers == null)
@@ -720,7 +721,7 @@ namespace A4LGAddressManagement
 
         }
         public static AddressReturnInfo AddPointWithRef(IApplication app, IPoint pPnt, List<CreatePointWithReferenceDetails> createPointDetails,
-            ILayer targetLayer, ref int idxConfig)
+          ILayer targetLayer, ref int idxConfig)
         {
             //ISpatialFilter sFilter= null;
             //IFeatureCursor pFeatCur = null;
