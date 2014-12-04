@@ -6,4 +6,8 @@
     <StartArguments>
     </StartArguments>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files (x86)\ArcGIS\Desktop10.1\bin\ArcMap.exe</StartProgram>
+  </PropertyGroup>
 </Project>
