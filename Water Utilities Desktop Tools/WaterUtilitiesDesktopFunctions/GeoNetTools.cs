@@ -6130,7 +6130,18 @@ namespace A4WaterUtilities
                         pSumFeatBuf.set_Value(resultsCritMeterCountFieldPosition, intCritMeterCount);
                         if (resultsCommentsFieldPosition > 0)
                         {
-                            pSumFeatBuf.set_Value(resultsCommentsFieldPosition, comments);
+                            try
+                            {
+                                if (comments.Length > resultsFC.Fields.get_Field(resultsCommentsFieldPosition).Length)
+                                {
+                                    comments = comments.Substring(0, resultsFC.Fields.get_Field(resultsCommentsFieldPosition).Length - 2);
+                                }
+                                pSumFeatBuf.set_Value(resultsCommentsFieldPosition, comments);
+                            }
+                            catch
+                            {
+                            }
+
                         }
                         pStepPro.Step();
                         pInsCur.InsertFeature(pSumFeatBuf);

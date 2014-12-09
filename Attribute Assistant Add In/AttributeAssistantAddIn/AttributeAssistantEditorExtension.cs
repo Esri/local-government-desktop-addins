@@ -11082,11 +11082,11 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bp") + testField.Name + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bq"));
                                                             int fldLen = strTmpFldName.Length;
-                                                            newValue = newValue.Replace("[" + strTmpFldName + "]", "[_REPLACE_VAL_]");
+                                                            //newValue = newValue.Replace("[" + strTmpFldName + "]", "[_REPLACE_VAL_]");
 
-                                                            //string tmpStr1 = newValue.Substring(0, indFld + 1);
-                                                            //string tmpStr2 = newValue.Substring(indFld + fldLen + 1);
-                                                            //newValue = tmpStr1 + "_REPLACE_VAL_" + tmpStr2;
+                                                            string tmpStr1 = newValue.Substring(0, indFld + 1);
+                                                            string tmpStr2 = newValue.Substring(indFld + fldLen + 1);
+                                                            newValue = tmpStr1 + "_REPLACE_VAL_" + tmpStr2;
 
                                                             switch (testField.Type)
                                                             {
