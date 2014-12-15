@@ -14,14 +14,21 @@ The ArcGIS for Local Government Desktop Add-ins include a series of desktop tool
 
 ## Instructions
 
-### Esri Sample Data
+### Esri Solutions 
 
-Esri's sample data can be [downloaded] (http://www.arcgis.com/home/item.html?id=385978c927124489b4dc6110eded38df) with this repository to extend the desktop add-ins.
+Esri's provides a number of solutions that utilize these toolsets
+* [Address Data Management] http://solutions.arcgis.com/local-government/help/address-management/
+* [Campus Editing] http://solutions.arcgis.com/local-government/help/campus-editing/
+* [Streetlight Inventory] http://solutions.arcgis.com/local-government/help/street-tree-inventory/
+* [Street Tree Inventory] http://solutions.arcgis.com/local-government/help/sign-inventory/
+* [Signal Inventory] http://solutions.arcgis.com/local-government/help/signal-inventory/
+* [Sidewalk Inventory] http://solutions.arcgis.com/local-government/help/sidewalk-inventory/
+* [Water Utility Network Editing] http://solutions.arcgis.com/local-government/water-utilities/help/network-editing/
 
-### Your Services
+### Additional Help
 
-[Detailed help](http://www.arcgis.com/home/item.html?id=1835f8dbd35247369d4281d8914c48ca/)
-on the ArcGIS Resource Center can guide you in the setup and configuration of the desktop add-ins with your data.
+[Detailed help](http://solutions.arcgis.com/local-government/water-utilities/help/network-editing/tools/)
+is provided with each solution on the ArcGIS Solution Site.
 
 ### General Help
 [New to Github? Get started here.](http://htmlpreview.github.com/?https://github.com/Esri/esri.github.com/blob/master/help/esri-getting-to-know-github.html)
