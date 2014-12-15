@@ -17,13 +17,13 @@ The ArcGIS for Local Government Desktop Add-ins include a series of desktop tool
 ### Esri Solutions 
 
 Esri's provides a number of solutions that utilize these toolsets
-* [Address Data Management] http://solutions.arcgis.com/local-government/help/address-management/
-* [Campus Editing] http://solutions.arcgis.com/local-government/help/campus-editing/
-* [Streetlight Inventory] http://solutions.arcgis.com/local-government/help/street-tree-inventory/
-* [Street Tree Inventory] http://solutions.arcgis.com/local-government/help/sign-inventory/
-* [Signal Inventory] http://solutions.arcgis.com/local-government/help/signal-inventory/
-* [Sidewalk Inventory] http://solutions.arcgis.com/local-government/help/sidewalk-inventory/
-* [Water Utility Network Editing] http://solutions.arcgis.com/local-government/water-utilities/help/network-editing/
+* [Address Data Management] (http://solutions.arcgis.com/local-government/help/address-management/)
+* [Campus Editing] (http://solutions.arcgis.com/local-government/help/campus-editing/)
+* [Streetlight Inventory] (http://solutions.arcgis.com/local-government/help/street-tree-inventory/)
+* [Street Tree Inventory] (http://solutions.arcgis.com/local-government/help/sign-inventory/)
+* [Signal Inventory] (http://solutions.arcgis.com/local-government/help/signal-inventory/)
+* [Sidewalk Inventory] (http://solutions.arcgis.com/local-government/help/sidewalk-inventory/)
+* [Water Utility Network Editing] (http://solutions.arcgis.com/local-government/water-utilities/help/network-editing/)     
 
 ### Additional Help
 
