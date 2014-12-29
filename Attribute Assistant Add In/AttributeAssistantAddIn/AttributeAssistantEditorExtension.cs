@@ -2738,7 +2738,7 @@ namespace ArcGIS4LocalGovernment
                                                                     pCurs = null;
 
                                                                     string disFld = "";
-                                                                    for (int j = 0; j < sourceFieldNames.Length - 1; j++)
+                                                                    for (int j = 0; j < sourceFieldNames.Length; j++)
                                                                     {
                                                                         disFld = disFld == "" ? sourceFieldNames[j] : disFld + "|" + sourceFieldNames[j];
 

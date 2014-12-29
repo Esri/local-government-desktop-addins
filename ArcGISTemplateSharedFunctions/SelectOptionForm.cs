@@ -97,7 +97,7 @@ namespace A4LGSharedFunctions
         {
             if (Width < 180)
             {
-                this.Width = 230;
+                this.Width = 280;
             }
             else
             {
