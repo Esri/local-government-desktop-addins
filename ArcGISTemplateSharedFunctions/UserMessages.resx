@@ -187,7 +187,7 @@
     <value>Construct points along a line</value>
   </data>
   <data name="ConstructionToolsAsk_1" xml:space="preserve">
-    <value> was not found, the point along feature will not be added! \nContinue?</value>
+    <value> was not found, the point along feature will not be added! Continue?</value>
   </data>
   <data name="ConstructionToolsAsk_2" xml:space="preserve">
     <value> was found, but the datasource is not set! \nContinue?</value>

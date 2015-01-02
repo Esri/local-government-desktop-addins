@@ -799,7 +799,7 @@ namespace A4LGSharedFunctions
                         catch (Exception ex)
                         {
 
-                            MessageBox.Show("Error storing new feature in the " + pointFLayer.Name + " layer\nThis is typically caused by a rule in the AA casuing this feature not to be valid and deleting it\nModule: AddPointAlongLine\n" + ex.Message);
+                            MessageBox.Show("Error storing new feature in the " + pointFLayer.Name + " layer\nThis is typically caused by a rule in the AA causing this feature not to be valid and deleting it\nModule: AddPointAlongLine\n" + ex.Message);
 
                             return null;
                         }

@@ -6962,7 +6962,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     else if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolyline)
                                                     {
-                                                        _copyPolyline = inFeature.Shape as IPolyline;
+                                                        _copyPolyline = inFeature.ShapeCopy as IPolyline;
                                                         _copyPolyline.Project(AAState._sr1);
 
                                                         if (valData == "")
