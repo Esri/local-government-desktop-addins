@@ -1149,7 +1149,35 @@ namespace ArcGIS4LocalGovernment
                             "iif = falseStr" + System.Environment.NewLine +
                           "end if" + System.Environment.NewLine +
                         "end function" + System.Environment.NewLine;
+                string strScript2 = "function TCase(strTextString)" + System.Environment.NewLine +
+                    "Dim arrTextItem, strTextNew" + System.Environment.NewLine +
+                    "strSplitText = \" '-\"" + System.Environment.NewLine +
+                    "For y = 1 to len(strSplitText)" + System.Environment.NewLine +
+                    "strSplitItem = Mid(strSplitText,y,1)" + System.Environment.NewLine +
+                    "arrTextItem = Split(strTextString, strSplitItem)" + System.Environment.NewLine +
+                    "For x = 0 to Ubound(arrTextItem)" + System.Environment.NewLine +
+                    "If strSplitItem = \"'\" Then" + System.Environment.NewLine +
+                    "If Mid(arrTextItem(x),2,1) = \" \" Then" + System.Environment.NewLine +
+                    "strTextNew = strTextNew & strSplitItem & LCase(Left(arrTextItem(x),1)) & Right(arrTextItem(x),Len(arrTextItem(x))-1)" + System.Environment.NewLine +
+                    "Else" + System.Environment.NewLine +
+                    "strTextNew = strTextNew & strSplitItem & UCase(Left(arrTextItem(x),1)) & Right(arrTextItem(x),Len(arrTextItem(x))-1)" + System.Environment.NewLine +
+                    "End If" + System.Environment.NewLine +
+                    "Else" + System.Environment.NewLine +
+                    "If strSplitItem = \"-\" Then" + System.Environment.NewLine +
+                    "strTextNew = strTextNew & strSplitItem & UCase(Left(arrTextItem(x),1)) & Right(arrTextItem(x),Len(arrTextItem(x))-1)" + System.Environment.NewLine +
+                    "Else" + System.Environment.NewLine +
+                    "strTextNew = strTextNew & strSplitItem & UCase(Left(arrTextItem(x),1)) & LCase(Right(arrTextItem(x),Len(arrTextItem(x))-1))" + System.Environment.NewLine +
+                    "End If" + System.Environment.NewLine +
+                    "End If" + System.Environment.NewLine +
+                    "Next" + System.Environment.NewLine +
+                    "strTextString = Right(strTextNew,Len(strTextNew)-1)" + System.Environment.NewLine +
+                    "strTextNew = \"\"" + System.Environment.NewLine +
+                    "Next" + System.Environment.NewLine +
+                    "TCase = strTextString" + System.Environment.NewLine +
+                    "end function" + System.Environment.NewLine;
+
                 script.AddCode(strScript);
+                script.AddCode(strScript2);
 
             }
             catch (Exception ex)
@@ -3916,7 +3944,7 @@ namespace ArcGIS4LocalGovernment
                                                         if (sourceLayer != null)
                                                         {
 
-                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false,AAState._editor.Map.SpatialReference);
+                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false, AAState._editor.Map.SpatialReference);
 
                                                             pFS = (IFeatureSelection)sourceLayer;
                                                             if (boolLayerOrFC)
@@ -5559,7 +5587,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                         if (searchDistance > 0)
                                                                         {
-                                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false,(ISpatialReference) AAState._editor.Map.SpatialReference);
+                                                                            sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false, (ISpatialReference)AAState._editor.Map.SpatialReference);
 
 
                                                                         }
@@ -11092,7 +11120,7 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 case esriFieldType.esriFieldTypeString:
 
-                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "" || inObject.get_Value(intTmpIdx) == DBNull.Value)
                                                                     {
                                                                         if (newValue.Contains("IsNull"))
                                                                         {
@@ -11122,6 +11150,8 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
                                                                         }
+
+
                                                                     }
                                                                     else
                                                                     {
@@ -11131,10 +11161,19 @@ namespace ArcGIS4LocalGovernment
                                                                         }
 
 
-                                                                        newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                        else if (newValue.Contains("isNull"))
+                                                                        {
+                                                                            newValue = newValue.Replace("isNull([" + "_REPLACE_VAL_" + "])", "False");
+                                                                        }
+                                                                        else if (newValue.Contains("ISNULL"))
+                                                                        {
+                                                                            newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "False");
+                                                                        }
+
+
 
                                                                     }
-
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
 
 
                                                                     break;
@@ -11171,6 +11210,7 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
                                                                         }
+
                                                                     }
                                                                     else
                                                                     {
@@ -11180,12 +11220,12 @@ namespace ArcGIS4LocalGovernment
                                                                         }
 
 
-                                                                        newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
+
 
                                                                     }
 
 
-
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
 
                                                                     break;
                                                                 case esriFieldType.esriFieldTypeSingle:
@@ -11230,25 +11270,25 @@ namespace ArcGIS4LocalGovernment
                                                                         }
 
 
-                                                                        double val;
-                                                                        Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
 
-
-                                                                        int intDigits = 2;
-                                                                        if (val.ToString().IndexOf(".") >= 0)
-                                                                        {
-                                                                            intDigits = val.ToString().Split('.')[1].Length;
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            intDigits = 2;
-                                                                        }
-                                                                        nfi.NumberDecimalDigits = intDigits;
-
-                                                                        newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", val.ToString("N", nfi));
 
                                                                     }
+                                                                    double val;
+                                                                    Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
 
+
+                                                                    int intDigits = 2;
+                                                                    if (val.ToString().IndexOf(".") >= 0)
+                                                                    {
+                                                                        intDigits = val.ToString().Split('.')[1].Length;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        intDigits = 2;
+                                                                    }
+                                                                    nfi.NumberDecimalDigits = intDigits;
+
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", val.ToString("N", nfi));
                                                                     break;
 
                                                                 default:
@@ -11292,10 +11332,10 @@ namespace ArcGIS4LocalGovernment
 
 
 
-                                                                        newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", inObject.get_Value(intTmpIdx).ToString());
+
 
                                                                     }
-
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", inObject.get_Value(intTmpIdx).ToString());
                                                                     break;
                                                             }
                                                             indFld = newValue.ToUpper().IndexOf("[" + testField.Name.ToUpper() + "]");
