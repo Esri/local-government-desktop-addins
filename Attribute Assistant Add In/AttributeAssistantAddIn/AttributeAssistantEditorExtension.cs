@@ -39,6 +39,7 @@ using ESRI.ArcGIS.Editor;
 using ESRI.ArcGIS.Display;
 using ESRI.ArcGIS.Framework;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.GeoDatabaseExtensions;
 using ESRI.ArcGIS.GeoDatabaseUI;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.esriSystem;
@@ -90,6 +91,7 @@ namespace ArcGIS4LocalGovernment
         public static IEditEvents_Event _editEvents;
         public static IEditEvents2_Event _editEvents2; // SG Jan 2013
         public static bool _onStopOperationEvent = true;// SG Jan 2013
+        public static ESRI.ArcGIS.Geodatabase.IObjectClassEvents_Event _objectClassEvent;
         //private static Type factoryType = Type.GetTypeFromProgID("esriGeometry.SpatialReferenceEnvironment");
 
         //private static System.Object obj = Activator.CreateInstance(factoryType);
@@ -132,7 +134,9 @@ namespace ArcGIS4LocalGovernment
         public static IEditor _editor;
         public static StreamWriter _sw;
         public static string indent = "";
-
+        public static IArray _fabricParcelLayers;
+        public static List<int> _fabricObjectClassIds;
+        public static ITable _fabricInMemTable;
 
         public static bool _CheckEnvelope = false;
 
@@ -708,11 +712,17 @@ namespace ArcGIS4LocalGovernment
         {
             _editEvents.OnChangeFeature -= FeatureChange;
             _editEvents2.BeforeStopOperation -= StopOperation; // SG Jan 2013
+            _objectClassEvent.OnChange -= FabricRowChange;
+            _objectClassEvent.OnChange -= FabricGeometryRowChange;
+            _objectClassEvent.OnCreate -= FabricRowCreate;
         }
         public static void StartChangeMonitor()
         {
             _editEvents.OnChangeFeature += FeatureChange;
             _editEvents2.BeforeStopOperation += StopOperation; // SG Jan 2013
+            _objectClassEvent.OnChange += FabricRowChange;
+            _objectClassEvent.OnChange += FabricGeometryRowChange;
+            _objectClassEvent.OnCreate += FabricRowCreate;
         }
         public static bool reInitExt()
         {
@@ -837,6 +847,50 @@ namespace ArcGIS4LocalGovernment
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain3") + ex.Message + " \n");
             }
+        }
+        private static bool CreateFabricInMemTable()
+        {
+            IFeatureLayer pFlyr = (IFeatureLayer)AAState._fabricParcelLayers.get_Element(0);
+            ITable pTable = pFlyr.FeatureClass as ITable;
+            IDataset pDS = pTable as IDataset;
+            IWorkspace pWS = Globals.CreateInMemoryWorkspace();
+            IFields NewFields = Globals.createFieldsFromSourceFields(pTable.Fields);
+            bool bSuccess = false;
+            try
+            {
+                AAState._fabricInMemTable = Globals.createTableInMemory(pDS.Name, NewFields, pWS);
+                bSuccess = (AAState._fabricInMemTable!=null);
+            }
+            catch (Exception ex)
+            {
+                bSuccess = false;
+                MessageBox.Show("Error Creating In Memory Fabric Table" + Environment.NewLine + ex.Message);
+            }
+            return bSuccess;
+        }
+
+        public static void FabricGeometryRowChange(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            if (obj is IFeature)
+            {
+                IFeatureChanges pFeatChanges = obj as IFeatureChanges;
+                if (!pFeatChanges.ShapeChanged)
+                    return;
+                if (pFeatChanges.OriginalShape.IsEmpty) //means new fabric parcel
+                    return;
+            }
+            if (CreateFabricInMemTable())
+                FeatureGeoChange(obj);
+        }
+        public static void FabricRowChange(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            if (CreateFabricInMemTable())
+                FeatureChange(obj);
+        }
+        public static void FabricRowCreate(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            if (CreateFabricInMemTable())
+                FeatureCreate(obj);
         }
         public static void FeatureChange(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
@@ -1401,6 +1455,7 @@ namespace ArcGIS4LocalGovernment
                             pWorkspaceEditControl.SetStoreEventsRequired();
                         }
                         pWorkspaceEditControl = null;
+                        InitFabricEvents();
                     }
                 }
 
@@ -1415,7 +1470,7 @@ namespace ArcGIS4LocalGovernment
         }
         private void OnStopEditing(Boolean save)
         {
-
+            UnInitFabricEvents();
         }
 
 
@@ -1460,14 +1515,25 @@ namespace ArcGIS4LocalGovernment
             {
                 inFeature = obj as IFeature;
 
-
+                bool bIsFabricRecord = false;
                 if (inFeature != null)
                 {
+                    if (AAState._fabricObjectClassIds != null)
+                        bIsFabricRecord = AAState._fabricObjectClassIds.Contains(obj.Class.ObjectClassID);
+
 
                     pFeatChange = (IFeatureChanges)inFeature;
                     if (pFeatChange.ShapeChanged)
                     {
-                        sendEvent(obj, "ON_CHANGEGEO");
+                        if (bIsFabricRecord)
+                        {
+                            if (pFeatChange.OriginalShape.IsEmpty)
+                                sendEvent(obj, "ON_CREATE"); //original shape empty, but shape change means new parcel
+                            else
+                                sendEvent(obj, "ON_CHANGE");//treat geometry changes as standard change for fabric
+                        }
+                        else
+                            sendEvent(obj, "ON_CHANGEGEO");
                     }
                     else
                     {
@@ -1902,6 +1968,80 @@ namespace ArcGIS4LocalGovernment
 
         #region Helper Methods
 
+        public void UnInitFabricEvents()
+        {
+            try
+            {
+                AAState._fabricObjectClassIds = null;
+                AAState._fabricInMemTable = null;
+                AAState._objectClassEvent.OnChange -= new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnChangeEventHandler(AAState.FabricGeometryRowChange);
+                AAState._objectClassEvent.OnChange -= new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnChangeEventHandler(AAState.FabricRowChange);
+                AAState._objectClassEvent.OnCreate -= new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnCreateEventHandler(AAState.FabricRowCreate);
+            }
+            catch
+            { }
+        }
+
+        public void InitFabricEvents()
+        {
+            //get the fabric layers from the map
+            IArray pParcelLayerArray;
+            bool bHasFabricLayers = GetFabricSubLayers(esriCadastralFabricTable.esriCFTParcels, out pParcelLayerArray);
+            //return the parcels fabric class as a feature class
+            if (bHasFabricLayers)
+            {
+                IFeatureLayer pFLyr = (IFeatureLayer)pParcelLayerArray.get_Element(0);
+                AAState._fabricParcelLayers = pParcelLayerArray;
+                IFeatureClass featureClass = (IFeatureClass)pFLyr.FeatureClass;
+                int iObjClassID = featureClass.ObjectClassID;
+                if (AAState._fabricObjectClassIds == null)
+                    AAState._fabricObjectClassIds = new List<int>();
+                if (!AAState._fabricObjectClassIds.Contains(iObjClassID))
+                    AAState._fabricObjectClassIds.Add(iObjClassID);
+                //use the parcel fabric class and qi to IObjectClass
+                IObjectClass objectClass = (IObjectClass)featureClass;
+                //Create event handler.
+                AAState._objectClassEvent = (ESRI.ArcGIS.Geodatabase.IObjectClassEvents_Event)objectClass;
+
+                AAState._objectClassEvent.OnChange += new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnChangeEventHandler(AAState.FabricRowChange);
+                AAState._objectClassEvent.OnChange += new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnChangeEventHandler(AAState.FabricGeometryRowChange);
+                AAState._objectClassEvent.OnCreate += new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnCreateEventHandler(AAState.FabricRowCreate);
+            }
+        }
+
+        public bool GetFabricSubLayers(esriCadastralFabricTable FabricSubClass, out IArray CFParcelFabSubLayers)
+        {
+            ICadastralFabricSubLayer pCFSubLyr = null;
+            IArray CFParcelFabricSubLayers2 = new ArrayClass();
+            IFeatureLayer pParcelFabricSubLayer = null;
+            UID pId = new UIDClass();
+            pId.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
+            IMap pMap = AAState._editor.Map;
+            IEnumLayer pEnumLayer = pMap.get_Layers(pId, true);
+            pEnumLayer.Reset();
+            ILayer pLayer = pEnumLayer.Next();
+            while (pLayer != null)
+            {
+                if (pLayer is ICadastralFabricSubLayer)
+                {
+                    pCFSubLyr = (ICadastralFabricSubLayer)pLayer;
+                    if (pCFSubLyr.CadastralTableType == FabricSubClass)
+                    {
+                        pParcelFabricSubLayer = (IFeatureLayer)pCFSubLyr;
+                        IDataset pDS = (IDataset)pParcelFabricSubLayer.FeatureClass;
+                        if (pDS.Workspace.Equals(AAState._editor.EditWorkspace))
+                            CFParcelFabricSubLayers2.Add(pParcelFabricSubLayer);
+                    }
+                }
+                pLayer = pEnumLayer.Next();
+            }
+            CFParcelFabSubLayers = CFParcelFabricSubLayers2;
+            if (CFParcelFabricSubLayers2.Count > 0)
+                return true;
+            else
+                return false;
+        }
+
         public bool SetDynamicValues(IObject inObject, string mode, out List<IObject> ChangeFeatureList, out List<IObject> NewFeatureList, out List<IObject> ChangeFeatureGeoList)
         {
             NumberFormatInfo nfi = new CultureInfo(A4LGSharedFunctions.Localizer.GetString("AA_CultureInfo"), false).NumberFormat;
@@ -2246,60 +2386,142 @@ namespace ArcGIS4LocalGovernment
 
                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ae"));
                             valFC = drv["TABLENAME"].ToString().Trim();
+                            bool bHasFabricFeatureTarget = false;
+                            bool bHasFabricSubType = false;
                             if (valFC.Contains("|"))
                             {
-                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14af"));
-                                string[] spliVal = valFC.Split('|');
-                                List<string> validSubtypes = new List<string>(spliVal[1].Split(','));
-                                List<string> inValidSubtypes;
-                                if (spliVal.GetLength(0) == 3)
+
+                                if (AAState._fabricInMemTable != null)
                                 {
-                                    inValidSubtypes = new List<string>(spliVal[2].Split(','));
-                                }
-                                else
-                                {
-                                    inValidSubtypes = new List<string>();
+                                    string[] spliVal0 = valFC.Split('|');
+                                    string[] s = spliVal0[1].ToUpper().Trim().Split(',');
+                                    for (int j = 0; j < s.Length; j++)
+                                        s[j] = s[j].Trim();
+                                    List<string> validFabricLayers = new List<string>(s);
+
+                                    IFeatureLayer pFLyr = null;
+                                    string sCombinedOrSQL = "";
+                                    for (int i = 0; i < AAState._fabricParcelLayers.Count; i++)
+                                    {
+                                        pFLyr = (IFeatureLayer)AAState._fabricParcelLayers.get_Element(i);
+                                        if (validFabricLayers.Contains(pFLyr.Name.ToUpper().Trim()))
+                                        {
+                                            IFeatureLayerDefinition2 pFeatLyrDef = (IFeatureLayerDefinition2)pFLyr;
+                                            if (sCombinedOrSQL.Trim() == "")
+                                                sCombinedOrSQL = "(" + pFeatLyrDef.DefinitionExpression + ")";
+                                            else
+                                                sCombinedOrSQL += " OR (" + pFeatLyrDef.DefinitionExpression + ")";
+                                        }
+                                    }
+                                    if (pFLyr != null) //make sure there's at least one valid fabric feature layer
+                                    {
+                                        IRowBuffer pRowBuff = AAState._fabricInMemTable.CreateRowBuffer();
+                                        IFields pIncomingFlds = inObject.Fields;
+                                        for (int i = 0; i < pIncomingFlds.FieldCount; i++)
+                                        {
+                                            IField pFld = pIncomingFlds.get_Field(i);
+                                            if (pFld.Type == esriFieldType.esriFieldTypeOID || pFld.Type == esriFieldType.esriFieldTypeGeometry)
+                                                continue;
+                                            object val = inObject.get_Value(i);
+                                            pRowBuff.set_Value(i, val);
+                                        }
+                                        
+                                        ICursor pInsCurs = AAState._fabricInMemTable.Insert(false);
+                                        pInsCurs.InsertRow(pRowBuff);
+                                        pInsCurs.Flush();
+
+                                        IQueryFilter pQueryF = new QueryFilterClass();
+                                        pQueryF.WhereClause = sCombinedOrSQL;
+
+                                        if (sCombinedOrSQL.Trim() != "")
+                                        {
+                                            ICursor pCur = AAState._fabricInMemTable.Search(pQueryF, false);
+                                            IRow pRow = pCur.NextRow();
+                                            while (pRow != null)
+                                            {
+                                                bHasFabricFeatureTarget = true;
+                                                Marshal.ReleaseComObject(pRow);
+                                                pRow = pCur.NextRow();
+                                            }
+                                            Marshal.ReleaseComObject(pCur);
+                                        }
+                                        //now drop all records from the table
+                                        AAState._fabricInMemTable.DeleteSearchedRows(null);
+
+                                        ISubtypes pFabSubTyp = (ISubtypes)inObject.Class;
+                                        if (pFabSubTyp != null)
+                                            bHasFabricSubType = pFabSubTyp.HasSubtype;
+                                    }
                                 }
 
-                                int obSubVal;
-                                ISubtypes pSub = inObject.Class as ISubtypes;
-                                if (pSub != null)
+                                if (!bHasFabricFeatureTarget && !bHasFabricSubType)
                                 {
-                                    if (pSub.HasSubtype)
+                                    proc = false;
+                                    continue;
+                                }
+
+                                if (!bHasFabricFeatureTarget)
+                                {
+                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14af"));
+                                    string[] spliVal = valFC.Split('|');
+                                    string[] s = spliVal[1].ToUpper().Trim().Split(',');
+                                    for (int j = 0; j < s.Length; j++)
+                                        s[j] = s[j].Trim();
+                                    List<string> validSubtypes = new List<string>(s);
+                                    List<string> inValidSubtypes;
+                                    if (spliVal.GetLength(0) == 3)
                                     {
-                                        if (inObject.get_Value(pSub.SubtypeFieldIndex).ToString() != "")
+                                        inValidSubtypes = new List<string>(spliVal[2].Split(','));
+                                    }
+                                    else
+                                    {
+                                        inValidSubtypes = new List<string>();
+                                    }
+
+                                    int obSubVal;
+                                    ISubtypes pSub = inObject.Class as ISubtypes;
+                                    if (pSub != null)
+                                    {
+                                        if (pSub.HasSubtype)
                                         {
-                                            obSubVal = Convert.ToInt32(inObject.get_Value(pSub.SubtypeFieldIndex).ToString());
-                                            if (validSubtypes.Contains("*"))
+                                            if (inObject.get_Value(pSub.SubtypeFieldIndex).ToString() != "")
                                             {
-                                                if (inValidSubtypes.Contains(obSubVal.ToString()))
+                                                obSubVal = Convert.ToInt32(inObject.get_Value(pSub.SubtypeFieldIndex).ToString());
+                                                if (validSubtypes.Contains("*"))
+                                                {
+                                                    if (inValidSubtypes.Contains(obSubVal.ToString()))
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ag"));
+                                                        proc = false;
+                                                        continue;
+                                                    }
+                                                    else
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ah"));
+                                                    }
+                                                }
+
+                                                else if (validSubtypes.Contains(obSubVal.ToString()))
+                                                {
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ah"));
+                                                }
+                                                else
                                                 {
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ag"));
                                                     proc = false;
                                                     continue;
                                                 }
-                                                else
-                                                {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ah"));
-                                                }
-                                            }
-
-                                            else if (validSubtypes.Contains(obSubVal.ToString()))
-                                            {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ah"));
                                             }
                                             else
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ag"));
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ai"));
                                                 proc = false;
                                                 continue;
                                             }
                                         }
                                         else
                                         {
-                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ai"));
-                                            proc = false;
-                                            continue;
+                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aj"));
                                         }
                                     }
                                     else
@@ -2307,11 +2529,6 @@ namespace ArcGIS4LocalGovernment
                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aj"));
                                     }
                                 }
-                                else
-                                {
-                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aj"));
-                                }
-
                             }
                             valMethod = drv["VALUEMETHOD"].ToString().ToUpper().Trim();
                             valData = drv["VALUEINFO"].ToString().Trim();
