@@ -89,6 +89,7 @@ namespace ArcGIS4LocalGovernment
         public static int _processCount = 0;
         public static IEditEvents_Event _editEvents;
         public static IEditEvents2_Event _editEvents2; // SG Jan 2013
+      
         public static bool _onStopOperationEvent = true;// SG Jan 2013
         //private static Type factoryType = Type.GetTypeFromProgID("esriGeometry.SpatialReferenceEnvironment");
 
@@ -116,8 +117,13 @@ namespace ArcGIS4LocalGovernment
 
 
                 _PerformUpdates = value;
+                try
+                {
+                    AAState.setIcon();
+                }
+                catch
+                { }
 
-                AAState.setIcon();
             }
         }
         public static bool _Suspend = false;
@@ -149,43 +155,44 @@ namespace ArcGIS4LocalGovernment
                     LoadBitmaps();
                 }
                 LoadCommand();
-                if (commandItem == null)
+                if (AAState.commandItem == null)
+                   
                     return;
 
                 if (AAState.PerformUpdates && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_1"))) //on
                 {
 
 
-                    commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOn);
-                    commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1a");
+                    AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOn);
+                    AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1a");
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1a"));
 
                 }
                 else if (AAState.PerformUpdates == false && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_2")) && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_3"))) //off
                 {
 
-                    commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
-                    commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b");
+                    AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
+                    AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b");
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
 
                 }
-                else if (commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_4"))) //startup
+                else if (AAState.commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_4"))) //startup
                 {
 
                     if (AAState.PerformUpdates)
                     {
 
 
-                        commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOn);
-                        commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1a");
+                        AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOn);
+                        AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1a");
                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1a"));
 
                     }
                     else if (AAState.PerformUpdates == false)
                     {
 
-                        commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
-                        commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b");
+                        AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
+                        AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b");
                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
 
                     }
@@ -193,7 +200,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_1a") + ex.Message);
+            //    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_1a") + ex.Message);
 
             }
 
@@ -1069,6 +1076,11 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.setIcon();
+            }
+            catch { }
+            try
+            {
                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_6a"));
                 AAState.unInitEditing();
             }
@@ -1108,6 +1120,7 @@ namespace ArcGIS4LocalGovernment
 
             }
         }
+      
         protected override void OnStartup()
         {
             ESRI.ArcGIS.ArcMap.IApplicationStatusEvents_Event appStatusEvents = ArcMap.Application as ESRI.ArcGIS.ArcMap.IApplicationStatusEvents_Event;
@@ -1131,6 +1144,8 @@ namespace ArcGIS4LocalGovernment
             //Wire editor events.
             AAState._editEvents = (IEditEvents_Event)_editor;
             AAState._editEvents.OnStartEditing += OnStartEditing;
+
+          
             AAState._editEvents.OnStopEditing += OnStopEditing;
             AAState._editEvents2 = (IEditEvents2_Event)_editor;// SG Jan 2003-
 
@@ -1300,7 +1315,12 @@ namespace ArcGIS4LocalGovernment
             //Users can optionally check license here.
             this.State = state;
 
-            AAState.setIcon();
+            try
+            {
+                AAState.setIcon();
+            }
+            catch
+            { }
 
             return true;
         }
@@ -1366,7 +1386,7 @@ namespace ArcGIS4LocalGovernment
         void OnBeforeStopEditing(bool save)
         {
         }
-
+      
         private void OnStartEditing()
         {
 

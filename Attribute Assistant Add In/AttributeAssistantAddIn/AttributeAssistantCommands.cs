@@ -128,7 +128,12 @@ namespace ArcGIS4LocalGovernment
         }
         protected override void OnUpdate()
         {
-            AAState.setIcon();
+            try
+            {
+               AAState.setIcon();
+            }
+            catch
+            { }
         }
 
     }

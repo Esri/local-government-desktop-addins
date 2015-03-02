@@ -3485,6 +3485,7 @@ namespace A4WaterUtilities
 
 
             List<BarClassIDS> barrierIds = null;
+          
             Hashtable sourceDirectEIDInfoHT = null;
             INetFlag netFlag1 = null;
             INetFlag netFlag2 = null;
@@ -4186,7 +4187,7 @@ namespace A4WaterUtilities
         }
 
 
-       
+
         public static string TraceIsolation(double[] x, double[] y, IApplication app, string sourceFLName, string valveFLName, string operableFieldNameValves, string operableFieldNameSources,
                                   double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName, string MeterCritField, string MeterCritVal)
         {
@@ -4266,6 +4267,8 @@ namespace A4WaterUtilities
             Hashtable sourceDirectEIDInfoHT = null;
             INetFlag netFlag1 = null;
             INetFlag netFlag2 = null;
+
+            List<BarClassIDS> closedValvesbarrierIds = null;
             try
             {
                 map = ((app.Document as IMxDocument).FocusMap);
@@ -4527,6 +4530,10 @@ namespace A4WaterUtilities
                 valveFCs = new List<IFeatureClass>();//[strValveFLs.Length];
 
 
+                closedValvesbarrierIds = new List<BarClassIDS>();
+                IFeatureCursor pCurValBar = null;
+                IFeature valBarFeat = null;
+                QueryFilter pQFValBar = new QueryFilterClass();
                 for (int i = 0; i < strValveFLs.Length; i++)
                 {
                     bool FCorLayerTemp = true;
@@ -4539,10 +4546,44 @@ namespace A4WaterUtilities
                             valveFLs.Add(pTempLay);
                             valveFCs.Add(pTempLay.FeatureClass);
                             valveFCClassIDs.Add(pTempLay.FeatureClass.FeatureClassID);
+                            try
+                            {
+
+                                BarClassIDS barClID2 = new BarClassIDS();
+                                List<int> tempIntArr2 = new List<int>();
+
+
+
+                                barClID2.ClassID = pTempLay.FeatureClass.ObjectClassID;
+                                pQFValBar = new QueryFilterClass();
+                                pQFValBar.WhereClause = "CURROPEN = 0";
+                                 pCurValBar = pTempLay.FeatureClass.Search(pQFValBar, true);
+                              valBarFeat = null;
+                                while ((valBarFeat = pCurValBar.NextFeature()) != null)
+                                {
+                                    tempIntArr2.Add(valBarFeat.OID);
+                                }
+                                if (tempIntArr2.Count > 0)
+                                {
+                                    barClID2.IDs = tempIntArr2.ToArray();
+                                    barrierIds.Add(barClID2);
+                                }
+                              
+
+                            }
+                            catch
+                            { }
+
+
                         }
                     }
 
                 }
+                valBarFeat = null;
+                pQFValBar = null;
+                if (pCurValBar != null)
+                    Marshal.ReleaseComObject(pCurValBar);
+                pCurValBar = null;
                 //  string strMeterFL = meterFLName;
 
                 //meterFL = (IFeatureLayer)Globals.FindLayer(map, meterFLName);

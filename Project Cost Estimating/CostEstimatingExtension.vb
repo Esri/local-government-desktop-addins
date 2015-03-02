@@ -177,7 +177,7 @@ Public Class CostEstimatingExtension
 
     Friend Shared Function CheckForCIPLayers() As Boolean
         Try
-            If My.ArcMap.Document Is Nothing Then Return False
+           If My.ArcMap.Document Is Nothing Then Return False
             If My.ArcMap.Document.FocusMap Is Nothing Then Return False
             If My.ArcMap.Document.FocusMap.LayerCount = 0 Then Return False
 
@@ -195,8 +195,11 @@ Public Class CostEstimatingExtension
 
 
         Catch ex As Exception
-            ' MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckForCIPLayers" & vbCrLf & ex.Message)
+            If Not ex.Message.Contains("COM object") Then
 
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckForCIPLayers" & vbCrLf & ex.Message)
+
+            End If
 
         End Try
 
