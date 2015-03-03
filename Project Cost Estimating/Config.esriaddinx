@@ -10,7 +10,7 @@
   <Company>Esri., Inc.</Company>
   <Date>3/3/2015</Date>
   <Targets>
-    <Target name="Desktop" version="10.3" />
+    <Target name="Desktop" version="10.1" />
   </Targets>
   <AddIn language="CLR" library="ArcGISCostEstimatingTools.dll" namespace="ArcGIS4LocalGovernment">
     <ArcMap>
