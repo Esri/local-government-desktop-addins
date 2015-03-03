@@ -4048,21 +4048,23 @@ namespace A4LGSharedFunctions
 
         }
         public static void AddBarriersToSolver(ref ITraceFlowSolverGEN traceFlowSolver, ref INetElementBarriers pEdgeElementBarriers,
-            ref INetElementBarriers pJunctionElementBarriers, ref ISelectionSetBarriers pSelectionSetBarriers, INetElementBarriers closeValveBarr)
+            ref INetElementBarriers pJunctionElementBarriers, ref ISelectionSetBarriers pSelectionSetBarriers)//, INetElementBarriers closeValveBarr
         {
             INetSolver pNetSolver = null;
             try
             {
                 pNetSolver = (INetSolver)traceFlowSolver;
-                if (closeValveBarr != null)
-                {
-                    pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, closeValveBarr);
-                }
-                else if (pEdgeElementBarriers != null)
-                {
+                //if (closeValveBarr != null)
+                //{
+                //    pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, closeValveBarr);
+                //}
+                //else if (pEdgeElementBarriers != null)
+                //{
+                //    pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);
+                //}
+                if (pEdgeElementBarriers != null) { 
                     pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);
                 }
-
                 if (pJunctionElementBarriers != null)
                     pNetSolver.set_ElementBarriers(esriElementType.esriETJunction, pJunctionElementBarriers);
 
@@ -5052,6 +5054,11 @@ namespace A4LGSharedFunctions
 
                 //get the selection set barriers
                 pNetworkAnalysisExtBarriers.CreateSelectionBarriers(out pSelectionSetBarriers);
+                //if (pSelectionSetBarriers == null)
+                //{
+                //    pSelectionSetBarriers = new SelectionSetBarriersClass();
+
+                //}
 
                 pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);
 
