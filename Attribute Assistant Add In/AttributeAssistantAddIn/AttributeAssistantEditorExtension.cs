@@ -89,7 +89,7 @@ namespace ArcGIS4LocalGovernment
         public static int _processCount = 0;
         public static IEditEvents_Event _editEvents;
         public static IEditEvents2_Event _editEvents2; // SG Jan 2013
-      
+
         public static bool _onStopOperationEvent = true;// SG Jan 2013
         //private static Type factoryType = Type.GetTypeFromProgID("esriGeometry.SpatialReferenceEnvironment");
 
@@ -156,7 +156,7 @@ namespace ArcGIS4LocalGovernment
                 }
                 LoadCommand();
                 if (AAState.commandItem == null)
-                   
+
                     return;
 
                 if (AAState.PerformUpdates && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_1"))) //on
@@ -200,7 +200,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-            //    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_1a") + ex.Message);
+                //    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_1a") + ex.Message);
 
             }
 
@@ -938,7 +938,6 @@ namespace ArcGIS4LocalGovernment
         private int fieldCopy, juncField;
         private Nullable<double> rotationAngle;
 
-        private string ConcatDelim = ",";
 
         private string[] args;
         private string[] sourceLayerNames;
@@ -1120,7 +1119,7 @@ namespace ArcGIS4LocalGovernment
 
             }
         }
-      
+
         protected override void OnStartup()
         {
             ESRI.ArcGIS.ArcMap.IApplicationStatusEvents_Event appStatusEvents = ArcMap.Application as ESRI.ArcGIS.ArcMap.IApplicationStatusEvents_Event;
@@ -1145,7 +1144,7 @@ namespace ArcGIS4LocalGovernment
             AAState._editEvents = (IEditEvents_Event)_editor;
             AAState._editEvents.OnStartEditing += OnStartEditing;
 
-          
+
             AAState._editEvents.OnStopEditing += OnStopEditing;
             AAState._editEvents2 = (IEditEvents2_Event)_editor;// SG Jan 2003-
 
@@ -1386,7 +1385,7 @@ namespace ArcGIS4LocalGovernment
         void OnBeforeStopEditing(bool save)
         {
         }
-      
+
         private void OnStartEditing()
         {
 
@@ -7807,6 +7806,8 @@ namespace ArcGIS4LocalGovernment
                                                 if (valData == null) break;
                                                 args = valData.Split('|');
                                                 string statType = "MAX";
+                                                string delim = ",";
+                                                string sortOrder = "none";
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
@@ -7816,7 +7817,17 @@ namespace ArcGIS4LocalGovernment
                                                         sourceFieldName = args[0].ToString();
                                                         statType = args[1].ToString();
                                                         break;
-
+                                                    case 3:
+                                                        sourceFieldName = args[0].ToString();
+                                                        statType = args[1].ToString();
+                                                        delim = args[2].ToString();
+                                                        break;
+                                                    case 4:
+                                                        sourceFieldName = args[0].ToString();
+                                                        statType = args[1].ToString();
+                                                        delim = args[2].ToString();
+                                                        sortOrder = args[3].ToString();
+                                                        break;
                                                     default: break;
                                                 }
 
@@ -7826,6 +7837,9 @@ namespace ArcGIS4LocalGovernment
                                                 int AverageCount = 0;
                                                 double result = -999999.1;
                                                 string textRes = "";
+
+                                                List<string> concatList = new List<string>();
+
                                                 if (inFeature != null)
                                                 {
                                                     netFeat = inFeature as INetworkFeature;
@@ -7872,7 +7886,14 @@ namespace ArcGIS4LocalGovernment
                                                                                 double valToTest = Convert.ToDouble(test);
                                                                                 if (result == -999999.1)
                                                                                 {
-                                                                                    result = valToTest;
+                                                                                    if (statType.ToUpper() == "CONCAT")
+                                                                                    {
+                                                                                        concatList.Add(valToTest.ToString());
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        result = valToTest;
+                                                                                    }
 
 
                                                                                 }
@@ -7909,8 +7930,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                             break;
                                                                                         case "CONCAT":
-                                                                                            concatFunc(valToTest.ToString(), ref textRes);
-
+                                                                                            //concatFunc(valToTest.ToString(), ref textRes);
+                                                                                            concatList.Add(valToTest.ToString());
 
                                                                                             break;
                                                                                         default:
@@ -7926,8 +7947,8 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
 
                                                                                     case "CONCAT":
-                                                                                        concatFunc(test.ToString(), ref textRes);
-
+                                                                                        //concatFunc(test.ToString(), ref textRes);
+                                                                                        concatList.Add(test.ToString());
                                                                                         break;
                                                                                     default:
                                                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -7952,6 +7973,19 @@ namespace ArcGIS4LocalGovernment
                                                                 }//end loop
                                                                 try
                                                                 {
+                                                                    if (statType.ToUpper() == "CONCAT")
+                                                                    {
+                                                                        if (sortOrder.ToUpper() == "ASC")
+                                                                        {
+                                                                            concatList.Sort((a, b) => a.CompareTo(b));
+                                                                        }
+                                                                        else if (sortOrder.ToUpper() == "DESC")
+                                                                        {
+                                                                            concatList.Sort((a, b) => -1 * a.CompareTo(b));
+                                                                        }
+
+                                                                        textRes = string.Join(delim, concatList.ToArray());
+                                                                    }
                                                                     if (textRes != "")
                                                                     {
                                                                         inObject.set_Value(intFldIdxs[0], textRes);
@@ -8024,6 +8058,8 @@ namespace ArcGIS4LocalGovernment
                                                 if (valData == null) break;
                                                 args = valData.Split('|');
                                                 string statType = "MAX";
+                                                string delim = ",";
+                                                string sortOrder = "none";
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
@@ -8033,13 +8069,23 @@ namespace ArcGIS4LocalGovernment
                                                         sourceFieldName = args[0].ToString();
                                                         statType = args[1].ToString();
                                                         break;
-
+                                                    case 3:
+                                                        sourceFieldName = args[0].ToString();
+                                                        statType = args[1].ToString();
+                                                        delim = args[2].ToString();
+                                                        break;
+                                                    case 4:
+                                                        sourceFieldName = args[0].ToString();
+                                                        statType = args[1].ToString();
+                                                        delim = args[2].ToString();
+                                                        sortOrder = args[3].ToString();
+                                                        break;
                                                     default: break;
                                                 }
 
 
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FROM_EDGE_STATS");
-
+                                                List<string> concatList = new List<string>();
                                                 int AverageCount = 0;
                                                 double result = -999999.1;
                                                 string textRes = "";
@@ -8089,7 +8135,14 @@ namespace ArcGIS4LocalGovernment
                                                                                 double valToTest = Convert.ToDouble(test);
                                                                                 if (result == -999999.1)
                                                                                 {
-                                                                                    result = valToTest;
+                                                                                    if (statType.ToUpper() == "CONCAT")
+                                                                                    {
+                                                                                        concatList.Add(valToTest.ToString());
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        result = valToTest;
+                                                                                    }
 
 
                                                                                 }
@@ -8126,7 +8179,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                             break;
                                                                                         case "CONCAT":
-                                                                                            concatFunc(valToTest.ToString(), ref textRes);
+                                                                                            //concatFunc(valToTest.ToString(), ref textRes);
+                                                                                            concatList.Add(valToTest.ToString());
 
 
                                                                                             break;
@@ -8143,7 +8197,8 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
 
                                                                                     case "CONCAT":
-                                                                                        concatFunc(test.ToString(), ref textRes);
+                                                                                        //concatFunc(test.ToString(), ref textRes);
+                                                                                        concatList.Add(test.ToString());
 
 
                                                                                         break;
@@ -8170,6 +8225,21 @@ namespace ArcGIS4LocalGovernment
                                                                 }//end loop
                                                                 try
                                                                 {
+
+
+                                                                    if (statType.ToUpper() == "CONCAT")
+                                                                    {
+                                                                        if (sortOrder.ToUpper() == "ASC")
+                                                                        {
+                                                                            concatList.Sort((a, b) => a.CompareTo(b));
+                                                                        }
+                                                                        else if (sortOrder.ToUpper() == "DESC")
+                                                                        {
+                                                                            concatList.Sort((a, b) => -1 * a.CompareTo(b));
+                                                                        }
+
+                                                                        textRes = string.Join(delim, concatList.ToArray());
+                                                                    }
                                                                     if (textRes != "")
                                                                     {
                                                                         inObject.set_Value(intFldIdxs[0], textRes);
@@ -8228,11 +8298,11 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_STATS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_EDGE_STATS: " + ex.Message);
                                             }
                                             finally
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TO_EDGE_STATS");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "FROM_EDGE_STATS");
                                             }
                                             break;
 
@@ -8242,6 +8312,8 @@ namespace ArcGIS4LocalGovernment
                                                 if (valData == null) break;
                                                 args = valData.Split('|');
                                                 string statType = "MAX";
+                                                string delim = ",";
+                                                string sortOrder = "none";
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
@@ -8251,11 +8323,22 @@ namespace ArcGIS4LocalGovernment
                                                         sourceFieldName = args[0].ToString();
                                                         statType = args[1].ToString();
                                                         break;
-
+                                                    case 3:
+                                                        sourceFieldName = args[0].ToString();
+                                                        statType = args[1].ToString();
+                                                        delim = args[2].ToString();
+                                                        break;
+                                                    case 4:
+                                                        sourceFieldName = args[0].ToString();
+                                                        statType = args[1].ToString();
+                                                        delim = args[2].ToString();
+                                                        sortOrder = args[3].ToString();
+                                                        break;
                                                     default: break;
                                                 }
 
 
+                                                List<string> concatList = new List<string>();
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "EDGE_STATS");
 
                                                 int AverageCount = 0;
@@ -8301,7 +8384,14 @@ namespace ArcGIS4LocalGovernment
                                                                             double valToTest = Convert.ToDouble(test);
                                                                             if (result == -999999.1)
                                                                             {
-                                                                                result = valToTest;
+                                                                                if (statType.ToUpper() == "CONCAT")
+                                                                                {
+                                                                                    concatList.Add(valToTest.ToString());
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    result = valToTest;
+                                                                                }
 
 
                                                                             }
@@ -8338,7 +8428,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         break;
                                                                                     case "CONCAT":
-                                                                                        concatFunc(valToTest.ToString(), ref textRes);
+                                                                                        //concatFunc(valToTest.ToString(), ref textRes);
+                                                                                        concatList.Add(valToTest.ToString());
 
 
                                                                                         break;
@@ -8356,7 +8447,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                 case "CONCAT":
 
-                                                                                    concatFunc(test.ToString(), ref textRes);
+                                                                                    //concatFunc(test.ToString(), ref textRes);
+                                                                                    concatList.Add(test.ToString());
 
 
                                                                                     break;
@@ -8378,6 +8470,19 @@ namespace ArcGIS4LocalGovernment
                                                                 }//end loop
                                                                 try
                                                                 {
+                                                                    if (statType.ToUpper() == "CONCAT")
+                                                                    {
+                                                                        if (sortOrder.ToUpper() == "ASC")
+                                                                        {
+                                                                            concatList.Sort((a, b) => a.CompareTo(b));
+                                                                        }
+                                                                        else if (sortOrder.ToUpper() == "DESC")
+                                                                        {
+                                                                            concatList.Sort((a, b) => -1 * a.CompareTo(b));
+                                                                        }
+
+                                                                        textRes = string.Join(delim, concatList.ToArray());
+                                                                    }
                                                                     if (textRes != "")
                                                                     {
                                                                         inObject.set_Value(intFldIdxs[0], textRes);
@@ -8436,11 +8541,11 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_STATS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "EDGE_STATS: " + ex.Message);
                                             }
                                             finally
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TO_EDGE_STATS");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "EDGE_STATS");
                                             }
                                             break;
                                         case "TO_EDGE_MULTI_FIELD_INTERSECT":
@@ -8554,11 +8659,11 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_STATS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_MULTI_FIELD_INTERSECT: " + ex.Message);
                                             }
                                             finally
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TO_EDGE_STATS");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TO_EDGE_MULTI_FIELD_INTERSECT");
                                             }
                                             break;
                                         case "FROM_EDGE_MULTI_FIELD_INTERSECT":
@@ -8670,11 +8775,11 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_STATS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_EDGE_MULTI_FIELD_INTERSECT: " + ex.Message);
                                             }
                                             finally
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TO_EDGE_STATS");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "FROM_EDGE_MULTI_FIELD_INTERSECT");
                                             }
                                             break;
 
@@ -12190,6 +12295,8 @@ namespace ArcGIS4LocalGovernment
                                                     sourceFieldName = "";
                                                     sourceField = -1;
                                                     found = false;
+                                                    string delim = ",";
+                                                    string sortOrder = "none";
                                                     //LayerToIntersect|Field To Elevate
                                                     // Parse arguments
                                                     args = valData.Split('|');
@@ -12201,7 +12308,7 @@ namespace ArcGIS4LocalGovernment
                                                         sourceLayerNames = args[0].ToString().Split(',');
                                                         sourceFieldName = args[1].ToString().Trim();
                                                         string statType = args[2].ToString().Trim();
-                                                        if (args.GetLength(0) == 4)
+                                                        if (args.GetLength(0) >= 4)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain129"));
 
@@ -12215,6 +12322,25 @@ namespace ArcGIS4LocalGovernment
 
                                                             searchDistance = 0.0;
                                                         }
+                                                        if (args.GetLength(0) >= 5)
+                                                        {
+                                                            delim = args[4].ToString();
+                                                        }
+                                                        else
+                                                        {
+
+                                                            delim = ",";
+                                                        }
+                                                        if (args.GetLength(0) >= 6)
+                                                        {
+                                                            sortOrder = args[5].ToString();
+                                                        }
+                                                        else
+                                                        {
+
+                                                            sortOrder = "none";
+                                                        }
+                                                        List<string> concatList = new List<string>();
                                                         double result = -999999.1;
                                                         string textRes = "";
                                                         if (sourceFieldName != null)
@@ -12306,9 +12432,14 @@ namespace ArcGIS4LocalGovernment
                                                                                             double valToTest = Convert.ToDouble(test);
                                                                                             if (result == -999999.1)
                                                                                             {
-                                                                                                result = valToTest;
 
-
+                                                                                                if (statType.ToUpper() == "CONCAT")
+                                                                                                {
+                                                                                                    concatList.Add(valToTest.ToString());
+                                                                                                }
+                                                                                                else {
+                                                                                                    result = valToTest;
+                                                                                                }
                                                                                             }
                                                                                             else
                                                                                             {
@@ -12343,8 +12474,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                         break;
                                                                                                     case "CONCAT":
-                                                                                                        concatFunc(valToTest.ToString(), ref textRes);
-
+                                                                                                        //concatFunc(valToTest.ToString(), ref textRes);
+                                                                                                        concatList.Add(valToTest.ToString());
 
 
                                                                                                         break;
@@ -12361,8 +12492,8 @@ namespace ArcGIS4LocalGovernment
                                                                                             {
 
                                                                                                 case "CONCAT":
-                                                                                                    concatFunc(test.ToString(), ref textRes);
-
+                                                                                                    //concatFunc(test.ToString(), ref textRes);
+                                                                                                    concatList.Add(test.ToString());
                                                                                                     break;
                                                                                                 default:
                                                                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -12383,7 +12514,14 @@ namespace ArcGIS4LocalGovernment
                                                                                             double valToTest = Convert.ToDouble(test);
                                                                                             if (result == -999999.1)
                                                                                             {
-                                                                                                result = valToTest;
+                                                                                                if (statType.ToUpper() == "CONCAT")
+                                                                                                {
+                                                                                                    concatList.Add(valToTest.ToString());
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    result = valToTest;
+                                                                                                }
 
 
                                                                                             }
@@ -12420,8 +12558,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                         break;
                                                                                                     case "CONCAT":
-                                                                                                        concatFunc(valToTest.ToString(), ref textRes);
-
+                                                                                                        //concatFunc(valToTest.ToString(), ref textRes);
+                                                                                                        concatList.Add(valToTest.ToString());
 
                                                                                                         break;
                                                                                                     default:
@@ -12437,9 +12575,8 @@ namespace ArcGIS4LocalGovernment
                                                                                             {
 
                                                                                                 case "CONCAT":
-                                                                                                    concatFunc(test.ToString(), ref textRes);
-
-
+                                                                                                    //concatFunc(test.ToString(), ref textRes);
+                                                                                                    concatList.Add(test.ToString());
                                                                                                     break;
                                                                                                 default:
                                                                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -12478,6 +12615,20 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             try
                                                             {
+
+                                                                if (statType.ToUpper() == "CONCAT")
+                                                                {
+                                                                    if (sortOrder.ToUpper() == "ASC")
+                                                                    {
+                                                                        concatList.Sort((a, b) => a.CompareTo(b));
+                                                                    }
+                                                                    else if (sortOrder.ToUpper() == "DESC")
+                                                                    {
+                                                                        concatList.Sort((a, b) => -1 * a.CompareTo(b));
+                                                                    }
+
+                                                                    textRes = string.Join(delim, concatList.ToArray());
+                                                                }
                                                                 if (textRes != "")
                                                                 {
                                                                     inObject.set_Value(intFldIdxs[0], textRes);
@@ -12697,14 +12848,25 @@ namespace ArcGIS4LocalGovernment
                                                     int AverageCount = 0;
                                                     if (args.GetLength(0) > 1)
                                                     {
+                                                        string delim = ",";
+                                                        string sortOrder = "none";
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain114"));
 
 
                                                         string[] sourceFieldNames = args[0].ToString().Split(',');
                                                         string statType = args[1].ToString();
-
+                                                        if (args.GetLength(0) >= 2)
+                                                        {
+                                                            delim = args[2].ToString();
+                                                        }
+                                                        if (args.GetLength(0) >= 3)
+                                                        {
+                                                            sortOrder = args[3].ToString();
+                                                        }
                                                         double result = -999999.1;
                                                         string textRes = "";
+                                                        
+                                                        List<string> concatList = new List<string>();
                                                         if (sourceFieldNames != null)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain131"));
@@ -12727,7 +12889,14 @@ namespace ArcGIS4LocalGovernment
                                                                             double valToTest = Convert.ToDouble(test);
                                                                             if (result == -999999.1)
                                                                             {
-                                                                                result = valToTest;
+                                                                                if (statType.ToUpper() == "CONCAT")
+                                                                                {
+                                                                                    concatList.Add(valToTest.ToString());
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    result = valToTest;
+                                                                                }
 
 
                                                                             }
@@ -12764,8 +12933,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         break;
                                                                                     case "CONCAT":
-                                                                                        concatFunc(valToTest.ToString(), ref textRes);
-
+                                                                                       //concatFunc(valToTest.ToString(), ref textRes);
+                                                                                        concatList.Add(valToTest.ToString());
 
 
                                                                                         break;
@@ -12782,8 +12951,8 @@ namespace ArcGIS4LocalGovernment
                                                                             {
 
                                                                                 case "CONCAT":
-                                                                                    concatFunc(test.ToString(), ref textRes);
-
+                                                                                    //concatFunc(test.ToString(), ref textRes);
+                                                                                    concatList.Add(test.ToString());
 
 
                                                                                     break;
@@ -12801,6 +12970,19 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             try
                                                             {
+                                                                if (statType.ToUpper() == "CONCAT")
+                                                                {
+                                                                    if (sortOrder.ToUpper() == "ASC")
+                                                                    {
+                                                                        concatList.Sort((a, b) => a.CompareTo(b));
+                                                                    }
+                                                                    else if (sortOrder.ToUpper() == "DESC")
+                                                                    {
+                                                                        concatList.Sort((a, b) => -1 * a.CompareTo(b));
+                                                                    }
+
+                                                                    textRes = string.Join(delim, concatList.ToArray());
+                                                                }
                                                                 if (textRes != "")
                                                                 {
                                                                     inObject.set_Value(intFldIdxs[0], textRes);
@@ -13478,9 +13660,9 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 try
                                                                 {
-                                                                   
-                                                                       inObject.set_Value(intFldIdxs[0], null);
-                                                                  
+
+                                                                    inObject.set_Value(intFldIdxs[0], DBNull.Value);
+
                                                                 }
                                                                 catch { }
                                                             }
@@ -15349,7 +15531,7 @@ namespace ArcGIS4LocalGovernment
                 pFLay = null;
             }
         }
-        private void concatFunc(string val, ref string result)
+        private void concatFunc(string val, ref string result, string ConcatDelim = ",")
         {
             if (result == "")
             {
