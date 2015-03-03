@@ -2085,6 +2085,7 @@ Partial Public Class CostEstimatingWindow
             loadDefLayersCboBox()
 
         Catch ex As Exception
+
             MsgBox("Error in the Costing Tools - CIPProjectWindow: EnableCIPTools" & vbCrLf & ex.Message)
         End Try
     End Sub
@@ -5445,7 +5446,10 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: loadDefLayersCboBox" & vbCrLf & ex.Message)
+            If Not ex.Message.Contains("COM object") Then
+
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: loadDefLayersCboBox" & vbCrLf & ex.Message)
+            End If
 
         End Try
     End Sub
@@ -5540,7 +5544,10 @@ Partial Public Class CostEstimatingWindow
             pSubType = Nothing
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: loadStrategyCboBox" & vbCrLf & ex.Message)
+            If Not ex.Message.Contains("COM object") Then
+
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: loadStrategyCboBox" & vbCrLf & ex.Message)
+            End If
 
         End Try
     End Sub

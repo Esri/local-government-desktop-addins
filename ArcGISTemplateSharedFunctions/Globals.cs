@@ -3467,6 +3467,7 @@ namespace A4LGSharedFunctions
                 try
                 {
                     netElements.QueryIDs(EID, esriElementType.esriETJunction, out FCID, out FID, out subID);
+
                 }
                 catch (Exception ex)
                 {
@@ -3645,6 +3646,74 @@ namespace A4LGSharedFunctions
                 point = null;
             }
         }
+        public static int getEIDAtLocation(ref IPoint point, ref IMap map, ref IGeometricNetwork gn, double snapTol)
+        {
+
+            //Initialize output variables
+
+            IPoint snappedPoint = null;
+            int EID = -1;
+            double distanceAlong = -1;
+
+            IGeoDataset pDS = null;
+            IPointToEID pointToEID = null;
+
+            // INetElements netElements = null;
+            try
+            {
+                pDS = gn.FeatureDataset as IGeoDataset;
+                point.Project(pDS.SpatialReference);
+
+
+                pointToEID = new PointToEIDClass() as IPointToEID;
+
+
+                // find the nearest junction element to this Point
+                pointToEID.GeometricNetwork = gn;
+                pointToEID.SourceMap = map;
+                pointToEID.SnapTolerance = snapTol;
+                try
+                {
+                    //pointToEID.GetNearestJunction(point, out EID, out snappedPoint);
+                    pointToEID.GetNearestEdge(point, out EID, out snappedPoint, out distanceAlong);
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+
+                // convert the EID to a feature class ID, feature ID, and sub ID
+                //netElements = gn.Network as INetElements;
+                //int FCID = -1, FID = -1, subID = -1;
+                //try
+                //{
+                //    netElements.QueryIDs(EID, esriElementType.esriETEdge, out FCID, out FID, out subID);
+                //}
+                //catch (Exception ex)
+                //{
+
+
+                //}
+                return EID;
+
+
+            }
+            catch
+            {
+                return -1;
+            }
+            finally
+            {
+                pDS = null;
+                pointToEID = null;
+
+                // netElements = null;
+            }
+
+
+        }
+
         public static IEdgeFlag GetEdgeFlagWithGN(ref IPoint point, ref IMap map, ref IGeometricNetwork gn, double snapTol, out IPoint snappedPoint, out int EID, out double distanceAlong, out  IFlagDisplay pFlagDisplay, bool Flag)
         {
 
@@ -3978,18 +4047,30 @@ namespace A4LGSharedFunctions
             }
 
         }
-        public static void AddBarriersToSolver(ref ITraceFlowSolverGEN traceFlowSolver, ref INetElementBarriers pEdgeElementBarriers, ref INetElementBarriers pJunctionElementBarriers, ref ISelectionSetBarriers pSelectionSetBarriers)
+        public static void AddBarriersToSolver(ref ITraceFlowSolverGEN traceFlowSolver, ref INetElementBarriers pEdgeElementBarriers,
+            ref INetElementBarriers pJunctionElementBarriers, ref ISelectionSetBarriers pSelectionSetBarriers, INetElementBarriers closeValveBarr)
         {
             INetSolver pNetSolver = null;
             try
             {
                 pNetSolver = (INetSolver)traceFlowSolver;
+                if (closeValveBarr != null)
+                {
+                    pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, closeValveBarr);
+                }
+                else if (pEdgeElementBarriers != null)
+                {
+                    pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);
+                }
+
                 if (pJunctionElementBarriers != null)
                     pNetSolver.set_ElementBarriers(esriElementType.esriETJunction, pJunctionElementBarriers);
-                if (pEdgeElementBarriers != null)
-                    pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);
+
                 if (pSelectionSetBarriers != null)
                     pNetSolver.SelectionSetBarriers = pSelectionSetBarriers;
+
+                // pNetSolver.set_ElementBarriers(esriElementType.esriETJunction, closeVal);
+
             }
             catch
             {
@@ -4888,8 +4969,15 @@ namespace A4LGSharedFunctions
 
         }
         public static ITraceFlowSolverGEN CreateTraceFlowSolverFromToolbar(ref INetworkAnalysisExt pNetworkAnalysisExt, out List<IEdgeFlag> pEdgeFlags, out List<IJunctionFlag> pJunctionFlags,
-                out INetElementBarriers pEdgeElementBarriers, out INetElementBarriers pJunctionElementBarriers, out ISelectionSetBarriers pSelectionSetBarriers)
+             out INetElementBarriers pEdgeElementBarriers, out INetElementBarriers pJunctionElementBarriers, out ISelectionSetBarriers pSelectionSetBarriers)
         {
+            //    return CreateTraceFlowSolverFromToolbar(ref  pNetworkAnalysisExt, out pEdgeFlags, out  pJunctionFlags,
+            //     out  pEdgeElementBarriers, out  pJunctionElementBarriers, out pSelectionSetBarriers,null);
+            //}
+
+            //public static ITraceFlowSolverGEN CreateTraceFlowSolverFromToolbar(ref INetworkAnalysisExt pNetworkAnalysisExt, out List<IEdgeFlag> pEdgeFlags, out List<IJunctionFlag> pJunctionFlags,
+            //        out INetElementBarriers pEdgeElementBarriers, out INetElementBarriers pJunctionElementBarriers, out ISelectionSetBarriers pSelectionSetBarriers, INetElementBarriers inBarr = null)
+            //{
             //out List<IEdgeFlag> pEdgeFlagsBar, out List<IJunctionFlag> pJunctionFlagsBar
             pEdgeFlags = new List<IEdgeFlag>();
             pJunctionFlags = new List<IJunctionFlag>();
@@ -4964,7 +5052,11 @@ namespace A4LGSharedFunctions
 
                 //get the selection set barriers
                 pNetworkAnalysisExtBarriers.CreateSelectionBarriers(out pSelectionSetBarriers);
+
                 pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);
+
+                //pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, inBarr);
+                //pEdgeElementBarriers = inBarr;
 
                 pNetSolver.set_ElementBarriers(esriElementType.esriETJunction, pJunctionElementBarriers);
                 pNetSolver.SelectionSetBarriers = pSelectionSetBarriers;
@@ -7622,7 +7714,7 @@ namespace A4LGSharedFunctions
             }
         }
 
-        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IGeometry inGeo, double searchDistance, bool useCentroid,ISpatialReference mapSpatRef )
+        public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IGeometry inGeo, double searchDistance, bool useCentroid, ISpatialReference mapSpatRef)
         {
             IGeometry pGeo = null;
             ISpatialFilter sFilter = null;
@@ -7659,7 +7751,7 @@ namespace A4LGSharedFunctions
                         catch (Exception ex)
                         {
                         }
-                        
+
                         //pSourceGeo.SpatialReference = ((inFeature.Class as IFeatureClass) as IGeoDataset).SpatialReference;
                         if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != null)
                         {
@@ -9375,7 +9467,7 @@ namespace A4LGSharedFunctions
             }
         }
 
-        public static List<IFeature> GetIntersectingFeatures(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, bool boolRecycle, int IgnoreOID,ISpatialReference mapSpatRef)
+        public static List<IFeature> GetIntersectingFeatures(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, bool boolRecycle, int IgnoreOID, ISpatialReference mapSpatRef)
         {
 
             ISpatialFilter pSpatFilt = null;
@@ -9419,7 +9511,7 @@ namespace A4LGSharedFunctions
 
 
         }
-        public static List<IGeometry> GetIntersectingGeometry(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, bool boolRecycle, int IgnoreOID,ISpatialReference mapSpatRef)
+        public static List<IGeometry> GetIntersectingGeometry(IGeometry pSourceGeo, IFeatureLayer pLayerToSearch, bool boolSearchLayer, bool boolRecycle, int IgnoreOID, ISpatialReference mapSpatRef)
         {
 
             ISpatialFilter pSpatFilt = null;

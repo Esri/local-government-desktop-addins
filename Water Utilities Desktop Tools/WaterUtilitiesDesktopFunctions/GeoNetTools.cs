@@ -3485,7 +3485,7 @@ namespace A4WaterUtilities
 
 
             List<BarClassIDS> barrierIds = null;
-          
+
             Hashtable sourceDirectEIDInfoHT = null;
             INetFlag netFlag1 = null;
             INetFlag netFlag2 = null;
@@ -3823,7 +3823,7 @@ namespace A4WaterUtilities
                 netSolver.SourceNetwork = gn.Network;
                 ////Globals.AddFlagsToTraceSolver(startNetFlag.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
                 //Globals.AddFlagsToTraceSolver(pNetFlags.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
-                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers);
+                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers, null);
                 pNetwork = gn.Network;
                 pNetSchema = pNetwork as INetSchema;
                 for (int i = 0; i < pNetSchema.WeightCount; i++)
@@ -4189,7 +4189,7 @@ namespace A4WaterUtilities
 
 
         public static string TraceIsolation(double[] x, double[] y, IApplication app, string sourceFLName, string valveFLName, string operableFieldNameValves, string operableFieldNameSources,
-                                  double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName, string MeterCritField, string MeterCritVal)
+                                  double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName, string MeterCritField, string MeterCritVal, string closedValveQuery)
         {
 
             IMap map = null;
@@ -4268,7 +4268,6 @@ namespace A4WaterUtilities
             INetFlag netFlag1 = null;
             INetFlag netFlag2 = null;
 
-            List<BarClassIDS> closedValvesbarrierIds = null;
             try
             {
                 map = ((app.Document as IMxDocument).FocusMap);
@@ -4402,7 +4401,9 @@ namespace A4WaterUtilities
                 if (gnIdx > -1)
                     gn = gnList[gnIdx] as IGeometricNetwork;
 
-
+                INetElementBarriersGEN netElementBarriersClose;
+                
+                INetElementBarriers nbClose = null;
                 if (app != null)
                 {
 
@@ -4416,10 +4417,121 @@ namespace A4WaterUtilities
                         Globals.SetCurrentNetwork(ref pNetAnalysisExt, ref gn);
                     }
 
+                    gn = pNetAnalysisExt.CurrentNetwork;
+                    strValveFLs = valveFLName.Split('|');
+
+
+                    valveFLs = new List<IFeatureLayer>();//(IFeatureLayer)Globals.FindLayer(map, valveFLName);
+                    valveFCs = new List<IFeatureClass>();//[strValveFLs.Length];
+
+
+                    //closedValvesbarrierIds = new List<BarClassIDS>();
+                    IFeatureCursor pCurValBar = null;
+                    IFeature valBarFeat = null;
+                    QueryFilter pQFValBar = new QueryFilterClass();
+                    pQFValBar = new QueryFilterClass();
+                    if (closedValveQuery != "")
+                    {
+                        pQFValBar.WhereClause = closedValveQuery;
+                    }
+                    //INetFlag closedValveBarr;
+                    List<int> closeVal = new List<int>();
+
+                    for (int i = 0; i < strValveFLs.Length; i++)
+                    {
+                        bool FCorLayerTemp = true;
+                        pTempLay = (IFeatureLayer)Globals.FindLayer(map, strValveFLs[i], ref FCorLayerTemp);
+                        if (pTempLay != null)
+                        {
+
+                            if (pTempLay.FeatureClass != null)
+                            {
+                                valveFLs.Add(pTempLay);
+                                valveFCs.Add(pTempLay.FeatureClass);
+                                valveFCClassIDs.Add(pTempLay.FeatureClass.FeatureClassID);
+                                try
+                                {
+                                    if (closedValveQuery != "")
+                                    {
+
+                                        pCurValBar = pTempLay.FeatureClass.Search(pQFValBar, true);
+
+                                        while ((valBarFeat = pCurValBar.NextFeature()) != null)
+                                        {
+
+                                            try
+                                            {
+                                                IPoint loc = (valBarFeat.ShapeCopy as IPoint);
+                                                closeVal.Add(Globals.getEIDAtLocation(ref loc, ref map, ref gn, snapTol));
+                                                loc = null;
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+
+                                            }
+                                        }
+
+
+                                    }
+                                }
+                                catch
+                                { }
+
+                            }
+                        }
+
+                    }
                     traceFlowSolver = Globals.CreateTraceFlowSolverFromToolbar(ref pNetAnalysisExt, out pEdgeFlags, out pJunctionFlags, out pEdgeElementBarriers, out pJunctionElementBarriers, out pSelectionSetBarriers) as ITraceFlowSolverGEN;
 
+                    if (closeVal.Count > 0)
+                    {
+                        INetworkAnalysisExtBarriers pNetworkAnalysisExtBarriers = null;
 
-                    gn = pNetAnalysisExt.CurrentNetwork;
+                        INetElements pNetElements = gn.Network as INetElements;
+
+
+                        pNetworkAnalysisExtBarriers = (INetworkAnalysisExtBarriers)pNetAnalysisExt;
+                    
+                        int lngFlagCount = pNetworkAnalysisExtBarriers.EdgeBarrierCount;
+
+                        //only execute this next bit if there are junction flags
+                        if (lngFlagCount != 0)
+                        {  //redimension the array to hold the correct number of junction flags
+
+                            //ReDim pJunctionFlags(0 To lngJunctionFlagCount - 1)
+                            for (int i = 0; i < lngFlagCount; i++)
+                            {
+                                
+                                pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtBarriers.get_EdgeBarrier(i);
+                                closeVal.Add(pNetElements.GetEID(pFlagDisplay.FeatureClassID, pFlagDisplay.FID, pFlagDisplay.SubID, esriElementType.esriETEdge));
+
+
+                            }
+
+                        }
+
+
+                        netElementBarriersClose = new NetElementBarriersClass() as INetElementBarriersGEN;
+                        netElementBarriersClose.ElementType = esriElementType.esriETEdge;
+                        //netElementBarriersClose.ElementType = esriElementType.esriETJunction;
+                        netElementBarriersClose.Network = gn.Network;
+
+                        int[] clo = closeVal.ToArray();
+
+                        netElementBarriersClose.SetBarriersByEID(ref clo);
+                        nbClose = netElementBarriersClose as INetElementBarriers;
+
+                      
+
+                    }
+                    valBarFeat = null;
+                    pQFValBar = null;
+                    if (pCurValBar != null)
+                        Marshal.ReleaseComObject(pCurValBar);
+                    pCurValBar = null;
+
+
                     netSolver = traceFlowSolver as INetSolver;
 
                 }
@@ -4430,6 +4542,9 @@ namespace A4WaterUtilities
 
                         return A4LGSharedFunctions.Localizer.GetString("NoFlagReturnStatement");
                     }
+
+
+
                     traceFlowSolver = new TraceFlowSolverClass() as ITraceFlowSolverGEN;
                     netSolver = traceFlowSolver as INetSolver;
 
@@ -4524,66 +4639,32 @@ namespace A4WaterUtilities
                 pointAlong++;
                 //                IFeatureClass sourceFC = (IFeatureClass)Globals.GetFeatureClassFromGeometricNetwork(sourceFCName, gn, esriFeatureType.esriFTSimpleJunction);
                 // IFeatureClass valveFC = (IFeatureClass)Globals.GetFeatureClassFromGeometricNetwork(valveFCName, gn, esriFeatureType.esriFTSimpleJunction);
-                strValveFLs = valveFLName.Split('|');
+                //strValveFLs = valveFLName.Split('|');
 
-                valveFLs = new List<IFeatureLayer>();//(IFeatureLayer)Globals.FindLayer(map, valveFLName);
-                valveFCs = new List<IFeatureClass>();//[strValveFLs.Length];
+                //valveFLs = new List<IFeatureLayer>();//(IFeatureLayer)Globals.FindLayer(map, valveFLName);
+                //valveFCs = new List<IFeatureClass>();//[strValveFLs.Length];
 
 
-                closedValvesbarrierIds = new List<BarClassIDS>();
-                IFeatureCursor pCurValBar = null;
-                IFeature valBarFeat = null;
-                QueryFilter pQFValBar = new QueryFilterClass();
-                for (int i = 0; i < strValveFLs.Length; i++)
-                {
-                    bool FCorLayerTemp = true;
-                    pTempLay = (IFeatureLayer)Globals.FindLayer(map, strValveFLs[i], ref FCorLayerTemp);
-                    if (pTempLay != null)
-                    {
+                //for (int i = 0; i < strValveFLs.Length; i++)
+                //{
+                //    bool FCorLayerTemp = true;
+                //    pTempLay = (IFeatureLayer)Globals.FindLayer(map, strValveFLs[i], ref FCorLayerTemp);
+                //    if (pTempLay != null)
+                //    {
 
-                        if (pTempLay.FeatureClass != null)
-                        {
-                            valveFLs.Add(pTempLay);
-                            valveFCs.Add(pTempLay.FeatureClass);
-                            valveFCClassIDs.Add(pTempLay.FeatureClass.FeatureClassID);
-                            try
-                            {
-
-                                BarClassIDS barClID2 = new BarClassIDS();
-                                List<int> tempIntArr2 = new List<int>();
+                //        if (pTempLay.FeatureClass != null)
+                //        {
+                //            valveFLs.Add(pTempLay);
+                //            valveFCs.Add(pTempLay.FeatureClass);
+                //            valveFCClassIDs.Add(pTempLay.FeatureClass.FeatureClassID);
 
 
 
-                                barClID2.ClassID = pTempLay.FeatureClass.ObjectClassID;
-                                pQFValBar = new QueryFilterClass();
-                                pQFValBar.WhereClause = "CURROPEN = 0";
-                                 pCurValBar = pTempLay.FeatureClass.Search(pQFValBar, true);
-                              valBarFeat = null;
-                                while ((valBarFeat = pCurValBar.NextFeature()) != null)
-                                {
-                                    tempIntArr2.Add(valBarFeat.OID);
-                                }
-                                if (tempIntArr2.Count > 0)
-                                {
-                                    barClID2.IDs = tempIntArr2.ToArray();
-                                    barrierIds.Add(barClID2);
-                                }
-                              
+                //        }
+                //    }
 
-                            }
-                            catch
-                            { }
+                //}
 
-
-                        }
-                    }
-
-                }
-                valBarFeat = null;
-                pQFValBar = null;
-                if (pCurValBar != null)
-                    Marshal.ReleaseComObject(pCurValBar);
-                pCurValBar = null;
                 //  string strMeterFL = meterFLName;
 
                 //meterFL = (IFeatureLayer)Globals.FindLayer(map, meterFLName);
@@ -4919,32 +5000,41 @@ namespace A4WaterUtilities
 
                 try
                 {
-                    traceFlowSolver.FindFlowEndElements(esriFlowMethod.esriFMConnected, esriFlowElements.esriFEJunctionsAndEdges, out juncEIDs, out edgeEIDs);
-                }
-                catch
-                {
                     juncEIDs = null;
                     edgeEIDs = null;
-                    if (processEvent)
+                    traceFlowSolver.FindFlowEndElements(esriFlowMethod.esriFMConnected, esriFlowElements.esriFEJunctionsAndEdges, out juncEIDs, out edgeEIDs);
+                }
+                catch (Exception ex)
+                {
+                    try
                     {
-
-                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "FindFlowEndElements";
-                        pStepPro.Step();
-                        boolCont = pTrkCan.Continue();
+                        traceFlowSolver.FindFlowEndElements(esriFlowMethod.esriFMConnected, esriFlowElements.esriFEJunctionsAndEdges, out juncEIDs, out edgeEIDs);
                     }
-
-
-                    if (!boolCont)
+                    catch (Exception ex2)
                     {
+                        juncEIDs = null;
+                        edgeEIDs = null;
+                        if (processEvent)
+                        {
 
-                        pStepPro.Hide();
-                        pProDlg.HideDialog();
-                        pStepPro = null;
-                        pProDlg = null;
-                        pProDFact = null;
-                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
+                            pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "FindFlowEndElements";
+                            pStepPro.Step();
+                            boolCont = pTrkCan.Continue();
+                        }
+
+
+                        if (!boolCont)
+                        {
+
+                            pStepPro.Hide();
+                            pProDlg.HideDialog();
+                            pStepPro = null;
+                            pProDlg = null;
+                            pProDFact = null;
+                            return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
+                        }
+                        return A4LGSharedFunctions.Localizer.GetString("DontFindFlowEltReturnStatement");
                     }
-                    return A4LGSharedFunctions.Localizer.GetString("DontFindFlowEltReturnStatement");
                     //MessageBox.Show("Error in the FindFlowEndElements");
                 }
                 pointAlong++;
@@ -5047,7 +5137,7 @@ namespace A4WaterUtilities
                 netSolver.SourceNetwork = gn.Network;
                 //Globals.AddFlagsToTraceSolver(startNetFlag.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
                 Globals.AddFlagsToTraceSolver(pNetFlags.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
-                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers);
+                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers, nbClose);
 
 
                 pointAlong++;
@@ -5143,7 +5233,7 @@ namespace A4WaterUtilities
                 netSolver.SourceNetwork = gn.Network;
                 //Globals.AddFlagsToTraceSolver(startNetFlag.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
                 Globals.AddFlagsToTraceSolver(pNetFlags.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
-                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers);
+                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers, nbClose);
 
                 pointAlong++;
                 //Set the barriers in the network based on the saved valves
@@ -5203,7 +5293,7 @@ namespace A4WaterUtilities
                 pointAlong++;
                 netSolver.SelectionSetBarriers = netElementBarrier;
                 pointAlong++;
-                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers);
+                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers, nbClose);
 
                 traceFlowSolver.FindFlowElements(esriFlowMethod.esriFMConnected, esriFlowElements.esriFEJunctionsAndEdges, out juncEIDs, out edgeEIDs);
                 // Hashtable sourceDirectEIDInfoHT = Globals.GetEIDInfoListByFC(sourceFC.FeatureClassID, juncEIDs, eidHelper);
@@ -5376,7 +5466,7 @@ namespace A4WaterUtilities
                             traceFlowSolver.TraceIndeterminateFlow = traceIndeterminate;
                             netSolver = traceFlowSolver as INetSolver;
                             netSolver.SourceNetwork = gn.Network;
-                            Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers);
+                            Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers, nbClose);
 
                             //Set the first junction flag for path finding based this current valve
                             netFlag1 = new JunctionFlagClass();
@@ -5481,7 +5571,7 @@ namespace A4WaterUtilities
 
                 //Globals.AddFlagsToTraceSolver(startNetFlag.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
                 Globals.AddFlagsToTraceSolver(pNetFlags.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
-                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers);
+                Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers, nbClose);
 
                 //Set the barriers in the network based on the saved valves
                 netElementBarrier = new SelectionSetBarriersClass();
@@ -6108,6 +6198,7 @@ namespace A4WaterUtilities
                     return;
                 }
 
+                string closedValveQuery = ConfigUtil.GetConfigValue("TraceIsolation_Valve_ClosedValveQuery", "");
 
                 pWSEdit.StartEditOperation();
 
@@ -6144,7 +6235,7 @@ namespace A4WaterUtilities
                         pCurve.QueryPoint(esriSegmentExtension.esriNoExtension, 0.5, true, pPnt);
 
 
-                        string result = GeoNetTools.TraceIsolation(new double[] { pPnt.X }, new double[] { pPnt.Y }, app, sourceFLName, valveFLName, operableFieldNameValve, operableFieldNameSource, snapTol, false, opValues, addSQL, traceIndeterminate, ZeroSourceCont, false, meterFLName, metersCritFieldName, metersCritValue);
+                        string result = GeoNetTools.TraceIsolation(new double[] { pPnt.X }, new double[] { pPnt.Y }, app, sourceFLName, valveFLName, operableFieldNameValve, operableFieldNameSource, snapTol, false, opValues, addSQL, traceIndeterminate, ZeroSourceCont, false, meterFLName, metersCritFieldName, metersCritValue, closedValveQuery);
                         string[] resVals = result.Split('_');
                         if (resVals.Length == 3)
                         {
