@@ -12978,6 +12978,7 @@ namespace ArcGIS4LocalGovernment
                                                     found = false;
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain135") + valData);
                                                     // Parse arguments
+                                                    string nullOnNone = "False";
                                                     args = valData.Split('|');
                                                     //if (args.GetLength(0) >= 2)
                                                     if (args.Length >= 2)
@@ -13016,6 +13017,35 @@ namespace ArcGIS4LocalGovernment
                                                                         strOpt = AAState.intersectOptions.First;
                                                                         break;
                                                                 }
+                                                                break;
+                                                            case 4:
+                                                                sourceLayerNames = args[0].ToString().Split(',');
+                                                                sourceFieldName = args[1].ToString();
+                                                                switch (args[2].ToString().ToUpper())
+                                                                {
+                                                                    case "PROMPT":
+                                                                        strOpt = AAState.intersectOptions.PromptMulti;
+                                                                        break;
+                                                                    case "P":
+                                                                        strOpt = AAState.intersectOptions.PromptMulti;
+                                                                        break;
+                                                                    case "CENTROID":
+                                                                        strOpt = AAState.intersectOptions.Centroid;
+                                                                        break;
+                                                                    case "C":
+                                                                        strOpt = AAState.intersectOptions.Centroid;
+                                                                        break;
+                                                                    case "F":
+                                                                        strOpt = AAState.intersectOptions.First;
+                                                                        break;
+                                                                    case "L":
+                                                                        strOpt = AAState.intersectOptions.Last;
+                                                                        break;
+                                                                    case "FIRST":
+                                                                        strOpt = AAState.intersectOptions.First;
+                                                                        break;
+                                                                }
+                                                                nullOnNone = args[3].ToString();
                                                                 break;
                                                             default: break;
                                                         }
@@ -13443,6 +13473,16 @@ namespace ArcGIS4LocalGovernment
                                                                 found = true;
 
 
+                                                            }
+                                                            if (found == false && nullOnNone.ToUpper() == "TRUE" && inObject.Fields.get_Field(intFldIdxs[0]).IsNullable)
+                                                            {
+                                                                try
+                                                                {
+                                                                   
+                                                                       inObject.set_Value(intFldIdxs[0], null);
+                                                                  
+                                                                }
+                                                                catch { }
                                                             }
 
                                                         }
