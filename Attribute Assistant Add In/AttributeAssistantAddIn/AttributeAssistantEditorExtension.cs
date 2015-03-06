@@ -1649,6 +1649,19 @@ namespace ArcGIS4LocalGovernment
             try
             {
                 inFeature = obj as IFeature;
+
+                bool bIsFabricRecord = false;
+                if (inFeature != null)
+                {
+                    if (AAState._fabricObjectClassIds != null)
+                        bIsFabricRecord = AAState._fabricObjectClassIds.Contains(obj.Class.ObjectClassID);
+                    if (bIsFabricRecord)
+                    {
+                        if (inFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolygon)
+                            return;// for parcels in fabrics, postpone the OnCreate event and let the OnChange test check if it's a new parcel
+                    }
+                }
+
                 sendEvent(obj, "ON_CREATE");
             }
             catch (Exception ex)
