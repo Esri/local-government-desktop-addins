@@ -13242,6 +13242,44 @@ namespace A4LGSharedFunctions
 
         #region WorkspaceTools
 
+        public static IFields createFieldsFromSourceFields(IFields SourceFields)
+        {
+            // create fields
+            IFields pFields;
+            IFieldsEdit pFieldsEdit;
+            IField pField;
+            IFieldEdit pFieldEdit;
+
+            pFields = new FieldsClass();
+            pFieldsEdit = (IFieldsEdit)pFields;
+            int iFldCnt = SourceFields.FieldCount;
+            pFieldsEdit.FieldCount_2 = iFldCnt;
+
+            for (int i = 0; i < iFldCnt; i++)
+            {
+                IField SourceField = SourceFields.get_Field(i);
+
+                if (SourceField.Editable || SourceField.Type == esriFieldType.esriFieldTypeOID || SourceField.Type == esriFieldType.esriFieldTypeGeometry)
+                {
+                    IClone clone = SourceField as IClone;
+                    pField = clone.Clone() as IField;
+                }
+                else
+                {
+                    pField = new FieldClass();
+                    pFieldEdit = (IFieldEdit)pField;
+                    pFieldEdit.Editable_2 = true;
+                    pFieldEdit.Name_2 = SourceField.Name;
+                    pFieldEdit.IsNullable_2 = SourceField.IsNullable;
+                    pFieldEdit.Length_2 = SourceField.Length;
+                    pFieldEdit.Precision_2 = SourceField.Precision;
+                    pFieldEdit.Type_2 = SourceField.Type;
+                }
+                pFieldsEdit.set_Field(i, pField);
+            }
+            return pFields;
+        }
+
         public static IWorkspace CreateInMemoryWorkspace()
         {
             IWorkspaceFactory workspaceFactory = null;
