@@ -340,7 +340,7 @@ namespace A4LGAddressManagement
                     {
 
                         bool rightSide = true;
-                        pPnt = Globals.GetPointOnLine(pFeat.Shape as IPoint, retInfo.AddressDetails.StreetGeometry as IPolyline, 400, out rightSide);
+                        pPnt = Globals.GetPointOnLine(pFeat.Shape as IPoint, retInfo.AddressDetails.StreetGeometry as IPolyline, 10000, out rightSide);
                         if (rightSide)
                         {
                             pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.RightAddress);
