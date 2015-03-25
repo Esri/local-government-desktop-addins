@@ -1979,14 +1979,14 @@ namespace A4LGSharedFunctions
                 {
                     pNetSolverW = traceFlowSolver as INetSolverWeights;
                     pNetSolverW.JunctionWeight = pNetWeight;
-                    //if (flowMethod == esriFlowMethod.esriFMUpstream)
-                    //{
-                    //    pNetSolverW.ToFromEdgeWeight = pNetWeight;
-                    //}
-                    //else
-                    //{
-                    //    pNetSolverW.FromToEdgeWeight = pNetWeight;
-                    //}
+                    if (flowMethod == esriFlowMethod.esriFMUpstream)
+                    {
+                        pNetSolverW.ToFromEdgeWeight = pNetWeight;
+                    }
+                    else
+                    {
+                        pNetSolverW.FromToEdgeWeight = pNetWeight;
+                    }
                 }
 
                 //Run this trace
