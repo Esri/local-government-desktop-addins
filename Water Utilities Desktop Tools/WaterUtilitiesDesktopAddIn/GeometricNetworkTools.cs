@@ -382,6 +382,101 @@ namespace A4WaterUtilities
             base.Dispose(value);
         }
     }
+    public class FlagsBarriersToLayer : ESRI.ArcGIS.Desktop.AddIns.Button
+    {
+
+
+
+        public FlagsBarriersToLayer()
+        {
+
+        }
+
+        protected override void OnClick()
+        {
+            try
+            {
+                List<ESRI.ArcGIS.Geometry.IPoint> Flags;
+                List<ESRI.ArcGIS.Geometry.IPoint> Barriers;
+                IWorkspace pWS;
+                IFields pFields;
+                IPoint pNPt;
+                Globals.getFlagsBarriers(ArcMap.Application, out Flags, out Barriers);
+                // Open the Workspace
+                if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(ArcMap.Document.FocusMap)) == null)
+                {
+                    pWS = Globals.CreateInMemoryWorkspace();
+                }
+                pFields = Globals.createFeatureClassFields(ArcMap.Document.FocusMap.SpatialReference, esriGeometryType.esriGeometryPoint);
+
+                IFeatureClass pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                IFeatureClass pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+
+
+                IFeatureCursor pntInsertCurs = pFlagsFC.Insert(true);
+                IFeatureBuffer pFBuf;
+                IFeature pFeat;
+
+                foreach (ESRI.ArcGIS.Geometry.IPoint pnt in Flags) // Loop through List with foreach
+                {
+                    pFBuf = pFlagsFC.CreateFeatureBuffer();
+                    pFeat = (IFeature)pFBuf;
+                    pNPt = new ESRI.ArcGIS.Geometry.PointClass();
+                    pNPt.X = pnt.X;
+                    pNPt.Y = pnt.Y;
+
+                    pFeat.Shape = pNPt;
+
+                    pntInsertCurs.InsertFeature(pFBuf);
+
+                }
+                pntInsertCurs = pBarriersFC.Insert(true);
+                foreach (ESRI.ArcGIS.Geometry.IPoint pnt in Barriers) // Loop through List with foreach
+                {
+                    pFBuf = pBarriersFC.CreateFeatureBuffer();
+                    pFeat = (IFeature)pFBuf;
+                    pNPt = new ESRI.ArcGIS.Geometry.PointClass();
+                    pNPt.X = pnt.X;
+                    pNPt.Y = pnt.Y;
+
+                    pFeat.Shape = pNPt;
+                    pntInsertCurs.InsertFeature(pFBuf);
+
+                }
+
+
+
+                IFeatureLayer pFlagsLayer = new FeatureLayerClass();
+                pFlagsLayer.FeatureClass = pFlagsFC;
+                pFlagsLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportFlagsName");
+
+
+                IFeatureLayer pBarriersLayer = new FeatureLayerClass();
+                pBarriersLayer.FeatureClass = pBarriersFC;
+                pBarriersLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportBarriersName");
+
+
+                ArcMap.Document.FocusMap.AddLayer(pFlagsLayer);
+                ArcMap.Document.FocusMap.AddLayer(pBarriersLayer);
+                ArcMap.Document.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, null);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+            finally
+            { }
+        }
+
+
+        protected override void OnUpdate()
+        {
+            Enabled = (ArcMap.Application != null);
+
+        }
+
+    }
     public class ClearTraceResults : ESRI.ArcGIS.Desktop.AddIns.Button
     {
 
