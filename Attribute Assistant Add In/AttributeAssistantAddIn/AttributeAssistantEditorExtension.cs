@@ -134,6 +134,7 @@ namespace ArcGIS4LocalGovernment
         public static Bitmap bmpOn;
         public static ICommandItem commandItem;
         public static ITable _gentab;
+        public static IWorkspaceEdit2 _gentabWorkspace;
         public static ITable _tab;
         public static DataTable _dt;
         public static DataView _dv;
@@ -258,13 +259,14 @@ namespace ArcGIS4LocalGovernment
             }
             _dv = new DataView(_dt);
             _gentab = Globals.FindTable(ArcMap.Document.FocusMap, _sequenceTableName);
-            if (_gentab == null)
+
+            if (AAState._gentab != null)
             {
+                IDataset pDS = (IDataset)AAState._gentab;
 
+                AAState._gentabWorkspace = (IWorkspaceEdit2)pDS.Workspace;
+                pDS = null;
             }
-
-
-
             return true;
         }
         public static void initDynTable()
@@ -724,7 +726,7 @@ namespace ArcGIS4LocalGovernment
         {
             _editEvents.OnChangeFeature += FeatureChange;
             _editEvents2.BeforeStopOperation += StopOperation; // SG Jan 2013
-        
+
         }
         public static bool reInitExt()
         {
@@ -990,9 +992,9 @@ namespace ArcGIS4LocalGovernment
         private string formatString;
         private string intersectLayerName, intersectLayerFieldName;
         private int sequenceColumnNum;
+        private int sequenceIntColumnNum;
         private int sequencePadding;
-        private long sequenceValue;
-        private bool found;
+         private bool found;
 
         private string newValue;
         private string sourceLayerName;
@@ -2071,7 +2073,7 @@ namespace ArcGIS4LocalGovernment
                             if (InMemTable != null)
                                 AAState._fabricInMemTablesLookUp.Add(iObjClassID, InMemTable);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             MessageBox.Show("Error Creating In Memory Fabric Table" + Environment.NewLine + ex.Message);
                         }
@@ -2083,7 +2085,7 @@ namespace ArcGIS4LocalGovernment
                 }
 
                 WireFabricEvents();
-                
+
             }
         }
 
@@ -2536,7 +2538,7 @@ namespace ArcGIS4LocalGovernment
                                     }
                                     if (pFLyr != null) //make sure there's at least one valid fabric feature layer
                                     {
-                                        int iObjClassID =inObject.Class.ObjectClassID;
+                                        int iObjClassID = inObject.Class.ObjectClassID;
                                         ITable InMemTable = AAState._fabricInMemTablesLookUp[iObjClassID];
                                         IRowBuffer pRowBuff = InMemTable.CreateRowBuffer();
                                         IFields pIncomingFlds = inObject.Fields;
@@ -4798,7 +4800,7 @@ namespace ArcGIS4LocalGovernment
                                                                         {
 
                                                                             IList<string> pVals = new List<string>();
-                                                                            string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " +  strFldAlias[l], ComboBoxStyle.DropDown);
+                                                                            string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown);
                                                                             try
                                                                             {
                                                                                 inObject.set_Value(intFldIdxs[l], strRetVal);
@@ -10963,7 +10965,7 @@ namespace ArcGIS4LocalGovernment
                                                 {
                                                     sequenceColumnName = "";
                                                     sequenceColumnNum = -1;
-                                                    sequenceValue = -1;
+                                                  
                                                     sequenceFixedWidth = "";
                                                     sequencePadding = 0;
                                                     formatString = "";
@@ -11020,131 +11022,12 @@ namespace ArcGIS4LocalGovernment
                                                         qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
 
                                                         sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
+                                                        sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
+                                                        ITransactions pTras = null;
 
-                                                        using (ComReleaser comReleaser = new ComReleaser())
-                                                        {
-                                                            // Use ITable.Update to create an update cursor.
-                                                            ICursor seq_updateCursor = AAState._gentab.Update(qFilter, true);
-                                                            comReleaser.ManageLifetime(seq_updateCursor);
-
-                                                            IRow seq_row = null;
-
-                                                            for (int j = 0; j < 51; j++)
-                                                            {
-                                                                seq_row = seq_updateCursor.NextRow();
-                                                                if (seq_row == null)
-                                                                {
-                                                                    break;
-                                                                }
-
-                                                                int sequenceInt = 1;
-
-                                                                if (AAState._gentab.Fields.FindField("SEQINTERV") > 0)
-                                                                {
-                                                                    object seqInt = seq_row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV"));
-                                                                    if (seqInt != null)
-                                                                    {
-                                                                        if (seqInt != DBNull.Value)
-                                                                            try
-                                                                            {
-                                                                                sequenceInt = Convert.ToInt32(seqInt);
-                                                                            }
-                                                                            catch
-                                                                            {
-
-                                                                            }
-                                                                    }
-                                                                }
-                                                                object seqValue = seq_row.get_Value(sequenceColumnNum);
-
-                                                                if (seqValue == null)
-                                                                {
-                                                                    sequenceValue = 0;
-                                                                }
-                                                                else if (seqValue.ToString() == "")
-                                                                {
-                                                                    sequenceValue = 0;
-                                                                }
-                                                                else
-                                                                    try
-                                                                    {
-                                                                        sequenceValue = Convert.ToInt32(seqValue);
-                                                                    }
-                                                                    catch
-                                                                    {
-                                                                        sequenceValue = 0;
-                                                                    }
-
-                                                                sequenceValue = sequenceValue + sequenceInt;
-
-                                                                seq_row.set_Value(sequenceColumnNum, sequenceValue);
-                                                                seq_updateCursor.UpdateRow(seq_row);
-                                                                //try
-                                                                //{
-                                                                //    seq_updateCursor.Flush();
-                                                                //}
-                                                                //catch
-                                                                //{ }
-                                                                AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue);
-                                                                if (Convert.ToInt32(seq_row.get_Value(sequenceColumnNum)) == sequenceValue)
-                                                                    break;
-
-                                                            }
-
-
-                                                        }
-
-                                                        //cCurs = AAState._gentab.Update(qFilter, false);
-                                                        //sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
-                                                        ////get value of first row, increment it, and return incremented value
-                                                        //for (int j = 0; j < 51; j++)
-                                                        //{
-                                                        //    row = cCurs.NextRow();
-                                                        //    if (row == null)
-                                                        //    {
-                                                        //        break;
-                                                        //    }
-                                                        //    if (row.get_Value(sequenceColumnNum) == null)
-                                                        //    {
-                                                        //        sequenceValue = 0;
-                                                        //    }
-                                                        //    else if (row.get_Value(sequenceColumnNum).ToString() == "")
-                                                        //    {
-                                                        //        sequenceValue = 0;
-                                                        //    }
-                                                        //    else
-                                                        //        sequenceValue = Convert.ToInt32(row.get_Value(sequenceColumnNum));
-
-
-                                                        //    // _editEvents.OnChangeFeature -= OnChangeFeature;
-                                                        //    // _editEvents.OnCreateFeature -= OnCreateFeature;
-                                                        //    int sequenceInt = 1;
-
-                                                        //    if (AAState._gentab.Fields.FindField("SEQINTERV") > 0)
-                                                        //    {
-                                                        //        if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != null)
-                                                        //        {
-                                                        //            if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != DBNull.Value)
-                                                        //                sequenceInt = Convert.ToInt32(row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")));
-                                                        //        }
-                                                        //    }
-                                                        //    sequenceValue = sequenceValue + sequenceInt;
-
-                                                        //    row.set_Value(sequenceColumnNum, sequenceValue);
-                                                        //    AAState.WriteLine("                  " + row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue);
-                                                        //    //AAState.changeFeature -= OnChangeFeature;
-                                                        //    //AAState.createFeature -= OnCreateFeature;
-
-                                                        //    row.Store();
-                                                        //    //AAState.changeFeature += OnChangeFeature;
-                                                        //    //AAState.createFeature += OnCreateFeature;
-
-                                                        //    //  _editEvents.OnChangeFeature += OnChangeFeature;
-                                                        //    //  _editEvents.OnCreateFeature += OnCreateFeature;
-                                                        //    if (Convert.ToInt32(row.get_Value(sequenceColumnNum)) == sequenceValue)
-                                                        //        break;
-
-                                                        // }
+                                                        long sequenceValue = unversionedEdit(qFilter,sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
+                                                        pTras = null;
+                                                
                                                         if (sequenceValue == -1)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ao"));
@@ -11241,7 +11124,6 @@ namespace ArcGIS4LocalGovernment
                                                 {
                                                     sequenceColumnName = "";
                                                     sequenceColumnNum = -1;
-                                                    sequenceValue = -1;
                                                     sequenceFixedWidth = "";
                                                     sequencePadding = 0;
                                                     //genIdAreaFieldName = "";
@@ -11415,49 +11297,12 @@ namespace ArcGIS4LocalGovernment
                                                     qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
                                                     cCurs = AAState._gentab.Update(qFilter, false);
                                                     sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
+                                                    sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
+                                                    ITransactions pTras = null;
 
-                                                    //get value of first row, increment it, and return incremented value
-                                                    for (int j = 0; j < 51; j++)
-                                                    {
-                                                        row = cCurs.NextRow();
-                                                        if (row == null)
-                                                        {
-                                                            break;
-                                                        }
-                                                        if (row.get_Value(sequenceColumnNum) == null)
-                                                        {
-                                                            sequenceValue = 0;
-                                                        }
-                                                        else if (row.get_Value(sequenceColumnNum).ToString() == "")
-                                                        {
-                                                            sequenceValue = 0;
-                                                        }
-                                                        else
-                                                            sequenceValue = Convert.ToInt32(row.get_Value(sequenceColumnNum));
-
-
-                                                        int sequenceInt = 1;
-
-
-                                                        if (AAState._gentab.Fields.FindField("SEQINTERV") > 0)
-                                                        {
-                                                            if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != null)
-                                                            {
-                                                                if (row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")) != DBNull.Value)
-                                                                    sequenceInt = Convert.ToInt32(row.get_Value(AAState._gentab.Fields.FindField("SEQINTERV")));
-                                                            }
-                                                        }
-                                                        sequenceValue = sequenceValue + sequenceInt;
-
-
-                                                        row.set_Value(sequenceColumnNum, sequenceValue);
-
-                                                        row.Store();
-
-                                                        if (Convert.ToInt32(row.get_Value(sequenceColumnNum)) == sequenceValue)
-                                                            break;
-
-                                                    }
+                                                    long sequenceValue = unversionedEdit(qFilter,sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
+                                                    pTras = null;
+                                                
                                                     if (sequenceValue == -1)
                                                     {
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14au"));
@@ -12758,7 +12603,8 @@ namespace ArcGIS4LocalGovernment
                                                                                                 {
                                                                                                     concatList.Add(valToTest.ToString());
                                                                                                 }
-                                                                                                else {
+                                                                                                else
+                                                                                                {
                                                                                                     result = valToTest;
                                                                                                 }
                                                                                             }
@@ -13186,7 +13032,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         double result = -999999.1;
                                                         string textRes = "";
-                                                        
+
                                                         List<string> concatList = new List<string>();
                                                         if (sourceFieldNames != null)
                                                         {
@@ -13254,7 +13100,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                                         break;
                                                                                     case "CONCAT":
-                                                                                       //concatFunc(valToTest.ToString(), ref textRes);
+                                                                                        //concatFunc(valToTest.ToString(), ref textRes);
                                                                                         concatList.Add(valToTest.ToString());
 
 
@@ -15885,6 +15731,141 @@ namespace ArcGIS4LocalGovernment
 
             }
 
+
+        }
+
+        public long unversionedEdit(IQueryFilter qFilterGen, int sequenceColumnNum, int idxSeqField, int curLoop, ref ITransactions transactions)
+        {
+            long sequenceValue = -1;
+            using (ComReleaser comReleaser = new ComReleaser())
+            {
+
+                if (AAState._gentabWorkspace.IsInEditOperation)
+                {
+                   // throw new Exception("Cannot use ITransactions during an edit operation.");
+                }
+                // Begin a transaction.
+                if (transactions == null) {
+                    transactions= (ITransactions)AAState._gentabWorkspace;
+                }
+                
+                transactions.StartTransaction();
+                try
+                {
+                    // Use ITable.Update to create an update cursor.
+                    ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, true);
+                    comReleaser.ManageLifetime(seq_updateCursor);
+
+                    IRow seq_row = null;
+                    seq_row = seq_updateCursor.NextRow();
+                    int sequenceInt = 1;
+
+                    if (seq_row != null)
+                    {
+                        if (idxSeqField > 0)
+                        {
+                            object seqInt = seq_row.get_Value(idxSeqField);
+                            if (seqInt != null)
+                            {
+                                if (seqInt != DBNull.Value)
+                                    try
+                                    {
+                                        sequenceInt = Convert.ToInt32(seqInt);
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                            }
+                        }
+                        object seqValue = seq_row.get_Value(sequenceColumnNum);
+
+                        if (seqValue == null)
+                        {
+                            sequenceValue = 0;
+                        }
+                        else if (seqValue.ToString() == "")
+                        {
+                            sequenceValue = 0;
+                        }
+                        else
+                            try
+                            {
+                                sequenceValue = Convert.ToInt64(seqValue);
+                            }
+                            catch
+                            {
+                                sequenceValue = 0;
+                            }
+
+                        AAState.WriteLine("                  " + sequenceValue + " is the existing value and the interval is " + sequenceInt + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+
+                        sequenceValue = sequenceValue + sequenceInt;
+
+                        seq_row.set_Value(sequenceColumnNum, sequenceValue);
+                        AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+
+                        seq_updateCursor.UpdateRow(seq_row);
+                        
+                        transactions.CommitTransaction();
+
+                        seq_updateCursor = AAState._gentab.Search(qFilter, true);
+                        if (seq_row != null)
+                        {
+                            seqValue = seq_row.get_Value(sequenceColumnNum);
+
+                            if (seqValue == null)
+                            {
+                                return sequenceValue;
+                            }
+                            else if (seqValue.ToString() == "")
+                            {
+                                return sequenceValue;
+                            }
+                            else
+                                try
+                                {
+                                    if (sequenceValue == Convert.ToInt64(seqValue))
+                                    {
+                                        return sequenceValue;
+                                    }
+                                    else
+                                    {
+                                        if (curLoop > 30)
+                                        {
+                                            MessageBox.Show("A unique ID could not be generated after 30 attempts: " + DateTime.Now.ToString("h:mm:ss tt"));
+                                        }
+                                        else
+                                        {
+                                            return unversionedEdit(qFilterGen,sequenceColumnNum, idxSeqField, curLoop + 1, ref transactions);
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                    return sequenceValue;
+                                }
+                        }
+                        return sequenceValue;
+                    }
+                    else
+                    {
+                        AAState.WriteLine("                  No records found in Generate ID table" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+                        transactions.AbortTransaction();
+                        return -1;
+                    }
+                }
+                catch (COMException comExc)
+                {
+                    AAState.WriteLine("                  Error saving transaction to DB" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+
+                    // If an error occurs during the inserts and updates, rollback the transaction.
+                    transactions.AbortTransaction();
+                    return -1;
+                }
+
+
+            }
 
         }
         #endregion
