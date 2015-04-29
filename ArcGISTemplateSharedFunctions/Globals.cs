@@ -830,11 +830,17 @@ namespace A4LGSharedFunctions
         {
             try
             {
+                if (pFld.Type == esriFieldType.esriFieldTypeString) { 
+                    if (value.Length > pFld.Length)
+                    {
+                        return value.Substring(0, pFld.Length);
 
-                if (value.Length > pFld.Length)
-                {
-                    return value.Substring(0, pFld.Length);
+                    }
+                    else
+                    {
+                        return value;
 
+                    }
                 }
                 else
                 {
