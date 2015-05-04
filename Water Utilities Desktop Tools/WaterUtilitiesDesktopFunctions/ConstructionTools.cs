@@ -1587,8 +1587,26 @@ namespace A4WaterUtilities
                             if (addLateralsDetails[k].Reset_Flow != null)
                             {
                                 resetFlow = addLateralsDetails[k].Reset_Flow;
+                               
 
+                                if (resetFlow.ToUpper() == "DIGITIZED")
+                                {
+                                    Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", app).Execute();
+
+                                }
+                                else if (resetFlow.ToUpper() == "ROLE")
+                                {
+                                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", app).Execute();
+                                }
+                                else if (resetFlow.ToUpper() == "Ancillary".ToUpper())
+                                {
+                                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", app).Execute();
+                                }
+                                else
+                                {
+                                }
                             }
+
                         }
 
                         if (ForceSourcePointConnection)

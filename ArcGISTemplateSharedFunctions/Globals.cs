@@ -6268,7 +6268,10 @@ namespace A4LGSharedFunctions
 
                 IEditTemplateManager ipEditTemplateMgr;
                 ipEditTemplateMgr = GetEditTemplateManager(Layer);
-
+                if (ipEditTemplateMgr == null)
+                {
+                    return null;
+                }
                 for (int kdx = 0; kdx < ipEditTemplateMgr.Count; kdx++)
                 {
                     IEditTemplate pEditTemp = ipEditTemplateMgr.get_EditTemplate(kdx);
