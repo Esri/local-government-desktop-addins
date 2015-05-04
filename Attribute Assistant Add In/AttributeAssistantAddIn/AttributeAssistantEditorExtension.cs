@@ -994,7 +994,7 @@ namespace ArcGIS4LocalGovernment
         private int sequenceColumnNum;
         private int sequenceIntColumnNum;
         private int sequencePadding;
-         private bool found;
+        private bool found;
 
         private string newValue;
         private string sourceLayerName;
@@ -10965,7 +10965,7 @@ namespace ArcGIS4LocalGovernment
                                                 {
                                                     sequenceColumnName = "";
                                                     sequenceColumnNum = -1;
-                                                  
+
                                                     sequenceFixedWidth = "";
                                                     sequencePadding = 0;
                                                     formatString = "";
@@ -11025,9 +11025,9 @@ namespace ArcGIS4LocalGovernment
                                                         sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
                                                         ITransactions pTras = null;
 
-                                                        long sequenceValue = unversionedEdit(qFilter,sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
+                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
                                                         pTras = null;
-                                                
+
                                                         if (sequenceValue == -1)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ao"));
@@ -11300,9 +11300,9 @@ namespace ArcGIS4LocalGovernment
                                                     sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
                                                     ITransactions pTras = null;
 
-                                                    long sequenceValue = unversionedEdit(qFilter,sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
+                                                    long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
                                                     pTras = null;
-                                                
+
                                                     if (sequenceValue == -1)
                                                     {
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14au"));
@@ -14730,8 +14730,44 @@ namespace ArcGIS4LocalGovernment
                                                             sourceLayerName = sourceLayerNames[i].ToString();
                                                             if (sourceLayerName != "")
                                                             {
-                                                                bool FCorLayerSource = true;
-                                                                sourceLayer = Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref FCorLayerSource) as IFeatureLayer;
+                                                                boolLayerOrFC = true;
+
+                                                                if (sourceLayerName.Contains("("))
+                                                                {
+                                                                    string[] tempSplt = sourceLayerName.Split('(');
+                                                                    sourceLayerName = tempSplt[0].Trim();
+                                                                    sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+
+                                                                    if (tempSplt[1].ToUpper().Contains("LAYER)"))
+                                                                    {
+                                                                        boolLayerOrFC = true;
+                                                                    }
+
+
+                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURELAYER)"))
+                                                                    {
+                                                                        boolLayerOrFC = true;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURECLASS)"))
+                                                                    {
+                                                                        boolLayerOrFC = false;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("CLASS)"))
+                                                                    {
+                                                                        boolLayerOrFC = false;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURE)"))
+                                                                    {
+                                                                        boolLayerOrFC = false;
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+
+                                                                }
+                                                                // Get layer
                                                                 if (sourceLayer != null)
                                                                 {
                                                                     sourceField = Globals.GetFieldIndex(sourceLayer.FeatureClass.Fields, sourceFieldName);
@@ -15742,13 +15778,14 @@ namespace ArcGIS4LocalGovernment
 
                 if (AAState._gentabWorkspace.IsInEditOperation)
                 {
-                   // throw new Exception("Cannot use ITransactions during an edit operation.");
+                    // throw new Exception("Cannot use ITransactions during an edit operation.");
                 }
                 // Begin a transaction.
-                if (transactions == null) {
-                    transactions= (ITransactions)AAState._gentabWorkspace;
+                if (transactions == null)
+                {
+                    transactions = (ITransactions)AAState._gentabWorkspace;
                 }
-                
+
                 transactions.StartTransaction();
                 try
                 {
@@ -15806,7 +15843,7 @@ namespace ArcGIS4LocalGovernment
                         AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.Now.ToString("h:mm:ss tt"));
 
                         seq_updateCursor.UpdateRow(seq_row);
-                        
+
                         transactions.CommitTransaction();
 
                         seq_updateCursor = AAState._gentab.Search(qFilter, true);
@@ -15837,7 +15874,7 @@ namespace ArcGIS4LocalGovernment
                                         }
                                         else
                                         {
-                                            return unversionedEdit(qFilterGen,sequenceColumnNum, idxSeqField, curLoop + 1, ref transactions);
+                                            return unversionedEdit(qFilterGen, sequenceColumnNum, idxSeqField, curLoop + 1, ref transactions);
                                         }
                                     }
                                 }
