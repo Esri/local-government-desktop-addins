@@ -928,8 +928,12 @@ namespace A4WaterUtilities
         private static string _caption = A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2");
 
 
+        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection) {
+            return AddLaterals(app, addLateralsDetails, inFeatures, logOperation, suppressDialog, store, ForceSourcePointConnection, null);
 
-        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection)
+        }
+
+        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, IFeatureLayer pEditLayer)
         {
             string resetFlow = "";
             bool useDefaultTemplate;
@@ -999,11 +1003,24 @@ namespace A4WaterUtilities
 
                 mxdoc = (IMxDocument)app.Document;
                 map = editor.Map;
-
+   
                 for (int k = 0; k < addLateralsDetails.Count; k++)
                 {
                     bool FCorLayerPoint = true;
-                    pointFLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].Point_LayerName, ref FCorLayerPoint);
+                    if (pEditLayer != null)
+                    {
+                        if (pEditLayer.Name == addLateralsDetails[k].Point_LayerName)
+                        {
+                            pointFLayer = pEditLayer;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else { 
+                        pointFLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].Point_LayerName, ref FCorLayerPoint);
+                    }
                     if (inFeatures != null)
                     {
                         if (pointFLayer == null)

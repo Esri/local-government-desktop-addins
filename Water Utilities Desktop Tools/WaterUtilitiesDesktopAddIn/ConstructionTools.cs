@@ -157,7 +157,7 @@ namespace A4WaterUtilities
                 //((IFeatureSelection)m_editor.CurrentTemplate.Layer).Clear();
                 m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
 
-               string resetFlow =  AddLateralsLinesCmds.AddLaterals(ArcMap.Application, ConfigUtil.GetAddLateralsConfig(), pFeat, false, true, false, false);
+                string resetFlow = AddLateralsLinesCmds.AddLaterals(ArcMap.Application, ConfigUtil.GetAddLateralsConfig(), pFeat, false, true, false, false, (IFeatureLayer)m_editor.CurrentTemplate.Layer);
                 // m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
 
 

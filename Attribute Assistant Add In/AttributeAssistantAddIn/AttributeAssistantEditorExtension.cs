@@ -14790,7 +14790,7 @@ namespace ArcGIS4LocalGovernment
                                                                             }
                                                                             else
                                                                             {
-
+                                                                                
                                                                                 fCursor = sourceLayer.Search(sFilter, false);
                                                                             }
                                                                         }
