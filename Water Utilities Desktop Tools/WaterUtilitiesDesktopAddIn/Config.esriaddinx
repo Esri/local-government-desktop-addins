@@ -123,7 +123,7 @@
             <Tool refID="A4WaterUtilities_AddFlag" separator="false" />
             <Tool refID="A4WaterUtilities_AddBarrier" separator="false" />
             <Tool refID="A4WaterUtilities_RemoveFlagBarrier" separator="false" />
-            <Button refID="A4WaterUtilities_FlagsBarriersToLayer" separator="false" />
+            <!--<Button refID="A4WaterUtilities_FlagsBarriersToLayer" separator="false" />-->
 
             <Tool refID="A4WaterUtilities_SewerProfile" separator="false" />
 
