@@ -14,7 +14,7 @@
  | See the License for the specific language governing permissions and
  | limitations under the License.
  */
-
+using System.Diagnostics;
 using System.Globalization;
 using System;
 using System.Collections.ObjectModel;
@@ -11026,6 +11026,7 @@ namespace ArcGIS4LocalGovernment
                                                         ITransactions pTras = null;
 
                                                         long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
+                                                        Debug.WriteLine(sequenceValue.ToString());
                                                         pTras = null;
 
                                                         if (sequenceValue == -1)
@@ -14790,7 +14791,7 @@ namespace ArcGIS4LocalGovernment
                                                                             }
                                                                             else
                                                                             {
-                                                                                
+
                                                                                 fCursor = sourceLayer.Search(sFilter, false);
                                                                             }
                                                                         }
@@ -15006,79 +15007,99 @@ namespace ArcGIS4LocalGovernment
                                 {
                                     for (int p = 0; p < strFldNames.Count; p++)
                                     {
+                                        if ((intFldIdxs[p]) >= 0)
+                                        {
+                                            IRowChanges inChanges = inObject as IRowChanges;
 
-                                        IRowChanges inChanges = inObject as IRowChanges;
-                                        bool changed = inChanges.get_ValueChanged(intFldIdxs[p]);
-                                        if (changed)
-                                            try
-                                            {
-                                                if (AAState.lastValueProperties.GetProperty(strFldNames[p]) != null)
+                                            bool changed = inChanges.get_ValueChanged(intFldIdxs[p]);
+                                            if (changed)
+                                                try
                                                 {
-                                                    LastValueEntry lstVal = AAState.lastValueProperties.GetProperty(strFldNames[p]) as LastValueEntry;
-                                                    if (lstVal != null)
+                                                    object propNames = new object();
+                                                    object propValues = new object();
+                                                    AAState.lastValueProperties.GetAllProperties(out propNames, out propValues);
+
+                                                    object[] names = (object[])propNames;
+                                                    bool valuExist = false;
+                                                    for (int di = 0; di < names.Length; di++)
                                                     {
-                                                        if (mode == "ON_CREATE" && lstVal.On_Create == false)
+                                                        if (strFldNames[p].ToString() == names[di].ToString())
                                                         {
-                                                            string test = "";
+                                                            valuExist = true;
+                                                            break;
                                                         }
-                                                        else if (mode == "ON_MANUAL" && lstVal.On_Manual == false)
+
+                                                    }
+
+                                                    if (valuExist)
+                                                    {
+                                                        LastValueEntry lstVal = AAState.lastValueProperties.GetProperty(strFldNames[p]) as LastValueEntry;
+                                                        if (lstVal != null)
                                                         {
-                                                            string test = "";
-                                                        }
-                                                        else if (mode == "ON_CHANGE" && lstVal.On_ChangeAtt == false)
-                                                        {
-                                                            string test = "";
-                                                        }
-                                                        else if (mode == "ON_CHANGEGEO" && lstVal.On_ChangeGeo == false)
-                                                        {
-                                                            string test = "";
-                                                        }
-                                                        else
-                                                        {
-                                                            if (lstVal.Value != null)
+                                                            if (mode == "ON_CREATE" && lstVal.On_Create == false)
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
-                                                                if (mode == "ON_CREATE" && (inObject.get_Value(intFldIdxs[p]) == null || inObject.get_Value(intFldIdxs[p]).ToString() == ""))
-                                                                {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain187"));
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    AAState.WriteLine("                           " + strFldNames[p] + ": " + inObject.get_Value(intFldIdxs[p]).ToString());
-                                                                    lstVal.Value = inObject.get_Value(intFldIdxs[p]);
-
-                                                                    AAState.lastValueProperties.SetProperty(strFldNames[p], lstVal);
-                                                                }
+                                                                string test = "";
                                                             }
-
+                                                            else if (mode == "ON_MANUAL" && lstVal.On_Manual == false)
+                                                            {
+                                                                string test = "";
+                                                            }
+                                                            else if (mode == "ON_CHANGE" && lstVal.On_ChangeAtt == false)
+                                                            {
+                                                                string test = "";
+                                                            }
+                                                            else if (mode == "ON_CHANGEGEO" && lstVal.On_ChangeGeo == false)
+                                                            {
+                                                                string test = "";
+                                                            }
                                                             else
                                                             {
-                                                                if (mode == "ON_CREATE" && (inObject.get_Value(intFldIdxs[p]) == null || inObject.get_Value(intFldIdxs[p]).ToString() == ""))
-                                                                {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain187"));
-
-                                                                }
-                                                                else
+                                                                if (lstVal.Value != null)
                                                                 {
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
-                                                                    AAState.WriteLine("                           " + strFldNames[p] + ": " + inObject.get_Value(intFldIdxs[p]).ToString());
-                                                                    lstVal.Value = inObject.get_Value(intFldIdxs[p]);
+                                                                    if (mode == "ON_CREATE" && (inObject.get_Value(intFldIdxs[p]) == null || inObject.get_Value(intFldIdxs[p]).ToString() == ""))
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain187"));
 
-                                                                    AAState.lastValueProperties.SetProperty(strFldNames[p], lstVal);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        AAState.WriteLine("                           " + strFldNames[p] + ": " + inObject.get_Value(intFldIdxs[p]).ToString());
+                                                                        lstVal.Value = inObject.get_Value(intFldIdxs[p]);
+
+                                                                        AAState.lastValueProperties.SetProperty(strFldNames[p], lstVal);
+                                                                    }
+                                                                }
+
+                                                                else
+                                                                {
+                                                                    if (mode == "ON_CREATE" && (inObject.get_Value(intFldIdxs[p]) == null || inObject.get_Value(intFldIdxs[p]).ToString() == ""))
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain187"));
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
+                                                                        AAState.WriteLine("                           " + strFldNames[p] + ": " + inObject.get_Value(intFldIdxs[p]).ToString());
+                                                                        lstVal.Value = inObject.get_Value(intFldIdxs[p]);
+
+                                                                        AAState.lastValueProperties.SetProperty(strFldNames[p], lstVal);
+                                                                    }
                                                                 }
                                                             }
                                                         }
                                                     }
+
                                                 }
 
-                                            }
-                                            catch
-                                            {
+                                                catch
+                                                {
 
 
-                                            }
+                                                }
 
+                                        }
                                     }
                                 }
                             }

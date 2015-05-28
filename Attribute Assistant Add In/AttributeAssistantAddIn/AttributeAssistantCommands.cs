@@ -15,7 +15,7 @@
  | limitations under the License.
  */
 
-
+using System.Diagnostics;
 using System;
 using System.Drawing;
 using System.Text;
@@ -1515,7 +1515,8 @@ namespace ArcGIS4LocalGovernment
                                         fSel.SelectionSet.Search(null, false, out cursor);
                                         fCursor = cursor as IFeatureCursor;
                                         IFeature feat;
-                                        while ((feat = (IFeature)fCursor.NextFeature()) != null)
+                                        feat = (IFeature)fCursor.NextFeature();
+                                        while (feat != null)
                                         {
 
 
@@ -1540,7 +1541,7 @@ namespace ArcGIS4LocalGovernment
                                             try
                                             {
                                                 AAState.FeatureCreate(pObj);
-
+                                                Debug.WriteLine("Feature with12 " + feat.OID);
                                                 feat.Store();
                                             }
                                             catch
@@ -1558,7 +1559,7 @@ namespace ArcGIS4LocalGovernment
                                             {
                                                 break;
                                             }
-
+                                            feat = (IFeature)fCursor.NextFeature();
                                         }
                                         if (feat != null)
                                             Marshal.ReleaseComObject(feat);
