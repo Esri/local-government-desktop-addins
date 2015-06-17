@@ -4195,9 +4195,12 @@ namespace A4WaterUtilities
 
 
         public static string TraceIsolation(double[] x, double[] y, IApplication app, string sourceFLName, string valveFLName, string operableFieldNameValves, string operableFieldNameSources,
-                                  double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName, string MeterCritField, string MeterCritVal, string closedValveQuery)
+                                  double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName,
+                                  string MeterCritField, string MeterCritVal, string closedValveQuery, IFeatureLayer mainsFL, out IPolyline mergedLines, out List<int> lineOIDs)
         {
 
+            mergedLines = null;
+            lineOIDs = null;
             IMap map = null;
 
             List<int> valveFCClassIDs = new List<int>();
@@ -5661,6 +5664,9 @@ namespace A4WaterUtilities
                     else
                         Globals.DrawEdges(ref map, ref  gn, ref edgeEIDs);
                 }
+              
+                mergedLines = Globals.MergeEdges(ref map, ref  gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
+                
                 returnVal = Globals.SelectValveJunctions(ref map, ref hasSourceValveHT, ref valveFLs, processEvent) + "_" + returnVal;
 
                 if (processEvent)
@@ -6237,6 +6243,8 @@ namespace A4WaterUtilities
 
                 pSelectIDs = mainsFS.SelectionSet.IDs;
                 int intCurID = pSelectIDs.Next();
+                List<int> processedIDs = new List<int>();
+
                 while (intCurID != -1)
                 {
                     intValveCount = 0;
@@ -6245,7 +6253,28 @@ namespace A4WaterUtilities
                     comments = "";
                     try
                     {
+                        //if( processedIDs.Contains(intCurID)) {
+                        //    pStepPro.Step();
+                     
+                        //    boolCont = pTrkCan.Continue();
 
+                        //    if (!boolCont)
+                        //    {
+                        //        pInsCur.Flush();
+                        //        pWSEdit.AbortEditOperation();
+
+
+
+
+
+                        //        return;
+                        //    }
+                        //    intCurID = pSelectIDs.Next();
+
+
+                        //    Marshal.ReleaseComObject(pMainsFeat);
+                        //    continue;
+                        //}
                         // Globals.RemoveTraceGraphics(((IMxDocument)ArcMap.Application.Document).FocusMap, false);
                         // Globals.ClearSelected(ArcMap.Application, false);
                         Globals.ClearGNFlags(app, Globals.GNTypes.Flags);
@@ -6258,9 +6287,14 @@ namespace A4WaterUtilities
                         pPnt = new PointClass();
                         pCurve.QueryPoint(esriSegmentExtension.esriNoExtension, 0.5, true, pPnt);
 
+                        IPolyline mergedLines = new PolylineClass();
+                        List<int> procoids = new List<int>();
 
-                        string result = GeoNetTools.TraceIsolation(new double[] { pPnt.X }, new double[] { pPnt.Y }, app, sourceFLName, valveFLName, operableFieldNameValve, operableFieldNameSource, snapTol, false, opValues, addSQL, traceIndeterminate, ZeroSourceCont, false, meterFLName, metersCritFieldName, metersCritValue, closedValveQuery);
+                        string result = GeoNetTools.TraceIsolation(new double[] { pPnt.X }, new double[] { pPnt.Y }, app, sourceFLName, valveFLName, operableFieldNameValve, 
+                            operableFieldNameSource, snapTol, false, opValues, addSQL, traceIndeterminate, ZeroSourceCont, true, meterFLName, metersCritFieldName,
+                            metersCritValue, closedValveQuery, mainsFL,out mergedLines,out procoids);
                         string[] resVals = result.Split('_');
+                        processedIDs.Add(intCurID);
                         if (resVals.Length == 3)
                         {
                             intValveCount = Convert.ToInt32(resVals[0]);
@@ -6272,9 +6306,19 @@ namespace A4WaterUtilities
                         {
                             comments = result;
                         }
+                        if (mergedLines != null && procoids != null)
+                        {
+                            processedIDs.AddRange(procoids);
+                            pSumFeatBuf.Shape = mergedLines;
+                        }
+                        else
+                        {
+
+                            pSumFeatBuf.Shape = pMainsFeat.ShapeCopy;
+                        }
                         // pStepPro.Message = "Saving Result: " + pStepPro.Position + A4LGSharedFunctions.Localizer.GetString("Of") + FeatureCount + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_18a");
 
-                        pSumFeatBuf.Shape = pMainsFeat.ShapeCopy;
+                      
                         if (resultsDateFieldPosition > -1)
                         {
                             pSumFeatBuf.set_Value(resultsDateFieldPosition, DateTime.Now);

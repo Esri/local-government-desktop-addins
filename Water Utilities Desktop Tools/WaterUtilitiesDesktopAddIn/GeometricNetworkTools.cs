@@ -731,8 +731,11 @@ namespace A4WaterUtilities
 
 
             IPoint point = ArcMap.Document.CurrentLocation;
+
+            IPolyline mergedLines;
+            List<int> procoids;
             string returnVal = GeoNetTools.TraceIsolation(new double[] { point.X }, new double[] { point.Y }, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources,
-                SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery);
+                SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids);
             if (returnVal != null)
             {
                 string[] retVals = returnVal.Split('_');
@@ -794,10 +797,12 @@ namespace A4WaterUtilities
             Globals.ClearSelected(ArcMap.Application, false);
 
 
-
+            
+            IPolyline mergedLines;
+            List<int> procoids;
             //IPoint point = ArcMap.Document.CurrentLocation;
             string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
-                ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery);
+                ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines,out  procoids);
 
 
 
@@ -874,8 +879,11 @@ namespace A4WaterUtilities
 
                 Globals.ClearSelected(ArcMap.Application, false);
 
+
+                IPolyline mergedLines;
+                List<int> procoids;
                 string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
-                    ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery);
+                    ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids);
             }
             else
             {

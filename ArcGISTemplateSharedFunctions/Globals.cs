@@ -830,7 +830,8 @@ namespace A4LGSharedFunctions
         {
             try
             {
-                if (pFld.Type == esriFieldType.esriFieldTypeString) { 
+                if (pFld.Type == esriFieldType.esriFieldTypeString)
+                {
                     if (value.Length > pFld.Length)
                     {
                         return value.Substring(0, pFld.Length);
@@ -4068,7 +4069,8 @@ namespace A4LGSharedFunctions
                 //{
                 //    pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);
                 //}
-                if (pEdgeElementBarriers != null) { 
+                if (pEdgeElementBarriers != null)
+                {
                     pNetSolver.set_ElementBarriers(esriElementType.esriETEdge, pEdgeElementBarriers);
                 }
                 if (pJunctionElementBarriers != null)
@@ -5579,8 +5581,10 @@ namespace A4LGSharedFunctions
             IElementProperties elemProp = null;
             IRelationalOperator relOp = null;
 
+
             try
             {
+
                 env = new EnvelopeClass();
                 av = (IActiveView)map;
                 graphics = (IGraphicsContainer)map;
@@ -5609,6 +5613,7 @@ namespace A4LGSharedFunctions
                     geom = eidInfo.Geometry;
                     if (geom != null)
                     {
+
                         //geom = eidInfo.Feature.ShapeCopy;
                         env.Union(geom.Envelope);
 
@@ -5624,6 +5629,7 @@ namespace A4LGSharedFunctions
                     eidInfo = enumEidInfo.Next();
                 }
                 env.Expand(1.1, 1.1, true);
+
                 return env;
             }
             catch
@@ -5644,6 +5650,80 @@ namespace A4LGSharedFunctions
                 elem = null;
                 elemProp = null;
                 relOp = null;
+            }
+
+        }
+        public static IPolyline MergeEdges(ref IMap map, ref  IGeometricNetwork gn, ref IEnumNetEID edgeEIDs, ref IFeatureLayer mainsFL, out List<int> oids)
+        {
+
+
+            IGeometry geom = null;
+            IGeometryCollection geometryBag = new GeometryBagClass();
+            object Missing = Type.Missing;
+            ESRI.ArcGIS.Geometry.ITopologicalOperator topologicalOperator = null;
+            IEIDHelper eidHelper = null;
+            IEnumEIDInfo enumEidInfo = null;
+            IEIDInfo eidInfo = null;
+            oids = new List<int>();
+            try
+            {
+
+                eidHelper = new EIDHelperClass();
+                eidHelper.GeometricNetwork = gn;
+                eidHelper.OutputSpatialReference = map.SpatialReference;
+                eidHelper.ReturnFeatures = true;
+                eidHelper.ReturnGeometries = true;
+                eidHelper.PartialComplexEdgeGeometry = true;
+
+                enumEidInfo = eidHelper.CreateEnumEIDInfo(edgeEIDs);
+                enumEidInfo.Reset();
+                eidInfo = enumEidInfo.Next();
+                topologicalOperator = (ESRI.ArcGIS.Geometry.ITopologicalOperator) new PolylineClass();
+                while (eidInfo != null)
+                {
+                    geom = eidInfo.Geometry;
+                    if (geom != null)
+                    {
+                        //   if (mainsFL.FeatureClass.ObjectClassID == eidInfo.Feature.Class.ObjectClassID &&
+                        //                           mainsFL.FeatureClass.CLSID.Value == eidInfo.Feature.Class.CLSID.Value)
+                        //if (mainsFL.FeatureClass.CLSID.Value == eidInfo.Feature.Class.CLSID.Value)
+                        if (mainsFL.FeatureClass.ObjectClassID.ToString() == eidInfo.Feature.Class.ObjectClassID.ToString() &&
+                           mainsFL.FeatureClass.CLSID.Value.ToString() == eidInfo.Feature.Class.CLSID.Value.ToString())
+                        {
+                            if (oids.Contains(eidInfo.Feature.OID) == false)
+                            {
+                                oids.Add(eidInfo.Feature.OID);
+                            }
+                            geometryBag.AddGeometry(geom as IGeometry, ref Missing, ref Missing);
+                        }
+                        // }
+
+
+
+                    }
+                    eidInfo = enumEidInfo.Next();
+                }
+                IEnumGeometry enumGeometry = geometryBag as IEnumGeometry;
+
+                topologicalOperator.ConstructUnion(enumGeometry);
+                //topologicalOperator.Simplify();
+
+                IPolyline pline = (IPolyline)topologicalOperator;
+
+                return pline;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+
+                eidHelper = null;
+                enumEidInfo = null;
+                eidInfo = null;
+                geom = null;
+
             }
 
         }

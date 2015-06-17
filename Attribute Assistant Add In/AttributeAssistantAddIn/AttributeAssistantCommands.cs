@@ -1468,12 +1468,7 @@ namespace ArcGIS4LocalGovernment
 
                         ESRI.ArcGIS.esriSystem.IStatusBar statusBar = ArcMap.Application.StatusBar;
                                        
-
-
-
                         ran = true;
-
-
                         editor.StartOperation();
 
                         //bool test = false;
@@ -1540,8 +1535,9 @@ namespace ArcGIS4LocalGovernment
 
                                             try
                                             {
-                                                AAState.FeatureCreate(pObj);
-                                                Debug.WriteLine("Feature with12 " + feat.OID);
+                                                //AAState.FeatureCreate(pObj);
+                                                Debug.WriteLine("Feature with " + feat.OID);
+                                                Debug.WriteLine(progressVal.ToString() + " : Count is " + fSel.SelectionSet.Count);
                                                 feat.Store();
                                             }
                                             catch
