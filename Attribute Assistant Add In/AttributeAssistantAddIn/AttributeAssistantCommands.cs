@@ -338,16 +338,6 @@ namespace ArcGIS4LocalGovernment
                 if (totalCount >= 1)
                 {
 
-
-
-
-
-
-
-
-
-
-
                     if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
@@ -1044,14 +1034,13 @@ namespace ArcGIS4LocalGovernment
 
                 if (totalCount >= 1)
                 {
-                    editor.StartOperation();
+                  
 
                     if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_3a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
-
-
+                   
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
                         ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -1080,7 +1069,8 @@ namespace ArcGIS4LocalGovernment
                         System.Int32 progressVal = 0;
 
                         ESRI.ArcGIS.esriSystem.IStatusBar statusBar = ArcMap.Application.StatusBar;
-                                       
+
+                        editor.StartOperation();
 
 
                         ran = true;
