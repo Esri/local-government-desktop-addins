@@ -782,30 +782,38 @@ namespace A4WaterUtilities
                             //Establish flow using AncillaryRole values
                             if (flowDirection == Globals.GNFlowDirection.AncillaryRole)
                             {
-                                enumFC = gn.get_ClassesByNetworkAncillaryRole(esriNetworkClassAncillaryRole.esriNCARSourceSink);
-                                if (enumFC.Next() == null)
-                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_1a") + gn.FeatureDataset.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_1b") + Environment.NewLine +
-                                                    A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_1c"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2"));
-                                else
+                                if (editor.EditWorkspace.Equals(gn.FeatureDataset.Workspace))
                                 {
-                                    gn.EstablishFlowDirection();
-                                    calcCount += 1;
+                                    enumFC = gn.get_ClassesByNetworkAncillaryRole(esriNetworkClassAncillaryRole.esriNCARSourceSink);
+                                    if (enumFC.Next() == null)
+                                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_1a") + gn.FeatureDataset.Name + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_1b") + Environment.NewLine +
+                                                        A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_1c"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2"));
+                                    else
+                                    {
+                                        gn.EstablishFlowDirection();
+                                        calcCount += 1;
+                                    }
                                 }
+                                
                             }
 
                             //Establish flow direction based on digitized direction.
                             else
                             {
                                 net = gn.Network;
-                                unet = net as IUtilityNetworkGEN;
-                                edgeEIDs = net.CreateNetBrowser(esriElementType.esriETEdge);
-                                edgeEIDs.Reset(); int edgeEID;
-                                for (long j = 0; j < edgeEIDs.Count; j++)
-                                {
-                                    edgeEID = edgeEIDs.Next();
-                                    unet.SetFlowDirection(edgeEID, esriFlowDirection.esriFDWithFlow);
+                                if (editor.EditWorkspace.Equals(gn.FeatureDataset.Workspace))
+                                { 
+                                
+                                    unet = net as IUtilityNetworkGEN;
+                                    edgeEIDs = net.CreateNetBrowser(esriElementType.esriETEdge);
+                                    edgeEIDs.Reset(); int edgeEID;
+                                    for (long j = 0; j < edgeEIDs.Count; j++)
+                                    {
+                                        edgeEID = edgeEIDs.Next();
+                                        unet.SetFlowDirection(edgeEID, esriFlowDirection.esriFDWithFlow);
+                                    }
+                                    calcCount += 1;
                                 }
-                                calcCount += 1;
                             }
                             stepProgressor.Step();
 

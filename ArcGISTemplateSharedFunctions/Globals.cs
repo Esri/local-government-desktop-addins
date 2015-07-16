@@ -2934,8 +2934,10 @@ namespace A4LGSharedFunctions
             bool found = false;
             IGeometricNetwork gn = null;
             ESRI.ArcGIS.esriSystem.IUID uid = null;
-
-
+            List<string> gnNames = new List<string>();
+            IVersionedWorkspace versionedWorkspace = null;
+            IVersion version = null;
+            string strVer;
             try
             {
                 mapLayers = (IMapLayers)map;
@@ -2958,19 +2960,31 @@ namespace A4LGSharedFunctions
                             if (netClass != null)
                             {
                                 gn = netClass.GeometricNetwork;
-                                found = false;
-                                for (int index = 0; index < gnList.Count; index++)
+                                strVer = "default";
+                                if (gn.FeatureDataset.Workspace is IVersionedWorkspace)
                                 {
-                                    if (IsInNetwork(fLayer.FeatureClass.FeatureClassID, gnList[index] as IGeometricNetwork, true))
-                                    {
-                                        found = true;
-                                        break;
-                                    }
+                                    versionedWorkspace = (IVersionedWorkspace)gn.FeatureDataset.Workspace;
+                                    version = (IVersion)versionedWorkspace;
+                                    strVer = version.VersionName;
                                 }
-                                if (!found)
+                                if (gnNames.IndexOf(gn.FeatureDataset.Name + ":" + strVer) < 0)
                                 {
+                                    gnNames.Add(gn.FeatureDataset.Name + ":" + strVer);
                                     gnList.Add(gn);
                                 }
+                                //found = false;
+                                //for (int index = 0; index < gnList.Count; index++)
+                                //{
+                                //    if (IsInNetwork(fLayer.FeatureClass.FeatureClassID, gnList[index] as IGeometricNetwork, true))
+                                //    {
+                                //        found = true;
+                                //        break;
+                                //    }
+                                //}
+                                //if (!found)
+                                //{
+                                //    gnList.Add(gn);
+                                //}
                             }
 
                         }
@@ -5678,7 +5692,7 @@ namespace A4LGSharedFunctions
                 enumEidInfo = eidHelper.CreateEnumEIDInfo(edgeEIDs);
                 enumEidInfo.Reset();
                 eidInfo = enumEidInfo.Next();
-                topologicalOperator = (ESRI.ArcGIS.Geometry.ITopologicalOperator) new PolylineClass();
+                topologicalOperator = (ESRI.ArcGIS.Geometry.ITopologicalOperator)new PolylineClass();
                 while (eidInfo != null)
                 {
                     geom = eidInfo.Geometry;
