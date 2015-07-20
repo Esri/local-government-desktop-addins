@@ -15,6 +15,5 @@ Release/
 
 # Snap backups
 *.7z
-ArcGISTemplateSharedFunctions/UserMessages.fa-IR.resx
-Water Utilities Desktop Tools/WaterUtilitiesDesktopAddIn/Config.fa-IR.xml
-Attribute Assistant Add In/AttributeAssistantAddIn/Config.fa-IR.xml
+*UserMessages.fa-IR.resx
+*Config.fa-IR.xml
