@@ -12,3 +12,6 @@ Release/
 
 # Snap backups
 *.7z
+*.csproj
+*.sln
+*.csproj.user
