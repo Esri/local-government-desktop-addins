@@ -12,8 +12,6 @@ Release/
 
 # Snap backups
 *.7z
-*UserMessages.fa-IR.resx
-*Config.fa-IR.xml
 *.csproj
 *.sln
 *.csproj.user
