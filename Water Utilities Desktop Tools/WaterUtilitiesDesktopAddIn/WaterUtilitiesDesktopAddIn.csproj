@@ -41,7 +41,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>1</WarningLevel>
+    <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -223,7 +223,6 @@
     <AddInContent Include="Config.fr-FR.xml">
       <SubType>Designer</SubType>
     </AddInContent>
-    <AddInContent Include="Config.fa-IR.xml" />
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -330,6 +329,6 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
-    <PostBuildEvent>copy "$(TargetDir)Loaded.Config" "C:\Users\Farid\AppData\Roaming\ArcGISSolutions\ConfigFiles"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)Loaded.Config" "C:\Users\mich3661\AppData\Roaming\ArcGISSolutions\ConfigFiles"</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -59,7 +59,7 @@
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(106, 23);
             this.btnSelect.TabIndex = 2;
-            this.btnSelect.Text = A4LGSharedFunctions.Localizer.GetString("Select");
+            this.btnSelect.Text = "Select";
             this.btnSelect.UseVisualStyleBackColor = true;
             this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
@@ -69,7 +69,7 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(106, 23);
             this.btnCancel.TabIndex = 3;
-            this.btnCancel.Text = A4LGSharedFunctions.Localizer.GetString("Cancel");
+            this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Visible = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);

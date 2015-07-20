@@ -53,36 +53,50 @@
             // 
             // btnOpenConfigLoc
             // 
-            resources.ApplyResources(this.btnOpenConfigLoc, "btnOpenConfigLoc");
+            this.btnOpenConfigLoc.Location = new System.Drawing.Point(13, 123);
             this.btnOpenConfigLoc.Name = "btnOpenConfigLoc";
+            this.btnOpenConfigLoc.Size = new System.Drawing.Size(144, 23);
+            this.btnOpenConfigLoc.TabIndex = 0;
+            this.btnOpenConfigLoc.Text = "Open location";
             this.btnOpenConfigLoc.UseVisualStyleBackColor = true;
             this.btnOpenConfigLoc.Click += new System.EventHandler(this.btnOpenLoc_Click);
             // 
             // txtBxPath
             // 
             this.txtBxPath.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            resources.ApplyResources(this.txtBxPath, "txtBxPath");
+            this.txtBxPath.Location = new System.Drawing.Point(13, 95);
             this.txtBxPath.Name = "txtBxPath";
             this.txtBxPath.ReadOnly = true;
+            this.txtBxPath.Size = new System.Drawing.Size(471, 20);
+            this.txtBxPath.TabIndex = 1;
             // 
             // cboConfigs
             // 
             this.cboConfigs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboConfigs.FormattingEnabled = true;
-            resources.ApplyResources(this.cboConfigs, "cboConfigs");
+            this.cboConfigs.Location = new System.Drawing.Point(13, 29);
             this.cboConfigs.Name = "cboConfigs";
+            this.cboConfigs.Size = new System.Drawing.Size(276, 21);
+            this.cboConfigs.TabIndex = 2;
             // 
             // btnLoadConfig
             // 
-            resources.ApplyResources(this.btnLoadConfig, "btnLoadConfig");
+            this.btnLoadConfig.Location = new System.Drawing.Point(13, 57);
             this.btnLoadConfig.Name = "btnLoadConfig";
+            this.btnLoadConfig.Size = new System.Drawing.Size(145, 23);
+            this.btnLoadConfig.TabIndex = 3;
+            this.btnLoadConfig.Text = "Load";
             this.btnLoadConfig.UseVisualStyleBackColor = true;
             this.btnLoadConfig.Click += new System.EventHandler(this.btnLoadConfig_Click);
             // 
             // label1
             // 
-            resources.ApplyResources(this.label1, "label1");
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 74);
             this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Config File Path";
             // 
             // gpBxConfig
             // 
@@ -93,49 +107,71 @@
             this.gpBxConfig.Controls.Add(this.label1);
             this.gpBxConfig.Controls.Add(this.btnOpenConfigLoc);
             this.gpBxConfig.Controls.Add(this.txtBxPath);
-            resources.ApplyResources(this.gpBxConfig, "gpBxConfig");
+            this.gpBxConfig.Dock = System.Windows.Forms.DockStyle.Top;
+            this.gpBxConfig.Location = new System.Drawing.Point(0, 0);
             this.gpBxConfig.Name = "gpBxConfig";
+            this.gpBxConfig.Size = new System.Drawing.Size(495, 158);
+            this.gpBxConfig.TabIndex = 5;
             this.gpBxConfig.TabStop = false;
             // 
             // btnPreviewLoaded
             // 
-            resources.ApplyResources(this.btnPreviewLoaded, "btnPreviewLoaded");
+            this.btnPreviewLoaded.Location = new System.Drawing.Point(316, 52);
             this.btnPreviewLoaded.Name = "btnPreviewLoaded";
+            this.btnPreviewLoaded.Size = new System.Drawing.Size(145, 23);
+            this.btnPreviewLoaded.TabIndex = 5;
+            this.btnPreviewLoaded.Text = "Preview";
             this.btnPreviewLoaded.UseVisualStyleBackColor = true;
             this.btnPreviewLoaded.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnReload
             // 
-            resources.ApplyResources(this.btnReload, "btnReload");
+            this.btnReload.Location = new System.Drawing.Point(316, 23);
             this.btnReload.Name = "btnReload";
+            this.btnReload.Size = new System.Drawing.Size(145, 23);
+            this.btnReload.TabIndex = 7;
+            this.btnReload.Text = "Reload";
             this.btnReload.UseVisualStyleBackColor = true;
             this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
             // 
             // lblConfig
             // 
-            resources.ApplyResources(this.lblConfig, "lblConfig");
+            this.lblConfig.AutoSize = true;
+            this.lblConfig.Location = new System.Drawing.Point(13, 20);
             this.lblConfig.Name = "lblConfig";
+            this.lblConfig.Size = new System.Drawing.Size(76, 13);
+            this.lblConfig.TabIndex = 6;
+            this.lblConfig.Text = "Loaded Config";
             // 
             // txtBxLoadedConfig
             // 
             this.txtBxLoadedConfig.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            resources.ApplyResources(this.txtBxLoadedConfig, "txtBxLoadedConfig");
+            this.txtBxLoadedConfig.Location = new System.Drawing.Point(13, 40);
             this.txtBxLoadedConfig.Name = "txtBxLoadedConfig";
             this.txtBxLoadedConfig.ReadOnly = true;
+            this.txtBxLoadedConfig.Size = new System.Drawing.Size(276, 20);
+            this.txtBxLoadedConfig.TabIndex = 5;
             // 
             // gpBxconfigFiles
             // 
             this.gpBxconfigFiles.Controls.Add(this.btnPreview);
             this.gpBxconfigFiles.Controls.Add(this.btnLoadConfig);
             this.gpBxconfigFiles.Controls.Add(this.cboConfigs);
-            resources.ApplyResources(this.gpBxconfigFiles, "gpBxconfigFiles");
+            this.gpBxconfigFiles.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gpBxconfigFiles.Location = new System.Drawing.Point(0, 251);
             this.gpBxconfigFiles.Name = "gpBxconfigFiles";
+            this.gpBxconfigFiles.Size = new System.Drawing.Size(495, 92);
+            this.gpBxconfigFiles.TabIndex = 6;
             this.gpBxconfigFiles.TabStop = false;
+            this.gpBxconfigFiles.Text = "Configuration Files";
             // 
             // btnPreview
             // 
-            resources.ApplyResources(this.btnPreview, "btnPreview");
+            this.btnPreview.Location = new System.Drawing.Point(300, 28);
             this.btnPreview.Name = "btnPreview";
+            this.btnPreview.Size = new System.Drawing.Size(145, 23);
+            this.btnPreview.TabIndex = 4;
+            this.btnPreview.Text = "Preview";
             this.btnPreview.UseVisualStyleBackColor = true;
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
@@ -145,45 +181,64 @@
             this.gpBxLog.Controls.Add(this.btnPrevLog);
             this.gpBxLog.Controls.Add(this.btnOpenLogLoc);
             this.gpBxLog.Controls.Add(this.txtBoxLogPath);
-            resources.ApplyResources(this.gpBxLog, "gpBxLog");
+            this.gpBxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gpBxLog.Location = new System.Drawing.Point(0, 158);
             this.gpBxLog.Name = "gpBxLog";
+            this.gpBxLog.Size = new System.Drawing.Size(495, 93);
+            this.gpBxLog.TabIndex = 7;
             this.gpBxLog.TabStop = false;
+            this.gpBxLog.Text = "Log File";
             // 
             // label2
             // 
             this.label2.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.label2, "label2");
+            this.label2.Location = new System.Drawing.Point(13, 73);
             this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(476, 17);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Note:  You must have the AA turned off to open this file.";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnPrevLog
             // 
-            resources.ApplyResources(this.btnPrevLog, "btnPrevLog");
+            this.btnPrevLog.Location = new System.Drawing.Point(162, 46);
             this.btnPrevLog.Name = "btnPrevLog";
+            this.btnPrevLog.Size = new System.Drawing.Size(145, 23);
+            this.btnPrevLog.TabIndex = 6;
+            this.btnPrevLog.Text = "Preview";
             this.btnPrevLog.UseVisualStyleBackColor = true;
             this.btnPrevLog.Click += new System.EventHandler(this.btnPrevLog_Click);
             // 
             // btnOpenLogLoc
             // 
-            resources.ApplyResources(this.btnOpenLogLoc, "btnOpenLogLoc");
+            this.btnOpenLogLoc.Location = new System.Drawing.Point(12, 46);
             this.btnOpenLogLoc.Name = "btnOpenLogLoc";
+            this.btnOpenLogLoc.Size = new System.Drawing.Size(145, 23);
+            this.btnOpenLogLoc.TabIndex = 2;
+            this.btnOpenLogLoc.Text = "Open location";
             this.btnOpenLogLoc.UseVisualStyleBackColor = true;
             this.btnOpenLogLoc.Click += new System.EventHandler(this.btnOpenLogLoc_Click);
             // 
             // txtBoxLogPath
             // 
             this.txtBoxLogPath.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            resources.ApplyResources(this.txtBoxLogPath, "txtBoxLogPath");
+            this.txtBoxLogPath.Location = new System.Drawing.Point(12, 21);
             this.txtBoxLogPath.Name = "txtBoxLogPath";
             this.txtBoxLogPath.ReadOnly = true;
+            this.txtBoxLogPath.Size = new System.Drawing.Size(471, 20);
+            this.txtBoxLogPath.TabIndex = 3;
             // 
             // ConfigForm
             // 
-            resources.ApplyResources(this, "$this");
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(495, 343);
             this.Controls.Add(this.gpBxLog);
             this.Controls.Add(this.gpBxconfigFiles);
             this.Controls.Add(this.gpBxConfig);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigForm";
+            this.Text = "Config and Log File Dialog";
             this.gpBxConfig.ResumeLayout(false);
             this.gpBxConfig.PerformLayout();
             this.gpBxconfigFiles.ResumeLayout(false);

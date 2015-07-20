@@ -278,7 +278,6 @@
       <LastGenOutput>UserMessages.es-ES.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserMessages.fa-IR.resx" />
     <EmbeddedResource Include="UserMessages.fr-FR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UserMessages.fr-FR.Designer.cs</LastGenOutput>

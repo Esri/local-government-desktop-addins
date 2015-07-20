@@ -135,6 +135,11 @@
       <Project>{17F1BA9D-F53B-4601-8333-6D3127A162D4}</Project>
       <Name>LGSharedFunctions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AddressManagementFunctions\AddressManagementFunctions.csproj">
+      <Project>{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}</Project>
+      <Name>AddressManagementFunctions</Name>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
