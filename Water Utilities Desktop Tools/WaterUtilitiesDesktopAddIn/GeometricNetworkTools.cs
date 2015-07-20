@@ -589,11 +589,12 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
-            if (_frmSelectJunc == null)
+            if (_frmSelectJunc == null || _frmSelectJunc.IsDisposed)
             {
                 _frmSelectJunc = new frmSelectByJunctionCount(ArcMap.Application);
 
             }
+            
 
             _frmSelectJunc.LoadJunctionsFeatureLayers();
             _frmSelectJunc.Show(Globals.GetWindowFromHost(ArcMap.Application.hWnd));

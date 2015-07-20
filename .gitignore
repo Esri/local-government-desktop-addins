@@ -9,6 +9,12 @@ bin/
 obj/
 Debug/
 Release/
+*.csproj
+*.sln
+*.csproj.user
 
 # Snap backups
 *.7z
+ArcGISTemplateSharedFunctions/UserMessages.fa-IR.resx
+Water Utilities Desktop Tools/WaterUtilitiesDesktopAddIn/Config.fa-IR.xml
+Attribute Assistant Add In/AttributeAssistantAddIn/Config.fa-IR.xml
