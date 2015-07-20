@@ -8,14 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LGSharedFunctions", "ArcGIS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeAssistantAddIn", "Attribute Assistant Add In\AttributeAssistantAddIn\AttributeAssistantAddIn.csproj", "{F7BAFF33-9613-4608-8ACF-E3BF528BDFF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressManagementAddIn", "Address Desktop Tools\AddressManagementAddIn\AddressManagementAddIn.csproj", "{0E985756-F3F1-4F89-8122-4B3BF67CC5BD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressManagementFunctions", "Address Desktop Tools\AddressManagementFunctions\AddressManagementFunctions.csproj", "{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}"
-EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProjectCostEstimatingTools", "Project Cost Estimating\ProjectCostEstimatingTools.vbproj", "{CED73875-ED55-417C-BA75-AF4C208DAC6F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GasUtilitiesDesktopAddIn", "GasUtilitiesDesktopAddIn\GasUtilitiesDesktopAddIn.csproj", "{C451740D-974F-48B8-9555-6E0A1D1D2C39}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,38 +48,6 @@ Global
 		{F7BAFF33-9613-4608-8ACF-E3BF528BDFF0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7BAFF33-9613-4608-8ACF-E3BF528BDFF0}.Release|x86.ActiveCfg = Release|x86
 		{F7BAFF33-9613-4608-8ACF-E3BF528BDFF0}.Release|x86.Build.0 = Release|x86
-		{0E985756-F3F1-4F89-8122-4B3BF67CC5BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E985756-F3F1-4F89-8122-4B3BF67CC5BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E985756-F3F1-4F89-8122-4B3BF67CC5BD}.Debug|x86.ActiveCfg = Debug|x86
-		{0E985756-F3F1-4F89-8122-4B3BF67CC5BD}.Debug|x86.Build.0 = Debug|x86
-		{0E985756-F3F1-4F89-8122-4B3BF67CC5BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E985756-F3F1-4F89-8122-4B3BF67CC5BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E985756-F3F1-4F89-8122-4B3BF67CC5BD}.Release|x86.ActiveCfg = Release|x86
-		{0E985756-F3F1-4F89-8122-4B3BF67CC5BD}.Release|x86.Build.0 = Release|x86
-		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}.Debug|x86.ActiveCfg = Debug|x86
-		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}.Debug|x86.Build.0 = Debug|x86
-		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}.Release|x86.ActiveCfg = Release|x86
-		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}.Release|x86.Build.0 = Release|x86
-		{CED73875-ED55-417C-BA75-AF4C208DAC6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CED73875-ED55-417C-BA75-AF4C208DAC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CED73875-ED55-417C-BA75-AF4C208DAC6F}.Debug|x86.ActiveCfg = Debug|x86
-		{CED73875-ED55-417C-BA75-AF4C208DAC6F}.Debug|x86.Build.0 = Debug|x86
-		{CED73875-ED55-417C-BA75-AF4C208DAC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CED73875-ED55-417C-BA75-AF4C208DAC6F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CED73875-ED55-417C-BA75-AF4C208DAC6F}.Release|x86.ActiveCfg = Release|x86
-		{CED73875-ED55-417C-BA75-AF4C208DAC6F}.Release|x86.Build.0 = Release|x86
-		{C451740D-974F-48B8-9555-6E0A1D1D2C39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C451740D-974F-48B8-9555-6E0A1D1D2C39}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C451740D-974F-48B8-9555-6E0A1D1D2C39}.Debug|x86.ActiveCfg = Debug|x86
-		{C451740D-974F-48B8-9555-6E0A1D1D2C39}.Debug|x86.Build.0 = Debug|x86
-		{C451740D-974F-48B8-9555-6E0A1D1D2C39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C451740D-974F-48B8-9555-6E0A1D1D2C39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C451740D-974F-48B8-9555-6E0A1D1D2C39}.Release|x86.ActiveCfg = Release|x86
-		{C451740D-974F-48B8-9555-6E0A1D1D2C39}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

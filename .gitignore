@@ -9,6 +9,10 @@ bin/
 obj/
 Debug/
 Release/
+*.csproj
+*.sln
+*.csproj.user
 
 # Snap backups
 *.7z
+

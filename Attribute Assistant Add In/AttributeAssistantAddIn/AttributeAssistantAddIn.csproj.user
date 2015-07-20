@@ -9,7 +9,7 @@
     <StartProgram>C:\Program Files (x86)\ArcGIS\Desktop10.0\bin\ArcMap.exe</StartProgram>
   </PropertyGroup>
   <PropertyGroup>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectView>ProjectFiles</ProjectView>
     <PublishUrlHistory />
     <InstallUrlHistory />
     <SupportUrlHistory />
