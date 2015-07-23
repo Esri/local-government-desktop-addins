@@ -377,7 +377,16 @@ namespace A4WaterUtilities
 
             try
             {
-                if (ArcMap.Document==null )return;
+                try
+                {
+                    if (ArcMap.Document==null )
+                        return;
+                }
+                catch (InvalidComObjectException ex)
+                {
+                    //the ArcMap Object is released alreay
+                    return;
+                }
                 if (ArcMap.Document.FocusMap == null) return;
                 s_cboLayers.SelectedIndexChanged -= s_cboLayers_SelectedIndexChanged;
                 int bCurrentLayerIdx = -1;

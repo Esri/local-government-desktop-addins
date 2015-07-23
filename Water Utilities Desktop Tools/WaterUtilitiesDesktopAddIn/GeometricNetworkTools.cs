@@ -594,6 +594,7 @@ namespace A4WaterUtilities
                 _frmSelectJunc = new frmSelectByJunctionCount(ArcMap.Application);
 
             }
+            
 
             _frmSelectJunc.LoadJunctionsFeatureLayers();
             _frmSelectJunc.Show(Globals.GetWindowFromHost(ArcMap.Application.hWnd));
