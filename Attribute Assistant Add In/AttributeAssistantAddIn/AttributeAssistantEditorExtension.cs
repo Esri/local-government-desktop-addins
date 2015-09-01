@@ -6985,7 +6985,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 else
                                                 {
-                                                    if (mode == "ON_CREATE")
+                                                    if (mode == "ON_CREATE" || mode == "ON_MANUAL")
                                                     {
 
                                                         lastValue = AAState.lastValueProperties.GetProperty(strFldNames[0]) as LastValueEntry;
@@ -10998,7 +10998,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     object val = inObject.get_Value(intFldIdxs[0]);
                                                     bool proceed = true;
-                                                    if (onlyWhenNull && (inObject.get_Value(intFldIdxs[0]) != null && inObject.get_Value(intFldIdxs[0]) != DBNull.Value && inObject.get_Value(intFldIdxs[0]) != ""))
+                                                    if (onlyWhenNull && (inObject.get_Value(intFldIdxs[0]) != null && inObject.get_Value(intFldIdxs[0]) != DBNull.Value))
                                                     {
                                                         proceed = false;
                                                     }
