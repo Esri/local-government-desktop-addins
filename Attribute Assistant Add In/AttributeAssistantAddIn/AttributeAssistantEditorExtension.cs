@@ -10998,7 +10998,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     object val = inObject.get_Value(intFldIdxs[0]);
                                                     bool proceed = true;
-                                                    if (onlyWhenNull && (inObject.get_Value(intFldIdxs[0]) != null && inObject.get_Value(intFldIdxs[0]) != DBNull.Value))
+                                                    if (onlyWhenNull && (inObject.get_Value(intFldIdxs[0]) != null && inObject.get_Value(intFldIdxs[0]) != DBNull.Value && inObject.get_Value(intFldIdxs[0]) != ""))
                                                     {
                                                         proceed = false;
                                                     }
