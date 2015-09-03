@@ -4,13 +4,13 @@
   <Name>Water Utility Network Tools</Name>
   <AddInID>{FD20EAB0-7ACB-4B35-AA41-753157745FD0}</AddInID>
   <Description>ArcMap tools for Water, Wastewater and Stormwater</Description>
-   <Version>6.26.2015</Version>
+   <Version>9.3.2015</Version>
   <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>6/26/2015</Date>
+  <Date>9/3/2015</Date>
   <Targets>
-    <Target name="Desktop" version="10.2"/>
+    <Target name="Desktop" version="10.1"/>
   </Targets>
   <AddIn language="CLR" library="WaterUtilityNetworkTools.dll" namespace="A4WaterUtilities">
     <ArcMap>
@@ -83,7 +83,9 @@
             <Button refID="A4WaterUtilities_AddLateralsFromMain" separator="false"/>
             <!--<Tool refID="A4WaterUtilities_MoveConnections" separator="false" />-->
             <Button refID="A4WaterUtilities_ConnectClosests" separator="true"/>
-            <!--             <Button refID="A4WaterUtilities_EstablishFlowAncillary" separator="true" />             <Button refID="A4WaterUtilities_EstablishFlowDigitized" separator="false" />-->
+            <Button refID="A4WaterUtilities_EstablishFlowAncillary" separator="true" />
+            <Button refID="A4WaterUtilities_EstablishFlowDigitized" separator="false" />
+
 
             <Button refID="A4WaterUtilities_ShowFlowArrows" separator="false"/>
             <Button refID="A4WaterUtilities_FlipLines" separator="true"/>
@@ -129,29 +131,29 @@
 
           <Tool id="Esri_A4WaterUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Crée un point, puis trace une ligne depuis le point jusqu&apos;à l&apos;emplacement le plus proche sur une autre couche de lignes. Il est possible de placer des entités ponctuelles supplémentaires le long de la ligne. Seules les entités ponctuelles définies dans le fichier de configuration sont évaluées.  Le fait de maintenir la touche Ctrl enfoncée permet de remplacer les modèles définis et invite l&apos;utilisateur à saisir chaque entité." caption="Ajouter une connexion et le branchement" tip="Ajouter une connexion et le branchement" category="ArcGIS for Local Government" image="Images\AddLateralsConstructTool.png">
             <Construction>
-              <Category>Construction de points</Category>
+              <Category>Point Construction</Category>
             </Construction>
           </Tool>
           <Tool id="Esri_A4WaterUtilities_AddLateralsFromMainPointConstructionTool" class="AddLateralsFromMainPointConstructionTool" message="Crée une entité ponctuelle et trace une ligne à partir de ce point, perpendiculairement à la ligne d&apos;intersection.  Il est possible de placer des entités ponctuelles supplémentaires le long de la ligne.  La couche de points requiert un champ pour stocker la direction de la ligne (soit sous la forme d&apos;un relèvement d&apos;horloge, soit d&apos;un relèvement au compas), un champ pour stocker la direction de déplacement de la caméra lors de l&apos;enregistrement du point (U pour amont, D pour aval), ainsi qu&apos;un champ contenant la longueur du branchement à créer.  D&apos;autres paramètres relatifs aux points d&apos;alignement et au champ à copier se trouvent dans la section AddLateralFromMainPointLayers du fichier de configuration." caption="Ajouter des branchements à partir d&apos;emplacements de ligne" tip="Ajouter des branchements à partir d&apos;emplacements de ligne" category="ArcGIS for Local Government" image="Images\AddLateralsFromMainConstructTool.png">
             <Construction>
-              <Category>Construction de points</Category>
+              <Category>Point Construction</Category>
             </Construction>
           </Tool>
 
           <Tool id="Esri_A4WaterUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Crée un point et tente de fractionner une entité linéaire d&apos;intersection." caption="Ajouter un point et fractionner une ligne d&apos;intersection" tip="Ajouter un point et fractionner une ligne d&apos;intersection" category="ArcGIS for Local Government" image="Images\SplitLinesAtLocation.png">
             <Construction>
-              <Category>Construction de points</Category>
+              <Category>Point Construction</Category>
             </Construction>
           </Tool>
           <Tool id="Esri_A4WaterUtilities_ConnectClosestsConstructTool" class="ConnectClosestsConstructTool" message="Crée un point, recherche le point le plus proche dans la même couche, puis tente de connecter les deux via une couche de lignes définie dans le fichier de configuration. Une touche de raccourci vous permet de rechercher le regard sélectionné le plus proche.  Le fait de maintenir la touche Ctrl enfoncée permet de remplacer les modèles définis et invite l&apos;utilisateur à saisir chaque entité. Maintenir la touche Maj enfoncée limite la recherche aux entités sélectionnées uniquement. Maintenir les touches Ctrl et Maj enfoncées invite l&apos;utilisateur à saisir chaque entité et limite la recherche aux entités sélectionnées uniquement." caption="Crée un point et une ligne au point le plus proche" tip="Crée un point et une ligne au point le plus proche" category="ArcGIS for Local Government" image="Images\ConnectClosestsConstructTool.png">
             <Construction>
-              <Category>Construction de points</Category>
+              <Category>Point Construction</Category>
             </Construction>
           </Tool>
           <Tool id="Esri_A4WaterUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Crée une entité linéaire et fractionne éventuellement cette ligne à chaque sommet. Cet outil peut également placer des entités ponctuelles à l&apos;extrémité d&apos;une ligne ou à chaque sommet.  Définit les couches adaptées à cet outil, la manière de fractionner la ligne et le type de points à placer dans le fichier de configuration." caption="Créer une ligne avec des points" tip="Créer une ligne avec des points" category="ArcGIS for Local Government" image="Images\AddLineWithEndPoints.png">
             <Construction>
-              <Category>Construction de polylignes</Category>
-              <Category>Construction de lignes de réseau géométrique</Category>
+              <Category>Polyline Construction</Category>
+              <Category>Geometric Network Line Construction</Category>
             </Construction>
           </Tool>
           <!--<Tool id="Esri_A4WaterUtilities_PointsAlongLineTool" class="PointsAlongLineTool" message="Creates Points at regular intervals along a sketch" caption="Points along a line" tip="Points along a line tool" category="ArcGIS for Local Government" image="Images\PointsAlongLineTool.png">           <Construction>             <Category>Point Construction</Category>           </Construction>         </Tool>-->

@@ -715,7 +715,8 @@ namespace A4GasUtilities
             string ISOvalveAddSQL = ConfigUtil.GetConfigValue("TraceIsolation_Valve_AddSQL", "");
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             string ClearFlagBeforeIso = ConfigUtil.GetConfigValue("TraceIsolation_ClearFlagsOnClick", "true");
-
+            string closedValveQuery = ConfigUtil.GetConfigValue("TraceIsolation_Valve_ClosedValveQuery", "");
+      
             Globals.RemoveTraceGraphics(((IMxDocument)ArcMap.Application.Document).FocusMap, false);
 
             Globals.ClearSelected(ArcMap.Application, false);
@@ -727,10 +728,13 @@ namespace A4GasUtilities
 
 
             }
+            IPolyline mergedLines = new PolylineClass();
+            List<int> procoids = new List<int>();
 
 
             IPoint point = ArcMap.Document.CurrentLocation;
-            string returnVal = GeoNetTools.TraceIsolation(new double[] { point.X }, new double[] { point.Y }, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "");
+            string returnVal = GeoNetTools.TraceIsolation(new double[] { point.X }, new double[] { point.Y }, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources,
+                SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids);
             if (returnVal != null)
             {
                 string[] retVals = returnVal.Split('_');
@@ -738,7 +742,6 @@ namespace A4GasUtilities
                 switch (retVals.Length)
                 {
                     case 1:
-                        MessageBox.Show(retVals[0]);
                         break;
                     case 2:
                         MessageBox.Show(retVals[1]);
@@ -749,6 +752,7 @@ namespace A4GasUtilities
                         break;
                 }
             }
+            
             point = null;
         }
 
@@ -786,15 +790,20 @@ namespace A4GasUtilities
             string ISOvalveAddSQL = ConfigUtil.GetConfigValue("TraceIsolation_Valve_AddSQL", "");
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             string ClearFlagBeforeIso = ConfigUtil.GetConfigValue("TraceIsolation_ClearFlagsOnClick", "true");
-
+            string closedValveQuery = ConfigUtil.GetConfigValue("TraceIsolation_Valve_ClosedValveQuery", "");
+      
             Globals.RemoveTraceGraphics(((IMxDocument)ArcMap.Application.Document).FocusMap, false);
 
             Globals.ClearSelected(ArcMap.Application, false);
 
 
 
+            IPolyline mergedLines;
+            List<int> procoids;
             //IPoint point = ArcMap.Document.CurrentLocation;
-            string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "");
+            string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
+                ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out  procoids);
+
 
 
 
@@ -858,7 +867,8 @@ namespace A4GasUtilities
             string ISOvalveAddSQL = ConfigUtil.GetConfigValue("TraceIsolation_Valve_AddSQL", "");
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             string ClearFlagBeforeIso = ConfigUtil.GetConfigValue("TraceIsolation_ClearFlagsOnClick", "true");
-
+            string closedValveQuery = ConfigUtil.GetConfigValue("TraceIsolation_Valve_ClosedValveQuery", "");
+      
 
 
             if (GeoNetTools.ToggleOperableStatus(ArcMap.Application, null, false, ISOvalveFeatureLayerName, ISOsourceFeatureLayerName,
@@ -871,9 +881,11 @@ namespace A4GasUtilities
                 Globals.ClearSelected(ArcMap.Application, false);
 
 
-              
-                string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves,
-                    ISOoperableFieldNameSources, SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "");
+
+                IPolyline mergedLines;
+                List<int> procoids;
+                string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
+                    ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids);
             }
             else
             {
