@@ -8211,7 +8211,11 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
                                                                                     if (statType.ToUpper() == "CONCAT")
                                                                                     {
-                                                                                        concatList.Add(valToTest.ToString());
+                                                                                        if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                        {
+                                                                                            concatList.Add(valToTest.ToString());
+
+                                                                                        }
                                                                                     }
                                                                                     else
                                                                                     {
@@ -8254,7 +8258,11 @@ namespace ArcGIS4LocalGovernment
                                                                                             break;
                                                                                         case "CONCAT":
                                                                                             //concatFunc(valToTest.ToString(), ref textRes);
-                                                                                            concatList.Add(valToTest.ToString());
+                                                                                            if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                            {
+                                                                                                concatList.Add(valToTest.ToString());
+
+                                                                                            }
 
                                                                                             break;
                                                                                         default:
@@ -8271,7 +8279,11 @@ namespace ArcGIS4LocalGovernment
 
                                                                                     case "CONCAT":
                                                                                         //concatFunc(test.ToString(), ref textRes);
-                                                                                        concatList.Add(test.ToString());
+                                                                                        if (concatList.Contains(test.ToString()) == false)
+                                                                                        {
+                                                                                            concatList.Add(test.ToString());
+
+                                                                                        }
                                                                                         break;
                                                                                     default:
                                                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -8460,7 +8472,11 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
                                                                                     if (statType.ToUpper() == "CONCAT")
                                                                                     {
-                                                                                        concatList.Add(valToTest.ToString());
+                                                                                        if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                        {
+                                                                                            concatList.Add(valToTest.ToString());
+
+                                                                                        }
                                                                                     }
                                                                                     else
                                                                                     {
@@ -8503,7 +8519,11 @@ namespace ArcGIS4LocalGovernment
                                                                                             break;
                                                                                         case "CONCAT":
                                                                                             //concatFunc(valToTest.ToString(), ref textRes);
-                                                                                            concatList.Add(valToTest.ToString());
+                                                                                            if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                            {
+                                                                                                concatList.Add(valToTest.ToString());
+
+                                                                                            }
 
 
                                                                                             break;
@@ -8521,7 +8541,11 @@ namespace ArcGIS4LocalGovernment
 
                                                                                     case "CONCAT":
                                                                                         //concatFunc(test.ToString(), ref textRes);
-                                                                                        concatList.Add(test.ToString());
+                                                                                        if (concatList.Contains(test.ToString()) == false)
+                                                                                        {
+                                                                                            concatList.Add(test.ToString());
+
+                                                                                        }
 
 
                                                                                         break;
@@ -8709,7 +8733,11 @@ namespace ArcGIS4LocalGovernment
                                                                             {
                                                                                 if (statType.ToUpper() == "CONCAT")
                                                                                 {
-                                                                                    concatList.Add(valToTest.ToString());
+                                                                                    if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                    {
+                                                                                        concatList.Add(valToTest.ToString());
+
+                                                                                    }
                                                                                 }
                                                                                 else
                                                                                 {
@@ -8752,8 +8780,11 @@ namespace ArcGIS4LocalGovernment
                                                                                         break;
                                                                                     case "CONCAT":
                                                                                         //concatFunc(valToTest.ToString(), ref textRes);
-                                                                                        concatList.Add(valToTest.ToString());
+                                                                                        if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                        {
+                                                                                            concatList.Add(valToTest.ToString());
 
+                                                                                        }
 
                                                                                         break;
                                                                                     default:
@@ -8771,7 +8802,11 @@ namespace ArcGIS4LocalGovernment
                                                                                 case "CONCAT":
 
                                                                                     //concatFunc(test.ToString(), ref textRes);
-                                                                                    concatList.Add(test.ToString());
+                                                                                    if (concatList.Contains(test.ToString()) == false)
+                                                                                    {
+                                                                                        concatList.Add(test.ToString());
+
+                                                                                    }
 
 
                                                                                     break;
@@ -12602,7 +12637,11 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                 if (statType.ToUpper() == "CONCAT")
                                                                                                 {
-                                                                                                    concatList.Add(valToTest.ToString());
+                                                                                                    if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                                    {
+                                                                                                        concatList.Add(valToTest.ToString());
+
+                                                                                                    }
                                                                                                 }
                                                                                                 else
                                                                                                 {
@@ -12643,8 +12682,11 @@ namespace ArcGIS4LocalGovernment
                                                                                                         break;
                                                                                                     case "CONCAT":
                                                                                                         //concatFunc(valToTest.ToString(), ref textRes);
-                                                                                                        concatList.Add(valToTest.ToString());
+                                                                                                        if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                                        {
+                                                                                                            concatList.Add(valToTest.ToString());
 
+                                                                                                        }
 
                                                                                                         break;
                                                                                                     default:
@@ -12661,7 +12703,11 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                 case "CONCAT":
                                                                                                     //concatFunc(test.ToString(), ref textRes);
-                                                                                                    concatList.Add(test.ToString());
+                                                                                                    if (concatList.Contains(test.ToString()) == false)
+                                                                                                    {
+                                                                                                        concatList.Add(test.ToString());
+
+                                                                                                    }
                                                                                                     break;
                                                                                                 default:
                                                                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -12684,7 +12730,11 @@ namespace ArcGIS4LocalGovernment
                                                                                             {
                                                                                                 if (statType.ToUpper() == "CONCAT")
                                                                                                 {
-                                                                                                    concatList.Add(valToTest.ToString());
+                                                                                                    if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                                    {
+                                                                                                        concatList.Add(valToTest.ToString());
+
+                                                                                                    }
                                                                                                 }
                                                                                                 else
                                                                                                 {
@@ -12727,7 +12777,11 @@ namespace ArcGIS4LocalGovernment
                                                                                                         break;
                                                                                                     case "CONCAT":
                                                                                                         //concatFunc(valToTest.ToString(), ref textRes);
-                                                                                                        concatList.Add(valToTest.ToString());
+                                                                                                        if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                                        {
+                                                                                                            concatList.Add(valToTest.ToString());
+
+                                                                                                        }
 
                                                                                                         break;
                                                                                                     default:
@@ -12744,7 +12798,11 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                 case "CONCAT":
                                                                                                     //concatFunc(test.ToString(), ref textRes);
-                                                                                                    concatList.Add(test.ToString());
+                                                                                                    if (concatList.Contains(test.ToString()) == false)
+                                                                                                    {
+                                                                                                        concatList.Add(test.ToString());
+
+                                                                                                    }
                                                                                                     break;
                                                                                                 default:
                                                                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
@@ -13059,7 +13117,11 @@ namespace ArcGIS4LocalGovernment
                                                                             {
                                                                                 if (statType.ToUpper() == "CONCAT")
                                                                                 {
-                                                                                    concatList.Add(valToTest.ToString());
+                                                                                    if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                    {
+                                                                                        concatList.Add(valToTest.ToString());
+
+                                                                                    }
                                                                                 }
                                                                                 else
                                                                                 {
@@ -13102,7 +13164,11 @@ namespace ArcGIS4LocalGovernment
                                                                                         break;
                                                                                     case "CONCAT":
                                                                                         //concatFunc(valToTest.ToString(), ref textRes);
-                                                                                        concatList.Add(valToTest.ToString());
+                                                                                        if (concatList.Contains(valToTest.ToString()) == false)
+                                                                                        {
+                                                                                            concatList.Add(valToTest.ToString());
+
+                                                                                        }
 
 
                                                                                         break;
@@ -13120,7 +13186,11 @@ namespace ArcGIS4LocalGovernment
 
                                                                                 case "CONCAT":
                                                                                     //concatFunc(test.ToString(), ref textRes);
-                                                                                    concatList.Add(test.ToString());
+                                                                                    if (concatList.Contains(test.ToString()) == false)
+                                                                                    {
+                                                                                        concatList.Add(test.ToString());
+
+                                                                                    }
 
 
                                                                                     break;
