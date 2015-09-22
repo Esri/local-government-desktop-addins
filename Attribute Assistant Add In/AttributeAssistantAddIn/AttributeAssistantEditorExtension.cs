@@ -11831,7 +11831,7 @@ namespace ArcGIS4LocalGovernment
                                                                     if (pTable != null)
                                                                     {
 
-                                                                        ISubtypes subtypes = (ISubtypes)pTable;
+                                                                            ISubtypes subtypes = (ISubtypes)pTable;
 
                                                                         IEnumSubtype enumSubtype;
                                                                         IRowSubtypes rowSubtypes = null;
@@ -11841,11 +11841,7 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             enumSubtype = subtypes.Subtypes;
                                                                             subtypeName = enumSubtype.Next(out subtypeCode);
-                                                                            while (subtypeName != null)
-                                                                            {
-                                                                                subtypeName = enumSubtype.Next(out subtypeCode);
-                                                                                break;
-                                                                            }
+                                                                        
                                                                         }
                                                                         enumSubtype = null;
                                                                         int fldIDToPopIdx = Globals.GetFieldIndex(pTable.Fields, targetIDFieldName);
@@ -11860,7 +11856,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 rowSubtypes = (IRowSubtypes)pNewRow;
                                                                                 if (subtypes.HasSubtype)
                                                                                 {
-                                                                                    rowSubtypes.SubtypeCode = subtypeCode ;
+                                                                                    rowSubtypes.SubtypeCode = subtypeCode;
                                                                                 }
 
                                                                                 // Initialize any default values the feature has.
@@ -14453,7 +14449,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         if (strOpt == AAState.intersectOptions.PromptMulti && strFiles.Count > 0)
                                                         {
-                                                            Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain162") + strFldNames[0], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain163") + strFldNames[0], ComboBoxStyle.DropDownList);
+                                                            Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain162") + ": " + strFldNames[0], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain163") + ": " + strFldNames[0], ComboBoxStyle.DropDownList);
                                                             if (strRetVal != null)
                                                             {
                                                                 try
@@ -15347,6 +15343,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain196") + pRasLay.Name);
                             string pathForLay = Globals.GetPathForALayer(pLay);
+                            string fcname = Globals.getClassName(pLay);
 
                             switch (formatString)
                             {
@@ -15496,6 +15493,79 @@ namespace ArcGIS4LocalGovernment
                                     }
 
                                     break;
+                                case "F":
+                                    if (MatchPattern == null)
+                                    {
+                                        if (strOpt == AAState.intersectOptions.PromptMulti)
+                                        {
+                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, fcname, fcname, fcname)))
+                                            {
+                                                strFiles.Add(new Globals.OptionsToPresent(0, fcname, fcname, fcname));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            inObject.set_Value(intFldIdx, fcname);
+                                            pRasLay = null;
+                                            pEnv = null;
+
+                                            pRel = null;
+                                            pRel2 = null;
+                                            found = true;
+                                            return;
+                                        }
+                                    }
+                                    else if (MatchPattern.Count == 0)
+                                    {
+                                        if (strOpt == AAState.intersectOptions.PromptMulti)
+                                        {
+                                            if (!strFiles.Contains(new Globals.OptionsToPresent(0, fcname, fcname, fcname)))
+                                            {
+                                                strFiles.Add(new Globals.OptionsToPresent(0, fcname, fcname, fcname));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            inObject.set_Value(intFldIdx, fcname);
+                                            pRasLay = null;
+                                            pEnv = null;
+
+                                            pRel = null;
+                                            pRel2 = null;
+                                            found = true;
+                                            return;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (string MatPat in MatchPattern)
+                                        {
+                                            if (pathForLay.ToUpper().Contains(MatPat.ToUpper()) || fcname.ToUpper().Contains(MatPat.ToUpper()))
+                                            {
+
+                                                if (strOpt == AAState.intersectOptions.PromptMulti)
+                                                {
+                                                    if (!strFiles.Contains(new Globals.OptionsToPresent(0, fcname, fcname, fcname)))
+                                                    {
+                                                        strFiles.Add(new Globals.OptionsToPresent(0, fcname, fcname, fcname));
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    inObject.set_Value(intFldIdx, fcname);
+                                                    pRasLay = null;
+                                                    pEnv = null;
+
+                                                    pRel = null;
+                                                    pRel2 = null;
+                                                    found = true;
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    break;
                                 default:
 
                                     if (MatchPattern == null)
@@ -15594,7 +15664,7 @@ namespace ArcGIS4LocalGovernment
                             {
                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain196") + pFLay.Name);
                                 string pathForLay = Globals.GetPathForALayer(pLay);
-
+                                string fcname = Globals.getClassName(pLay);
                                 switch (formatString)
                                 {
                                     case "P":
@@ -15731,6 +15801,80 @@ namespace ArcGIS4LocalGovernment
                                                     else
                                                     {
                                                         inObject.set_Value(intFldIdx, pLay.Name);
+                                                        pRasLay = null;
+                                                        pEnv = null;
+
+                                                        pRel = null;
+                                                        pRel2 = null;
+                                                        found = true;
+                                                        return;
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        break;
+                                    case "F":
+                                        if (MatchPattern == null)
+                                        {
+                                            if (strOpt == AAState.intersectOptions.PromptMulti)
+                                            {
+                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, fcname, fcname, fcname)))
+                                                {
+                                                    strFiles.Add(new Globals.OptionsToPresent(0, fcname, fcname, fcname));
+                                                }
+                                            }
+                                            else
+                                            {
+                                                inObject.set_Value(intFldIdx, fcname);
+                                                pRasLay = null;
+                                                pEnv = null;
+
+                                                pRel = null;
+                                                pRel2 = null;
+                                                found = true;
+                                                return;
+                                            }
+                                        }
+                                        else if (MatchPattern.Count == 0)
+                                        {
+                                            if (strOpt == AAState.intersectOptions.PromptMulti)
+                                            {
+                                                if (!strFiles.Contains(new Globals.OptionsToPresent(0, fcname, fcname, fcname)))
+                                                {
+                                                    strFiles.Add(new Globals.OptionsToPresent(0, fcname, fcname, fcname));
+                                                }
+                                            }
+                                            else
+                                            {
+                                                inObject.set_Value(intFldIdx, fcname);
+                                                pRasLay = null;
+                                                pEnv = null;
+
+                                                pRel = null;
+                                                pRel2 = null;
+                                                found = true;
+                                                return;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (string MatPat in MatchPattern)
+                                            {
+
+                                                if (pathForLay.ToUpper().Contains(MatPat.ToUpper()) || fcname.ToUpper().Contains(MatPat.ToUpper()))
+                                                {
+
+                                                    if (strOpt == AAState.intersectOptions.PromptMulti)
+                                                    {
+                                                        if (!strFiles.Contains(new Globals.OptionsToPresent(0, fcname, fcname, fcname)))
+                                                        {
+                                                            strFiles.Add(new Globals.OptionsToPresent(0, fcname, fcname, fcname));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        inObject.set_Value(intFldIdx, fcname);
                                                         pRasLay = null;
                                                         pEnv = null;
 
