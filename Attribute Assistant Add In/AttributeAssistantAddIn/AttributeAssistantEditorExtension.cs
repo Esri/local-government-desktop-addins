@@ -11831,7 +11831,23 @@ namespace ArcGIS4LocalGovernment
                                                                     if (pTable != null)
                                                                     {
 
+                                                                        ISubtypes subtypes = (ISubtypes)pTable;
 
+                                                                        IEnumSubtype enumSubtype;
+                                                                        IRowSubtypes rowSubtypes = null;
+                                                                        int subtypeCode=0;
+                                                                        string subtypeName;
+                                                                        if (subtypes.HasSubtype)
+                                                                        {
+                                                                            enumSubtype = subtypes.Subtypes;
+                                                                            subtypeName = enumSubtype.Next(out subtypeCode);
+                                                                            while (subtypeName != null)
+                                                                            {
+                                                                                subtypeName = enumSubtype.Next(out subtypeCode);
+                                                                                break;
+                                                                            }
+                                                                        }
+                                                                        enumSubtype = null;
                                                                         int fldIDToPopIdx = Globals.GetFieldIndex(pTable.Fields, targetIDFieldName);
                                                                         if (fldIDToPopIdx > -1)
                                                                         {
@@ -11840,6 +11856,15 @@ namespace ArcGIS4LocalGovernment
                                                                             for (int j = 0; j < countFld; j++)
                                                                             {
                                                                                 pNewRow = pTable.CreateRow();
+                                                                              
+                                                                                rowSubtypes = (IRowSubtypes)pNewRow;
+                                                                                if (subtypes.HasSubtype)
+                                                                                {
+                                                                                    rowSubtypes.SubtypeCode = subtypeCode ;
+                                                                                }
+
+                                                                                // Initialize any default values the feature has.
+                                                                                rowSubtypes.InitDefaultValues();
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain124"));
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain125"));
                                                                                 try
