@@ -11033,7 +11033,11 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     object val = inObject.get_Value(intFldIdxs[0]);
                                                     bool proceed = true;
-                                                    if (onlyWhenNull && (inObject.get_Value(intFldIdxs[0]) != null && inObject.get_Value(intFldIdxs[0]) != DBNull.Value))
+                                                    if (onlyWhenNull && 
+                                                        (inObject.get_Value(intFldIdxs[0]) != null &&
+                                                        inObject.get_Value(intFldIdxs[0]) != DBNull.Value &&
+                                                        inObject.get_Value(intFldIdxs[0]).ToString().Trim() != "")
+                                                        )
                                                     {
                                                         proceed = false;
                                                     }
@@ -11167,6 +11171,7 @@ namespace ArcGIS4LocalGovernment
                                                     intersectLayerFieldName = "";
                                                     formatString = "";
                                                     intersectFieldPos = -1;
+                                                    bool onlyWhenNull = false;
 
                                                     // Parse arguments
                                                     if (valData == null) break;
@@ -11204,174 +11209,194 @@ namespace ArcGIS4LocalGovernment
                                                             sequenceFixedWidth = args[3].ToString();
                                                             formatString = args[4].ToString();
                                                             break;
+                                                        case 6:  // columnName|sequenceFixedWidth|formatString|onlyWhenNull
+                                                            //formatString must contain [seq] and [id]  and may contain [area] plus any desired text
+                                                            intersectLayerName = args[0].ToString();
+                                                            intersectLayerFieldName = args[1].ToString();
+                                                            //genIdAreaFieldName = args[2].ToString();
+                                                            sequenceColumnName = args[2].ToString();
+                                                            sequenceFixedWidth = args[3].ToString();
+                                                            formatString = args[4].ToString();
+                                                            onlyWhenNull = args[5].ToString().ToUpper() == "TRUE" ? true : false;
+                                                            break;
+                                                      
                                                         default: break;
                                                     }
 
-                                                    //Find Area Layer
-                                                    // FindLayerByName(areaLayerName, out areaLayer);
-
-                                                    boolLayerOrFC = true;
-                                                    if (intersectLayerName.Contains("("))
+                                                    object val = inObject.get_Value(intFldIdxs[0]);
+                                                    bool proceed = true;
+                                                    if (onlyWhenNull && 
+                                                        (inObject.get_Value(intFldIdxs[0]) != null && 
+                                                        inObject.get_Value(intFldIdxs[0]) != DBNull.Value &&
+                                                        inObject.get_Value(intFldIdxs[0]).ToString().Trim() != "")
+                                                        )
                                                     {
-                                                        string[] tempSplt = intersectLayerName.Split('(');
-                                                        intersectLayerName = tempSplt[0];
-                                                        intersectLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, intersectLayerName, ref boolLayerOrFC);
-                                                        if (tempSplt[1].ToUpper().Contains("LAYER)"))
-                                                        {
-                                                            boolLayerOrFC = true;
-                                                        }
-                                                        else if (tempSplt[1].ToUpper().Contains("FEATURELAYER)"))
-                                                        {
-                                                            boolLayerOrFC = true;
-                                                        }
-                                                        else if (tempSplt[1].ToUpper().Contains("FEATURECLASS)"))
-                                                        {
-                                                            boolLayerOrFC = false;
-                                                        }
-                                                        else if (tempSplt[1].ToUpper().Contains("CLASS)"))
-                                                        {
-                                                            boolLayerOrFC = false;
-                                                        }
-                                                        else if (tempSplt[1].ToUpper().Contains("FEATURE)"))
-                                                        {
-                                                            boolLayerOrFC = false;
-                                                        }
-                                                        else
-                                                        {
-                                                            boolLayerOrFC = true;
-                                                        }
+                                                        proceed = false;
                                                     }
-                                                    else
+                                                    if (proceed)
                                                     {
-                                                        intersectLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, intersectLayerName, ref boolLayerOrFC);
-
-                                                    }
-                                                    if (intersectLayer == null)
-                                                    {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aq") + "(" + intersectLayerName + ") not found");
-                                                        break;
-                                                    }
-                                                    //Find Area Field
-                                                    intersectFieldPos = intersectLayer.FeatureClass.FindField(intersectLayerFieldName);
-                                                    if (intersectFieldPos < 0)
-                                                    {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14as") + "(" + intersectLayerFieldName + ") not found");
-                                                        break;
-                                                    }
-
-
-                                                    //Perform spatial search 
-                                                    IGeometry pSearchGeo = Globals.GetGeomCenter((IGeometry)inFeature.ShapeCopy)[0];
-                                                    pSearchGeo.SpatialReference = (inFeature.Class as IGeoDataset).SpatialReference;
-                                                    pSearchGeo.Project((intersectLayer as IGeoDataset).SpatialReference);
-
-                                                    sFilter = Globals.createSpatialFilter(intersectLayer, inFeature, false, AAState._editor.Map.SpatialReference);
-
-                                                    pFS = (IFeatureSelection)intersectLayer;
-                                                    if (boolLayerOrFC)
-                                                    {
-                                                        if (pFS.SelectionSet.Count > 0)
+                                                        boolLayerOrFC = true;
+                                                        if (intersectLayerName.Contains("("))
                                                         {
-                                                            pFS.SelectionSet.Search(sFilter, true, out cCurs);
-                                                            fCursor = cCurs as IFeatureCursor;
-
-
-                                                        }
-                                                        else
-                                                        {
-                                                            fCursor = intersectLayer.Search(sFilter, true);
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        fCursor = intersectLayer.FeatureClass.Search(sFilter, true);
-                                                    }
-
-                                                    sourceFeature = fCursor.NextFeature();
-                                                    intersectValue = "-9999.1";
-                                                    if (sourceFeature == null)
-                                                    {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14at"));
-                                                        break;
-                                                    }
-                                                    else
-                                                    {
-                                                        while (sourceFeature != null)
-                                                        {
-                                                            if (sourceFeature.Class != inFeature.Class)
+                                                            string[] tempSplt = intersectLayerName.Split('(');
+                                                            intersectLayerName = tempSplt[0];
+                                                            intersectLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, intersectLayerName, ref boolLayerOrFC);
+                                                            if (tempSplt[1].ToUpper().Contains("LAYER)"))
                                                             {
-                                                                intersectValue = sourceFeature.get_Value(intersectFieldPos).ToString();
-                                                                break;
+                                                                boolLayerOrFC = true;
                                                             }
-                                                            else if (sourceFeature.Class == inFeature.Class && sourceFeature.OID != inFeature.OID)
+                                                            else if (tempSplt[1].ToUpper().Contains("FEATURELAYER)"))
                                                             {
-                                                                intersectValue = sourceFeature.get_Value(intersectFieldPos).ToString();
-                                                                break;
+                                                                boolLayerOrFC = true;
                                                             }
-                                                            sourceFeature = fCursor.NextFeature();
-                                                        }
-                                                    }
-                                                    if (intersectValue == "-9999.1")
-                                                    {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14at"));
-                                                        break;
-                                                    }
-                                                    //Check for requested zero padding of sequence number
-                                                    if (sequenceFixedWidth != "")
-                                                        int.TryParse(sequenceFixedWidth.ToString(), out sequencePadding);
-
-                                                    if (sequencePadding > 25)
-                                                    {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain116"));
-                                                        AAState.WriteLine("                  WARNING: " + sequencePadding + " 0's is what you have");
-
-                                                    }
-                                                    sequenceColumnName = sequenceColumnName + intersectValue;
-                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bn") + sequenceColumnName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bo"));
-
-                                                    qFilter = new QueryFilterClass();
-                                                    qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
-                                                    cCurs = AAState._gentab.Update(qFilter, false);
-                                                    sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
-                                                    sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
-                                                    ITransactions pTras = null;
-
-                                                    long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
-                                                    pTras = null;
-
-                                                    if (sequenceValue == -1)
-                                                    {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14au"));
-                                                    }
-                                                    else
-                                                    {
-                                                        if (inObject.Fields.get_Field(intFldIdxs[0]).Type == esriFieldType.esriFieldTypeString)
-                                                            if (formatString == null || formatString == "" || (formatString.ToUpper().IndexOf("[SEQ]") == -1 && formatString.ToUpper().IndexOf("[ID]") == -1))
-                                                                inObject.set_Value(intFldIdxs[0], intersectValue + sequenceValue.ToString("D" + sequencePadding) + sequencePostfix);
+                                                            else if (tempSplt[1].ToUpper().Contains("FEATURECLASS)"))
+                                                            {
+                                                                boolLayerOrFC = false;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("CLASS)"))
+                                                            {
+                                                                boolLayerOrFC = false;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("FEATURE)"))
+                                                            {
+                                                                boolLayerOrFC = false;
+                                                            }
                                                             else
                                                             {
-
-                                                                int locIdx = formatString.ToUpper().IndexOf("[ID]");
-                                                                if (locIdx >= 0)
-                                                                {
-                                                                    formatString = formatString.Remove(locIdx, 4);
-                                                                    formatString = formatString.Insert(locIdx, intersectValue);
-                                                                }
-
-                                                                locIdx = formatString.ToUpper().IndexOf("[SEQ]");
-                                                                if (locIdx >= 0)
-                                                                {
-                                                                    string sequenceValuePad = sequenceValue.ToString("D" + sequencePadding);
-                                                                    formatString = formatString.Remove(locIdx, 5);
-                                                                    formatString = formatString.Insert(locIdx, sequenceValuePad.ToString());
-                                                                }
-                                                                //
-                                                                inObject.set_Value(intFldIdxs[0], formatString);
+                                                                boolLayerOrFC = true;
                                                             }
+                                                        }
                                                         else
-                                                            inObject.set_Value(intFldIdxs[0], sequenceValue);
-                                                    }
+                                                        {
+                                                            intersectLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, intersectLayerName, ref boolLayerOrFC);
 
+                                                        }
+                                                        if (intersectLayer == null)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aq") + "(" + intersectLayerName + ") not found");
+                                                            break;
+                                                        }
+                                                        //Find Area Field
+                                                        intersectFieldPos = intersectLayer.FeatureClass.FindField(intersectLayerFieldName);
+                                                        if (intersectFieldPos < 0)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14as") + "(" + intersectLayerFieldName + ") not found");
+                                                            break;
+                                                        }
+
+
+                                                        //Perform spatial search 
+                                                        IGeometry pSearchGeo = Globals.GetGeomCenter((IGeometry)inFeature.ShapeCopy)[0];
+                                                        pSearchGeo.SpatialReference = (inFeature.Class as IGeoDataset).SpatialReference;
+                                                        pSearchGeo.Project((intersectLayer as IGeoDataset).SpatialReference);
+
+                                                        sFilter = Globals.createSpatialFilter(intersectLayer, inFeature, false, AAState._editor.Map.SpatialReference);
+
+                                                        pFS = (IFeatureSelection)intersectLayer;
+                                                        if (boolLayerOrFC)
+                                                        {
+                                                            if (pFS.SelectionSet.Count > 0)
+                                                            {
+                                                                pFS.SelectionSet.Search(sFilter, true, out cCurs);
+                                                                fCursor = cCurs as IFeatureCursor;
+
+
+                                                            }
+                                                            else
+                                                            {
+                                                                fCursor = intersectLayer.Search(sFilter, true);
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            fCursor = intersectLayer.FeatureClass.Search(sFilter, true);
+                                                        }
+
+                                                        sourceFeature = fCursor.NextFeature();
+                                                        intersectValue = "-9999.1";
+                                                        if (sourceFeature == null)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14at"));
+                                                            break;
+                                                        }
+                                                        else
+                                                        {
+                                                            while (sourceFeature != null)
+                                                            {
+                                                                if (sourceFeature.Class != inFeature.Class)
+                                                                {
+                                                                    intersectValue = sourceFeature.get_Value(intersectFieldPos).ToString();
+                                                                    break;
+                                                                }
+                                                                else if (sourceFeature.Class == inFeature.Class && sourceFeature.OID != inFeature.OID)
+                                                                {
+                                                                    intersectValue = sourceFeature.get_Value(intersectFieldPos).ToString();
+                                                                    break;
+                                                                }
+                                                                sourceFeature = fCursor.NextFeature();
+                                                            }
+                                                        }
+                                                        if (intersectValue == "-9999.1")
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14at"));
+                                                            break;
+                                                        }
+                                                        //Check for requested zero padding of sequence number
+                                                        if (sequenceFixedWidth != "")
+                                                            int.TryParse(sequenceFixedWidth.ToString(), out sequencePadding);
+
+                                                        if (sequencePadding > 25)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain116"));
+                                                            AAState.WriteLine("                  WARNING: " + sequencePadding + " 0's is what you have");
+
+                                                        }
+                                                        sequenceColumnName = sequenceColumnName + intersectValue;
+                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bn") + sequenceColumnName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bo"));
+
+                                                        qFilter = new QueryFilterClass();
+                                                        qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
+                                                        cCurs = AAState._gentab.Update(qFilter, false);
+                                                        sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
+                                                        sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
+                                                        ITransactions pTras = null;
+
+                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
+                                                        pTras = null;
+
+                                                        if (sequenceValue == -1)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14au"));
+                                                        }
+                                                        else
+                                                        {
+                                                            if (inObject.Fields.get_Field(intFldIdxs[0]).Type == esriFieldType.esriFieldTypeString)
+                                                                if (formatString == null || formatString == "" || (formatString.ToUpper().IndexOf("[SEQ]") == -1 && formatString.ToUpper().IndexOf("[ID]") == -1))
+                                                                    inObject.set_Value(intFldIdxs[0], intersectValue + sequenceValue.ToString("D" + sequencePadding) + sequencePostfix);
+                                                                else
+                                                                {
+
+                                                                    int locIdx = formatString.ToUpper().IndexOf("[ID]");
+                                                                    if (locIdx >= 0)
+                                                                    {
+                                                                        formatString = formatString.Remove(locIdx, 4);
+                                                                        formatString = formatString.Insert(locIdx, intersectValue);
+                                                                    }
+
+                                                                    locIdx = formatString.ToUpper().IndexOf("[SEQ]");
+                                                                    if (locIdx >= 0)
+                                                                    {
+                                                                        string sequenceValuePad = sequenceValue.ToString("D" + sequencePadding);
+                                                                        formatString = formatString.Remove(locIdx, 5);
+                                                                        formatString = formatString.Insert(locIdx, sequenceValuePad.ToString());
+                                                                    }
+                                                                    //
+                                                                    inObject.set_Value(intFldIdxs[0], formatString);
+                                                                }
+                                                            else
+                                                                inObject.set_Value(intFldIdxs[0], sequenceValue);
+                                                        }
+                                                    }
 
                                                 }
                                                 else
