@@ -4073,7 +4073,12 @@ namespace ArcGIS4LocalGovernment
                                                                                         if (fldIDTargetIdx > -1 && fldValToCopyIdx > -1)
                                                                                         {
                                                                                             IQueryFilter pQFilt = Globals.createQueryFilter();
-                                                                                            if (pTable.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeString)
+                                                                                            //ISQLSyntax sqlSyntax = (ISQLSyntax)(pTable);
+                                                                                            //string specChar = sqlSyntax.GetSpecialCharacter(esriSQLSpecialCharacters.esriSQL_WildcardManyMatch);
+
+                                                                                            if (pTable.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeString ||
+                                                                                                pTable.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeGUID ||
+                                                                                                pTable.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeGlobalID)
                                                                                             {
                                                                                                 pQFilt.WhereClause = "" + pTable.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString() + "'";
 
