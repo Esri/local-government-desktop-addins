@@ -935,6 +935,7 @@ namespace A4WaterUtilities
 
         public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, IFeatureLayer pEditLayer)
         {
+            ICommandItem pCmdItem;
             string resetFlow = "";
             bool useDefaultTemplate;
             List<IFeature> ComplFeat = new List<IFeature>();
@@ -1608,21 +1609,57 @@ namespace A4WaterUtilities
 
                                 if (resetFlow.ToUpper() == "DIGITIZED")
                                 {
-                                    Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", app).Execute();
+                                    pCmdItem = Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", app);
+                                    if (pCmdItem != null)
+                                    {
+                                        pCmdItem.Execute();
+                                    }
+                                    else
+                                    {
+                                        pCmdItem = Globals.GetCommand("A4GasUtilities_EstablishFlowDigitized", app);
+                                        if (pCmdItem != null)
+                                        {
+                                            pCmdItem.Execute();
+                                        }
+                                    }
 
                                 }
                                 else if (resetFlow.ToUpper() == "ROLE")
                                 {
-                                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", app).Execute();
+                                    pCmdItem = Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", app);
+                                    if (pCmdItem != null)
+                                    {
+                                        pCmdItem.Execute();
+                                    }
+                                    else
+                                    {
+                                        pCmdItem = Globals.GetCommand("A4GasUtilities_EstablishFlowDigitized", app);
+                                        if (pCmdItem != null)
+                                        {
+                                            pCmdItem.Execute();
+                                        }
+                                    }
                                 }
                                 else if (resetFlow.ToUpper() == "Ancillary".ToUpper())
                                 {
-                                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", app).Execute();
+                                    pCmdItem = Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", app);
+                                    if (pCmdItem != null)
+                                    {
+                                        pCmdItem.Execute();
+                                    }
+                                    else
+                                    {
+                                        pCmdItem = Globals.GetCommand("A4GasUtilities_EstablishFlowAncillary", app);
+                                        if (pCmdItem != null)
+                                        {
+                                            pCmdItem.Execute();
+                                        }
+                                    }
                                 }
                                 else
                                 {
                                 }
-                            }
+                                }
 
                         }
 

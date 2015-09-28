@@ -49,6 +49,7 @@ namespace A4GasUtilities
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
 
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -90,7 +91,7 @@ namespace A4GasUtilities
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
 
-
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -127,6 +128,8 @@ namespace A4GasUtilities
 
         public AddFlag()
         {
+            ConfigUtil.configFileName = "gas.config";
+
         }
 
         protected override void OnMouseDown(MouseEventArgs arg)
@@ -165,6 +168,7 @@ namespace A4GasUtilities
 
         public AddBarrier()
         {
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -201,6 +205,7 @@ namespace A4GasUtilities
 
         public RemoveFlagBarrier()
         {
+            ConfigUtil.configFileName = "gas.config";
 
 
         }
@@ -246,6 +251,7 @@ namespace A4GasUtilities
 
         public ShowFlowArrows()
         {
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -269,6 +275,7 @@ namespace A4GasUtilities
         public ConnectSelected()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -308,6 +315,7 @@ namespace A4GasUtilities
         public DisconnectSelected()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -346,6 +354,7 @@ namespace A4GasUtilities
         public ConnectionChecker()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -386,10 +395,9 @@ namespace A4GasUtilities
     public class FlagsBarriersToLayer : ESRI.ArcGIS.Desktop.AddIns.Button
     {
 
-
-
         public FlagsBarriersToLayer()
         {
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -485,6 +493,7 @@ namespace A4GasUtilities
 
         public ClearTraceResults()
         {
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -516,6 +525,7 @@ namespace A4GasUtilities
         public ToggleOperableStatus()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
+            ConfigUtil.configFileName = "gas.config";
 
         }
         protected override void Dispose(bool value)
@@ -579,6 +589,8 @@ namespace A4GasUtilities
 
         public SelectByJunctionEdgeCount()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             _frmSelectJunc = new frmSelectByJunctionCount(ArcMap.Application);
 
         }
@@ -618,6 +630,7 @@ namespace A4GasUtilities
 
         public TraceDownstream()
         {
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -625,11 +638,25 @@ namespace A4GasUtilities
         {
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
+
             IPoint point = ArcMap.Document.CurrentLocation;
             GeoNetTools.TraceFlow(ref point, ArcMap.Application, esriFlowMethod.esriFMDownstream, SnapTol, traceIndeterminate, selectEdges);
 
@@ -652,6 +679,7 @@ namespace A4GasUtilities
 
         public TraceUpstream()
         {
+            ConfigUtil.configFileName = "gas.config";
 
 
         }
@@ -665,11 +693,24 @@ namespace A4GasUtilities
 
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
             IPoint point = ArcMap.Document.CurrentLocation;
             GeoNetTools.TraceFlow(ref point, ArcMap.Application, esriFlowMethod.esriFMUpstream, SnapTol, traceIndeterminate, selectEdges);
 
@@ -689,22 +730,33 @@ namespace A4GasUtilities
     }
     public class TraceIsolation : ESRI.ArcGIS.Desktop.AddIns.Tool
     {
-
-
-
-
         public TraceIsolation()
         {
 
+            ConfigUtil.configFileName = "gas.config";
 
         }
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
+
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
             string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
@@ -733,12 +785,14 @@ namespace A4GasUtilities
 
 
             IPoint point = ArcMap.Document.CurrentLocation;
+            bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false") == "false" ? false : true;
+    
             string returnVal = GeoNetTools.TraceIsolation(new double[] { point.X }, new double[] { point.Y }, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources,
-                SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids);
+                SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids,addFlagBarScreen);
             if (returnVal != null)
             {
                 string[] retVals = returnVal.Split('_');
-
+              
                 switch (retVals.Length)
                 {
                     case 1:
@@ -771,15 +825,30 @@ namespace A4GasUtilities
         public TraceIsolationRerun()
         {
 
+            ConfigUtil.configFileName = "gas.config";
 
         }
         protected override void OnClick()
         {
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
+
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
             string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
@@ -801,8 +870,10 @@ namespace A4GasUtilities
             IPolyline mergedLines;
             List<int> procoids;
             //IPoint point = ArcMap.Document.CurrentLocation;
+            bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false") == "false" ? false : true;
+    
             string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
-                ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out  procoids);
+                ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out  procoids,addFlagBarScreen);
 
 
 
@@ -825,6 +896,7 @@ namespace A4GasUtilities
 
         public TraceSecondaryIsolation()
         {
+            ConfigUtil.configFileName = "gas.config";
 
         }
         private void reloadOccured(object sender, EventArgs e)
@@ -852,11 +924,25 @@ namespace A4GasUtilities
             //    //  MessageBox.Show("Please select some valves to proceed");
 
             //}
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
+
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
             string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
@@ -884,8 +970,10 @@ namespace A4GasUtilities
 
                 IPolyline mergedLines;
                 List<int> procoids;
+                bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false") == "false" ? false : true;
+    
                 string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
-                    ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids);
+                    ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids, addFlagBarScreen);
             }
             else
             {
@@ -912,6 +1000,7 @@ namespace A4GasUtilities
         public TraceSummaryIsolation()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
+            ConfigUtil.configFileName = "gas.config";
 
         }
 
@@ -941,6 +1030,10 @@ namespace A4GasUtilities
             string TraceSum_MeterCritFieldName = ConfigUtil.GetConfigValue("TraceIsolationSummary_Meter_Critical_Field", "");
             string TraceSum_MeterCritValue = ConfigUtil.GetConfigValue("TraceIsolationSummary_Meter_Critical_Value", "");
 
+            bool TraceSum_SaveEntireLine = ConfigUtil.GetConfigValue("TraceIsolationSummary_SaveEntireTrace", "false").ToLower() == "false" ? false : true;
+
+            
+            
 
 
             Globals.RemoveTraceGraphics(((IMxDocument)ArcMap.Application.Document).FocusMap, false);
@@ -949,7 +1042,8 @@ namespace A4GasUtilities
 
             GeoNetTools.TraceIsolationSummary(ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol,
                 false, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, TraceSum_MainsFeatureLayerName, TraceSum_MeterFeatureLayerName, TraceSum_MeterCritFieldName, TraceSum_MeterCritValue,
-              TraceSum_LayerName, TraceSum_FacilityIDField, TraceSum_DateFieldName, TraceSum_ValveCountFieldName, TraceSum_MeterCountFieldName, TraceSum_CritMeterCountFieldName, TraceSum_CommentsFieldName);
+              TraceSum_LayerName, TraceSum_FacilityIDField, TraceSum_DateFieldName, TraceSum_ValveCountFieldName, TraceSum_MeterCountFieldName, TraceSum_CritMeterCountFieldName, TraceSum_CommentsFieldName,
+              TraceSum_SaveEntireLine);
 
         }
 
@@ -1085,7 +1179,6 @@ namespace A4GasUtilities
         }
 
     }
-
     public class FindClosest : ESRI.ArcGIS.Desktop.AddIns.Tool
     {
 

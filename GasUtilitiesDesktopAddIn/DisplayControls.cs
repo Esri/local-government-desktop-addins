@@ -36,7 +36,8 @@ namespace A4GasUtilities
       
         public ShowLayerWindow()
         {
-            
+            ConfigUtil.configFileName = "gas.config";
+
         }
         
         protected override void OnClick()
@@ -81,6 +82,8 @@ namespace A4GasUtilities
         DataTools m_Tools = null;
         public IdentifySelected()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             //m_Editor = Globals.getEditor(ArcMap.Application);
             m_Tools = new A4WaterUtilities.DataTools(ArcMap.Application);
         }
@@ -113,6 +116,8 @@ namespace A4GasUtilities
         DataTools m_Tools = null;
         public ExportToExcel()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             //m_Editor = Globals.getEditor(ArcMap.Application);
             m_Tools = new DataTools(ArcMap.Application);
         }

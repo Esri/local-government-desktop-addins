@@ -35,8 +35,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public MoveConnections()
         {
-
-     
+            ConfigUtil.configFileName = "gas.config";
             m_Editor = Globals.getEditor(ArcMap.Application);
          
         }
@@ -102,6 +101,8 @@ namespace A4GasUtilities
      
         public AddLaterals()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             m_editor = Globals.getEditor(ArcMap.Application);
 
             
@@ -177,6 +178,8 @@ namespace A4GasUtilities
 
         public AddLateralsFromMain()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             m_editor = Globals.getEditor(ArcMap.Application);
 
 
@@ -253,6 +256,7 @@ namespace A4GasUtilities
         public CreateTapPointsOnMain()
         {
           //  m_editor = Globals.getEditor(ArcMap.Application);
+            ConfigUtil.configFileName = "gas.config";
 
 
         }
@@ -311,6 +315,7 @@ namespace A4GasUtilities
         public ConnectClosests()
         {
             m_editor = Globals.getEditor(ArcMap.Application);
+            ConfigUtil.configFileName = "gas.config";
 
      
         }

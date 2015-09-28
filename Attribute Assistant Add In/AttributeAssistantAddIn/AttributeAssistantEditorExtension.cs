@@ -2545,7 +2545,7 @@ namespace ArcGIS4LocalGovernment
                                         for (int i = 0; i < pIncomingFlds.FieldCount; i++)
                                         {
                                             IField pFld = pIncomingFlds.get_Field(i);
-                                            if (pFld.Type == esriFieldType.esriFieldTypeOID || pFld.Type == esriFieldType.esriFieldTypeGeometry)
+                                            if (pFld.Type == esriFieldType.esriFieldTypeOID || pFld.Type == esriFieldType.esriFieldTypeGeometry || pFld.Type == esriFieldType.esriFieldTypeGlobalID)
                                                 continue;
                                             object val = inObject.get_Value(i);
                                             pRowBuff.set_Value(i, val);

@@ -45,6 +45,8 @@ namespace A4GasUtilities
 
         public AddLateralsConstructionTool()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -213,6 +215,8 @@ namespace A4GasUtilities
 
         public AddLateralsFromMainPointConstructionTool()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -370,6 +374,8 @@ namespace A4GasUtilities
 
         public AddLineWithEndPoints()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -551,6 +557,8 @@ namespace A4GasUtilities
 
         public AddPointSplitLine()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -676,6 +684,8 @@ namespace A4GasUtilities
 
         public ConnectClosestsConstructTool()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -838,6 +848,8 @@ namespace A4GasUtilities
 
         public PointsAlongLineTool()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;

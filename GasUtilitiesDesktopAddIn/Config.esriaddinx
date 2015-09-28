@@ -2,32 +2,33 @@
   <Name>Gas Utility Network Tools</Name>
   <AddInID>{AF706D91-5AC0-40B2-890A-8B504C2191FA}</AddInID>
   <Description>ArcMap tools for Gas Utilities</Description>
-   <Version>9.3.2015</Version>
+   <Version>12.10.2015</Version>
   <Image>Images\GasUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>9/3/2015</Date>
+  <Date>12/10/2015</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
   <AddIn language="CLR" library="GasUtilityNetworkTools.dll" namespace="A4GasUtilities">
     <ArcMap>
       <Commands>
-        <!--<Button id="A4GasUtilities_AddLaterals" class="AddLaterals" message="Evaluates Selected Point features and draws a line from each Point to the nearest feature in a line layer. Additional Point features can be placed along the line.  Pressing and holding the CTRL key overrides the defined templates, and prompts for an input Point and line.  Pressing and holding the SHIFT key searches for the closest Selected main." caption="Add Laterals at Connections" tip="Add Laterals at Connections" category="ArcGIS for Utilities" image="Images\AddLaterals.png" />
+        <Button id="A4GasUtilities_AddLaterals" class="AddLaterals" message="Evaluates Selected Point features and draws a line from each Point to the nearest feature in a line layer. Additional Point features can be placed along the line.  Pressing and holding the CTRL key overrides the defined templates, and prompts for an input Point and line.  Pressing and holding the SHIFT key searches for the closest Selected main." caption="Add Laterals at Connections" tip="Add Laterals at Connections" category="ArcGIS for Utilities" image="Images\AddLaterals.png" />
         <Button id="A4GasUtilities_ConnectionChecker" class="ConnectionChecker" message="Evaluates the Geometric Network features in the visible extent to verify all junctions (Points) connect to an edge (line) and all edges (Lines) connect to another edge through a junction or end with a junction.  Change CheckOnlyVisibleLayers in the configuration file, true for only visible layers, false for all layers regardless of visibilty." caption="Connection Checker" tip="Connection Checker" category="ArcGIS for Utilities" image="Images\ConnectionChecker.png" />
         <Button id="A4GasUtilities_ConnectSelected" class="ConnectSelected" message="Connects Selected features participating in a Geometric Network.  Select one or more features that participate in a Geometric Network." caption="Connect Geometric Network features" tip="Connect Geometric Network features" category="ArcGIS for Utilities" image="Images\ConnectSelected.png" />
-        <Button id="A4GasUtilities_DisconnectSelected" class="DisconnectSelected" message="Disconnects Selected features participating in a Geometric Network.  Select one or more features that participate in a Geometric Network." caption="Disconnect Geometric Network features" tip="Disconnect Geometric Network features" category="ArcGIS for Utilities" image="Images\DisconnectSelected.png" />-->
-        <Button id="A4GasUtilities_CreateJumpsOver" class="CreateJumpsOver" message="Creates a semicircle jump on Selected line features over intersecting Lines.  The radius of the circle is controlled by the CreateJumps_Distance tag in the configuration file." caption="Create Over Jumps for Selected Lines" tip="Create over jumps for Selected Lines" category="ArcGIS for Utilities" image="Images\CreateJumpsOver.png" />
+        <Button id="A4GasUtilities_DisconnectSelected" class="DisconnectSelected" message="Disconnects Selected features participating in a Geometric Network.  Select one or more features that participate in a Geometric Network." caption="Disconnect Geometric Network features" tip="Disconnect Geometric Network features" category="ArcGIS for Utilities" image="Images\DisconnectSelected.png" />
+        <!--<Button id="A4GasUtilities_CreateJumpsOver" class="CreateJumpsOver" message="Creates a semicircle jump on Selected line features over intersecting Lines.  The radius of the circle is controlled by the CreateJumps_Distance tag in the configuration file." caption="Create Over Jumps for Selected Lines" tip="Create over jumps for Selected Lines" category="ArcGIS for Utilities" image="Images\CreateJumpsOver.png" />
         <Button id="A4GasUtilities_CreateJumpsUnder" class="CreateJumpsUnder" message="Creates a semicircle jump on Selected line features over intersecting Lines.  The radius of the circle is controlled by the CreateJumps_Distance tag in the configuration file." caption="Create Under Jumps for Selected Lines" tip="Create under jumps for Selected Lines" category="ArcGIS for Utilities" image="Images\CreateJumpsUnder.png" />
-        <!--<Button id="A4GasUtilities_ShowFlowArrows" class="ShowFlowArrows" message="Shows or hides flow direction arrows for first visible Geometric Network." caption="Show/Hide Flow Arrows" tip="Show/Hide Flow Arrows" category="ArcGIS for Utilities" image="Images\ShowFlowArrows.png" />
+        <Button id="A4GasUtilities_ShowFlowArrows" class="ShowFlowArrows" message="Shows or hides flow direction arrows for first visible Geometric Network." caption="Show/Hide Flow Arrows" tip="Show/Hide Flow Arrows" category="ArcGIS for Utilities" image="Images\ShowFlowArrows.png" />
         <Button id="A4GasUtilities_FlipLines" class="FlipLines" message="Flip the Selected Lines in the layer highlighted in the Table of Contents window." caption="Flip Selected Lines" tip="Flip Selected Lines" category="ArcGIS for Utilities" image="Images\FlipLines.png" />
         <Button id="A4GasUtilities_FlipLinesFlow" class="FlipLinesFlow" message="Set the line direction to the Geometric Network flow direction of the Selected Lines in the layer highlighted in the Table of Contents window.  Select Lines that are part of a Geometric Network and make sure their flow direction is set." caption="Match Selected Lines Direction to Flow Direction" tip="Match Selected Lines Direction to Flow Direction" category="ArcGIS for Utilities" image="Images\FlipLinesFlow.png" />
+        -->
         <Button id="A4GasUtilities_RotateSelected" class="RotateSelected" message="Rotates select Point features to match the orientation of a connecting line." caption="Rotate Selected Junctions" tip="Rotate Selected Junctions" category="ArcGIS for Utilities" image="Images\RotateSelected.png" />
         <Button id="A4GasUtilities_AdditionalRotate" class="AdditionalRotate" message="Adds a predefined value to the rotation of Selected Point features." caption="Add Rotation to Feature" tip="Add Rotation to Feature" category="ArcGIS for Utilities" image="Images\RotateAddSpinSelected.png" />
         <Button id="A4GasUtilities_SplitLines" class="SplitLines" message="Splits line features where they intersect Selected Point features." caption="Splits Lines at Selected Points" tip="Splits Lines at Selected Points" category="ArcGIS for Utilities" image="Images\SplitLines.png" />-->
         <Button id="A4GasUtilities_ExportToExcel" class="ExportToExcel" message="Exports all Selected features to Excel." caption="Export Selected Items to Excel" tip="Export Selected Items to Excel" category="ArcGIS for Utilities" image="Images\ExportToExcel.png" />
         <Button id="A4GasUtilities_IdentifySelected" class="IdentifySelected" message="Loads all currently Selected features into the Identify dialog box." caption="Identify Selected" tip="Identify Selected" category="ArcGIS for Utilities" image="Images\IdentifySelected.png" />
-        <!--<Button id="A4GasUtilities_TraceSummaryIsolation" class="TraceSummaryIsolation" message="Runs the isolation trace on Selected mains. The trace summarizes the number of valves, meters, critical meters, and service connections in the Geometric Network that would be affected if a break occurred on each Selected main. The results are stored in a separate feature class.  This tool is an involved and long process. It is suggested to run this tool on small chunks of data at a time.  The wMainWithTraceSummary layer is part of the LGIM's Captial Planning dataset.  There are a number of configuration settings in the configuration file.  This tool uses the settings starting with TraceIsolationSummary and the Valve Isolation tags." caption="Summary Isolation Trace" tip="Summary Isolation Trace" category="ArcGIS for Utilities" image="Images\SummaryIsolationTrace.png" />-->
+        <Button id="A4GasUtilities_TraceSummaryIsolation" class="TraceSummaryIsolation" message="Runs the isolation trace on Selected mains. The trace summarizes the number of valves, meters, critical meters, and service connections in the Geometric Network that would be affected if a break occurred on each Selected main. The results are stored in a separate feature class.  This tool is an involved and long process. It is suggested to run this tool on small chunks of data at a time.  The wMainWithTraceSummary layer is part of the LGIM's Captial Planning dataset.  There are a number of configuration settings in the configuration file.  This tool uses the settings starting with TraceIsolationSummary and the Valve Isolation tags." caption="Summary Isolation Trace" tip="Summary Isolation Trace" category="ArcGIS for Utilities" image="Images\SummaryIsolationTrace.png" />
 
         <Tool id="A4GasUtilities_ToggleOperableStatus" class="ToggleOperableStatus" message="Changes the status of a valve from operable to non-operable and back.  Define operable and non-operable field and value values in the configuration file." caption="Change Operable Status of a valve" tip="Change Operable Status of a valve" category="ArcGIS for Utilities" image="Images\ToggleOperableStatus.png" />
         <Button id="A4GasUtilities_ClearTraceResults" class="ClearTraceResults" message="Clears all trace results and Selected features." caption="Clear Trace Results" tip="Clear Trace Results" category="ArcGIS for Utilities" image="Images\TraceClear.png" />
@@ -38,70 +39,58 @@
         <Tool id="A4GasUtilities_AddBarrier" class="AddBarrier" message="Creates a junction or an edge barrier in a layer in a Geometric Network nearest to a user-defined location." caption="Add a Barrier" tip="Add a Barrier" category="ArcGIS for Utilities" image="Images\AddBarrier.png" />
         <Tool id="A4GasUtilities_RemoveFlagBarrier" class="RemoveFlagBarrier" message="Removes a barrier or flag in a layer in a Geometric Network nearest to a user-defined location." caption="Remove a Flag or a Barrier" tip="Remove a Flag or a Barrier" category="ArcGIS for Utilities" image="Images\DeleteBarFlag.png" />
         <Button id="A4GasUtilities_SelectJunctionsByEdgeCount" class="SelectByJunctionEdgeCount" message="Presents a dialog box for selecting all junctions (Points) in a Geometric Network by the number of edges to which they connect." caption="Select Junctions by Edge Count" tip="Select Junctions by Edge Count" category="ArcGIS for Utilities" image="Images\SelectJunctions.png" />
-        <!--<Button id="A4GasUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Establishes flow direction for Geometric Network based values of AncillaryRole." caption="Establish Flow Direction" tip="Establish Flow Direction" category="ArcGIS for Utilities" image="Images\EstablishFlow.png" />
+       <Button id="A4GasUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Establishes flow direction for Geometric Network based values of AncillaryRole." caption="Establish Flow Direction" tip="Establish Flow Direction" category="ArcGIS for Utilities" image="Images\EstablishFlow.png" />
         <Button id="A4GasUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establishes flow direction for Geometric Network based on digitized direction." caption="Establish Digitized Flow Direction" tip="Establish Digitized Flow Direction" category="ArcGIS for Utilities" image="Images\EstablishFlowDigitized.png" />
-        <Button id="A4GasUtilities_FlagsBarriersToLayer" class="FlagsBarriersToLayer" message="Create a point layer from the flags and barriers." caption="Convert Flags and Barriers to a Set of Layers" tip="Convert Flags and Barriers to a Set of Layers" category="ArcGIS for Utilities" image="Images\ExportFlagBarriers.png" />-->
+       <!--   <Button id="A4GasUtilities_FlagsBarriersToLayer" class="FlagsBarriersToLayer" message="Create a point layer from the flags and barriers." caption="Convert Flags and Barriers to a Set of Layers" tip="Convert Flags and Barriers to a Set of Layers" category="ArcGIS for Utilities" image="Images\ExportFlagBarriers.png" />-->
 
       </Commands>
       <Toolbars>
-        <!--<Toolbar id="A4GasUtilities_GasUtilitiesEditTools" caption="Gas Utility Network Editing" showInitially="false">
+        <Toolbar id="A4GasUtilities_GasUtilitiesEditTools" caption="Gas Utility Editing" showInitially="false">
           <Items>
-            <ToolPalette refID="esriArcMapUI.SelectByToolsPalette" separator="false" />
-            <Button refID="esriArcMapUI.ClearSelectionCommand" separator="false" />
-            <Tool refID="esriEditor.EditTool" separator="true" />
-            <Button refID="esriEditor.AttributionCommand" separator="false" />
             <Button refID="A4GasUtilities_ConnectSelected" separator="true" />
             <Button refID="A4GasUtilities_DisconnectSelected" separator="false" />
-            <Button refID="esriEditor.ValidateSelectionCommand" separator="true" />
             <Button refID="A4GasUtilities_ConnectionChecker" separator="false" />
             <Button refID="A4GasUtilities_RotateSelected" separator="true" />
             <Button refID="A4GasUtilities_AdditionalRotate" separator="false" />
             <Button refID="A4GasUtilities_SplitLines" separator="true" />
-            -->
-        <!--<Button refID="A4GasUtilities_CreateJumpsOver" separator="true" />
-            <Button refID="A4GasUtilities_CreateJumpsUnder" separator="false" />-->
-        <!--
-            <Button refID="A4GasUtilities_AddLaterals" separator="false" />
-            <Button refID="A4GasUtilities_AddLateralsFromMain" separator="false" />
-            -->
-        <!--
+            <!--<Button refID="A4GasUtilities_CreateJumpsOver" separator="true" />
+            <Button refID="A4GasUtilities_CreateJumpsUnder" separator="false" />
             <Button refID="A4GasUtilities_EstablishFlowAncillary" separator="true" />
-            <Button refID="A4GasUtilities_EstablishFlowDigitized" separator="false" />-->
-        <!--
+            <Button refID="A4GasUtilities_EstablishFlowDigitized" separator="false" />
             <Button refID="A4GasUtilities_ShowFlowArrows" separator="false" />
             <Button refID="A4GasUtilities_FlipLines" separator="true" />
-            <Button refID="A4GasUtilities_FlipLinesFlow" separator="false" />
-            <Button refID="esriEditorExt.GNIncrementalLoaderWizardCommand" separator="true" />
+            <Button refID="A4GasUtilities_FlipLinesFlow" separator="false" />-->
+            <Button refID="A4GasUtilities_SelectJunctionsByEdgeCount" separator="true" />
+            <Button refID="A4GasUtilities_AddLaterals" separator="false" />
+            <!--<Button refID="A4GasUtilities_AddLateralsFromMain" separator="false" />       
+            <Button refID="esriEditorExt.GNIncrementalLoaderWizardCommand" separator="true" />-->
           </Items>
-        </Toolbar>-->
-        <Toolbar id="A4GasUtilities_ReportingToolbar" caption="Gas Utility Tools" showInitially="false">
+        </Toolbar>
+        <Toolbar id="A4GasUtilities_ReportingToolbar" caption="Gas Utility Trace Tools" showInitially="false">
           <Items>
             <Tool refID="A4GasUtilities_TraceIsolation" separator="false" />
             <Button refID="A4GasUtilities_TraceIsolationRerun" />
-            <!--<Button refID="A4GasUtilities_TraceSecondaryIsolation" separator="false" />-->
+            <Button refID="A4GasUtilities_TraceSummaryIsolation" separator="false" />
             <Tool refID="A4GasUtilities_AddFlag" separator="false" />
             <Tool refID="A4GasUtilities_AddBarrier" separator="false" />
             <Tool refID="A4GasUtilities_RemoveFlagBarrier" separator="false" />
-            <!--  <Tool refID="A4GasUtilities_FlagsBarriersToLayer" separator="false" />
-            <Button refID="A4GasUtilities_TraceSummaryIsolation" separator="false" />-->
+            <!--  <Tool refID="A4GasUtilities_FlagsBarriersToLayer" separator="false" />-->
             <Button refID="A4GasUtilities_ToggleOperableStatus" separator="true" />
             <Button refID="A4GasUtilities_ClearTraceResults" separator="false" />
             <Button refID="A4GasUtilities_ExportToExcel" separator="true" />
             <Button refID="A4GasUtilities_IdentifySelected" separator="false" />
-            <Button refID="A4GasUtilities_SelectJunctionsByEdgeCount" separator="true" />
-            <Button refID="A4GasUtilities_CreateJumpsOver" separator="true" />
-            <Button refID="A4GasUtilities_CreateJumpsUnder" separator="false" />
+          
           </Items>
         </Toolbar>
       </Toolbars>
       <Menus></Menus>
       <Editor>
         <Commands>
-          <!--<Tool id="Esri_A4GasUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Creates a Point, then draws a line from the Point to the nearest location on another line layer. Additional Point features can be placed along the line. Only Point features defined in the configuration file are evaluated.  Holding the control key overrides the defined templates and prompts for each feature." caption="Add a connection and the lateral" tip="Add a connection and the lateral" category="ArcGIS for Utilities" image="Images\AddLateralsConstructTool.png">
+          <Tool id="Esri_A4GasUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Creates a Point, then draws a line from the Point to the nearest location on another line layer. Additional Point features can be placed along the line. Only Point features defined in the configuration file are evaluated.  Holding the control key overrides the defined templates and prompts for each feature." caption="Add a connection and the lateral" tip="Add a connection and the lateral" category="ArcGIS for Utilities" image="Images\AddLateralsConstructTool.png">
             <Construction>
               <Category>Point Construction</Category>
             </Construction>
-          </Tool>-->
+          </Tool>
           <Tool id="Esri_A4GasUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Creates a Point and attempts to split an intersecting line feature." caption="Add a Point and split an intersecting line" tip="Add a Point and split an intersecting line" category="ArcGIS for Utilities" image="Images\SplitLinesAtLocation.png">
             <Construction>
               <Category>Point Construction</Category>

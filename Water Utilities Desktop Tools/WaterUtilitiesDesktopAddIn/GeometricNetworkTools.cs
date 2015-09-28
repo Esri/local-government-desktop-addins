@@ -625,11 +625,25 @@ namespace A4WaterUtilities
         {
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+             string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
+
             IPoint point = ArcMap.Document.CurrentLocation;
             GeoNetTools.TraceFlow(ref point, ArcMap.Application, esriFlowMethod.esriFMDownstream, SnapTol, traceIndeterminate, selectEdges);
 
@@ -665,11 +679,25 @@ namespace A4WaterUtilities
 
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
+
             IPoint point = ArcMap.Document.CurrentLocation;
             GeoNetTools.TraceFlow(ref point, ArcMap.Application, esriFlowMethod.esriFMUpstream, SnapTol, traceIndeterminate, selectEdges);
 
@@ -700,11 +728,25 @@ namespace A4WaterUtilities
         }
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
+
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
             string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
@@ -735,8 +777,10 @@ namespace A4WaterUtilities
 
             IPolyline mergedLines;
             List<int> procoids;
+            bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false").ToLower() == "false" ? false : true;
+    
             string returnVal = GeoNetTools.TraceIsolation(new double[] { point.X }, new double[] { point.Y }, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources,
-                SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids);
+                SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids,addFlagBarScreen);
             if (returnVal != null)
             {
                 string[] retVals = returnVal.Split('_');
@@ -776,11 +820,25 @@ namespace A4WaterUtilities
         }
         protected override void OnClick()
         {
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
+
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
             string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
@@ -802,8 +860,10 @@ namespace A4WaterUtilities
             IPolyline mergedLines;
             List<int> procoids;
             //IPoint point = ArcMap.Document.CurrentLocation;
+            bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false").ToLower() == "false" ? false : true;
+    
             string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
-                ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines,out  procoids);
+                ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines,out  procoids,addFlagBarScreen);
 
 
 
@@ -852,11 +912,25 @@ namespace A4WaterUtilities
             //    //  MessageBox.Show("Please select some valves to proceed");
 
             //}
-            bool selectEdges = false;
-            if (Control.ModifierKeys == Keys.Control)
-                selectEdges = true;
-            else
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            bool selectEdges;
+            if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
                 selectEdges = false;
+            }
+            else if (selectFeatures.ToUpper() == "true".ToUpper())
+            {
+                selectEdges = true;
+            }
+            else if (selectFeatures.ToUpper() == "false".ToUpper() && Control.ModifierKeys == Keys.Control)
+            {
+                selectEdges = true;
+            }
+            else
+            {
+                selectEdges = false;
+            }
+
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
             string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
@@ -883,8 +957,10 @@ namespace A4WaterUtilities
 
                 IPolyline mergedLines;
                 List<int> procoids;
+                bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false").ToLower() == "false" ? false : true;
+    
                 string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
-                    ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids);
+                    ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids,addFlagBarScreen);
             }
             else
             {
@@ -939,6 +1015,7 @@ namespace A4WaterUtilities
             string TraceSum_MeterFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolationSummary_Meter_FeatureLayer", "");
             string TraceSum_MeterCritFieldName = ConfigUtil.GetConfigValue("TraceIsolationSummary_Meter_Critical_Field", "");
             string TraceSum_MeterCritValue = ConfigUtil.GetConfigValue("TraceIsolationSummary_Meter_Critical_Value", "");
+            bool TraceSum_SaveEntireLine = ConfigUtil.GetConfigValue("TraceIsolationSummary_SaveEntireTrace", "false").ToLower() == "false" ? false : true;
 
 
 
@@ -948,7 +1025,8 @@ namespace A4WaterUtilities
 
             GeoNetTools.TraceIsolationSummary(ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol,
                 false, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, TraceSum_MainsFeatureLayerName, TraceSum_MeterFeatureLayerName, TraceSum_MeterCritFieldName, TraceSum_MeterCritValue,
-              TraceSum_LayerName, TraceSum_FacilityIDField, TraceSum_DateFieldName, TraceSum_ValveCountFieldName, TraceSum_MeterCountFieldName, TraceSum_CritMeterCountFieldName, TraceSum_CommentsFieldName);
+              TraceSum_LayerName, TraceSum_FacilityIDField, TraceSum_DateFieldName, TraceSum_ValveCountFieldName, TraceSum_MeterCountFieldName, TraceSum_CritMeterCountFieldName, TraceSum_CommentsFieldName,
+             TraceSum_SaveEntireLine);
 
         }
 

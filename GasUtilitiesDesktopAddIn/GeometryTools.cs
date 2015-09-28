@@ -32,6 +32,8 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public AttributeTransferLoaderButton()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             m_Editor = Globals.getEditor(ArcMap.Application);
         }
 
@@ -67,6 +69,7 @@ namespace A4GasUtilities
 
         public CreateJumpsOver()
         {
+            ConfigUtil.configFileName = "gas.config";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -103,6 +106,7 @@ namespace A4GasUtilities
 
         public CreateJumpsUnder()
         {
+            ConfigUtil.configFileName = "gas.config";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -141,6 +145,8 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public FlipLines()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             m_Editor = Globals.getEditor(ArcMap.Application);
             Enabled = false;
 
@@ -177,6 +183,7 @@ namespace A4GasUtilities
 
         public FlipLinesFlow()
         {
+            ConfigUtil.configFileName = "gas.config";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -211,6 +218,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public SplitLinesClick()
         {
+            ConfigUtil.configFileName = "gas.config";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -250,6 +258,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public SplitLines()
         {
+            ConfigUtil.configFileName = "gas.config";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -287,6 +296,8 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public RotateSelected()
         {
+            ConfigUtil.configFileName = "gas.config";
+
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
@@ -319,6 +330,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public AdditionalRotate()
         {
+            ConfigUtil.configFileName = "gas.config";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -356,6 +368,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public SetMeasuresOnLines()
         {
+            ConfigUtil.configFileName = "gas.config";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -390,6 +403,7 @@ namespace A4GasUtilities
         public MergeGNLines()
         {
 
+            ConfigUtil.configFileName = "gas.config";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 

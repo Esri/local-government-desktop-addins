@@ -794,7 +794,7 @@ namespace A4WaterUtilities
                                         calcCount += 1;
                                     }
                                 }
-                                
+
                             }
 
                             //Establish flow direction based on digitized direction.
@@ -802,8 +802,8 @@ namespace A4WaterUtilities
                             {
                                 net = gn.Network;
                                 if (editor.EditWorkspace.Equals(gn.FeatureDataset.Workspace))
-                                { 
-                                
+                                {
+
                                     unet = net as IUtilityNetworkGEN;
                                     edgeEIDs = net.CreateNetBrowser(esriElementType.esriETEdge);
                                     edgeEIDs.Reset(); int edgeEID;
@@ -4204,7 +4204,7 @@ namespace A4WaterUtilities
 
         public static string TraceIsolation(double[] x, double[] y, IApplication app, string sourceFLName, string valveFLName, string operableFieldNameValves, string operableFieldNameSources,
                                   double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName,
-                                  string MeterCritField, string MeterCritVal, string closedValveQuery, IFeatureLayer mainsFL, out IPolyline mergedLines, out List<int> lineOIDs)
+                                  string MeterCritField, string MeterCritVal, string closedValveQuery, IFeatureLayer mainsFL, out IPolyline mergedLines, out List<int> lineOIDs, bool addFlagBarrierToMap)
         {
 
             mergedLines = null;
@@ -4527,9 +4527,9 @@ namespace A4WaterUtilities
 
                     //only execute this next bit if there are junction flags
                     if (lngFlagCount != 0)
-                    { 
+                    {
 
-                        
+
                         for (int i = 0; i < lngFlagCount; i++)
                         {
 
@@ -5602,9 +5602,9 @@ namespace A4WaterUtilities
                 Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers);
 
                 //Set the barriers in the network based on the saved valves
-             
-                    netElementBarrier = new SelectionSetBarriersClass();
-              
+
+                netElementBarrier = new SelectionSetBarriersClass();
+
                 foreach (DictionaryEntry entry in hasSourceValveHT)
                 {
                     eidInfo = entry.Value as IEIDInfo;
@@ -5672,11 +5672,11 @@ namespace A4WaterUtilities
                     else
                         Globals.DrawEdges(ref map, ref  gn, ref edgeEIDs);
                 }
-              
-                mergedLines = Globals.MergeEdges(ref map, ref  gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
-                
-                returnVal = Globals.SelectValveJunctions(ref map, ref hasSourceValveHT, ref valveFLs, processEvent) + "_" + returnVal;
 
+                mergedLines = Globals.MergeEdges(ref map, ref  gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
+
+                returnVal = Globals.SelectValveJunctions(ref map, ref hasSourceValveHT, ref valveFLs, processEvent) + "_" + returnVal;
+              
                 if (processEvent)
                 {
                     if (pNetAnalysisExt != null)
@@ -5699,6 +5699,10 @@ namespace A4WaterUtilities
                     }
                     Globals.GetCommand("esriArcMapUI.ZoomToSelectedCommand", app).Execute();
 
+                }
+                if (addFlagBarrierToMap)
+                {
+                    Globals.FlagsBarriersToLayer(app);
                 }
                 return returnVal;
             }
@@ -6064,7 +6068,8 @@ namespace A4WaterUtilities
                                 double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont,
                                     string mainsFLName, string meterFLName, string metersCritFieldName, string metersCritValue,
                                 string traceSum_LayerName, string traceSum_FacilityIDField, string traceSum_DateFieldName, string traceSum_ValveCountFieldName,
-                                    string traceSum_MeterCountFieldName, string traceSum_CritMeterCountFieldName, string traceSum_CommentsFieldName)
+                                    string traceSum_MeterCountFieldName, string traceSum_CritMeterCountFieldName, string traceSum_CommentsFieldName,
+                                    bool saveEntireLine)
         {
             IFeatureLayer mainsFL = null;
 
@@ -6100,6 +6105,15 @@ namespace A4WaterUtilities
             int resultsCritMeterCountFieldPosition;
             int resultsCommentsFieldPosition;
 
+
+            IGeometryDef pGeometryDefTest = null;
+            IFields pFieldsTest = null;
+            IField pFieldTest = null;
+
+            bool bZAware;
+            bool bMAware;
+            ESRI.ArcGIS.Geometry.IZAware zAware;
+
             try
             {
 
@@ -6118,6 +6132,8 @@ namespace A4WaterUtilities
                     facilityIDFieldPosition = mainFC.Fields.FindField("FACID");
                 if (facilityIDFieldPosition == -1)
                     facilityIDFieldPosition = mainFC.Fields.FindField("ASSETID");
+                if (facilityIDFieldPosition == -1)
+                    facilityIDFieldPosition = mainFC.Fields.FindField("LEGACYID");
                 if (facilityIDFieldPosition == -1)
                     facilityIDFieldPosition = mainFC.Fields.FindField(mainFC.OIDFieldName);
                 if (facilityIDFieldPosition == -1)
@@ -6183,6 +6199,7 @@ namespace A4WaterUtilities
                 }
                 resultsFC = resultsLayer.FeatureClass;
 
+
                 pDS = (IDataset)resultsFC;
                 pWSEdit = (IWorkspaceEdit)pDS.Workspace;
                 pDS = null;
@@ -6220,21 +6237,37 @@ namespace A4WaterUtilities
                 //    return;
                 //}
 
-                if (resultsValveCountFieldPosition == -1)
-                {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_ValveCountFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
-                    return;
-                }
-                if (resultsMeterCountFieldPosition == -1)
-                {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_MeterCountFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
-                    return;
-                }
-                if (resultsCritMeterCountFieldPosition == -1)
-                {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_CritMeterCountFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
-                    return;
-                }
+                //if (resultsValveCountFieldPosition == -1)
+                //{
+                //    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_ValveCountFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
+                //    return;
+                //}
+                //if (resultsMeterCountFieldPosition == -1)
+                //{
+                //    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_MeterCountFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
+                //    return;
+                //}
+                //if (resultsCritMeterCountFieldPosition == -1)
+                //{
+                //    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Field") + traceSum_CritMeterCountFieldName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18f"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a"));
+                //    return;
+                //}
+
+
+                string sShpName = resultsFC.ShapeFieldName;
+
+                pFieldsTest = resultsFC.Fields;
+                int lGeomIndex = pFieldsTest.FindField(sShpName);
+
+                pFieldTest = pFieldsTest.get_Field(lGeomIndex);
+                pGeometryDefTest = pFieldTest.GeometryDef;
+
+                //Determine if M or Z aware
+                bZAware = pGeometryDefTest.HasZ;
+                bMAware = pGeometryDefTest.HasM;
+
+
+
 
                 string closedValveQuery = ConfigUtil.GetConfigValue("TraceIsolation_Valve_ClosedValveQuery", "");
 
@@ -6263,7 +6296,7 @@ namespace A4WaterUtilities
                     {
                         //if( processedIDs.Contains(intCurID)) {
                         //    pStepPro.Step();
-                     
+
                         //    boolCont = pTrkCan.Continue();
 
                         //    if (!boolCont)
@@ -6298,9 +6331,9 @@ namespace A4WaterUtilities
                         IPolyline mergedLines = new PolylineClass();
                         List<int> procoids = new List<int>();
 
-                        string result = GeoNetTools.TraceIsolation(new double[] { pPnt.X }, new double[] { pPnt.Y }, app, sourceFLName, valveFLName, operableFieldNameValve, 
+                        string result = GeoNetTools.TraceIsolation(new double[] { pPnt.X }, new double[] { pPnt.Y }, app, sourceFLName, valveFLName, operableFieldNameValve,
                             operableFieldNameSource, snapTol, false, opValues, addSQL, traceIndeterminate, ZeroSourceCont, true, meterFLName, metersCritFieldName,
-                            metersCritValue, closedValveQuery, mainsFL,out mergedLines,out procoids);
+                            metersCritValue, closedValveQuery, mainsFL, out mergedLines, out procoids, false);
                         string[] resVals = result.Split('_');
                         processedIDs.Add(intCurID);
                         if (resVals.Length == 3)
@@ -6314,29 +6347,66 @@ namespace A4WaterUtilities
                         {
                             comments = result;
                         }
-                        if (mergedLines != null && procoids != null)
+                        if (mergedLines != null && procoids != null && saveEntireLine==true)
                         {
-                            processedIDs.AddRange(procoids);
-                            pSumFeatBuf.Shape = mergedLines;
+                            if (mergedLines.IsEmpty)
+                            {
+                                comments = "Could not save merged geo: Length is null" ;
+                                pSumFeatBuf.Shape = pMainsFeat.ShapeCopy;
+                            }
+                            else
+                            {
+                                processedIDs.AddRange(procoids);
+                                try
+                                {
+                                    if (bZAware)
+                                    {
+
+                                        zAware = (ESRI.ArcGIS.Geometry.IZAware)mergedLines;
+                                        if (zAware.ZAware == false)
+                                        {
+                                            zAware.ZAware = true;
+                                        }
+                                        ESRI.ArcGIS.Geometry.IZ IZ;
+                                        IZ = (ESRI.ArcGIS.Geometry.IZ)mergedLines;
+                                        IZ.SetConstantZ(0);
+                                    }
+                                    pSumFeatBuf.Shape = mergedLines;
+                                }
+                                catch (Exception Ex)
+                                {
+                                    comments = "Could not save merged geo: " + Ex.Message;
+                                    pSumFeatBuf.Shape = pMainsFeat.ShapeCopy;
+                                }
+                            }
                         }
                         else
                         {
-
                             pSumFeatBuf.Shape = pMainsFeat.ShapeCopy;
+
                         }
                         // pStepPro.Message = "Saving Result: " + pStepPro.Position + A4LGSharedFunctions.Localizer.GetString("Of") + FeatureCount + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_18a");
 
-                      
+
                         if (resultsDateFieldPosition > -1)
                         {
                             pSumFeatBuf.set_Value(resultsDateFieldPosition, DateTime.Now);
                         }
                         pSumFeatBuf.set_Value(resultsFacilityIDFieldPosition, pMainsFeat.get_Value(facilityIDFieldPosition));
 
-                        pSumFeatBuf.set_Value(resultsValveCountFieldPosition, intValveCount);
-                        pSumFeatBuf.set_Value(resultsMeterCountFieldPosition, intMeterCount);
-                        pSumFeatBuf.set_Value(resultsCritMeterCountFieldPosition, intCritMeterCount);
-                        if (resultsCommentsFieldPosition > 0)
+                        if (resultsValveCountFieldPosition > -1)
+                        {
+                            pSumFeatBuf.set_Value(resultsValveCountFieldPosition, intValveCount);
+                        }
+                        if (resultsMeterCountFieldPosition > -1)
+                        {
+                            pSumFeatBuf.set_Value(resultsMeterCountFieldPosition, intMeterCount);
+                        }
+                        if (resultsCritMeterCountFieldPosition > -1)
+                        {
+                            pSumFeatBuf.set_Value(resultsCritMeterCountFieldPosition, intCritMeterCount);
+                        }
+                        if (resultsCommentsFieldPosition > -1)
                         {
                             try
                             {
