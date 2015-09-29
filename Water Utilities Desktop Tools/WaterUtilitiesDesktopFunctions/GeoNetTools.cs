@@ -5704,6 +5704,7 @@ namespace A4WaterUtilities
                 {
                     Globals.FlagsBarriersToLayer(app);
                 }
+                ((IMxDocument)app.Document).UpdateContents();
                 return returnVal;
             }
             catch (Exception ex)
