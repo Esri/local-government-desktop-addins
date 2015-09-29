@@ -660,6 +660,9 @@ namespace A4LGSharedFunctions
                 pntInsertCurs.InsertFeature(pFBuf);
 
             }
+            pntInsertCurs.Flush();
+            Marshal.ReleaseComObject(pntInsertCurs);
+
             pntInsertCurs = pBarriersFC.Insert(true);
             foreach (ESRI.ArcGIS.Geometry.IPoint pnt in Barriers) // Loop through List with foreach
             {
@@ -673,24 +676,45 @@ namespace A4LGSharedFunctions
                 pntInsertCurs.InsertFeature(pFBuf);
 
             }
-
-
+            pntInsertCurs.Flush();
+            Marshal.ReleaseComObject(pntInsertCurs);
+            IFeatureLayer pFlagsLayer;
             if (pFLayer == null)
             {
-                IFeatureLayer pFlagsLayer = new FeatureLayerClass();
+                 pFlagsLayer = new FeatureLayerClass();
                 pFlagsLayer.FeatureClass = pFlagsFC;
                 pFlagsLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportFlagsName");
                 map.AddLayer(pFlagsLayer);
 
             }
+            else
+            {
+                pFlagsLayer = pFLayer as IFeatureLayer;
+            }
+            IFeatureLayer pBarriersLayer;
+
             if (pBLayer == null)
             {
-                IFeatureLayer pBarriersLayer = new FeatureLayerClass();
+                 pBarriersLayer = new FeatureLayerClass();
                 pBarriersLayer.FeatureClass = pBarriersFC;
                 pBarriersLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportBarriersName");
                 map.AddLayer(pBarriersLayer);
             }
+            else{
+                pBarriersLayer = pBLayer as IFeatureLayer;
+            }
 
+            IQueryFilter pQFilt;
+            pQFilt = new QueryFilterClass();
+            pQFilt.WhereClause = "1=1";
+            IFeatureSelection pFS = (IFeatureSelection)pFlagsLayer;
+            pFS.SelectFeatures(pQFilt, esriSelectionResultEnum.esriSelectionResultAdd, false);
+             pFS = (IFeatureSelection)pBarriersLayer;
+            pFS.SelectFeatures(pQFilt, esriSelectionResultEnum.esriSelectionResultAdd, false);
+            pFS = null;
+
+            //pFlagsLayer.FeatureClass.Select(pQFilt, esriSelectionType.esriSelectionTypeIDSet, esriSelectionOption.esriSelectionOptionNormal, null);
+            //pBarriersLayer.FeatureClass.Select(pQFilt, esriSelectionType.esriSelectionTypeIDSet, esriSelectionOption.esriSelectionOptionNormal, null);
 
             //doc.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, null);
         }
