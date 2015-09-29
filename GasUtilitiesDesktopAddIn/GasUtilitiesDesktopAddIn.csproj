@@ -216,6 +216,10 @@
       <Link>gas.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Configs\Water_LG\Loaded.config">
+      <Link>Loaded.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Images\Open2.png" />
     <AddInContent Include="Images\ArcGISAddin1.png" />
     <AddInContent Include="Images\ExportFlagBarriers.png" />
@@ -324,6 +328,7 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
-    <PostBuildEvent>copy "$(TargetDir)gas.Config" "C:\Users\mich3661\AppData\Roaming\ArcGISSolutions\ConfigFiles"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

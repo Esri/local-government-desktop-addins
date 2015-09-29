@@ -223,6 +223,10 @@
     <AddInContent Include="Config.fr-FR.xml">
       <SubType>Designer</SubType>
     </AddInContent>
+    <Content Include="..\..\Configs\Gas\gas.config">
+      <Link>gas.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>
