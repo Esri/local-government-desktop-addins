@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("ESRI")> 
 <Assembly: AssemblyProduct("ArcGISCostEstimatingTools")> 
-<Assembly: AssemblyCopyright("Copyright © ESRI 2012")> 
+<Assembly: AssemblyCopyright("Copyright © ESRI 2015")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(True)> 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("10.3.1.5")> 
+<Assembly: AssemblyFileVersion("10.3.1.5")> 

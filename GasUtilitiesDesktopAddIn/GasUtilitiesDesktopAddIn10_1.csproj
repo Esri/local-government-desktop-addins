@@ -212,12 +212,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Configs\Gas\gas.config">
+      <Link>gas.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Images\Open2.png" />
     <AddInContent Include="Images\ArcGISAddin1.png" />
     <AddInContent Include="Images\ExportFlagBarriers.png" />
-    <None Include="LoadedGas.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
