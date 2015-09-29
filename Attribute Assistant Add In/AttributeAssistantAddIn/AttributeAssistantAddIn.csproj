@@ -315,4 +315,8 @@
     </ESRIAddInProperties>
     <VisualStudio />
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)gas.Config" "C:\Users\mich3661\AppData\Roaming\ArcGISSolutions\ConfigFiles\gas.Config"
+copy "$(TargetDir)Loaded.Config" "C:\Users\mich3661\AppData\Roaming\ArcGISSolutions\ConfigFiles\Loaded.Config"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

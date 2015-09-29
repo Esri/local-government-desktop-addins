@@ -2513,8 +2513,9 @@ namespace ArcGIS4LocalGovernment
                             bool bHasFabricSubType = false;
                             if (valFC.Contains("|"))
                             {
+                                int iObjClassID = inObject.Class.ObjectClassID;
 
-                                if (AAState._fabricInMemTablesLookUp != null)
+                                if (AAState._fabricInMemTablesLookUp != null && AAState._fabricInMemTablesLookUp.ContainsKey(iObjClassID))
                                 {
                                     string[] spliVal0 = valFC.Split('|');
                                     string[] s = spliVal0[1].ToUpper().Trim().Split(',');
@@ -2538,7 +2539,6 @@ namespace ArcGIS4LocalGovernment
                                     }
                                     if (pFLyr != null) //make sure there's at least one valid fabric feature layer
                                     {
-                                        int iObjClassID = inObject.Class.ObjectClassID;
                                         ITable InMemTable = AAState._fabricInMemTablesLookUp[iObjClassID];
                                         IRowBuffer pRowBuff = InMemTable.CreateRowBuffer();
                                         IFields pIncomingFlds = inObject.Fields;
@@ -2577,14 +2577,13 @@ namespace ArcGIS4LocalGovernment
                                         if (pFabSubTyp != null)
                                             bHasFabricSubType = pFabSubTyp.HasSubtype;
                                     }
+                                    if (!bHasFabricFeatureTarget && !bHasFabricSubType)
+                                    {
+                                        proc = false;
+                                        continue;
+                                    }
                                 }
-
-                                if (!bHasFabricFeatureTarget && !bHasFabricSubType)
-                                {
-                                    proc = false;
-                                    continue;
-                                }
-
+                              
                                 if (!bHasFabricFeatureTarget)
                                 {
                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14af"));
