@@ -2583,9 +2583,9 @@ namespace ArcGIS4LocalGovernment
                                         continue;
                                     }
                                 }
-                              
-                                if (!bHasFabricFeatureTarget)
+                                else
                                 {
+
                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14af"));
                                     string[] spliVal = valFC.Split('|');
                                     string[] s = spliVal[1].ToUpper().Trim().Split(',');
@@ -9253,7 +9253,8 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     inObject.set_Value(intFldIdxs[0], ((IFeature)iJuncFeat).get_Value(juncField));
                                                                 }
-                                                                else { 
+                                                                else
+                                                                {
                                                                     AAState.WriteLine("                  " + netField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                                 }
                                                             }
@@ -9284,7 +9285,7 @@ namespace ArcGIS4LocalGovernment
                                             {
 
                                                 bool includeFCName = false;
-                                                
+
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TO_JUNCTION_FIELD");
                                                 if (valData == null)
                                                 {
@@ -9342,7 +9343,7 @@ namespace ArcGIS4LocalGovernment
                                                             string strClsName;
                                                             if (netRestrictFC != "")
                                                             {
-                                                                 strClsName = Globals.getClassName(((IDataset)((IFeature)iJuncFeat).Class));
+                                                                strClsName = Globals.getClassName(((IDataset)((IFeature)iJuncFeat).Class));
 
                                                                 AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bf") + strClsName);
                                                                 if (strClsName != netRestrictFC)
@@ -9380,18 +9381,21 @@ namespace ArcGIS4LocalGovernment
                                                             }
 
                                                             // verify that field (in junction) to copy exists
-                                                            if (netField.ToUpper() == "(NAME)") {
+                                                            if (netField.ToUpper() == "(NAME)")
+                                                            {
                                                                 strClsName = Globals.getClassName(((IDataset)((IFeature)iJuncFeat).Class));
                                                                 inObject.set_Value(intFldIdxs[0], strClsName);
-                                                            }else{
+                                                            }
+                                                            else
+                                                            {
                                                                 juncField = Globals.GetFieldIndex(((IFeature)iJuncFeat).Fields, netField);
 
                                                                 //juncField = ((IFeature)iJuncFeat).Fields.FindField(valData as string);
                                                                 if (juncField > -1)
                                                                 {
-                                                                   
+
                                                                     inObject.set_Value(intFldIdxs[0], ((IFeature)iJuncFeat).get_Value(juncField));
-                                                                    
+
                                                                 }
                                                                 else
                                                                 {
@@ -11075,7 +11079,7 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     object val = inObject.get_Value(intFldIdxs[0]);
                                                     bool proceed = true;
-                                                    if (onlyWhenNull && 
+                                                    if (onlyWhenNull &&
                                                         (inObject.get_Value(intFldIdxs[0]) != null &&
                                                         inObject.get_Value(intFldIdxs[0]) != DBNull.Value &&
                                                         inObject.get_Value(intFldIdxs[0]).ToString().Trim() != "")
@@ -11261,14 +11265,14 @@ namespace ArcGIS4LocalGovernment
                                                             formatString = args[4].ToString();
                                                             onlyWhenNull = args[5].ToString().ToUpper() == "TRUE" ? true : false;
                                                             break;
-                                                      
+
                                                         default: break;
                                                     }
 
                                                     object val = inObject.get_Value(intFldIdxs[0]);
                                                     bool proceed = true;
-                                                    if (onlyWhenNull && 
-                                                        (inObject.get_Value(intFldIdxs[0]) != null && 
+                                                    if (onlyWhenNull &&
+                                                        (inObject.get_Value(intFldIdxs[0]) != null &&
                                                         inObject.get_Value(intFldIdxs[0]) != DBNull.Value &&
                                                         inObject.get_Value(intFldIdxs[0]).ToString().Trim() != "")
                                                         )
@@ -11898,17 +11902,17 @@ namespace ArcGIS4LocalGovernment
                                                                     if (pTable != null)
                                                                     {
 
-                                                                            ISubtypes subtypes = (ISubtypes)pTable;
+                                                                        ISubtypes subtypes = (ISubtypes)pTable;
 
                                                                         IEnumSubtype enumSubtype;
                                                                         IRowSubtypes rowSubtypes = null;
-                                                                        int subtypeCode=0;
+                                                                        int subtypeCode = 0;
                                                                         string subtypeName;
                                                                         if (subtypes.HasSubtype)
                                                                         {
                                                                             enumSubtype = subtypes.Subtypes;
                                                                             subtypeName = enumSubtype.Next(out subtypeCode);
-                                                                        
+
                                                                         }
                                                                         enumSubtype = null;
                                                                         int fldIDToPopIdx = Globals.GetFieldIndex(pTable.Fields, targetIDFieldName);
@@ -11919,7 +11923,7 @@ namespace ArcGIS4LocalGovernment
                                                                             for (int j = 0; j < countFld; j++)
                                                                             {
                                                                                 pNewRow = pTable.CreateRow();
-                                                                              
+
                                                                                 rowSubtypes = (IRowSubtypes)pNewRow;
                                                                                 if (subtypes.HasSubtype)
                                                                                 {
