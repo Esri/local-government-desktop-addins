@@ -215,6 +215,11 @@
     <Content Include="..\Configs\Gas\gas.config">
       <Link>gas.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="..\Configs\Water_LG\Loaded.config">
+      <Link>Loaded.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Images\Open2.png" />
     <AddInContent Include="Images\ArcGISAddin1.png" />
