@@ -561,147 +561,210 @@ namespace A4LGSharedFunctions
             ILayer pFLayer = Globals.FindLayer(app, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), ref fndAsFL);
             ILayer pBLayer = Globals.FindLayer(app, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), ref fndAsFL);
 
-
-
             List<ESRI.ArcGIS.Geometry.IPoint> Flags;
             List<ESRI.ArcGIS.Geometry.IPoint> Barriers;
-            IWorkspace pWS;
+            IWorkspace pWS = null;
             IFields pFields;
             IPoint pNPt;
             Globals.getFlagsBarriers(app, out Flags, out Barriers);
             // Open the Workspace
-            if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(map)) == null)
-            {
-                pWS = Globals.CreateInMemoryWorkspace();
-            }
-            pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPoint);
-            IFeatureCursor updateCursor = null;
-            IFeature feature = null;
-
-            IFeatureClass pFlagsFC = null;
-            if (pFLayer == null)
-            {
-                pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
-            }
-            else if (((IFeatureLayer)pFLayer).FeatureClass == null)
-            {
-                pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
-                IFeatureLayer pFFLayer = pFLayer as IFeatureLayer;
-
-                pFFLayer.FeatureClass = pFlagsFC;
-            }
-            else
-            {
-                pFlagsFC = ((IFeatureLayer)pFLayer).FeatureClass;
-                updateCursor = pFlagsFC.Update(null, false);
-                feature = null;
-
-                try
-                {
-                    while ((feature = updateCursor.NextFeature()) != null)
-                    {
-                        updateCursor.DeleteFeature();
-                    }
-                }
-                catch (COMException comExc)
-                {
-                    // Handle any errors that might occur on NextFeature().
-                }
-                Marshal.ReleaseComObject(updateCursor);
-            }
-
-            IFeatureClass pBarriersFC = null;
-            if (pBLayer == null)
-            {
-                pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
-            }
-            else if (((IFeatureLayer)pBLayer).FeatureClass == null)
-            {
-                pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
-                IFeatureLayer pBFLayer = pBLayer as IFeatureLayer;
-
-                pBFLayer.FeatureClass = pBarriersFC;
-            }
-            else
-            {
-                pBarriersFC = ((IFeatureLayer)pBLayer).FeatureClass;
-                updateCursor = pBarriersFC.Update(null, false);
-                feature = null;
-
-                try
-                {
-                    while ((feature = updateCursor.NextFeature()) != null)
-                    {
-                        updateCursor.DeleteFeature();
-                    }
-                }
-                catch (COMException comExc)
-                {
-                    // Handle any errors that might occur on NextFeature().
-                }
-                Marshal.ReleaseComObject(updateCursor);
-            }
-
-
-            IFeatureCursor pntInsertCurs = pFlagsFC.Insert(true);
+            IWorkspace work;
+            IWorkspaceEdit workEdit;
+            IFeatureCursor pCursor;
             IFeatureBuffer pFBuf;
             IFeature pFeat;
+             IFeature feature = null;
 
-            foreach (ESRI.ArcGIS.Geometry.IPoint pnt in Flags) // Loop through List with foreach
-            {
-                pFBuf = pFlagsFC.CreateFeatureBuffer();
-                pFeat = (IFeature)pFBuf;
-                pNPt = new ESRI.ArcGIS.Geometry.PointClass();
-                pNPt.X = pnt.X;
-                pNPt.Y = pnt.Y;
-
-                pFeat.Shape = pNPt;
-
-                pntInsertCurs.InsertFeature(pFBuf);
-
-            }
-            pntInsertCurs.Flush();
-            Marshal.ReleaseComObject(pntInsertCurs);
-
-            pntInsertCurs = pBarriersFC.Insert(true);
-            foreach (ESRI.ArcGIS.Geometry.IPoint pnt in Barriers) // Loop through List with foreach
-            {
-                pFBuf = pBarriersFC.CreateFeatureBuffer();
-                pFeat = (IFeature)pFBuf;
-                pNPt = new ESRI.ArcGIS.Geometry.PointClass();
-                pNPt.X = pnt.X;
-                pNPt.Y = pnt.Y;
-
-                pFeat.Shape = pNPt;
-                pntInsertCurs.InsertFeature(pFBuf);
-
-            }
-            pntInsertCurs.Flush();
-            Marshal.ReleaseComObject(pntInsertCurs);
+            pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPoint);
+            bool editStarted = false;
+            
+            IFeatureClass pFlagsFC = null;
+            IFeatureClass pBarriersFC = null;
             IFeatureLayer pFlagsLayer;
+            IFeatureLayer pBarriersLayer;
+
             if (pFLayer == null)
             {
-                 pFlagsLayer = new FeatureLayerClass();
+                if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(map)) == null)
+                {
+                    pWS = Globals.CreateInMemoryWorkspace();
+                }
+                pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                pFlagsLayer = new FeatureLayerClass();
                 pFlagsLayer.FeatureClass = pFlagsFC;
                 pFlagsLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportFlagsName");
                 map.AddLayer(pFlagsLayer);
-
             }
             else
             {
                 pFlagsLayer = pFLayer as IFeatureLayer;
             }
-            IFeatureLayer pBarriersLayer;
+            if (pFlagsLayer.FeatureClass == null)
+            {
+                if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(map)) == null)
+                {
+                    pWS = Globals.CreateInMemoryWorkspace();
+                }
+                pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                pFlagsLayer = pFLayer as IFeatureLayer;
+                pFlagsLayer.FeatureClass = pFlagsFC;
+            }
+            
+            pFlagsFC = pFlagsLayer.FeatureClass;
+            work = ((IDataset)pFlagsFC).Workspace;
+
+            workEdit = work as IWorkspaceEdit;
+            try
+            {
+                editStarted = false;
+                if (!workEdit.IsBeingEdited())
+                {
+                    workEdit.StartEditing(false);
+                    editStarted = true;
+                }
+
+                workEdit.StartEditOperation();
+
+                pCursor = pFlagsFC.Update(null, false);
+                feature = null;
+                while ((feature = pCursor.NextFeature()) != null)
+                {
+                    pCursor.DeleteFeature();
+                }
+                workEdit.StopEditOperation();
+           
+                Marshal.ReleaseComObject(pCursor);
+                workEdit.StartEditOperation();
+
+                pCursor = pFlagsFC.Insert(true);
+                foreach (ESRI.ArcGIS.Geometry.IPoint pnt in Flags) // Loop through List with foreach
+                {
+                    pFBuf = pFlagsFC.CreateFeatureBuffer();
+                    pFeat = (IFeature)pFBuf;
+                    pNPt = new ESRI.ArcGIS.Geometry.PointClass();
+                    pNPt.X = pnt.X;
+                    pNPt.Y = pnt.Y;
+                    pNPt.SpatialReference = pnt.SpatialReference;
+
+                    
+                    pNPt.Project(((IGeoDataset)pFlagsFC).SpatialReference);
+
+                    pFeat.Shape = pNPt;
+                    pCursor.InsertFeature(pFBuf);
+
+                }
+                pCursor.Flush();
+                Marshal.ReleaseComObject(pCursor);
+                workEdit.StopEditOperation();
+           
+                if (editStarted)
+                {
+                    workEdit.StopEditing(true);
+                    editStarted = false;
+                }
+            }
+
+            catch (COMException comExc)
+            {
+                workEdit.AbortEditOperation();
+                if (editStarted)
+                {
+                    workEdit.StopEditing(false);
+                    editStarted = false;
+                }
+
+            }
 
             if (pBLayer == null)
             {
-                 pBarriersLayer = new FeatureLayerClass();
+                if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(map)) == null)
+                {
+                    pWS = Globals.CreateInMemoryWorkspace();
+                }
+                pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                pBarriersLayer = new FeatureLayerClass();
                 pBarriersLayer.FeatureClass = pBarriersFC;
                 pBarriersLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportBarriersName");
                 map.AddLayer(pBarriersLayer);
+               
             }
-            else{
+            else {
                 pBarriersLayer = pBLayer as IFeatureLayer;
+            }
+          
+            if (pBarriersLayer.FeatureClass == null)
+            {
+                if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(map)) == null)
+                {
+                    pWS = Globals.CreateInMemoryWorkspace();
+                }
+                pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                pBarriersLayer = pBLayer as IFeatureLayer;
+                pBarriersLayer.FeatureClass = pBarriersFC;
+            }
+
+            pBarriersFC = pBarriersLayer.FeatureClass;
+            work = ((IDataset)pBarriersFC).Workspace;
+
+            workEdit = work as IWorkspaceEdit;
+            try
+            {
+                editStarted = false;
+                if (!workEdit.IsBeingEdited())
+                {
+                    workEdit.StartEditing(false);
+                    editStarted = true;
+                }
+
+                workEdit.StartEditOperation();
+
+                pCursor = pBarriersFC.Update(null, false);
+                feature = null;
+                while ((feature = pCursor.NextFeature()) != null)
+                {
+                    pCursor.DeleteFeature();
+                }
+                workEdit.StopEditOperation();
+            
+                Marshal.ReleaseComObject(pCursor);
+
+                pCursor = pBarriersFC.Insert(true);
+                workEdit.StartEditOperation();
+                foreach (ESRI.ArcGIS.Geometry.IPoint pnt in Barriers) // Loop through List with foreach
+                {
+                    pFBuf = pBarriersFC.CreateFeatureBuffer();
+                    pFeat = (IFeature)pFBuf;
+                    pNPt = new ESRI.ArcGIS.Geometry.PointClass();
+                    pNPt.X = pnt.X;
+                    pNPt.Y = pnt.Y;
+                    pNPt.SpatialReference = pnt.SpatialReference;
+
+                    pNPt.Project(((IGeoDataset)pBarriersFC).SpatialReference);
+
+                    pFeat.Shape = pNPt;
+                    pCursor.InsertFeature(pFBuf);
+
+                }
+                pCursor.Flush();
+                Marshal.ReleaseComObject(pCursor);
+                workEdit.StopEditOperation();
+
+                if (editStarted)
+                {
+                    workEdit.StopEditing(true);
+                    editStarted = false;
+                }
+            }
+
+            catch (COMException comExc)
+            {
+                workEdit.AbortEditOperation();
+                if (editStarted)
+                {
+                    workEdit.StopEditing(false);
+                    editStarted = false;
+                }
+
             }
 
             IQueryFilter pQFilt;
@@ -709,14 +772,10 @@ namespace A4LGSharedFunctions
             pQFilt.WhereClause = "1=1";
             IFeatureSelection pFS = (IFeatureSelection)pFlagsLayer;
             pFS.SelectFeatures(pQFilt, esriSelectionResultEnum.esriSelectionResultAdd, false);
-             pFS = (IFeatureSelection)pBarriersLayer;
+            pFS = (IFeatureSelection)pBarriersLayer;
             pFS.SelectFeatures(pQFilt, esriSelectionResultEnum.esriSelectionResultAdd, false);
             pFS = null;
 
-            //pFlagsLayer.FeatureClass.Select(pQFilt, esriSelectionType.esriSelectionTypeIDSet, esriSelectionOption.esriSelectionOptionNormal, null);
-            //pBarriersLayer.FeatureClass.Select(pQFilt, esriSelectionType.esriSelectionTypeIDSet, esriSelectionOption.esriSelectionOptionNormal, null);
-
-            //doc.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, null);
         }
 
         public static string LogLocations = "";
