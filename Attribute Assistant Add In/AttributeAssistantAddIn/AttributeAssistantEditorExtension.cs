@@ -2511,11 +2511,17 @@ namespace ArcGIS4LocalGovernment
                             valFC = drv["TABLENAME"].ToString().Trim();
                             bool bHasFabricFeatureTarget = false;
                             bool bHasFabricSubType = false;
-                            if (valFC.Contains("|"))
-                            {
-                                int iObjClassID = inObject.Class.ObjectClassID;
 
-                                if (AAState._fabricInMemTablesLookUp != null && AAState._fabricInMemTablesLookUp.ContainsKey(iObjClassID))
+                            int iObjClassID = inObject.Class.ObjectClassID;
+                            bool bIsFabricClass = false;
+
+                            if (AAState._fabricInMemTablesLookUp !=null)
+                              bIsFabricClass=AAState._fabricInMemTablesLookUp.ContainsKey(iObjClassID);
+
+                          if (valFC.Contains("|"))
+                            {
+
+                              if (bIsFabricClass)
                                 {
                                     string[] spliVal0 = valFC.Split('|');
                                     string[] s = spliVal0[1].ToUpper().Trim().Split(',');
@@ -2579,11 +2585,12 @@ namespace ArcGIS4LocalGovernment
                                     }
                                     if (!bHasFabricFeatureTarget && !bHasFabricSubType)
                                     {
-                                        proc = false;
-                                        continue;
+                                      proc = false;
+                                      continue;
                                     }
                                 }
-                                else
+
+                                if (!bHasFabricFeatureTarget)
                                 {
 
                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14af"));
