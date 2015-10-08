@@ -2616,4 +2616,7 @@
   <data name="ConfigDlgText" xml:space="preserve">
     <value>Fichier de configuration et de log</value>
   </data>
+  <data name="GeoNetToolsBatchBarrier" xml:space="preserve">
+    <value>Select a layer to load barriers from</value>
+  </data>
 </root>

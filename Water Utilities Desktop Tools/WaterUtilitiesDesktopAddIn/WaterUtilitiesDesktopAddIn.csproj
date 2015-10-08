@@ -227,6 +227,7 @@
       <Link>gas.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <AddInContent Include="Images\BatchBarrier.png" />
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>

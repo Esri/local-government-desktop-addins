@@ -570,6 +570,71 @@ namespace A4WaterUtilities
 
             return pFields;
         }
+
+        public static void batchLoadBarriers(IApplication app)
+        {
+            bool fndAsLayer = false;
+            IEnumLayer pLays = Globals.GetLayers(app, "VECTOR");
+
+            List<string> strFiles = new List<string>();
+
+            if (pLays != null)
+            {
+                ILayer pLay = pLays.Next();
+
+                while (pLay != null)
+                {
+                    if (pLay is IFeatureLayer)
+                    {
+                        if (((IFeatureLayer)pLay).FeatureClass != null)
+                        {
+                            if (((IFeatureLayer)pLay).FeatureClass.ShapeType == esriGeometryType.esriGeometryPoint)
+                            {
+                                strFiles.Add(pLay.Name);
+
+                            }
+                        }
+
+                    }
+                    pLay = pLays.Next();
+                }
+                //MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.Message, ex.Source);
+                string strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsBatchBarrier"), ComboBoxStyle.DropDownList);
+                if (strRetVal != null)
+                {
+                    IFeatureLayer pFl = (IFeatureLayer)Globals.FindLayer(app, strRetVal, ref fndAsLayer);
+                    IFeatureCursor featureCursor = null;
+
+                    IFeature feature = null;
+                    try
+                    {
+
+                        featureCursor = pFl.Search(null, false);
+                        feature = featureCursor.NextFeature();
+                        while (feature != null)
+                        {
+                            A4WaterUtilities.GeoNetTools.AddBarrier(feature.Shape as IPoint, app, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0));
+                            feature = featureCursor.NextFeature();
+
+
+                        }
+                        if (featureCursor != null)
+                        {
+                            Marshal.ReleaseComObject(featureCursor);
+                        }
+
+                    }
+                    catch
+                    { }
+
+
+                }
+
+            }
+
+
+
+        }
         public static void ShowArrows(IApplication app)
         {
             INetworkAnalysisExt netExt = null;
@@ -5676,7 +5741,7 @@ namespace A4WaterUtilities
                 mergedLines = Globals.MergeEdges(ref map, ref  gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
 
                 returnVal = Globals.SelectValveJunctions(ref map, ref hasSourceValveHT, ref valveFLs, processEvent) + "_" + returnVal;
-              
+
                 if (processEvent)
                 {
                     if (pNetAnalysisExt != null)
@@ -6348,11 +6413,11 @@ namespace A4WaterUtilities
                         {
                             comments = result;
                         }
-                        if (mergedLines != null && procoids != null && saveEntireLine==true)
+                        if (mergedLines != null && procoids != null && saveEntireLine == true)
                         {
                             if (mergedLines.IsEmpty)
                             {
-                                comments = "Could not save merged geo: Length is null" ;
+                                comments = "Could not save merged geo: Length is null";
                                 pSumFeatBuf.Shape = pMainsFeat.ShapeCopy;
                             }
                             else

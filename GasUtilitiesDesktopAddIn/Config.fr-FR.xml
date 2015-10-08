@@ -1,0 +1,162 @@
+﻿<!--  | Version 10.1  | Copyright 2014 Esri  |  | Licensed under the Apache License, Version 2.0 (the "License");  | you may not use this file except in compliance with the License.  | You may obtain a copy of the License at  |  |    http://www.apache.org/licenses/LICENSE-2.0  |  | Unless required by applicable law or agreed to in writing, software  | distributed under the License is distributed on an "AS IS" BASIS,  | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  | See the License for the specific language governing permissions and  | limitations under the License. -->
+
+<ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Gas Utility Network Tools</Name>
+  <AddInID>{AF706D91-5AC0-40B2-890A-8B504C2191FA}</AddInID>
+  <Description>ArcMap tools for Gas Utilities</Description>
+   <Version>9.29.2015</Version>
+  <Image>Images\GasUtilitiesDesktopAddIn64.png</Image>
+  <Author>Esri., Inc.</Author>
+  <Company>Esri., Inc.</Company>
+  <Date>9.29.2015</Date>
+  <Targets>
+    <Target name="Desktop" version="10.1"/>
+  </Targets>
+  <AddIn language="CLR" library="GasUtilityNetworkTools.dll" namespace="A4GasUtilities">
+    <ArcMap>
+      <Commands>
+        <Button id="A4GasUtilities_AddLaterals" class="AddLaterals" message="Évalue les entités ponctuelles sélectionnées et trace une ligne à partir de chaque point jusqu&apos;à l&apos;entité la plus proche dans une couche de lignes. Il est possible de placer des entités ponctuelles supplémentaires le long de la ligne.  Le fait de maintenir la touche Ctrl enfoncée permet de remplacer les modèles définis et invite l&apos;utilisateur à saisir une ligne et un point en entrée.  Le fait de maintenir la touche Maj enfoncée permet de rechercher le tronçon sélectionné le plus proche." caption="Ajouter des branchements au niveau des connexions" tip="Ajouter des branchements au niveau des connexions" category="ArcGIS for Utilities" image="Images\AddLaterals.png"/>
+        <Button id="A4GasUtilities_AddLateralsFromMain" class="AddLateralsFromMain" message="Évalue les entités ponctuelles sélectionnées et trace une ligne à partir de chaque point, perpendiculairement à la ligne d&apos;intersection.  Il est possible de placer des entités ponctuelles supplémentaires le long de la ligne.  La couche de points requiert un champ pour stocker la direction de la ligne (soit sous la forme d&apos;un relèvement d&apos;horloge, soit d&apos;un relèvement au compas), un champ pour stocker la direction de déplacement de la caméra lors de l&apos;enregistrement du point (U pour amont, D pour aval), ainsi qu&apos;un champ contenant la longueur du branchement à créer.  D&apos;autres paramètres relatifs aux points d&apos;alignement et au champ à copier se trouvent dans la section AddLateralFromMainPointLayers du fichier de configuration." caption="Ajouter des branchements à partir d&apos;emplacements de ligne" tip="Ajouter des branchements à partir d&apos;emplacements de ligne" category="ArcGIS for Utilities" image="Images\AddLateralsFromMain.png"/>
+        <Button id="A4GasUtilities_ConnectionChecker" class="ConnectionChecker" message="Évalue les entités de réseau géométrique dans l&apos;étendue visible afin de vérifier que toutes les jonctions (points) sont connectées à un tronçon (ligne) et que tous les tronçons (lignes) sont connectés à un autre tronçon via une jonction ou qu&apos;ils se terminent par une jonction.  Changez la valeur de CheckOnlyVisibleLayers dans le fichier de configuration ; True pour les couches visibles uniquement, False pour toutes les couches, indépendamment de la visibilité." caption="Vérificateur de connexions" tip="Vérificateur de connexions" category="ArcGIS for Utilities" image="Images\ConnectionChecker.png"/>
+        <Button id="A4GasUtilities_ConnectSelected" class="ConnectSelected" message="Connecte les entités sélectionnées qui participent à un réseau géométrique.  Sélectionnez une ou plusieurs entités qui participent à un réseau géométrique." caption="Connecter les entités de réseau géométrique" tip="Connecter les entités de réseau géométrique" category="ArcGIS for Utilities" image="Images\ConnectSelected.png"/>
+        <Button id="A4GasUtilities_DisconnectSelected" class="DisconnectSelected" message="Déconnecte les entités sélectionnées qui participent à un réseau géométrique.  Sélectionnez une ou plusieurs entités qui participent à un réseau géométrique." caption="Déconnecter les entités de réseau géométrique" tip="Déconnecter les entités de réseau géométrique" category="ArcGIS for Utilities" image="Images\DisconnectSelected.png"/>
+      
+        <!--<Button id="A4GasUtilities_CreateJumpsOver" class="CreateJumpsOver" message="Crée un saut en demi-cercle sur les entités linéaires sélectionnées par-dessus les lignes d&apos;intersection.  Le rayon du cercle est déterminé par la balise CreateJumps_Distance dans le fichier de configuration." caption="Créer des sauts au niveau supérieur pour les lignes sélectionnées" tip="Créer des sauts au niveau supérieur pour les lignes sélectionnées" category="ArcGIS for Utilities" image="Images\CreateJumpsOver.png"/>
+        <Button id="A4GasUtilities_CreateJumpsUnder" class="CreateJumpsUnder" message="Crée un saut en demi-cercle sur les entités linéaires sélectionnées par-dessus les lignes d&apos;intersection.  Le rayon du cercle est déterminé par la balise CreateJumps_Distance dans le fichier de configuration." caption="Créer des sauts au niveau inférieur pour les lignes sélectionnées" tip="Créer des sauts au niveau inférieur pour les lignes sélectionnées" category="ArcGIS for Utilities" image="Images\CreateJumpsUnder.png"/>
+        <Button id="A4GasUtilities_ShowLayerWindow" class="ShowLayerWindow" message="Ouvre la fenêtre Visionneuse de couches et construit une forme à l&apos;aide d&apos;une couche spécifiée. La couche doit être présente dans le document ArcMap ouvert. La forme interroge la couche et charge les entités retournées dans la fenêtre. La fenêtre contient des contrôles permettant de faire défiler chaque enregistrement.  Les couches, l&apos;échelle de la carte et la requête sont définies dans la section LayerViewerConfig du fichier de configuration." caption="Fenêtre Visionneuse de couches" tip="Fenêtre Visionneuse de couches" category="ArcGIS for Utilities" image="Images\LayerViewer.png"/>
+        <Button id="A4GasUtilities_ShowFlowArrows" class="ShowFlowArrows" message="Affiche ou masque les flèches du sens d&apos;écoulement sur le premier réseau géométrique visible." caption="Afficher/Masquer les flèches d&apos;écoulement" tip="Afficher/Masquer les flèches d&apos;écoulement" category="ArcGIS for Utilities" image="Images\ShowFlowArrows.png"/>
+        <Button id="A4GasUtilities_FlipLines" class="FlipLines" message="Inversez les lignes sélectionnées dans la couche mise en surbrillance dans la table des matières." caption="Inverser les lignes sélectionnées" tip="Inverser les lignes sélectionnées" category="ArcGIS for Utilities" image="Images\FlipLines.png"/>
+        <Button id="A4GasUtilities_FlipLinesFlow" class="FlipLinesFlow" message="Définissez la direction de la ligne sur le sens d&apos;écoulement du réseau géométrique des lignes sélectionnées dans la couche mise en surbrillance dans la table des matières.  Sélectionnez les lignes qui font partie d&apos;un réseau géométrique et assurez-vous que leur sens d&apos;écoulement est défini." caption="Faire correspondre la direction des lignes sélectionnées au sens d&apos;écoulement" tip="Faire correspondre la direction des lignes sélectionnées au sens d&apos;écoulement" category="ArcGIS for Utilities" image="Images\FlipLinesFlow.png"/>-->
+      
+        <Button id="A4GasUtilities_RotateSelected" class="RotateSelected" message="Fait pivoter les entités ponctuelles sélectionnées afin qu&apos;elles correspondent à l&apos;orientation d&apos;une ligne de connexion." caption="Rotation des jonctions sélectionnées" tip="Rotation des jonctions sélectionnées" category="ArcGIS for Utilities" image="Images\RotateSelected.png"/>
+        <Button id="A4GasUtilities_AdditionalRotate" class="AdditionalRotate" message="Ajoute une valeur prédéfinie à la rotation d&apos;entités ponctuelles sélectionnées." caption="Ajouter une rotation à l&apos;entité" tip="Ajouter une rotation à l&apos;entité" category="ArcGIS for Utilities" image="Images\RotateAddSpinSelected.png"/>
+        <Button id="A4GasUtilities_SplitLines" class="SplitLines" message="Fractionne les entités linéaires à l&apos;intersection des entités ponctuelles sélectionnées." caption="Fractionne les lignes aux points sélectionnés" tip="Fractionne les lignes aux points sélectionnés" category="ArcGIS for Utilities" image="Images\SplitLines.png"/>
+        <Button id="A4GasUtilities_SetMeasuresOnLines" class="SetMeasuresOnLines" message="Calcule les valeurs m pour les lignes sélectionnées les prenant en charge. Ces valeurs peuvent être définies dans le sens de numérisation ou dans le sens contraire. La longueur de la ligne est utilisée pour définir les mesures. Les couches d&apos;entités linéaires doivent être sélectionnées dans la table des matières et elles doivent contenir les entités sélectionnées." caption="Définir des mesures pour les lignes sélectionnées" tip="Définir des mesures pour les lignes sélectionnées" category="ArcGIS for Utilities" image="Images\SetMeasures.png"/>
+        <Button id="A4GasUtilities_MergeGNLines" class="MergeGNLines" message="Fusionne plusieurs lignes d&apos;une classe d&apos;entités linéaires d&apos;un réseau géométrique en une seule entité. Les couches d&apos;entités linéaires doivent être sélectionnées dans la table des matières et elles doivent contenir les entités sélectionnées." caption="Fusionner les lignes du réseau géométrique" tip="Fusionner les lignes du réseau géométrique" category="ArcGIS for Utilities" image="Images\merge.png"/>
+        <Button id="A4GasUtilities_ExportToExcel" class="ExportToExcel" message="Exporte toutes les entités sélectionnées vers Excel." caption="Exporter les éléments sélectionnés vers Excel" tip="Exporter les éléments sélectionnés vers Excel" category="ArcGIS for Utilities" image="Images\ExportToExcel.png"/>
+        <Button id="A4GasUtilities_IdentifySelected" class="IdentifySelected" message="Charge toutes les entités actuellement sélectionnées dans la boîte de dialogue d&apos;identification." caption="Identifier la sélection" tip="Identifier la sélection" category="ArcGIS for Utilities" image="Images\IdentifySelected.png"/>
+        <Button id="A4GasUtilities_TraceSummaryIsolation" class="TraceSummaryIsolation" message="Exécute le schéma d&apos;arrêt d&apos;eau sur les tronçons sélectionnés. Le schéma récapitule le nombre de vannes, de compteurs, de compteurs critiques et de connexions de service dans le réseau géométrique qui seraient affectés si une rupture se produisait sur chaque tronçon sélectionné. Les résultats sont stockés dans une classe d&apos;entités distincte.  Cet outil implique un long processus. Il est conseillé de l&apos;exécuter sur de petites portions de données à la fois.  La couche wMainWithTraceSummary fait partie du jeu de données Capital Planning de LGIM.  Un certain nombre de paramètres peuvent être définis dans le fichier de configuration.  Cet outil utilise les paramètres commençant par TraceIsolationSummary et les balises de simulation d&apos;arrêt d&apos;eau." caption="Schéma d&apos;arrêt d&apos;eau de récapitulation" tip="Schéma d&apos;arrêt d&apos;eau de récapitulation" category="ArcGIS for Utilities" image="Images\SummaryIsolationTrace.png"/>
+        
+        <Tool id="A4GasUtilities_ToggleOperableStatus" class="ToggleOperableStatus" message="Modifie l&apos;état actionnable d&apos;une vanne en état non actionnable, et inversement.  Définissez le champ actionnable et non actionnable, ainsi que les valeurs correspondantes, dans le fichier de configuration." caption="Changer l&apos;état de fonctionnement d&apos;une vanne" tip="Changer l&apos;état de fonctionnement d&apos;une vanne" category="ArcGIS for Utilities" image="Images\ToggleOperableStatus.png"/>
+        <Button id="A4GasUtilities_ClearTraceResults" class="ClearTraceResults" message="Efface tous les résultats du parcours et les entités sélectionnées." caption="Effacer les résultats du parcours" tip="Effacer les résultats du parcours" category="ArcGIS for Utilities" image="Images\TraceClear.png"/>
+        <Tool id="A4GasUtilities_TraceIsolation" class="TraceIsolation" message="Identifie toutes les vannes d&apos;un réseau géométrique qui doivent être fermées pour isoler une section de tronçon. Toutes les entités sélectionnables affectées par le parcours sont sélectionnées.  Les tronçons sont dessinés sous forme de graphiques.  Maintenez la touche Ctrl enfoncée pour replacer les tronçons dans l&apos;ensemble de sélection." caption="" tip="Schéma de simulation d&apos;arrêt d&apos;eau" category="ArcGIS for Utilities" image="Images\TraceIsolationTool.png"/>
+        <Button id="A4GasUtilities_TraceIsolationRerun" class="TraceIsolationRerun" message="Exécute un schéma d&apos;arrêt d&apos;eau sur les entités du réseau géométrique à partir des drapeaux définis sur le réseau.  Exécutez d&apos;abord le schéma de simulation d&apos;arrêt d&apos;eau ou ajoutez un drapeau à l&apos;aide de l&apos;outil Ajouter un drapeau." caption="Réexécuter le schéma d&apos;arrêt d&apos;eau" tip="Réexécuter le schéma d&apos;arrêt d&apos;eau" category="ArcGIS for Utilities" image="Images\TraceIsolationReRun.png"/>
+        
+        <!--<Button id="A4GasUtilities_TraceSecondaryIsolation" class="TraceSecondaryIsolation" message="Désactive toutes les valeurs sélectionnées sur un réseau géométrique et réexécute le parcours à partir du point de schéma d&apos;arrêt d&apos;eau d&apos;origine.  Maintenez la touche Ctrl enfoncée pour replacer les tronçons dans l&apos;ensemble de sélection." caption="Schéma d&apos;arrêt d&apos;eau secondaire" tip="Schéma d&apos;arrêt d&apos;eau secondaire" category="ArcGIS for Utilities" image="Images\SecondaryTraceIsolation.png"/>-->
+        
+        <!--<Tool id="A4GasUtilities_TraceUpstream" class="TraceUpstream" message="Exécute un parcours en amont à l&apos;emplacement défini par l&apos;utilisateur sur un réseau géométrique. Par défaut, les tronçons ne sont pas sélectionnés.  Maintenez la touche Ctrl enfoncée pour replacer les tronçons dans l&apos;ensemble de sélection." caption="Parcours en amont" tip="Parcours en amont" category="ArcGIS for Utilities" image="Images\TraceUpstreamTool.png"/>
+        <Tool id="A4GasUtilities_TraceDownstream" class="TraceDownstream" message="Exécute un parcours en aval à l&apos;emplacement défini par l&apos;utilisateur sur un réseau géométrique. Par défaut, les tronçons ne sont pas sélectionnés.  Maintenez la touche Ctrl enfoncée pour replacer les tronçons dans l&apos;ensemble de sélection." caption="Parcours en aval" tip="Parcours en aval" category="ArcGIS for Utilities" image="Images\TraceDownstreamTool.png"/>
+        <Button id="A4GasUtilities_FlowAccumulation" class="FlowAccumulation" message="Calcule l&apos;accumulation de l&apos;écoulement en amont et en aval pour chaque entité sélectionnée et stocke les résultats dans un champ spécifié.  Ajoutez des pondérations aux entités du réseau géométrique.  Modifiez le sens d&apos;écoulement, les couches et la pondération dans la section FlowAccumulation du fichier de configuration." caption="Récapitulation de l&apos;accumulation de l&apos;écoulement" tip="Récapitulation de l&apos;accumulation de l&apos;écoulement" category="ArcGIS for Utilities" image="Images\FlowAccum.png"/>
+        <Tool id="A4GasUtilities_FlowAccumulationLoc" class="FlowAccumulationLoc" message="Calcule l&apos;accumulation de l&apos;écoulement en amont et en aval à l&apos;emplacement défini par l&apos;utilisateur.  Ajoutez des pondérations aux entités du réseau géométrique.  Modifiez le sens d&apos;écoulement, les couches et la pondération dans la section FlowAccumulation du fichier de configuration." caption="Accumulation de l&apos;écoulement à un emplacement" tip="Accumulation de l&apos;écoulement à un emplacement" category="ArcGIS for Utilities" image="Images\FlowAccumLoc.png"/>-->
+        <!--<Tool id="A4GasUtilities_FindClosest" class="FindClosest" message="Find closest asset" caption="Find closest asset" tip="Find closest asset" category="ArcGIS for Utilities" image="Images\Test.png" />-->
+
+        <Tool id="A4GasUtilities_AddFlag" class="AddFlag" message="Crée une jonction ou un drapeau de tronçon dans une couche d&apos;un réseau géométrique la plus proche d&apos;un emplacement défini par l&apos;utilisateur." caption="Ajouter un drapeau" tip="Ajouter un drapeau" category="ArcGIS for Utilities" image="Images\AddFlag.png"/>
+        <Tool id="A4GasUtilities_AddBarrier" class="AddBarrier" message="Crée une jonction ou une barrière de tronçon dans une couche d&apos;un réseau géométrique la plus proche d&apos;un emplacement défini par l&apos;utilisateur." caption="Ajouter une barrière" tip="Ajouter une barrière" category="ArcGIS for Utilities" image="Images\AddBarrier.png"/>
+        <Tool id="A4GasUtilities_RemoveFlagBarrier" class="RemoveFlagBarrier" message="Supprime une barrière ou un drapeau dans une couche d&apos;un réseau géométrique la plus proche d&apos;un emplacement défini par l&apos;utilisateur." caption="Supprimer un drapeau ou une barrière" tip="Supprimer un drapeau ou une barrière" category="ArcGIS for Utilities" image="Images\DeleteBarFlag.png"/>
+        <Button id="A4GasUtilities_SelectJunctionsByEdgeCount" class="SelectByJunctionEdgeCount" message="Présente une boîte de dialogue qui vous permet de sélectionner toutes les jonctions (points) d&apos;un réseau géométrique selon le nombre de tronçons auxquels elles sont connectées." caption="Sélectionner des jonctions par nombre de tronçons" tip="Sélectionner des jonctions par nombre de tronçons" category="ArcGIS for Utilities" image="Images\SelectJunctions.png"/>
+        <!--<Button id="A4GasUtilities_ConnectClosests" class="ConnectClosests" message="Connecte au moyen d&apos;une ligne chaque point sélectionné à l&apos;entité ponctuelle la plus proche dans la même couche.  Les classes d&apos;entités linéaires et ponctuelles sont définies dans le fichier de configuration. Le fait de maintenir la touche Ctrl enfoncée permet de remplacer les modèles définis et invite l&apos;utilisateur à saisir des entités ponctuelles et linéaires en entrée.  Le fait de maintenir la touche Maj enfoncée permet de rechercher le point sélectionné le plus proche.  Le fait de maintenir les touches Maj+Ctrl enfoncées permet de remplacer les modèles définis, invite l&apos;utilisateur à saisir des entités ponctuelles et linéaires en entrée, puis recherche le point le plus proche." caption="Connecter le point sélectionné au point existant le plus proche" tip="Connecter le point sélectionné au point existant le plus proche" category="ArcGIS for Utilities" image="Images\ConnectClosests.png"/>
+
+        <Tool id="A4GasUtilities_SewerProfile" class="SewerProfile" message="Exécute un parcours entre deux points sélectionnés (regards) et construit un graphique de profil des résultats. Le graphique trace l&apos;altitude périphérique et les altitudes inversées des regards, les altitudes en amont et en aval des tronçons, l&apos;emplacement des robinets (facultatif) et l&apos;altitude du sol (facultatif)." caption="Outil de profilage" tip="Outil de profilage" category="ArcGIS for Utilities" image="Images\SewerProfile.png"/>-->
+        <!--<Tool id="A4GasUtilities_MoveConnections" class="MoveConnections" message="Move Connections from one line to another" caption="Move Connections from one line to another" tip="Move Connections from one line to another" category="ArcGIS for Utilities" image="Images\MoveConnections.png" />-->
+
+
+        <Button id="A4GasUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Établit le sens d&apos;écoulement d&apos;après le rôle des équipements disposés sur le réseau géométrique." caption="Établir le sens d&apos;écoulement" tip="Établir le sens d&apos;écoulement" category="ArcGIS for Utilities" image="Images\EstablishFlow.png"/>
+        <Button id="A4GasUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Établit le sens d&apos;écoulement d&apos;après le sens de numérisation sur le réseau géométrique." caption="Établir le sens d&apos;écoulement d&apos;après le sens de numérisation" tip="Établir le sens d&apos;écoulement d&apos;après le sens de numérisation" category="ArcGIS for Utilities" image="Images\EstablishFlowDigitized.png"/>
+        <Button id="A4GasUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Batch load barriers from a layer." caption="Batch load barriers from a layer" tip="Batch load barriers from a layer" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
+
+      </Commands>
+      <Toolbars>
+        <Toolbar id="A4GasUtilities_GasUtilitiesEditTools" caption="Gas Utility Editing" showInitially="false">
+          <Items>
+            <Button refID="A4GasUtilities_ConnectSelected" separator="true"/>
+            <Button refID="A4GasUtilities_DisconnectSelected" separator="false"/>
+            <Button refID="A4GasUtilities_ConnectionChecker" separator="false"/>
+            <Button refID="A4GasUtilities_RotateSelected" separator="true"/>
+            <Button refID="A4GasUtilities_AdditionalRotate" separator="false"/>
+            <Button refID="A4GasUtilities_SplitLines" separator="true"/>
+            <!--<Button refID="A4GasUtilities_MergeGNLines" separator="false"/>
+            <Button refID="A4GasUtilities_SetMeasuresOnLines" separator="false"/>
+            <Button refID="A4GasUtilities_CreateJumpsOver" separator="true"/>
+            <Button refID="A4GasUtilities_CreateJumpsUnder" separator="false"/>
+            <Button refID="A4GasUtilities_ShowLayerWindow" separator="true"/>-->
+            <Button refID="A4GasUtilities_AddLaterals" separator="false"/>
+            <Button refID="A4GasUtilities_AddLateralsFromMain" separator="false"/>
+            <!--<Tool refID="A4GasUtilities_MoveConnections" separator="false" />-->
+            <!--<Button refID="A4GasUtilities_ConnectClosests" separator="true"/>
+            <Button refID="A4GasUtilities_EstablishFlowAncillary" separator="true" />
+            <Button refID="A4GasUtilities_EstablishFlowDigitized" separator="false" />
+
+
+            <Button refID="A4GasUtilities_ShowFlowArrows" separator="false"/>
+            <Button refID="A4GasUtilities_FlipLines" separator="true"/>
+            <Button refID="A4GasUtilities_FlipLinesFlow" separator="false"/>
+            <Button refID="esriEditorExt.GNIncrementalLoaderWizardCommand" separator="true"/>-->
+
+          </Items>
+        </Toolbar>
+        <Toolbar id="A4GasUtilities_ReportingToolbar" caption="Gas Utility Trace Tools" showInitially="false">
+          <Items>
+            <Tool refID="A4GasUtilities_TraceIsolation" separator="false"/>
+            <Button refID="A4GasUtilities_TraceIsolationRerun"/>
+            <!--<Button refID="A4GasUtilities_TraceSecondaryIsolation" separator="false"/>-->
+
+            <!--<Tool refID="A4GasUtilities_TraceUpstream" separator="false"/>
+            <Tool refID="A4GasUtilities_TraceDownstream" separator="false"/>
+            <Tool refID="A4GasUtilities_FlowAccumulationLoc" separator="false"/>-->
+            <Tool refID="A4GasUtilities_AddFlag" separator="false"/>
+            <Tool refID="A4GasUtilities_AddBarrier" separator="false"/>
+            <Tool refID="A4GasUtilities_RemoveFlagBarrier" separator="false"/>
+            <Button refID="A4GasUtilities_BatchLoadBarriers" separator="false" />
+
+            <!--<Tool refID="A4GasUtilities_SewerProfile" separator="false"/>
+
+            <Button refID="A4GasUtilities_TraceSummaryIsolation" separator="false"/>
+            <Button refID="A4GasUtilities_FlowAccumulation" separator="false"/>-->
+
+            <Button refID="A4GasUtilities_ToggleOperableStatus" separator="true"/>
+            <Button refID="A4GasUtilities_ClearTraceResults" separator="false"/>
+            <Button refID="A4GasUtilities_ExportToExcel" separator="true"/>
+            <Button refID="A4GasUtilities_IdentifySelected" separator="false"/>
+            <Button refID="A4GasUtilities_SelectJunctionsByEdgeCount" separator="true"/>
+
+          </Items>
+        </Toolbar>
+      </Toolbars>
+     
+      <Menus></Menus>
+      <Editor>
+        <Commands>
+
+          <Tool id="Esri_A4GasUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Crée un point, puis trace une ligne depuis le point jusqu&apos;à l&apos;emplacement le plus proche sur une autre couche de lignes. Il est possible de placer des entités ponctuelles supplémentaires le long de la ligne. Seules les entités ponctuelles définies dans le fichier de configuration sont évaluées.  Le fait de maintenir la touche Ctrl enfoncée permet de remplacer les modèles définis et invite l&apos;utilisateur à saisir chaque entité." caption="Ajouter une connexion et le branchement" tip="Ajouter une connexion et le branchement" category="ArcGIS for Utilities" image="Images\AddLateralsConstructTool.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+          <!--<Tool id="Esri_A4GasUtilities_AddLateralsFromMainPointConstructionTool" class="AddLateralsFromMainPointConstructionTool" message="Crée une entité ponctuelle et trace une ligne à partir de ce point, perpendiculairement à la ligne d&apos;intersection.  Il est possible de placer des entités ponctuelles supplémentaires le long de la ligne.  La couche de points requiert un champ pour stocker la direction de la ligne (soit sous la forme d&apos;un relèvement d&apos;horloge, soit d&apos;un relèvement au compas), un champ pour stocker la direction de déplacement de la caméra lors de l&apos;enregistrement du point (U pour amont, D pour aval), ainsi qu&apos;un champ contenant la longueur du branchement à créer.  D&apos;autres paramètres relatifs aux points d&apos;alignement et au champ à copier se trouvent dans la section AddLateralFromMainPointLayers du fichier de configuration." caption="Ajouter des branchements à partir d&apos;emplacements de ligne" tip="Ajouter des branchements à partir d&apos;emplacements de ligne" category="ArcGIS for Utilities" image="Images\AddLateralsFromMainConstructTool.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>-->
+
+          <Tool id="Esri_A4GasUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Crée un point et tente de fractionner une entité linéaire d&apos;intersection." caption="Ajouter un point et fractionner une ligne d&apos;intersection" tip="Ajouter un point et fractionner une ligne d&apos;intersection" category="ArcGIS for Utilities" image="Images\SplitLinesAtLocation.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+          <!--<Tool id="Esri_A4GasUtilities_ConnectClosestsConstructTool" class="ConnectClosestsConstructTool" message="Crée un point, recherche le point le plus proche dans la même couche, puis tente de connecter les deux via une couche de lignes définie dans le fichier de configuration. Une touche de raccourci vous permet de rechercher le regard sélectionné le plus proche.  Le fait de maintenir la touche Ctrl enfoncée permet de remplacer les modèles définis et invite l&apos;utilisateur à saisir chaque entité. Maintenir la touche Maj enfoncée limite la recherche aux entités sélectionnées uniquement. Maintenir les touches Ctrl et Maj enfoncées invite l&apos;utilisateur à saisir chaque entité et limite la recherche aux entités sélectionnées uniquement." caption="Crée un point et une ligne au point le plus proche" tip="Crée un point et une ligne au point le plus proche" category="ArcGIS for Utilities" image="Images\ConnectClosestsConstructTool.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+          <Tool id="Esri_A4GasUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Crée une entité linéaire et fractionne éventuellement cette ligne à chaque sommet. Cet outil peut également placer des entités ponctuelles à l&apos;extrémité d&apos;une ligne ou à chaque sommet.  Définit les couches adaptées à cet outil, la manière de fractionner la ligne et le type de points à placer dans le fichier de configuration." caption="Créer une ligne avec des points" tip="Créer une ligne avec des points" category="ArcGIS for Utilities" image="Images\AddLineWithEndPoints.png">
+            <Construction>
+              <Category>Polyline Construction</Category>
+              <Category>Geometric Network Line Construction</Category>
+            </Construction>
+          </Tool>-->
+          <!--<Tool id="Esri_A4GasUtilities_PointsAlongLineTool" class="PointsAlongLineTool" message="Creates Points at regular intervals along a sketch" caption="Points along a line" tip="Points along a line tool" category="ArcGIS for Utilities" image="Images\PointsAlongLineTool.png">           <Construction>             <Category>Point Construction</Category>           </Construction>         </Tool>-->
+        </Commands>
+      </Editor>
+    </ArcMap>
+  </AddIn>
+</ESRI.Configuration>

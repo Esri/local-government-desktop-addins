@@ -32,6 +32,7 @@ using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Display;
+
 using System.Runtime.InteropServices;
 using A4LGSharedFunctions;
 
@@ -158,6 +159,37 @@ namespace A4WaterUtilities
         }
 
     }
+    public class BatchLoadBarriers : ESRI.ArcGIS.Desktop.AddIns.Button
+    {
+
+
+        public BatchLoadBarriers()
+        {
+
+        }
+
+        protected override void OnClick()
+        {
+            A4WaterUtilities.GeoNetTools.batchLoadBarriers(ArcMap.Application);
+
+
+        }
+
+        protected override void OnUpdate()
+        {
+            try
+            {
+                Enabled = true;
+            }
+            catch { }
+            finally
+            {
+                base.OnUpdate();
+            }
+        }
+
+    }
+
     public class AddBarrier : ESRI.ArcGIS.Desktop.AddIns.Tool
     {
 
@@ -594,7 +626,7 @@ namespace A4WaterUtilities
                 _frmSelectJunc = new frmSelectByJunctionCount(ArcMap.Application);
 
             }
-            
+
 
             _frmSelectJunc.LoadJunctionsFeatureLayers();
             _frmSelectJunc.Show(Globals.GetWindowFromHost(ArcMap.Application.hWnd));
@@ -625,7 +657,7 @@ namespace A4WaterUtilities
         {
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
-             string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
+            string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
             bool selectEdges;
             if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
             {
@@ -759,7 +791,7 @@ namespace A4WaterUtilities
             string ClearFlagBeforeIso = ConfigUtil.GetConfigValue("TraceIsolation_ClearFlagsOnClick", "true");
 
             string closedValveQuery = ConfigUtil.GetConfigValue("TraceIsolation_Valve_ClosedValveQuery", "");
-           
+
             Globals.RemoveTraceGraphics(((IMxDocument)ArcMap.Application.Document).FocusMap, false);
 
             Globals.ClearSelected(ArcMap.Application, false);
@@ -778,9 +810,9 @@ namespace A4WaterUtilities
             IPolyline mergedLines;
             List<int> procoids;
             bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false").ToLower() == "false" ? false : true;
-    
+
             string returnVal = GeoNetTools.TraceIsolation(new double[] { point.X }, new double[] { point.Y }, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources,
-                SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids,addFlagBarScreen);
+                SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids, addFlagBarScreen);
             if (returnVal != null)
             {
                 string[] retVals = returnVal.Split('_');
@@ -850,20 +882,20 @@ namespace A4WaterUtilities
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             string ClearFlagBeforeIso = ConfigUtil.GetConfigValue("TraceIsolation_ClearFlagsOnClick", "true");
             string closedValveQuery = ConfigUtil.GetConfigValue("TraceIsolation_Valve_ClosedValveQuery", "");
-      
+
             Globals.RemoveTraceGraphics(((IMxDocument)ArcMap.Application.Document).FocusMap, false);
 
             Globals.ClearSelected(ArcMap.Application, false);
 
 
-            
+
             IPolyline mergedLines;
             List<int> procoids;
             //IPoint point = ArcMap.Document.CurrentLocation;
             bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false").ToLower() == "false" ? false : true;
-    
+
             string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
-                ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines,out  procoids,addFlagBarScreen);
+                ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out  procoids, addFlagBarScreen);
 
 
 
@@ -943,7 +975,7 @@ namespace A4WaterUtilities
             string ClearFlagBeforeIso = ConfigUtil.GetConfigValue("TraceIsolation_ClearFlagsOnClick", "true");
 
             string closedValveQuery = ConfigUtil.GetConfigValue("TraceIsolation_Valve_ClosedValveQuery", "");
-      
+
 
             if (GeoNetTools.ToggleOperableStatus(ArcMap.Application, null, false, ISOvalveFeatureLayerName, ISOsourceFeatureLayerName,
                                                             ISOoperableFieldNameValves, ISOoperableFieldNameSources,
@@ -958,9 +990,9 @@ namespace A4WaterUtilities
                 IPolyline mergedLines;
                 List<int> procoids;
                 bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false").ToLower() == "false" ? false : true;
-    
+
                 string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
-                    ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids,addFlagBarScreen);
+                    ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids, addFlagBarScreen);
             }
             else
             {
@@ -1130,7 +1162,7 @@ namespace A4WaterUtilities
     {
 
 
-       
+
         public FlowAccumulationLoc()
         {
             // m_Editor = Globals.getEditor(ArcMap.Application);
@@ -1167,7 +1199,7 @@ namespace A4WaterUtilities
     {
 
 
-       
+
         public FindClosest()
         {
             // m_Editor = Globals.getEditor(ArcMap.Application);
@@ -1205,6 +1237,6 @@ namespace A4WaterUtilities
 
 
 
-   
+
 }
 

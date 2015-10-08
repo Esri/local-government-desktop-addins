@@ -1,0 +1,165 @@
+﻿<!--
+ | Version 10.1
+ | Copyright 2014 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+-->
+
+<ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Gas Utility Network Tools</Name>
+  <AddInID>{AF706D91-5AC0-40B2-890A-8B504C2191FA}</AddInID>
+  <Description>ArcMap tools for Gas Utilities</Description>
+  <Version>9.29.2015</Version>
+  <Image>Images\GasUtilitiesDesktopAddIn64.png</Image>
+  <Author>Esri., Inc.</Author>
+  <Company>Esri., Inc.</Company>
+  <Date>9/29/2015</Date>
+  <Targets>
+    <Target name="Desktop" version="10.1" />
+  </Targets>
+  <AddIn language="CLR" library="GasUtilityNetworkTools.dll" namespace="A4GasUtilities">
+    <ArcMap>
+      <Commands>
+
+        <Button id="A4GasUtilities_AddLaterals" class="AddLaterals" message="Evalúa los puntos seleccionados y dibuja una línea desde cada punto a la entidad más cercana de la capa. Se pueden colocar puntos adicionales a lo largo de la línea. Manteniendo pulsada la tecla CTRL se reemplazan las plantillas definidas y se solicita un punto y una línea de entrada. Manteniendo pulsada la tecla Mayús se busca la tubería principal más cercana." caption="Agregar acometida" tip="Agregar acometida" category="ArcGIS for Utilities" image="Images\AddLaterals.png" />
+        <Button id="A4GasUtilities_AddLateralsFromMain" class="AddLateralsFromMain" message="Evalúa entidades de punto seleccionadas y dibuja una línea desde cada punto, perpendicular a la línea que interseca. Se pueden colocar puntos adicionales a lo largo de la línea. La capa de puntos requiere un campo para almacenar la dirección de la línea (rumbo según reloj o magnético), un campo para almacenar la dirección en la que se mueve la cámara al registrar el punto (U para aguas arriba -upstream-, D para aguas abajo -downstream-), y un campo con la longitud de la acometida que se crea. Otras configuraciones de los puntos y campos para copiar están en la sección AddLateralFromMainPointLayers del archivo de configuración." caption="Agregar acometidas desde líneas" tip="Agregar acometidas desde líneas" category="ArcGIS for Utilities" image="Images\AddLateralsFromMain.png" />
+        <Button id="A4GasUtilities_ConnectionChecker" class="ConnectionChecker" message="Evalúa los activos de la red geométrica en la extensión visible para comprobar que todos los nodos (puntos) conectan con un eje (línea) y que los ejes (líneas) conectan con otro eje a través del cruce o terminan en un nodo. Cambie CheckOnlyVisibleLayers en el archivo de configuración, true para comprobar sólo las capas visibles, false para comprobar todas las capas independientemente de su visibilidad." caption="Comprobar conectividad de red" tip="Comprobar conectividad de red" category="ArcGIS for Utilities" image="Images\ConnectionChecker.png" />
+        <Button id="A4GasUtilities_ConnectSelected" class="ConnectSelected" message="Conecta activos seleccionados que forman parte de una red geométrica. Seleccione uno o más activos de una red geométrica." caption="Conectar los activos de la red seleccionados" tip="Conectar los activos de la red seleccionados" category="ArcGIS for Utilities" image="Images\ConnectSelected.png" />
+        <Button id="A4GasUtilities_DisconnectSelected" class="DisconnectSelected" message="Fuerza la desconexión de los activos seleccionadas que forman parte de una red geométrica. Seleccione una o más entidades de una red geométrica." caption="Desconectar los activos de la red seleccionados" tip="Desconectar los activos de la red seleccionados" category="ArcGIS for Utilities" image="Images\DisconnectSelected.png" />
+       
+        <!--<Button id="A4GasUtilities_CreateJumpsOver" class="CreateJumpsOver" message="Crea un salto semicircular por encima en las líneas seleccionadas sobre líneas de intersección. El radio del círculo se calcula según la etiqueta CreateJumps_Distance del archivo de configuración." caption="Simbolizar cruces por encima para las líneas seleccionadas" tip="Simbolizar cruces por encima para las líneas seleccionadas" category="ArcGIS for Utilities" image="Images\CreateJumpsOver.png" />
+        <Button id="A4GasUtilities_CreateJumpsUnder" class="CreateJumpsUnder" message="Crea un salto semicircular por debajo en las líneas seleccionadas sobre líneas de intersección. El radio del círculo se calcula según la etiqueta CreateJumps_Distance del archivo de configuración." caption="Simbolizar cruces por debajo para las líneas seleccionadas" tip="Simbolizar cruces por debajo para las líneas seleccionadas" category="ArcGIS for Utilities" image="Images\CreateJumpsUnder.png" />
+        <Button id="A4GasUtilities_ShowLayerWindow" class="ShowLayerWindow" message="Abre el Visor de notas y crea un formulario utilizando una capa especificada. La capa debe estar en el mapa abierto en ese momento. El formulario consulta la capa y carga las entidades devueltas en la ventana. La ventana contiene controles para volver sobre cada registro. Las capas, escala de mapa y consulta se definen en la sección LayerViewerConfig del archivo de configuración." caption="Mostrar Visor de notas" tip="Mostrar Visor de notas" category="ArcGIS for Utilities" image="Images\LayerViewer.png" />
+        <Button id="A4GasUtilities_ShowFlowArrows" class="ShowFlowArrows" message="Muestra u oculta las flechas de dirección del flujo de la primera red geométrica visible." caption="Mostrar/Ocultar flechas de flujo" tip="Mostrar/Ocultar flechas de flujo" category="ArcGIS for Utilities" image="Images\ShowFlowArrows.png" />
+        <Button id="A4GasUtilities_FlipLines" class="FlipLines" message="Cambia las líneas seleccionadas en la capa resaltada en la tabla de contenidos." caption="Cambiar dirección de líneas seleccionadas" tip="Cambiar a dirección de las líneas seleccionadas" category="ArcGIS for Utilities" image="Images\FlipLines.png" />
+        <Button id="A4GasUtilities_FlipLinesFlow" class="FlipLinesFlow" message="Establece la dirección de línea como la dirección del flujo de la red geométrica en las entidades seleccionadas de la capa resaltada en la tabla de contenidos. Seleccione líneas que formen parte de una red geométrica y asegúrese de que su dirección de flujo está establecida." caption="Casar la dirección de las líneas con la dirección del flujo" tip="Casar la dirección de las líneas con la dirección del flujo" category="ArcGIS for Utilities" image="Images\FlipLinesFlow.png" />-->
+        
+        <Button id="A4GasUtilities_RotateSelected" class="RotateSelected" message="Rota las entidades de punto seleccionadas para coincidir con la orientación de una línea de conexión." caption="Rotar los nodos seleccionados" tip="Rotar nodos seleccionados" category="ArcGIS for Utilities" image="Images\RotateSelected.png" />
+        <Button id="A4GasUtilities_AdditionalRotate" class="AdditionalRotate" message="Agrega un valor predefinido a la rotación de las entidades de punto seleccionadas." caption="Agregar rotación al elemento" tip="Agregar rotación al elemento" category="ArcGIS for Utilities" image="Images\RotateAddSpinSelected.png" />
+        <Button id="A4GasUtilities_SplitLines" class="SplitLines" message="Divide las líneas donde intersecan con puntos seleccionadas." caption="Dividir líneas en los puntos seleccionados" tip="Dividir líneas en los puntos seleccionados" category="ArcGIS for Utilities" image="Images\SplitLines.png" />
+        
+        <!--<Button id="A4GasUtilities_SetMeasuresOnLines" class="SetMeasuresOnLines" message="Calcula la coordenada M (medida) en las líneas seleccionadas. Los valores se pueden establecer en el sentido de la dirección digitalizada o en sentido contrario. La longitud de línea se utiliza para establecer las medidas. Las capas de entidades de línea deben estar seleccionadas en la tabla de contenidos, y deben contener entidades seleccionadas." caption="Establecer coordenada M para las líneas seleccionadas" tip="Establecer coordenada M para las líneas seleccionadas" category="ArcGIS for Utilities" image="Images\SetMeasures.png" />
+        <Button id="A4GasUtilities_MergeGNLines" class="MergeGNLines" message="Fusiona multiples líneas de una capa de líneas de la red geométrica en una sola entidad. Las capas de líneas deben estar seleccionadas en la tabla de cotenidos, y deben contener elementos seleccionados." caption="Fusionar líneas de la red geométrica" tip="Fusionar líneas de la red geométrica" category="ArcGIS for Utilities" image="Images\merge.png" />-->
+        <Button id="A4GasUtilities_ExportToExcel" class="ExportToExcel" message="Exporta todos los elementos seleccionadas a Excel." caption="Exportar elementos seleccionados a Excel" tip="Exportar elementos seleccionados a Excel" category="ArcGIS for Utilities" image="Images\ExportToExcel.png" />
+        <Button id="A4GasUtilities_IdentifySelected" class="IdentifySelected" message="Carga las entidades seleccionadas en el cuadro de diálogo Identificar." caption="Identificar seleccionados" tip="Identificar seleccionados" category="ArcGIS for Utilities" image="Images\IdentifySelected.png" />
+        <Button id="A4GasUtilities_TraceSummaryIsolation" class="TraceSummaryIsolation" message="Determina el polígono de corte en las tuberías principales. El polígono de corte resume el número de válvulas, contadores, contadores críticos y conexiones de servicio en la red geométrica que podrían verse afectadas si hubiera una ruptura en cada tubería principal seleccionada. Los resultados se almacenan en capa distinta. Esta herramienta requiere un gran procesado. Se recomienda ejecutar la herramienta con pequeños grupos de datos a la vez. La capa wMainWithTraceSummary es parte del dataset Capital Planning del modelo de datos de Local Government. Hay varios ajustes de configuración en el archivo de configuración. Esta herramienta utiliza inicialmente la configuración TraceIsolationSummary y las etiquetas de la válvula de aislamiento." caption="Resumen de polígono de corte" tip="Resumen de polígono de corte" category="ArcGIS for Utilities" image="Images\SummaryIsolationTrace.png" />
+        
+        <Tool id="A4GasUtilities_ToggleOperableStatus" class="ToggleOperableStatus" message="Cambia el estado de una válvula de operativa a no operativa, y viceversa. Defina el campo y los valores operativo y no operativo en el archivo de configuración" caption="Cambiar estado operativo de una válvula" tip="Cambiar estado operativo de una válvula" category="ArcGIS for Utilities" image="Images\ToggleOperableStatus.png" />
+        <Button id="A4GasUtilities_ClearTraceResults" class="ClearTraceResults" message="Borra los resultados de los análisis y limpia la selección." caption="Borrar resultados del análisis" tip="Borrar resultados del análisis" category="ArcGIS for Utilities" image="Images\TraceClear.png" />
+        <Tool id="A4GasUtilities_TraceIsolation" class="TraceIsolation" message="Determina el polígono de corte a partir de un punto inicial. Identifica las válvulas de una red geométrica que se deben desconectar para aislar una sección de tubería principal. Todas las entidades seleccionables afectadas por el trazado se seleccionan. Las tuberías se dibujan como gráficos. Mantenga pulsada la tecla CTRL para seleccionar las tuberías." caption="Determina el polígono de corte" tip="Determina el polígono de corte" category="ArcGIS for Utilities" image="Images\TraceIsolationTool.png" />
+        <Button id="A4GasUtilities_TraceIsolationRerun" class="TraceIsolationRerun" message="Ejecuta un polígono de corte desde marcadores definidos en la red. Ejecute el polígono de corte de válvulas en primer lugar o agregue un marcador utilizando la herramienta Agregar un marcador." caption="Volver a ejecutar el polígono de corte" tip="Volver a ejecutar el polígono de corte" category="ArcGIS for Utilities" image="Images\TraceIsolationReRun.png" />
+       
+        <!--<Button id="A4GasUtilities_TraceSecondaryIsolation" class="TraceSecondaryIsolation" message="Calcula el polígono de corte secundario. Deshabilita los valores seleccionados de una red geométrica y vuelve a ejecutar el trazado desde el punto de trazado de aislamiento original. Mantenga presionada la tecla CTRL para seleccionar las tuberías." caption="Calcular polígono de corte secundario" tip="Calcular polígono de corte secundario" category="ArcGIS for Utilities" image="Images\SecondaryTraceIsolation.png" />
+        
+        <Tool id="A4GasUtilities_TraceUpstream" class="TraceUpstream" message="Ejecuta un recorrido aguas arriba en la ubicación de una red geométrica definida por el usuario. De manera predeterminada, las tuberías no están seleccionadas. Mantenga pulsada la tecla CTRL para seleccionar las tuberías." caption="Calcular recorrido aguas arriba" tip="Calcular recorrido aguas arriba" category="ArcGIS for Utilities" image="Images\TraceUpstreamTool.png" />
+        <Tool id="A4GasUtilities_TraceDownstream" class="TraceDownstream" message="Ejecuta un recorrido aguas abajo en la ubicación de una red geométrica definida por el usuario. De manera predeterminada, las tuberías principales no están seleccionadas. Mantenga pulsada la tecla CTRL para seleccionar las tuberías." caption="Calcular recorrido aguas abajo" tip="Calcular recorrido aguas abajo" category="ArcGIS for Utilities" image="Images\TraceDownstreamTool.png" />
+        <Button id="A4GasUtilities_FlowAccumulation" class="FlowAccumulation" message="Calcula la acumulación de flujo aguas arriba/abajo de cada entidad seleccionada y almacena los resultados en un campo especificado. Agregue pesos a las entidades de la red geométrica. Cambie la dirección del flujo, las capas y el peso en la sección FlowAccumulation del archivo de configuración." caption="Calcular resumen de acumulación de flujo" tip="Calcular resumen de acumulación de flujo" category="ArcGIS for Utilities" image="Images\FlowAccum.png" />
+        <Tool id="A4GasUtilities_FlowAccumulationLoc" class="FlowAccumulationLoc" message="Calcula la acumulación de flujo aguas arriba/abajo en una ubicación definida por el usuario. Agregue pesos a las entidades de la red geométrica. Cambie la dirección del flujo, las capas y el peso en la sección FlowAccumulation del archivo de configuración." caption="Calcular acumulación de flujo en una ubicación" tip="Calcular acumulación de flujo en una ubicación" category="ArcGIS for Utilities" image="Images\FlowAccumLoc.png" />-->
+
+
+        <Tool id="A4GasUtilities_AddFlag" class="AddFlag" message="Crea un marcador de nodo o eje en una capa en la red geométrica más cercana a una ubicación definida por el usuario." caption="Añadir marcador" tip="Añadir marcador" category="ArcGIS for Utilities" image="Images\AddFlag.png" />
+        <Tool id="A4GasUtilities_AddBarrier" class="AddBarrier" message="Crea una barrera de nodo o eje en una capa en la red geométrica más cercana a una ubicación definida por el usuario." caption="Añadir barrera" tip="Añadir barrera" category="ArcGIS for Utilities" image="Images\AddBarrier.png" />
+        <Tool id="A4GasUtilities_RemoveFlagBarrier" class="RemoveFlagBarrier" message="Elimina una barrera o marcador de una capa en la red geométrica más cercana a una ubicación definida por el usuario." caption="Eliminar marcador o barrera" tip="Eliminar marcador o barrera" category="ArcGIS for Utilities" image="Images\DeleteBarFlag.png" />
+        <Button id="A4GasUtilities_SelectJunctionsByEdgeCount" class="SelectByJunctionEdgeCount" message="Presenta un cuadro de diálogo para seleccionar los nodos (puntos) de una red geométrica por el número de ejes a los que están conectados." caption="Seleccionar nodos por número de conexiones con tramos" tip="Seleccionar nodos por número de conexiones con tramos" category="ArcGIS for Utilities" image="Images\SelectJunctions.png" />
+        <!--<Button id="A4GasUtilities_ConnectClosests" class="ConnectClosests" message="Conecta cada punto seleccionado con el punto más cercano en la misma capa a lo largo de una línea. Las capas de punto y línea se definen en el archivo de configuración. Manteniendo pulsada la tecla CTRL se reemplazan las plantillas definidas y se solicitan entidades de punto y de línea de entrada. Manteniendo pulsada la tecla MAYÚS se busca el punto seleccionado más cercano. Manteniendo pulsadas las teclas MAYÚS+CTRL se reemplazan las plantillas definidas y se solicitan entidades de punto y de línea de entrada, y después se busca el punto más cercano." caption="Conectar punto seleccionado con el punto más cercano" tip="Conectar punto seleccionado con el punto más cercano" category="ArcGIS for Utilities" image="Images\ConnectClosests.png" />
+
+
+        <Tool id="A4GasUtilities_SewerProfile" class="SewerProfile" message="Ejecuta un trazado entre dos puntos seleccionados (pozos) y crea un gráfico de perfil de los resultados. El gráfico traza la elevación superior e invierte la elevación de los pozos, la elevación aguas arriba y aguas abajo de las tuberías principales, la ubicación de las acometidas (opcional) y la elevación del terreno (opcional)." caption="Herramienta de generación de perfiles" tip="Herramienta de generación de perfiles" category="ArcGIS for Utilities" image="Images\SewerProfile.png" />-->
+
+        <Button id="A4GasUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Establece la dirección de flujo de la red geométrica basándose en los valores de AncillaryRole." caption="Establecer dirección de flujo según fuentes y sumideros" tip="Establecer dirección de flujo según fuentes y sumideros" category="ArcGIS for Utilities" image="Images\EstablishFlow.png" />
+        <Button id="A4GasUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establece la dirección de flujo de la red geométrica basándose en la dirección digitalizada." caption="Establecer dirección de flujo según dirección de digitalización" tip="Establecer dirección de flujo según dirección de digitalización" category="ArcGIS for Utilities" image="Images\EstablishFlowDigitized.png" />
+        <Button id="A4GasUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Batch load barriers from a layer." caption="Batch load barriers from a layer" tip="Batch load barriers from a layer" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
+
+      </Commands>
+      <Toolbars>
+        <Toolbar id="A4GasUtilities_GasUtilitiesEditTools" caption="Gas Utility Editing" showInitially="false">
+          <Items>
+            <Button refID="A4GasUtilities_ConnectSelected" separator="true" />
+            <Button refID="A4GasUtilities_DisconnectSelected" separator="false" />
+            <Button refID="A4GasUtilities_ConnectionChecker" separator="false" />
+            <Button refID="A4GasUtilities_RotateSelected" separator="true" />
+            <Button refID="A4GasUtilities_AdditionalRotate" separator="false" />
+         
+            <Button refID="A4GasUtilities_SplitLines" separator="true" />
+            
+            <Button refID="A4GasUtilities_AddLaterals" separator="false" />
+            
+            
+          </Items>
+        </Toolbar>
+        <Toolbar id="A4GasUtilities_ReportingToolbar" caption="Gas Utility Trace Tools" showInitially="false">
+          <Items>
+            <Tool refID="A4GasUtilities_TraceIsolation" separator="false" />
+            <Button refID="A4GasUtilities_TraceIsolationRerun" />
+            <Tool refID="A4GasUtilities_AddFlag" separator="false" />
+            <Tool refID="A4GasUtilities_AddBarrier" separator="false" />
+            <Tool refID="A4GasUtilities_RemoveFlagBarrier" separator="false" />
+            <Button refID="A4GasUtilities_BatchLoadBarriers" separator="false" />
+
+            <Button refID="A4GasUtilities_TraceSummaryIsolation" separator="false" />
+            
+            <Button refID="A4GasUtilities_ToggleOperableStatus" separator="true" />
+            <Button refID="A4GasUtilities_ClearTraceResults" separator="false" />
+            <Button refID="A4GasUtilities_ExportToExcel" separator="true" />
+            <Button refID="A4GasUtilities_IdentifySelected" separator="false" />
+            <Button refID="A4GasUtilities_SelectJunctionsByEdgeCount" separator="true" />
+
+          </Items>
+        </Toolbar>
+      </Toolbars>
+      <Menus></Menus>
+      <Editor>
+        <Commands>
+
+
+          <Tool id="Esri_A4GasUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Crea un punto y dibuja una línea desde el punto a la ubicación más cercana en otra capa de líneas. Se pueden ubicar entidades de punto adicionales a lo largo de la línea. Solo se evalúan las entidades de punto definidas en el archivo de configuración. Manteniendo pulsada la tecla CTRL se reemplazan las plantillas definidas y se solicita cada entidad." caption="Crear punto y generar acometida" tip="Crear punto y generar acometida" category="ArcGIS for Utilities" image="Images\AddLateralsConstructTool.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+
+          <!--<Tool id="Esri_A4GasUtilities_AddLateralsFromMainPointConstructionTool" class="AddLateralsFromMainPointConstructionTool" message="Crea una entidad de punto y dibuja una línea desde ese punto, perpendicular a la línea que lo interseca. Se pueden ubicar puntos adicionales a lo largo de la línea. La capa de puntos requiere un campo para almacenar la dirección de la línea (rumbo según reloj o magnético), un campo para almacenar la dirección en la que se mueve la cámara al registrar el punto (U para aguas arriba -upstream-, D para aguas abajo -downstream-), y un campo con la longitud de la acometida que se crea. Otras configuraciones de los puntos y campos para copiar están en la sección AddLateralFromMainPointLayers del archivo de configuración." caption="Agregar acometidas desde líneas" tip="Agregar acometidas desde líneas" category="ArcGIS for Utilities" image="Images\AddLateralsFromMainConstructTool.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>-->
+
+          <Tool id="Esri_A4GasUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Crea un punto e intenta dividir una entidad de línea de intersección." caption="Crear punto y partir línea" tip="Crear punto y partir línea" category="ArcGIS for Utilities" image="Images\SplitLinesAtLocation.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+
+          <!--<Tool id="Esri_A4GasUtilities_ConnectClosestsConstructTool" class="ConnectClosestsConstructTool" message="Crea un punto, busca el punto más cercano en la misma capa e intenta conectar ambos a través de una capa de líneas definida en el archivo de configuración. La tecla de acceso directo permite buscar la alcantarilla seleccionada más cercana. Manteniendo pulsada la tecla CTRL se reemplazan las plantillas definidas y se solicitan para cada entidad. Manteniendo pulsada la tecla MAYÚS limita la búsqueda a las entidades seleccionadas. Manteniendo pulsadas las teclas CTRL y MAYÚS se solicitan para cada entidad y limita la búsqueda a las entidades seleccionadas." caption="Crear punto y generar conexión al punto más cercano" tip="Crear punto y generar conexión al punto más cercano" category="ArcGIS for Utilities" image="Images\ConnectClosestsConstructTool.png">
+            <Construction>
+              <Category>Point Construction</Category>
+            </Construction>
+          </Tool>
+
+          <Tool id="Esri_A4GasUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Crea una entidad de línea y, opcionalmente, divide la línea en cada vértice. Esta herramienta también puede ubicar nodos al final de una línea o en cada vértice. Defina qué capas se habilitan para esta herramienta, cómo dividir la línea y cómo y qué tipo de puntos ubicar en el archivo de configuración." caption="Crear línea con nodos" tip="Crear línea con nodos" category="ArcGIS for Utilities" image="Images\AddLineWithEndPoints.png">
+            <Construction>
+              <Category>Polyline Construction</Category>
+              <Category>Geometric Network Line Construction</Category>
+            </Construction>
+          </Tool>-->
+          <!--<Tool id="Esri_A4GasUtilities_PointsAlongLineTool" class="PointsAlongLineTool" message="Creates Points at regular intervals along a sketch" caption="Points along a line" tip="Points along a line tool" category="ArcGIS for Utilities" image="Images\PointsAlongLineTool.png">
+          <Construction>
+            <Category>Point Construction</Category>
+          </Construction>
+        </Tool>-->
+        </Commands>
+      </Editor>
+    </ArcMap>
+  </AddIn>
+
+</ESRI.Configuration>

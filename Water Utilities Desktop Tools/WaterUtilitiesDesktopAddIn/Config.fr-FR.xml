@@ -57,6 +57,7 @@
 
         <Button id="A4WaterUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Établit le sens d&apos;écoulement d&apos;après le rôle des équipements disposés sur le réseau géométrique." caption="Établir le sens d&apos;écoulement" tip="Établir le sens d&apos;écoulement" category="ArcGIS for Local Government" image="Images\EstablishFlow.png"/>
         <Button id="A4WaterUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Établit le sens d&apos;écoulement d&apos;après le sens de numérisation sur le réseau géométrique." caption="Établir le sens d&apos;écoulement d&apos;après le sens de numérisation" tip="Établir le sens d&apos;écoulement d&apos;après le sens de numérisation" category="ArcGIS for Local Government" image="Images\EstablishFlowDigitized.png"/>
+        <Button id="A4WaterUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Batch load barriers from a layer." caption="Batch load barriers from a layer" tip="Batch load barriers from a layer" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
 
       </Commands>
       <Toolbars>
@@ -106,6 +107,8 @@
             <Tool refID="A4WaterUtilities_AddFlag" separator="false"/>
             <Tool refID="A4WaterUtilities_AddBarrier" separator="false"/>
             <Tool refID="A4WaterUtilities_RemoveFlagBarrier" separator="false"/>
+            <Button refID="A4WaterUtilities_BatchLoadBarriers" separator="false" />
+
             <Tool refID="A4WaterUtilities_SewerProfile" separator="false"/>
 
             <Button refID="A4WaterUtilities_TraceSummaryIsolation" separator="false"/>

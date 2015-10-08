@@ -122,6 +122,37 @@ namespace A4GasUtilities
             base.Dispose(value);
         }
     }
+    public class BatchLoadBarriers : ESRI.ArcGIS.Desktop.AddIns.Button
+    {
+
+
+        public BatchLoadBarriers()
+        {
+
+        }
+
+        protected override void OnClick()
+        {
+            A4WaterUtilities.GeoNetTools.batchLoadBarriers(ArcMap.Application);
+
+
+        }
+
+        protected override void OnUpdate()
+        {
+            try
+            {
+                Enabled = true;
+            }
+            catch { }
+            finally
+            {
+                base.OnUpdate();
+            }
+        }
+
+    }
+
     public class AddFlag : ESRI.ArcGIS.Desktop.AddIns.Tool
     {
 

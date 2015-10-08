@@ -74,6 +74,8 @@
         <Button id="A4WaterUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establishes flow direction for Geometric Network based on digitized direction." caption="Establish Digitized Flow Direction" tip="Establish Digitized Flow Direction" category="ArcGIS for Local Government" image="Images\EstablishFlowDigitized.png" />
         <Button id="A4WaterUtilities_AttributeTransferLoader" class="AttributeTransferLoaderButton" message="Attribute Transfer Loader" caption="Attribute Transfer Loader" tip="Attribute transfer loader" category="ArcGIS for Local Government" image="Images\attributeTransfer.png" />
         <Button id="A4WaterUtilities_FlagsBarriersToLayer" class="FlagsBarriersToLayer" message="Create a point layer from the flags and barriers." caption="Convert Flags and Barriers to a Set of Layers" tip="Convert Flags and Barriers to a Set of Layers" category="ArcGIS for Utilities" image="Images\ExportFlagBarriers.png" />
+        <Button id="A4WaterUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Batch load barriers from a layer." caption="Batch load barriers from a layer" tip="Batch load barriers from a layer" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
+
 
       </Commands>
       <Toolbars>
@@ -123,7 +125,7 @@
             <Tool refID="A4WaterUtilities_AddFlag" separator="false" />
             <Tool refID="A4WaterUtilities_AddBarrier" separator="false" />
             <Tool refID="A4WaterUtilities_RemoveFlagBarrier" separator="false" />
-            <!--<Button refID="A4WaterUtilities_FlagsBarriersToLayer" separator="false" />-->
+            <Button refID="A4WaterUtilities_BatchLoadBarriers" separator="false" />
 
             <Tool refID="A4WaterUtilities_SewerProfile" separator="false" />
 
