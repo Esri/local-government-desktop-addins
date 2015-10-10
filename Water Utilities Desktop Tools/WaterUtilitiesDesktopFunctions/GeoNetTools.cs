@@ -5737,7 +5737,7 @@ namespace A4WaterUtilities
                     else
                         Globals.DrawEdges(ref map, ref  gn, ref edgeEIDs);
                 }
-
+                Globals.TraceResultsToLayer(ref map, ref  gn, ref edgeEIDs, ref juncEIDs, ref hasSourceValveHT, ref valveFLs);
                 mergedLines = Globals.MergeEdges(ref map, ref  gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
 
                 returnVal = Globals.SelectValveJunctions(ref map, ref hasSourceValveHT, ref valveFLs, processEvent) + "_" + returnVal;

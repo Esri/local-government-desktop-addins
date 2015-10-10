@@ -103,21 +103,26 @@ namespace ArcGIS4LocalGovernment
 
         protected override void OnClick()
         {
-
-            if (AAState.PerformUpdates)
+            try
             {
-                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1a"));
-                AAState.PerformUpdates = false;
 
-                AAState.unInitEditing();
-            }
-            else
-            {
-                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1b"));
-                AAState.PerformUpdates = true;
-                AAState.initEditing();
-            }
 
+                if (AAState.PerformUpdates)
+                {
+                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1a"));
+                    AAState.PerformUpdates = false;
+
+                    AAState.unInitEditing();
+                }
+                else
+                {
+                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1b"));
+                    AAState.PerformUpdates = true;
+                    AAState.initEditing();
+                }
+            }
+            catch
+            { }
 
         }
         protected override void Dispose(bool value)
@@ -130,7 +135,7 @@ namespace ArcGIS4LocalGovernment
         {
             try
             {
-               AAState.setIcon();
+                AAState.setIcon();
             }
             catch
             { }
@@ -352,7 +357,7 @@ namespace ArcGIS4LocalGovernment
                         ESRI.ArcGIS.esriSystem.IStepProgressor stepProgressor = progressDialogFactory.Create(trackCancel, int32_hWnd);
                         stepProgressor.MinRange = 1;
                         stepProgressor.MaxRange = totalCount;
-                        
+
                         stepProgressor.StepValue = 1;
                         stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_2a");
 
@@ -371,7 +376,7 @@ namespace ArcGIS4LocalGovernment
                         System.Int32 progressVal = 0;
 
                         ESRI.ArcGIS.esriSystem.IStatusBar statusBar = ArcMap.Application.StatusBar;
-                                       
+
 
 
 
@@ -406,9 +411,9 @@ namespace ArcGIS4LocalGovernment
                                 bool bIsEditableFabricLayer = (fLayer is ICadastralFabricSubLayer2);
                                 if (bIsEditableFabricLayer)
                                 {
-                                  IDataset pDS = (IDataset)fLayer.FeatureClass;
-                                  IWorkspace pFabWS = pDS.Workspace;
-                                  bIsEditableFabricLayer = (bIsEditableFabricLayer && pFabWS.Equals(editor.EditWorkspace));
+                                    IDataset pDS = (IDataset)fLayer.FeatureClass;
+                                    IWorkspace pFabWS = pDS.Workspace;
+                                    bIsEditableFabricLayer = (bIsEditableFabricLayer && pFabWS.Equals(editor.EditWorkspace));
                                 }
                                 if (fLayer.Valid && (eLayers.IsEditable(fLayer) || bIsEditableFabricLayer))//fLayer.Visible &&
                                 {
@@ -427,8 +432,8 @@ namespace ArcGIS4LocalGovernment
                                         {
                                             progressVal++;
                                             progressDialog2.Description = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantProc_2a") + progressVal + A4LGSharedFunctions.Localizer.GetString("Of") + totalCount.ToString() + ".";
-                                            
-                                           stepProgressor.Step();
+
+                                            stepProgressor.Step();
 
                                             statusBar.set_Message(0, progressVal.ToString());
 
@@ -487,7 +492,7 @@ namespace ArcGIS4LocalGovernment
                                         {
                                             progressVal = progressVal + fSel.SelectionSet.Count;
                                             stepProgressor.OffsetPosition(progressVal);
-                                            
+
                                             stepProgressor.Step();
 
                                         }
@@ -495,7 +500,7 @@ namespace ArcGIS4LocalGovernment
 
                                 }
                             }
-                        activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
+                            activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, null);
                         }
 
                         catch (Exception ex)
@@ -548,7 +553,7 @@ namespace ArcGIS4LocalGovernment
                                             stepProgressor.Step();
 
 
-                                           statusBar.set_Message(0, progressVal.ToString());
+                                            statusBar.set_Message(0, progressVal.ToString());
 
                                             lastOID = pRow.OID;
                                             lastLay = stTable.Name;
@@ -582,7 +587,7 @@ namespace ArcGIS4LocalGovernment
                                             Marshal.ReleaseComObject(pRow);
 
                                         pRow = null;
-                                       
+
 
                                     }
                                 }
@@ -638,10 +643,10 @@ namespace ArcGIS4LocalGovernment
             finally
             {
                 if (ran)
-                  //  MessageBox.Show("Process has completed successfully");
+                    //  MessageBox.Show("Process has completed successfully");
 
-                if (cursor != null)
-                    Marshal.ReleaseComObject(cursor);
+                    if (cursor != null)
+                        Marshal.ReleaseComObject(cursor);
                 if (fCursor != null)
                     Marshal.ReleaseComObject(fCursor);
 
@@ -766,7 +771,7 @@ namespace ArcGIS4LocalGovernment
                         System.Int32 progressVal = 0;
 
                         ESRI.ArcGIS.esriSystem.IStatusBar statusBar = ArcMap.Application.StatusBar;
-                                       
+
 
 
                         ran = true;
@@ -796,9 +801,9 @@ namespace ArcGIS4LocalGovernment
                                 bool bIsEditableFabricLayer = (fLayer is ICadastralFabricSubLayer2);
                                 if (bIsEditableFabricLayer)
                                 {
-                                  IDataset pDS = (IDataset)fLayer.FeatureClass;
-                                  IWorkspace pFabWS = pDS.Workspace;
-                                  bIsEditableFabricLayer = (bIsEditableFabricLayer && pFabWS.Equals(editor.EditWorkspace));
+                                    IDataset pDS = (IDataset)fLayer.FeatureClass;
+                                    IWorkspace pFabWS = pDS.Workspace;
+                                    bIsEditableFabricLayer = (bIsEditableFabricLayer && pFabWS.Equals(editor.EditWorkspace));
                                 }
                                 if (fLayer.Valid && (eLayers.IsEditable(fLayer) || bIsEditableFabricLayer))//fLayer.Visible &&
                                 {
@@ -925,8 +930,8 @@ namespace ArcGIS4LocalGovernment
                 if (ran)
                     //MessageBox.Show("Process has completed successfully");
 
-                if (cursor != null)
-                    Marshal.ReleaseComObject(cursor);
+                    if (cursor != null)
+                        Marshal.ReleaseComObject(cursor);
                 if (fCursor != null)
                     Marshal.ReleaseComObject(fCursor);
 
@@ -1034,13 +1039,13 @@ namespace ArcGIS4LocalGovernment
 
                 if (totalCount >= 1)
                 {
-                  
+
 
                     if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_3a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
-                   
+
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
                         ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -1097,9 +1102,9 @@ namespace ArcGIS4LocalGovernment
                                 bool bIsEditableFabricLayer = (fLayer is ICadastralFabricSubLayer2);
                                 if (bIsEditableFabricLayer)
                                 {
-                                  IDataset pDS = (IDataset)fLayer.FeatureClass;
-                                  IWorkspace pFabWS = pDS.Workspace;
-                                  bIsEditableFabricLayer = (bIsEditableFabricLayer && pFabWS.Equals(editor.EditWorkspace));
+                                    IDataset pDS = (IDataset)fLayer.FeatureClass;
+                                    IWorkspace pFabWS = pDS.Workspace;
+                                    bIsEditableFabricLayer = (bIsEditableFabricLayer && pFabWS.Equals(editor.EditWorkspace));
                                 }
                                 if (fLayer.Valid && (eLayers.IsEditable(fLayer) || bIsEditableFabricLayer))//fLayer.Visible &&
                                 {
@@ -1244,7 +1249,7 @@ namespace ArcGIS4LocalGovernment
 
                                             AAState._editEvents.OnChangeFeature += AAState.FeatureChange;
                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_4b"));
-                                            
+
                                             //Check if the cancel button was pressed. If so, stop process
                                             boolean_Continue = trackCancel.Continue();
                                             if (!boolean_Continue)
@@ -1312,8 +1317,8 @@ namespace ArcGIS4LocalGovernment
                 if (ran)
                     //MessageBox.Show("Process has completed successfully");
 
-                if (cursor != null)
-                    Marshal.ReleaseComObject(cursor);
+                    if (cursor != null)
+                        Marshal.ReleaseComObject(cursor);
                 if (fCursor != null)
                     Marshal.ReleaseComObject(fCursor);
 
@@ -1394,7 +1399,7 @@ namespace ArcGIS4LocalGovernment
 
                 IMap map = editor.Map;
                 IActiveView activeView = map as IActiveView;
-                
+
 
                 IStandaloneTable stTable;
 
@@ -1457,7 +1462,7 @@ namespace ArcGIS4LocalGovernment
                         System.Int32 progressVal = 0;
 
                         ESRI.ArcGIS.esriSystem.IStatusBar statusBar = ArcMap.Application.StatusBar;
-                                       
+
                         ran = true;
                         editor.StartOperation();
 
@@ -1483,9 +1488,9 @@ namespace ArcGIS4LocalGovernment
                                 bool bIsEditableFabricLayer = (fLayer is ICadastralFabricSubLayer2);
                                 if (bIsEditableFabricLayer)
                                 {
-                                  IDataset pDS = (IDataset)fLayer.FeatureClass;
-                                  IWorkspace pFabWS = pDS.Workspace;
-                                  bIsEditableFabricLayer = (bIsEditableFabricLayer && pFabWS.Equals(editor.EditWorkspace));
+                                    IDataset pDS = (IDataset)fLayer.FeatureClass;
+                                    IWorkspace pFabWS = pDS.Workspace;
+                                    bIsEditableFabricLayer = (bIsEditableFabricLayer && pFabWS.Equals(editor.EditWorkspace));
                                 }
                                 if (fLayer.Valid && (eLayers.IsEditable(fLayer) || bIsEditableFabricLayer))//fLayer.Visible &&
                                 {
@@ -1718,10 +1723,10 @@ namespace ArcGIS4LocalGovernment
             finally
             {
                 if (ran)
-                 //  MessageBox.Show("Process has completed successfully");
+                    //  MessageBox.Show("Process has completed successfully");
 
-                if (cursor != null)
-                    Marshal.ReleaseComObject(cursor);
+                    if (cursor != null)
+                        Marshal.ReleaseComObject(cursor);
                 if (fCursor != null)
                     Marshal.ReleaseComObject(fCursor);
 

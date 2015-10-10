@@ -2625,4 +2625,7 @@
   <data name="GeoNetToolsBatchBarrier" xml:space="preserve">
     <value>Select a layer to load barriers from</value>
   </data>
+  <data name="traceLayerName" xml:space="preserve">
+    <value>Result</value>
+  </data>
 </root>

@@ -87,7 +87,18 @@ using Microsoft.VisualBasic;
 
 namespace A4LGSharedFunctions
 {
+    public class geoFeat
+    {
+        public IGeometryCollection geo { get; set; }
+        public IFeature feature { get; set; }
 
+    }
+    public class copyFeatureToInMem
+    {
+        public IFeatureLayer FeatureLayer { get; set; }
+        public Dictionary<int, geoFeat> OIDSGeo { get; set; }
+
+    }
     #region WindowsAPI Calls
     //Helper class for converting symbols
     // from the sandpit: http://kiwigis.blogspot.com/2009/05/accessing-esri-style-files-using-adonet.html
@@ -552,7 +563,292 @@ namespace A4LGSharedFunctions
 
     public static class Globals
     {
+        public static IEnvelope TraceResultsToLayer(ref IMap map, ref  IGeometricNetwork gn,
+                                                    ref IEnumNetEID edgeEIDs, ref IEnumNetEID juncEIDs,
+                                                     ref Hashtable valveHT, ref List<IFeatureLayer> valvesFLayer)
+        {
 
+            IEnvelope env = null;
+
+            IEIDHelper eidHelper = null;
+            IEnumEIDInfo enumEidInfo = null;
+            IEIDInfo eidInfo = null;
+            IGeometry geom = null;
+
+            IFields pFlds = null;
+            IFeatureClass pFC = null;
+            IFeatureClass pSourceFC = null;
+            IFeature pSourceFeat = null;
+            IFeatureLayer pFL = null;
+            copyFeatureToInMem copFeat = null;
+            geoFeat geoFet = null;
+            IFeatureCursor pCursor = null;
+            IFeatureBuffer pFBuf = null;
+            IFeature pFeat = null;
+            IField pFld = null;
+            ILayer pLay = null;
+            ITopologicalOperator topologicalOperator = null;
+            IWorkspace pWS = null;
+
+            IEnumGeometry enumGeometry;
+            IPolyline pline;
+
+            bool fndAsFL = false;
+            object Missing = Type.Missing;
+            Dictionary<string, copyFeatureToInMem> copyFeats = null;
+            IDictionaryEnumerator eidEnum = null;
+            //IEIDInfo valveEidInfo = null;
+            try
+            {
+
+                env = new EnvelopeClass();
+
+                if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(map)) == null)
+                {
+                    pWS = Globals.CreateInMemoryWorkspace();
+                }
+
+                copyFeats = new Dictionary<string, copyFeatureToInMem>();
+
+                eidHelper = new EIDHelperClass();
+                eidHelper.GeometricNetwork = gn;
+                //eidHelper.OutputSpatialReference = map.SpatialReference;
+                eidHelper.ReturnFeatures = true;
+                eidHelper.ReturnGeometries = true;
+                eidHelper.PartialComplexEdgeGeometry = true;
+                for (int f = 0; f < 3; f++)
+                {
+                    if (f == 0)
+                    {
+                        enumEidInfo = eidHelper.CreateEnumEIDInfo(edgeEIDs);
+                        enumEidInfo.Reset();
+                        eidInfo = enumEidInfo.Next();
+
+                    }
+                    else if (f == 1)
+                    {
+                        enumEidInfo = eidHelper.CreateEnumEIDInfo(juncEIDs);
+                        enumEidInfo.Reset();
+                        eidInfo = enumEidInfo.Next();
+
+                    }
+                    else
+                    {
+                        eidEnum = valveHT.GetEnumerator();
+
+                        eidEnum.Reset();
+                        eidEnum.MoveNext();
+                        eidInfo = ((DictionaryEntry)eidEnum.Current).Value as IEIDInfo;
+
+                    }
+
+
+
+
+                    while (eidInfo != null)
+                    {
+                        
+                        pSourceFC = ((IFeatureClass)eidInfo.Feature.Class);
+                        string fcName = pSourceFC.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("traceLayerName");
+
+                        if (!copyFeats.ContainsKey(fcName))
+                        {
+                            pLay = Globals.FindLayer(map, fcName, ref fndAsFL);
+
+                            if (pLay == null)
+                            {
+                                pFlds = Globals.copyFields(eidInfo.Feature.Class.Fields, (eidInfo.Feature.Class as IFeatureClass).LengthField, (eidInfo.Feature.Class as IFeatureClass).AreaField);
+                                pFC = Globals.createFeatureClassInMemory(fcName, pFlds, pWS, pSourceFC.FeatureType);
+                                pFL = new FeatureLayerClass();
+                                pFL.FeatureClass = pFC;
+                                pFL.Name = fcName;
+                                map.AddLayer(pFL);
+                            }
+                            else
+                            {
+                                pFL = pLay as IFeatureLayer;
+                            }
+                            if (pFL.FeatureClass == null)
+                            {
+                                pFlds = Globals.copyFields(eidInfo.Feature.Class.Fields, (eidInfo.Feature.Class as IFeatureClass).LengthField, (eidInfo.Feature.Class as IFeatureClass).AreaField);
+                                pFL.FeatureClass = Globals.createFeatureClassInMemory(fcName, pFlds, pWS, pSourceFC.FeatureType);
+
+                            }
+                            else
+                            {
+                                Globals.deleteFeatures(pFL);
+                            }
+                            copFeat = new copyFeatureToInMem();
+                            copFeat.OIDSGeo = new Dictionary<int, geoFeat>();
+                            copFeat.FeatureLayer = pFL;
+                            copyFeats.Add(fcName, copFeat);
+                        }
+                        else
+                        {
+                            copFeat = copyFeats[fcName];
+                        }
+                        if (!copFeat.OIDSGeo.ContainsKey(eidInfo.Feature.OID))
+                        {
+                            geoFet = new geoFeat();
+                            pSourceFeat = pSourceFC.GetFeature(eidInfo.Feature.OID);
+
+                            geoFet.feature = pSourceFeat;
+                            geoFet.geo = new GeometryBagClass();
+                            geom = eidInfo.Geometry;
+                            if (geom == null)
+                            {
+                                geom = pSourceFeat.ShapeCopy;
+                            }
+                            geoFet.geo.AddGeometry(copyGeometry(geom), ref Missing, ref Missing);
+
+                            copFeat.OIDSGeo.Add(eidInfo.Feature.OID, geoFet);
+                            env.Union(geom.Envelope);
+                        }
+                        else
+                        {
+                            geoFet = copFeat.OIDSGeo[eidInfo.Feature.OID];
+                            geom = eidInfo.Geometry;
+                            if (geom == null)
+                            {
+                                geom = pSourceFeat.ShapeCopy;
+                            }
+                            geoFet.geo.AddGeometry(copyGeometry(geom), ref Missing, ref Missing);
+                            env.Union(geom.Envelope);
+                        }
+
+                       
+
+                        if (f == 2)
+                        {
+                            bool re = eidEnum.MoveNext();
+                            if (re == false)
+                            {
+                                eidInfo = null;
+                            }
+                            else
+                            {
+                                eidInfo = ((DictionaryEntry)eidEnum.Current).Value as IEIDInfo;
+
+                            }
+
+
+
+                        }
+                        else
+                        {
+                            eidInfo = enumEidInfo.Next();
+                        }
+
+                    }
+
+                }
+
+
+                //}
+
+                foreach (KeyValuePair<string, copyFeatureToInMem> kvp in copyFeats)
+                {
+                    //kvp.Value.FeatureClass
+                    pCursor = kvp.Value.FeatureLayer.FeatureClass.Insert(true);
+                    foreach (KeyValuePair<int, geoFeat> oidpair in kvp.Value.OIDSGeo)
+                    {
+
+                        pFBuf = kvp.Value.FeatureLayer.FeatureClass.CreateFeatureBuffer();
+                        pFeat = (IFeature)pFBuf;
+
+                        if (oidpair.Value.geo.GeometryCount == 1)
+                        {
+                            pFeat.Shape = oidpair.Value.geo.get_Geometry(0);
+                        }
+                        else
+                        {
+                            enumGeometry = oidpair.Value.geo as IEnumGeometry;
+                            topologicalOperator = new PolylineClass();
+                            topologicalOperator.ConstructUnion(enumGeometry);
+                            //topologicalOperator.Simplify();
+
+                            pline = (IPolyline)topologicalOperator;
+                            pFeat.Shape = pline;
+                        }
+                        for (int i = 0; i < kvp.Value.FeatureLayer.FeatureClass.Fields.FieldCount; i++)
+                        {
+                            pFld = kvp.Value.FeatureLayer.FeatureClass.Fields.get_Field(i);
+
+                            if (pFld.Type != esriFieldType.esriFieldTypeGlobalID &&
+                               pFld.Type != esriFieldType.esriFieldTypeGeometry &&
+                                pFld.Type != esriFieldType.esriFieldTypeOID)
+                            {
+                                int newFldIdx = pFBuf.Fields.FindField(pFld.Name);
+
+                                if (newFldIdx >= 0)
+                                {
+                                    pFBuf.set_Value(newFldIdx, oidpair.Value.feature.get_Value(i));
+                                }
+                            }
+                        }
+                        pCursor.InsertFeature(pFBuf);
+
+                    }
+                    pCursor.Flush();
+                    Marshal.ReleaseComObject(pCursor);
+
+
+                }
+
+                env.Expand(1.1, 1.1, true);
+
+                return env;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            finally
+            {
+                env = null;
+                eidHelper = null;
+                enumEidInfo = null;
+                eidInfo = null;
+                geom = null;
+
+            }
+
+        }
+        public static void deleteFeatures(IFeatureLayer featLayer)
+        {
+            IWorkspace pWS = null;
+            IFeatureCursor pCursor = null;
+            IFeatureClass pFC = featLayer.FeatureClass;
+            IWorkspace work;
+            IWorkspaceEdit workEdit;
+            IFeature feature;
+            work = ((IDataset)pFC).Workspace;
+
+            workEdit = work as IWorkspaceEdit;
+            try
+            {
+                //if (!workEdit.IsBeingEdited())
+                //{
+                //    workEdit.StartEditing(false);
+                //}
+
+                //workEdit.StartEditOperation();
+
+                pCursor = pFC.Update(null, false);
+                feature = null;
+                while ((feature = pCursor.NextFeature()) != null)
+                {
+                    pCursor.DeleteFeature();
+                }
+                // workEdit.StopEditOperation();
+
+                Marshal.ReleaseComObject(pCursor);
+
+            }
+            catch (Exception ex)
+            { }
+
+        }
         public static void FlagsBarriersToLayer(IApplication app)
         {
             IMap map = ((app.Document as IMxDocument).FocusMap);
@@ -573,11 +869,11 @@ namespace A4LGSharedFunctions
             IFeatureCursor pCursor;
             IFeatureBuffer pFBuf;
             IFeature pFeat;
-             IFeature feature = null;
+            IFeature feature = null;
 
             pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPoint);
             bool editStarted = false;
-            
+
             IFeatureClass pFlagsFC = null;
             IFeatureClass pBarriersFC = null;
             IFeatureLayer pFlagsLayer;
@@ -609,7 +905,7 @@ namespace A4LGSharedFunctions
                 pFlagsLayer = pFLayer as IFeatureLayer;
                 pFlagsLayer.FeatureClass = pFlagsFC;
             }
-            
+
             pFlagsFC = pFlagsLayer.FeatureClass;
             work = ((IDataset)pFlagsFC).Workspace;
 
@@ -632,7 +928,7 @@ namespace A4LGSharedFunctions
                     pCursor.DeleteFeature();
                 }
                 workEdit.StopEditOperation();
-           
+
                 Marshal.ReleaseComObject(pCursor);
                 workEdit.StartEditOperation();
 
@@ -646,7 +942,7 @@ namespace A4LGSharedFunctions
                     pNPt.Y = pnt.Y;
                     pNPt.SpatialReference = pnt.SpatialReference;
 
-                    
+
                     pNPt.Project(((IGeoDataset)pFlagsFC).SpatialReference);
 
                     pFeat.Shape = pNPt;
@@ -656,7 +952,7 @@ namespace A4LGSharedFunctions
                 pCursor.Flush();
                 Marshal.ReleaseComObject(pCursor);
                 workEdit.StopEditOperation();
-           
+
                 if (editStarted)
                 {
                     workEdit.StopEditing(true);
@@ -686,12 +982,13 @@ namespace A4LGSharedFunctions
                 pBarriersLayer.FeatureClass = pBarriersFC;
                 pBarriersLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportBarriersName");
                 map.AddLayer(pBarriersLayer);
-               
+
             }
-            else {
+            else
+            {
                 pBarriersLayer = pBLayer as IFeatureLayer;
             }
-          
+
             if (pBarriersLayer.FeatureClass == null)
             {
                 if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(map)) == null)
@@ -725,7 +1022,7 @@ namespace A4LGSharedFunctions
                     pCursor.DeleteFeature();
                 }
                 workEdit.StopEditOperation();
-            
+
                 Marshal.ReleaseComObject(pCursor);
 
                 pCursor = pBarriersFC.Insert(true);
@@ -9178,7 +9475,7 @@ namespace A4LGSharedFunctions
                 case flagType.JunctionBarrier:
 
                     pSymbolFlag = new SimpleMarkerSymbolClass();
-                    pSymbolFlag.Style = esriSimpleMarkerStyle.esriSMSX;
+                    pSymbolFlag.Style = esriSimpleMarkerStyle.esriSMSDiamond;
                     pSymbolFlag.Angle = 0;
                     pSymbolFlag.Color = GetColor(255, 0, 0);
                     pSymbolFlag.Outline = true;
@@ -13622,7 +13919,65 @@ namespace A4LGSharedFunctions
         #endregion
 
         #region WorkspaceTools
+        public static IFields copyFields(IFields SourceFields, IField lenFld, IField areaField)
+        {
+            // create fields
+            IFields pFields;
+            IFieldsEdit pFieldsEdit;
+            IField pField;
+            IFieldEdit pFieldEdit;
 
+            pFields = new FieldsClass();
+            pFieldsEdit = (IFieldsEdit)pFields;
+            int iFldCnt = SourceFields.FieldCount;
+            pFieldsEdit.FieldCount_2 = iFldCnt;
+
+            for (int i = 0; i < iFldCnt; i++)
+            {
+                IField SourceField = SourceFields.get_Field(i);
+
+                if (SourceField.Editable ||
+                    SourceField.Type == esriFieldType.esriFieldTypeOID ||
+                    SourceField.Type == esriFieldType.esriFieldTypeGeometry)
+                {
+                    IClone clone = SourceField as IClone;
+                    pField = clone.Clone() as IField;
+                    pFieldsEdit.set_Field(i, pField);
+                }
+                else if (SourceField != lenFld &&
+                    SourceField != areaField)
+                {
+                }
+                else
+                {
+                    //IClone clone = SourceField as IClone;
+                    //pField = clone.Clone() as IField;
+                    pField = new FieldClass();
+                    pFieldEdit = (IFieldEdit)pField;
+                    pFieldEdit.Editable_2 = true;
+                    pFieldEdit.Name_2 = SourceField.Name;
+                    pFieldEdit.IsNullable_2 = SourceField.IsNullable;
+                    pFieldEdit.Length_2 = SourceField.Length;
+                    pFieldEdit.Precision_2 = SourceField.Precision;
+                    pFieldEdit.Type_2 = SourceField.Type;
+                    pFieldsEdit.set_Field(i, pField);
+
+                }
+                //else
+                //{
+                //    pField = new FieldClass();
+                //    pFieldEdit = (IFieldEdit)pField;
+                //    pFieldEdit.Editable_2 = true;
+                //    pFieldEdit.Name_2 = SourceField.Name;
+                //    pFieldEdit.IsNullable_2 = SourceField.IsNullable;
+                //    pFieldEdit.Length_2 = SourceField.Length;
+                //    pFieldEdit.Precision_2 = SourceField.Precision;
+                //    pFieldEdit.Type_2 = SourceField.Type;
+                //}
+
+            }
+            return pFields;
+        }
         public static IFields createFieldsFromSourceFields(IFields SourceFields)
         {
             // create fields

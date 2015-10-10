@@ -3458,6 +3458,7 @@
     <comment>Config and Log File Dialog</comment>
   </data>
   <data name="GeoNetToolsBatchBarrier" xml:space="preserve">
-    <value>Select a layer to load barriers from</value>
+    <value>Seleccionar una capa desde la que cargar barreras</value>
+    <comment>Select a layer to load barriers from</comment>
   </data>
 </root>

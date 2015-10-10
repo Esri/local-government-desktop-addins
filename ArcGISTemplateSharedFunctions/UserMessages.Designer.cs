@@ -7540,6 +7540,15 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Result.
+        /// </summary>
+        internal static string traceLayerName {
+            get {
+                return ResourceManager.GetString("traceLayerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Valve from .
         /// </summary>
         internal static string ValveFrom {
