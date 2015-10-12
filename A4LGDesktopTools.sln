@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterUtilitiesDesktopAddIn", "Water Utilities Desktop Tools\WaterUtilitiesDesktopAddIn\WaterUtilitiesDesktopAddIn.csproj", "{085C6A19-83A8-4396-83F6-62C7E4B16AC8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F7BAFF33-9613-4608-8ACF-E3BF528BDFF0} = {F7BAFF33-9613-4608-8ACF-E3BF528BDFF0}
+		{0E985756-F3F1-4F89-8122-4B3BF67CC5BD} = {0E985756-F3F1-4F89-8122-4B3BF67CC5BD}
+		{CED73875-ED55-417C-BA75-AF4C208DAC6F} = {CED73875-ED55-417C-BA75-AF4C208DAC6F}
+		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2} = {5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterUtilitiesDesktopFunctions", "Water Utilities Desktop Tools\WaterUtilitiesDesktopFunctions\WaterUtilitiesDesktopFunctions.csproj", "{A1285DE2-50A3-4121-A119-4715810F3232}"
 EndProject

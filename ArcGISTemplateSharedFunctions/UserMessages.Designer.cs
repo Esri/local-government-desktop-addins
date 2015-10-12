@@ -7108,6 +7108,15 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Isolation Trace Area.
+        /// </summary>
+        internal static string OutageAreaName {
+            get {
+                return ResourceManager.GetString("OutageAreaName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  out of .
         /// </summary>
         internal static string OutOf {
@@ -7540,7 +7549,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Result.
+        ///   Looks up a localized string similar to Isolation Trace Results.
         /// </summary>
         internal static string traceLayerName {
             get {

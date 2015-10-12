@@ -4269,7 +4269,7 @@ namespace A4WaterUtilities
 
         public static string TraceIsolation(double[] x, double[] y, IApplication app, string sourceFLName, string valveFLName, string operableFieldNameValves, string operableFieldNameSources,
                                   double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName,
-                                  string MeterCritField, string MeterCritVal, string closedValveQuery, IFeatureLayer mainsFL, out IPolyline mergedLines, out List<int> lineOIDs, bool addFlagBarrierToMap)
+                                  string MeterCritField, string MeterCritVal, string closedValveQuery, IFeatureLayer mainsFL, out IPolyline mergedLines, out List<int> lineOIDs, bool addResultsAsLayer)
         {
 
             mergedLines = null;
@@ -4525,7 +4525,8 @@ namespace A4WaterUtilities
                 for (int i = 0; i < strValveFLs.Length; i++)
                 {
                     bool FCorLayerTemp = true;
-                    pTempLay = (IFeatureLayer)Globals.FindLayer(map, strValveFLs[i], ref FCorLayerTemp);
+
+                    pTempLay = (IFeatureLayer)Globals.FindLayerFromMapDataset(map, strValveFLs[i], ref FCorLayerTemp, gn.FeatureDataset);
                     if (pTempLay != null)
                     {
 
@@ -4705,7 +4706,7 @@ namespace A4WaterUtilities
                 for (int i = 0; i < sourceFLs.Length; i++)
                 {
                     bool FCorLayerTemp = true;
-                    sourceFL[i] = (IFeatureLayer)Globals.FindLayer(map, sourceFLs[i], ref FCorLayerTemp);
+                    sourceFL[i] = (IFeatureLayer)Globals.FindLayerFromMapDataset(map, sourceFLs[i], ref FCorLayerTemp,gn.FeatureDataset);
                     if (sourceFL[i] != null)
                     {
                         sourceFC[i] = sourceFL[i].FeatureClass;
@@ -5737,7 +5738,6 @@ namespace A4WaterUtilities
                     else
                         Globals.DrawEdges(ref map, ref  gn, ref edgeEIDs);
                 }
-                Globals.TraceResultsToLayer(ref map, ref  gn, ref edgeEIDs, ref juncEIDs, ref hasSourceValveHT, ref valveFLs);
                 mergedLines = Globals.MergeEdges(ref map, ref  gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
 
                 returnVal = Globals.SelectValveJunctions(ref map, ref hasSourceValveHT, ref valveFLs, processEvent) + "_" + returnVal;
@@ -5765,9 +5765,12 @@ namespace A4WaterUtilities
                     Globals.GetCommand("esriArcMapUI.ZoomToSelectedCommand", app).Execute();
 
                 }
-                if (addFlagBarrierToMap)
+                if (addResultsAsLayer)
                 {
-                    Globals.FlagsBarriersToLayer(app);
+                    map.ClearSelection();
+           
+                    Globals.TraceResultsToLayer(ref app, ref  gn, ref edgeEIDs, ref juncEIDs, ref hasSourceValveHT, ref valveFLs);
+               
                 }
                 ((IMxDocument)app.Document).UpdateContents();
                 return returnVal;

@@ -3461,4 +3461,11 @@
     <value>Seleccionar una capa desde la que cargar barreras</value>
     <comment>Select a layer to load barriers from</comment>
   </data>
+  <data name="traceLayerName" xml:space="preserve">
+    <value>Isolation Trace Results</value>
+  </data>
+  <data name="OutageAreaName" xml:space="preserve">
+    <value>Isolation Trace Area</value>
+    <comment>Needs Localization</comment>
+  </data>
 </root>

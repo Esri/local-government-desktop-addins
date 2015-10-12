@@ -447,7 +447,7 @@ namespace A4GasUtilities
                 {
                     pWS = Globals.CreateInMemoryWorkspace();
                 }
-                pFields = Globals.createFeatureClassFields(ArcMap.Document.FocusMap.SpatialReference, esriGeometryType.esriGeometryPoint);
+                pFields = Globals.createFeatureClassFields(ArcMap.Document.FocusMap.SpatialReference, esriGeometryType.esriGeometryPoint,"");
 
                 IFeatureClass pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
                 IFeatureClass pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
@@ -816,7 +816,7 @@ namespace A4GasUtilities
 
 
             IPoint point = ArcMap.Document.CurrentLocation;
-            bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false") == "false" ? false : true;
+            bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddResultsAsLayers", "false") == "false" ? false : true;
     
             string returnVal = GeoNetTools.TraceIsolation(new double[] { point.X }, new double[] { point.Y }, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources,
                 SnapTol, true, ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids,addFlagBarScreen);
@@ -901,7 +901,7 @@ namespace A4GasUtilities
             IPolyline mergedLines;
             List<int> procoids;
             //IPoint point = ArcMap.Document.CurrentLocation;
-            bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false") == "false" ? false : true;
+            bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddResultsAsLayers", "false") == "false" ? false : true;
     
             string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
                 ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out  procoids,addFlagBarScreen);
@@ -1001,7 +1001,7 @@ namespace A4GasUtilities
 
                 IPolyline mergedLines;
                 List<int> procoids;
-                bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddFlagsBarriersMap", "false") == "false" ? false : true;
+                bool addFlagBarScreen = ConfigUtil.GetConfigValue("TraceIsolation_AddResultsAsLayers", "false") == "false" ? false : true;
     
                 string returnVal = GeoNetTools.TraceIsolation(null, null, ArcMap.Application, ISOsourceFeatureLayerName, ISOvalveFeatureLayerName, ISOoperableFieldNameValves, ISOoperableFieldNameSources, SnapTol, true,
                     ISOoperableValues, ISOvalveAddSQL, traceIndeterminate, true, selectEdges, "", "", "", closedValveQuery, null, out mergedLines, out procoids, addFlagBarScreen);

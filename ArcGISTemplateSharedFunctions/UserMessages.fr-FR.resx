@@ -2619,4 +2619,11 @@
   <data name="GeoNetToolsBatchBarrier" xml:space="preserve">
     <value>Select a layer to load barriers from</value>
   </data>
+  <data name="traceLayerName" xml:space="preserve">
+    <value>Isolation Trace Results</value>
+  </data>
+  <data name="OutageAreaName" xml:space="preserve">
+    <value>Isolation Trace Area</value>
+    <comment>Needs Localization</comment>
+  </data>
 </root>
