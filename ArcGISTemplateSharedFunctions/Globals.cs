@@ -653,7 +653,8 @@ namespace A4LGSharedFunctions
 
                 return groupLayer;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return null;
             }
             finally
@@ -994,8 +995,34 @@ namespace A4LGSharedFunctions
 
                     }
                     topologicalOperator = (ITopologicalOperator)pGeometryCollection;
-                    IGeometry pGeoC = topologicalOperator.ConvexHull();
-                    pGeoC.SpatialReference = ((IGeoDataset)gn.FeatureDataset).SpatialReference;
+                    pGeo = topologicalOperator.ConvexHull();
+                    pGeo.SpatialReference = ((IGeoDataset)gn.FeatureDataset).SpatialReference;
+
+                    pLay = Globals.FindLayerInGroup(pCompLayer, A4LGSharedFunctions.Localizer.GetString("OutageAreaName"));
+                    if (pLay != null)
+                    {
+                        pFL = (IFeatureLayer)pLay;
+                        pCursor = pFL.FeatureClass.Insert(true);
+
+                        pFBuf = pFL.FeatureClass.CreateFeatureBuffer();
+                        pFeat = (IFeature)pFBuf;
+                        pFeat.Shape = pGeo;
+                        newFldIdx = pFBuf.Fields.FindField(IDFieldName);
+                        if (newFldIdx >= 0)
+                        {
+                            pFBuf.set_Value(newFldIdx, ID);
+                        }
+
+                        pCursor.InsertFeature(pFBuf);
+
+
+                        pCursor.Flush();
+
+                        Marshal.ReleaseComObject(pCursor);
+
+
+                    }
+
 
                     env.Expand(1.1, 1.1, true);
 
@@ -1655,6 +1682,9 @@ namespace A4LGSharedFunctions
             IFields pFields = null;
             IFeatureClass pOutageFC = null;
             IFeatureLayer pOutageLayer = null;
+
+            ILayer pTemplateLayer = null;
+            IFeatureLayer pFTemplateLayer = null;
             try
             {
                 if (pGrpLay != null)
@@ -1670,7 +1700,50 @@ namespace A4LGSharedFunctions
 
 
                 }
-                pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName);
+                string tempLayName = ConfigUtil.GetConfigValue("TraceIsolation_AreaTemplate", null);
+                if (tempLayName == null)
+                {
+                    pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName);
+                }
+                else
+                {
+                    pTemplateLayer = Globals.FindLayer(map, tempLayName, ref fndAsFL);
+                    if (pTemplateLayer == null)
+                    {
+                        pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName);
+
+                    }
+                    else
+                    {
+                        pFTemplateLayer = (IFeatureLayer)pTemplateLayer;
+                        if (pFTemplateLayer.FeatureClass != null)
+                        {
+                            pFields = Globals.copyFields(pFTemplateLayer.FeatureClass.Fields, pFTemplateLayer.FeatureClass.LengthField, pFTemplateLayer.FeatureClass.AreaField, IDFieldName);
+                        }
+                        else
+                        {
+                            pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName);
+
+                        }
+                    }
+                }
+
+
+                //string pathToUserProf = ConfigUtil.generateUserCachePath();
+                //pathToUserProf = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ArcGISSolutions\\Templates");
+
+                //if (System.IO.Directory.Exists(pathToUserProf) == false)
+                //{
+                //    System.IO.Directory.CreateDirectory(pathToUserProf);
+                //}
+                //string dataPath = "C:\\Work\\ArcGIS for Utilities\\_Water\\Staging\\UtilityNetworkEditingA4W\\MapsandGeodatabase\\Template.gdb";
+                //string layerName = "OutageArea";
+                //IWorkspaceFactory workspaceFactory = new ESRI.ArcGIS.DataSourcesGDB.FileGDBWorkspaceFactoryClass();
+                //IFeatureWorkspace featureWorkspace = (IFeatureWorkspace)workspaceFactory.OpenFromFile(dataPath, 0);
+
+                //IFeatureClass pFCSource = featureWorkspace.OpenFeatureClass(layerName);
+                //pFields = Globals.copyFields(pFCSource.Fields, pFCSource.LengthField, pFCSource.AreaField, IDFieldName);
+                //pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName);
 
                 if (pFLayer == null)
                 {
@@ -1702,7 +1775,7 @@ namespace A4LGSharedFunctions
                     {
                         pWS = Globals.CreateInMemoryWorkspace();
                     }
-                    pOutageFC = Globals.createFeatureClassInMemory(A A4LGSharedFunctions.Localizer.GetString("OutageAreaName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                    pOutageFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("OutageAreaName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
                     pOutageLayer = pFLayer as IFeatureLayer;
                     pOutageLayer.FeatureClass = pOutageFC;
                 }
@@ -1720,7 +1793,7 @@ namespace A4LGSharedFunctions
                 pWS = null;
                 pFields = null;
                 pOutageFC = null;
-                pOutageLayer = null;
+
             }
         }
 
