@@ -2626,4 +2626,7 @@
     <value>Isolation Trace Area</value>
     <comment>Needs Localization</comment>
   </data>
+  <data name="IsoTraceResultsLayerSuffix" xml:space="preserve">
+    <value>résultats</value>
+  </data>
 </root>

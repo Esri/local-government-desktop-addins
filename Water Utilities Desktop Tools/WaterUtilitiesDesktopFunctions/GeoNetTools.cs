@@ -573,49 +573,122 @@ namespace A4WaterUtilities
 
         public static void batchLoadBarriers(IApplication app)
         {
-            bool fndAsLayer = false;
-            IEnumLayer pLays = Globals.GetLayers(app, "VECTOR");
 
+            bool fndAsLayer = false;
             List<string> strFiles = new List<string>();
 
-            if (pLays != null)
+            IEnumLayer pLays = null;
+            IProgressDialogFactory pProDFact = null;
+            IStepProgressor pStepPro = null;
+            IProgressDialog2 pProDlg = null;
+            ITrackCancel pTrkCan = null;
+            IFeatureLayer pFl = null;
+            IFeatureCursor featureCursor = null;
+
+            IFeature feature = null;
+            IFeatureLayerDefinition2 pFLD = null;
+            IQueryFilter pQF = null;
+            ILayer pLay = null;
+            bool boolCont = true;
+            int featCount = 0;
+            try
             {
-                ILayer pLay = pLays.Next();
-
-                while (pLay != null)
+                double seTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
+                pLays = Globals.GetLayers(app, "VECTOR");
+                if (pLays != null)
                 {
-                    if (pLay is IFeatureLayer)
-                    {
-                        if (((IFeatureLayer)pLay).FeatureClass != null)
-                        {
-                            if (((IFeatureLayer)pLay).FeatureClass.ShapeType == esriGeometryType.esriGeometryPoint)
-                            {
-                                strFiles.Add(pLay.Name);
-
-                            }
-                        }
-
-                    }
                     pLay = pLays.Next();
-                }
-                //MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.Message, ex.Source);
-                string strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsBatchBarrier"), ComboBoxStyle.DropDownList);
-                if (strRetVal != null)
-                {
-                    IFeatureLayer pFl = (IFeatureLayer)Globals.FindLayer(app, strRetVal, ref fndAsLayer);
-                    IFeatureCursor featureCursor = null;
 
-                    IFeature feature = null;
-                    try
+                    while (pLay != null)
                     {
+                        if (pLay is IFeatureLayer)
+                        {
+                            if (((IFeatureLayer)pLay).FeatureClass != null)
+                            {
+                                if (((IFeatureLayer)pLay).FeatureClass.ShapeType == esriGeometryType.esriGeometryPoint)
+                                {
+                                    strFiles.Add(pLay.Name);
+
+                                }
+                            }
+
+                        }
+                        pLay = pLays.Next();
+                    }
+                    //MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.Message, ex.Source);
+                    string strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsBatchBarrier"), ComboBoxStyle.DropDownList);
+                    if (strRetVal != null && strRetVal != "||Cancelled||")
+                    {
+                        pFl = (IFeatureLayer)Globals.FindLayer(app, strRetVal, ref fndAsLayer);
+                        if (pFl == null)
+                        {
+
+                            MessageBox.Show(strRetVal + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
+                            return;
+                        }
+                        if (pFl.FeatureClass == null)
+                        {
+                            MessageBox.Show(strRetVal + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_18d"));
+                            return;
+                        }
+                        pFLD = (IFeatureLayerDefinition2)pFl;
+
+
+                        // Create a CancelTracker  
+                        pTrkCan = new CancelTrackerClass();
+                        // Create the ProgressDialog. This automatically displays the dialog  
+                        pProDFact = new ProgressDialogFactoryClass();
+                        pProDlg = (IProgressDialog2)pProDFact.Create(pTrkCan, 0);
+
+
+                        // Set the properties of the ProgressDialog  
+                        pProDlg.CancelEnabled = true;
+
+
+                        pProDlg.Animation = esriProgressAnimationTypes.esriProgressGlobe;
+
+                        // Set the properties of the Step Progressor  
+                        pStepPro = (IStepProgressor)pProDlg;
+
+                        pStepPro.MinRange = 0;
+                        pQF = new QueryFilterClass();
+                        if (pFLD.DefinitionExpression.Trim() == "")
+                        {
+
+                            featCount = pFl.FeatureClass.FeatureCount(null);
+                        }
+                        else
+                        {
+                            pQF.WhereClause = pFLD.DefinitionExpression;
+                            featCount = pFl.FeatureClass.FeatureCount(pQF);
+                        }
+                        if (featCount == 0) { return; }
+
+                        pStepPro.MaxRange = featCount;
+                        pStepPro.StepValue = 1;
+                        pStepPro.Position = 0;
+                        pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_6");
 
                         featureCursor = pFl.Search(null, false);
                         feature = featureCursor.NextFeature();
                         while (feature != null)
                         {
-                            A4WaterUtilities.GeoNetTools.AddBarrier(feature.Shape as IPoint, app, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0));
-                            feature = featureCursor.NextFeature();
+                            if (!boolCont)
+                            {
 
+                                pStepPro.Hide();
+                                pProDlg.HideDialog();
+                                pStepPro = null;
+                                pProDlg = null;
+                                pProDFact = null;
+                                return;
+                            }
+
+                            A4WaterUtilities.GeoNetTools.AddBarrier(feature.Shape as IPoint, app, seTol, false);
+                            feature = featureCursor.NextFeature();
+                            pStepPro.Step();
+                            boolCont = pTrkCan.Continue();
+                            
 
                         }
                         if (featureCursor != null)
@@ -624,15 +697,35 @@ namespace A4WaterUtilities
                         }
 
                     }
-                    catch
-                    { }
-
 
                 }
 
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Write(ex.Message);
+            }
+            finally
+            {
+                if (pProDlg != null)
+                {
 
+                    pProDlg.HideDialog();
+                }
+                pStepPro = null;
+                pProDlg = null;
+                pProDFact = null;
+                pTrkCan = null;
 
+                pLays = null;
+                pFl = null;
+                featureCursor = null;
+
+                feature = null;
+                pFLD = null;
+                pQF = null;
+                pLay = null;
+            }
 
         }
         public static void ShowArrows(IApplication app)
@@ -1082,7 +1175,7 @@ namespace A4WaterUtilities
                 pID = null;
             }
         }
-        public static void AddBarrier(IPoint pPnt, IApplication app, double snapTol)
+        public static void AddBarrier(IPoint pPnt, IApplication app, double snapTol, bool showDialog)
         {
             IProgressDialogFactory pProDFact = null;
             IStepProgressor pStepPro = null;
@@ -1105,29 +1198,31 @@ namespace A4WaterUtilities
 
                 pMap = (app.Document as IMxDocument).FocusMap;
                 bool boolCont = true;
-                // Create a CancelTracker  
-                pTrkCan = new CancelTrackerClass();
-                // Create the ProgressDialog. This automatically displays the dialog  
-                pProDFact = new ProgressDialogFactoryClass();
-                pProDlg = (IProgressDialog2)pProDFact.Create(pTrkCan, 0);
+                if (showDialog)
+                {
+                    // Create a CancelTracker  
+                    pTrkCan = new CancelTrackerClass();
+                    // Create the ProgressDialog. This automatically displays the dialog  
+                    pProDFact = new ProgressDialogFactoryClass();
+                    pProDlg = (IProgressDialog2)pProDFact.Create(pTrkCan, 0);
 
 
-                // Set the properties of the ProgressDialog  
-                pProDlg.CancelEnabled = true;
+                    // Set the properties of the ProgressDialog  
+                    pProDlg.CancelEnabled = true;
 
 
-                pProDlg.Animation = esriProgressAnimationTypes.esriProgressGlobe;
+                    pProDlg.Animation = esriProgressAnimationTypes.esriProgressGlobe;
 
-                // Set the properties of the Step Progressor  
-                pStepPro = (IStepProgressor)pProDlg;
+                    // Set the properties of the Step Progressor  
+                    pStepPro = (IStepProgressor)pProDlg;
 
-                pStepPro.MinRange = 0;
-                pStepPro.MaxRange = 6;
-                pStepPro.StepValue = 1;
-                pStepPro.Position = 0;
-                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
+                    pStepPro.MinRange = 0;
+                    pStepPro.MaxRange = 6;
+                    pStepPro.StepValue = 1;
+                    pStepPro.Position = 0;
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
 
-
+                }
                 gnList = Globals.GetGeometricNetworksCurrentlyVisible(ref pMap);
                 int gnIdx = -1;
 
@@ -1137,22 +1232,24 @@ namespace A4WaterUtilities
                     return;
                 }
 
-                // Create junction or edge flag at start of trace - also returns geometric network, snapped point, and EID of junction
-                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_6");
-                pStepPro.Step();
-                boolCont = pTrkCan.Continue();
-
-                if (!boolCont)
+                if (showDialog)
                 {
+                    // Create junction or edge flag at start of trace - also returns geometric network, snapped point, and EID of junction
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_6");
+                    pStepPro.Step();
+                    boolCont = pTrkCan.Continue();
 
-                    pStepPro.Hide();
-                    pProDlg.HideDialog();
-                    pStepPro = null;
-                    pProDlg = null;
-                    pProDFact = null;
-                    return;
+                    if (!boolCont)
+                    {
+
+                        pStepPro.Hide();
+                        pProDlg.HideDialog();
+                        pStepPro = null;
+                        pProDlg = null;
+                        pProDFact = null;
+                        return;
+                    }
                 }
-
                 startNetFlag = Globals.GetJunctionFlag(ref pPnt, ref  pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out  pFlagDisplay, false) as INetFlag;
                 if (startNetFlag == null)
                 {
@@ -1194,16 +1291,19 @@ namespace A4WaterUtilities
             }
             finally
             {
-                if (pProDlg != null)
+                if (showDialog)
                 {
+                    if (pProDlg != null)
+                    {
 
-                    pProDlg.HideDialog();
+                        pProDlg.HideDialog();
+                    }
+                    pStepPro = null;
+                    pProDlg = null;
+                    pProDFact = null;
+                    pTrkCan = null;
                 }
-                pStepPro = null;
-                pProDlg = null;
-                pProDFact = null;
 
-                pTrkCan = null;
                 pMap = null;
                 gnList = null;
                 gn = null;
@@ -4706,7 +4806,7 @@ namespace A4WaterUtilities
                 for (int i = 0; i < sourceFLs.Length; i++)
                 {
                     bool FCorLayerTemp = true;
-                    sourceFL[i] = (IFeatureLayer)Globals.FindLayerFromMapDataset(map, sourceFLs[i], ref FCorLayerTemp,gn.FeatureDataset);
+                    sourceFL[i] = (IFeatureLayer)Globals.FindLayerFromMapDataset(map, sourceFLs[i], ref FCorLayerTemp, gn.FeatureDataset);
                     if (sourceFL[i] != null)
                     {
                         sourceFC[i] = sourceFL[i].FeatureClass;
@@ -5768,9 +5868,9 @@ namespace A4WaterUtilities
                 if (addResultsAsLayer)
                 {
                     map.ClearSelection();
-           
+
                     Globals.TraceResultsToLayer(ref app, ref  gn, ref edgeEIDs, ref juncEIDs, ref hasSourceValveHT, ref valveFLs);
-               
+
                 }
                 ((IMxDocument)app.Document).UpdateContents();
                 return returnVal;

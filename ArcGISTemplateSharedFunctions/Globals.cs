@@ -563,7 +563,7 @@ namespace A4LGSharedFunctions
 
     public static class Globals
     {
-        public static IGroupLayer AddGNResultClasses(IGeometricNetwork geomNetwork, IApplication app, string ID, string IDFieldName)
+        public static IGroupLayer AddGNResultClasses(IGeometricNetwork geomNetwork, IApplication app, string ID, string IDFieldName, out string suffix)
         {
             IEnumFeatureClass enumFC = null;
             IFeatureClass fc = null;
@@ -571,6 +571,7 @@ namespace A4LGSharedFunctions
             List<IGroupLayer> groupLayers = null;
             IDataset pDataset = null;
             IMap map = null;
+            suffix = "";
             try
             {
                 string gpLayerName = A4LGSharedFunctions.Localizer.GetString("traceLayerName");
@@ -615,7 +616,9 @@ namespace A4LGSharedFunctions
                     groupLayer.Name = gpLayerName + " " + idx;
                     map.AddLayer(groupLayer);
                 }
-                Globals.FlagsBarriersToLayer(app, map, groupLayer, ID, IDFieldName);
+                Globals.FlagsBarriersToLayer(app, map, groupLayer, ID, IDFieldName, idx);
+
+                suffix = " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -641,15 +644,15 @@ namespace A4LGSharedFunctions
                         if (geomNetwork.OrphanJunctionFeatureClass.FeatureClassID != fc.ObjectClassID)
                         {
                             pDataset = (IDataset)fc;
-                            fcNameClass = Globals.getClassName(pDataset);
-                            fcName = fc.AliasName;
+                            fcNameClass = Globals.getClassName(pDataset) + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") ;
+                            fcName = fc.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
                             copyClassToInMemory(fc, fcNameClass, fcName, map, groupLayer, false, IDFieldName);
                         }
                         fc = enumFC.Next();
 
                     }
                 }
-                Globals.CreateOutageArea(map, groupLayer, ID, IDFieldName);
+                Globals.CreateOutageArea(map, groupLayer, ID, IDFieldName, idx);
 
                 return groupLayer;
             }
@@ -775,11 +778,12 @@ namespace A4LGSharedFunctions
                 int newFldIdx = 0;
                 string ID = Globals.generateRandomID(10);
                 string IDFieldName = "TRACEID";
+                string suffix;
                 try
                 {
                     env = new EnvelopeClass();
 
-                    pGrpLay = Globals.AddGNResultClasses(gn, app, ID, IDFieldName);
+                    pGrpLay = Globals.AddGNResultClasses(gn, app, ID, IDFieldName,out suffix);
                     pCompLayer = (ICompositeLayer)pGrpLay;
 
                     copyFeats = new Dictionary<string, copyFeatureToInMem>();
@@ -820,7 +824,7 @@ namespace A4LGSharedFunctions
                         {
 
                             pSourceFC = ((IFeatureClass)eidInfo.Feature.Class);
-                            string fcName = pSourceFC.AliasName;
+                            string fcName = pSourceFC.AliasName + suffix;
 
                             if (!copyFeats.ContainsKey(fcName))
                             {
@@ -1386,7 +1390,7 @@ namespace A4LGSharedFunctions
             }
 
         }
-        public static void FlagsBarriersToLayer(IApplication app, IMap map, IGroupLayer pGrpLay, string ID, string IDFieldName)
+        public static void FlagsBarriersToLayer(IApplication app, IMap map, IGroupLayer pGrpLay, string ID, string IDFieldName,int suffCount)
         {
 
             bool fndAsFL = true;
@@ -1416,14 +1420,14 @@ namespace A4LGSharedFunctions
                 if (pGrpLay != null)
                 {
                     pCompLay = (ICompositeLayer)pGrpLay;
-                    pFLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"));
-                    pBLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"));
+                    pFLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString());
+                    pBLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString());
 
                 }
                 else
                 {
-                    pFLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), ref fndAsFL);
-                    pBLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), ref fndAsFL);
+                    pFLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString(), ref fndAsFL);
+                    pBLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString(), ref fndAsFL);
 
                 }
 
@@ -1436,10 +1440,12 @@ namespace A4LGSharedFunctions
                     {
                         pWS = Globals.CreateInMemoryWorkspace();
                     }
-                    pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                    pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + 
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
                     pFlagsLayer = new FeatureLayerClass();
                     pFlagsLayer.FeatureClass = pFlagsFC;
-                    pFlagsLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportFlagsName");
+                    pFlagsLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " +
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString();
                     if (pGrpLay != null)
                     {
                         pGrpLay.Add(pFlagsLayer);
@@ -1460,7 +1466,8 @@ namespace A4LGSharedFunctions
                     {
                         pWS = Globals.CreateInMemoryWorkspace();
                     }
-                    pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                    pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") +
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
                     pFlagsLayer = pFLayer as IFeatureLayer;
                     pFlagsLayer.FeatureClass = pFlagsFC;
                 }
@@ -1541,10 +1548,12 @@ namespace A4LGSharedFunctions
                     {
                         pWS = Globals.CreateInMemoryWorkspace();
                     }
-                    pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                    pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + 
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
                     pBarriersLayer = new FeatureLayerClass();
                     pBarriersLayer.FeatureClass = pBarriersFC;
-                    pBarriersLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportBarriersName");
+                    pBarriersLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " +
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString();
                     if (pGrpLay != null)
                     {
                         pGrpLay.Add(pBarriersLayer);
@@ -1567,7 +1576,8 @@ namespace A4LGSharedFunctions
                     {
                         pWS = Globals.CreateInMemoryWorkspace();
                     }
-                    pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                    pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + 
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
                     pBarriersLayer = pBLayer as IFeatureLayer;
                     pBarriersLayer.FeatureClass = pBarriersFC;
                 }
@@ -1672,7 +1682,7 @@ namespace A4LGSharedFunctions
             }
 
         }
-        public static IFeatureLayer CreateOutageArea(IMap map, IGroupLayer pGrpLay, string ID, string IDFieldName)
+        public static IFeatureLayer CreateOutageArea(IMap map, IGroupLayer pGrpLay, string ID, string IDFieldName, int suffCount)
         {
 
             bool fndAsFL = true;
@@ -1690,13 +1700,15 @@ namespace A4LGSharedFunctions
                 if (pGrpLay != null)
                 {
                     pCompLay = (ICompositeLayer)pGrpLay;
-                    pFLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("OutageAreaName"));
+                    pFLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + " " +
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString());
 
 
                 }
                 else
                 {
-                    pFLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("OutageAreaName"), ref fndAsFL);
+                    pFLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + " " +
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString(), ref fndAsFL);
 
 
                 }
@@ -1751,10 +1763,12 @@ namespace A4LGSharedFunctions
                     {
                         pWS = Globals.CreateInMemoryWorkspace();
                     }
-                    pOutageFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("OutageAreaName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                    pOutageFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + 
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
                     pOutageLayer = new FeatureLayerClass();
                     pOutageLayer.FeatureClass = pOutageFC;
-                    pOutageLayer.Name = A4LGSharedFunctions.Localizer.GetString("OutageAreaName");
+                    pOutageLayer.Name = A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + " " +
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString();
                     if (pGrpLay != null)
                     {
                         pGrpLay.Add(pOutageLayer);
@@ -1775,7 +1789,8 @@ namespace A4LGSharedFunctions
                     {
                         pWS = Globals.CreateInMemoryWorkspace();
                     }
-                    pOutageFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("OutageAreaName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
+                    pOutageFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + 
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
                     pOutageLayer = pFLayer as IFeatureLayer;
                     pOutageLayer.FeatureClass = pOutageFC;
                 }
@@ -14980,7 +14995,7 @@ namespace A4LGSharedFunctions
             ESRI.ArcGIS.esriSystem.UID CLSID = null;
             //ESRI.ArcGIS.esriSystem.UID CLSEXT = null;
             IFeatureWorkspace pFWS = null;
-
+            IFeatureClass newFeat = null;
             ESRI.ArcGIS.Geodatabase.IFieldChecker fieldChecker = null;
             ESRI.ArcGIS.Geodatabase.IEnumFieldError enumFieldError = null;
             ESRI.ArcGIS.Geodatabase.IFields validatedFields = null;
@@ -15004,7 +15019,7 @@ namespace A4LGSharedFunctions
                 fieldChecker.ValidateWorkspace = pWS;
                 fieldChecker.Validate(FeatureFields, out enumFieldError, out validatedFields);
                 bool FCCreated = false;
-                IFeatureClass newFeat = null;
+                
                 int loopCnt = 0;
                 while (FCCreated == false)
                 {
@@ -15022,7 +15037,7 @@ namespace A4LGSharedFunctions
                         }
                         FCCreated = true;
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         FCCreated = false;
                     }

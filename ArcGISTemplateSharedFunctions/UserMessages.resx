@@ -2631,4 +2631,7 @@
   <data name="OutageAreaName" xml:space="preserve">
     <value>Isolation Trace Area</value>
   </data>
+  <data name="IsoTraceResultsLayerSuffix" xml:space="preserve">
+    <value>results</value>
+  </data>
 </root>

@@ -6712,6 +6712,15 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to results.
+        /// </summary>
+        internal static string IsoTraceResultsLayerSuffix {
+            get {
+                return ResourceManager.GetString("IsoTraceResultsLayerSuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  junction in the .
         /// </summary>
         internal static string JunctionInThe {
