@@ -511,7 +511,7 @@
     <value>Setting Flow Direction</value>
   </data>
   <data name="GeoNetToolsDesc_10" xml:space="preserve">
-    <value>Diconnecting Assets to the geometric network.</value>
+    <value>Disconnecting Assets to the geometric network.</value>
   </data>
   <data name="GeoNetToolsDesc_11" xml:space="preserve">
     <value>Checking geometric networks connections...</value>
@@ -697,7 +697,7 @@
     <value>Add Flag</value>
   </data>
   <data name="GeoNetToolsMess_10a" xml:space="preserve">
-    <value>Diconnecting Features from </value>
+    <value>Disconnecting Features from </value>
   </data>
   <data name="GeoNetToolsMess_11a" xml:space="preserve">
     <value> unneeded junction in </value>
@@ -817,13 +817,13 @@
     <value>Flow Accumulation for feature with OID: </value>
   </data>
   <data name="GeoNetToolsMess_7" xml:space="preserve">
-    <value>Connecting Features from</value>
+    <value>Connecting Features from </value>
   </data>
   <data name="GeoNetToolsProc_1" xml:space="preserve">
     <value>Setting Flow</value>
   </data>
   <data name="GeoNetToolsProc_10" xml:space="preserve">
-    <value>Diconnecting Features</value>
+    <value>Disconnecting Features</value>
   </data>
   <data name="GeoNetToolsProc_13a" xml:space="preserve">
     <value>Moving Connections</value>
@@ -931,7 +931,7 @@
     <value>Geometric Network Tools</value>
   </data>
   <data name="GeoNetToolsTitle_10" xml:space="preserve">
-    <value>Diconnecting</value>
+    <value>Disconnecting</value>
   </data>
   <data name="GeoNetToolsTitle_11" xml:space="preserve">
     <value>Connection Checker</value>

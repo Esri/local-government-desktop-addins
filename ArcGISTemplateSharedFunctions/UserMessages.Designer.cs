@@ -5326,7 +5326,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Diconnecting Assets to the geometric network..
+        ///   Looks up a localized string similar to Disconnecting Assets to the geometric network..
         /// </summary>
         internal static string GeoNetToolsDesc_10 {
             get {
