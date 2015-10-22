@@ -3848,11 +3848,6 @@ namespace ArcGIS4LocalGovernment
 
                                                                                             }
                                                                                             pRow = null;
-                                                                                            if (valSet)
-                                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cd"));
-                                                                                            else
-                                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ce"));
-
                                                                                             if (pCurs != null)
                                                                                                 Marshal.ReleaseComObject(pCurs);
                                                                                             pCurs = null;
@@ -3882,11 +3877,13 @@ namespace ArcGIS4LocalGovernment
                                                                     { }
                                                                     else if (pFoundFeat.Count == 1)
                                                                     {
-                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
+                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf") + " " + pFoundFeat[0].Value);
                                                                         try
                                                                         {
                                                                             inObject.set_Value(intFldIdxs[0], pFoundFeat[0].Value);
 
+                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + pFoundFeat[0].Value + "set");
+                                                                      
                                                                         }
                                                                         catch
                                                                         {

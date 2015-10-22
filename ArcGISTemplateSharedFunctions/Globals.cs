@@ -12539,6 +12539,7 @@ namespace A4LGSharedFunctions
                 // Indicate when sFeature is found (a passed in string var)
                 sSubT = pEnumSubTypes.Next(out lSubT);
                 pArrList = new List<DomSubList>();
+                
                 while (sSubT != null)
                 {
                     pDSL = new DomSubList(lSubT.ToString(), pSubTypes.get_SubtypeName(lSubT).ToString());
@@ -12547,6 +12548,7 @@ namespace A4LGSharedFunctions
                     pArrList.Add(pDSL);
 
                     sSubT = pEnumSubTypes.Next(out lSubT);
+                   
                 }
                 pEnumSubTypes = null;
 
@@ -12697,6 +12699,7 @@ namespace A4LGSharedFunctions
                 // Indicate when sFeature is found (a passed in string var)
                 sSubT = pEnumSubTypes.Next(out lSubT);
                 ArrayList pArrList = new ArrayList();
+                if (sSubT == null) return -99999;
                 while (sSubT.Length > 0)
                 {
                     if (Display.ToString() == pSubtypes.get_SubtypeName(lSubT).ToString())
@@ -12707,6 +12710,7 @@ namespace A4LGSharedFunctions
 
 
                     sSubT = pEnumSubTypes.Next(out lSubT);
+                    if (sSubT == null) break;
                 }
                 pEnumSubTypes = null;
 
@@ -12740,11 +12744,13 @@ namespace A4LGSharedFunctions
                 // Indicate when sFeature is found (a passed in string var)
                 sSubT = pEnumSubTypes.Next(out lSubT);
                 int i = 0;
+                if (sSubT == null) return 0;
                 while (sSubT.Length > 0)
                 {
                     i = i + 1;
 
                     sSubT = pEnumSubTypes.Next(out lSubT);
+                    if (sSubT == null) break;
                 }
                 pEnumSubTypes = null;
 
@@ -12779,7 +12785,7 @@ namespace A4LGSharedFunctions
                 // Indicate when sFeature is found (a passed in string var)
                 sSubT = pEnumSubTypes.Next(out lSubT);
                 int i = 0;
-
+                if (sSubT == null) return "";
                 while (sSubT.Length > 0)
                 {
 
@@ -12792,6 +12798,7 @@ namespace A4LGSharedFunctions
 
                     sSubT = pEnumSubTypes.Next(out lSubT);
                     i = i + 1;
+                    if (sSubT == null) break;
                 }
                 pEnumSubTypes = null;
                 return "";
@@ -12825,7 +12832,7 @@ namespace A4LGSharedFunctions
                 // Indicate when sFeature is found (a passed in string var)
                 sSubT = pEnumSubTypes.Next(out lSubT);
                 int i = 0;
-
+                if (sSubT == null) return;
                 while (sSubT.Length > 0)
                 {
                     if (i == index)
@@ -12839,6 +12846,7 @@ namespace A4LGSharedFunctions
 
                     sSubT = pEnumSubTypes.Next(out lSubT);
                     i = i + 1;
+                    if (sSubT == null) break;
                 }
                 pEnumSubTypes = null;
 
