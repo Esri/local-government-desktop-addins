@@ -2617,7 +2617,7 @@
     <value>Fichier de configuration et de log</value>
   </data>
   <data name="GeoNetToolsBatchBarrier" xml:space="preserve">
-    <value>Select a layer to load barriers from</value>
+    <value>Sélectionnez la couche contenant les barrières</value>
   </data>
   <data name="traceLayerName" xml:space="preserve">
     <value>Isolation Trace Results</value>

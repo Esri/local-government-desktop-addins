@@ -3882,7 +3882,7 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             inObject.set_Value(intFldIdxs[0], pFoundFeat[0].Value);
 
-                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + pFoundFeat[0].Value + "set");
+                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + pFoundFeat[0].Value);
                                                                       
                                                                         }
                                                                         catch

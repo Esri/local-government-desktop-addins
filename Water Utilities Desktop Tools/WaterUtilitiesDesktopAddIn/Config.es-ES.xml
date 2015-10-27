@@ -72,7 +72,7 @@
 
         <Button id="A4WaterUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Establece la dirección de flujo de la red geométrica basándose en los valores de AncillaryRole." caption="Establecer dirección de flujo según fuentes y sumideros" tip="Establecer dirección de flujo según fuentes y sumideros" category="ArcGIS for Local Government" image="Images\EstablishFlow.png" />
         <Button id="A4WaterUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establece la dirección de flujo de la red geométrica basándose en la dirección digitalizada." caption="Establecer dirección de flujo según dirección de digitalización" tip="Establecer dirección de flujo según dirección de digitalización" category="ArcGIS for Local Government" image="Images\EstablishFlowDigitized.png" />
-        <Button id="A4WaterUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Batch load barriers from a layer." caption="Batch load barriers from a layer" tip="Batch load barriers from a layer" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
+        <Button id="A4WaterUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Cargar barreras por lotes desde una capa." caption="Cargar barreras por lotes desde una capa" tip="Cargar barreras por lotes desde una capa" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
 
       </Commands>
       <Toolbars>

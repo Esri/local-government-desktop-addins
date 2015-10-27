@@ -5884,7 +5884,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Diconnecting Features from .
+        ///   Looks up a localized string similar to Disconnecting Features from .
         /// </summary>
         internal static string GeoNetToolsMess_10a {
             get {
@@ -6244,7 +6244,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connecting Features from.
+        ///   Looks up a localized string similar to Connecting Features from .
         /// </summary>
         internal static string GeoNetToolsMess_7 {
             get {
@@ -6262,7 +6262,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Diconnecting Features.
+        ///   Looks up a localized string similar to Disconnecting Features.
         /// </summary>
         internal static string GeoNetToolsProc_10 {
             get {
@@ -6586,7 +6586,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Diconnecting.
+        ///   Looks up a localized string similar to Disconnecting.
         /// </summary>
         internal static string GeoNetToolsTitle_10 {
             get {
