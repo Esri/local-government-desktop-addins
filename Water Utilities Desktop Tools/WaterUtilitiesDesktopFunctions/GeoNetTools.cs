@@ -7349,6 +7349,8 @@ namespace A4WaterUtilities
 
                         }
                     }
+                    object val;
+                    double elev;
                     if (((IDataset)pFeature.Class).Name == ((IDataset)pFLManhole.FeatureClass).Name)
                     {
                         if (pFeatureAdded.ContainsValue(pFeature.OID))
@@ -7372,7 +7374,15 @@ namespace A4WaterUtilities
                                 if (pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_TopElevationField)) != null &&
                                     pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_TopElevationField)).ToString() != "")
                                 {
-                                    manDet.Top = (double)pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_TopElevationField));
+                                     val = pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_TopElevationField));
+                                  
+                                    if (Double.TryParse(val.ToString(), out elev))
+                                    {
+                                        manDet.Top = elev;
+                                    }
+                                    else {
+                                        manDet.Top = -9999;
+                                    }
                                 }
                                 else
                                     manDet.Top = -9999;
@@ -7386,17 +7396,28 @@ namespace A4WaterUtilities
                                 if (pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationField)) != null &&
                                     pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationField)).ToString() != "")
                                 {
-                                    manDet.Bottom = (double)pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationField));
-                                    if (pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField) > 0)
+                                    val = pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationField));
+                                
+                                    if (Double.TryParse(val.ToString(), out elev))
                                     {
-                                        if (pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField)) != null &&
-                                            pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField)).ToString() != "")
+                                        manDet.Bottom = elev;
+                                        if (pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField) > 0)
                                         {
-                                            if (pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField)).ToString().ToUpper() == "INVERT")
-                                                manDet.Bottom = manDet.Top - (double)pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField));
+                                            if (pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField)) != null &&
+                                                pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField)).ToString() != "")
+                                            {
+                                                if (pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField)).ToString().ToUpper() == "INVERT")
+                                                {
+                                                    manDet.Bottom = manDet.Top - elev;
+                                                }
+                                            }
                                         }
-                                    }
 
+                                    }
+                                    else
+                                    {
+                                        manDet.Bottom = -9999;
+                                    }
 
                                 }
                                 else
