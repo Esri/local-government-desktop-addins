@@ -7401,16 +7401,11 @@ namespace A4WaterUtilities
                                     if (Double.TryParse(val.ToString(), out elev))
                                     {
                                         manDet.Bottom = elev;
-                                        if (pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField) > 0)
+                                        if (ProfileGraph[CurrentDetail].Point_BottomElevationTypeField.ToUpper() == "INVERT")
                                         {
-                                            if (pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField)) != null &&
-                                                pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField)).ToString() != "")
-                                            {
-                                                if (pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationTypeField)).ToString().ToUpper() == "INVERT")
-                                                {
-                                                    manDet.Bottom = manDet.Top - elev;
-                                                }
-                                            }
+  
+                                             manDet.Bottom = manDet.Top - elev;
+                                      
                                         }
 
                                     }
