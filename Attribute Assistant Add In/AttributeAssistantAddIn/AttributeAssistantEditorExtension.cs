@@ -4024,7 +4024,7 @@ namespace ArcGIS4LocalGovernment
                                                                                         }
                                                                                         IFeatureCursor pCurs;
 
-                                                                                        pCurs = sourceLayer.FeatureClass.Search(pQFilt, true);
+                                                                                        pCurs = sourceLayer.FeatureClass.Search(pQFilt, false);
                                                                                         IFeature pRow;
                                                                                         bool valSet = false;
                                                                                         while ((pRow = pCurs.NextFeature()) != null)
