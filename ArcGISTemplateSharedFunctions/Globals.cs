@@ -1028,7 +1028,9 @@ namespace A4LGSharedFunctions
                                         {
                                             pFBuf.set_Value(newFldIdx, oidpair.Value.feature.get_Value(i));
                                         }
-                                        catch (Exception ex) { }
+                                        catch (Exception ex) {
+                                            Console.WriteLine(pFld.Name);
+                                        }
                                     }
                                 }
 
@@ -15414,6 +15416,20 @@ namespace A4LGSharedFunctions
                 {
                     IClone clone = SourceField as IClone;
                     pField = clone.Clone() as IField;
+                    pFieldsEdit.set_Field(addFldIdx, pField);
+                    addFldIdx++;
+
+                }
+                else if (SourceField.Type == esriFieldType.esriFieldTypeGlobalID)
+                {
+                    pField = new FieldClass();
+                    pFieldEdit = (IFieldEdit)pField;
+                    pFieldEdit.Editable_2 = true;
+                    pFieldEdit.Name_2 = SourceField.Name;
+                    pFieldEdit.IsNullable_2 = SourceField.IsNullable;
+                    pFieldEdit.Length_2 = SourceField.Length;
+                    pFieldEdit.Precision_2 = SourceField.Precision;
+                    pFieldEdit.Type_2 = esriFieldType.esriFieldTypeGUID;
                     pFieldsEdit.set_Field(addFldIdx, pField);
                     addFldIdx++;
 
