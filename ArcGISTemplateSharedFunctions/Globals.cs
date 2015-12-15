@@ -643,10 +643,13 @@ namespace A4LGSharedFunctions
                     {
                         if (geomNetwork.OrphanJunctionFeatureClass.FeatureClassID != fc.ObjectClassID)
                         {
-                            pDataset = (IDataset)fc;
-                            fcNameClass = Globals.getClassName(pDataset) + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");
-                            fcName = fc.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
-                            copyClassToInMemory(fc, fcNameClass, fcName, map, groupLayer, false, IDFieldName);
+                            //if (Globals.FindLayerByClassID(map, fc.ObjectClassID.ToString()) != null)
+                            //{
+                                pDataset = (IDataset)fc;
+                                fcNameClass = Globals.getClassName(pDataset) + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");
+                                fcName = fc.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
+                                copyClassToInMemory(fc, fcNameClass, fcName, map, groupLayer, false, IDFieldName);
+                            //}
                         }
                         fc = enumFC.Next();
 
@@ -696,16 +699,19 @@ namespace A4LGSharedFunctions
                 {
                     pFlds = Globals.copyFields(sourceClass.Fields, sourceClass.LengthField, sourceClass.AreaField, IDFieldName);
                     pFC = Globals.createFeatureClassInMemory(className, pFlds, pWS, sourceClass.FeatureType);
-                    pFL = new FeatureLayerClass();
-                    pFL.FeatureClass = pFC;
-                    pFL.Name = layerName;
-                    if (groupLayer != null)
+                    if (pFC != null)
                     {
-                        groupLayer.Add(pFL);
-                    }
-                    else
-                    {
-                        map.AddLayer(pFL);
+                        pFL = new FeatureLayerClass();
+                        pFL.FeatureClass = pFC;
+                        pFL.Name = layerName;
+                        if (groupLayer != null)
+                        {
+                            groupLayer.Add(pFL);
+                        }
+                        else
+                        {
+                            map.AddLayer(pFL);
+                        }
                     }
                 }
                 else
@@ -771,6 +777,8 @@ namespace A4LGSharedFunctions
             bool re;
             try
             {
+
+
                 pGeometryCollection = new MultipointClass();
 
                 object Missing = Type.Missing;
@@ -787,6 +795,10 @@ namespace A4LGSharedFunctions
                     env = new EnvelopeClass();
 
                     pGrpLay = Globals.AddGNResultClasses(gn, app, ID, IDFieldName, out suffix);
+                    if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(((app.Document as IMxDocument).FocusMap))) == null)
+                    {
+                        pWS = Globals.CreateInMemoryWorkspace();
+                    }
                     pCompLayer = (ICompositeLayer)pGrpLay;
 
                     copyFeats = new Dictionary<string, copyFeatureToInMem>();
@@ -807,7 +819,7 @@ namespace A4LGSharedFunctions
 
                             eidEnum.Reset();
                             re = eidEnum.MoveNext();
-                           
+
                             if (re == false)
                             {
                                 eidInfo = null;
@@ -928,7 +940,7 @@ namespace A4LGSharedFunctions
 
 
 
-                            
+
                             }
                             if (f == 0)
                             {
@@ -1012,7 +1024,11 @@ namespace A4LGSharedFunctions
 
                                     if (newFldIdx >= 0 && oidpair.Value.feature.Fields.FindField(pFld.Name) >= 0)
                                     {
-                                        pFBuf.set_Value(newFldIdx, oidpair.Value.feature.get_Value(i));
+                                        try
+                                        {
+                                            pFBuf.set_Value(newFldIdx, oidpair.Value.feature.get_Value(i));
+                                        }
+                                        catch (Exception ex) { }
                                     }
                                 }
 
@@ -15068,7 +15084,15 @@ namespace A4LGSharedFunctions
                 enumFieldError = null;
                 validatedFields = null;
                 fieldChecker.ValidateWorkspace = pWS;
-                fieldChecker.Validate(FeatureFields, out enumFieldError, out validatedFields);
+                try
+                {
+                    fieldChecker.Validate(FeatureFields, out enumFieldError, out validatedFields);
+
+                }
+                catch (Exception e)
+                {
+                    validatedFields = FeatureFields;
+                }
                 bool FCCreated = false;
 
                 int loopCnt = 0;
@@ -15100,7 +15124,7 @@ namespace A4LGSharedFunctions
                     {
                         FCCreated = false;
                     }
-                    if (loopCnt == 100)
+                    if (loopCnt == 5)
                         FCCreated = true;
 
                 }
@@ -15315,65 +15339,115 @@ namespace A4LGSharedFunctions
             IField SourceField = null;
             pFields = new FieldsClass();
             pFieldsEdit = (IFieldsEdit)pFields;
-            int iFldCnt = SourceFields.FieldCount;
+            int totFlds = SourceFields.FieldCount;
             bool idFieldExist = false;
 
-            if (IDFieldName != null)
+            int resFldCnt = totFlds;
+
+            for (int i = 0; i < totFlds; i++)
             {
-                for (int i = 0; i < iFldCnt; i++)
-                {
-                    SourceField = SourceFields.get_Field(i);
+                SourceField = SourceFields.get_Field(i);
+                if (IDFieldName != null) { 
                     if (SourceField.Name == IDFieldName)
                     {
                         idFieldExist = true;
                         IDFieldName = null;
-                        break;
+                     
                     }
                 }
-                if (idFieldExist == false)
+                if (SourceField == lenFld)
                 {
-                    pFieldsEdit.FieldCount_2 = iFldCnt + 1;
+                    resFldCnt = resFldCnt - 1;
                 }
-                else
+                if (SourceField == areaField)
                 {
-                    pFieldsEdit.FieldCount_2 = iFldCnt;
+                    resFldCnt = resFldCnt - 1;
                 }
+            }
+
+            
+            if (idFieldExist == false)
+            {
+                pFieldsEdit.FieldCount_2 = resFldCnt + 1;
             }
             else
             {
-                pFieldsEdit.FieldCount_2 = iFldCnt;
+                pFieldsEdit.FieldCount_2 = resFldCnt;
             }
 
 
-            for (int i = 0; i < iFldCnt; i++)
+            int addFldIdx = 0;
+            for (int i = 0; i < totFlds; i++)
             {
                 SourceField = SourceFields.get_Field(i);
 
-                if (SourceField.Editable ||
-                    SourceField.Type == esriFieldType.esriFieldTypeOID ||
-                    SourceField.Type == esriFieldType.esriFieldTypeGeometry)
+                if (SourceField == lenFld ||
+                   SourceField == areaField)
+                {
+                    //pField = new FieldClass();
+                    //pFieldEdit = (IFieldEdit)pField;
+                    //pFieldEdit.Editable_2 = SourceField.Editable;
+                    //pFieldEdit.Name_2 = SourceField.Name;
+                    //pFieldEdit.IsNullable_2 = SourceField.IsNullable;
+                    //pFieldEdit.Length_2 = SourceField.Length;
+                    //pFieldEdit.Precision_2 = SourceField.Precision;
+                    //pFieldEdit.Type_2 = SourceField.Type;
+                    //pFieldsEdit.set_Field(addFldIdx, pField);
+                    //addFldIdx++;
+                }
+                else if (SourceField.Type == esriFieldType.esriFieldTypeGeometry)
                 {
                     IClone clone = SourceField as IClone;
                     pField = clone.Clone() as IField;
-                    pFieldsEdit.set_Field(i, pField);
+                    
+                    //IGeometryDefEdit pGeomDefEdit; 
+                   
+                    //pGeomDefEdit = (IGeometryDefEdit)pField.GeometryDef;
+                    //pGeomDefEdit.HasM_2 = false;
+                    //pGeomDefEdit.HasZ_2 = false;
+
+                    pFieldsEdit.set_Field(addFldIdx, pField);
+                    addFldIdx++;
                 }
-                else if (SourceField != lenFld &&
-                    SourceField != areaField)
+
+                else if (SourceField.Type == esriFieldType.esriFieldTypeOID)
                 {
+                    IClone clone = SourceField as IClone;
+                    pField = clone.Clone() as IField;
+                    pFieldsEdit.set_Field(addFldIdx, pField);
+                    addFldIdx++;
+
                 }
-                else
+                else if (SourceField.Editable)
                 {
                     //IClone clone = SourceField as IClone;
                     //pField = clone.Clone() as IField;
+                    //pFieldsEdit.set_Field(i, pField);
+
                     pField = new FieldClass();
                     pFieldEdit = (IFieldEdit)pField;
-                    pFieldEdit.Editable_2 = true;
+                    pFieldEdit.Editable_2 = SourceField.Editable;
                     pFieldEdit.Name_2 = SourceField.Name;
                     pFieldEdit.IsNullable_2 = SourceField.IsNullable;
                     pFieldEdit.Length_2 = SourceField.Length;
                     pFieldEdit.Precision_2 = SourceField.Precision;
                     pFieldEdit.Type_2 = SourceField.Type;
-                    pFieldsEdit.set_Field(i, pField);
+                    pFieldsEdit.set_Field(addFldIdx, pField);
+                    addFldIdx++;
+                }
+                else
+                {
+
+                    pField = new FieldClass();
+                    pFieldEdit = (IFieldEdit)pField;
+                    pFieldEdit.Editable_2 = SourceField.Editable;
+                    pFieldEdit.Name_2 = SourceField.Name;
+                    pFieldEdit.IsNullable_2 = SourceField.IsNullable;
+                    pFieldEdit.Length_2 = SourceField.Length;
+                    pFieldEdit.Precision_2 = SourceField.Precision;
+                    pFieldEdit.Type_2 = SourceField.Type;
+                    pFieldsEdit.set_Field(addFldIdx, pField);
+                    addFldIdx++;
 
                 }
                 //else
@@ -15399,8 +15473,9 @@ namespace A4LGSharedFunctions
                 pFieldEdit.Length_2 = 50;
                 pFieldEdit.Precision_2 = 0;
                 pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;
-                pFieldsEdit.set_Field(iFldCnt, pField);
+                pFieldsEdit.set_Field(addFldIdx, pField);
             }
+           
             return pFields;
         }
         public static IFields createFieldsFromSourceFields(IFields SourceFields)
