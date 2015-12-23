@@ -688,7 +688,7 @@ namespace A4WaterUtilities
                             feature = featureCursor.NextFeature();
                             pStepPro.Step();
                             boolCont = pTrkCan.Continue();
-                            
+
 
                         }
                         if (featureCursor != null)
@@ -4414,6 +4414,9 @@ namespace A4WaterUtilities
             INetElementBarriers nb = null;
             IEnumNetEID juncEIDs = null;
             IEnumNetEID edgeEIDs = null;
+            IEnumEIDInfo enumEidInfoJunc = null;
+            IEnumEIDInfo enumEidInfoEdge = null;
+
             IEIDInfo eidInfo = null;
             IEIDInfo valveEIDInfo = null;
             IEIDInfo sourceEIDInfo = null;
@@ -5277,14 +5280,14 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
+                        //return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
                     }
 
-                    return A4LGSharedFunctions.Localizer.GetString("Error") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16a") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15c") + Environment.NewLine +
-                            Environment.NewLine +
-                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16b") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16c") + Environment.NewLine +
-                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16d") + Environment.NewLine +
-                            A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16e");
+                    //return A4LGSharedFunctions.Localizer.GetString("Error") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16a") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_15c") + Environment.NewLine +
+                    //        Environment.NewLine +
+                    //        A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16b") + valveFLName + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16c") + Environment.NewLine +
+                    //        A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16d") + Environment.NewLine +
+                    //        A4LGSharedFunctions.Localizer.GetString("GeoNetToolsMess_16e");
                 }
                 pointAlong++;
                 if (processEvent)
@@ -5355,7 +5358,7 @@ namespace A4WaterUtilities
 
                 //}
                 pointAlong++;
-                if (sourceEIDInfoHT.Count == 0)
+                if (sourceEIDInfoHT.Count == 0 && totalreachcount > 0)
                 {
                     if (processEvent)
                     {
@@ -5469,7 +5472,7 @@ namespace A4WaterUtilities
                         eidInfo = entry.Value as IEIDInfo;
                         netElementBarrier.Add(eidInfo.Feature.Class.ObjectClassID, eidInfo.Feature.OID);
                     }
-                    totalreachcount++;
+                    //totalreachcount++;
                 }
 
                 //attempt to use selection barriers for closed valves
@@ -5520,7 +5523,7 @@ namespace A4WaterUtilities
                     sourceEIDInfoHT.Remove(eidInfo.Feature.OID);
                 }
                 pointAlong++;//21
-                if (sourceEIDInfoHT.Count == 0)
+                if (sourceEIDInfoHT.Count == 0 && totalreachcount > 0 )
                 {
                     if (processEvent)
                     {
@@ -5725,7 +5728,7 @@ namespace A4WaterUtilities
                         }
 
                     } // End of valve loop
-                    totalreachcount++;
+                    //totalreachcount++;
                 }
                 //Setup last trace with correct valve barriers
 
@@ -5829,18 +5832,16 @@ namespace A4WaterUtilities
                 //Globals.LoadEdges(ref traceRes, ref gn, ref map, ref edgeEIDs);
                 //((IMxDocument)app.Document).FocusMap.ClearSelection();
                 //Globals.RemoveGraphics(((IMxDocument)app.Document).FocusMap, false);
-                string returnVal = "";
-                returnVal = Globals.SelectJunctions(ref map, ref gn, ref juncEIDs, ref junctionFlag, MeterName, MeterCritField, MeterCritVal, processEvent);
-                if (processEvent)
-                {
-                    if (selectEdges)
-                        Globals.SelectEdges(ref map, ref  gn, ref edgeEIDs);
-                    else
-                        Globals.DrawEdges(ref map, ref  gn, ref edgeEIDs);
-                }
-                mergedLines = Globals.MergeEdges(ref map, ref  gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
 
-                returnVal = Globals.SelectValveJunctions(ref map, ref hasSourceValveHT, ref valveFLs, processEvent) + "_" + returnVal;
+                eidHelper = new EIDHelperClass();
+                eidHelper.GeometricNetwork = gn;
+
+                //eidHelper.OutputSpatialReference = map.SpatialReference;
+                eidHelper.ReturnFeatures = true;
+                eidHelper.ReturnGeometries = true;
+                eidHelper.PartialComplexEdgeGeometry = true;
+
+
 
                 if (processEvent)
                 {
@@ -5862,14 +5863,52 @@ namespace A4WaterUtilities
                             Globals.AddPointGraphic(map, pFgDi.Geometry as IPoint, false);
                         }
                     }
+                }
+
+                enumEidInfoJunc = eidHelper.CreateEnumEIDInfo(juncEIDs);
+                enumEidInfoEdge = eidHelper.CreateEnumEIDInfo(edgeEIDs);
+
+                int totalCount = hasSourceValveHT.Count;
+
+
+                totalCount = totalCount + enumEidInfoJunc.Count;
+                totalCount = totalCount + enumEidInfoEdge.Count;
+                int totalPrompt = ConfigUtil.GetConfigValue("Trace_ResultTotalPrompt", 2000);
+
+                if (totalCount > totalPrompt)
+                {
+                    DialogResult msgResult = MessageBox.Show(String.Format(A4LGSharedFunctions.Localizer.GetString("TraceResultsCount"), totalCount), A4LGSharedFunctions.Localizer.GetString("Proceed"), MessageBoxButtons.YesNo);
+                    if (msgResult == DialogResult.No)
+                    {
+                        return "";
+                    }
+
+                }
+
+                string returnVal = "";
+                returnVal = Globals.SelectJunctions(ref map, ref gn, ref juncEIDs, ref junctionFlag, MeterName, MeterCritField, MeterCritVal, processEvent);
+                if (processEvent)
+                {
+                    if (selectEdges)
+                        Globals.SelectEdges(ref map, ref  gn, ref edgeEIDs);
+                    else
+                        Globals.DrawEdges(ref map, ref  gn, ref edgeEIDs);
+                }
+                mergedLines = Globals.MergeEdges(ref map, ref  gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
+
+                returnVal = Globals.SelectValveJunctions(ref map, ref hasSourceValveHT, ref valveFLs, processEvent) + "_" + returnVal;
+
+                if (processEvent)
+                {
+
                     Globals.GetCommand("esriArcMapUI.ZoomToSelectedCommand", app).Execute();
 
                 }
                 if (addResultsAsLayer)
                 {
-                    map.ClearSelection();
 
-                    Globals.TraceResultsToLayer(ref app, ref  gn, ref edgeEIDs, ref juncEIDs, ref hasSourceValveHT, ref valveFLs);
+
+                    Globals.TraceResultsToLayer(ref app, ref  gn, ref enumEidInfoJunc, ref enumEidInfoEdge, ref hasSourceValveHT, ref valveFLs);
 
                 }
                 ((IMxDocument)app.Document).UpdateContents();
@@ -5988,6 +6027,16 @@ namespace A4WaterUtilities
                 {
                     Marshal.ReleaseComObject(sourceEIDInfo);
                 }
+                if (enumEidInfoJunc != null)
+                {
+                    Marshal.ReleaseComObject(enumEidInfoJunc);
+                }
+                if (enumEidInfoEdge != null)
+                {
+                    Marshal.ReleaseComObject(enumEidInfoEdge);
+                }
+
+
                 if (vEIDInfo != null)
                 {
                     Marshal.ReleaseComObject(vEIDInfo);
@@ -7374,13 +7423,14 @@ namespace A4WaterUtilities
                                 if (pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_TopElevationField)) != null &&
                                     pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_TopElevationField)).ToString() != "")
                                 {
-                                     val = pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_TopElevationField));
-                                  
+                                    val = pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_TopElevationField));
+
                                     if (Double.TryParse(val.ToString(), out elev))
                                     {
                                         manDet.Top = elev;
                                     }
-                                    else {
+                                    else
+                                    {
                                         manDet.Top = -9999;
                                     }
                                 }
@@ -7397,15 +7447,15 @@ namespace A4WaterUtilities
                                     pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationField)).ToString() != "")
                                 {
                                     val = pFeature.get_Value(pFeature.Fields.FindField(ProfileGraph[CurrentDetail].Point_BottomElevationField));
-                                
+
                                     if (Double.TryParse(val.ToString(), out elev))
                                     {
                                         manDet.Bottom = elev;
                                         if (ProfileGraph[CurrentDetail].Point_BottomElevationTypeField.ToUpper() == "INVERT")
                                         {
-  
-                                             manDet.Bottom = manDet.Top - elev;
-                                      
+
+                                            manDet.Bottom = manDet.Top - elev;
+
                                         }
 
                                     }

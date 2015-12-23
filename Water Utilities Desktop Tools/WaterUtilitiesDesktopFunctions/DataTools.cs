@@ -227,7 +227,10 @@ namespace A4WaterUtilities
                             featSel = (IFeatureSelection)featlayer;
                             if (featSel.SelectionSet.Count > 0)
                             {
-                                ExportLayer(objBook, mxdoc, featlayer, ref progressDialog, ref stepProgressor);
+                                if (ExportLayer(objBook, mxdoc, featlayer, ref progressDialog, ref stepProgressor, ref trackCancel) == false)
+                                {
+                                    return;
+                                }
                             }
                         }
                         featlayer = (IFeatureLayer)enumLayer.Next();
@@ -242,7 +245,10 @@ namespace A4WaterUtilities
                             tableSel = (ITableSelection)openTable;
                             if (tableSel.SelectionSet.Count > 0)
                             {
-                                ExportTable(objBook, mxdoc, standTable, ref progressDialog, ref stepProgressor);
+                                if (ExportTable(objBook, mxdoc, standTable, ref progressDialog, ref stepProgressor,ref trackCancel) == false)
+                                {
+                                return;
+                                }
                             }
                         }
                     }
@@ -276,7 +282,10 @@ namespace A4WaterUtilities
                                 featSel = (IFeatureSelection)featlayer;
                                 if (featSel.SelectionSet.Count > 0)
                                 {
-                                    ExportLayer(objBook, mxdoc, featlayer, ref progressDialog, ref stepProgressor);
+                                    if (ExportLayer(objBook, mxdoc, featlayer, ref progressDialog, ref stepProgressor, ref trackCancel) == false)
+                                    {
+                                        return;
+                                    }
                                 }
                             }
                         }
@@ -310,7 +319,10 @@ namespace A4WaterUtilities
                             tableSel = (ITableSelection)openTable;
                             if (tableSel.SelectionSet.Count > 0)
                             {
-                                ExportTable(objBook, mxdoc, standTable, ref progressDialog, ref stepProgressor);
+                                if (ExportTable(objBook, mxdoc, standTable, ref progressDialog, ref stepProgressor, ref trackCancel) == false)
+                                {
+                                    return;
+                                }
                             }
                         }
                     }
@@ -375,7 +387,7 @@ namespace A4WaterUtilities
                 featlayer = null;
             }
         }
-        private void ExportLayer(Excel.Workbook ExcelWbk, IMxDocument MxDoc, IFeatureLayer FLayer, ref IProgressDialog2 progressDialog, ref IStepProgressor stepProgressor)
+        private bool ExportLayer(Excel.Workbook ExcelWbk, IMxDocument MxDoc, IFeatureLayer FLayer, ref IProgressDialog2 progressDialog, ref IStepProgressor stepProgressor, ref ITrackCancel trackCancel)
         {
 
 
@@ -623,6 +635,10 @@ namespace A4WaterUtilities
 
                     stepProgressor.Step();
                     progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("ExportAsset") + stepProgressor.Position + A4LGSharedFunctions.Localizer.GetString("Of") + MxDoc.FocusMap.SelectionCount.ToString() + ".";
+                    if (!trackCancel.Continue())
+                    {
+                        return false;
+                    }
 
 
                     Feat = FCursor.NextFeature();
@@ -650,11 +666,12 @@ namespace A4WaterUtilities
                         }
                     }
                 }
+                return true;
             }
             catch
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ExportXLError"));
-
+                return true;
             }
             finally
             {
@@ -695,7 +712,7 @@ namespace A4WaterUtilities
 
             }
         }
-        private void ExportTable(Excel.Workbook ExcelWbk, IMxDocument MxDoc, IStandaloneTable StandTable, ref IProgressDialog2 progressDialog, ref IStepProgressor stepProgressor)
+        private bool ExportTable(Excel.Workbook ExcelWbk, IMxDocument MxDoc, IStandaloneTable StandTable, ref IProgressDialog2 progressDialog, ref IStepProgressor stepProgressor,ref ITrackCancel trackCancel)
         {
             ITableProperties TableProperties = null;
             IEnumTableProperties EnumTableProperties = null;
@@ -898,7 +915,10 @@ namespace A4WaterUtilities
                     }
                     stepProgressor.Step();
                     progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("ExportAsset") + stepProgressor.Position + A4LGSharedFunctions.Localizer.GetString("Of") + MxDoc.FocusMap.SelectionCount.ToString() + ".";
-
+                    if (!trackCancel.Continue())
+                    {
+                        return false;
+                    }
                     TabRow = Cursor.NextRow();
                 }
 
@@ -924,11 +944,12 @@ namespace A4WaterUtilities
                         }
                     }
                 }
+                return true;
             }
             catch
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ExportXLError"));
-
+                return true;
             }
             finally
             {
