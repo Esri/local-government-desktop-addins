@@ -563,7 +563,7 @@ namespace A4LGSharedFunctions
 
     public static class Globals
     {
-        public static IGroupLayer AddGNResultClasses(IGeometricNetwork geomNetwork, IApplication app, string ID, string IDFieldName, out string suffix, bool addAllLayers, bool removeMZ)
+        public static IGroupLayer AddGNResultClasses(IGeometricNetwork geomNetwork, IApplication app, string ID, System.DateTime dateTimeValue, string IDFieldName, string DateFieldName, out string suffix, bool addAllLayers, bool removeMZ)
         {
             IEnumFeatureClass enumFC = null;
             IFeatureClass fc = null;
@@ -616,7 +616,7 @@ namespace A4LGSharedFunctions
                     groupLayer.Name = gpLayerName + " " + idx;
                     map.AddLayer(groupLayer);
                 }
-                Globals.FlagsBarriersToLayer(app, map, groupLayer, ID, IDFieldName, idx);
+                Globals.FlagsBarriersToLayer(app, map, groupLayer, ID,dateTimeValue, IDFieldName,DateFieldName, idx);
 
                 suffix = " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
 
@@ -648,7 +648,7 @@ namespace A4LGSharedFunctions
                                 pDataset = (IDataset)fc;
                                 fcNameClass = Globals.getClassName(pDataset) + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");
                                 fcName = fc.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
-                                copyClassToInMemory(fc, fcNameClass, fcName, map, groupLayer, false, IDFieldName, removeMZ);
+                                copyClassToInMemory(fc, fcNameClass, fcName, map, groupLayer, false, IDFieldName, DateFieldName,removeMZ);
                             }
                             else
                             {
@@ -657,7 +657,7 @@ namespace A4LGSharedFunctions
                                     pDataset = (IDataset)fc;
                                     fcNameClass = Globals.getClassName(pDataset) + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");
                                     fcName = fc.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
-                                    copyClassToInMemory(fc, fcNameClass, fcName, map, groupLayer, false, IDFieldName, removeMZ);
+                                    copyClassToInMemory(fc, fcNameClass, fcName, map, groupLayer, false, IDFieldName, DateFieldName,removeMZ);
                                 }
                             }
 
@@ -667,7 +667,7 @@ namespace A4LGSharedFunctions
 
                     }
                 }
-                Globals.CreateOutageArea(map, groupLayer, ID, IDFieldName, idx);
+                Globals.CreateOutageArea(map, groupLayer, ID, IDFieldName,DateFieldName, idx);
 
                 return groupLayer;
             }
@@ -686,7 +686,7 @@ namespace A4LGSharedFunctions
             }
         }
 
-        public static IFeatureLayer copyClassToInMemory(IFeatureClass sourceClass, string className, string layerName, IMap map, IGroupLayer groupLayer, bool lookForLayer, string IDFieldName, bool removeMZ)
+        public static IFeatureLayer copyClassToInMemory(IFeatureClass sourceClass, string className, string layerName, IMap map, IGroupLayer groupLayer, bool lookForLayer, string IDFieldName, string DateFieldName,bool removeMZ)
         {
             ILayer pLay = null;
             IFields pFlds = null;
@@ -709,7 +709,7 @@ namespace A4LGSharedFunctions
                 }
                 if (pLay == null)
                 {
-                    pFlds = Globals.copyFields(sourceClass.Fields, sourceClass.LengthField, sourceClass.AreaField, IDFieldName, removeMZ);
+                    pFlds = Globals.copyFields(sourceClass.Fields, sourceClass.LengthField, sourceClass.AreaField, IDFieldName,DateFieldName, removeMZ);
                     pFC = Globals.createFeatureClassInMemory(className, pFlds, pWS, sourceClass.FeatureType);
                     if (pFC != null)
                     {
@@ -732,7 +732,7 @@ namespace A4LGSharedFunctions
                 }
                 if (pFL.FeatureClass == null)
                 {
-                    pFlds = Globals.copyFields(sourceClass.Fields, sourceClass.LengthField, sourceClass.AreaField, IDFieldName, removeMZ);
+                    pFlds = Globals.copyFields(sourceClass.Fields, sourceClass.LengthField, sourceClass.AreaField, IDFieldName,DateFieldName, removeMZ);
                     pFL.FeatureClass = Globals.createFeatureClassInMemory(className, pFlds, pWS, sourceClass.FeatureType);
 
                 }
@@ -788,8 +788,9 @@ namespace A4LGSharedFunctions
             IGeometry pGeo = null;
             IMap map = null;
 
-            bool removeMZ = false;
+           
             bool re;
+            System.DateTime dateTimeValue;
             try
             {
 
@@ -805,6 +806,20 @@ namespace A4LGSharedFunctions
                 map = ((IMxDocument)app.Document).FocusMap;
 
                 string IDFieldName = ConfigUtil.GetConfigValue("Trace_ResultLayersIDField", "TRACEID");
+                string DateFieldName = ConfigUtil.GetConfigValue("Trace_ResultLayersDateTimeField", "MODELRUNAT");
+                string dateFieldOption = ConfigUtil.GetConfigValue("Trace_ResultLayersDateTimeZone", "LOCAL");
+                bool removeMZ = ConfigUtil.GetConfigValue("Trace_ResultLayersRemoveMZ", "FALSE").ToUpper() == "FALSE" ? false : true;
+
+                if (dateFieldOption.ToUpper() == "UTC") {
+                    dateTimeValue = DateTime.UtcNow; //DateTime.Now;
+
+                }
+                else
+                {
+                    dateTimeValue =DateTime.Now;
+
+                }
+                
                 bool boolAddAllResultLayers = ConfigUtil.GetConfigValue("Trace_ResultAddAllLayers", "false").ToLower() == "false" ? false : true;
 
                 double bufferAmt = ConfigUtil.GetConfigValue("Trace_ResultBuffer", 25.0);
@@ -820,7 +835,7 @@ namespace A4LGSharedFunctions
 
 
                     map.ClearSelection();
-                    pGrpLay = Globals.AddGNResultClasses(gn, app, ID, IDFieldName, out suffix, boolAddAllResultLayers, removeMZ);
+                    pGrpLay = Globals.AddGNResultClasses(gn, app, ID, dateTimeValue, IDFieldName, DateFieldName, out suffix, boolAddAllResultLayers, removeMZ);
                     if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(((app.Document as IMxDocument).FocusMap))) == null)
                     {
                         pWS = Globals.CreateInMemoryWorkspace();
@@ -899,7 +914,7 @@ namespace A4LGSharedFunctions
 
                                     if (pLay == null && boolAddAllResultLayers)
                                     {
-                                        pFlds = Globals.copyFields(eidInfo.Feature.Class.Fields, (eidInfo.Feature.Class as IFeatureClass).LengthField, (eidInfo.Feature.Class as IFeatureClass).AreaField, IDFieldName, removeMZ);
+                                        pFlds = Globals.copyFields(eidInfo.Feature.Class.Fields, (eidInfo.Feature.Class as IFeatureClass).LengthField, (eidInfo.Feature.Class as IFeatureClass).AreaField, IDFieldName, DateFieldName,removeMZ);
                                         pFC = Globals.createFeatureClassInMemory(fcName, pFlds, pWS, pSourceFC.FeatureType);
                                         pFL = new FeatureLayerClass();
                                         pFL.FeatureClass = pFC;
@@ -910,7 +925,7 @@ namespace A4LGSharedFunctions
                                     {
                                         if (Globals.FindLayerByClassID(map, pSourceFC.ObjectClassID.ToString()) != null)
                                         {
-                                            pFlds = Globals.copyFields(eidInfo.Feature.Class.Fields, (eidInfo.Feature.Class as IFeatureClass).LengthField, (eidInfo.Feature.Class as IFeatureClass).AreaField, IDFieldName, removeMZ);
+                                            pFlds = Globals.copyFields(eidInfo.Feature.Class.Fields, (eidInfo.Feature.Class as IFeatureClass).LengthField, (eidInfo.Feature.Class as IFeatureClass).AreaField, IDFieldName, DateFieldName,removeMZ);
                                             pFC = Globals.createFeatureClassInMemory(fcName, pFlds, pWS, pSourceFC.FeatureType);
                                             pFL = new FeatureLayerClass();
                                             pFL.FeatureClass = pFC;
@@ -948,7 +963,7 @@ namespace A4LGSharedFunctions
                                     }
                                     if (pFL.FeatureClass == null)
                                     {
-                                        pFlds = Globals.copyFields(eidInfo.Feature.Class.Fields, (eidInfo.Feature.Class as IFeatureClass).LengthField, (eidInfo.Feature.Class as IFeatureClass).AreaField, IDFieldName, removeMZ);
+                                        pFlds = Globals.copyFields(eidInfo.Feature.Class.Fields, (eidInfo.Feature.Class as IFeatureClass).LengthField, (eidInfo.Feature.Class as IFeatureClass).AreaField, IDFieldName, DateFieldName, removeMZ);
                                         pFL.FeatureClass = Globals.createFeatureClassInMemory(fcName, pFlds, pWS, pSourceFC.FeatureType);
 
                                     }
@@ -1101,7 +1116,11 @@ namespace A4LGSharedFunctions
                             {
                                 pFBuf.set_Value(newFldIdx, ID);
                             }
-
+                            newFldIdx = pFBuf.Fields.FindField(DateFieldName);
+                            if (newFldIdx >= 0)
+                            {
+                                pFBuf.set_Value(newFldIdx, dateTimeValue);
+                            }
                             pCursor.InsertFeature(pFBuf);
 
                         }
@@ -1138,7 +1157,12 @@ namespace A4LGSharedFunctions
                         {
                             pFBuf.set_Value(newFldIdx, ID);
                         }
-
+                        newFldIdx = pFBuf.Fields.FindField(DateFieldName);
+                        if (newFldIdx >= 0)
+                        {
+                            pFBuf.set_Value(newFldIdx, dateTimeValue);
+                        }
+                        
                         pCursor.InsertFeature(pFBuf);
 
 
@@ -1151,8 +1175,9 @@ namespace A4LGSharedFunctions
 
 
                     env.Expand(1.1, 1.1, true);
-
+                    ((IMxDocument)app.Document).ActiveView.Refresh();
                     return env;
+
                 }
                 catch (Exception ex)
                 {
@@ -1515,7 +1540,7 @@ namespace A4LGSharedFunctions
             }
 
         }
-        public static void FlagsBarriersToLayer(IApplication app, IMap map, IGroupLayer pGrpLay, string ID, string IDFieldName, int suffCount)
+        public static void FlagsBarriersToLayer(IApplication app, IMap map, IGroupLayer pGrpLay, string ID, System.DateTime dateTimeValue, string IDFieldName, string DateFieldName, int suffCount)
         {
 
             bool fndAsFL = true;
@@ -1556,7 +1581,7 @@ namespace A4LGSharedFunctions
 
                 }
 
-                pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPoint, IDFieldName);
+                pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPoint, IDFieldName,DateFieldName);
                 Globals.getFlagsBarriers(app, out Flags, out Barriers);
 
                 if (pFLayer == null)
@@ -1601,6 +1626,8 @@ namespace A4LGSharedFunctions
                 work = ((IDataset)pFlagsFC).Workspace;
 
                 workEdit = work as IWorkspaceEdit;
+                 int intIdField;
+                 int intDateField;
                 try
                 {
                     editStarted = false;
@@ -1624,6 +1651,8 @@ namespace A4LGSharedFunctions
                     workEdit.StartEditOperation();
 
                     pCursor = pFlagsFC.Insert(true);
+                    intIdField = pFlagsFC.Fields.FindField(IDFieldName);
+                    intDateField = pFlagsFC.Fields.FindField(DateFieldName);
                     foreach (ESRI.ArcGIS.Geometry.IPoint pnt in Flags) // Loop through List with foreach
                     {
                         pFBuf = pFlagsFC.CreateFeatureBuffer();
@@ -1637,11 +1666,15 @@ namespace A4LGSharedFunctions
                         pNPt.Project(((IGeoDataset)pFlagsFC).SpatialReference);
 
                         pFeat.Shape = pNPt;
-                        if (pFBuf.Fields.FindField(IDFieldName) >= 0)
+                        if (intIdField >= 0)
                         {
-                            pFeat.set_Value(pFBuf.Fields.FindField(IDFieldName), ID);
+                            pFeat.set_Value(intIdField, ID);
                         }
-
+                       
+                        if (intDateField >= 0)
+                        {
+                            pFBuf.set_Value(intDateField, dateTimeValue);
+                        }
                         pCursor.InsertFeature(pFBuf);
 
                     }
@@ -1734,6 +1767,10 @@ namespace A4LGSharedFunctions
 
                     pCursor = pBarriersFC.Insert(true);
                     workEdit.StartEditOperation();
+                   
+                    intIdField = pBarriersFC.Fields.FindField(IDFieldName);
+                    intDateField = pBarriersFC.Fields.FindField(DateFieldName);
+                   
                     foreach (ESRI.ArcGIS.Geometry.IPoint pnt in Barriers) // Loop through List with foreach
                     {
                         pFBuf = pBarriersFC.CreateFeatureBuffer();
@@ -1744,9 +1781,13 @@ namespace A4LGSharedFunctions
                         pNPt.SpatialReference = pnt.SpatialReference;
 
                         pNPt.Project(((IGeoDataset)pBarriersFC).SpatialReference);
-                        if (pFBuf.Fields.FindField(IDFieldName) >= 0)
+                        if (intIdField >= 0)
                         {
-                            pFeat.set_Value(pFBuf.Fields.FindField(IDFieldName), ID);
+                            pFeat.set_Value(intIdField, ID);
+                        }
+                        if (intDateField >= 0)
+                        {
+                            pFBuf.set_Value(intDateField, dateTimeValue);
                         }
                         pFeat.Shape = pNPt;
                         pCursor.InsertFeature(pFBuf);
@@ -1807,7 +1848,7 @@ namespace A4LGSharedFunctions
             }
 
         }
-        public static IFeatureLayer CreateOutageArea(IMap map, IGroupLayer pGrpLay, string ID, string IDFieldName, int suffCount)
+        public static IFeatureLayer CreateOutageArea(IMap map, IGroupLayer pGrpLay, string ID, string IDFieldName, string DateFieldName,int suffCount)
         {
 
             bool fndAsFL = true;
@@ -1840,14 +1881,14 @@ namespace A4LGSharedFunctions
                 string tempLayName = ConfigUtil.GetConfigValue("TraceIsolation_AreaTemplate", null);
                 if (tempLayName == null)
                 {
-                    pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName);
+                    pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName, DateFieldName);
                 }
                 else
                 {
                     pTemplateLayer = Globals.FindLayer(map, tempLayName, ref fndAsFL);
                     if (pTemplateLayer == null)
                     {
-                        pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName);
+                        pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName, DateFieldName);
 
                     }
                     else
@@ -1862,7 +1903,7 @@ namespace A4LGSharedFunctions
                             IGeometryDefEdit geomDefEdit;
 
 
-                            pFields = Globals.copyFields(pFTemplateLayer.FeatureClass.Fields, pFTemplateLayer.FeatureClass.LengthField, pFTemplateLayer.FeatureClass.AreaField, IDFieldName,true);
+                            pFields = Globals.copyFields(pFTemplateLayer.FeatureClass.Fields, pFTemplateLayer.FeatureClass.LengthField, pFTemplateLayer.FeatureClass.AreaField, IDFieldName, DateFieldName, true);
                             pFieldsEdit = (ESRI.ArcGIS.Geodatabase.IFieldsEdit)pFields; // Explicit Cast
 
 
@@ -1875,7 +1916,7 @@ namespace A4LGSharedFunctions
                         }
                         else
                         {
-                            pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName);
+                            pFields = Globals.createFeatureClassFields(map.SpatialReference, esriGeometryType.esriGeometryPolygon, IDFieldName, DateFieldName);
 
                         }
                     }
@@ -15071,7 +15112,7 @@ namespace A4LGSharedFunctions
             }
             return fullPath;
         }
-        public static IFields createFeatureClassFields(ISpatialReference pSpatRef, esriGeometryType GeoType, string IDFieldName)
+        public static IFields createFeatureClassFields(ISpatialReference pSpatRef, esriGeometryType GeoType, string IDFieldName, string DateFieldName)
         {
 
             IFields pFields;
@@ -15085,7 +15126,7 @@ namespace A4LGSharedFunctions
                 objectClassDescription = new ESRI.ArcGIS.Geodatabase.FeatureClassDescriptionClass();
 
                 pFields = objectClassDescription.RequiredFields;
-                pFields = Globals.copyFields(pFields, null, null, IDFieldName,false);
+                pFields = Globals.copyFields(pFields, null, null, IDFieldName, DateFieldName,false);
                 pFieldsEdit = (ESRI.ArcGIS.Geodatabase.IFieldsEdit)pFields; // Explicit Cast
 
 
@@ -15429,7 +15470,7 @@ namespace A4LGSharedFunctions
         #endregion
 
         #region WorkspaceTools
-        public static IFields copyFields(IFields SourceFields, IField lenFld, IField areaField, string IDFieldName, bool removeMZ)
+        public static IFields copyFields(IFields SourceFields, IField lenFld, IField areaField, string IDFieldName, string DateFieldName, bool removeMZ)
         {
             IFields pFields = null;
             IFieldsEdit pFieldsEdit = null;
@@ -15445,7 +15486,7 @@ namespace A4LGSharedFunctions
                 pFieldsEdit = (IFieldsEdit)pFields;
                 int totFlds = SourceFields.FieldCount;
                 bool idFieldExist = false;
-
+                bool dateFieldExist = false;
                 int resFldCnt = totFlds;
 
                 for (int i = 0; i < totFlds; i++)
@@ -15460,6 +15501,16 @@ namespace A4LGSharedFunctions
 
                         }
                     }
+                    
+                    if (DateFieldName != null)
+                    {
+                        if (SourceField.Name == DateFieldName)
+                        {
+                            dateFieldExist = true;
+                            DateFieldName = null;
+
+                        }
+                    }
                     if (SourceField == lenFld)
                     {
                         resFldCnt = resFldCnt - 1;
@@ -15470,17 +15521,18 @@ namespace A4LGSharedFunctions
                     }
                 }
 
-
-                if (idFieldExist == false)
+                if (idFieldExist == false && IDFieldName != null)
                 {
-                    pFieldsEdit.FieldCount_2 = resFldCnt + 1;
+                    resFldCnt++;
+
                 }
-                else
+                if (dateFieldExist == false && DateFieldName != null)
                 {
-                    pFieldsEdit.FieldCount_2 = resFldCnt;
+                    resFldCnt++;
+
                 }
-
-
+                
+                pFieldsEdit.FieldCount_2 = resFldCnt;
                 int addFldIdx = 0;
                 for (int i = 0; i < totFlds; i++)
                 {
@@ -15593,8 +15645,21 @@ namespace A4LGSharedFunctions
                     pFieldEdit.Precision_2 = 0;
                     pFieldEdit.Type_2 = esriFieldType.esriFieldTypeString;
                     pFieldsEdit.set_Field(addFldIdx, pField);
+                    addFldIdx++;
                 }
-
+                if (DateFieldName != null)
+                {
+                    pField = new FieldClass();
+                    pFieldEdit = (IFieldEdit)pField;
+                    pFieldEdit.Editable_2 = true;
+                    pFieldEdit.Name_2 = DateFieldName;
+                    pFieldEdit.IsNullable_2 = true;
+                    //pFieldEdit.Length_2 = 50;
+                    //pFieldEdit.Precision_2 = 0;
+                    pFieldEdit.Type_2 = esriFieldType.esriFieldTypeDate;
+                    pFieldsEdit.set_Field(addFldIdx, pField);
+                    addFldIdx++;
+                }
                 return pFields;
 
             }

@@ -439,7 +439,7 @@ namespace A4WaterUtilities
                 {
                     pWS = Globals.CreateInMemoryWorkspace();
                 }
-                pFields = Globals.createFeatureClassFields(ArcMap.Document.FocusMap.SpatialReference, esriGeometryType.esriGeometryPoint,"");
+                pFields = Globals.createFeatureClassFields(ArcMap.Document.FocusMap.SpatialReference, esriGeometryType.esriGeometryPoint,null,null);
 
                 IFeatureClass pFlagsFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportFlagsName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
                 IFeatureClass pBarriersFC = Globals.createFeatureClassInMemory(A4LGSharedFunctions.Localizer.GetString("ExportBarriersName"), pFields, pWS, esriFeatureType.esriFTSimpleJunction);
