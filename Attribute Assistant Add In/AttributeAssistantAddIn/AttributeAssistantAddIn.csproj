@@ -328,7 +328,9 @@
     <VisualStudio />
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)loaded.gas.config" "C:\Users\mich3661\AppData\Roaming\ArcGISSolutions\ConfigFiles\loaded.gas.config"
+copy "$(TargetDir)loaded.aa.config" "C:\Users\mich3661\AppData\Roaming\ArcGISSolutions\ConfigFiles\loaded.aa.config"
+copy "$(TargetDir)loaded.address.config" "C:\Users\mich3661\AppData\Roaming\ArcGISSolutions\ConfigFiles\loaded.address.config"
+copy "$(TargetDir)loaded.water.config" "C:\Users\mich3661\AppData\Roaming\ArcGISSolutions\ConfigFiles\loaded.water.config"</PostBuildEvent>
   </PropertyGroup>
 </Project>
