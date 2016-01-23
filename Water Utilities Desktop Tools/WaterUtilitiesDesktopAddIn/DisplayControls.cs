@@ -35,15 +35,14 @@ namespace A4WaterUtilities
       
         public ShowLayerWindow()
         {
-            
+            ConfigUtil.type = "water";
         }
         
         protected override void OnClick()
         {
-            
-          
-           
 
+
+            ConfigUtil.type = "water";
            
             DockableWindow pDockWin = getDockableWindow() as DockableWindow;
             if (pDockWin == null)
@@ -80,12 +79,14 @@ namespace A4WaterUtilities
         DataTools m_Tools = null;
         public IdentifySelected()
         {
+            ConfigUtil.type = "water";
             //m_Editor = Globals.getEditor(ArcMap.Application);
             m_Tools = new DataTools(ArcMap.Application);
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             m_Tools.IdentifySelected();
 
         }
@@ -112,12 +113,14 @@ namespace A4WaterUtilities
         DataTools m_Tools = null;
         public ExportToExcel()
         {
+            ConfigUtil.type = "water";
             //m_Editor = Globals.getEditor(ArcMap.Application);
             m_Tools = new DataTools(ArcMap.Application);
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             m_Tools.ExportSelectedRecordsToExcel();
         }
 
@@ -136,5 +139,29 @@ namespace A4WaterUtilities
         }
 
     }
+    public class ShowConfigForm : ESRI.ArcGIS.Desktop.AddIns.Button
+    {
+        //internal static ESRI.ArcGIS.Framework.IDockableWindow s_dockWindow;
+        ConfigFormNoLog m_ConfigForm;
+        public ShowConfigForm()
+        {
+            ConfigUtil.type = "water";
+        }
 
+        protected override void OnClick()
+        {
+
+            ConfigUtil.type = "water";
+            m_ConfigForm = new ConfigFormNoLog();
+            m_ConfigForm.ShowDialog();
+
+        }
+
+        protected override void OnUpdate()
+        {
+            Enabled = (ArcMap.Application != null);
+
+        }
+
+    }
 }

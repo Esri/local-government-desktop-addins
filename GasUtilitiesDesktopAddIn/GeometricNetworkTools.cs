@@ -49,13 +49,14 @@ namespace A4GasUtilities
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
 
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             A4WaterUtilities.GeoNetTools.EstablishFlow(Globals.GNFlowDirection.AncillaryRole, ArcMap.Application);
         }
 
@@ -91,12 +92,13 @@ namespace A4GasUtilities
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
 
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             A4WaterUtilities.GeoNetTools.EstablishFlow(Globals.GNFlowDirection.Digitized, ArcMap.Application);
         }
 
@@ -128,11 +130,12 @@ namespace A4GasUtilities
 
         public BatchLoadBarriers()
         {
-
+            ConfigUtil.type = "gas";
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             A4WaterUtilities.GeoNetTools.batchLoadBarriers(ArcMap.Application);
 
 
@@ -159,13 +162,13 @@ namespace A4GasUtilities
 
         public AddFlag()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-
+            ConfigUtil.type = "gas";
             double snapVal = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
 
 
@@ -199,14 +202,14 @@ namespace A4GasUtilities
 
         public AddBarrier()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-
+            ConfigUtil.type = "gas";
 
             A4WaterUtilities.GeoNetTools.AddBarrier(ArcMap.Document.CurrentLocation, ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0),true);
 
@@ -236,7 +239,7 @@ namespace A4GasUtilities
 
         public RemoveFlagBarrier()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
 
         }
@@ -245,7 +248,7 @@ namespace A4GasUtilities
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
-
+            ConfigUtil.type = "gas";
             // IPoint point = ArcMap.Document.CurrentLocation;//ArcMap.Document.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(X, Y);
             GeoNetTools.RemoveFlagBarrier(ArcMap.Document.CurrentLocation, ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0));
 
@@ -282,12 +285,13 @@ namespace A4GasUtilities
 
         public ShowFlowArrows()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             A4WaterUtilities.GeoNetTools.ShowArrows(ArcMap.Application);
         }
 
@@ -306,12 +310,13 @@ namespace A4GasUtilities
         public ConnectSelected()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             GeoNetTools.ConnectSelected(ArcMap.Application);
         }
 
@@ -346,12 +351,13 @@ namespace A4GasUtilities
         public DisconnectSelected()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             GeoNetTools.DisconnectSelected(ArcMap.Application);
         }
 
@@ -385,12 +391,13 @@ namespace A4GasUtilities
         public ConnectionChecker()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             GeoNetTools.CheckConnections(ArcMap.Application, ConfigUtil.GetConfigValue("ConnectionChecker_CheckOnlyVisibleLayers", false));
         }
 
@@ -428,12 +435,13 @@ namespace A4GasUtilities
 
         public FlagsBarriersToLayer()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             try
             {
                 List<ESRI.ArcGIS.Geometry.IPoint> Flags;
@@ -524,12 +532,13 @@ namespace A4GasUtilities
 
         public ClearTraceResults()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             Globals.ClearSelected(ArcMap.Document.FocusMap, true);
             Globals.RemoveTraceGraphics(ArcMap.Document.FocusMap, true);
             Globals.ClearGNFlags(ArcMap.Application, Globals.GNTypes.Flags);
@@ -556,7 +565,7 @@ namespace A4GasUtilities
         public ToggleOperableStatus()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
         protected override void Dispose(bool value)
@@ -567,7 +576,7 @@ namespace A4GasUtilities
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
-
+            ConfigUtil.type = "gas";
             string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
 
@@ -620,7 +629,7 @@ namespace A4GasUtilities
 
         public SelectByJunctionEdgeCount()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             _frmSelectJunc = new frmSelectByJunctionCount(ArcMap.Application);
 
@@ -633,6 +642,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             if (_frmSelectJunc == null)
             {
                 _frmSelectJunc = new frmSelectByJunctionCount(ArcMap.Application);
@@ -661,12 +671,13 @@ namespace A4GasUtilities
 
         public TraceDownstream()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
+            ConfigUtil.type = "gas";
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
@@ -710,7 +721,7 @@ namespace A4GasUtilities
 
         public TraceUpstream()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
 
         }
@@ -720,7 +731,7 @@ namespace A4GasUtilities
         }
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-
+            ConfigUtil.type = "gas";
 
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
@@ -764,11 +775,12 @@ namespace A4GasUtilities
         public TraceIsolation()
         {
 
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
         protected override void OnMouseDown(MouseEventArgs arg)
         {
+            ConfigUtil.type = "gas";
             string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
             bool selectEdges;
             if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
@@ -857,11 +869,12 @@ namespace A4GasUtilities
         public TraceIsolationRerun()
         {
 
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
             bool selectEdges;
             if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
@@ -928,7 +941,7 @@ namespace A4GasUtilities
 
         public TraceSecondaryIsolation()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
         private void reloadOccured(object sender, EventArgs e)
@@ -937,6 +950,7 @@ namespace A4GasUtilities
         }
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             //string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
             //string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
 
@@ -1032,12 +1046,13 @@ namespace A4GasUtilities
         public TraceSummaryIsolation()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
 
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
@@ -1102,11 +1117,12 @@ namespace A4GasUtilities
 
         public SewerProfile()
         {
-
+            ConfigUtil.type = "gas";
         }
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "gas";
             Globals.ClearSelected(ArcMap.Document.FocusMap, true);
             Globals.RemoveTraceGraphics(ArcMap.Document.FocusMap, true);
             Globals.ClearGNFlags(ArcMap.Application, Globals.GNTypes.Flags);
@@ -1119,6 +1135,7 @@ namespace A4GasUtilities
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
+            ConfigUtil.type = "gas";
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             List<ProfileGraphDetails> ProfileGraph = ConfigUtil.GetProfileGraphConfig();
             GeoNetTools.AddFlagsForSewerProfile(ArcMap.Application, SnapTol, ProfileGraph);
@@ -1147,11 +1164,12 @@ namespace A4GasUtilities
         public FlowAccumulation()
         {
             m_Editor = Globals.getEditor(ArcMap.Application);
-
+            ConfigUtil.type = "gas";
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
 
             GeoNetTools.CalculateFlowAccum(ConfigUtil.GetFlowAccumConfig(), ArcMap.Application);
 
@@ -1182,13 +1200,14 @@ namespace A4GasUtilities
 
         public FlowAccumulationLoc()
         {
+            ConfigUtil.type = "gas";
             // m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-
+            ConfigUtil.type = "gas";
             GeoNetTools.CalculateFlowAccumAtLocation(ConfigUtil.GetFlowAccumConfig(), ArcMap.Application, Convert.ToDouble(ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0)));
 
         }
@@ -1219,11 +1238,12 @@ namespace A4GasUtilities
         public FindClosest()
         {
             // m_Editor = Globals.getEditor(ArcMap.Application);
-
+            ConfigUtil.type = "gas";
         }
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
+            ConfigUtil.type = "gas";
             IPoint point = ArcMap.Document.CurrentLocation;
 
             //GeoNetTools.CalculateFlowAccumAtLocation(ConfigUtil.GetFlowAccumConfig(), ArcMap.Application, Convert.ToDouble(ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5)));

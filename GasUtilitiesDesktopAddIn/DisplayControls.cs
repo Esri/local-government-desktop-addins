@@ -36,17 +36,14 @@ namespace A4GasUtilities
       
         public ShowLayerWindow()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
         }
         
         protected override void OnClick()
         {
-            
-          
-           
 
-           
+            ConfigUtil.type = "gas";
             DockableWindow pDockWin = getDockableWindow() as DockableWindow;
             if (pDockWin == null)
                 return;
@@ -82,7 +79,7 @@ namespace A4GasUtilities
         DataTools m_Tools = null;
         public IdentifySelected()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             //m_Editor = Globals.getEditor(ArcMap.Application);
             m_Tools = new A4WaterUtilities.DataTools(ArcMap.Application);
@@ -90,6 +87,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             m_Tools.IdentifySelected();
 
         }
@@ -116,7 +114,7 @@ namespace A4GasUtilities
         DataTools m_Tools = null;
         public ExportToExcel()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             //m_Editor = Globals.getEditor(ArcMap.Application);
             m_Tools = new DataTools(ArcMap.Application);
@@ -124,6 +122,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             m_Tools.ExportSelectedRecordsToExcel();
         }
 
@@ -141,6 +140,31 @@ namespace A4GasUtilities
 
         }
 
+    }
+    public class ShowConfigForm : ESRI.ArcGIS.Desktop.AddIns.Button
+    {
+        //internal static ESRI.ArcGIS.Framework.IDockableWindow s_dockWindow;
+        ConfigFormNoLog m_ConfigForm;
+        public ShowConfigForm()
+        {
+            ConfigUtil.type = "gas";
+        }
+
+        protected override void OnClick()
+        {
+            ConfigUtil.type = "gas";
+
+            m_ConfigForm = new ConfigFormNoLog();
+            m_ConfigForm.ShowDialog();
+
+        }
+
+        protected override void OnUpdate()
+        {
+            Enabled = (ArcMap.Application != null);
+
+        }
+      
     }
 
 }

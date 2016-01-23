@@ -35,13 +35,14 @@ namespace A4WaterUtilities
         public MoveConnections()
         {
 
-     
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
          
         }
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "water";
             if (m_Editor == null)
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("StrtEditing"));   
@@ -62,7 +63,7 @@ namespace A4WaterUtilities
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-
+            ConfigUtil.type = "water";
             List<MoveConnectionsDetails> moveConnectionsConfig = ConfigUtil.GetMoveConnectionsConfig();
 
             GeoNetTools.MoveConnectionsToNewLine(ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0), moveConnectionsConfig);
@@ -101,6 +102,7 @@ namespace A4WaterUtilities
      
         public AddLaterals()
         {
+            ConfigUtil.type = "water";
             m_editor = Globals.getEditor(ArcMap.Application);
 
             
@@ -108,6 +110,7 @@ namespace A4WaterUtilities
         
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             if (m_editor.EditState != esriEditState.esriStateEditing)
             {
                 Enabled = false;
@@ -176,6 +179,7 @@ namespace A4WaterUtilities
 
         public AddLateralsFromMain()
         {
+            ConfigUtil.type = "water";
             m_editor = Globals.getEditor(ArcMap.Application);
 
 
@@ -183,6 +187,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             if (m_editor.EditState != esriEditState.esriStateEditing)
             {
                 Enabled = false;
@@ -251,6 +256,7 @@ namespace A4WaterUtilities
 
         public CreateTapPointsOnMain()
         {
+            ConfigUtil.type = "water";
           //  m_editor = Globals.getEditor(ArcMap.Application);
 
 
@@ -258,6 +264,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             //if (m_editor.EditState != esriEditState.esriStateEditing)
             //{
             //    Enabled = false;
@@ -309,6 +316,7 @@ namespace A4WaterUtilities
         IEditor m_editor;
         public ConnectClosests()
         {
+            ConfigUtil.type = "water";
             m_editor = Globals.getEditor(ArcMap.Application);
 
      
@@ -316,6 +324,7 @@ namespace A4WaterUtilities
      
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             if (m_editor.EditState != esriEditState.esriStateEditing)
             {
                 Enabled = false;

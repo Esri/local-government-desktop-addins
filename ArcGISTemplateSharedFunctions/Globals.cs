@@ -834,7 +834,7 @@ namespace A4LGSharedFunctions
                     List<string> valveFCs = new List<string>();
 
 
-                    map.ClearSelection();
+//map.ClearSelection();
                     pGrpLay = Globals.AddGNResultClasses(gn, app, ID, dateTimeValue, IDFieldName, DateFieldName, out suffix, boolAddAllResultLayers, removeMZ);
                     if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(((app.Document as IMxDocument).FocusMap))) == null)
                     {

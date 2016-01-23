@@ -102,6 +102,10 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Config.esriaddinx</DependentUpon>
+    </Compile>
     <Compile Include="ConstructionTools.cs" />
     <Compile Include="ConstructionTools.Designer.cs">
       <DependentUpon>ConstructionTools.cs</DependentUpon>
@@ -117,8 +121,8 @@
   <ItemGroup>
     <AddInContent Include="Config.esriaddinx">
       <Generator>ArcGISAddInHostGenerator</Generator>
-      <LastGenOutput>Config.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Config.Designer.cs</LastGenOutput>
     </AddInContent>
     <AddInContent Include="Images\AddBarrier.png" />
     <AddInContent Include="Images\AddFlag.png" />
@@ -159,10 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectFeatures.cs" />
-    <Compile Include="Config.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Config.esriaddinx</DependentUpon>
-    </Compile>
     <Compile Include="GeometricNetworkTools.cs" />
     <Compile Include="GeometryTools.cs" />
     <Compile Include="LayerWindow.cs">
@@ -212,22 +212,29 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\Configs\Water_LG\Loaded.config">
-      <Link>Loaded.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <AddInContent Include="Config.es-ES.xml">
       <SubType>Designer</SubType>
     </AddInContent>
     <AddInContent Include="Config.fr-FR.xml">
       <SubType>Designer</SubType>
     </AddInContent>
-    <Content Include="..\..\Configs\Gas\gas.config">
-      <Link>gas.config</Link>
+    <AddInContent Include="Images\BatchBarrier.png" />
+    <Content Include="..\..\Configs\loaded.water.config">
+      <Link>loaded.water.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <AddInContent Include="Images\BatchBarrier.png" />
+    <Content Include="..\..\Configs\loaded.aa.config">
+      <Link>loaded.aa.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Configs\loaded.address.config">
+      <Link>loaded.address.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\Configs\loaded.gas.config">
+      <Link>loaded.gas.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>

@@ -44,6 +44,7 @@ namespace A4WaterUtilities
 
         public AddLateralsConstructionTool()
         {
+            ConfigUtil.type = "water";
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -57,7 +58,7 @@ namespace A4WaterUtilities
 
         protected override void OnActivate()
         {
-            
+            ConfigUtil.type = "water";
             m_edSketch = m_editor as IEditSketch3;
             
             m_editor.CurrentTask = null;
@@ -134,6 +135,7 @@ namespace A4WaterUtilities
 
         private void OnSketchFinished()
         {
+            ConfigUtil.type = "water";
             //m_editor.UndoOperation();
             IFeature pFeat = null;
             IEnvelope pEnv = null;
@@ -214,6 +216,7 @@ namespace A4WaterUtilities
 
         public AddLateralsFromMainPointConstructionTool()
         {
+            ConfigUtil.type = "water";
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -227,6 +230,7 @@ namespace A4WaterUtilities
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "water";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -293,6 +297,7 @@ namespace A4WaterUtilities
 
         private void OnSketchFinished()
         {
+            ConfigUtil.type = "water";
             //m_editor.UndoOperation();
             IFeature pFeat = null;
             IEnvelope pEnv = null;
@@ -371,6 +376,7 @@ namespace A4WaterUtilities
 
         public AddLineWithEndPoints()
         {
+            ConfigUtil.type = "water";
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -384,6 +390,7 @@ namespace A4WaterUtilities
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "water";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -415,6 +422,7 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
+            ConfigUtil.type = "water";
             if (m_edSketch.Geometry == null)
                 return;
             if (Control.ModifierKeys == Keys.Shift)
@@ -450,6 +458,7 @@ namespace A4WaterUtilities
 
         private void OnSketchFinished()
         {
+            ConfigUtil.type = "water";
             IFeature pFeat = null;
             ISegmentCollection pSegColl = null;
             IEnumSegment pESeg = null;
@@ -555,6 +564,7 @@ namespace A4WaterUtilities
 
         public AddPointSplitLine()
         {
+            ConfigUtil.type = "water";
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -568,6 +578,7 @@ namespace A4WaterUtilities
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "water";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -634,6 +645,7 @@ namespace A4WaterUtilities
 
         private void OnSketchFinished()
         {
+            ConfigUtil.type = "water";
             IFeature pFeat;
             try
             {
@@ -678,6 +690,7 @@ namespace A4WaterUtilities
 
         public ConnectClosestsConstructTool()
         {
+            ConfigUtil.type = "water";
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -691,8 +704,8 @@ namespace A4WaterUtilities
 
         protected override void OnActivate()
         {
-            
 
+            ConfigUtil.type = "water";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -758,7 +771,7 @@ namespace A4WaterUtilities
 
         private void OnSketchFinished()
         {
-
+            ConfigUtil.type = "water";
             Keys ModKey = Control.ModifierKeys;
 
             // Send a shift-tab to hide the construction toolbar
@@ -840,6 +853,7 @@ namespace A4WaterUtilities
 
         public PointsAlongLineTool()
         {
+            ConfigUtil.type = "water";
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -853,7 +867,7 @@ namespace A4WaterUtilities
 
         protected override void OnActivate()
         {
-
+            ConfigUtil.type = "water";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -885,6 +899,7 @@ namespace A4WaterUtilities
 
         protected override void OnDoubleClick()
         {
+            ConfigUtil.type = "water";
             if (m_edSketch.Geometry == null)
                 return;
             if (Control.ModifierKeys == Keys.Shift)
@@ -920,7 +935,7 @@ namespace A4WaterUtilities
 
         private void OnSketchFinished()
         {
-
+            ConfigUtil.type = "water";
             //send a space to hide the construction toolbar
             SendKeys.SendWait(" ");
 

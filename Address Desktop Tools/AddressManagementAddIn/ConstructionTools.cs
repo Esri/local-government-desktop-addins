@@ -46,6 +46,7 @@ namespace A4LGAddressManagement
        
         public CreateLineAndSplitIntersectingLines()
         {
+            ConfigUtil.type = "address";
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -59,7 +60,7 @@ namespace A4LGAddressManagement
 
         protected override void OnActivate()
         {
-
+            ConfigUtil.type = "address";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -91,6 +92,7 @@ namespace A4LGAddressManagement
 
         protected override void OnDoubleClick()
         {
+            ConfigUtil.type = "address";
             if (m_edSketch.Geometry == null)
                 return;
             if (Control.ModifierKeys == Keys.Shift)
@@ -126,6 +128,7 @@ namespace A4LGAddressManagement
 
         private void OnSketchFinished()
         {
+            ConfigUtil.type = "address";
             //send a space to hide the construction toolbar
             SendKeys.SendWait(" ");
 
@@ -173,6 +176,7 @@ namespace A4LGAddressManagement
       
         public CreatePointAndRefPoint()
         {
+            ConfigUtil.type = "address";
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
@@ -186,7 +190,7 @@ namespace A4LGAddressManagement
 
         protected override void OnActivate()
         {
-
+            ConfigUtil.type = "address";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -218,6 +222,7 @@ namespace A4LGAddressManagement
 
         protected override void OnDoubleClick()
         {
+            ConfigUtil.type = "address";
             if (m_edSketch.Geometry == null)
                 return;
             if (Control.ModifierKeys == Keys.Shift)
@@ -253,7 +258,7 @@ namespace A4LGAddressManagement
 
         private void OnSketchFinished()
         {
-
+            ConfigUtil.type = "address";
             //send a space to hide the construction toolbar
             SendKeys.SendWait(" ");
 

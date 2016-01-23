@@ -32,7 +32,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public AttributeTransferLoaderButton()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
         }
@@ -40,6 +40,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             attributeTransferLoader.LoadAttributeTransfer(ArcMap.Application, ConfigUtil.GetAttributeTransferConfig());
 
 
@@ -69,7 +70,7 @@ namespace A4GasUtilities
 
         public CreateJumpsOver()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -77,6 +78,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             double jumpDistance = ConfigUtil.GetConfigValue("CreateJumps_Distance", 10.0);
             jumpDistance = jumpDistance * 2;  //doubled so the height of the jump will be represented by this number
 
@@ -106,7 +108,7 @@ namespace A4GasUtilities
 
         public CreateJumpsUnder()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -115,7 +117,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
-
+            ConfigUtil.type = "gas";
             double jumpDistance = ConfigUtil.GetConfigValue("CreateJumps_Distance", 10.0);
             jumpDistance = jumpDistance * 2;  //doubled so the height of the jump will be represented by this number
 
@@ -145,7 +147,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public FlipLines()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
             Enabled = false;
@@ -157,6 +159,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             GeometryTools.FlipLines(ArcMap.Application, GeometryTools.FlipTypes.FlipLines);
 
         }
@@ -183,7 +186,7 @@ namespace A4GasUtilities
 
         public FlipLinesFlow()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -193,6 +196,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             GeometryTools.FlipLines(ArcMap.Application, GeometryTools.FlipTypes.FlipLinesToMatchFlow);
 
         }
@@ -218,7 +222,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public SplitLinesClick()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -258,7 +262,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public SplitLines()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -268,7 +272,7 @@ namespace A4GasUtilities
         protected override void OnClick()
         {
 
-
+            ConfigUtil.type = "gas";
             GeometryTools.SplitLines(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5));
 
 
@@ -296,7 +300,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public RotateSelected()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -305,6 +309,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             GeometryTools.RotateSelected(ArcMap.Application, ConfigUtil.GetConfigValue("RotateSelected_SpinAngle", 0.0), ConfigUtil.GetConfigValue("RotateSelected_DiameterFieldName", "DIAMETER"));
 
         }
@@ -330,7 +335,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public AdditionalRotate()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -339,6 +344,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
 
 
 
@@ -368,7 +374,7 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public SetMeasuresOnLines()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -377,6 +383,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             GeometryTools.SetMeasures(ArcMap.Application);
 
         }
@@ -403,7 +410,7 @@ namespace A4GasUtilities
         public MergeGNLines()
         {
 
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_Editor = Globals.getEditor(ArcMap.Application);
 
@@ -412,6 +419,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             GeometryTools.showMergeDialog(ArcMap.Application);
 
         }

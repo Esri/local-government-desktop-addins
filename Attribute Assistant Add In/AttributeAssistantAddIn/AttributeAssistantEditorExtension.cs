@@ -1041,7 +1041,11 @@ namespace ArcGIS4LocalGovernment
         string reverseGeocodeStr = "ReverseGeocode";
 
         private string _agsOnlineLocators = "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
+        public AttributeAssistantEditorExtension()
+        {
+            ConfigUtil.type = "aa";
 
+        }
         //Retrieve configuration from XML config file (overrides defaults set above)
         private void GetConfigSettings()
         {
@@ -1065,11 +1069,7 @@ namespace ArcGIS4LocalGovernment
         }
 
 
-        public AttributeAssistantEditorExtension()
-        {
-
-
-        }
+    
         void appStatusEvents_Initialized()
         {
 

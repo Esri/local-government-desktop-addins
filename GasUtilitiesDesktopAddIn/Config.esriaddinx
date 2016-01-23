@@ -2,11 +2,11 @@
   <Name>Gas Utility Network Tools</Name>
   <AddInID>{AF706D91-5AC0-40B2-890A-8B504C2191FA}</AddInID>
   <Description>ArcMap tools for Gas Utilities</Description>
-   <Version>9.29.2015</Version>
+   <Version>2.25.2016</Version>
   <Image>Images\GasUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>9/29/2015</Date>
+  <Date>2/25/2016</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
@@ -28,7 +28,7 @@
         <Button id="A4GasUtilities_SplitLines" class="SplitLines" message="Splits line features where they intersect Selected Point features." caption="Splits Lines at Selected Points" tip="Splits Lines at Selected Points" category="ArcGIS for Utilities" image="Images\SplitLines.png" />-->
         <Button id="A4GasUtilities_ExportToExcel" class="ExportToExcel" message="Exports all Selected features to Excel." caption="Export Selected Items to Excel" tip="Export Selected Items to Excel" category="ArcGIS for Utilities" image="Images\ExportToExcel.png" />
         <Button id="A4GasUtilities_IdentifySelected" class="IdentifySelected" message="Loads all currently Selected features into the Identify dialog box." caption="Identify Selected" tip="Identify Selected" category="ArcGIS for Utilities" image="Images\IdentifySelected.png" />
-        <Button id="A4GasUtilities_TraceSummaryIsolation" class="TraceSummaryIsolation" message="Runs the isolation trace on Selected mains. The trace summarizes the number of valves, meters, critical meters, and service connections in the Geometric Network that would be affected if a break occurred on each Selected main. The results are stored in a separate feature class.  This tool is an involved and long process. It is suggested to run this tool on small chunks of data at a time.  The wMainWithTraceSummary layer is part of the LGIM's Captial Planning dataset.  There are a number of configuration settings in the configuration file.  This tool uses the settings starting with TraceIsolationSummary and the Valve Isolation tags." caption="Summary Isolation Trace" tip="Summary Isolation Trace" category="ArcGIS for Utilities" image="Images\SummaryIsolationTrace.png" />
+        <Button id="A4GasUtilities_TraceSummaryIsolation" class="TraceSummaryIsolation" message="Runs the isolation trace on Selected mains. The trace summarizes the number of valves, meters, critical meters, and service connections in the Geometric Network that would be affected if a break occurred on each Selected main. The results are stored in a separate feature class. This tool is an involved and long process. It is suggested to run this tool on small chunks of data at a time. The P_MainsWithTraceSummary layer is part of the AnalysisAndOutage.gdb database. There are a number of configuration settings in the configuration file.  This tool uses the settings starting with TraceIsolationSummary and the Valve Isolation tags." caption="Summary Isolation Trace" tip="Summary Isolation Trace" category="ArcGIS for Utilities" image="Images\SummaryIsolationTrace.png" />
 
         <Tool id="A4GasUtilities_ToggleOperableStatus" class="ToggleOperableStatus" message="Changes the status of a valve from operable to non-operable and back.  Define operable and non-operable field and value values in the configuration file." caption="Change Operable Status of a valve" tip="Change Operable Status of a valve" category="ArcGIS for Utilities" image="Images\ToggleOperableStatus.png" />
         <Button id="A4GasUtilities_ClearTraceResults" class="ClearTraceResults" message="Clears all trace results and Selected features." caption="Clear Trace Results" tip="Clear Trace Results" category="ArcGIS for Utilities" image="Images\TraceClear.png" />
@@ -43,6 +43,7 @@
         <Button id="A4GasUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establishes flow direction for Geometric Network based on digitized direction." caption="Establish Digitized Flow Direction" tip="Establish Digitized Flow Direction" category="ArcGIS for Utilities" image="Images\EstablishFlowDigitized.png" />
        <!--   <Button id="A4GasUtilities_FlagsBarriersToLayer" class="FlagsBarriersToLayer" message="Create a point layer from the flags and barriers." caption="Convert Flags and Barriers to a Set of Layers" tip="Convert Flags and Barriers to a Set of Layers" category="ArcGIS for Utilities" image="Images\ExportFlagBarriers.png" />-->
         <Button id="A4GasUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Batch load barriers from a layer." caption="Batch load barriers from a layer" tip="Batch load barriers from a layer" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
+        <Button id="A4GasUtilities_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file and the location of the configuration file, and for loading another configuration file." caption="Show Config Information(Gas)" tip="Show Config Information" category="ArcGIS for Utilities" image="Images\Config2.png" />
 
       </Commands>
       <Toolbars>
@@ -82,6 +83,7 @@
             <Button refID="A4GasUtilities_ExportToExcel" separator="true" />
             <Button refID="A4GasUtilities_IdentifySelected" separator="false" />
             <Button refID="A4GasUtilities_SelectJunctionsByEdgeCount" separator="true" />
+            <Button refID="A4GasUtilities_ShowConfigForm" separator="true" />
 
           </Items>
         </Toolbar>
@@ -89,12 +91,12 @@
       <Menus></Menus>
       <Editor>
         <Commands>
-          <Tool id="Esri_A4GasUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Creates a Point, then draws a line from the Point to the nearest location on another line layer. Additional Point features can be placed along the line. Only Point features defined in the configuration file are evaluated.  Holding the control key overrides the defined templates and prompts for each feature." caption="Add a connection and the lateral" tip="Add a connection and the lateral" category="ArcGIS for Utilities" image="Images\AddLateralsConstructTool.png">
+          <Tool id="Esri_A4GasUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Creates a Point, then draws a line from the Point to the nearest location on another line layer. Additional Point features can be placed along the line. Only Point features defined in the configuration file are evaluated.  Holding the control key overrides the defined templates and prompts for each feature." caption="Add a connection and the lateral(Gas)" tip="Add a connection and the lateral" category="ArcGIS for Utilities" image="Images\AddLateralsConstructTool.png">
             <Construction>
               <Category>Point Construction</Category>
             </Construction>
           </Tool>
-          <Tool id="Esri_A4GasUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Creates a Point and attempts to split an intersecting line feature." caption="Add a Point and split an intersecting line" tip="Add a Point and split an intersecting line" category="ArcGIS for Utilities" image="Images\SplitLinesAtLocation.png">
+          <Tool id="Esri_A4GasUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Creates a Point and attempts to split an intersecting line feature." caption="Add a Point and split an intersecting line(Gas)" tip="Add a Point and split an intersecting line" category="ArcGIS for Utilities" image="Images\SplitLinesAtLocation.png">
             <Construction>
               <Category>Point Construction</Category>
             </Construction>

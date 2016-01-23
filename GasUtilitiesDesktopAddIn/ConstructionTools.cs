@@ -45,7 +45,7 @@ namespace A4GasUtilities
 
         public AddLateralsConstructionTool()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
@@ -60,7 +60,7 @@ namespace A4GasUtilities
 
         protected override void OnActivate()
         {
-            
+            ConfigUtil.type = "gas";   
             m_edSketch = m_editor as IEditSketch3;
             
             m_editor.CurrentTask = null;
@@ -137,6 +137,7 @@ namespace A4GasUtilities
 
         private void OnSketchFinished()
         {
+            ConfigUtil.type = "gas";
             //m_editor.UndoOperation();
             IFeature pFeat = null;
             IEnvelope pEnv = null;
@@ -215,7 +216,7 @@ namespace A4GasUtilities
 
         public AddLateralsFromMainPointConstructionTool()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
@@ -230,6 +231,7 @@ namespace A4GasUtilities
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "gas";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -296,6 +298,7 @@ namespace A4GasUtilities
 
         private void OnSketchFinished()
         {
+            ConfigUtil.type = "gas";
             //m_editor.UndoOperation();
             IFeature pFeat = null;
             IEnvelope pEnv = null;
@@ -374,7 +377,7 @@ namespace A4GasUtilities
 
         public AddLineWithEndPoints()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
@@ -389,6 +392,7 @@ namespace A4GasUtilities
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "gas";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -420,6 +424,7 @@ namespace A4GasUtilities
 
         protected override void OnDoubleClick()
         {
+            ConfigUtil.type = "gas";
             if (m_edSketch.Geometry == null)
                 return;
             if (Control.ModifierKeys == Keys.Shift)
@@ -455,6 +460,7 @@ namespace A4GasUtilities
 
         private void OnSketchFinished()
         {
+            ConfigUtil.type = "gas";
             IFeature pFeat = null;
             ISegmentCollection pSegColl = null;
             IEnumSegment pESeg = null;
@@ -557,7 +563,7 @@ namespace A4GasUtilities
 
         public AddPointSplitLine()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
@@ -572,6 +578,7 @@ namespace A4GasUtilities
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "gas";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -638,6 +645,7 @@ namespace A4GasUtilities
 
         private void OnSketchFinished()
         {
+            ConfigUtil.type = "gas";
             IFeature pFeat;
             try
             {
@@ -684,7 +692,7 @@ namespace A4GasUtilities
 
         public ConnectClosestsConstructTool()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
@@ -699,7 +707,7 @@ namespace A4GasUtilities
 
         protected override void OnActivate()
         {
-            
+            ConfigUtil.type = "gas";
 
             m_editor.CurrentTask = null;
 
@@ -766,7 +774,7 @@ namespace A4GasUtilities
 
         private void OnSketchFinished()
         {
-
+            ConfigUtil.type = "gas";
             Keys ModKey = Control.ModifierKeys;
 
             // Send a shift-tab to hide the construction toolbar
@@ -848,7 +856,7 @@ namespace A4GasUtilities
 
         public PointsAlongLineTool()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             // Get the editor
             m_editor = ArcMap.Editor as IEditor3;
@@ -863,7 +871,7 @@ namespace A4GasUtilities
 
         protected override void OnActivate()
         {
-
+            ConfigUtil.type = "gas";
             m_editor.CurrentTask = null;
 
             m_edSketch = m_editor as IEditSketch3;
@@ -895,6 +903,7 @@ namespace A4GasUtilities
 
         protected override void OnDoubleClick()
         {
+            ConfigUtil.type = "gas";
             if (m_edSketch.Geometry == null)
                 return;
             if (Control.ModifierKeys == Keys.Shift)
@@ -930,7 +939,7 @@ namespace A4GasUtilities
 
         private void OnSketchFinished()
         {
-
+            ConfigUtil.type = "gas";
             //send a space to hide the construction toolbar
             SendKeys.SendWait(" ");
 

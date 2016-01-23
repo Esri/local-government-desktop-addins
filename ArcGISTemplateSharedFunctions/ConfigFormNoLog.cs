@@ -43,14 +43,15 @@ using ESRI.ArcGIS.GeoDatabaseUI;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.SystemUI;
 using System.IO;
+using ESRI.ArcGIS.Analyst3D;
 
 namespace A4LGSharedFunctions
 {
-    public partial class ConfigForm : Form
+    public partial class ConfigFormNoLog : Form
     {
         ConfigEntries m_LoadedConfig;
         ReloadMonitor m_ReloadMonitor;
-        public ConfigForm(string type)
+        public ConfigFormNoLog()
         {
             InitializeComponent();
 
@@ -60,19 +61,16 @@ namespace A4LGSharedFunctions
 
                 this.btnLoadConfig.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgLoad");
                 this.btnOpenConfigLoc.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgOpenLoc");
-                this.btnOpenLogLoc.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgOpenLoc");
                 this.label1.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgFilePath");
                 this.btnPreviewLoaded.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgPreview");
                 this.btnPreview.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgPreview");
-                this.btnPrevLog.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgPreview");
                 this.lblConfig.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgLoadedConfig");
                 this.gpBxconfigFiles.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgConfigFiles");
-                this.gpBxLog.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgLogFile");
-                this.label2.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgNote");
+             
             }
             catch
             { }
-            initForm(type);
+            initForm();
 
             m_ReloadMonitor = new ReloadMonitor();
             if (m_ReloadMonitor == null)
@@ -81,11 +79,9 @@ namespace A4LGSharedFunctions
 
         }
         private string configType;
-        private void initForm(string type)
+        private void initForm()
         {
-            configType = type;
-            ConfigUtil.type = type;
-
+            
             txtBxPath.Text = ConfigUtil.generateUserCachePath();
 
             List<ConfigEntries> ConfigNames = ConfigUtil.GetAllConfigFilesNames(true);
@@ -104,14 +100,7 @@ namespace A4LGSharedFunctions
             cboConfigs.DataSource = ConfigNames;
             cboConfigs.DisplayMember = "Name";
 
-            if (Globals.LogLocations == "")
-                gpBxLog.Enabled = false;
-            else
-            {
-                gpBxLog.Enabled = true;
-                txtBoxLogPath.Text = Globals.LogLocations;
-
-            }
+            
         }
         private void btnOpenLoc_Click(object sender, EventArgs e)
         {
@@ -144,8 +133,7 @@ namespace A4LGSharedFunctions
 
                 ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem));
 
-                initForm(configType);
-
+            
                 m_ReloadMonitor.Reload();
 
                 MessageBox.Show("Config file has been changed");
@@ -183,26 +171,12 @@ namespace A4LGSharedFunctions
             prc.Start();
         }
 
-        private void btnOpenLogLoc_Click(object sender, EventArgs e)
+        private void ConfigFormNoLog_Load(object sender, EventArgs e)
         {
-            string myDocspath = txtBoxLogPath.Text;
-            myDocspath = System.IO.Directory.GetParent(txtBoxLogPath.Text).FullName;
-            string windir = Environment.GetEnvironmentVariable("WINDIR");
-            System.Diagnostics.Process prc = new System.Diagnostics.Process();
-            prc.StartInfo.FileName = windir + @"\explorer.exe";
-            prc.StartInfo.Arguments = myDocspath;
-            prc.Start();
+
         }
 
-        private void btnPrevLog_Click(object sender, EventArgs e)
-        {
-            if (cboConfigs.Items.Count == 0) return;
-
-            ProcessStartInfo psi = new ProcessStartInfo(txtBoxLogPath.Text);
-            psi.UseShellExecute = true;
-            Process.Start(psi);
-        }
-
+      
 
     }
 }

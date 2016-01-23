@@ -40,13 +40,13 @@ namespace ArcGIS4LocalGovernment
 
         public MonitorAA()
         {
-
+            ConfigUtil.type = "aa";
 
         }
 
         protected override void OnClick()
         {
-
+            ConfigUtil.type = "aa";
 
         }
         protected override void Dispose(bool value)
@@ -69,12 +69,13 @@ namespace ArcGIS4LocalGovernment
 
         public AttributeAssistantLoadLastValue()
         {
-
+            ConfigUtil.type = "aa";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "aa";
             AAState.promptLastValueProperrtySetOneForm();
 
         }
@@ -97,12 +98,14 @@ namespace ArcGIS4LocalGovernment
 
         public AttributeAssistantToggleCommand()
         {
+            ConfigUtil.type = "aa";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "aa";
             try
             {
 
@@ -147,12 +150,13 @@ namespace ArcGIS4LocalGovernment
 
         public AttributeAssistantSuspendCommand()
         {
-
+            ConfigUtil.type = "aa";
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "aa";
 
             if (AAState._Suspend)
             {
@@ -189,11 +193,12 @@ namespace ArcGIS4LocalGovernment
         public AttributeAssistantSuspendOnCommand()
         {
 
-
+            ConfigUtil.type = "aa";
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "aa";
 
             AAState._Suspend = false;
             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1d"));
@@ -218,11 +223,12 @@ namespace ArcGIS4LocalGovernment
         public AttributeAssistantSuspendOffCommand()
         {
 
-
+            ConfigUtil.type = "aa";
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "aa";
 
             AAState._Suspend = true;
             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1e"));
@@ -248,7 +254,7 @@ namespace ArcGIS4LocalGovernment
         public RunChangeRulesCommand()
         {
 
-
+            ConfigUtil.type = "aa";
             UID editorUID = new UIDClass();
             editorUID.Value = "esriEditor.editor";
             _editor = ArcMap.Application.FindExtensionByCLSID(editorUID) as IEditor;
@@ -266,6 +272,7 @@ namespace ArcGIS4LocalGovernment
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "aa";
             if (AAState.PerformUpdates == false)
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1f"));
@@ -662,7 +669,7 @@ namespace ArcGIS4LocalGovernment
         public RunChangeGeoRulesCommand()
         {
 
-
+            ConfigUtil.type = "aa";
             UID editorUID = new UIDClass();
             editorUID.Value = "esriEditor.editor";
             _editor = ArcMap.Application.FindExtensionByCLSID(editorUID) as IEditor;
@@ -680,6 +687,7 @@ namespace ArcGIS4LocalGovernment
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "aa";
             if (AAState.PerformUpdates == false)
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1f"));
@@ -947,7 +955,7 @@ namespace ArcGIS4LocalGovernment
         public RunManualRulesCommand()
         {
 
-
+            ConfigUtil.type = "aa";
             UID editorUID = new UIDClass();
             editorUID.Value = "esriEditor.editor";
             _editor = ArcMap.Application.FindExtensionByCLSID(editorUID) as IEditor;
@@ -965,6 +973,7 @@ namespace ArcGIS4LocalGovernment
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "aa";
             if (AAState.PerformUpdates == false)
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1f"));
@@ -1333,7 +1342,7 @@ namespace ArcGIS4LocalGovernment
         public RunCreateRulesCommand()
         {
 
-
+            ConfigUtil.type = "aa";
             UID editorUID = new UIDClass();
             editorUID.Value = "esriEditor.editor";
             _editor = ArcMap.Application.FindExtensionByCLSID(editorUID) as IEditor;
@@ -1351,6 +1360,7 @@ namespace ArcGIS4LocalGovernment
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "aa";
             if (AAState.PerformUpdates == false)
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1f"));
@@ -1741,6 +1751,7 @@ namespace ArcGIS4LocalGovernment
         ConfigForm m_ConfigForm;
         public ShowConfigForm()
         {
+            ConfigUtil.type = "aa";
         }
 
         protected override void OnClick()
@@ -1752,8 +1763,8 @@ namespace ArcGIS4LocalGovernment
             //string ConfigPath = ConfigUtil.generateUserCachePath();
 
             //string[] ConfigFiles = ConfigUtil.GetConfigFiles();
-
-            m_ConfigForm = new ConfigForm();
+            ConfigUtil.type = "aa";
+            m_ConfigForm = new ConfigForm("aa");
             m_ConfigForm.ShowDialog();
 
         }
@@ -1778,4 +1789,5 @@ namespace ArcGIS4LocalGovernment
         //    return s_dockWindow;
         //}
     }
+
 }

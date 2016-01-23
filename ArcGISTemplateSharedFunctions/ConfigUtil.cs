@@ -36,7 +36,7 @@ using Microsoft.Win32;
 
 namespace A4LGSharedFunctions
 {
-   
+
     public delegate void ReloadEventHandler(object sender, ReloadEventArgs e);
     public class ReloadEventArgs : System.EventArgs
     {
@@ -89,7 +89,8 @@ namespace A4LGSharedFunctions
     {
         // public delegate void ReloadEventHandler(object sender, EventArgs e);
 
-        public static string configFileName = "Loaded.config";
+        public static string fileName = "loaded";
+        public static string type = "aa";
 
         public static string GetHelpFile()
         {
@@ -176,21 +177,43 @@ namespace A4LGSharedFunctions
 
 
         }
-        public static List<string> GetAllConfigFiles(bool includeLoaded)
+        public static List<string> GetAllConfigFiles(bool includeLoaded, string type)
         {
             try
             {
 
                 string pathToUserProf = generateUserCachePath();
 
+                string configFileName = fileName + "." + type + ".config";
+                List<string> pPrevConfFiles = new List<string>(Directory.GetFiles(pathToUserProf, "loaded.config", System.IO.SearchOption.AllDirectories));
 
-
-                List<string> pConfFiles = new List<string>(Directory.GetFiles(pathToUserProf, "*.*onfig*", System.IO.SearchOption.AllDirectories));
+                List<string> pConfFiles = new List<string>(Directory.GetFiles(pathToUserProf, "*." + type + ".*onfig*", System.IO.SearchOption.AllDirectories));
                 if (pConfFiles.Count == 0)
-                    pConfFiles.Add(getInstalledConfig(generateUserCachePath()));
+                {
+                    if (pPrevConfFiles.Count > 0)
+                    {
+                        getInstalledConfig(pathToUserProf, true);
+                        File.Copy(pPrevConfFiles[0], Path.Combine(pathToUserProf, configFileName));               
+                        pConfFiles.Add(Path.Combine(pathToUserProf, configFileName));
+                    }
+                    else
+                    {
+                        pConfFiles.Add(getInstalledConfig(generateUserCachePath(), false));
+                    }
+                }
                 else if (File.Exists(Path.Combine(pathToUserProf, configFileName)) == false)
                 {
-                    pConfFiles.Add(getInstalledConfig(generateUserCachePath()));
+
+                    if (pPrevConfFiles.Count > 0)
+                    {
+                        getInstalledConfig(pathToUserProf, true);
+                        File.Copy(pPrevConfFiles[0], Path.Combine(pathToUserProf, configFileName));
+                        pConfFiles.Add(Path.Combine(pathToUserProf, configFileName));
+                    }
+                    else
+                    {
+                        pConfFiles.Add(getInstalledConfig(generateUserCachePath(), false));
+                    }
                 }
                 if (includeLoaded == false)
                     pConfFiles.Remove(Path.Combine(pathToUserProf, configFileName));
@@ -216,8 +239,9 @@ namespace A4LGSharedFunctions
             XmlNode oNode = null;
             try
             {
+                string configFileName = fileName + "." + type + ".config";
 
-                pConfFiles = GetAllConfigFiles(true);
+                pConfFiles = GetAllConfigFiles(true, type);
                 pConfFileNames = new List<ConfigEntries>();
 
                 for (int i = 0; i < pConfFiles.Count; i++)
@@ -322,7 +346,7 @@ namespace A4LGSharedFunctions
             try
             {
                 string SourceFile = ConfigToLoad.Path + "\\" + LoadedConfig.FileName;
-                string SourceCopyFile = ConfigToLoad.Path + "\\" + LoadedConfig.Name + ".config";
+                string SourceCopyFile = ConfigToLoad.Path + "\\" + LoadedConfig.Name + "." + type + ".config";
                 string TargetFile = LoadedConfig.Path + "\\" + ConfigToLoad.FileName;
 
                 if (copyFileContents(SourceFile, SourceCopyFile))
@@ -365,7 +389,11 @@ namespace A4LGSharedFunctions
 
 
                 string pathToUserProf = generateUserCachePath();
-             
+                string configFileName = fileName + "." + type + ".config";
+
+
+
+                List<string> pPrevConfFiles = new List<string>(Directory.GetFiles(pathToUserProf, "loaded.config", System.IO.SearchOption.AllDirectories));
 
                 if (pathToUserProf != "")
                 {
@@ -376,11 +404,22 @@ namespace A4LGSharedFunctions
 
                     }
                     else
-                        return getInstalledConfig(pathToUserProf);
-
+                        if (pPrevConfFiles.Count > 0)
+                        {
+                            getInstalledConfig(pathToUserProf, true);
+                            File.Copy(pPrevConfFiles[0], Path.Combine(pathToUserProf, configFileName));
+                            
+                            return Path.Combine(pathToUserProf, configFileName);
+                        }
+                        else
+                        {
+                            return getInstalledConfig(pathToUserProf,false);
+                        }
                 }
                 else
                     return "";
+
+
 
             }
             catch (Exception ex)
@@ -390,12 +429,17 @@ namespace A4LGSharedFunctions
             }
 
         }
-        public static string getInstalledConfig(string pathToUserProf)
+        public static string getInstalledConfig(string pathToUserProf, bool saveAsBackup)
         {
             try
             {
+                string configFileName = fileName + "." + type + ".config";
+                string sourceFileNaame = fileName + "." + type + ".config";
                 string pConfigFiles = "";
-
+                if (saveAsBackup)
+                {
+                    configFileName = "shipped" + "." + type + ".config";
+                }
                 string AppPath;
                 AppPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 
@@ -406,9 +450,9 @@ namespace A4LGSharedFunctions
 
 
 
-                if (File.Exists(Path.Combine(AppPath, configFileName)))
+                if (File.Exists(Path.Combine(AppPath, sourceFileNaame)))
                 {
-                    pConfigFiles = Path.Combine(AppPath, configFileName);
+                    pConfigFiles = Path.Combine(AppPath, sourceFileNaame);
                     if (File.Exists(Path.Combine(pathToUserProf, configFileName)) == false)
                     {
                         copyFileContents(pConfigFiles, Path.Combine(pathToUserProf, configFileName));

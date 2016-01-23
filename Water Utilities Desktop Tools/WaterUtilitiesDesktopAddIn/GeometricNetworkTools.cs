@@ -47,6 +47,7 @@ namespace A4WaterUtilities
 
         public EstablishFlowAncillary()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
 
@@ -55,6 +56,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             A4WaterUtilities.GeoNetTools.EstablishFlow(Globals.GNFlowDirection.AncillaryRole, ArcMap.Application);
         }
 
@@ -88,6 +90,7 @@ namespace A4WaterUtilities
 
         public EstablishFlowDigitized()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
 
@@ -96,6 +99,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             A4WaterUtilities.GeoNetTools.EstablishFlow(Globals.GNFlowDirection.Digitized, ArcMap.Application);
         }
 
@@ -127,19 +131,16 @@ namespace A4WaterUtilities
 
         public AddFlag()
         {
+            ConfigUtil.type = "water";
         }
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
+            ConfigUtil.type = "water";
             double snapVal = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
 
-
-
             A4WaterUtilities.GeoNetTools.AddFlag(ArcMap.Document.CurrentLocation, ArcMap.Application, snapVal);
-
-
-
             base.OnMouseDown(arg);
 
         }
@@ -165,11 +166,12 @@ namespace A4WaterUtilities
 
         public BatchLoadBarriers()
         {
-
+            ConfigUtil.type = "water";
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             A4WaterUtilities.GeoNetTools.batchLoadBarriers(ArcMap.Application);
 
 
@@ -196,17 +198,15 @@ namespace A4WaterUtilities
 
         public AddBarrier()
         {
-
+            ConfigUtil.type = "water";
         }
 
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
-
+            ConfigUtil.type = "water";
             A4WaterUtilities.GeoNetTools.AddBarrier(ArcMap.Document.CurrentLocation, ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0),true);
-
-
 
             base.OnMouseDown(arg);
 
@@ -232,7 +232,7 @@ namespace A4WaterUtilities
 
         public RemoveFlagBarrier()
         {
-
+            ConfigUtil.type = "water";
 
         }
 
@@ -240,7 +240,7 @@ namespace A4WaterUtilities
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
-
+            ConfigUtil.type = "water";
             // IPoint point = ArcMap.Document.CurrentLocation;//ArcMap.Document.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(X, Y);
             GeoNetTools.RemoveFlagBarrier(ArcMap.Document.CurrentLocation, ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0));
 
@@ -277,11 +277,12 @@ namespace A4WaterUtilities
 
         public ShowFlowArrows()
         {
-
+            ConfigUtil.type = "water";
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             A4WaterUtilities.GeoNetTools.ShowArrows(ArcMap.Application);
         }
 
@@ -299,12 +300,14 @@ namespace A4WaterUtilities
 
         public ConnectSelected()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             GeoNetTools.ConnectSelected(ArcMap.Application);
         }
 
@@ -338,12 +341,14 @@ namespace A4WaterUtilities
 
         public DisconnectSelected()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             GeoNetTools.DisconnectSelected(ArcMap.Application);
         }
 
@@ -376,12 +381,14 @@ namespace A4WaterUtilities
 
         public ConnectionChecker()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             GeoNetTools.CheckConnections(ArcMap.Application, ConfigUtil.GetConfigValue("ConnectionChecker_CheckOnlyVisibleLayers", false));
         }
 
@@ -422,12 +429,14 @@ namespace A4WaterUtilities
         public FlagsBarriersToLayer()
         {
 
+            ConfigUtil.type = "water";
         }
 
         protected override void OnClick()
         {
             try
             {
+                ConfigUtil.type = "water";
                 List<ESRI.ArcGIS.Geometry.IPoint> Flags;
                 List<ESRI.ArcGIS.Geometry.IPoint> Barriers;
                 IWorkspace pWS;
@@ -516,11 +525,12 @@ namespace A4WaterUtilities
 
         public ClearTraceResults()
         {
-
+            ConfigUtil.type = "water";
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             Globals.ClearSelected(ArcMap.Document.FocusMap, true);
             Globals.RemoveTraceGraphics(ArcMap.Document.FocusMap, true);
             Globals.ClearGNFlags(ArcMap.Application, Globals.GNTypes.Flags);
@@ -546,6 +556,7 @@ namespace A4WaterUtilities
 
         public ToggleOperableStatus()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
@@ -557,7 +568,7 @@ namespace A4WaterUtilities
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
-
+            ConfigUtil.type = "water";
             string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
 
@@ -610,6 +621,7 @@ namespace A4WaterUtilities
 
         public SelectByJunctionEdgeCount()
         {
+            ConfigUtil.type = "water";
             _frmSelectJunc = new frmSelectByJunctionCount(ArcMap.Application);
 
         }
@@ -621,6 +633,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             if (_frmSelectJunc == null || _frmSelectJunc.IsDisposed)
             {
                 _frmSelectJunc = new frmSelectByJunctionCount(ArcMap.Application);
@@ -650,11 +663,12 @@ namespace A4WaterUtilities
 
         public TraceDownstream()
         {
-
+            ConfigUtil.type = "water";
         }
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
+            ConfigUtil.type = "water";
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
@@ -698,7 +712,7 @@ namespace A4WaterUtilities
 
         public TraceUpstream()
         {
-
+            ConfigUtil.type = "water";
 
         }
         private void reloadOccured(object sender, EventArgs e)
@@ -708,7 +722,7 @@ namespace A4WaterUtilities
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
-
+            ConfigUtil.type = "water";
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
@@ -750,16 +764,14 @@ namespace A4WaterUtilities
     public class TraceIsolation : ESRI.ArcGIS.Desktop.AddIns.Tool
     {
 
-
-
-
         public TraceIsolation()
         {
-
+            ConfigUtil.type = "water";
 
         }
         protected override void OnMouseDown(MouseEventArgs arg)
         {
+            ConfigUtil.type = "water";
             string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
             bool selectEdges;
             if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
@@ -847,11 +859,12 @@ namespace A4WaterUtilities
 
         public TraceIsolationRerun()
         {
-
+            ConfigUtil.type = "water";
 
         }
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             string selectFeatures = ConfigUtil.GetConfigValue("Trace_Return_Selection", "false");
             bool selectEdges;
             if (selectFeatures.ToUpper() == "true".ToUpper() && Control.ModifierKeys == Keys.Control)
@@ -917,7 +930,7 @@ namespace A4WaterUtilities
 
         public TraceSecondaryIsolation()
         {
-
+            ConfigUtil.type = "water";
         }
         private void reloadOccured(object sender, EventArgs e)
         {
@@ -925,6 +938,7 @@ namespace A4WaterUtilities
         }
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             //string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
             //string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
 
@@ -1018,13 +1032,14 @@ namespace A4WaterUtilities
 
         public TraceSummaryIsolation()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnClick()
         {
-
+            ConfigUtil.type = "water";
             bool traceIndeterminate = ConfigUtil.GetConfigValue("TraceFlow_Interminate", false);
             string ISOsourceFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Source_FeatureLayer", "");
             string ISOvalveFeatureLayerName = ConfigUtil.GetConfigValue("TraceIsolation_Valve_FeatureLayer", "");
@@ -1085,11 +1100,12 @@ namespace A4WaterUtilities
 
         public SewerProfile()
         {
-
+            ConfigUtil.type = "water";
         }
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "water";
             Globals.ClearSelected(ArcMap.Document.FocusMap, true);
             Globals.RemoveTraceGraphics(ArcMap.Document.FocusMap, true);
             Globals.ClearGNFlags(ArcMap.Application, Globals.GNTypes.Flags);
@@ -1102,6 +1118,7 @@ namespace A4WaterUtilities
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
+            ConfigUtil.type = "water";
             double SnapTol = ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0);
             List<ProfileGraphDetails> ProfileGraph = ConfigUtil.GetProfileGraphConfig();
             GeoNetTools.AddFlagsForSewerProfile(ArcMap.Application, SnapTol, ProfileGraph);
@@ -1129,13 +1146,14 @@ namespace A4WaterUtilities
 
         public FlowAccumulation()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnClick()
         {
-
+            ConfigUtil.type = "water";
             GeoNetTools.CalculateFlowAccum(ConfigUtil.GetFlowAccumConfig(), ArcMap.Application);
 
         }
@@ -1165,13 +1183,14 @@ namespace A4WaterUtilities
 
         public FlowAccumulationLoc()
         {
+            ConfigUtil.type = "water";
             // m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-
+            ConfigUtil.type = "water";
             GeoNetTools.CalculateFlowAccumAtLocation(ConfigUtil.GetFlowAccumConfig(), ArcMap.Application, Convert.ToDouble(ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0)));
 
         }
@@ -1202,12 +1221,14 @@ namespace A4WaterUtilities
 
         public FindClosest()
         {
+            ConfigUtil.type = "water";
             // m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
+            ConfigUtil.type = "water";
             IPoint point = ArcMap.Document.CurrentLocation;
 
             //GeoNetTools.CalculateFlowAccumAtLocation(ConfigUtil.GetFlowAccumConfig(), ArcMap.Application, Convert.ToDouble(ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5)));

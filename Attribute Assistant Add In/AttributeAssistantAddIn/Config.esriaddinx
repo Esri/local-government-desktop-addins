@@ -20,11 +20,11 @@
   <Name>Attribute Assistant</Name>
   <AddInID>{5CAD338F-775E-44D8-A342-8DC123BF8E7B}</AddInID>
   <Description>Allows attributes to be automatically populated as features are created or modified based on a series of user defined rules.</Description>
-   <Version>9.29.2015</Version>
+  <Version>2.25.2016</Version>
   <Image>Images\AttributeAssistantAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>9.29.2015</Date>
+  <Date>2/25/2016</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
@@ -63,7 +63,7 @@
         <Button id="ArcGIS4LocalGovernment_AttributeAssistantLoadLastValue" class="AttributeAssistantLoadLastValue" onDemand="false" message="Presents a dialog box to view and update each Last Value field listed in the Dynamic Value table." caption="Load last value array" tip="Load last value array" category="ArcGIS for Local Government" image="Images\LoadLastValue.png">
           <Help heading="Attribute Assistant On/Off " />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file and the location of the configuration file, and for loading another configuration file." caption="Show Config Information" tip="Show Config Information" category="ArcGIS for Local Government" image="Images\Config2.png" />
+        <Button id="ArcGIS4LocalGovernment_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file and the location of the configuration file, and for loading another configuration file." caption="Show Config Information(AA)" tip="Show Config Information" category="ArcGIS for Local Government" image="Images\Config2.png" />
       </Commands>
       <Toolbars>
         <Toolbar id="ArcGIS4LocalGovernment_AttributeAssistantToolbar" caption="Attribute Assistant" showInitially="false">

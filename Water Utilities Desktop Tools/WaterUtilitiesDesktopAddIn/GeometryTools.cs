@@ -32,16 +32,15 @@ namespace A4WaterUtilities
         IEditor m_Editor;
         public AttributeTransferLoaderButton()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
         }
 
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             attributeTransferLoader.LoadAttributeTransfer(ArcMap.Application, ConfigUtil.GetAttributeTransferConfig());
-
-
-
 
         }
 
@@ -67,13 +66,14 @@ namespace A4WaterUtilities
 
         public CreateJumpsOver()
         {
-
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             double jumpDistance = ConfigUtil.GetConfigValue("CreateJumps_Distance", 10.0);
             jumpDistance = jumpDistance * 2;  //doubled so the height of the jump will be represented by this number
 
@@ -103,7 +103,7 @@ namespace A4WaterUtilities
 
         public CreateJumpsUnder()
         {
-
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
@@ -111,7 +111,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
-
+            ConfigUtil.type = "water";
             double jumpDistance = ConfigUtil.GetConfigValue("CreateJumps_Distance", 10.0);
             jumpDistance = jumpDistance * 2;  //doubled so the height of the jump will be represented by this number
 
@@ -141,6 +141,7 @@ namespace A4WaterUtilities
         IEditor m_Editor;
         public FlipLines()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
             Enabled = false;
 
@@ -151,6 +152,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             GeometryTools.FlipLines(ArcMap.Application, GeometryTools.FlipTypes.FlipLines);
 
         }
@@ -177,7 +179,7 @@ namespace A4WaterUtilities
 
         public FlipLinesFlow()
         {
-
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
 
@@ -186,6 +188,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             GeometryTools.FlipLines(ArcMap.Application, GeometryTools.FlipTypes.FlipLinesToMatchFlow);
 
         }
@@ -211,7 +214,7 @@ namespace A4WaterUtilities
         IEditor m_Editor;
         public SplitLinesClick()
         {
-
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
@@ -220,7 +223,7 @@ namespace A4WaterUtilities
         protected override void OnMouseDown(MouseEventArgs arg)
         {
 
-
+            ConfigUtil.type = "water";
 
             ESRI.ArcGIS.Geometry.IPoint point = ArcMap.Document.CurrentLocation;//ArcMap.Document.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(X, Y);
 
@@ -250,7 +253,7 @@ namespace A4WaterUtilities
         IEditor m_Editor;
         public SplitLines()
         {
-
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
@@ -259,7 +262,7 @@ namespace A4WaterUtilities
         protected override void OnClick()
         {
 
-
+            ConfigUtil.type = "water";
             GeometryTools.SplitLines(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5));
 
 
@@ -287,6 +290,7 @@ namespace A4WaterUtilities
         IEditor m_Editor;
         public RotateSelected()
         {
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
@@ -294,6 +298,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             GeometryTools.RotateSelected(ArcMap.Application, ConfigUtil.GetConfigValue("RotateSelected_SpinAngle", 0.0), ConfigUtil.GetConfigValue("RotateSelected_DiameterFieldName", "DIAMETER"));
 
         }
@@ -319,7 +324,7 @@ namespace A4WaterUtilities
         IEditor m_Editor;
         public AdditionalRotate()
         {
-
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
@@ -329,7 +334,7 @@ namespace A4WaterUtilities
         {
 
 
-
+            ConfigUtil.type = "water";
             GeometryTools.AddRotate(ArcMap.Application, ConfigUtil.GetConfigValue("AddRotateSuspendAA", "true"), ConfigUtil.GetConfigValue("AdditionalRotate_SpinAngle", 0.0));
 
 
@@ -356,7 +361,7 @@ namespace A4WaterUtilities
         IEditor m_Editor;
         public SetMeasuresOnLines()
         {
-
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
@@ -364,6 +369,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             GeometryTools.SetMeasures(ArcMap.Application);
 
         }
@@ -390,7 +396,7 @@ namespace A4WaterUtilities
         public MergeGNLines()
         {
 
-
+            ConfigUtil.type = "water";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
 
@@ -398,6 +404,7 @@ namespace A4WaterUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "water";
             GeometryTools.showMergeDialog(ArcMap.Application);
 
         }

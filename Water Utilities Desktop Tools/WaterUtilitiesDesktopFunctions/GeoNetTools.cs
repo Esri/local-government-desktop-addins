@@ -684,7 +684,10 @@ namespace A4WaterUtilities
                                 return;
                             }
 
-                            A4WaterUtilities.GeoNetTools.AddBarrier(feature.Shape as IPoint, app, seTol, false);
+                            if (A4WaterUtilities.GeoNetTools.AddBarrier(feature.Shape as IPoint, app, seTol, false) == false)
+                            {
+                                return;
+                            }
                             feature = featureCursor.NextFeature();
                             pStepPro.Step();
                             boolCont = pTrkCan.Continue();
@@ -1175,7 +1178,7 @@ namespace A4WaterUtilities
                 pID = null;
             }
         }
-        public static void AddBarrier(IPoint pPnt, IApplication app, double snapTol, bool showDialog)
+        public static bool AddBarrier(IPoint pPnt, IApplication app, double snapTol, bool showDialog)
         {
             IProgressDialogFactory pProDFact = null;
             IStepProgressor pStepPro = null;
@@ -1229,7 +1232,7 @@ namespace A4WaterUtilities
                 if (gnList == null || gnList.Count == 0)
                 {
                     MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_2"), A4LGSharedFunctions.Localizer.GetString("GeoNetToolsErrorLbl_2"));
-                    return;
+                    return false;
                 }
 
                 if (showDialog)
@@ -1247,7 +1250,7 @@ namespace A4WaterUtilities
                         pStepPro = null;
                         pProDlg = null;
                         pProDFact = null;
-                        return;
+                        return true;
                     }
                 }
                 startNetFlag = Globals.GetJunctionFlag(ref pPnt, ref  pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out  pFlagDisplay, false) as INetFlag;
@@ -1263,7 +1266,7 @@ namespace A4WaterUtilities
                 // Stop if user point was not on a visible network feature, old trace results and selection are cleared
                 if (gn == null || startNetFlag == null)
                 {
-                    return;
+                    return true;
                 }
 
 
@@ -1281,13 +1284,13 @@ namespace A4WaterUtilities
 
                 }
 
-
+                return true;
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_3") + ": " + ex.ToString());
-
+                return false;
             }
             finally
             {

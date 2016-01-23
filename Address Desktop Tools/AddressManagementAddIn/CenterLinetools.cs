@@ -34,13 +34,15 @@ namespace A4LGAddressManagement
     
 
         public AddressFlipLines()
-        { 
+        {
+            ConfigUtil.type = "address";
             m_Editor = Globals.getEditor(ArcMap.Application);
       
         }
   
         protected override void OnClick()
         {
+            ConfigUtil.type = "address";
             AMGeometryTools.FlipLines(ArcMap.Application, ConfigUtil.GetAddressCenterlineConfig(),true);
 
         }
@@ -68,12 +70,14 @@ namespace A4LGAddressManagement
 
         public AddressFlipLinesNoAddress()
         {
+            ConfigUtil.type = "address";
             m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "address";
             AMGeometryTools.FlipLines(ArcMap.Application, ConfigUtil.GetAddressCenterlineConfig(),false);
 
         }
@@ -101,12 +105,14 @@ namespace A4LGAddressManagement
 
         public AddressCreateIntersectionPoints()
         {
+            ConfigUtil.type = "address";
           //  m_Editor = Globals.getEditor(ArcMap.Application);
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "address";
             AMGeometryTools.CreateIntersectionPoints(ArcMap.Application, ConfigUtil.GetAddressCenterlineConfig(), false);
 
         }
@@ -126,5 +132,30 @@ namespace A4LGAddressManagement
             //}
             Enabled = true;
         }
+    }
+    public class ShowConfigForm : ESRI.ArcGIS.Desktop.AddIns.Button
+    {
+        //internal static ESRI.ArcGIS.Framework.IDockableWindow s_dockWindow;
+        ConfigFormNoLog m_ConfigForm;
+        public ShowConfigForm()
+        {
+            ConfigUtil.type = "address";
+        }
+
+        protected override void OnClick()
+        {
+
+            ConfigUtil.type = "address";
+            m_ConfigForm = new ConfigFormNoLog();
+            m_ConfigForm.ShowDialog();
+
+        }
+
+        protected override void OnUpdate()
+        {
+            Enabled = (ArcMap.Application != null);
+
+        }
+
     }
 }

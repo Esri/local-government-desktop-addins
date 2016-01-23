@@ -57,6 +57,7 @@ namespace A4WaterUtilities
             InitializeComponent();
             try
             {
+                ConfigUtil.type = "water";
                 s_userControl = this;
                 s_userControl.Resize += tbCntlDisplay_Resize;
                 s_tbCntlDisplay = tbCntlDisplay;
@@ -124,6 +125,7 @@ namespace A4WaterUtilities
         
         private void reloadOccured(object sender, EventArgs e)
         {
+            ConfigUtil.type = "water";
             m_layCfg = ConfigUtil.GetLayerViewerConfig();
             if (m_layCfg != null)
             {
@@ -150,7 +152,7 @@ namespace A4WaterUtilities
     
         private void Initialize()
         {
-
+            ConfigUtil.type = "water";
             // Reset event handlers
            // IActiveViewEvents_Event avEvent = ((IMxDocument)_app.Document).FocusMap as IActiveViewEvents_Event;
             IActiveViewEvents_Event avEvent = (IActiveViewEvents_Event)ArcMap.Document.FocusMap;
@@ -374,7 +376,7 @@ namespace A4WaterUtilities
         private static void initAddin()
         {
 
-
+            ConfigUtil.type = "water";
             try
             {
                 try
@@ -411,8 +413,10 @@ namespace A4WaterUtilities
                 //    return;
                 s_cboLayers.DisplayMember = "LayerName";
                 s_cboLayers.ValueMember = "QueryAndZoom";
-                s_cboLayers.DataSource = m_layCfg.LayerViewerLayer;
-
+                if (m_layCfg != null)
+                {
+                    s_cboLayers.DataSource = m_layCfg.LayerViewerLayer;
+                }
                 if (s_cboLayers.Items.Count == 0)
                     return;
 

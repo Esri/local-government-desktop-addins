@@ -35,13 +35,14 @@ namespace A4GasUtilities
         IEditor m_Editor;
         public MoveConnections()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
             m_Editor = Globals.getEditor(ArcMap.Application);
          
         }
 
         protected override void OnActivate()
         {
+            ConfigUtil.type = "gas";
             if (m_Editor == null)
             {
                 MessageBox.Show("Please Start Editing");   
@@ -62,7 +63,7 @@ namespace A4GasUtilities
 
         protected override void OnMouseDown(MouseEventArgs arg)
         {
-
+            ConfigUtil.type = "gas";
             List<MoveConnectionsDetails> moveConnectionsConfig = ConfigUtil.GetMoveConnectionsConfig();
 
             GeoNetTools.MoveConnectionsToNewLine(ArcMap.Application, ConfigUtil.GetConfigValue("Trace_Click_Point_Tolerence", 5.0), moveConnectionsConfig);
@@ -101,7 +102,7 @@ namespace A4GasUtilities
      
         public AddLaterals()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_editor = Globals.getEditor(ArcMap.Application);
 
@@ -110,6 +111,7 @@ namespace A4GasUtilities
         
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             if (m_editor.EditState != esriEditState.esriStateEditing)
             {
                 Enabled = false;
@@ -178,7 +180,7 @@ namespace A4GasUtilities
 
         public AddLateralsFromMain()
         {
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
             m_editor = Globals.getEditor(ArcMap.Application);
 
@@ -187,6 +189,7 @@ namespace A4GasUtilities
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             if (m_editor.EditState != esriEditState.esriStateEditing)
             {
                 Enabled = false;
@@ -256,13 +259,14 @@ namespace A4GasUtilities
         public CreateTapPointsOnMain()
         {
           //  m_editor = Globals.getEditor(ArcMap.Application);
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
 
         }
 
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             //if (m_editor.EditState != esriEditState.esriStateEditing)
             //{
             //    Enabled = false;
@@ -315,13 +319,14 @@ namespace A4GasUtilities
         public ConnectClosests()
         {
             m_editor = Globals.getEditor(ArcMap.Application);
-            ConfigUtil.configFileName = "gas.config";
+            ConfigUtil.type = "gas";
 
      
         }
      
         protected override void OnClick()
         {
+            ConfigUtil.type = "gas";
             if (m_editor.EditState != esriEditState.esriStateEditing)
             {
                 Enabled = false;
