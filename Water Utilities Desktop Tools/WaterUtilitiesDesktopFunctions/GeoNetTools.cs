@@ -5717,11 +5717,11 @@ namespace A4WaterUtilities
                         pointAlong++;//25 -30ish
                         if (foundSource)
                         {
-                            hasSourceValveHT.Add(valveEIDInfo.Feature.OID, valveEIDInfo);//valveEIDInfo.Feature.Class.ObjectClassID +":" + 
+                            hasSourceValveHT.Add(valveEIDInfo.EID, valveEIDInfo);//valveEIDInfo.Feature.Class.ObjectClassID +":" + 
                         }
                         else
                         {
-                            noSourceValveHT.Add(valveEIDInfo.Feature.OID, valveEIDInfo);
+                            noSourceValveHT.Add(valveEIDInfo.EID, valveEIDInfo);
                             //Set the second (and last) trace flag at this source
                             //netFlag2 = new JunctionFlagClass();
                             //netFlag2.UserClassID = valveEIDInfo.Feature.Class.ObjectClassID;
