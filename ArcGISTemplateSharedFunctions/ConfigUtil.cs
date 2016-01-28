@@ -1,5 +1,5 @@
 ﻿/*
- | Version 10.1
+ | Version 10.4
  | Copyright 2014 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
@@ -190,7 +190,7 @@ namespace A4LGSharedFunctions
                 List<string> pConfFiles = new List<string>(Directory.GetFiles(pathToUserProf, "*." + type + ".*onfig*", System.IO.SearchOption.AllDirectories));
                 if (pConfFiles.Count == 0)
                 {
-                    if (pPrevConfFiles.Count > 0)
+                    if (pPrevConfFiles.Count > 0 && type != "gas")
                     {
                         getInstalledConfig(pathToUserProf, true);
                         File.Copy(pPrevConfFiles[0], Path.Combine(pathToUserProf, configFileName));               
@@ -204,7 +204,7 @@ namespace A4LGSharedFunctions
                 else if (File.Exists(Path.Combine(pathToUserProf, configFileName)) == false)
                 {
 
-                    if (pPrevConfFiles.Count > 0)
+                    if (pPrevConfFiles.Count > 0 && type != "gas")
                     {
                         getInstalledConfig(pathToUserProf, true);
                         File.Copy(pPrevConfFiles[0], Path.Combine(pathToUserProf, configFileName));
@@ -404,7 +404,7 @@ namespace A4LGSharedFunctions
 
                     }
                     else
-                        if (pPrevConfFiles.Count > 0)
+                        if (pPrevConfFiles.Count > 0 && type != "gas")
                         {
                             getInstalledConfig(pathToUserProf, true);
                             File.Copy(pPrevConfFiles[0], Path.Combine(pathToUserProf, configFileName));
@@ -436,7 +436,7 @@ namespace A4LGSharedFunctions
                 string configFileName = fileName + "." + type + ".config";
                 string sourceFileNaame = fileName + "." + type + ".config";
                 string pConfigFiles = "";
-                if (saveAsBackup)
+                if (saveAsBackup && type != "gas")
                 {
                     configFileName = "shipped" + "." + type + ".config";
                 }

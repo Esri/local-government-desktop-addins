@@ -1,7 +1,7 @@
 ﻿
 <!--
- | Version 10.1
- | Copyright 2014 Esri
+ | Version 10.4
+ | Copyright 2016 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -22,11 +22,11 @@
   <AddInID>{00d1d3d9-b338-4498-9585-00d2e81e1e0e}</AddInID>
   <Description>ArcMap Address Management Toolset</Description>
 
-   <Version>9.29.2015</Version>
+   <Version>2.18.2016</Version>
   <Image>Images\AddressManagementAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>9.29.2015</Date>
+  <Date>2/18/2016</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>

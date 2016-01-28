@@ -1,6 +1,6 @@
 ﻿<!--
- | Version 10.1
- | Copyright 2014 Esri
+ | Version 10.4
+ | Copyright 2016 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@
   <Name>Water Utility Network Tools</Name>
   <AddInID>{FD20EAB0-7ACB-4B35-AA41-753157745FD0}</AddInID>
   <Description>ArcMap tools for Water, Wastewater and Stormwater</Description>
-   <Version>2.25.2016</Version>
+   <Version>2.18.2016</Version>
   <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>2/25/2016</Date>
+  <Date>2/18/2016</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
@@ -53,9 +53,9 @@
         <Button id="A4WaterUtilities_TraceSummaryIsolation" class="TraceSummaryIsolation" message="Runs the isolation trace on Selected mains. The trace summarizes the number of valves, meters, critical meters, and service connections in the Geometric Network that would be affected if a break occurred on each Selected main. The results are stored in a separate feature class.  This tool is an involved and long process. It is suggested to run this tool on small chunks of data at a time.  The wMainWithTraceSummary layer is part of the LGIM's Captial Planning dataset.  There are a number of configuration settings in the configuration file.  This tool uses the settings starting with TraceIsolationSummary and the Valve Isolation tags." caption="Summary Isolation Trace" tip="Summary Isolation Trace" category="ArcGIS for Local Government" image="Images\SummaryIsolationTrace.png" />
         <Tool id="A4WaterUtilities_ToggleOperableStatus" class="ToggleOperableStatus" message="Changes the status of a valve from operable to non-operable and back.  Define operable and non-operable field and value values in the configuration file." caption="Change Operable Status of a valve" tip="Change Operable Status of a valve" category="ArcGIS for Local Government" image="Images\ToggleOperableStatus.png" />
         <Button id="A4WaterUtilities_ClearTraceResults" class="ClearTraceResults" message="Clears all trace results and Selected features." caption="Clear Trace Results" tip="Clear Trace Results" category="ArcGIS for Local Government" image="Images\TraceClear.png" />
-        <Tool id="A4WaterUtilities_TraceIsolation" class="TraceIsolation" message="Identifies all valves on a Geometric Network that must be shut off to isolate a section of main. All selectable features affected by the trace are Selected.  The mains are drawn as graphics.  Hold Control to return the mains as part of the selection set." caption="" tip="Valve Isolation Trace" category="ArcGIS for Local Government" image="Images\TraceIsolationTool.png" />
+        <Tool id="A4WaterUtilities_TraceIsolation" class="TraceIsolation" message="Identifies all valves on a Geometric Network that must be shut off to isolate a section of main. All selectable features affected by the trace are selected, drawn as graphics or returned in a set of layers." caption="Valve Isolation Trace" tip="Valve Isolation Trace" category="ArcGIS for Local Government" image="Images\TraceIsolationTool.png" />
         <Button id="A4WaterUtilities_TraceIsolationRerun" class="TraceIsolationRerun" message="Runs an isolation trace on Geometric Network features from flags defined on the network.  Run the Valve Isolation Trace first or add a flag using the Add a Flag tool." caption="Re-Run Isolation Trace" tip="Re-Run Isolation Trace" category="ArcGIS for Local Government" image="Images\TraceIsolationReRun.png" />
-        <Button id="A4WaterUtilities_TraceSecondaryIsolation" class="TraceSecondaryIsolation" message="Disables all Selected values on a Geometric Network and re-runs the trace from the original isolation trace Point.  Hold Control to return the mains as part of the selection set." caption="Secondary Isolation Trace" tip="Secondary Isolation Trace" category="ArcGIS for Local Government" image="Images\SecondaryTraceIsolation.png" />
+        <Button id="A4WaterUtilities_TraceSecondaryIsolation" class="TraceSecondaryIsolation" message="Disables all selected valves on a Geometric Network and re-runs the trace from the original isolation trace Point.  Hold Control to return the mains as part of the selection set." caption="Secondary Isolation Trace" tip="Secondary Isolation Trace" category="ArcGIS for Local Government" image="Images\SecondaryTraceIsolation.png" />
         <Tool id="A4WaterUtilities_TraceUpstream" class="TraceUpstream" message="Runs an upstream trace at the user-defined location on a Geometric Network. By default, mains are not Selected.  Hold Control to return the mains as part of the selection set." caption="Upstream Trace" tip="Upstream Trace" category="ArcGIS for Local Government" image="Images\TraceUpstreamTool.png" />
         <Tool id="A4WaterUtilities_TraceDownstream" class="TraceDownstream" message="Runs a downstream trace at the user-defined location on a Geometric Network. By default, mains are not Selected.  Hold Control to return the mains as part of the selection set." caption="Downstream Trace" tip="Downstream Trace" category="ArcGIS for Local Government" image="Images\TraceDownstreamTool.png" />
         <Button id="A4WaterUtilities_FlowAccumulation" class="FlowAccumulation" message="Calculates upstream/downstream flow accumulation for each Selected feature and stores results in a specified field.  Add weights to the Geometric Network Features.  Change the flow direction, layers and weight in the FlowAccumulation section of the configuration file." caption="Summary Flow Accumulation" tip="Summary Flow Accumulation" category="ArcGIS for Local Government" image="Images\FlowAccum.png" />
@@ -154,28 +154,28 @@
       <Editor>
         <Commands>
 
-          <Tool id="Esri_A4WaterUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Creates a Point, then draws a line from the Point to the nearest location on another line layer. Additional Point features can be placed along the line. Only Point features defined in the configuration file are evaluated.  Holding the control key overrides the defined templates and prompts for each feature." caption="Add a connection and the lateral" tip="Add a connection and the lateral" category="ArcGIS for Local Government" image="Images\AddLateralsConstructTool.png">
+          <Tool id="Esri_A4WaterUtilities_AddLateralsConstructionTool" class="AddLateralsConstructionTool" message="Creates a point, then draws a line from the point to the nearest location on another line layer. Additional point features can be placed along the line. Only point features defined in the configuration file are evaluated.  Holding the control key overrides the defined templates and prompts for each feature." caption="Add a connection and the lateral" tip="Add a connection and the lateral" category="ArcGIS for Local Government" image="Images\AddLateralsConstructTool.png">
             <Construction>
               <Category>Point Construction</Category>
             </Construction>
           </Tool>
-          <Tool id="Esri_A4WaterUtilities_AddLateralsFromMainPointConstructionTool" class="AddLateralsFromMainPointConstructionTool" message="Creates a Point feature and draws a line from that Point, perpendicular to the line it intersects.  Additional Point features can be placed along the line.  The Point layer requires a field to store the direction of the line(either as clock bearing or compass bearing), a field to store at which direction the camera was traveling when recording the Point(U for upstream, D for downstream), and a field with the length of the lateral to create.  Other settings for the Points along and field to copy are in the AddLateralFromMainPointLayers section of the configuration file." caption="Add Laterals from Line Locations" tip="Add Laterals from Line Locations" category="ArcGIS for Local Government" image="Images\AddLateralsFromMainConstructTool.png">
+          <Tool id="Esri_A4WaterUtilities_AddLateralsFromMainPointConstructionTool" class="AddLateralsFromMainPointConstructionTool" message="Creates a point feature and draws a line from that point, perpendicular to the line it intersects.  Additional point features can be placed along the line.  The point layer requires a field to store the direction of the line(either as clock bearing or compass bearing), a field to store at which direction the camera was traveling when recording the point(U for upstream, D for downstream), and a field with the length of the lateral to create.  Other settings for the points along and field to copy are in the AddLateralFromMainpointLayers section of the configuration file." caption="Add laterals from line locations" tip="Add laterals from line locations" category="ArcGIS for Local Government" image="Images\AddLateralsFromMainConstructTool.png">
             <Construction>
               <Category>Point Construction</Category>
             </Construction>
           </Tool>
 
-          <Tool id="Esri_A4WaterUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Creates a Point and attempts to split an intersecting line feature." caption="Add a Point and split an intersecting line" tip="Add a Point and split an intersecting line" category="ArcGIS for Local Government" image="Images\SplitLinesAtLocation.png">
+          <Tool id="Esri_A4WaterUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Creates a point and attempts to split an intersecting line feature." caption="Add a point and split an intersecting line" tip="Add a point and split an intersecting line" category="ArcGIS for Local Government" image="Images\SplitLinesAtLocation.png">
             <Construction>
               <Category>Point Construction</Category>
             </Construction>
           </Tool>
-          <Tool id="Esri_A4WaterUtilities_ConnectClosestsConstructTool" class="ConnectClosestsConstructTool" message="Creates a Point, searches for the nearest Point in the same layer, and attempts to connect the two through a line layer defined in the configuration file. Hotkey allows you to search for the closest seleted manhole.  Holding the control key overrides the defined templates and prompts for each feature. Holding the shift key limits the search to only Selected features. Holding control and shift prompts for each feature and limits the search to only Selected features." caption="Creates a Point and a line to the closest Point" tip="Creates a Point and a line to the closest Point" category="ArcGIS for Local Government" image="Images\ConnectClosestsConstructTool.png">
+          <Tool id="Esri_A4WaterUtilities_ConnectClosestsConstructTool" class="ConnectClosestsConstructTool" message="Creates a point, searches for the nearest point in the same layer, and attempts to connect the two through a line layer defined in the configuration file. Hotkey allows you to search for the closest seleted manhole.  Holding the control key overrides the defined templates and prompts for each feature. Holding the shift key limits the search to only Selected features. Holding control and shift prompts for each feature and limits the search to only Selected features." caption="Creates a point and a line to the closest point" tip="Creates a point and a line to the closest point" category="ArcGIS for Local Government" image="Images\ConnectClosestsConstructTool.png">
             <Construction>
               <Category>Point Construction</Category>
             </Construction>
           </Tool>
-          <Tool id="Esri_A4WaterUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Creates a line feature and optionally splits that line at every vertex. This tool can also place Point features at the end of a line or at each vertex.  Defines which layers qualify for this tool, how to split the line, and how and what kind of Points to place in the configuration file." caption="Create a line with Points" tip="Create a line with Points" category="ArcGIS for Local Government" image="Images\AddLineWithEndPoints.png">
+          <Tool id="Esri_A4WaterUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Creates a line feature and optionally splits that line at every vertex. This tool can also place point features at the end of a line or at each vertex.  Defines which layers qualify for this tool, how to split the line, and how and what kind of points to place in the configuration file." caption="Create a line with points" tip="Create a line with points" category="ArcGIS for Local Government" image="Images\AddLineWithEndPoints.png">
             <Construction>
               <Category>Polyline Construction</Category>
               <Category>Geometric Network Line Construction</Category>

@@ -7117,7 +7117,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Isolation Trace Area.
+        ///   Looks up a localized string similar to Trace Area.
         /// </summary>
         internal static string OutageAreaName {
             get {

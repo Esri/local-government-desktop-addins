@@ -2623,7 +2623,7 @@
     <value>Isolation Trace Results</value>
   </data>
   <data name="OutageAreaName" xml:space="preserve">
-    <value>Isolation Trace Area</value>
+    <value>Trace Area</value>
     <comment>Needs Localization</comment>
   </data>
   <data name="IsoTraceResultsLayerSuffix" xml:space="preserve">
