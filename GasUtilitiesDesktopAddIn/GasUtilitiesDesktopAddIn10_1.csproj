@@ -262,13 +262,14 @@
     <AddInContent Include="Images\PointsAlongLineTool.png" />
   </ItemGroup>
   <ItemGroup>
-    <AddInContent Include="Images\WaterUtilitiesDesktopAddIn.ico" />
-    <AddInContent Include="Images\WaterUtilitiesDesktopAddIn32.png" />
-    <AddInContent Include="Images\WaterUtilitiesDesktopAddIn64.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AddInContent Include="Images\AddLateralsFromMain.png" />
     <AddInContent Include="Images\AddLateralsFromMainConstructTool.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AddInContent Include="Images\BatchBarrier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AddInContent Include="Images\GasUtilitiesDesktopAddIn64.png" />
   </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>esriAddIn</ZipFileExtension>

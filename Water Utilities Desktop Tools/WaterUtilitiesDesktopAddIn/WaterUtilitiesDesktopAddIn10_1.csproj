@@ -274,6 +274,12 @@
     <AddInContent Include="Images\AddLateralsFromMain.png" />
     <AddInContent Include="Images\AddLateralsFromMainConstructTool.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AddInContent Include="Images\BatchBarrier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AddInContent Include="Images\ExportFlagBarriers.png" />
+  </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>esriAddIn</ZipFileExtension>
     <AddInTargetProduct>Desktop</AddInTargetProduct>
