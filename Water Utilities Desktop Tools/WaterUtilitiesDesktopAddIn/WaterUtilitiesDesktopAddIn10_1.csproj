@@ -212,21 +212,28 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\Configs\Water_LG\Loaded.config">
-      <Link>Loaded.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <AddInContent Include="Config.es-ES.xml">
       <SubType>Designer</SubType>
     </AddInContent>
     <AddInContent Include="Config.fr-FR.xml">
       <SubType>Designer</SubType>
     </AddInContent>
-    <Content Include="..\..\Configs\Gas\gas.config">
-      <Link>gas.config</Link>
+    <AddInContent Include="..\..\Configs\loaded.aa.config">
+      <Link>loaded.aa.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </AddInContent>
+    <AddInContent Include="..\..\Configs\loaded.address.config">
+      <Link>loaded.address.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AddInContent>
+    <AddInContent Include="..\..\Configs\loaded.gas.config">
+      <Link>loaded.gas.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AddInContent>
+    <AddInContent Include="..\..\Configs\loaded.water.config">
+      <Link>loaded.water.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AddInContent>
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +338,9 @@
     <VisualStudio />
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)Loaded.Config" "%AppData%\ArcGISSolutions\ConfigFiles"</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)loaded.gas.config" "%25USERPROFILE%25\AppData\Roaming\ArcGISSolutions\ConfigFiles\" /y
+xcopy "$(TargetDir)loaded.aa.config" "%25USERPROFILE%25\AppData\Roaming\ArcGISSolutions\ConfigFiles\" /y
+xcopy "$(TargetDir)loaded.address.config" "%25USERPROFILE%25\AppData\Roaming\ArcGISSolutions\ConfigFiles\" /y
+xcopy "$(TargetDir)loaded.water.config" "%25USERPROFILE%25\AppData\Roaming\ArcGISSolutions\ConfigFiles\" /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

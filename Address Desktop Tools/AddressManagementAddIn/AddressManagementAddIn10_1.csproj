@@ -174,17 +174,22 @@
     <AddInContent Include="Images\AddressManagementAddIn64.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\Configs\Water_LG\Loaded.config">
-      <Link>Loaded.config</Link>
+    <AddInContent Include="..\..\Configs\loaded.aa.config">
+      <Link>loaded.aa.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\..\Configs\Gas\gas.config">
-      <Link>gas.config</Link>
+    </AddInContent>
+    <AddInContent Include="..\..\Configs\loaded.address.config">
+      <Link>loaded.address.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </AddInContent>
+    <AddInContent Include="..\..\Configs\loaded.gas.config">
+      <Link>loaded.gas.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AddInContent>
+    <AddInContent Include="..\..\Configs\loaded.water.config">
+      <Link>loaded.water.config</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AddInContent>
   </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>esriAddIn</ZipFileExtension>
