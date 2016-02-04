@@ -229,7 +229,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AddInContent>
     <None Include="Images\Open2.png" />
-    <AddInContent Include="Images\ArcGISAddin1.png" />
     <AddInContent Include="Images\ExportFlagBarriers.png" />
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +269,10 @@
   </ItemGroup>
   <ItemGroup>
     <AddInContent Include="Images\GasUtilitiesDesktopAddIn64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AddInContent Include="Images\GasUtilitiesDesktopAddIn.ico" />
+    <AddInContent Include="Images\GasUtilitiesDesktopAddIn32.png" />
   </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>esriAddIn</ZipFileExtension>

@@ -344,9 +344,7 @@
     <VisualStudio />
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)loaded.gas.config" "%25USERPROFILE%25\AppData\Roaming\ArcGISSolutions\ConfigFiles\" /y
-xcopy "$(TargetDir)loaded.aa.config" "%25USERPROFILE%25\AppData\Roaming\ArcGISSolutions\ConfigFiles\" /y
-xcopy "$(TargetDir)loaded.address.config" "%25USERPROFILE%25\AppData\Roaming\ArcGISSolutions\ConfigFiles\" /y
-xcopy "$(TargetDir)loaded.water.config" "%25USERPROFILE%25\AppData\Roaming\ArcGISSolutions\ConfigFiles\" /y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
