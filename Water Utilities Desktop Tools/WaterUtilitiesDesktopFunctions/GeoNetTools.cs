@@ -2289,7 +2289,8 @@ namespace A4WaterUtilities
 
                 mxdoc = app.Document as IMxDocument;
                 map = mxdoc.ActiveView.FocusMap;
-
+                SnapTol = Globals.ConvertPixelsToMap(SnapTol, map);
+               
                 string[] strValveFLs = ISOvalveFeatureLayerName.Split('|');
                 // string[] strOpValues = .Split('|');
                 valveFLs = new IFeatureLayer[strValveFLs.Length];//(IFeatureLayer)Globals.FindLayer(map, valveFLName);
@@ -2525,10 +2526,21 @@ namespace A4WaterUtilities
 
                     foreach (IFeatureLayer sourceFLayer in sourceFLs)
                     {
+                        fcursor = null;
+                        if (sourceFLayer == null)
+                        {
+
+                            continue;
+                        }
+                        if (sourceFLayer.FeatureClass != null)
+                        {
+                            continue;
+                        }
                         if (retEnv != null)
                         {
                             sf = new SpatialFilterClass();
                             sf.Geometry = retEnv;
+
                             sf.GeometryField = sourceFLayer.FeatureClass.ShapeFieldName;
                             sf.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
                             fcursor = sourceFLayer.Search(sf, false);
@@ -5526,7 +5538,7 @@ namespace A4WaterUtilities
                     sourceEIDInfoHT.Remove(eidInfo.Feature.OID);
                 }
                 pointAlong++;//21
-                if (sourceEIDInfoHT.Count == 0 && totalreachcount > 0 )
+                if (sourceEIDInfoHT.Count == 0 && totalreachcount > 0)
                 {
                     if (processEvent)
                     {
