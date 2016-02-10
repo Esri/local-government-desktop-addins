@@ -6621,6 +6621,8 @@ namespace ArcGIS4LocalGovernment
 
                                             try
                                             {
+                                                int wkid = 4326;
+                                                string locatorURLOrg = _agsOnlineLocators;
                                                 IPoint revGCLoc = null;
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "GET_ADDRESS_USING_ARCGIS_SERVICE");
                                                 if (fieldObj.Type == esriFieldType.esriFieldTypeString)
@@ -6629,7 +6631,7 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         args = valData.Split('|');
                                                         revGCLoc = Globals.GetGeomCenter(inFeature)[0];
-                                                        int wkid = inFeature.Shape.SpatialReference.FactoryCode;
+                                                        //wkid = inFeature.Shape.SpatialReference.FactoryCode;
                                                         if (revGCLoc != null)
                                                         {
                                                             //Test for user specified URL 
@@ -6642,7 +6644,7 @@ namespace ArcGIS4LocalGovernment
                                                                 if (Globals.IsUrl(args[0]))
                                                                 {
                                                                     locatorURL = args[0];
-
+                                                                    locatorURLOrg = locatorURL;
                                                                     if (!(locatorURL.EndsWith(reverseGeocodeStr)))
                                                                     {
                                                                         if (!(locatorURL.EndsWith(GeocodeStr)))
@@ -6667,6 +6669,9 @@ namespace ArcGIS4LocalGovernment
                                                                                 locatorURL += reverseGeocodeStr;
                                                                             }
                                                                         }
+                                                                    }
+                                                                    else {
+                                                                        locatorURLOrg = locatorURL.Replace("/" + reverseGeocodeStr,"");
                                                                     }
                                                                 }
 
@@ -6696,6 +6701,7 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             else
                                                             {
+                                                               // locatorURLOrg = _agsOnlineLocators;
                                                                 if (_agsOnlineLocators.Substring(_agsOnlineLocators.LastIndexOf('/', _agsOnlineLocators.Length - 2)).Contains(GeocodeStr))
                                                                 {
                                                                     locatorURL = _agsOnlineLocators + "/" + reverseGeocodeStr;
@@ -6725,7 +6731,7 @@ namespace ArcGIS4LocalGovernment
                                                                 try
                                                                 {
                                                                     // Create the web request  
-                                                                    request = WebRequest.Create(_agsOnlineLocators) as HttpWebRequest;
+                                                                    request = WebRequest.Create(locatorURLOrg) as HttpWebRequest;
 
                                                                     // Get response  
 
@@ -6737,7 +6743,20 @@ namespace ArcGIS4LocalGovernment
                                                                         resp = resp.Substring(resp.IndexOf("Spatial Reference:"));
                                                                         resp = resp.Substring(0, resp.IndexOf("<br/>"));
                                                                         resp = resp.Substring(resp.IndexOf("</b>") + 4);
-                                                                        wkid = Convert.ToInt32(resp.Split(' ')[0]);
+                                                                        try
+                                                                        {
+                                                                            wkid = Convert.ToInt32(resp.Split(' ')[0]);
+                                                                        }
+                                                                        catch { }
+
+                                                                        try
+                                                                        {
+                                                                            resp = Regex.Replace(resp, @"\t|\n|\r", "");
+                                                                            resp = resp.Replace("&nbsp", "|");
+                                                                            string[] respArr = resp.Split('|');
+                                                                            wkid = Convert.ToInt32(respArr[0]);
+                                                                        }
+                                                                        catch { }
 
                                                                     }
                                                                 }
@@ -6745,7 +6764,7 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     AAState.WriteLine(ex.Message);
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain96"));
-                                                                    wkid = 4326;
+                                                                    //wkid = 4326;
                                                                 }
                                                                 finally
                                                                 {
