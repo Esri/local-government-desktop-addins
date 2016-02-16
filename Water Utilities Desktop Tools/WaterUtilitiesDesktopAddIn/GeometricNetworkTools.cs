@@ -832,6 +832,7 @@ namespace A4WaterUtilities
                 switch (retVals.Length)
                 {
                     case 1:
+                        MessageBox.Show(retVals[0]);
                         break;
                     case 2:
                         MessageBox.Show(retVals[1]);

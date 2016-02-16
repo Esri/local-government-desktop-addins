@@ -2289,7 +2289,8 @@ namespace A4WaterUtilities
 
                 mxdoc = app.Document as IMxDocument;
                 map = mxdoc.ActiveView.FocusMap;
-
+                SnapTol = Globals.ConvertPixelsToMap(SnapTol, map);
+               
                 string[] strValveFLs = ISOvalveFeatureLayerName.Split('|');
                 // string[] strOpValues = .Split('|');
                 valveFLs = new IFeatureLayer[strValveFLs.Length];//(IFeatureLayer)Globals.FindLayer(map, valveFLName);
@@ -2477,7 +2478,7 @@ namespace A4WaterUtilities
 
                             // MessageBox.Show("Valve: " + targetFeature.get_Value(targetFeature.Fields.FindField(valveFLayer.DisplayField)).ToString() + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
                             if (showMessage)
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ValveFrom") + valveFLayer.Name + ": " + disEx + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ValveFrom") + valveFLayer.Name + ": " + disEx + opField.AliasName +  A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
 
                             Globals.FlashGeometry(feat.Shape, Globals.GetColor(255, 0, 0), mxdoc.ActiveView.ScreenDisplay, 150);
 
@@ -2525,10 +2526,21 @@ namespace A4WaterUtilities
 
                     foreach (IFeatureLayer sourceFLayer in sourceFLs)
                     {
+                        fcursor = null;
+                        if (sourceFLayer == null)
+                        {
+
+                            continue;
+                        }
+                        if (sourceFLayer.FeatureClass != null)
+                        {
+                            continue;
+                        }
                         if (retEnv != null)
                         {
                             sf = new SpatialFilterClass();
                             sf.Geometry = retEnv;
+
                             sf.GeometryField = sourceFLayer.FeatureClass.ShapeFieldName;
                             sf.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
                             fcursor = sourceFLayer.Search(sf, false);
@@ -2640,7 +2652,7 @@ namespace A4WaterUtilities
 
                                 // MessageBox.Show("source: " + targetFeature.get_Value(targetFeature.Fields.FindField(sourceFLayer.DisplayField)).ToString() + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
                                 if (showMessage)
-                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("SourceFrom") + sourceFLayer.Name + ": " + disEx + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
+                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("SourceFrom") + sourceFLayer.Name + ": " + disEx + opField.AliasName + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
                                 //  MessageBox.Show("source: " + disEx + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
 
                                 Globals.FlashGeometry(feat.Shape, Globals.GetColor(255, 0, 0), mxdoc.ActiveView.ScreenDisplay, 150);
@@ -4483,7 +4495,7 @@ namespace A4WaterUtilities
                     pStepPro = (IStepProgressor)pProDlg;
 
                     pStepPro.MinRange = 0;
-                    pStepPro.MaxRange = 18;
+                    pStepPro.MaxRange = 20;
                     pStepPro.StepValue = 1;
                     pStepPro.Position = 0;
                     pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_4");
@@ -5526,7 +5538,7 @@ namespace A4WaterUtilities
                     sourceEIDInfoHT.Remove(eidInfo.Feature.OID);
                 }
                 pointAlong++;//21
-                if (sourceEIDInfoHT.Count == 0 && totalreachcount > 0 )
+                if (sourceEIDInfoHT.Count == 0 && totalreachcount > 0)
                 {
                     if (processEvent)
                     {
@@ -5801,26 +5813,7 @@ namespace A4WaterUtilities
 
                 //Open identify dialog with selected features
                 //IdentifySelected(map);
-                if (processEvent)
-                {
-
-                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("Complete");
-                    pStepPro.Step();
-                    boolCont = pTrkCan.Continue();
-                }
-
-
-                if (!boolCont)
-                {
-
-                    pStepPro.Hide();
-                    pProDlg.HideDialog();
-                    pStepPro = null;
-                    pProDlg = null;
-                    pProDFact = null;
-                    return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
-                }
-
+             
                 if (snappedPoint != null)
                 {
                     snappedPoint.Project(map.SpatialReference);
@@ -5925,6 +5918,16 @@ namespace A4WaterUtilities
             }
             finally
             {
+
+                if (processEvent)
+                {
+
+                    pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("Complete");
+                    pStepPro.Step();
+                   
+                }
+
+
 
                 barrierIds = null;
                 sourceDirectEIDInfoHT = null;

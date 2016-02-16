@@ -3022,8 +3022,8 @@
     <comment> is</comment>
   </data>
   <data name="IsNowOperable" xml:space="preserve">
-    <value> estado operativo ahora es </value>
-    <comment> operable status is now</comment>
+    <value>  ahora es </value>
+    <comment> is now</comment>
   </data>
   <data name="JunctionInThe" xml:space="preserve">
     <value> nodo en</value>
@@ -3386,7 +3386,7 @@
     <comment>You must have one higlighted layer in the TOC.</comment>
   </data>
   <data name="ValveFrom" xml:space="preserve">
-    <value>Válvula de</value>
+    <value>Valor </value>
     <comment>Valve from</comment>
   </data>
   <data name="Warning" xml:space="preserve">
@@ -3462,7 +3462,8 @@
     <comment>Select a layer to load barriers from</comment>
   </data>
   <data name="traceLayerName" xml:space="preserve">
-    <value>Isolation Trace Results</value>
+    <value>Trace Results</value>
+     <comment>Needs Localization</comment>
   </data>
   <data name="OutageAreaName" xml:space="preserve">
     <value>Trace Area</value>

@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterUtilitiesDesktopAddIn"
 		{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2} = {5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterUtilitiesDesktopFunctions", "Water Utilities Desktop Tools\WaterUtilitiesDesktopFunctions\WaterUtilitiesDesktopFunctions.csproj", "{A1285DE2-50A3-4121-A119-4715810F3232}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilitiesDesktopFunctions", "Water Utilities Desktop Tools\WaterUtilitiesDesktopFunctions\UtilitiesDesktopFunctions.csproj", "{A1285DE2-50A3-4121-A119-4715810F3232}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LGSharedFunctions", "ArcGISTemplateSharedFunctions\LGSharedFunctions.csproj", "{17F1BA9D-F53B-4601-8333-6D3127A162D4}"
 EndProject

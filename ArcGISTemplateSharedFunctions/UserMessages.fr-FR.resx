@@ -2290,7 +2290,7 @@
     <value> est </value>
   </data>
   <data name="IsNowOperable" xml:space="preserve">
-    <value> l'état de fonctionnement est maintenant </value>
+    <value> est maintenant </value>
   </data>
   <data name="JunctionInThe" xml:space="preserve">
     <value> jonction dans la couche </value>
@@ -2563,7 +2563,7 @@
     <value>Vous devez sélectionner une couche dans la table des matières.</value>
   </data>
   <data name="ValveFrom" xml:space="preserve">
-    <value>Vanne de </value>
+    <value>Valeur </value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Avertissement</value>
@@ -2620,7 +2620,8 @@
     <value>Sélectionnez la couche contenant les barrières</value>
   </data>
   <data name="traceLayerName" xml:space="preserve">
-    <value>Isolation Trace Results</value>
+    <value>Trace Results</value>
+    <comment>Needs Localization</comment>
   </data>
   <data name="OutageAreaName" xml:space="preserve">
     <value>Trace Area</value>
