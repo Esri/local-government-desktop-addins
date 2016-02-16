@@ -212,22 +212,22 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <AddInContent Include="..\Configs\loaded.aa.config">
+    <Content Include="..\Configs\loaded.aa.config">
       <Link>loaded.aa.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AddInContent>
-    <AddInContent Include="..\Configs\loaded.address.config">
+    </Content>
+    <Content Include="..\Configs\loaded.address.config">
       <Link>loaded.address.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AddInContent>
-    <AddInContent Include="..\Configs\loaded.gas.config">
+    </Content>
+    <Content Include="..\Configs\loaded.gas.config">
       <Link>loaded.gas.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AddInContent>
-    <AddInContent Include="..\Configs\loaded.water.config">
+    </Content>
+    <Content Include="..\Configs\loaded.water.config">
       <Link>loaded.water.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AddInContent>
+    </Content>
     <None Include="Images\Open2.png" />
     <AddInContent Include="Images\ExportFlagBarriers.png" />
   </ItemGroup>
