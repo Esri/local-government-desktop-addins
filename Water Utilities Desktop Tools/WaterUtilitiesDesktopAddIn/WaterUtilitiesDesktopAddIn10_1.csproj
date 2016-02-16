@@ -192,9 +192,9 @@
       <Project>{17F1BA9D-F53B-4601-8333-6D3127A162D4}</Project>
       <Name>LGSharedFunctions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WaterUtilitiesDesktopFunctions\WaterUtilitiesDesktopFunctions.csproj">
+    <ProjectReference Include="..\WaterUtilitiesDesktopFunctions\UtilitiesDesktopFunctions.csproj">
       <Project>{A1285DE2-50A3-4121-A119-4715810F3232}</Project>
-      <Name>WaterUtilitiesDesktopFunctions</Name>
+      <Name>UtilitiesDesktopFunctions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
