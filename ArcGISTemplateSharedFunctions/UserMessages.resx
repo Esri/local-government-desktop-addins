@@ -970,7 +970,7 @@
     <value> is </value>
   </data>
   <data name="IsNowOperable" xml:space="preserve">
-    <value> operable status is now </value>
+    <value> is now </value>
   </data>
   <data name="JunctionInThe" xml:space="preserve">
     <value> junction in the </value>
@@ -1243,7 +1243,7 @@
     <value>You must have one higlighted layer in the TOC.</value>
   </data>
   <data name="ValveFrom" xml:space="preserve">
-    <value>Valve from </value>
+    <value>Value </value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
@@ -2626,7 +2626,7 @@
     <value>Select a layer to load barriers from</value>
   </data>
   <data name="traceLayerName" xml:space="preserve">
-    <value>Isolation Trace Results</value>
+    <value>Trace Results</value>
   </data>
   <data name="OutageAreaName" xml:space="preserve">
     <value>Trace Area</value>

@@ -6703,7 +6703,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  operable status is now .
+        ///   Looks up a localized string similar to  is now .
         /// </summary>
         internal static string IsNowOperable {
             get {
@@ -7558,7 +7558,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Isolation Trace Results.
+        ///   Looks up a localized string similar to Trace Results.
         /// </summary>
         internal static string traceLayerName {
             get {
@@ -7576,7 +7576,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Valve from .
+        ///   Looks up a localized string similar to Value .
         /// </summary>
         internal static string ValveFrom {
             get {

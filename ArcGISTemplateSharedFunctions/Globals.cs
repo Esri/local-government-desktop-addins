@@ -694,7 +694,7 @@ namespace A4LGSharedFunctions
             IDataset pDataset = null;
             IFeatureLayer pFL = null;
             IWorkspace pWS = null;
-
+            IFeatureLayer mapLayer = null;
             try
             {
                 if ((pWS = Globals.GetInMemoryWorkspaceFromTOC(map)) == null)
@@ -736,6 +736,10 @@ namespace A4LGSharedFunctions
                     pFL.FeatureClass = Globals.createFeatureClassInMemory(className, pFlds, pWS, sourceClass.FeatureType);
 
                 }
+                mapLayer = FindLayerByFeatureClass(map, sourceClass, false);
+                if (mapLayer != null) { 
+                    copyLayerFromLayer(mapLayer, pFL);
+                }
                 return pFL;
             }
             catch (Exception ex)
@@ -744,6 +748,7 @@ namespace A4LGSharedFunctions
             }
             finally
             {
+                mapLayer = null;
                 pLay = null;
                 pFlds = null;
                 pFC = null;
@@ -1564,6 +1569,9 @@ namespace A4LGSharedFunctions
             IFeatureClass pBarriersFC = null;
             IFeatureLayer pFlagsLayer = null;
             IFeatureLayer pBarriersLayer = null;
+            ISimpleRenderer pSimpleRend = null;
+            IGeoFeatureLayer pGeoFeatLay = null;
+
             try
             {
                 // Open the Workspace
@@ -1623,6 +1631,13 @@ namespace A4LGSharedFunctions
                     pFlagsLayer = pFLayer as IFeatureLayer;
                     pFlagsLayer.FeatureClass = pFlagsFC;
                 }
+
+             
+                pSimpleRend = new SimpleRendererClass();
+                pSimpleRend.Symbol = CreateNetworkFlagBarrierSymbol(flagType.EdgeFlag) as ISymbol;
+
+                pGeoFeatLay = pFlagsLayer as IGeoFeatureLayer;
+                pGeoFeatLay.Renderer = pSimpleRend as IFeatureRenderer;
 
                 pFlagsFC = pFlagsLayer.FeatureClass;
                 work = ((IDataset)pFlagsFC).Workspace;
@@ -1742,6 +1757,12 @@ namespace A4LGSharedFunctions
                     pBarriersLayer.FeatureClass = pBarriersFC;
                 }
 
+                pSimpleRend = new SimpleRendererClass();
+                pSimpleRend.Symbol = CreateNetworkFlagBarrierSymbol(flagType.EdgeBarrier) as ISymbol;
+
+                pGeoFeatLay = pBarriersLayer as IGeoFeatureLayer;
+                pGeoFeatLay.Renderer = pSimpleRend as IFeatureRenderer;
+
                 pBarriersFC = pBarriersLayer.FeatureClass;
                 work = ((IDataset)pBarriersFC).Workspace;
 
@@ -1829,6 +1850,9 @@ namespace A4LGSharedFunctions
             catch (Exception ex) { }
             finally
             {
+                pSimpleRend = null;
+                pGeoFeatLay = null;
+
                 pFLayer = null;
                 pBLayer = null;
                 pCompLay = null;
@@ -1978,6 +2002,9 @@ namespace A4LGSharedFunctions
                     pOutageLayer = pFLayer as IFeatureLayer;
                     pOutageLayer.FeatureClass = pOutageFC;
                 }
+                if (pFTemplateLayer != null){
+                    Globals.copyLayerFromLayer(pFTemplateLayer, pOutageLayer);
+                    }
                 return pOutageLayer;
             }
             catch (Exception ex)
@@ -2693,6 +2720,31 @@ namespace A4LGSharedFunctions
             //convert Symbol to Bitmap
             Bitmap bitmap = WindowsAPI.SymbolToBitmap(symbol, new Size(16, 16), control.CreateGraphics(), ColorTranslator.ToWin32(control.BackColor));
             return bitmap;
+        }
+        public static void copyLayerFromLayer(IFeatureLayer copyFromLayer,IFeatureLayer copyToLayer) {
+            IGeoFeatureLayer copyGeoFromLayer = null;
+            IGeoFeatureLayer copyGeoToLayer = null;
+            IObjectCopy pObjectCopy = null;
+            try
+            {
+
+                copyGeoFromLayer = copyFromLayer as IGeoFeatureLayer;
+                copyGeoToLayer = copyToLayer as IGeoFeatureLayer;
+                pObjectCopy = new ObjectCopyClass();
+
+                copyGeoToLayer.Renderer = pObjectCopy.Copy(copyGeoFromLayer.Renderer) as IFeatureRenderer;
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                copyGeoFromLayer = null;
+                copyGeoToLayer = null;
+            }
         }
 
         //public static void SetVertexDefaultSymbol(ref IEditor3 vEditor)
