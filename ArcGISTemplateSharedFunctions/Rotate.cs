@@ -284,6 +284,13 @@ namespace A4LGSharedFunctions
             }
 
         }
+        public class diameterMeterFeat
+        {
+            public double dblDiameter { get; set; }
+            public IPoint pntStart{ get; set; }
+            public IPoint pntEnd { get; set; }
+            public double angle { get; set; }
+        }
         public double RotatePointByNetwork(IMap pMap, INetworkFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName )
         {
             //This routine is used by both RotateDuringCreateFeature and RotateSelectedFeature.
@@ -293,7 +300,7 @@ namespace A4LGSharedFunctions
             double dblAngle = 0;
             double dblDiameter = 0;
             double ltest = 0;
-
+            diameterMeterFeat diamPnt = null;
             int iLineDiameterFieldPos = 0;
       
             IPoint pPoint = default(IPoint);
@@ -302,7 +309,9 @@ namespace A4LGSharedFunctions
 
             List<string> pLstInt = new List<string>();
             List<double> cAngles = new List<double>();
-            List<double> cDiameters = new List<double>();
+            List<diameterMeterFeat> diametersWithPoints = new List<diameterMeterFeat>();
+         
+
             UID pId = new UID();
             IFeature pTempFeat = null;
             try
@@ -380,10 +389,17 @@ namespace A4LGSharedFunctions
                         //add this line (angle and diameter) to a collection of line info for this point
                         cAngles.Add(dblAngle);
 
-                        if (dblDiameter != -9999)
-                        {
-                            cDiameters.Add(dblDiameter);
-                        }
+                      
+                            diamPnt = new diameterMeterFeat();
+                            
+                            diamPnt.dblDiameter = dblDiameter;
+                            diamPnt.pntStart = ((IPolyline)pTempFeat.Shape).FromPoint;
+                            diamPnt.pntEnd = ((IPolyline)pTempFeat.Shape).ToPoint;
+                            diamPnt.angle = dblAngle;
+                            diametersWithPoints.Add(diamPnt);
+
+                           
+                      
 
                     }
                     
@@ -405,30 +421,106 @@ namespace A4LGSharedFunctions
                     case 2:
                         //Two lines such as at reducers Or at tee fittings where line is not broken
 
-                        if (cDiameters.Count == 2)
+                        if (diametersWithPoints.Count == 2)
                         {
                             //If cDiameters(0) Is Nothing Or cDiameters(1) Is Nothing Then
                             //    Return cAngles.Item(0)
                             //Else
-                            if (cDiameters[0] > cDiameters[1])
+                            if (diametersWithPoints[0].dblDiameter == -9999 && diametersWithPoints[1].dblDiameter == -9999)
                             {
-                                return cAngles[1];
-                                //If cAngles.Item(0) = cAngles.Item(1) Then
-                                //    Return cAngles.Item(1)
-                                //Else
-                                //    Return cAngles.Item(1) - 180
-                                //End If
+                                return diametersWithPoints[0].angle;
+                            }
+                            else if (diametersWithPoints[0].dblDiameter == -9999)
+                            {
+                                return diametersWithPoints[1].angle;
+                            }
+                            else if (diametersWithPoints[1].dblDiameter == -9999) {
+                                return diametersWithPoints[0].angle;
+                            }
 
+                            else if (diametersWithPoints[0].dblDiameter > diametersWithPoints[1].dblDiameter)
+                            {
+                                if (Globals.pointscoincident(diametersWithPoints[0].pntStart, diametersWithPoints[1].pntStart))
+                                {
+                                    //Checked
+                                    return diametersWithPoints[0].angle;
+                                }
+                                else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntEnd))
+                                {
+                                    //Checked
+                                    if (diametersWithPoints[0].angle >= 180)
+                                    {
+                                        return diametersWithPoints[0].angle - 180;
+                                    }
+                                    else
+                                    {
+                                        return diametersWithPoints[0].angle + 180;
+                                    }
+                                }
+                                else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntStart))
+                                {
+                                    //Checked
+                                    if (diametersWithPoints[0].angle >= 180)
+                                    {
+                                        return diametersWithPoints[0].angle - 180;
+                                    }
+                                    else
+                                    {
+                                        return diametersWithPoints[0].angle + 180;
+                                    }
+
+                                }
+                                else
+                                {
+                                    //Checked
+                                    return diametersWithPoints[0].angle;
+                                }
+
+
+                            }
+                            else if (diametersWithPoints[0].dblDiameter < diametersWithPoints[1].dblDiameter)
+                            {
+                                if (Globals.pointscoincident(diametersWithPoints[0].pntStart, diametersWithPoints[1].pntStart))
+                                {
+                                    //Checked
+                                    return diametersWithPoints[1].angle;
+                                }
+                                else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntEnd))
+                                {
+                                    //Checked
+                                    if (diametersWithPoints[1].angle >= 180)
+                                    {
+                                        return diametersWithPoints[1].angle - 180;
+                                    }
+                                    else
+                                    {
+                                        return diametersWithPoints[1].angle + 180;
+                                    }
+                                }
+                                else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntStart))
+                                {
+                                    //Checked
+                                    return diametersWithPoints[1].angle;
+                                }
+                                else
+                                {
+                                    //Checked
+                                    if (diametersWithPoints[1].angle >= 180)
+                                    {
+                                        return diametersWithPoints[1].angle - 180;
+                                    }
+                                    else
+                                    {
+                                        return diametersWithPoints[1].angle + 180;
+                                    }
+                                }
                             }
                             else
                             {
-                                return cAngles[0];
-                                //If cAngles.Item(0) = cAngles.Item(1) Then
-                                //    Return cAngles.Item(0) - 180
-                                //Else
-                                //    Return cAngles.Item(1)
-                                //End If
+                                return diametersWithPoints[0].angle;
+
                             }
+
                         }
                         else
                         {
@@ -481,14 +573,14 @@ namespace A4LGSharedFunctions
             }
             finally
             {
-
+                diamPnt = null;
                 pPoint=null;
                 pSimpJunc = null;
                 pEdgeFeat = null;
 
                 pLstInt.Clear();
                 cAngles.Clear();
-                cDiameters.Clear(); 
+                diametersWithPoints.Clear(); 
                 pId  = null;
                 pTempFeat = null;
             }

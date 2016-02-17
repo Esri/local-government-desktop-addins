@@ -10753,7 +10753,20 @@ namespace A4LGSharedFunctions
                 pSRResolution = null;
             }
         }
+        public static Boolean pointscoincident(IPoint pntOne, IPoint pntTwo) { 
+        
+           double tol = GetXYTolerance(pntOne);
+           tol = tol * 2;
+           if ((Math.Abs(pntOne.X - pntTwo.X) <= tol) &&
+               Math.Abs(pntOne.Y - pntTwo.Y) <= tol)
+           {
+               return true;
+           }
+           else {
+               return false;
+           }
 
+        }
         public static double GetXYTolerance(IFeature Feature)
         {
 
