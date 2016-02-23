@@ -13651,12 +13651,13 @@ namespace ArcGIS4LocalGovernment
 
                                                                                 ISpatialReferenceResolution pSRResolution2;
 
+                                                                                double dblTol = Globals.GetXYTolerance(sourceLayer);
+                                                                                //pSRResolution = ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference) as ISpatialReferenceResolution;
 
-                                                                                pSRResolution = ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference) as ISpatialReferenceResolution;
-                                                                                pSRResolution2 = AAState._editor.Map.SpatialReference as ISpatialReferenceResolution;
-
-                                                                                double dblTol = pSRResolution.get_XYResolution(false);
+                                                                                //dblTol = pSRResolution.get_XYResolution(false);
                                                                                 dblTol = dblTol * 10;
+
+                                                                                pSRResolution2 = AAState._editor.Map.SpatialReference as ISpatialReferenceResolution;
 
                                                                                 double dblTol2 = pSRResolution2.get_XYResolution(false);
                                                                                 dblTol2 = dblTol2 * 10;
