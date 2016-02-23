@@ -737,7 +737,8 @@ namespace A4LGSharedFunctions
 
                 }
                 mapLayer = FindLayerByFeatureClass(map, sourceClass, false);
-                if (mapLayer != null) { 
+                if (mapLayer != null)
+                {
                     copyLayerFromLayer(mapLayer, pFL);
                 }
                 return pFL;
@@ -1632,7 +1633,7 @@ namespace A4LGSharedFunctions
                     pFlagsLayer.FeatureClass = pFlagsFC;
                 }
 
-             
+
                 pSimpleRend = new SimpleRendererClass();
                 pSimpleRend.Symbol = CreateNetworkFlagBarrierSymbol(flagType.EdgeFlag) as ISymbol;
 
@@ -2002,9 +2003,10 @@ namespace A4LGSharedFunctions
                     pOutageLayer = pFLayer as IFeatureLayer;
                     pOutageLayer.FeatureClass = pOutageFC;
                 }
-                if (pFTemplateLayer != null){
+                if (pFTemplateLayer != null)
+                {
                     Globals.copyLayerFromLayer(pFTemplateLayer, pOutageLayer);
-                    }
+                }
                 return pOutageLayer;
             }
             catch (Exception ex)
@@ -2721,7 +2723,8 @@ namespace A4LGSharedFunctions
             Bitmap bitmap = WindowsAPI.SymbolToBitmap(symbol, new Size(16, 16), control.CreateGraphics(), ColorTranslator.ToWin32(control.BackColor));
             return bitmap;
         }
-        public static void copyLayerFromLayer(IFeatureLayer copyFromLayer,IFeatureLayer copyToLayer) {
+        public static void copyLayerFromLayer(IFeatureLayer copyFromLayer, IFeatureLayer copyToLayer)
+        {
             IGeoFeatureLayer copyGeoFromLayer = null;
             IGeoFeatureLayer copyGeoToLayer = null;
             IObjectCopy pObjectCopy = null;
@@ -9397,7 +9400,30 @@ namespace A4LGSharedFunctions
 
             }
         }
+        public static IGeometry bufferTillNotEmpty(IGeometry inGeo, double searchDistance)
+        {
+            ITopologicalOperator pTopo = null;
+            IPolygon ptempPoly = null;
+            IGeometry pGeo = null;
+            try
+            {
+                pTopo = inGeo as ITopologicalOperator;
+                pGeo = pTopo.Buffer(searchDistance);
+                ptempPoly = pGeo as IPolygon;
+                if (ptempPoly.IsEmpty == true)
+                {
+                    pGeo = bufferTillNotEmpty(inGeo, searchDistance * 2);
+                }
+                return pGeo;
+            }
+            catch
+            {
+                return inGeo;
+            }
 
+
+
+        }
         public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IGeometry inGeo, double searchDistance, bool useCentroid, ISpatialReference mapSpatRef)
         {
             IGeometry pGeo = null;
@@ -9428,8 +9454,9 @@ namespace A4LGSharedFunctions
                         {
                             if (searchDistance != 0.0)
                             {
-                                pTopo = inGeo as ITopologicalOperator;
-                                pSourceGeo = pTopo.Buffer(searchDistance);
+                                pSourceGeo = bufferTillNotEmpty(inGeo, searchDistance);
+                                //pTopo = inGeo as ITopologicalOperator;
+                                //pSourceGeo = pTopo.Buffer(searchDistance);
                             }
                         }
                         catch (Exception ex)
@@ -9507,8 +9534,14 @@ namespace A4LGSharedFunctions
                     {
                         if (searchDistance != 0.0)
                         {
-                            pTopo = pGeo as ITopologicalOperator;
-                            pGeo = pTopo.Buffer(searchDistance);
+                            pGeo = bufferTillNotEmpty(pGeo, searchDistance);
+                            //pTopo = pGeo as ITopologicalOperator;
+                            //pGeo = pTopo.Buffer(searchDistance);
+                            //IPolygon ptempPoly = pGeo as IPolygon;
+                            //if (ptempPoly.IsEmpty == true)
+                            //{
+                            //    pGeo = pTopo.Buffer(searchDistance * 2);
+                            //}
                         }
                     }
                     catch (Exception ex)
@@ -9519,8 +9552,17 @@ namespace A4LGSharedFunctions
                     {
                         if (pGeo.SpatialReference != null)
                         {
-                            if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference != pGeo.SpatialReference)
+                            try
+                            {
+                                if ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference.FactoryCode != pGeo.SpatialReference.FactoryCode)
+                                {
+                                    pGeo.Project((sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
+                                }
+                            }
+                            catch
+                            {
                                 pGeo.Project((sourceLayer.FeatureClass as IGeoDataset).SpatialReference);
+                            }
                         }
 
                     }
@@ -10753,18 +10795,20 @@ namespace A4LGSharedFunctions
                 pSRResolution = null;
             }
         }
-        public static Boolean pointscoincident(IPoint pntOne, IPoint pntTwo) { 
-        
-           double tol = GetXYTolerance(pntOne);
-           tol = tol * 2;
-           if ((Math.Abs(pntOne.X - pntTwo.X) <= tol) &&
-               Math.Abs(pntOne.Y - pntTwo.Y) <= tol)
-           {
-               return true;
-           }
-           else {
-               return false;
-           }
+        public static Boolean pointscoincident(IPoint pntOne, IPoint pntTwo)
+        {
+
+            double tol = GetXYTolerance(pntOne);
+            tol = tol * 2;
+            if ((Math.Abs(pntOne.X - pntTwo.X) <= tol) &&
+                Math.Abs(pntOne.Y - pntTwo.Y) <= tol)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
         }
         public static double GetXYTolerance(IFeature Feature)

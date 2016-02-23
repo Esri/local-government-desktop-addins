@@ -81,7 +81,7 @@ namespace ArcGIS4LocalGovernment
     }
     public static class AAState
     {
-        public enum intersectOptions { Centroid, PromptMulti, First, Last }
+        public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature }
         public static ESRI.ArcGIS.esriSystem.IPropertySet2 lastValueProperties;
         public static string _filePath = "";
 
@@ -2770,7 +2770,7 @@ namespace ArcGIS4LocalGovernment
                                             try
                                             {
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FIELD_TRIGGER");
-                                                if (inFeature != null & valData != null)
+                                                if (inObject != null & valData != null)
                                                 {
 
                                                     // Parse arguments
