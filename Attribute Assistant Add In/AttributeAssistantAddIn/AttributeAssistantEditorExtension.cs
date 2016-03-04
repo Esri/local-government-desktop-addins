@@ -11872,6 +11872,11 @@ namespace ArcGIS4LocalGovernment
                                                     string[] targetFieldNames = args[2].ToString().Trim().Split(',');
                                                     string sourceIDFieldName = args[3].ToString().Trim();
                                                     string targetIDFieldName = args[4].ToString().Trim();
+                                                    bool autoCommit = false;
+                                                    if (args.Length == 6) {
+                                                        autoCommit = args[5].ToString().Trim().ToLower() == "true" ? true : false;
+
+                                                    }
                                                     int countFld = 1;
                                                     if (args.Length == 6)
                                                     {
@@ -11988,18 +11993,24 @@ namespace ArcGIS4LocalGovernment
                                                                                         }
                                                                                     }
                                                                                 }
-                                                                                if (NewFeatureList == null)
+                                                                                if (autoCommit)
                                                                                 {
-                                                                                    NewFeatureList = new List<IObject>();
+                                                                                    pNewRow.Store();
+                                                                                    pNewRow = null;
                                                                                 }
-                                                                                IObject featobj = pNewRow as IObject;
+                                                                                else { 
+                                                                                    if (NewFeatureList == null)
+                                                                                    {
+                                                                                        NewFeatureList = new List<IObject>();
+                                                                                    }
+                                                                                    IObject featobj = pNewRow as IObject;
 
 
-                                                                                if (featobj != null)
-                                                                                {
-                                                                                    NewFeatureList.Add(featobj);
+                                                                                    if (featobj != null)
+                                                                                    {
+                                                                                        NewFeatureList.Add(featobj);
+                                                                                    }
                                                                                 }
-
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain128"));
                                                                             }
 
