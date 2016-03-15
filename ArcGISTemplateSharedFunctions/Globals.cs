@@ -15,7 +15,6 @@
  | limitations under the License.
  */
 
-
 using ESRI.ArcGIS.SystemUI;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.GeoDatabaseUI;
@@ -9592,6 +9591,8 @@ namespace A4LGSharedFunctions
                 pTopo = null;
             }
         }
+        
+
         public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IFeature inFeature, double searchDistance, bool useCentroid, ISpatialReference mapSpatRef)
         {
             return createSpatialFilter(sourceLayer, inFeature.ShapeCopy, searchDistance, useCentroid, mapSpatRef);

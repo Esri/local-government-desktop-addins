@@ -1543,6 +1543,10 @@ namespace ArcGIS4LocalGovernment
                                                 //AAState.FeatureCreate(pObj);
                                                 Debug.WriteLine("Feature with " + feat.OID);
                                                 Debug.WriteLine(progressVal.ToString() + " : Count is " + fSel.SelectionSet.Count);
+                                                //feat.Shape = feat.Shape;
+                                                //feat.set_Value(0, feat.get_Value(0));
+                                               
+                                                AAState.FeatureCreate(pObj);
                                                 feat.Store();
                                             }
                                             catch

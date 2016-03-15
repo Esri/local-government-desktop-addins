@@ -20,7 +20,7 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <StartProgram>C:\Program Files %28x86%29\ArcGIS\Desktop10.3\bin\ArcMap.exe</StartProgram>
+    <StartProgram>C:\Program Files %28x86%29\ArcGIS\Desktop10.4\bin\ArcMap.exe</StartProgram>
     <StartAction>Program</StartAction>
     <StartArguments>
     </StartArguments>

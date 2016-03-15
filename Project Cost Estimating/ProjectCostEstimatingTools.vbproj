@@ -11,7 +11,7 @@
     <AssemblyName>ArcGISCostEstimatingTools</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
     <OptionStrict>Off</OptionStrict>
@@ -50,6 +50,7 @@
     <RegisterForComInterop>false</RegisterForComInterop>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -62,23 +63,82 @@
     <RegisterForComInterop>false</RegisterForComInterop>
     <PlatformTarget>x86</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ESRI.ArcGIS.ArcMap, Version=10.1.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+    <Reference Include="ESRI.ArcGIS.ADF.Local, Version=10.4.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.ArcMap">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.ArcMap.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="ESRI.ArcGIS.Desktop.AddIns, Version=10.1.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+    <Reference Include="ESRI.ArcGIS.ArcMapUI">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.ArcMapUI.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Carto">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.Carto.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.CartoUI">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.CartoUI.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Catalog">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.Catalog.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.DataSourcesFile">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.DataSourcesFile.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.DataSourcesGDB">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.DataSourcesGDB.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Desktop.AddIns, Version=10.4.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.1\DotNet\ESRI.ArcGIS.Desktop.AddIns.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ESRI.ArcGIS.Framework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="ESRI.ArcGIS.Display">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.Display.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.DisplayUI">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.DisplayUI.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Editor">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.Editor.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Framework">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.Framework.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geodatabase">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.Geodatabase.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.GeoDatabaseUI">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.GeoDatabaseUI.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geometry">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.Geometry.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.System">
-      <Private>False</Private>
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.System.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.SystemUI, Version=10.4.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Version">
+      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.Version.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -172,37 +232,7 @@
     <Compile Include="SelectExistingProject.vb" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ESRI.ArcGIS.ADF.Local, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Carto, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.CartoUI, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.DataSourcesGDB, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Display, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Editor, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.Geometry, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="ESRI.ArcGIS.SystemUI, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="ESRI.ArcGIS.ArcMapUI">
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CostEstimatingWindow.resx">
@@ -267,6 +297,7 @@
     <NoWarn>42353,42354,42355</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RegisterForComInterop>false</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -274,9 +305,10 @@
     <NoWarn>42353,42354,42355</NoWarn>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RegisterForComInterop>false</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.11.targets" Condition="Exists('$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.11.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.targets" Condition="Exists('$(MSBuildExtensionsPath)\ESRI\ESRI.ArcGIS.AddIns.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

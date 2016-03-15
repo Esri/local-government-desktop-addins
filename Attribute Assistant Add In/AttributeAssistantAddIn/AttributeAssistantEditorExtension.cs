@@ -30,7 +30,7 @@ using System.Xml;
 //using System.Runtime.Serialization.JSON;
 using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
-
+using ESRI.ArcGIS.ADF;
 using ESRI.ArcGIS.CartoUI;
 using ESRI.ArcGIS.ArcMapUI;
 using ESRI.ArcGIS.ArcMap;
@@ -43,7 +43,6 @@ using ESRI.ArcGIS.GeoDatabaseExtensions;
 using ESRI.ArcGIS.GeoDatabaseUI;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.esriSystem;
-using ESRI.ArcGIS.ADF;
 using ESRI.ArcGIS.DataSourcesRaster;
 using ESRI.ArcGIS.Location;
 using System.Drawing;
@@ -81,7 +80,7 @@ namespace ArcGIS4LocalGovernment
     }
     public static class AAState
     {
-        public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature }
+        public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature, Start, End }
         public static ESRI.ArcGIS.esriSystem.IPropertySet2 lastValueProperties;
         public static string _filePath = "";
 
@@ -1069,7 +1068,7 @@ namespace ArcGIS4LocalGovernment
         }
 
 
-    
+
         void appStatusEvents_Initialized()
         {
 
@@ -2515,13 +2514,13 @@ namespace ArcGIS4LocalGovernment
                             int iObjClassID = inObject.Class.ObjectClassID;
                             bool bIsFabricClass = false;
 
-                            if (AAState._fabricInMemTablesLookUp !=null)
-                              bIsFabricClass=AAState._fabricInMemTablesLookUp.ContainsKey(iObjClassID);
+                            if (AAState._fabricInMemTablesLookUp != null)
+                                bIsFabricClass = AAState._fabricInMemTablesLookUp.ContainsKey(iObjClassID);
 
-                          if (valFC.Contains("|"))
+                            if (valFC.Contains("|"))
                             {
 
-                              if (bIsFabricClass)
+                                if (bIsFabricClass)
                                 {
                                     string[] spliVal0 = valFC.Split('|');
                                     string[] s = spliVal0[1].ToUpper().Trim().Split(',');
@@ -2585,8 +2584,8 @@ namespace ArcGIS4LocalGovernment
                                     }
                                     if (!bHasFabricFeatureTarget && !bHasFabricSubType)
                                     {
-                                      proc = false;
-                                      continue;
+                                        proc = false;
+                                        continue;
                                     }
                                 }
 
@@ -3883,7 +3882,7 @@ namespace ArcGIS4LocalGovernment
                                                                             inObject.set_Value(intFldIdxs[0], pFoundFeat[0].Value);
 
                                                                             AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + pFoundFeat[0].Value);
-                                                                      
+
                                                                         }
                                                                         catch
                                                                         {
@@ -6670,8 +6669,9 @@ namespace ArcGIS4LocalGovernment
                                                                             }
                                                                         }
                                                                     }
-                                                                    else {
-                                                                        locatorURLOrg = locatorURL.Replace("/" + reverseGeocodeStr,"");
+                                                                    else
+                                                                    {
+                                                                        locatorURLOrg = locatorURL.Replace("/" + reverseGeocodeStr, "");
                                                                     }
                                                                 }
 
@@ -6701,7 +6701,7 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             else
                                                             {
-                                                               // locatorURLOrg = _agsOnlineLocators;
+                                                                // locatorURLOrg = _agsOnlineLocators;
                                                                 if (_agsOnlineLocators.Substring(_agsOnlineLocators.LastIndexOf('/', _agsOnlineLocators.Length - 2)).Contains(GeocodeStr))
                                                                 {
                                                                     locatorURL = _agsOnlineLocators + "/" + reverseGeocodeStr;
@@ -11873,7 +11873,8 @@ namespace ArcGIS4LocalGovernment
                                                     string sourceIDFieldName = args[3].ToString().Trim();
                                                     string targetIDFieldName = args[4].ToString().Trim();
                                                     bool autoCommit = false;
-                                                    if (args.Length == 6) {
+                                                    if (args.Length == 6)
+                                                    {
                                                         autoCommit = args[5].ToString().Trim().ToLower() == "true" ? true : false;
 
                                                     }
@@ -11998,7 +11999,8 @@ namespace ArcGIS4LocalGovernment
                                                                                     pNewRow.Store();
                                                                                     pNewRow = null;
                                                                                 }
-                                                                                else { 
+                                                                                else
+                                                                                {
                                                                                     if (NewFeatureList == null)
                                                                                     {
                                                                                         NewFeatureList = new List<IObject>();
@@ -13562,6 +13564,12 @@ namespace ArcGIS4LocalGovernment
                                                                     case "FIRST":
                                                                         strOpt = AAState.intersectOptions.First;
                                                                         break;
+                                                                    case "S":
+                                                                        strOpt = AAState.intersectOptions.Start;
+                                                                        break;
+                                                                    case "E":
+                                                                        strOpt = AAState.intersectOptions.End;
+                                                                        break;
                                                                 }
                                                                 break;
                                                             case 4:
@@ -13589,6 +13597,12 @@ namespace ArcGIS4LocalGovernment
                                                                         break;
                                                                     case "FIRST":
                                                                         strOpt = AAState.intersectOptions.First;
+                                                                        break;
+                                                                    case "S":
+                                                                        strOpt = AAState.intersectOptions.Start;
+                                                                        break;
+                                                                    case "E":
+                                                                        strOpt = AAState.intersectOptions.End;
                                                                         break;
                                                                 }
                                                                 nullOnNone = args[3].ToString();
@@ -13677,15 +13691,59 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
                                                                                     dblTol = dblTol2;
                                                                                 }
+                                                                                if (strOpt == AAState.intersectOptions.End &&
+                                                                                   (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
+                                                                                {
+                                                                                    IPolyline pLyLine = inFeature.Shape as IPolyline;
 
-                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    ILine pLine = new LineClass();
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.ToPoint, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    pLyLine = null;
+                                                                                    pLine = null;
+                                                                                }
+                                                                                else if (strOpt == AAState.intersectOptions.Start &&
+                                                                                 (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
+                                                                                {
+                                                                                    IPolyline pLyLine = inFeature.Shape as IPolyline;
+
+                                                                                    ILine pLine = new LineClass();
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.FromPoint, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    pLyLine = null;
+                                                                                    pLine = null;
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                }
                                                                                 pSRResolution = null;
                                                                                 pSRResolution2 = null;
                                                                             }
                                                                             catch
                                                                             {
-                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                if (strOpt == AAState.intersectOptions.End &&
+                                                                                    (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
+                                                                                {
+                                                                                    IPolyline pLyLine = inFeature.Shape as IPolyline;
 
+                                                                                    ILine pLine = new LineClass();
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.ToPoint, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    pLyLine = null;
+                                                                                    pLine = null;
+                                                                                }
+                                                                                else if (strOpt == AAState.intersectOptions.Start &&
+                                                                                 (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
+                                                                                {
+                                                                                    IPolyline pLyLine = inFeature.Shape as IPolyline;
+
+                                                                                    ILine pLine = new LineClass();
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.FromPoint, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    pLyLine = null;
+                                                                                    pLine = null;
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                }
                                                                             }
                                                                             if (sFilter == null)
                                                                             {
