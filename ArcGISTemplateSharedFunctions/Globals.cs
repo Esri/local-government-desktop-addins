@@ -617,7 +617,7 @@ namespace A4LGSharedFunctions
                 }
                 Globals.FlagsBarriersToLayer(app, map, groupLayer, ID, dateTimeValue, IDFieldName, DateFieldName, idx);
 
-                suffix = " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
+                suffix = " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");// + " " + idx;
 
                 for (int i = 0; i < 4; i++)
                 {
@@ -646,7 +646,7 @@ namespace A4LGSharedFunctions
                             {
                                 pDataset = (IDataset)fc;
                                 fcNameClass = Globals.getClassName(pDataset) + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");
-                                fcName = fc.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
+                                fcName = fc.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");// + " " + idx;
                                 copyClassToInMemory(fc, fcNameClass, fcName, map, groupLayer, false, IDFieldName, DateFieldName, removeMZ);
                             }
                             else
@@ -655,7 +655,7 @@ namespace A4LGSharedFunctions
                                 {
                                     pDataset = (IDataset)fc;
                                     fcNameClass = Globals.getClassName(pDataset) + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");
-                                    fcName = fc.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + idx;
+                                    fcName = fc.AliasName + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");// +" " + idx;
                                     copyClassToInMemory(fc, fcNameClass, fcName, map, groupLayer, false, IDFieldName, DateFieldName, removeMZ);
                                 }
                             }
@@ -912,7 +912,7 @@ namespace A4LGSharedFunctions
                             }
                             if (cont)
                             {
-                                string fcName = pSourceFC.AliasName + suffix;
+                                string fcName = pSourceFC.AliasName + suffix  ;
 
                                 if (!copyFeats.ContainsKey(fcName))
                                 {
@@ -1044,145 +1044,195 @@ namespace A4LGSharedFunctions
 
                         }
                     }
+                    UID uID = new UID();
+                    uID.Value = "esriEditor.Editor";
+                    IEditor editor = app.FindExtensionByCLSID(uID) as IEditor;
+                    bool stopEditor = false;
 
-
-                    foreach (KeyValuePair<string, copyFeatureToInMem> kvp in copyFeats)
+                    try
                     {
-                        pCursor = kvp.Value.FeatureLayer.FeatureClass.Insert(true);
-                        foreach (KeyValuePair<int, geoFeat> oidpair in kvp.Value.OIDSGeo)
+                        if (editor.EditState == esriEditState.esriStateNotEditing)
                         {
+                            //IWorkspaceEdit workEdit = pWS as IWorkspaceEdit;
+                            //editor.EditWorkspace = pWS;
+                            //IWorkspaceEditControl workEditControl = editor.EditWorkspace as IWorkspaceEditControl;
+                            // workEditControl.SetStoreEventsRequired();
+                            editor.StartEditing(pWS);
+                            editor.StartOperation();
 
-                            pFBuf = kvp.Value.FeatureLayer.FeatureClass.CreateFeatureBuffer();
-                            pFeat = (IFeature)pFBuf;
+                            stopEditor = true;
+                        }
+                       
+                        //if (!workEdit.IsBeingEdited())
+                        //{
+                        //    workEdit.StartEditing(false);
+                        //}
 
-                            if (oidpair.Value.geo.GeometryCount == 1)
+                        //workEdit.StartEditOperation();
+
+                        foreach (KeyValuePair<string, copyFeatureToInMem> kvp in copyFeats)
+                        {
+                            //pCursor = kvp.Value.FeatureLayer.FeatureClass.Insert(true);
+                            foreach (KeyValuePair<int, geoFeat> oidpair in kvp.Value.OIDSGeo)
                             {
-                                pGeo = oidpair.Value.geo.get_Geometry(0);
 
-                                pFeat.Shape = pGeo;
-                                if (pGeo.GeometryType == esriGeometryType.esriGeometryPoint)
+                                //pFBuf = kvp.Value.FeatureLayer.FeatureClass.CreateFeatureBuffer();
+                                //pFeat = (IFeature)pFBuf;
+                                pFeat = kvp.Value.FeatureLayer.FeatureClass.CreateFeature();
+                                if (oidpair.Value.geo.GeometryCount == 1)
                                 {
-                                    pGeometryCollection.AddGeometry(pGeo);
+                                    pGeo = oidpair.Value.geo.get_Geometry(0);
+
+                                    pFeat.Shape = pGeo;
+                                    if (pGeo.GeometryType == esriGeometryType.esriGeometryPoint)
+                                    {
+                                        pGeometryCollection.AddGeometry(pGeo);
+                                    }
+                                    else
+                                    {
+                                        pPntCollection = (IPointCollection)pGeo;
+                                        for (int p = 0; p < pPntCollection.PointCount; p++)
+                                        {
+                                            pGeometryCollection.AddGeometry(pPntCollection.get_Point(p));
+                                        }
+                                    }
+
                                 }
                                 else
                                 {
-                                    pPntCollection = (IPointCollection)pGeo;
+                                    enumGeometry = oidpair.Value.geo as IEnumGeometry;
+                                    topologicalOperator = new PolylineClass();
+                                    topologicalOperator.ConstructUnion(enumGeometry);
+
+                                    pline = (IPolyline)topologicalOperator;
+                                    pFeat.Shape = pline;
+                                    pPntCollection = (IPointCollection)pline;
                                     for (int p = 0; p < pPntCollection.PointCount; p++)
                                     {
                                         pGeometryCollection.AddGeometry(pPntCollection.get_Point(p));
                                     }
+
                                 }
-
-                            }
-                            else
-                            {
-                                enumGeometry = oidpair.Value.geo as IEnumGeometry;
-                                topologicalOperator = new PolylineClass();
-                                topologicalOperator.ConstructUnion(enumGeometry);
-
-                                pline = (IPolyline)topologicalOperator;
-                                pFeat.Shape = pline;
-                                pPntCollection = (IPointCollection)pline;
-                                for (int p = 0; p < pPntCollection.PointCount; p++)
+                                for (int i = 0; i < kvp.Value.FeatureLayer.FeatureClass.Fields.FieldCount; i++)
                                 {
-                                    pGeometryCollection.AddGeometry(pPntCollection.get_Point(p));
-                                }
+                                    pFld = kvp.Value.FeatureLayer.FeatureClass.Fields.get_Field(i);
 
-                            }
-                            for (int i = 0; i < kvp.Value.FeatureLayer.FeatureClass.Fields.FieldCount; i++)
-                            {
-                                pFld = kvp.Value.FeatureLayer.FeatureClass.Fields.get_Field(i);
-
-                                if (pFld.Type != esriFieldType.esriFieldTypeGeometry &&
-                                    pFld.Type != esriFieldType.esriFieldTypeOID &&
-                                    pFld != kvp.Value.FeatureLayer.FeatureClass.AreaField &&
-                                    pFld != kvp.Value.FeatureLayer.FeatureClass.LengthField)
-                                {
-                                    newFldIdx = pFBuf.Fields.FindField(pFld.Name);
-                                    sourceFldIdx = oidpair.Value.feature.Fields.FindField(pFld.Name);
-                                    if (newFldIdx >= 0 && sourceFldIdx >= 0)
+                                    if (pFld.Type != esriFieldType.esriFieldTypeGeometry &&
+                                        pFld.Type != esriFieldType.esriFieldTypeOID &&
+                                        pFld != kvp.Value.FeatureLayer.FeatureClass.AreaField &&
+                                        pFld != kvp.Value.FeatureLayer.FeatureClass.LengthField)
                                     {
-                                        try
+                                        newFldIdx = pFeat.Fields.FindField(pFld.Name);
+                                        sourceFldIdx = oidpair.Value.feature.Fields.FindField(pFld.Name);
+                                        if (newFldIdx >= 0 && sourceFldIdx >= 0)
                                         {
-                                            pFBuf.set_Value(newFldIdx, oidpair.Value.feature.get_Value(sourceFldIdx));
-                                            if (newFldIdx != sourceFldIdx)
+                                            try
                                             {
-                                                Console.WriteLine(newFldIdx);
+                                                //pFBuf.set_Value(newFldIdx, oidpair.Value.feature.get_Value(sourceFldIdx));
+                                                pFeat.set_Value(newFldIdx, oidpair.Value.feature.get_Value(sourceFldIdx));
+                                                if (newFldIdx != sourceFldIdx)
+                                                {
+                                                    Console.WriteLine(newFldIdx);
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                Console.WriteLine(pFld.Name + " " + ex.Message);
                                             }
                                         }
-                                        catch (Exception ex)
-                                        {
-                                            Console.WriteLine(pFld.Name + " " + ex.Message);
-                                        }
                                     }
+
                                 }
+                                newFldIdx = pFeat.Fields.FindField(IDFieldName);
+                                if (newFldIdx >= 0)
+                                {
+                                    //pFBuf.set_Value(newFldIdx, ID);
+                                    pFeat.set_Value(newFldIdx, ID);
+                                }
+                                newFldIdx = pFeat.Fields.FindField(DateFieldName);
+                                if (newFldIdx >= 0)
+                                {
+                                    //pFBuf.set_Value(newFldIdx, dateTimeValue);
+                                    pFeat.set_Value(newFldIdx, dateTimeValue);
+                                }
+                                //pCursor.InsertFeature(pFBuf);
+                                pFeat.Store();
 
                             }
-                            newFldIdx = pFBuf.Fields.FindField(IDFieldName);
-                            if (newFldIdx >= 0)
-                            {
-                                pFBuf.set_Value(newFldIdx, ID);
-                            }
-                            newFldIdx = pFBuf.Fields.FindField(DateFieldName);
-                            if (newFldIdx >= 0)
-                            {
-                                pFBuf.set_Value(newFldIdx, dateTimeValue);
-                            }
-                            pCursor.InsertFeature(pFBuf);
+                            //pCursor.Flush();
+
+                            //Marshal.ReleaseComObject(pCursor);
+
+                            pFS = (IFeatureSelection)kvp.Value.FeatureLayer;
+                            pFS.SelectFeatures(null, esriSelectionResultEnum.esriSelectionResultNew, false);
 
                         }
-                        pCursor.Flush();
+                        topologicalOperator = (ITopologicalOperator)pGeometryCollection;
+                        pGeo = topologicalOperator.ConvexHull();
+                        topologicalOperator = (ITopologicalOperator)pGeo;
+                        pGeo = topologicalOperator.Buffer(bufferAmt);
+                        topologicalOperator = (ITopologicalOperator)pGeo;
+                        topologicalOperator.Simplify();
 
-                        Marshal.ReleaseComObject(pCursor);
+                        pGeo = (IGeometry)topologicalOperator;
 
-                        pFS = (IFeatureSelection)kvp.Value.FeatureLayer;
-                        pFS.SelectFeatures(null, esriSelectionResultEnum.esriSelectionResultNew, false);
+                        pGeo.SpatialReference = ((IGeoDataset)gn.FeatureDataset).SpatialReference;
 
+                        pLay = Globals.FindLayerInGroup(pCompLayer, A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + suffix);
+                        if (pLay != null)
+                        {
+                            pFL = (IFeatureLayer)pLay;
+                            //pCursor = pFL.FeatureClass.Insert(true);
+
+                            //pFBuf = pFL.FeatureClass.CreateFeatureBuffer();
+                            //pFeat = (IFeature)pFBuf;
+                            pFeat = pFL.FeatureClass.CreateFeature();
+                            pFeat.Shape = pGeo;
+                            newFldIdx = pFeat.Fields.FindField(IDFieldName);
+                            if (newFldIdx >= 0)
+                            {
+                                //pFBuf.set_Value(newFldIdx, ID);
+                                pFeat.set_Value(newFldIdx, ID);
+                            }
+                            newFldIdx = pFeat.Fields.FindField(DateFieldName);
+                            if (newFldIdx >= 0)
+                            {
+                                //pFBuf.set_Value(newFldIdx, dateTimeValue);
+                                pFeat.set_Value(newFldIdx, dateTimeValue);
+                            }
+
+                            //pCursor.InsertFeature(pFBuf);
+
+
+                            //pCursor.Flush();
+
+                            //Marshal.ReleaseComObject(pCursor);
+                            pFeat.Store();
+
+                        }
+                        
+                        if (stopEditor)
+                        {
+                            editor.StopOperation("Trace");
+                            editor.StopEditing(true);
+                        }
                     }
-                    topologicalOperator = (ITopologicalOperator)pGeometryCollection;
-                    pGeo = topologicalOperator.ConvexHull();
-                    topologicalOperator = (ITopologicalOperator)pGeo;
-                    pGeo = topologicalOperator.Buffer(bufferAmt);
-                    topologicalOperator = (ITopologicalOperator)pGeo;
-                    topologicalOperator.Simplify();
-
-                    pGeo = (IGeometry)topologicalOperator;
-
-                    pGeo.SpatialReference = ((IGeoDataset)gn.FeatureDataset).SpatialReference;
-
-                    pLay = Globals.FindLayerInGroup(pCompLayer, A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + suffix);
-                    if (pLay != null)
+                    catch
                     {
-                        pFL = (IFeatureLayer)pLay;
-                        pCursor = pFL.FeatureClass.Insert(true);
-
-                        pFBuf = pFL.FeatureClass.CreateFeatureBuffer();
-                        pFeat = (IFeature)pFBuf;
-                        pFeat.Shape = pGeo;
-                        newFldIdx = pFBuf.Fields.FindField(IDFieldName);
-                        if (newFldIdx >= 0)
+                        if (stopEditor)
                         {
-                            pFBuf.set_Value(newFldIdx, ID);
+                            editor.AbortOperation();
                         }
-                        newFldIdx = pFBuf.Fields.FindField(DateFieldName);
-                        if (newFldIdx >= 0)
-                        {
-                            pFBuf.set_Value(newFldIdx, dateTimeValue);
-                        }
-
-                        pCursor.InsertFeature(pFBuf);
-
-
-                        pCursor.Flush();
-
-                        Marshal.ReleaseComObject(pCursor);
-
-
                     }
+                    finally
+                    {
+                        uID = null;
 
-
+                        editor = null;
+                    }
                     env.Expand(1.1, 1.1, true);
                     ((IMxDocument)app.Document).ActiveView.Refresh();
+
                     return env;
 
                 }
@@ -1580,14 +1630,14 @@ namespace A4LGSharedFunctions
                 if (pGrpLay != null)
                 {
                     pCompLay = (ICompositeLayer)pGrpLay;
-                    pFLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString());
-                    pBLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString());
+                    pFLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"));// + " " + suffCount.ToString());
+                    pBLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"));// + " " + suffCount.ToString());
 
                 }
                 else
                 {
-                    pFLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString(), ref fndAsFL);
-                    pBLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString(), ref fndAsFL);
+                    pFLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") , ref fndAsFL);//+ " " + suffCount.ToString()
+                    pBLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") , ref fndAsFL);//+ " " + suffCount.ToString()
 
                 }
 
@@ -1605,7 +1655,7 @@ namespace A4LGSharedFunctions
                     pFlagsLayer = new FeatureLayerClass();
                     pFlagsLayer.FeatureClass = pFlagsFC;
                     pFlagsLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " +
-                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString();
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"); //+ " " + suffCount.ToString();
                     if (pGrpLay != null)
                     {
                         pGrpLay.Add(pFlagsLayer);
@@ -1728,7 +1778,7 @@ namespace A4LGSharedFunctions
                     pBarriersLayer = new FeatureLayerClass();
                     pBarriersLayer.FeatureClass = pBarriersFC;
                     pBarriersLayer.Name = A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " +
-                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString();
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");// + " " + suffCount.ToString();
                     if (pGrpLay != null)
                     {
                         pGrpLay.Add(pBarriersLayer);
@@ -1893,14 +1943,14 @@ namespace A4LGSharedFunctions
                 {
                     pCompLay = (ICompositeLayer)pGrpLay;
                     pFLayer = Globals.FindLayerInGroup(pCompLay, A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + " " +
-                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString());
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"));// + " " + suffCount.ToString());
 
 
                 }
                 else
                 {
                     pFLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + " " +
-                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString(), ref fndAsFL);
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"), ref fndAsFL);// + " " + suffCount.ToString()
 
 
                 }
@@ -1976,7 +2026,7 @@ namespace A4LGSharedFunctions
                     pOutageLayer = new FeatureLayerClass();
                     pOutageLayer.FeatureClass = pOutageFC;
                     pOutageLayer.Name = A4LGSharedFunctions.Localizer.GetString("OutageAreaName") + " " +
-                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") + " " + suffCount.ToString();
+                        A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix");// + " " + suffCount.ToString();
                     if (pGrpLay != null)
                     {
                         pGrpLay.Add(pOutageLayer);
@@ -9591,7 +9641,7 @@ namespace A4LGSharedFunctions
                 pTopo = null;
             }
         }
-        
+
 
         public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IFeature inFeature, double searchDistance, bool useCentroid, ISpatialReference mapSpatRef)
         {
