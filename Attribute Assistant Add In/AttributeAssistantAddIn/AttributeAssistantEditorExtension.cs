@@ -3724,11 +3724,14 @@ namespace ArcGIS4LocalGovernment
                                                                             // Get layer
                                                                             AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cl"));
                                                                             bool FCorLayerSource = true;
+
                                                                             sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, targetLayerName, ref FCorLayerSource);
 
+                                                                            AAState.WriteLine("                  Search complete" );
+                                                                            
                                                                             if (sourceLayer != null)
                                                                             {
-
+                                                                                AAState.WriteLine("                  layer " + targetLayerName + " " + sourceLayer.Name.ToString());
                                                                                 int fldValToCopyIdx = sourceLayer.FeatureClass.Fields.FindField(targetFieldName);
                                                                                 int fldIDTargetIdx = sourceLayer.FeatureClass.Fields.FindField(targetIDFieldName);
                                                                                 if (fldIDTargetIdx > -1 && fldValToCopyIdx > -1)
@@ -3744,11 +3747,15 @@ namespace ArcGIS4LocalGovernment
                                                                                         pQFilt.WhereClause = sourceLayer.FeatureClass.Fields.get_Field(fldIDTargetIdx).Name + " = " + inObject.get_Value(fldIDSourecIdx);
 
                                                                                     }
+                                                                                    AAState.WriteLine("                  whereclause: " + pQFilt.WhereClause);
+                                                                           
                                                                                     IFeatureCursor pCurs;
                                                                                     IFeatureSelection pFeatSel;
                                                                                     pFeatSel = (IFeatureSelection)sourceLayer;
                                                                                     if (pFeatSel.SelectionSet.Count > 0)
                                                                                     {
+                                                                                        AAState.WriteLine("                  pFeatSel.SelectionSet: " + pFeatSel.SelectionSet.Count);
+                                                                           
                                                                                         ICursor pCurstemp;
                                                                                         pFeatSel.SelectionSet.Search(pQFilt, true, out pCurstemp);
                                                                                         pCurs = (IFeatureCursor)pCurstemp;
@@ -3756,10 +3763,10 @@ namespace ArcGIS4LocalGovernment
                                                                                     }
                                                                                     else
                                                                                     {
-
+                                                                                        AAState.WriteLine("                  No selection set");
+                                                                           
                                                                                         pCurs = sourceLayer.FeatureClass.Search(pQFilt, true);
                                                                                     }
-
                                                                                     IFeature pRow;
                                                                                     while ((pRow = pCurs.NextFeature()) != null)
                                                                                     {
@@ -3793,14 +3800,20 @@ namespace ArcGIS4LocalGovernment
                                                                             }
                                                                             else
                                                                             {
-
+                                                                                AAState.WriteLine("                  No layer found");
                                                                                 IStandaloneTable pSTable = Globals.FindStandAloneTable(AAState._editor.Map, targetLayerName);
+                                                                                AAState.WriteLine("                  Search complete");
                                                                                 if (pSTable != null)
                                                                                 {
+
+                                                                                    AAState.WriteLine("                  table " + targetLayerName + " " + pSTable.Name.ToString());
                                                                                     if (pSTable.Table != null)
                                                                                     {
+                                                                                        AAState.WriteLine("                  " + targetLayerName + " " + pSTable.Table.OIDFieldName.ToString());
                                                                                         int fldValToCopyIdx = Globals.GetFieldIndex(pSTable.Table.Fields, targetFieldName);
+                                                                                        AAState.WriteLine("                  fldValToCopyIdx = " + fldValToCopyIdx );
                                                                                         int fldIDTargetIdx = Globals.GetFieldIndex(pSTable.Table.Fields, targetIDFieldName);
+                                                                                        AAState.WriteLine("                  fldIDTargetIdx = " + fldIDTargetIdx);
                                                                                         if (fldIDTargetIdx > -1 && fldValToCopyIdx > -1)
                                                                                         {
                                                                                             IQueryFilter pQFilt = Globals.createQueryFilter();
@@ -3814,6 +3827,7 @@ namespace ArcGIS4LocalGovernment
                                                                                                 pQFilt.WhereClause = pSTable.Table.Fields.get_Field(fldIDTargetIdx).Name + " = " + inObject.get_Value(fldIDSourecIdx);
 
                                                                                             }
+                                                                                            AAState.WriteLine("                  where clause = " + pQFilt.WhereClause);
                                                                                             ICursor pCurs;
                                                                                             ITableSelection pTabSel = null;
 
@@ -3821,16 +3835,25 @@ namespace ArcGIS4LocalGovernment
                                                                                             pTabSel = (ITableSelection)pSTable;
                                                                                             if (pTabSel.SelectionSet.Count > 0)
                                                                                             {
+                                                                                                AAState.WriteLine("                  table selection count" + pTabSel.SelectionSet.Count);
+                                                                                     
                                                                                                 pTabSel.SelectionSet.Search(pQFilt, true, out pCurs);
                                                                                             }
                                                                                             else
                                                                                             {
-
+                                                                                                AAState.WriteLine("                  no selection count");
                                                                                                 pCurs = pSTable.Table.Search(pQFilt, true);
                                                                                             }
                                                                                             IRow pRow;
-                                                                                            bool valSet = false;
                                                                                             pRow = pCurs.NextRow();
+                                                                                            if (pRow == null)
+                                                                                            {
+                                                                                                AAState.WriteLine("                  Row not found");
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                AAState.WriteLine("                  Row found");
+                                                                                            }
                                                                                             while (pRow != null)
                                                                                             {
 
@@ -3838,9 +3861,9 @@ namespace ArcGIS4LocalGovernment
 
                                                                                                 pOp.Display = Globals.GetDomainDisplay(pRow.get_Value(fldValToCopyIdx), pRow as IObject, pSTable.Table.Fields.get_Field(fieldCopy));
                                                                                                 pOp.Value = pRow.get_Value(fldValToCopyIdx);
+                                                                                                AAState.WriteLine("                   Display: " +  pOp.Display + "   value: " +  pOp.Value);
                                                                                                 pOp.OID = pRow.OID;
                                                                                                 pOp.LayerName = targetLayerName;
-
                                                                                                 pFoundFeat.Add(pOp);
 
                                                                                                 pRow = pCurs.NextRow();
@@ -3879,6 +3902,8 @@ namespace ArcGIS4LocalGovernment
                                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf") + " " + pFoundFeat[0].Value);
                                                                         try
                                                                         {
+                                                                            AAState.WriteLine("                  trying to set value " + pFoundFeat[0].Value);
+
                                                                             inObject.set_Value(intFldIdxs[0], pFoundFeat[0].Value);
 
                                                                             AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + pFoundFeat[0].Value);
@@ -3895,7 +3920,10 @@ namespace ArcGIS4LocalGovernment
                                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
                                                                         try
                                                                         {
+                                                                            AAState.WriteLine("                  trying to set value " + pFoundFeat[0].Value);
+
                                                                             inObject.set_Value(intFldIdxs[0], strRetVal.Value);
+                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + pFoundFeat[0].Value);
 
                                                                         }
                                                                         catch
