@@ -3667,6 +3667,7 @@ namespace ArcGIS4LocalGovernment
 
                                         case "COPY_LINKED_RECORD"://Feature Layer|Field To Copy|Primary Key Field|Foreign Key Field
                                             {
+                                                IField pFldTemp = null;
                                                 try
                                                 {
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "COPY_LINKED_RECORD");
@@ -3770,10 +3771,21 @@ namespace ArcGIS4LocalGovernment
                                                                                     IFeature pRow;
                                                                                     while ((pRow = pCurs.NextFeature()) != null)
                                                                                     {
+
+
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
 
-                                                                                        pOp.Display = Globals.GetDomainDisplay(pRow.get_Value(fldValToCopyIdx), pRow as IObject, sourceLayer.FeatureClass.Fields.get_Field(fieldCopy));
+                                                                                        object val = pRow.get_Value(fldValToCopyIdx);
+
+                                                                                        AAState.WriteLine("                  Field index: " + fldValToCopyIdx + " Field value: " + val.ToString());
+                                                                                        pFldTemp = sourceLayer.FeatureClass.Fields.get_Field(fldValToCopyIdx);
+                                                                                        AAState.WriteLine("                  Field index: " + fldValToCopyIdx + " Field name: " + pFldTemp.Name);
+                                                                                        string displayVal = Globals.GetDomainDisplay(val, pRow as IObject, pFldTemp);
+                                                                                        AAState.WriteLine("                  Field display value: " + displayVal);
+                                                                                        pOp.Display = displayVal;
                                                                                         pOp.Value = pRow.get_Value(fldValToCopyIdx);
+                                                                                        AAState.WriteLine("                   Display: " + pOp.Display + "   value: " + pOp.Value);
+                                                                                      
                                                                                         pOp.OID = pRow.OID;
                                                                                         pOp.LayerName = targetLayerName;
 
@@ -3858,14 +3870,27 @@ namespace ArcGIS4LocalGovernment
                                                                                             {
 
                                                                                                 Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
+                                                                                                try
+                                                                                                {
+                                                                                                    object val = pRow.get_Value(fldValToCopyIdx);
+                                                                                                 
+                                                                                                    AAState.WriteLine("                  Field index: " + fldValToCopyIdx + " Field value: " + val.ToString());
+                                                                                                    pFldTemp = pSTable.Table.Fields.get_Field(fldValToCopyIdx);
+                                                                                                    AAState.WriteLine("                  Field index: " + fldValToCopyIdx + " Field name: " + pFldTemp.Name);
+                                                                                                    string displayVal = Globals.GetDomainDisplay(val, pRow as IObject, pFldTemp);
+                                                                                                    AAState.WriteLine("                  Field display value: " + displayVal);
+                                                                                                    pOp.Display = displayVal;
+                                                                                                    pOp.Value = pRow.get_Value(fldValToCopyIdx);
+                                                                                                    AAState.WriteLine("                   Display: " + pOp.Display + "   value: " + pOp.Value);
+                                                                                                    pOp.OID = pRow.OID;
+                                                                                                    pOp.LayerName = targetLayerName;
+                                                                                                    pFoundFeat.Add(pOp);
+                                                                                                }
+                                                                                                catch (Exception ex)
 
-                                                                                                pOp.Display = Globals.GetDomainDisplay(pRow.get_Value(fldValToCopyIdx), pRow as IObject, pSTable.Table.Fields.get_Field(fieldCopy));
-                                                                                                pOp.Value = pRow.get_Value(fldValToCopyIdx);
-                                                                                                AAState.WriteLine("                   Display: " +  pOp.Display + "   value: " +  pOp.Value);
-                                                                                                pOp.OID = pRow.OID;
-                                                                                                pOp.LayerName = targetLayerName;
-                                                                                                pFoundFeat.Add(pOp);
-
+                                                                                                {
+                                                                                                    AAState.WriteLine("                  Error trying to get the domain code, values: " + ex.Message);
+                                                                                                }
                                                                                                 pRow = pCurs.NextRow();
 
                                                                                             }
