@@ -4431,18 +4431,20 @@ namespace A4LGSharedFunctions
                             if (netClass != null)
                             {
                                 gn = netClass.GeometricNetwork;
-                                found = false;
-                                for (int index = 0; index < gnList.Count; index++)
-                                {
-                                    if (IsInNetwork(fLayer.FeatureClass.FeatureClassID, gnList[index] as IGeometricNetwork, true))
+                                if (gn != null) { 
+                                    found = false;
+                                    for (int index = 0; index < gnList.Count; index++)
                                     {
-                                        found = true;
-                                        break;
+                                        if (IsInNetwork(fLayer.FeatureClass.FeatureClassID, gnList[index] as IGeometricNetwork, true))
+                                        {
+                                            found = true;
+                                            break;
+                                        }
                                     }
-                                }
-                                if (!found)
-                                {
-                                    gnList.Add(gn);
+                                    if (!found)
+                                    {
+                                        gnList.Add(gn);
+                                    }
                                 }
                             }
 

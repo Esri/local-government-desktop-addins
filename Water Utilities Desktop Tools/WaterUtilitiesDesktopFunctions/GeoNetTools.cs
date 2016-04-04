@@ -1949,6 +1949,10 @@ namespace A4WaterUtilities
                 for (int i = 0; i < gnList.Count; i++)
                 {
                     geometricNetwork = gnList[i] as IGeometricNetwork;
+                    if (geometricNetwork == null)
+                    {
+                        continue;
+                    }
                     enumClass = null;
                     featureClass = null;
                     featureLayer = null;
