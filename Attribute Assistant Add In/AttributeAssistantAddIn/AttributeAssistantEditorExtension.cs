@@ -3728,8 +3728,8 @@ namespace ArcGIS4LocalGovernment
 
                                                                             sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, targetLayerName, ref FCorLayerSource);
 
-                                                                            AAState.WriteLine("                  Search complete" );
-                                                                            
+                                                                            AAState.WriteLine("                  Search complete");
+
                                                                             if (sourceLayer != null)
                                                                             {
                                                                                 AAState.WriteLine("                  layer " + targetLayerName + " " + sourceLayer.Name.ToString());
@@ -3749,14 +3749,14 @@ namespace ArcGIS4LocalGovernment
 
                                                                                     }
                                                                                     AAState.WriteLine("                  whereclause: " + pQFilt.WhereClause);
-                                                                           
+
                                                                                     IFeatureCursor pCurs;
                                                                                     IFeatureSelection pFeatSel;
                                                                                     pFeatSel = (IFeatureSelection)sourceLayer;
                                                                                     if (pFeatSel.SelectionSet.Count > 0)
                                                                                     {
                                                                                         AAState.WriteLine("                  pFeatSel.SelectionSet: " + pFeatSel.SelectionSet.Count);
-                                                                           
+
                                                                                         ICursor pCurstemp;
                                                                                         pFeatSel.SelectionSet.Search(pQFilt, true, out pCurstemp);
                                                                                         pCurs = (IFeatureCursor)pCurstemp;
@@ -3765,7 +3765,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     else
                                                                                     {
                                                                                         AAState.WriteLine("                  No selection set");
-                                                                           
+
                                                                                         pCurs = sourceLayer.FeatureClass.Search(pQFilt, true);
                                                                                     }
                                                                                     IFeature pRow;
@@ -3785,7 +3785,7 @@ namespace ArcGIS4LocalGovernment
                                                                                         pOp.Display = displayVal;
                                                                                         pOp.Value = pRow.get_Value(fldValToCopyIdx);
                                                                                         AAState.WriteLine("                   Display: " + pOp.Display + "   value: " + pOp.Value);
-                                                                                      
+
                                                                                         pOp.OID = pRow.OID;
                                                                                         pOp.LayerName = targetLayerName;
 
@@ -3823,7 +3823,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     {
                                                                                         AAState.WriteLine("                  " + targetLayerName + " " + pSTable.Table.OIDFieldName.ToString());
                                                                                         int fldValToCopyIdx = Globals.GetFieldIndex(pSTable.Table.Fields, targetFieldName);
-                                                                                        AAState.WriteLine("                  fldValToCopyIdx = " + fldValToCopyIdx );
+                                                                                        AAState.WriteLine("                  fldValToCopyIdx = " + fldValToCopyIdx);
                                                                                         int fldIDTargetIdx = Globals.GetFieldIndex(pSTable.Table.Fields, targetIDFieldName);
                                                                                         AAState.WriteLine("                  fldIDTargetIdx = " + fldIDTargetIdx);
                                                                                         if (fldIDTargetIdx > -1 && fldValToCopyIdx > -1)
@@ -3848,7 +3848,7 @@ namespace ArcGIS4LocalGovernment
                                                                                             if (pTabSel.SelectionSet.Count > 0)
                                                                                             {
                                                                                                 AAState.WriteLine("                  table selection count" + pTabSel.SelectionSet.Count);
-                                                                                     
+
                                                                                                 pTabSel.SelectionSet.Search(pQFilt, true, out pCurs);
                                                                                             }
                                                                                             else
@@ -3873,7 +3873,7 @@ namespace ArcGIS4LocalGovernment
                                                                                                 try
                                                                                                 {
                                                                                                     object val = pRow.get_Value(fldValToCopyIdx);
-                                                                                                 
+
                                                                                                     AAState.WriteLine("                  Field index: " + fldValToCopyIdx + " Field value: " + val.ToString());
                                                                                                     pFldTemp = pSTable.Table.Fields.get_Field(fldValToCopyIdx);
                                                                                                     AAState.WriteLine("                  Field index: " + fldValToCopyIdx + " Field name: " + pFldTemp.Name);
@@ -3887,7 +3887,6 @@ namespace ArcGIS4LocalGovernment
                                                                                                     pFoundFeat.Add(pOp);
                                                                                                 }
                                                                                                 catch (Exception ex)
-
                                                                                                 {
                                                                                                     AAState.WriteLine("                  Error trying to get the domain code, values: " + ex.Message);
                                                                                                 }
@@ -3942,18 +3941,29 @@ namespace ArcGIS4LocalGovernment
                                                                     else
                                                                     {
                                                                         Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList);
-                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
-                                                                        try
+                                                                        if (strRetVal == null)
                                                                         {
-                                                                            AAState.WriteLine("                  trying to set value " + pFoundFeat[0].Value);
-
-                                                                            inObject.set_Value(intFldIdxs[0], strRetVal.Value);
-                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + pFoundFeat[0].Value);
-
+                                                                            AAState.WriteLine("                  selected value from prompt was null ");
                                                                         }
-                                                                        catch
+                                                                        else if (strRetVal.OID == -1)
                                                                         {
-                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + strRetVal.Value + " to field: " + strFldNames[0]);
+                                                                            AAState.WriteLine("                  Error in prompt form: " + strRetVal.Display);
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
+                                                                            try
+                                                                            {
+                                                                                AAState.WriteLine("                  trying to set value " + strRetVal.Value.ToString());
+
+                                                                                inObject.set_Value(intFldIdxs[0], strRetVal.Value);
+                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + strRetVal.Value.ToString());
+
+                                                                            }
+                                                                            catch
+                                                                            {
+                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + strRetVal.Value + " to field: " + strFldNames[0]);
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
@@ -13880,6 +13890,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                                         }
+                                                                                        AAState.WriteLine("                  " + "OID: " + sourceFeature.OID + " " + sourceLayer.Name + "/" + sourceLayer.FeatureClass.AliasName + ": " + pOp.Display + " value = " + pOp.Value.ToString());
 
 
                                                                                         pOp.OID = sourceFeature.OID;
@@ -13938,6 +13949,8 @@ namespace ArcGIS4LocalGovernment
                                                                                             pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                         }
+                                                                                        AAState.WriteLine("                  " + "OID: " + sourceFeature.OID + " " + sourceLayer.Name + "/" + sourceLayer.FeatureClass.AliasName + ": " + pOp.Display + " value = " + pOp.Value.ToString());
+
                                                                                         pOp.OID = sourceFeature.OID;
                                                                                         pOp.LayerName = sourceLayer.Name;
 
@@ -14028,6 +14041,8 @@ namespace ArcGIS4LocalGovernment
                                                                                             pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
 
                                                                                         }
+                                                                                        AAState.WriteLine("                  " + "OID: " + sourceFeature.OID + " " + sourceLayer.Name + "/" + sourceLayer.FeatureClass.AliasName + ": " + pOp.Display + " value = " + pOp.Value.ToString());
+
                                                                                         pOp.OID = sourceFeature.OID;
                                                                                         pOp.LayerName = sourceLayer.Name;
 
@@ -14095,13 +14110,24 @@ namespace ArcGIS4LocalGovernment
                                                                 }
 
                                                             }
+                                                            AAState.WriteLine("                  Feature count: " + pFoundFeat.Count);
+                                                            AAState.WriteLine("                  Option: " + strOpt.ToString());
                                                             if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.PromptMulti)
                                                             {
                                                                 Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList);
-                                                                if (strRetVal != null)
+                                                                if (strRetVal == null)
+                                                                {
+                                                                    AAState.WriteLine("                  selected value from prompt was null ");
+                                                                }
+                                                                else if (strRetVal.OID == -1)
+                                                                {
+                                                                    AAState.WriteLine("                  Error in prompt form: " + strRetVal.Display);
+                                                                }
+                                                                else
                                                                 {
                                                                     //sourceFeature = sourceLayer.FeatureClass.GetFeature(strRetVal.OID);
 
+                                                                    AAState.WriteLine("                  selected value: " + strRetVal.Value.ToString());
 
                                                                     string test = strRetVal.Value.ToString();//sourceFeature.get_Value(sourceField).ToString();
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + test);
@@ -14112,6 +14138,7 @@ namespace ArcGIS4LocalGovernment
                                                                     found = true;
 
                                                                 }
+
                                                             }
                                                             else if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.Last)
                                                             {
@@ -14667,11 +14694,29 @@ namespace ArcGIS4LocalGovernment
                                                         if (strOpt == AAState.intersectOptions.PromptMulti && strFiles.Count > 0)
                                                         {
                                                             Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain162") + ": " + strFldNames[0], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain163") + ": " + strFldNames[0], ComboBoxStyle.DropDownList);
-                                                            if (strRetVal != null)
+
+                                                            if (strRetVal == null)
                                                             {
+                                                                AAState.WriteLine("                  selected value from prompt was null ");
+                                                            }
+                                                            else if (strRetVal.OID == -1)
+                                                            {
+                                                                AAState.WriteLine("                  Error in prompt form: " + strRetVal.Display);
+                                                            }
+                                                            else
+                                                            {
+
+                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
+
+
                                                                 try
                                                                 {
-                                                                    inObject.set_Value(intFldIdxs[0], strRetVal.Display);
+                                                                    AAState.WriteLine("                  trying to set value " + strRetVal.Value.ToString());
+
+                                                                    inObject.set_Value(intFldIdxs[0], strRetVal.Value);
+
+                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + strRetVal.Value.ToString());
+
                                                                 }
                                                                 catch
                                                                 {

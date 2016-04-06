@@ -8190,9 +8190,10 @@ namespace A4LGSharedFunctions
                 tmpForm.ShowDialog();
                 return (OptionsToPresent)tmpForm.cboSelectTemplate.SelectedItem;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                return new OptionsToPresent(-1, ex.Message, "", null);
+                
             }
 
             //return "";
