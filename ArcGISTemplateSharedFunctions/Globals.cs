@@ -9464,7 +9464,7 @@ namespace A4LGSharedFunctions
                 ptempPoly = pGeo as IPolygon;
                 if (ptempPoly.IsEmpty == true)
                 {
-                    pGeo = bufferTillNotEmpty(inGeo, searchDistance * 2);
+                    pGeo = bufferTillNotEmpty(inGeo, searchDistance * 10);
                 }
                 return pGeo;
             }

@@ -5710,6 +5710,7 @@ namespace ArcGIS4LocalGovernment
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain67") + intersectLayerName);
                                                                         double snapTol = Globals.GetXYTolerance(intersectLayer);
+
                                                                         sFilter = Globals.createSpatialFilter(intersectLayer, inFeature, false, AAState._editor.Map.SpatialReference);
 
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain68"));
@@ -13733,6 +13734,8 @@ namespace ArcGIS4LocalGovernment
                                                                         AAState.WriteLine("                  " + sourceFieldName + ": at " + sourceField);
                                                                         if (sourceField > -1)
                                                                         {
+                                                                            double mapTol = ((IMxDocument)ArcMap.Application.Document).SearchTolerance;
+                                                                            AAState.WriteLine("                  map tolerance: " + mapTol.ToString());
                                                                             try
                                                                             {
                                                                                 ISpatialReferenceResolution pSRResolution;
@@ -13753,6 +13756,11 @@ namespace ArcGIS4LocalGovernment
                                                                                 if (dblTol2 > dblTol)
                                                                                 {
                                                                                     dblTol = dblTol2;
+                                                                                }
+                                                                                AAState.WriteLine("                  spatial tolerance: " + dblTol.ToString());
+                                                                               
+                                                                                if (mapTol > dblTol) {
+                                                                                    dblTol = mapTol;
                                                                                 }
                                                                                 if (strOpt == AAState.intersectOptions.End &&
                                                                                    (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
@@ -13789,7 +13797,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     IPolyline pLyLine = inFeature.Shape as IPolyline;
 
                                                                                     ILine pLine = new LineClass();
-                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.ToPoint, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.ToPoint, mapTol,strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                     pLyLine = null;
                                                                                     pLine = null;
                                                                                 }
@@ -13799,13 +13807,13 @@ namespace ArcGIS4LocalGovernment
                                                                                     IPolyline pLyLine = inFeature.Shape as IPolyline;
 
                                                                                     ILine pLine = new LineClass();
-                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.FromPoint, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.FromPoint, mapTol,strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                     pLyLine = null;
                                                                                     pLine = null;
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, mapTol,strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                 }
                                                                             }
                                                                             if (sFilter == null)
@@ -13818,26 +13826,34 @@ namespace ArcGIS4LocalGovernment
                                                                             pFS = (IFeatureSelection)sourceLayer;
                                                                             if (boolLayerOrFC)
                                                                             {
+                                                                                AAState.WriteLine("Using Layer: " + sourceLayer.Name);
+                                                                                
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain138"));
                                                                                 if (pFS.SelectionSet.Count > 0)
                                                                                 {
+                                                                                    AAState.WriteLine("Selected features count:" + pFS.SelectionSet.Count);
                                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain139"));
                                                                                     pFS.SelectionSet.Search(sFilter, true, out cCurs);
-
+                                                                                    
                                                                                     fCursor = cCurs as IFeatureCursor;
 
                                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
                                                                                 }
                                                                                 else
                                                                                 {
+                                                                                    AAState.WriteLine("No Selected features");
                                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain141"));
+
                                                                                     fCursor = sourceLayer.Search(sFilter, true);
                                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
                                                                                 }
                                                                             }
                                                                             else
                                                                             {
+                                                                                AAState.WriteLine("Using Feature Class" + Globals.getClassName((IDataset)sourceLayer.FeatureClass).ToString());
+                                                                            
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain142"));
+                                                                                AAState.WriteLine("Feature matching query: " + sourceLayer.FeatureClass.FeatureCount(sFilter));
                                                                                 fCursor = sourceLayer.FeatureClass.Search(sFilter, true);
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
                                                                             }
