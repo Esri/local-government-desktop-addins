@@ -2417,6 +2417,13 @@ namespace A4LGSharedFunctions
                     snapPnt = Globals.GetPointOnLine(inPoint, (IGeometry)geoMainLine.ShapeCopy, searchDist, out side);
                     //snapPnt = inPoint;
                     angleOfLine = Globals.GetAngleOfLineAtPoint((IPolyline)geoMainLine.ShapeCopy, snapPnt, searchDist);
+                    if (angleOfLine <= Math.PI){
+                        angleOfLine = angleOfLine + Math.PI;
+                    }
+                    else{
+                        angleOfLine = angleOfLine - Math.PI;
+                    }
+                    
                 }
                 else
                 {
@@ -2427,12 +2434,19 @@ namespace A4LGSharedFunctions
 
                 if (AddAngleToLineAngle.ToUpper() == "TRUE")
                 {
-                    RadianAngle = angleOfLine + RadianAngle;
+                    RadianAngle = angleOfLine - RadianAngle;
                 }
 
                 pNewPt = new PointClass();
                 pConsPoint = pNewPt as IConstructPoint2;
-
+                if (RadianAngle <= Math.PI)
+                {
+                    RadianAngle = RadianAngle + Math.PI;
+                }
+                else
+                {
+                    RadianAngle = RadianAngle - Math.PI;
+                }
                 pConsPoint.ConstructAngleDistance(snapPnt, RadianAngle, LineLength);
 
                 pPolyline = new PolylineClass();
@@ -2565,6 +2579,13 @@ namespace A4LGSharedFunctions
 
             try
             {
+           
+                ILine pLinetest = new LineClass();
+                pLinetest.ToPoint = inLine.FromPoint;
+                pLinetest.FromPoint = inLine.ToPoint;
+                double tst = pLinetest.Angle;
+
+            
                 pSnapPt = null;
                 double dist = Globals.PointDistanceOnLine(location, inLine, 15, out pSnapPt);
                 double angle = GetAngleOfLineAtDistance(inLine, dist);
