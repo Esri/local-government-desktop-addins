@@ -315,7 +315,9 @@ namespace A4LGSharedFunctions
         [XmlElement("ReferencePointEditTemplate")]
         public string ReferencePointEditTemplate { get; set; }
 
-        
+        [XmlElement("AddressIncrementValue")]
+        public string AddressIncrementValue { get; set; }
+
         //[XmlElement("CreateIfExisting", IsNullable = true)]
         //public string CreateIfExisting { get; set; }
 

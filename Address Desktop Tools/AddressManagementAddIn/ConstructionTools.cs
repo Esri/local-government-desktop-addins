@@ -334,8 +334,12 @@ namespace A4LGAddressManagement
 
                 }
 
-                foreach (IFeature pFeat in pFeats)
+                int addresIncrementVal = 0;
+                int.TryParse(configDetails[idxConfig].AddressIncrementValue, out addresIncrementVal);
+
+                for (int i = 0; i < pFeats.Count; i++)
                 {
+                    var pFeat = pFeats[i];
                     if (retInfo.AddressDetails.StreetGeometry == null)
                     {
                         if (targetNameFieldIdx != -1)
@@ -349,11 +353,11 @@ namespace A4LGAddressManagement
                         pPnt = Globals.GetPointOnLine(pFeat.Shape as IPoint, retInfo.AddressDetails.StreetGeometry as IPolyline, 10000, out rightSide);
                         if (rightSide)
                         {
-                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.RightAddress);
+                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.RightAddress + (i * addresIncrementVal));
                         }
                         else
                         {
-                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.LeftAddress);
+                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.LeftAddress + (i * addresIncrementVal));
                         }
                         if (targetNameFieldIdx != -1)
                             pFeat.set_Value(targetNameFieldIdx, retInfo.AddressDetails.StreetName);
