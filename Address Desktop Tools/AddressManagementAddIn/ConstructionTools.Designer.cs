@@ -198,10 +198,6 @@ namespace A4LGAddressManagement
         {
             m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
         }
-        protected sealed override void OnKeyUp(KeyEventArgs arg)
-        {
-            m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
-        }
 
         protected sealed override bool OnContextMenu(int x, int y)
         {
