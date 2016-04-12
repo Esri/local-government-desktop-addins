@@ -189,11 +189,6 @@ namespace A4LGAddressManagement
             m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
-        protected sealed override void OnMouseMove(MouseEventArgs arg)
-        {
-            m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
-        }
-
         protected sealed override void OnMouseUp(MouseEventArgs arg)
         {
             m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);

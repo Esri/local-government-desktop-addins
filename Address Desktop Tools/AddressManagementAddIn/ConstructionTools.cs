@@ -174,7 +174,9 @@ namespace A4LGAddressManagement
         private IEditEvents5_Event m_editEvents5;
         private IEditSketch3 m_edSketch;
         private IShapeConstructor m_csc;
-      
+        private AddressMapTip m_addressMaptip;
+        private IFeatureLayer m_targetLayer;
+        private string m_className;
         public CreatePointAndRefPoint()
         {
             ConfigUtil.type = "address";
@@ -193,6 +195,8 @@ namespace A4LGAddressManagement
         {
             ConfigUtil.type = "address";
             m_editor.CurrentTask = null;
+            m_targetLayer = ((IFeatureLayer)m_editor.CurrentTemplate.Layer);
+            m_className = Globals.getClassName(m_targetLayer);
 
             m_edSketch = m_editor as IEditSketch3;
             m_edSketch.GeometryType = esriGeometryType.esriGeometryMultipoint;
@@ -211,6 +215,11 @@ namespace A4LGAddressManagement
             m_editEvents5.OnShapeConstructorChanged += OnShapeConstructorChanged;
             m_editEvents.OnSketchFinished += OnSketchFinished;
 
+            // Initialize address map tip
+            m_addressMaptip = new AddressMapTip();
+            var mxPtr = new IntPtr(ArcMap.Application.hWnd);
+            m_addressMaptip.Show(Control.FromHandle(mxPtr));
+            m_addressMaptip.Visible = false;
         }
 
         protected override bool OnDeactivate()
@@ -218,6 +227,11 @@ namespace A4LGAddressManagement
             m_editEvents.OnSketchModified -= OnSketchModified;
             m_editEvents5.OnShapeConstructorChanged -= OnShapeConstructorChanged;
             m_editEvents.OnSketchFinished -= OnSketchFinished;
+
+            // Destroy address map tip
+            m_addressMaptip.Close();
+            m_addressMaptip = null;
+
             return true;
         }
 
@@ -237,6 +251,12 @@ namespace A4LGAddressManagement
             }
             else
                 m_edSketch.FinishSketch();
+        }
+
+        protected sealed override void OnMouseMove(MouseEventArgs arg)
+        {
+            m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            UpdateMapTip();
         }
 
         private void OnSketchModified()
@@ -398,7 +418,47 @@ namespace A4LGAddressManagement
             }
         }
 
+        private void UpdateMapTip()
+        {
+            var point = ((ISketchTool)this).Location;
+            var configDetails = ConfigUtil.GetCreatePointWithRefConfig();
 
+            CreatePointWithReferenceDetails createPointDet = null;
+            for (int i = 0; i < configDetails.Count; i++)
+            {
+                if (configDetails[i].LayerName == m_className || configDetails[i].LayerName == m_targetLayer.Name)
+                {
+                    createPointDet = configDetails[0];
+
+                    bool pointFndAsFL = true;
+                    var pointLayer = Globals.FindLayer(ArcMap.Application, createPointDet.ReferencePointLayerName, ref pointFndAsFL) as IFeatureLayer;
+                    if (pointLayer == null)
+                        continue;
+
+                    var featureClass = pointLayer.FeatureClass;
+                    point.Project(((IGeoDataset)featureClass).SpatialReference);
+                    point.SnapToSpatialReference();
+
+                    AddressInfo addInfo = Globals.GetAddressInfo(ArcMap.Application, point, createPointDet.AddressCenterlineDetails.FeatureClassName, createPointDet.AddressCenterlineDetails.FullName,
+                            createPointDet.AddressCenterlineDetails.LeftTo, createPointDet.AddressCenterlineDetails.RightTo,
+                            createPointDet.AddressCenterlineDetails.LeftFrom, createPointDet.AddressCenterlineDetails.RightFrom, false, 2);
+
+                    if (addInfo == null)
+                    {
+                        m_addressMaptip.Visible = false;
+                        return;
+                    }
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine(string.Format("{0} / {1} {2}", addInfo.LeftAddress, addInfo.RightAddress, addInfo.StreetName));
+                    sb.AppendLine(string.Format("Distance: {0}", addInfo.DistanceAlong));
+                    m_addressMaptip.SetLabel(sb.ToString());
+                    m_addressMaptip.Top = System.Windows.Forms.Cursor.Position.Y + 15;
+                    m_addressMaptip.Left = System.Windows.Forms.Cursor.Position.X;
+                    m_addressMaptip.Visible = true;
+                    return;
+                }
+            }
+        }
     }
-
 }

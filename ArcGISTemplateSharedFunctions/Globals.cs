@@ -3122,7 +3122,7 @@ namespace A4LGSharedFunctions
                     retAdd.RightAddress = retAddNumRight;
                     retAdd.StreetName = roadName;
                     retAdd.StreetGeometry = RoadFeature.ShapeCopy;
-
+                    retAdd.DistanceAlong = dAlong.ToString("N2");
                     return retAdd;
                 }
                 else
