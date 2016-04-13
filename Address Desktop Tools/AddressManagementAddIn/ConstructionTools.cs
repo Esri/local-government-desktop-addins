@@ -177,7 +177,7 @@ namespace A4LGAddressManagement
         private AddressMapTip m_addressMaptip;
         private IFeatureLayer m_targetLayer;
         private string m_className;
-        private int m_autoIncrementValue = 0;
+        private AddressSettings m_settings = AddressSettings.Default;
 
         public CreatePointAndRefPoint()
         {
@@ -233,6 +233,7 @@ namespace A4LGAddressManagement
             // Destroy address map tip
             m_addressMaptip.Close();
             m_addressMaptip = null;
+            m_settings.Save();
 
             return true;
         }
@@ -266,12 +267,12 @@ namespace A4LGAddressManagement
             m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
             if (arg.KeyCode == Keys.A)
             {
-                var autoIncrement = new AutoIncrementWindow(m_autoIncrementValue);
+                var autoIncrement = new AutoIncrementWindow(m_settings.AutoIncrement);
 
                 var mxPtr = new IntPtr(ArcMap.Application.hWnd);
                 if (autoIncrement.ShowDialog(Control.FromHandle(mxPtr)) == DialogResult.OK)
                 {
-                    m_autoIncrementValue = Convert.ToInt16(autoIncrement.GetIncrementValue());
+                    m_settings.AutoIncrement = Convert.ToInt16(autoIncrement.GetIncrementValue());
                 }
             }
         }
@@ -387,11 +388,11 @@ namespace A4LGAddressManagement
                         pPnt = Globals.GetPointOnLine(pFeat.Shape as IPoint, retInfo.AddressDetails.StreetGeometry as IPolyline, 10000, out rightSide);
                         if (rightSide)
                         {
-                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.RightAddress + (i * m_autoIncrementValue));
+                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.RightAddress + (i * m_settings.AutoIncrement));
                         }
                         else
                         {
-                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.LeftAddress + (i * m_autoIncrementValue));
+                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.LeftAddress + (i * m_settings.AutoIncrement));
                         }
                         if (targetNameFieldIdx != -1)
                             pFeat.set_Value(targetNameFieldIdx, retInfo.AddressDetails.StreetName);
