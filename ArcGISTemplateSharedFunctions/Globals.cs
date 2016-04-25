@@ -2368,6 +2368,13 @@ namespace A4LGSharedFunctions
                     snapPnt = Globals.GetPointOnLine(inPoint, (IGeometry)geoMainLine.ShapeCopy, searchDist, out side);
                     //snapPnt = inPoint;
                     angleOfLine = Globals.GetAngleOfLineAtPoint((IPolyline)geoMainLine.ShapeCopy, snapPnt, searchDist);
+                    if (angleOfLine <= Math.PI){
+                        angleOfLine = angleOfLine + Math.PI;
+                    }
+                    else{
+                        angleOfLine = angleOfLine - Math.PI;
+                    }
+                    
                 }
                 else
                 {
@@ -2378,12 +2385,19 @@ namespace A4LGSharedFunctions
 
                 if (AddAngleToLineAngle.ToUpper() == "TRUE")
                 {
-                    RadianAngle = angleOfLine + RadianAngle;
+                    RadianAngle = angleOfLine - RadianAngle;
                 }
 
                 pNewPt = new PointClass();
                 pConsPoint = pNewPt as IConstructPoint2;
-
+                if (RadianAngle <= Math.PI)
+                {
+                    RadianAngle = RadianAngle + Math.PI;
+                }
+                else
+                {
+                    RadianAngle = RadianAngle - Math.PI;
+                }
                 pConsPoint.ConstructAngleDistance(snapPnt, RadianAngle, LineLength);
 
                 pPolyline = new PolylineClass();
@@ -2516,6 +2530,13 @@ namespace A4LGSharedFunctions
 
             try
             {
+           
+                ILine pLinetest = new LineClass();
+                pLinetest.ToPoint = inLine.FromPoint;
+                pLinetest.FromPoint = inLine.ToPoint;
+                double tst = pLinetest.Angle;
+
+            
                 pSnapPt = null;
                 double dist = Globals.PointDistanceOnLine(location, inLine, 15, out pSnapPt);
                 double angle = GetAngleOfLineAtDistance(inLine, dist);
@@ -4382,18 +4403,20 @@ namespace A4LGSharedFunctions
                             if (netClass != null)
                             {
                                 gn = netClass.GeometricNetwork;
-                                found = false;
-                                for (int index = 0; index < gnList.Count; index++)
-                                {
-                                    if (IsInNetwork(fLayer.FeatureClass.FeatureClassID, gnList[index] as IGeometricNetwork, true))
+                                if (gn != null) { 
+                                    found = false;
+                                    for (int index = 0; index < gnList.Count; index++)
                                     {
-                                        found = true;
-                                        break;
+                                        if (IsInNetwork(fLayer.FeatureClass.FeatureClassID, gnList[index] as IGeometricNetwork, true))
+                                        {
+                                            found = true;
+                                            break;
+                                        }
                                     }
-                                }
-                                if (!found)
-                                {
-                                    gnList.Add(gn);
+                                    if (!found)
+                                    {
+                                        gnList.Add(gn);
+                                    }
                                 }
                             }
 
@@ -8139,9 +8162,10 @@ namespace A4LGSharedFunctions
                 tmpForm.ShowDialog();
                 return (OptionsToPresent)tmpForm.cboSelectTemplate.SelectedItem;
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                return new OptionsToPresent(-1, ex.Message, "", null);
+                
             }
 
             //return "";
@@ -9412,7 +9436,7 @@ namespace A4LGSharedFunctions
                 ptempPoly = pGeo as IPolygon;
                 if (ptempPoly.IsEmpty == true)
                 {
-                    pGeo = bufferTillNotEmpty(inGeo, searchDistance * 2);
+                    pGeo = bufferTillNotEmpty(inGeo, searchDistance * 10);
                 }
                 return pGeo;
             }
@@ -9592,6 +9616,8 @@ namespace A4LGSharedFunctions
                 pTopo = null;
             }
         }
+
+
         public static ISpatialFilter createSpatialFilter(IFeatureLayer sourceLayer, IFeature inFeature, double searchDistance, bool useCentroid, ISpatialReference mapSpatRef)
         {
             return createSpatialFilter(sourceLayer, inFeature.ShapeCopy, searchDistance, useCentroid, mapSpatRef);
