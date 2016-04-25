@@ -43,6 +43,7 @@ using ESRI.ArcGIS.GeoDatabaseExtensions;
 using ESRI.ArcGIS.GeoDatabaseUI;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.esriSystem;
+using ESRI.ArcGIS.ADF;
 using ESRI.ArcGIS.DataSourcesRaster;
 using ESRI.ArcGIS.Location;
 using System.Drawing;
