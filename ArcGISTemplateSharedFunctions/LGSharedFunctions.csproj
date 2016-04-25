@@ -9,7 +9,8 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>A4LGSharedFunctions</RootNamespace>
-    <AssemblyName>LGDesktopSharedFunctions</AssemblyName>
+    <MyNewGuid>$([System.Guid]::NewGuid())</MyNewGuid>
+    <AssemblyName>LGSharedFunctions_$(MyNewGuid)</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
