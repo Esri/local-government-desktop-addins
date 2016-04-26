@@ -1675,7 +1675,7 @@ namespace ArcGIS4LocalGovernment
         {
             try
             {
-                inFeature = obj as IFeature;
+                //inFeature = obj as IFeature;
 
 
                 sendEvent(obj, "ON_MANUAL");
@@ -7536,7 +7536,7 @@ namespace ArcGIS4LocalGovernment
                                                             if (useDisplayValue)
                                                             {
 
-                                                                inObject.set_Value(intFldIdxs[0], Globals.GetDomainDisplay(inObject.get_Value(fieldCopy), inObject as IFeature, inObject.Fields.get_Field(fieldCopy)));
+                                                                inObject.set_Value(intFldIdxs[0], Globals.GetDomainDisplay(inObject.get_Value(fieldCopy), inObject, inObject.Fields.get_Field(fieldCopy)));
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
                                                             }
 
