@@ -1675,7 +1675,7 @@ namespace ArcGIS4LocalGovernment
         {
             try
             {
-                inFeature = obj as IFeature;
+                //inFeature = obj as IFeature;
 
 
                 sendEvent(obj, "ON_MANUAL");
@@ -7536,7 +7536,7 @@ namespace ArcGIS4LocalGovernment
                                                             if (useDisplayValue)
                                                             {
 
-                                                                inObject.set_Value(intFldIdxs[0], Globals.GetDomainDisplay(inObject.get_Value(fieldCopy), inObject as IFeature, inObject.Fields.get_Field(fieldCopy)));
+                                                                inObject.set_Value(intFldIdxs[0], Globals.GetDomainDisplay(inObject.get_Value(fieldCopy), inObject, inObject.Fields.get_Field(fieldCopy)));
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
                                                             }
 
@@ -13759,8 +13759,9 @@ namespace ArcGIS4LocalGovernment
                                                                                     dblTol = dblTol2;
                                                                                 }
                                                                                 AAState.WriteLine("                  spatial tolerance: " + dblTol.ToString());
-                                                                               
-                                                                                if (mapTol > dblTol) {
+
+                                                                                if (mapTol > dblTol)
+                                                                                {
                                                                                     dblTol = mapTol;
                                                                                 }
                                                                                 if (strOpt == AAState.intersectOptions.End &&
@@ -13798,7 +13799,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     IPolyline pLyLine = inFeature.Shape as IPolyline;
 
                                                                                     ILine pLine = new LineClass();
-                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.ToPoint, mapTol,strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.ToPoint, mapTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                     pLyLine = null;
                                                                                     pLine = null;
                                                                                 }
@@ -13808,13 +13809,13 @@ namespace ArcGIS4LocalGovernment
                                                                                     IPolyline pLyLine = inFeature.Shape as IPolyline;
 
                                                                                     ILine pLine = new LineClass();
-                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.FromPoint, mapTol,strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.FromPoint, mapTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                     pLyLine = null;
                                                                                     pLine = null;
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, mapTol,strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, mapTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                 }
                                                                             }
                                                                             if (sFilter == null)
@@ -13828,14 +13829,14 @@ namespace ArcGIS4LocalGovernment
                                                                             if (boolLayerOrFC)
                                                                             {
                                                                                 AAState.WriteLine("Using Layer: " + sourceLayer.Name);
-                                                                                
+
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain138"));
                                                                                 if (pFS.SelectionSet.Count > 0)
                                                                                 {
                                                                                     AAState.WriteLine("Selected features count:" + pFS.SelectionSet.Count);
                                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain139"));
                                                                                     pFS.SelectionSet.Search(sFilter, true, out cCurs);
-                                                                                    
+
                                                                                     fCursor = cCurs as IFeatureCursor;
 
                                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
@@ -13852,7 +13853,7 @@ namespace ArcGIS4LocalGovernment
                                                                             else
                                                                             {
                                                                                 AAState.WriteLine("Using Feature Class" + Globals.getClassName((IDataset)sourceLayer.FeatureClass).ToString());
-                                                                            
+
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain142"));
                                                                                 AAState.WriteLine("Feature matching query: " + sourceLayer.FeatureClass.FeatureCount(sFilter));
                                                                                 fCursor = sourceLayer.FeatureClass.Search(sFilter, true);
@@ -16447,8 +16448,3 @@ namespace ArcGIS4LocalGovernment
         #endregion
     }
 }
-
-
-
-
-
