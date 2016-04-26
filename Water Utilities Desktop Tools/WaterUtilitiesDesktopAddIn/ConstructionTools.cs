@@ -60,10 +60,10 @@ namespace A4WaterUtilities
         {
             ConfigUtil.type = "water";
             m_edSketch = m_editor as IEditSketch3;
-            
+
             m_editor.CurrentTask = null;
             m_edSketch.GeometryType = esriGeometryType.esriGeometryPoint;
-            
+
             //IEditTaskSearch editTaskSearch = m_editor as IEditTaskSearch;
             //IEditTask editTask = editTaskSearch.get_TaskByUniqueName("GarciaUI_CreateNewFeatureTask");
             //m_editor.CurrentTask = editTask;
@@ -78,7 +78,7 @@ namespace A4WaterUtilities
             m_edSketch.ShapeConstructor = m_csc;
             m_csc.Activate();
 
-            
+
             // Setup events
             m_editEvents.OnSketchModified += OnSketchModified;
             m_editEvents5.OnShapeConstructorChanged += OnShapeConstructorChanged;
@@ -110,7 +110,7 @@ namespace A4WaterUtilities
             //    pso.Finish(null);
             //}
             //else
-              
+
             //        m_edSketch.FinishSketch();
         }
 
@@ -141,8 +141,8 @@ namespace A4WaterUtilities
             IEnvelope pEnv = null;
             try
             {
-               
-                
+
+
                 m_editor.StartOperation();
                 Globals.ClearSelected(ArcMap.Application, false, new List<esriGeometryType>() { esriGeometryType.esriGeometryPoint });
 
@@ -166,7 +166,7 @@ namespace A4WaterUtilities
                 m_editor.Display.Invalidate((ArcMap.Document as IMxDocument).ActiveView.Extent, true, (short)esriScreenCache.esriAllScreenCaches);
 
                 pFeat.Store();
-              
+
                 (ArcMap.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, (ArcMap.Document as IMxDocument).ActiveView.Extent.Envelope);
 
 
@@ -190,7 +190,7 @@ namespace A4WaterUtilities
 
                 //(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ALT_1") + ex.Message);
                 m_editor.AbortOperation();
@@ -365,7 +365,7 @@ namespace A4WaterUtilities
 
 
     }
-  
+
     public partial class AddLineWithEndPoints : ESRI.ArcGIS.Desktop.AddIns.Tool, IShapeConstructorTool, ISketchTool
     {
         private IEditor3 m_editor;
@@ -468,7 +468,7 @@ namespace A4WaterUtilities
             try
             {
                 // Send a shift-tab to hide the construction toolbar
-            
+
                 try
                 {
                     m_editor.StartOperation();
@@ -534,8 +534,8 @@ namespace A4WaterUtilities
 
                 m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtLnWithPts"));
                 (ArcMap.Application.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, null);
-               
-               
+
+
             }
             catch { }
             finally
@@ -548,7 +548,7 @@ namespace A4WaterUtilities
                 Missing = null;
 
             }
-            
+
         }
 
 
@@ -646,7 +646,7 @@ namespace A4WaterUtilities
         private void OnSketchFinished()
         {
             ConfigUtil.type = "water";
-            IFeature pFeat;
+            IFeature pFeat = null;
             try
             {
 
@@ -673,6 +673,10 @@ namespace A4WaterUtilities
             }
             finally
             {
+                if (pFeat != null)
+                {
+                    (ArcMap.Application.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, pFeat, null);
+                }
                 pFeat = null;
             }
         }
@@ -756,7 +760,7 @@ namespace A4WaterUtilities
         {
             if (Globals.IsShapeConstructorOkay(m_csc))
 
-             m_csc.SketchModified();
+                m_csc.SketchModified();
         }
 
         private void OnShapeConstructorChanged()
@@ -775,7 +779,7 @@ namespace A4WaterUtilities
             Keys ModKey = Control.ModifierKeys;
 
             // Send a shift-tab to hide the construction toolbar
-           
+
             m_editor.StartOperation();
             IFeature pFeat = null;
             returnFeatArray pRetVal = null;
@@ -811,7 +815,7 @@ namespace A4WaterUtilities
 
             }
 
-            if (pRetVal.Options== "DIGITIZED")
+            if (pRetVal.Options == "DIGITIZED")
             {
                 Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
 
@@ -949,5 +953,5 @@ namespace A4WaterUtilities
 
 
     }
-  
+
 }
