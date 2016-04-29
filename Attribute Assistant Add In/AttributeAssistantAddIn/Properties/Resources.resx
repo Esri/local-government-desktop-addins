@@ -112,42 +112,66 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="AttributeAssistantToggleOnSolidOff" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAIZSURBVDhPbZNLaxpRGIbnJ3TdXxHoJumuLVm1DWmD9Ce0SJoiYnGjrcZRqaKIiIqCIHih0E13
-        zT5ZJRGxtfHSNqn1ijqJ8X57e76TzhDLHHjhHIb3+a4jJNMf76TTaYkJqVQKiUQC8XgcsVgMkUgEoVAI
-        gUBA8vl8a4La+QfAcrlUtFgs0Ol0Uf7xk8zI5/PweDySy+VSh1BkMhkMBq5SqYRf5+c4Oc2ARQadXC4H
-        p9Mp2Wy2Vch8PpeYQJIBxWKRv6fTKc9APtlsFhaLRVqp5LZRBtwGJZNJOBwOsMhkhslkwgpgNpspkf8H
-        FAoFSJeXqNZqOM1kkP9+hmGnAwwGsiRhNBr1KFWSDCAjvdk3NJpNdLpdFIsl1OsNbvy0scFFd8pmzWg0
-        YjKZKADR8QH7ohM6nR57ezrsvn4DrXYXL19pVQGC3+/HcDjkEBKZy+WyqtQyELxeLzKsxi8HBzg8PILF
-        KsJut6tKFeB2u/mkmqze8XiMd+/3+VL1rq9xddXjjaTFarfb6iWwBbkBtFq8BL3+LW+gnAUB5PuCQVem
-        QF0URZEDWgxAUah5g8GQZdRCo9G4GWW1ikrlDzd/3tzkkqcgWK1WZdvoQp3v9/uqGagCzGazFI1GEQ6H
-        EQwG+dio/lqtrkS++F1h/8cFznJflRK+HR+HVf9QeeYazQvs7GjwbPs5tra28eTxUzx88Ajr6/dpge4x
-        3f0LSY6zAvN9P3cAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wAAADsABataJCQAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC45bDN+TgAAAb9JREFUOE+t00sv
+        A1EYxvFaqsSCRHSm0+lMS5VQsWlEUE0smiBII7Gy0Q9gIf0EEiE2FkJEkYj7vS2KELcQl0TjtrGxYO8L
+        eLznGDptKmnESf6ryfnNOzNnDGwB+FN8eb3erHQXM+lndba34zufy4UWpyOpprzctGnbv4D3p0e8RiO8
+        51AI94MDuA4GcRIIIEbXNzxezFdWYVKxY6zQjPrsnATQ4fPhLRpGRLXyNhUZa1YZy7IFCxYLZs0SZkQJ
+        04KEkMmMcQI8esDf4MHLVAg7disvqiHrhKxoyJxkwQxBHBFSgDa3G8/9fdgrsvJ2bAyREdYhS4TMS1+T
+        cMCoA1orXXjq7cFBscJjSIyQLZokTNA3sqghE4KIeqMxAbA3/dDdhSOHwmPIPkPocbYI0k/CkHFRRJ0e
+        aKY73fmbcVqi8hKI8oNEaJINQlYJGRUF1CYBZgHxxlqcl6q8tAgBHKFpRgioMWYngKaCfNy6K3BZZuNd
+        EHLmVHFM0CFBDNklZFubZFg0oToJoFMVr7DjptzGuypTcUHAmVPBMQGHxdrXYZ/YJmNIKIQ7Ffit1GPN
+        jrp27D/45nQ/Sab9A2AwfAJsePGjcGH3KQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="AttributeAssistantToggleOnSolidOffAddin" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wAAADsABataJCQAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC45bDN+TgAAAb9JREFUOE+t00sv
+        A1EYxvFaqsSCRHSm0+lMS5VQsWlEUE0smiBII7Gy0Q9gIf0EEiE2FkJEkYj7vS2KELcQl0TjtrGxYO8L
+        eLznGDptKmnESf6ryfnNOzNnDGwB+FN8eb3erHQXM+lndba34zufy4UWpyOpprzctGnbv4D3p0e8RiO8
+        51AI94MDuA4GcRIIIEbXNzxezFdWYVKxY6zQjPrsnATQ4fPhLRpGRLXyNhUZa1YZy7IFCxYLZs0SZkQJ
+        04KEkMmMcQI8esDf4MHLVAg7disvqiHrhKxoyJxkwQxBHBFSgDa3G8/9fdgrsvJ2bAyREdYhS4TMS1+T
+        cMCoA1orXXjq7cFBscJjSIyQLZokTNA3sqghE4KIeqMxAbA3/dDdhSOHwmPIPkPocbYI0k/CkHFRRJ0e
+        aKY73fmbcVqi8hKI8oNEaJINQlYJGRUF1CYBZgHxxlqcl6q8tAgBHKFpRgioMWYngKaCfNy6K3BZZuNd
+        EHLmVHFM0CFBDNklZFubZFg0oToJoFMVr7DjptzGuypTcUHAmVPBMQGHxdrXYZ/YJmNIKIQ7Ffit1GPN
+        jrp27D/45nQ/Sab9A2AwfAJsePGjcGH3KQAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="AttributeAssistantToggleOnSolidOn" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        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
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wAAADsABataJCQAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC45bDN+TgAAAdZJREFUOE+t088v
+        XFEcBfCxJBlGJDLeMGZMlTf3DiURKcGY2BAjLdKkicSqlhIrWxsbTROxkDZimqbiZ1vUGJQQSipaSaUt
+        Xdh0wd4/4DjvvsEbmSYibnLyFi/nk2/e/T6bcQDcKeqEQqGUZC9vk6vT9rwVlylvLIXeUpQQR3N60sTr
+        JvD37BDLJ1GVseMIBn8PoO9HL7q/vkDHSivC80HUTj5C2Vsv9DdOOOpSr4GmZ42InS4gEPWoyM/5kLP5
+        EB/ckFNuiPFciDEXxDsNeiQH+ogTmUELUN8exPt/EYhlj0pg0UQCc0Q+moicyCNCSCFaIlD1tBIvj/sh
+        Vgkw0oAWOcWCBZnhJJMG4lKAI5h2DZQ9KUXvUQ/kuldFISucJEbIikybSPGohow6C2B86a4/nRCbLDMK
+        WWOZiCSSMAmR4hEXMmotgC/sQduvMOR2gcolElgjFEdElMg8kU9uPHzNCWosQF5YQ8NBDcQ3lplkiIix
+        TEQSKRzWYK+2fMTs5ixU/CyB3POpiF0CO4S2+NyII184yZI5iW8oB/bHFsDYKnHwAP59n5nvLBPRd1jc
+        8sK/waJxQ7wdP2+n4JUT9sobwP9yc62NVY+v/bkqJ/tJbpt7AGy2C7tV9Xif3V4ZAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="AttributeAssistantToggleOnSolidOnAddin" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wAAADsABataJCQAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMC45bDN+TgAAAdZJREFUOE+t088v
+        XFEcBfCxJBlGJDLeMGZMlTf3DiURKcGY2BAjLdKkicSqlhIrWxsbTROxkDZimqbiZ1vUGJQQSipaSaUt
+        Xdh0wd4/4DjvvsEbmSYibnLyFi/nk2/e/T6bcQDcKeqEQqGUZC9vk6vT9rwVlylvLIXeUpQQR3N60sTr
+        JvD37BDLJ1GVseMIBn8PoO9HL7q/vkDHSivC80HUTj5C2Vsv9DdOOOpSr4GmZ42InS4gEPWoyM/5kLP5
+        EB/ckFNuiPFciDEXxDsNeiQH+ogTmUELUN8exPt/EYhlj0pg0UQCc0Q+moicyCNCSCFaIlD1tBIvj/sh
+        Vgkw0oAWOcWCBZnhJJMG4lKAI5h2DZQ9KUXvUQ/kuldFISucJEbIikybSPGohow6C2B86a4/nRCbLDMK
+        WWOZiCSSMAmR4hEXMmotgC/sQduvMOR2gcolElgjFEdElMg8kU9uPHzNCWosQF5YQ8NBDcQ3lplkiIix
+        TEQSKRzWYK+2fMTs5ixU/CyB3POpiF0CO4S2+NyII184yZI5iW8oB/bHFsDYKnHwAP59n5nvLBPRd1jc
+        8sK/waJxQ7wdP2+n4JUT9sobwP9yc62NVY+v/bkqJ/tJbpt7AGy2C7tV9Xif3V4ZAAAAAElFTkSuQmCC
 </value>
   </data>
 </root>

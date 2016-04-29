@@ -95,6 +95,8 @@ namespace A4LGSharedFunctions
     public class copyFeatureToInMem
     {
         public IFeatureLayer FeatureLayer { get; set; }
+        public string sourceLayerName { get; set; }
+        public string sourceFCName { get; set; }
         public Dictionary<int, geoFeat> OIDSGeo { get; set; }
 
     }
@@ -914,7 +916,7 @@ namespace A4LGSharedFunctions
                             }
                             if (cont)
                             {
-                                string fcName = pSourceFC.AliasName + suffix  ;
+                                string fcName = pSourceFC.AliasName + suffix;
 
                                 if (!copyFeats.ContainsKey(fcName))
                                 {
@@ -982,6 +984,7 @@ namespace A4LGSharedFunctions
                                     copFeat = new copyFeatureToInMem();
                                     copFeat.OIDSGeo = new Dictionary<int, geoFeat>();
                                     copFeat.FeatureLayer = pFL;
+                                    copFeat.sourceFCName = Globals.getClassName(pSourceFC as IDataset);
                                     copyFeats.Add(fcName, copFeat);
                                 }
                                 else
@@ -1064,16 +1067,19 @@ namespace A4LGSharedFunctions
 
                             stopEditor = true;
                         }
-                       
+
                         //if (!workEdit.IsBeingEdited())
                         //{
                         //    workEdit.StartEditing(false);
                         //}
 
                         //workEdit.StartEditOperation();
+                        Dictionary<string, int> resultCount = new Dictionary<string, int>();
 
                         foreach (KeyValuePair<string, copyFeatureToInMem> kvp in copyFeats)
                         {
+                            resultCount[kvp.Value.sourceFCName] = kvp.Value.OIDSGeo.Count;
+
                             //pCursor = kvp.Value.FeatureLayer.FeatureClass.Insert(true);
                             foreach (KeyValuePair<int, geoFeat> oidpair in kvp.Value.OIDSGeo)
                             {
@@ -1157,6 +1163,8 @@ namespace A4LGSharedFunctions
                                     //pFBuf.set_Value(newFldIdx, dateTimeValue);
                                     pFeat.set_Value(newFldIdx, dateTimeValue);
                                 }
+
+
                                 //pCursor.InsertFeature(pFBuf);
                                 pFeat.Store();
 
@@ -1202,7 +1210,18 @@ namespace A4LGSharedFunctions
                                 //pFBuf.set_Value(newFldIdx, dateTimeValue);
                                 pFeat.set_Value(newFldIdx, dateTimeValue);
                             }
+                            foreach (ResultCountToField rctf in addResOptions.ResultCountToField)
+                            {
+                                newFldIdx = pFeat.Fields.FindField(rctf.TargetField);
+                                if (newFldIdx >= 0)
+                                {
+                                    if (resultCount.ContainsKey(rctf.FeatureClassName))
+                                    {
+                                        pFeat.set_Value(newFldIdx, resultCount[rctf.FeatureClassName]);
+                                    }
 
+                                }
+                            }
                             //pCursor.InsertFeature(pFBuf);
 
 
@@ -1212,7 +1231,7 @@ namespace A4LGSharedFunctions
                             pFeat.Store();
 
                         }
-                        
+
                         if (stopEditor)
                         {
                             editor.StopOperation("Trace");
@@ -1638,8 +1657,8 @@ namespace A4LGSharedFunctions
                 }
                 else
                 {
-                    pFLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") , ref fndAsFL);//+ " " + suffCount.ToString()
-                    pBLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix") , ref fndAsFL);//+ " " + suffCount.ToString()
+                    pFLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportFlagsName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"), ref fndAsFL);//+ " " + suffCount.ToString()
+                    pBLayer = Globals.FindLayer(map, A4LGSharedFunctions.Localizer.GetString("ExportBarriersName") + " " + A4LGSharedFunctions.Localizer.GetString("IsoTraceResultsLayerSuffix"), ref fndAsFL);//+ " " + suffCount.ToString()
 
                 }
 
@@ -2419,13 +2438,15 @@ namespace A4LGSharedFunctions
                     snapPnt = Globals.GetPointOnLine(inPoint, (IGeometry)geoMainLine.ShapeCopy, searchDist, out side);
                     //snapPnt = inPoint;
                     angleOfLine = Globals.GetAngleOfLineAtPoint((IPolyline)geoMainLine.ShapeCopy, snapPnt, searchDist);
-                    if (angleOfLine <= Math.PI){
+                    if (angleOfLine <= Math.PI)
+                    {
                         angleOfLine = angleOfLine + Math.PI;
                     }
-                    else{
+                    else
+                    {
                         angleOfLine = angleOfLine - Math.PI;
                     }
-                    
+
                 }
                 else
                 {
@@ -2581,13 +2602,13 @@ namespace A4LGSharedFunctions
 
             try
             {
-           
+
                 ILine pLinetest = new LineClass();
                 pLinetest.ToPoint = inLine.FromPoint;
                 pLinetest.FromPoint = inLine.ToPoint;
                 double tst = pLinetest.Angle;
 
-            
+
                 pSnapPt = null;
                 double dist = Globals.PointDistanceOnLine(location, inLine, 15, out pSnapPt);
                 double angle = GetAngleOfLineAtDistance(inLine, dist);
@@ -4454,7 +4475,8 @@ namespace A4LGSharedFunctions
                             if (netClass != null)
                             {
                                 gn = netClass.GeometricNetwork;
-                                if (gn != null) { 
+                                if (gn != null)
+                                {
                                     found = false;
                                     for (int index = 0; index < gnList.Count; index++)
                                     {
@@ -8216,7 +8238,7 @@ namespace A4LGSharedFunctions
             catch (Exception ex)
             {
                 return new OptionsToPresent(-1, ex.Message, "", null);
-                
+
             }
 
             //return "";
