@@ -210,7 +210,7 @@ namespace A4WaterUtilities
                     }
                     catch
                     {
-                        MessageBox.Show("ExportSelectedRecordsToExcel\n");
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
                         return;
                     }
 
@@ -222,7 +222,7 @@ namespace A4WaterUtilities
                     }
                     catch
                     {
-                        MessageBox.Show("ExportSelectedRecordsToExcel\n");
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
                         return;
                     }
                     //objBook = ExcelApp.Workbooks.get_Item(1);
@@ -277,7 +277,7 @@ namespace A4WaterUtilities
                     }
                     catch
                     {
-                        MessageBox.Show("ExportSelectedRecordsToExcel\n");
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
                         return;
                     }
 
@@ -290,7 +290,7 @@ namespace A4WaterUtilities
                     }
                     catch
                     {
-                        MessageBox.Show("ExportSelectedRecordsToExcel\n");
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
                         return;
                     }
 
@@ -336,7 +336,7 @@ namespace A4WaterUtilities
                     }
                     catch
                     {
-                        MessageBox.Show("ExportSelectedRecordsToExcel\n");
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
                         return;
                     }
 
