@@ -933,7 +933,8 @@ namespace A4WaterUtilities
 
         }
 
-        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, IFeatureLayer pEditLayer)
+        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures,
+            bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, IFeatureLayer pEditLayer)
         {
             ICommandItem pCmdItem;
             string resetFlow = "";
@@ -1292,7 +1293,14 @@ namespace A4WaterUtilities
                     int total;
 
                     total = pointSelSet.Count;
-
+                    bool showError = true;
+                    if (total > 1)
+                    {
+                        showError = false;
+                    }
+                    else {
+                        showError = true;
+                    }
                     int i = 0;
 
                     // Create a CancelTracker
@@ -1430,7 +1438,9 @@ namespace A4WaterUtilities
                                                               addLateralsDetails[k].DeleteExistingLines,
                                                               addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].Dual_Option_Make_Square,
                                                               addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
-                                                              addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges);
+                                                              addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
+                                                              addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
+                                                              boolSelectedEdges, showError);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature2);
                                             if (LatCreated)
@@ -1455,14 +1465,17 @@ namespace A4WaterUtilities
                                             LatCreated = CreateSingle(ref app, ref editor, pointFeature, matchLineFLayer, targetLineFLayer, pLateralLineEditTemp, pointAlongLayers,
                                                              addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].DeleteExistingLines,
                                                              addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
-                                                             addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges);
+                                                             addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer,
+                                                             addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature);
 
                                             LatCreated = CreateSingle(ref app, ref editor, pointFeature2, matchLineFLayer, targetLineFLayer, pLateralLineEditTemp, pointAlongLayers,
                                                             addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].DeleteExistingLines,
                                                             addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
-                                                            addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges);
+                                                            addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
+                                                            addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
+                                                            boolSelectedEdges, showError);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature2);
 
@@ -1536,7 +1549,9 @@ namespace A4WaterUtilities
                                                               targetLineFLayer, pLateralLineEditTemp, pointAlongLayers, addLateralsDetails[k].DeleteExistingLines,
                                                               addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].Dual_Option_Make_Square,
                                                               addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
-                                                              addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges);
+                                                              addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
+                                                              addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
+                                                              boolSelectedEdges, showError);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature2);
                                             if (LatCreated)
@@ -1559,7 +1574,8 @@ namespace A4WaterUtilities
                                             LatCreated = CreateSingle(ref app, ref editor, pointFeature, matchLineFLayer, targetLineFLayer, pLateralLineEditTemp, pointAlongLayers,
                                                 addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].DeleteExistingLines,
                                                             addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
-                                                            addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges);
+                                                            addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer,
+                                                            addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature);
                                             //CreateSingleOld(pointFeature, matchLineFLayer, lineFeature, targetLineFLayer, targetPointFLayer,
@@ -1577,7 +1593,9 @@ namespace A4WaterUtilities
                                         LatCreated = CreateSingle(ref app, ref editor, pointFeature, matchLineFLayer, targetLineFLayer, pLateralLineEditTemp, pointAlongLayers,
                                               addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].DeleteExistingLines,
                                                              addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
-                                                            addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges);
+                                                            addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
+                                                            addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
+                                                            boolSelectedEdges, showError);
                                         if (LatCreated)
                                             ComplFeat.Add(pointFeature);
                                         //CreateSingleOld(pointFeature, matchLineFLayer, lineFeature, targetLineFLayer, targetPointFLayer,
@@ -1801,7 +1819,7 @@ namespace A4WaterUtilities
                                                   IFeatureLayer targetLineFLayer, IEditTemplate targetLineEditTemplate,
                                                   List<pointAlongSettings> pointAlongLayers,
                                                   bool startAtMain, bool deleteExistingLines, FromToField[] fromToPairs, double doglegDistance,
-                                                  bool DistAsPercent, double tolerenceForDelete, bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection)
+                                                  bool DistAsPercent, double tolerenceForDelete, bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection,bool showErrors)
         {
 
             IFeature lineFeature = null;
@@ -1920,15 +1938,21 @@ namespace A4WaterUtilities
                     }
                     else
                     {
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_6"));
+                        if (showErrors == true)
+                        {
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_6"));
+                        }
                         return false;
 
                     }
                 }
                 else
                 {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_5a") + matchLineFLayer.Name + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_5b") + searchDistance + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_5c"));
 
+                    if (showErrors == true)
+                    {
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_5a") + matchLineFLayer.Name + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_5b") + searchDistance + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_5c"));
+                    }
                     return false;
 
                 }
@@ -1936,7 +1960,11 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_3") + "\n" + ex.Message, ex.Source);
+
+                if (showErrors == true)
+                {
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_3") + "\n" + ex.Message, ex.Source);
+                }
                 return false;
             }
 
@@ -1956,7 +1984,8 @@ namespace A4WaterUtilities
                                                           IFeatureLayer targetLineFLayer, IEditTemplate targetLineEditTemplate,
                                                           List<pointAlongSettings> pointAlongLayers,
                                                           bool deleteExistingLines, bool startAtMain, bool squareDualLines,
-                                                         FromToField[] fromToPairs, double doglegDistance, bool DistAsPercent, double tolerenceForDelete, bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection)
+                                                         FromToField[] fromToPairs, double doglegDistance, bool DistAsPercent, double tolerenceForDelete,
+                                                        bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection, bool showErrors)
         {
 
             IPoint point = null;
@@ -2187,7 +2216,10 @@ namespace A4WaterUtilities
                         }
                         else
                         {
-                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_6"));
+                            if (showErrors == true)
+                            {
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_6"));
+                            }
                             return false;
 
                         }
@@ -2195,15 +2227,22 @@ namespace A4WaterUtilities
                 }
                 else
                 {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_7"));
-                    return false;
+
+                    if (showErrors == true)
+                    {
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_7"));
+                    }
+                            return false;
 
                 }
             }
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_4") + "\n" + ex.Message, ex.Source);
+                if (showErrors == true)
+                {
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_4") + "\n" + ex.Message, ex.Source);
+                }
                 return false;
             }
 
