@@ -155,7 +155,6 @@
     <ProjectReference Include="..\AddressManagementFunctions\AddressManagementFunctions.csproj">
       <Project>{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}</Project>
       <Name>AddressManagementFunctions</Name>
-      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
