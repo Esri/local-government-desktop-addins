@@ -5173,7 +5173,7 @@ namespace ArcGIS4LocalGovernment
 
                                                         if (intFldIdxs.Count > 0)
                                                         {
-                                                            if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false && mode != "ON_CREATE")
+                                                            if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false && (mode != "ON_CREATE" && mode != "ON_MANUAL" ))
                                                             {
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain44"));
                                                                 continue;
