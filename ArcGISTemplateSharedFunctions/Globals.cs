@@ -827,6 +827,8 @@ namespace A4LGSharedFunctions
                 }
 
                 bool boolAddAllResultLayers = ConfigUtil.GetConfigValue("Trace_ResultAddAllLayers", "false").ToLower() == "false" ? false : true;
+                AddResultsAsLayersOptions addResOptions = ConfigUtil.GetAddResultsAsLayersOptions();
+                //bool boolAddAllResultLayers = ConfigUtil.GetConfigValue("Trace_ResultAddAllLayers", "false").ToLower() == "false" ? false : true;
 
                 double bufferAmt = ConfigUtil.GetConfigValue("Trace_ResultBuffer", 25.0);
                 string suffix;
