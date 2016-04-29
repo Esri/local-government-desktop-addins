@@ -104,6 +104,23 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressMapTip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddressMapTip.Designer.cs">
+      <DependentUpon>AddressMapTip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddressSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>AddressSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="AutoIncrementWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoIncrementWindow.Designer.cs">
+      <DependentUpon>AutoIncrementWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConstructionTools.cs" />
     <Compile Include="Config.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -194,6 +211,23 @@
   </ItemGroup>
   <ItemGroup>
     <AddInContent Include="Images\Config2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AddressMapTip.resx">
+      <DependentUpon>AddressMapTip.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AutoIncrementWindow.resx">
+      <DependentUpon>AutoIncrementWindow.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AddressSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>AddressSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="app.config" />
   </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>esriAddIn</ZipFileExtension>

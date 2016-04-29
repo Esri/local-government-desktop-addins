@@ -81,6 +81,7 @@ namespace A4LGSharedFunctions
         public string StreetName { get; set; }
         public IGeometry StreetGeometry { get; set; }
         public string Messages{ get; set; }
+        public string DistanceAlong { get; set; }
     }
 
     [XmlRootAttribute(ElementName = "Line_Along", IsNullable = true)]
@@ -315,7 +316,6 @@ namespace A4LGSharedFunctions
         [XmlElement("ReferencePointEditTemplate")]
         public string ReferencePointEditTemplate { get; set; }
 
-        
         //[XmlElement("CreateIfExisting", IsNullable = true)]
         //public string CreateIfExisting { get; set; }
 
