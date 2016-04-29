@@ -229,6 +229,7 @@
     <Content Include="..\..\Configs\loaded.gas.config">
       <Link>loaded.gas.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\..\Configs\loaded.water.config">
       <Link>loaded.water.config</Link>
