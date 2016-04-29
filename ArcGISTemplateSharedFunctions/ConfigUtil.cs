@@ -945,7 +945,7 @@ namespace A4LGSharedFunctions
                 pSingleEntries = null;
             }
         }
-        public static LayerViewerConfig GetAddResultsAsLayersOptions()
+        public static AddResultsAsLayersOptions GetAddResultsAsLayersOptions()
         {
 
 
@@ -960,8 +960,8 @@ namespace A4LGSharedFunctions
                 node = xmld.SelectSingleNode("configuration/AddResultsAsLayersOptions");
                 if (node == null) { return null; }
 
-                LayerViewerConfig pSingleEntries;
-                pSingleEntries = (LayerViewerConfig)Globals.DeserializeObject(node, typeof(LayerViewerConfig));
+                AddResultsAsLayersOptions pSingleEntries;
+                pSingleEntries = (AddResultsAsLayersOptions)Globals.DeserializeObject(node, typeof(AddResultsAsLayersOptions));
 
 
 
