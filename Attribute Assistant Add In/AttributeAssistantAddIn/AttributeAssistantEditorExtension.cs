@@ -3032,13 +3032,13 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     if (sqlString == "")
                                                                     {
-                                                                        sqlString = pFlds.get_Field(sourceFieldNums[i]).Name + "" + " = '" + inObject.get_Value(intFldIdxs[i]).ToString() + "'";
-                                                                        sqlStringUpper = sqlUpp + "(" + pFlds.get_Field(sourceFieldNums[i]).Name + ")" + " LIKE '" + specChar + inObject.get_Value(intFldIdxs[i]).ToString().ToUpper().Replace(" ", specChar) + specChar + "'";
+                                                                        sqlString = pFlds.get_Field(sourceFieldNums[i]).Name + "" + " = '" + inObject.get_Value(intFldIdxs[i]).ToString().Replace("'", "''") + "'";
+                                                                        sqlStringUpper = sqlUpp + "(" + pFlds.get_Field(sourceFieldNums[i]).Name + ")" + " LIKE '" + specChar + inObject.get_Value(intFldIdxs[i]).ToString().ToUpper().Replace(" ", specChar).Replace("'", "''") + specChar + "'";
                                                                     }
                                                                     else
                                                                     {
-                                                                        sqlString = sqlString + " AND " + pFlds.get_Field(sourceFieldNums[i]).Name + "" + " = '" + inObject.get_Value(intFldIdxs[i]).ToString() + "'";
-                                                                        sqlStringUpper = sqlStringUpper + " AND " + sqlUpp + "(" + pFlds.get_Field(sourceFieldNums[i]).Name + ")" + " LIKE '" + specChar + inObject.get_Value(intFldIdxs[i]).ToString().ToUpper().Replace(" ", specChar) + specChar + "'";
+                                                                        sqlString = sqlString + " AND " + pFlds.get_Field(sourceFieldNums[i]).Name + "" + " = '" + inObject.get_Value(intFldIdxs[i]).ToString().Replace("'", "''") + "'";
+                                                                        sqlStringUpper = sqlStringUpper + " AND " + sqlUpp + "(" + pFlds.get_Field(sourceFieldNums[i]).Name + ")" + " LIKE '" + specChar + inObject.get_Value(intFldIdxs[i]).ToString().ToUpper().Replace(" ", specChar).Replace("'", "''") + specChar + "'";
                                                                     }
 
                                                                 }
@@ -3751,7 +3751,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     IQueryFilter pQFilt = Globals.createQueryFilter();
                                                                                     if (sourceLayer.FeatureClass.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeString)
                                                                                     {
-                                                                                        pQFilt.WhereClause = "" + sourceLayer.FeatureClass.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString() + "'";
+                                                                                        pQFilt.WhereClause = "" + sourceLayer.FeatureClass.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString().Replace("'", "''") + "'";
 
                                                                                     }
                                                                                     else
@@ -3842,7 +3842,7 @@ namespace ArcGIS4LocalGovernment
                                                                                             IQueryFilter pQFilt = Globals.createQueryFilter();
                                                                                             if (pSTable.Table.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeString)
                                                                                             {
-                                                                                                pQFilt.WhereClause = "" + pSTable.Table.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString() + "'";
+                                                                                                pQFilt.WhereClause = "" + pSTable.Table.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString().Replace("'","''") + "'";
 
                                                                                             }
                                                                                             else
@@ -4087,7 +4087,7 @@ namespace ArcGIS4LocalGovernment
                                                                                         IQueryFilter pQFilt = Globals.createQueryFilter();
                                                                                         if (sourceLayer.FeatureClass.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeString)
                                                                                         {
-                                                                                            pQFilt.WhereClause = "" + sourceLayer.FeatureClass.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString() + "'";
+                                                                                            pQFilt.WhereClause = "" + sourceLayer.FeatureClass.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString().Replace("'", "''") + "'";
 
                                                                                         }
                                                                                         else
@@ -4156,7 +4156,7 @@ namespace ArcGIS4LocalGovernment
                                                                                                 pTable.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeGUID ||
                                                                                                 pTable.Fields.get_Field(fldIDTargetIdx).Type == esriFieldType.esriFieldTypeGlobalID)
                                                                                             {
-                                                                                                pQFilt.WhereClause = "" + pTable.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString() + "'";
+                                                                                                pQFilt.WhereClause = "" + pTable.Fields.get_Field(fldIDTargetIdx).Name + "" + " = '" + inObject.get_Value(fldIDSourecIdx).ToString().Replace("'", "''") + "'";
 
                                                                                             }
                                                                                             else
@@ -4574,7 +4574,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                             if (sourceLayer.FeatureClass.Fields.get_Field(fldValTargetJoinIdx).Type == esriFieldType.esriFieldTypeString)
                                                                             {
-                                                                                pQFilt.WhereClause = "" + sourceLayer.FeatureClass.Fields.get_Field(fldValTargetJoinIdx).Name + "" + " = '" + inObject.get_Value(fldValToCopyIdx).ToString() + "'";
+                                                                                pQFilt.WhereClause = "" + sourceLayer.FeatureClass.Fields.get_Field(fldValTargetJoinIdx).Name + "" + " = '" + inObject.get_Value(fldValToCopyIdx).ToString().Replace("'", "''") + "'";
 
                                                                             }
                                                                             else
@@ -5054,7 +5054,7 @@ namespace ArcGIS4LocalGovernment
                                                             IQueryFilter pQFilt = new QueryFilterClass();
                                                             if (sourceLayer.FeatureClass.Fields.get_Field(intTargFld).Type == esriFieldType.esriFieldTypeString)
                                                             {
-                                                                pQFilt.WhereClause = flds + " = '" + pRowCh.get_OriginalValue(intFldIdxs[0]) + "'";
+                                                                pQFilt.WhereClause = flds + " = '" + pRowCh.get_OriginalValue(intFldIdxs[0]).ToString().Replace("'", "''") + "'";
 
                                                             }
                                                             else
