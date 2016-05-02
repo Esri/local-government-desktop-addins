@@ -1234,10 +1234,20 @@ namespace ArcGIS4LocalGovernment
                     "Next" + System.Environment.NewLine +
                     "TCase = strTextString" + System.Environment.NewLine +
                     "end function" + System.Environment.NewLine;
+                string strScript3 = "function Ceil(number)" + System.Environment.NewLine +
+                    "Ceil = Int(number)" + System.Environment.NewLine +
+                    "if Ceil <> number then" + System.Environment.NewLine +
+                    "Ceil = Ceil + 1" + System.Environment.NewLine +
+                    "end if" + System.Environment.NewLine +
+                    "end function" + System.Environment.NewLine;
+                string strScript4 = "function Floor(number)" + System.Environment.NewLine +
+                    "Floor = Int(number)" + System.Environment.NewLine +
+                    "end function" + System.Environment.NewLine;
 
                 script.AddCode(strScript);
                 script.AddCode(strScript2);
-
+                script.AddCode(strScript3);
+                script.AddCode(strScript4);
             }
             catch (Exception ex)
             {
