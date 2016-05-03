@@ -782,7 +782,7 @@ namespace A4LGAddressManagement
 
                         AddressInfo addInfo = Globals.GetAddressInfo(app, pPnt, createPointDet.AddressCenterlineDetails.FeatureClassName, createPointDet.AddressCenterlineDetails.FullName,
                             createPointDet.AddressCenterlineDetails.LeftTo, createPointDet.AddressCenterlineDetails.RightTo,
-                            createPointDet.AddressCenterlineDetails.LeftFrom, createPointDet.AddressCenterlineDetails.RightFrom, false, 2);
+                            createPointDet.AddressCenterlineDetails.LeftFrom, createPointDet.AddressCenterlineDetails.RightFrom, createPointDet.AddressCenterlineDetails.IDField, false, 2);
 
                         if (addInfo == null)
                             continue;
@@ -1375,7 +1375,7 @@ namespace A4LGAddressManagement
                             { }
                             else
                             {
-                                AddressInfo addInfo = Globals.GetAddressInfo(app, pIntPoint, pFeat, RoadNameidx, LTidx, RTidx, LFidx, RFidx, false, 5);
+                                AddressInfo addInfo = Globals.GetAddressInfo(app, pIntPoint, pFeat, RoadNameidx, LTidx, RTidx, LFidx, RFidx, -1, false, 5);
                                 if (addInfo == null)
                                 {
                                     locationForDebug = "Null AddInfo";

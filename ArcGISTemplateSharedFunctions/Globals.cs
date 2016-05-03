@@ -2917,7 +2917,7 @@ namespace A4LGSharedFunctions
 
         //}
         public static AddressInfo GetAddressInfo(IApplication app, IPoint pointLocation, string RoadLayerName, string FullNameField,
-            string LeftToField, string RightToField, string LeftFromField, string RightFromField, bool searchOnLayer, double searchDistance)
+            string LeftToField, string RightToField, string LeftFromField, string RightFromField, string StreetIDField, bool searchOnLayer, double searchDistance)
         {
             IFeatureLayer lineLayer = null;
 
@@ -2928,12 +2928,13 @@ namespace A4LGSharedFunctions
                 lineLayer = Globals.FindLayer(app, RoadLayerName, ref lineFndAsFL) as IFeatureLayer;
                 if (lineLayer == null)
                     return new AddressInfo("Street Layer not found: " + RoadLayerName);
-                int idxRdName, idxRdLtFrm, idxRdRtFrm, idxRdLtTo, idxRdRtTo;
+                int idxRdName, idxRdLtFrm, idxRdRtFrm, idxRdLtTo, idxRdRtTo, idxRdId;
                 idxRdName = Globals.GetFieldIndex(lineLayer.FeatureClass.Fields, FullNameField);
                 idxRdLtTo = Globals.GetFieldIndex(lineLayer.FeatureClass.Fields, LeftToField);
                 idxRdRtTo = Globals.GetFieldIndex(lineLayer.FeatureClass.Fields, RightToField);
                 idxRdLtFrm = Globals.GetFieldIndex(lineLayer.FeatureClass.Fields, LeftFromField);
                 idxRdRtFrm = Globals.GetFieldIndex(lineLayer.FeatureClass.Fields, RightFromField);
+                idxRdId = Globals.GetFieldIndex(lineLayer.FeatureClass.Fields, StreetIDField);
 
 
                 if (idxRdName == -1)
@@ -2966,7 +2967,7 @@ namespace A4LGSharedFunctions
 
                 }
 
-                return GetAddressInfo(app, pointLocation, lineLayer, idxRdName, idxRdLtTo, idxRdRtTo, idxRdLtFrm, idxRdRtFrm, searchOnLayer, searchDistance);
+                return GetAddressInfo(app, pointLocation, lineLayer, idxRdName, idxRdLtTo, idxRdRtTo, idxRdLtFrm, idxRdRtFrm, idxRdId, searchOnLayer, searchDistance);
 
 
             }
@@ -2981,7 +2982,7 @@ namespace A4LGSharedFunctions
 
         }
         public static AddressInfo GetAddressInfo(IApplication app, IPoint pointLocation, IFeatureLayer RoadLayer, int FullNameField,
-                  int LeftToField, int RightToField, int LeftFromField, int RightFromField, bool searchOnLayer, double searchDistance)
+                  int LeftToField, int RightToField, int LeftFromField, int RightFromField, int StreetIDField, bool searchOnLayer, double searchDistance)
         {
 
             IFeature pLineFeat = null;
@@ -3001,7 +3002,7 @@ namespace A4LGSharedFunctions
                     return null;
                 }
                 return GetAddressInfo(app, pointLocation, pLineFeat, FullNameField,
-                  LeftToField, RightToField, LeftFromField, RightFromField, searchOnLayer, searchDistance);
+                  LeftToField, RightToField, LeftFromField, RightFromField, StreetIDField, searchOnLayer, searchDistance);
             }
             catch
             {
@@ -3016,7 +3017,7 @@ namespace A4LGSharedFunctions
 
         }
         public static AddressInfo GetAddressInfo(IApplication app, IPoint pointLocation, IFeature RoadFeature, int FullNameField,
-               int LeftToField, int RightToField, int LeftFromField, int RightFromField, bool searchOnLayer, double searchDistance)
+               int LeftToField, int RightToField, int LeftFromField, int RightFromField, int StreetIDField, bool searchOnLayer, double searchDistance)
         {
 
 
@@ -3056,6 +3057,10 @@ namespace A4LGSharedFunctions
                     double retAddNumLeft = 0;
                     double retAddNumRight = 0;
                     string roadName = RoadFeature.get_Value(FullNameField).ToString();
+
+                    string roadID = "";
+                    if (StreetIDField != -1)
+                        roadID = RoadFeature.get_Value(StreetIDField).ToString();
 
                     string LeftFrom = RoadFeature.get_Value(LeftFromField).ToString();
                     string LeftTo = RoadFeature.get_Value(LeftToField).ToString();
@@ -3144,6 +3149,7 @@ namespace A4LGSharedFunctions
                     retAdd.LeftAddress = retAddNumLeft;
                     retAdd.RightAddress = retAddNumRight;
                     retAdd.StreetName = roadName;
+                    retAdd.StreetID = roadID;
                     retAdd.StreetGeometry = RoadFeature.ShapeCopy;
                     retAdd.DistanceAlong = dAlong.ToString("N2");
                     return retAdd;
@@ -16122,6 +16128,9 @@ namespace A4LGSharedFunctions
         }
         public static int GetFieldIndex(IFields pFields, string pName)
         {
+            if (pName == null)
+                return -1;
+
             pName = pName.Trim();
 
             int index = -1;

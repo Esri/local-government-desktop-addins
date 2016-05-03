@@ -6492,7 +6492,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                                         AddressInfo pRetValu = Globals.GetAddressInfo(ArcMap.Application, pPnts[0] as IPoint, sourceLayerName,
-                                                            sourceFieldNames[0].Trim(), sourceFieldNames[1].Trim(), sourceFieldNames[2].Trim(), sourceFieldNames[3].Trim(), sourceFieldNames[4].Trim(), false, searchDistance);
+                                                            sourceFieldNames[0].Trim(), sourceFieldNames[1].Trim(), sourceFieldNames[2].Trim(), sourceFieldNames[3].Trim(), sourceFieldNames[4].Trim(), null, false, searchDistance);
                                                         if (pRetValu != null)
                                                         {
                                                             if (pRetValu.Messages == "")

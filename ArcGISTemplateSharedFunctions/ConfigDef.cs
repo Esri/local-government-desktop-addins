@@ -79,6 +79,7 @@ namespace A4LGSharedFunctions
         public double LeftAddress { get; set; }
         public double RightAddress { get; set; }
         public string StreetName { get; set; }
+        public string StreetID { get; set; }
         public IGeometry StreetGeometry { get; set; }
         public string Messages { get; set; }
         public string DistanceAlong { get; set; }
@@ -264,6 +265,8 @@ namespace A4LGSharedFunctions
         [XmlElement("RightTo")]
         public string RightTo { get; set; }
 
+        [XmlElement("IDField")]
+        public string IDField { get; set; }
 
     }
 
@@ -306,6 +309,9 @@ namespace A4LGSharedFunctions
 
         [XmlElement("AddressPntKeyField")]
         public string AddressPntKeyField { get; set; }
+
+        [XmlElement("StreetIDField")]
+        public string StreetIDField { get; set; }
 
         [XmlElement("ReferencePointLayerName")]
         public string ReferencePointLayerName { get; set; }

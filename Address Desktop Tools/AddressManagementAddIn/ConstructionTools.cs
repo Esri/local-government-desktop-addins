@@ -357,6 +357,8 @@ namespace A4LGAddressManagement
 
                 int targetIDFieldIdx = Globals.GetFieldIndex(((IFeatureLayer)m_editor.CurrentTemplate.Layer), configDetails[idxConfig].AddressPntKeyField);
 
+                int targetCenterlineIDFieldIdx = Globals.GetFieldIndex(((IFeatureLayer)m_editor.CurrentTemplate.Layer), configDetails[idxConfig].StreetIDField);
+
                 //if (targetIDFieldIdx == -1)
                 //    return;
 
@@ -399,6 +401,9 @@ namespace A4LGAddressManagement
 
                         if (targetIDFieldIdx != -1)
                             pFeat.set_Value(targetIDFieldIdx, retInfo.AddressPointKey);
+
+                        if (targetCenterlineIDFieldIdx != -1)
+                            pFeat.set_Value(targetCenterlineIDFieldIdx, retInfo.AddressDetails.StreetID);
                         pFeat.Store();
                     }
                 }
@@ -456,7 +461,7 @@ namespace A4LGAddressManagement
 
                     AddressInfo addInfo = Globals.GetAddressInfo(ArcMap.Application, point, createPointDet.AddressCenterlineDetails.FeatureClassName, createPointDet.AddressCenterlineDetails.FullName,
                             createPointDet.AddressCenterlineDetails.LeftTo, createPointDet.AddressCenterlineDetails.RightTo,
-                            createPointDet.AddressCenterlineDetails.LeftFrom, createPointDet.AddressCenterlineDetails.RightFrom, false, 2);
+                            createPointDet.AddressCenterlineDetails.LeftFrom, createPointDet.AddressCenterlineDetails.RightFrom, createPointDet.AddressCenterlineDetails.IDField, false, 2);
 
                     if (addInfo == null)
                     {
