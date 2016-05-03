@@ -1210,17 +1210,26 @@ namespace A4LGSharedFunctions
                                 //pFBuf.set_Value(newFldIdx, dateTimeValue);
                                 pFeat.set_Value(newFldIdx, dateTimeValue);
                             }
-                            foreach (ResultCountToField rctf in addResOptions.ResultCountToField)
+                            try
                             {
-                                newFldIdx = pFeat.Fields.FindField(rctf.TargetField);
-                                if (newFldIdx >= 0)
+                                if (addResOptions != null)
                                 {
-                                    if (resultCount.ContainsKey(rctf.FeatureClassName))
+                                    foreach (ResultCountToField rctf in addResOptions.ResultCountToField)
                                     {
-                                        pFeat.set_Value(newFldIdx, resultCount[rctf.FeatureClassName]);
-                                    }
+                                        newFldIdx = pFeat.Fields.FindField(rctf.TargetField);
+                                        if (newFldIdx >= 0)
+                                        {
+                                            if (resultCount.ContainsKey(rctf.FeatureClassName))
+                                            {
+                                                pFeat.set_Value(newFldIdx, resultCount[rctf.FeatureClassName]);
+                                            }
 
+                                        }
+                                    }
                                 }
+                            }
+                            catch
+                            {
                             }
                             //pCursor.InsertFeature(pFBuf);
 
