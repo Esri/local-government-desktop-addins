@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -155,9 +155,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ArcGISTemplateSharedFunctions\LGSharedFunctions.csproj">
+    <ProjectReference Include="..\..\ArcGISTemplateSharedFunctions\LGSharedFunctions10_1.csproj">
       <Project>{17F1BA9D-F53B-4601-8333-6D3127A162D4}</Project>
-      <Name>LGSharedFunctions</Name>
+      <Name>LGSharedFunctions10_1</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -198,12 +198,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ArcGISTemplateSharedFunctions\LGSharedFunctions.csproj">
-      <Project>{17F1BA9D-F53B-4601-8333-6D3127A162D4}</Project>
-      <Name>LGSharedFunctions</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="LastValueForm.resx">
       <DependentUpon>LastValueForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -257,6 +251,12 @@
       <Link>loaded.water.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ArcGISTemplateSharedFunctions\LGSharedFunctions10_1.csproj">
+      <Project>{17F1BA9D-F53B-4601-8333-6D3127A162D4}</Project>
+      <Name>LGSharedFunctions10_1</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>esriAddIn</ZipFileExtension>
