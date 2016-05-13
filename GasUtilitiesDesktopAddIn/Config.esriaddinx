@@ -43,7 +43,7 @@
         <Button id="A4GasUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establishes flow direction for Geometric Network based on digitized direction." caption="Establish Digitized Flow Direction" tip="Establish Digitized Flow Direction" category="ArcGIS for Utilities" image="Images\EstablishFlowDigitized.png" />
        <!--   <Button id="A4GasUtilities_FlagsBarriersToLayer" class="FlagsBarriersToLayer" message="Create a point layer from the flags and barriers." caption="Convert Flags and Barriers to a Set of Layers" tip="Convert Flags and Barriers to a Set of Layers" category="ArcGIS for Utilities" image="Images\ExportFlagBarriers.png" />-->
         <Button id="A4GasUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Batch load barriers from a layer." caption="Batch Load Barriers" tip="Batch Load Barriers" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
-        <Button id="A4GasUtilities_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file, the location of the configuration file, and for loading another configuration file." caption="Show Config Information" tip="Show Config Information" category="ArcGIS for Utilities" image="Images\Config2.png" />
+        <Button id="A4GasUtilities_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file, the location of the configuration file, and for loading another configuration file." caption="Show Config Information (Gas)" tip="Show Config Information (Gas)" category="ArcGIS for Utilities" image="Images\Config2.png" />
 
       </Commands>
       <Toolbars>
