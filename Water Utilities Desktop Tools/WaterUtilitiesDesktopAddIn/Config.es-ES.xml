@@ -19,11 +19,11 @@
   <Name>Water Utility Network Tools</Name>
   <AddInID>{FD20EAB0-7ACB-4B35-AA41-753157745FD0}</AddInID>
   <Description>ArcMap tools for Water, Wastewater and Stormwater</Description>
-   <Version>6.10.2016</Version>
+   <Version>6.14.2016</Version>
   <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>6.10.2016</Date>
+  <Date>6/14/2016</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
