@@ -36,7 +36,7 @@
       </Extensions>
 
       <Commands>
-        <Button id="ArcGIS4LocalGovernment_AttributeAssistantToggleCommand" class="AttributeAssistantToggleCommand" onDemand="false" message="Toggles the Attribute Assistant add-in on (green version) and off (red verison)." caption="Turn Attribute Assistant On/Off" tip="Turn Attribute Assistant On/Off" category="ArcGIS for Local Government" image="Images\AttributeAssistantToggleOnSolidOffAddIn.png">
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantToggleCommand" class="AttributeAssistantToggleCommand" onDemand="false" message="Toggles the Attribute Assistant Add-In on (green) and off (red)." caption="Turn Attribute Assistant On/Off" tip="Turn Attribute Assistant On/Off" category="ArcGIS for Local Government" image="Images\AttributeAssistantToggleOnSolidOffAddIn.png">
           <Help heading="Attribute Assistant On/Off " />
         </Button>
         <Button id="ArcGIS4LocalGovernment_RunChangeRulesCommand" class="RunChangeRulesCommand" message="Triggers a change event on each selected feature. If the Attribute Assistant is on, all rules defined in the Dynamic Value table will be processed." caption="Run Change Rules for Selected Features" tip="Run Change Rules for Selected Features" category="ArcGIS for Local Government" image="Images\RunChangeRules.png">
