@@ -2635,6 +2635,6 @@
     <value>results</value>
   </data>
   <data name="TraceResultsCount" xml:space="preserve">
-    <value>This results contains {0} features, do you want to draw the results, this could take a long time?</value>
+    <value>This result contains {0} features, do you want to draw the result; this could take a long time?</value>
   </data>
 </root>
