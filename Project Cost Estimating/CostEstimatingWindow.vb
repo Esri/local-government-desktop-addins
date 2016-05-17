@@ -2723,10 +2723,10 @@ Partial Public Class CostEstimatingWindow
                 pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField)) = s_lblTotLength.Text
             End If
             If pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField) > 0 Then
-                pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = pTotArea
+                pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = s_lblTotArea.Text
             End If
             If pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField) > 0 Then
-                pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = pPntCnt
+                pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
             End If
             
             If pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayCostField) > 0 Then
@@ -2740,10 +2740,10 @@ Partial Public Class CostEstimatingWindow
             End If
 
             If pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField) > 0 Then
-                pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = pTotArea
+                pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = s_lblTotArea.Text
             End If
             If pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField) > 0 Then
-                pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = pPntCnt
+                pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
             End If
             If pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField) > 0 Then
                 pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField)) = s_lblTotLength.Text
@@ -2761,10 +2761,10 @@ Partial Public Class CostEstimatingWindow
 
 
             If pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField) > 0 Then
-                pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = pTotArea
+                pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = s_lblTotArea.Text
             End If
             If pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField) > 0 Then
-                pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = pPntCnt
+                pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
             End If
             If pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField) > 0 Then
                 pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField)) = s_lblTotLength.Text
