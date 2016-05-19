@@ -12806,8 +12806,13 @@ namespace ArcGIS4LocalGovernment
                                                                             if (sourceField > -1)
                                                                             {
 
-                                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false, AAState._editor.Map.SpatialReference);
-
+                                                                                if (searchDistance > 0.0)
+                                                                                {
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature,searchDistance,false, AAState._editor.Map.SpatialReference);
+                                                                                }
+                                                                                else {
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false, AAState._editor.Map.SpatialReference);
+                                                                                }
                                                                                 pFS = (IFeatureSelection)sourceLayer;
                                                                                 if (boolLayerOrFC)
                                                                                 {
