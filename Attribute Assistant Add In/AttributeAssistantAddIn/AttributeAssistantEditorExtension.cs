@@ -12808,9 +12808,10 @@ namespace ArcGIS4LocalGovernment
 
                                                                                 if (searchDistance > 0.0)
                                                                                 {
-                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature,searchDistance,false, AAState._editor.Map.SpatialReference);
+                                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, searchDistance, false, AAState._editor.Map.SpatialReference);
                                                                                 }
-                                                                                else {
+                                                                                else
+                                                                                {
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, false, AAState._editor.Map.SpatialReference);
                                                                                 }
                                                                                 pFS = (IFeatureSelection)sourceLayer;
@@ -14235,208 +14236,192 @@ namespace ArcGIS4LocalGovernment
                                             try
                                             {
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "INTERSECTING_BOOLEAN");
-                                                if (inFeature != null & valData != null)
+                                                if (inFeature != null && valData != null && valData != "")
                                                 {
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain134"));
                                                     sourceLayerName = "";
-                                                    string valTrue = "";
-                                                    string valFalse = "";
+                                                    string valTrue = "1";
+                                                    string valFalse = "0";
 
                                                     found = false;
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain135") + valData);
                                                     // Parse arguments
                                                     args = valData.Split('|');
                                                     //if (args.GetLength(0) >= 2)
-                                                    if (args.Length == 3)
+
+                                                    AAState.intersectOptions strOpt = AAState.intersectOptions.First;
+                                                    switch (args.Length)
                                                     {
-                                                        AAState.intersectOptions strOpt = AAState.intersectOptions.First;
-                                                        switch (args.Length)
+                                                        case 1:
+                                                            sourceLayerNames = args[0].ToString().Split(',');
+
+                                                            break;
+                                                        case 2:
+                                                            sourceLayerNames = args[0].ToString().Split(',');
+                                                            valTrue = args[1].ToString();
+                                                            break;
+                                                        case 3:
+                                                            sourceLayerNames = args[0].ToString().Split(',');
+                                                            valTrue = args[1].ToString();
+                                                            valFalse = args[2].ToString();
+
+                                                            break;
+                                                        default: break;
+                                                    }
+
+
+                                                    for (int i = 0; i < sourceLayerNames.Length; i++)
+                                                    {
+                                                        sourceLayerName = sourceLayerNames[i].ToString().Trim();
+                                                        if (sourceLayerName != "")
                                                         {
+                                                            boolLayerOrFC = true;
 
-                                                            case 3:
-                                                                sourceLayerNames = args[0].ToString().Split(',');
-                                                                valTrue = args[1].ToString();
-                                                                valFalse = args[2].ToString();
-
-                                                                break;
-                                                            default: break;
-                                                        }
-
-
-
-
-
-
-                                                        for (int i = 0; i < sourceLayerNames.Length; i++)
-                                                        {
-                                                            sourceLayerName = sourceLayerNames[i].ToString().Trim();
-                                                            if (sourceLayerName != "")
+                                                            if (sourceLayerName.Contains("("))
                                                             {
-                                                                boolLayerOrFC = true;
+                                                                string[] tempSplt = sourceLayerName.Split('(');
+                                                                sourceLayerName = tempSplt[0].Trim();
+                                                                sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
 
-
-
-
-
-
-
-
-                                                                if (sourceLayerName.Contains("("))
+                                                                if (tempSplt[1].ToUpper().Contains("LAYER)"))
                                                                 {
-                                                                    string[] tempSplt = sourceLayerName.Split('(');
-                                                                    sourceLayerName = tempSplt[0].Trim();
-                                                                    sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
-
-                                                                    if (tempSplt[1].ToUpper().Contains("LAYER)"))
-                                                                    {
-                                                                        boolLayerOrFC = true;
-                                                                    }
+                                                                    boolLayerOrFC = true;
+                                                                }
 
 
-                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURELAYER)"))
-                                                                    {
-                                                                        boolLayerOrFC = true;
-                                                                    }
-                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURECLASS)"))
-                                                                    {
-                                                                        boolLayerOrFC = false;
-                                                                    }
-                                                                    else if (tempSplt[1].ToUpper().Contains("CLASS)"))
-                                                                    {
-                                                                        boolLayerOrFC = false;
-                                                                    }
-                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURE)"))
-                                                                    {
-                                                                        boolLayerOrFC = false;
-                                                                    }
+                                                                else if (tempSplt[1].ToUpper().Contains("FEATURELAYER)"))
+                                                                {
+                                                                    boolLayerOrFC = true;
+                                                                }
+                                                                else if (tempSplt[1].ToUpper().Contains("FEATURECLASS)"))
+                                                                {
+                                                                    boolLayerOrFC = false;
+                                                                }
+                                                                else if (tempSplt[1].ToUpper().Contains("CLASS)"))
+                                                                {
+                                                                    boolLayerOrFC = false;
+                                                                }
+                                                                else if (tempSplt[1].ToUpper().Contains("FEATURE)"))
+                                                                {
+                                                                    boolLayerOrFC = false;
+                                                                }
 
+                                                            }
+                                                            else
+                                                            {
+                                                                sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+
+                                                            }
+                                                            // Get layer
+
+                                                            if (sourceLayer != null)
+                                                            {
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain136") + sourceLayer.Name);
+
+
+                                                                sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
+                                                                if (sFilter == null)
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain137"));
+                                                                    continue;
+                                                                }
+
+
+                                                                pFS = (IFeatureSelection)sourceLayer;
+                                                                if (boolLayerOrFC)
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain138"));
+                                                                    if (pFS.SelectionSet.Count > 0)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain139"));
+                                                                        pFS.SelectionSet.Search(sFilter, true, out cCurs);
+
+                                                                        fCursor = cCurs as IFeatureCursor;
+
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain141"));
+                                                                        fCursor = sourceLayer.Search(sFilter, true);
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
+                                                                    }
                                                                 }
                                                                 else
                                                                 {
-                                                                    sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain142"));
+                                                                    fCursor = sourceLayer.FeatureClass.Search(sFilter, true);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
+                                                                }
+                                                                if (fCursor == null)
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain143"));
+                                                                    continue;
+                                                                }
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain144"));
+                                                                while ((sourceFeature = fCursor.NextFeature()) != null)
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain145"));
+                                                                    if (sourceFeature.Class != inFeature.Class)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain146"));
+
+                                                                        found = true;
+
+                                                                    }
+                                                                    else if (sourceFeature.Class == inFeature.Class && sourceFeature.OID != inFeature.OID)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain148"));
+
+
+                                                                        found = true;
+
+                                                                    }
+                                                                    if (found == true)
+                                                                        break;
 
                                                                 }
-                                                                // Get layer
 
-                                                                if (sourceLayer != null)
+
+
+
+                                                                if (found == false && AAState._CheckEnvelope)
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain136") + sourceLayer.Name);
-
-
-                                                                    sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
-                                                                    if (sFilter == null)
-                                                                    {
-                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain137"));
-                                                                        continue;
-                                                                    }
+                                                                    sFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelEnvelopeIntersects;
 
 
                                                                     pFS = (IFeatureSelection)sourceLayer;
                                                                     if (boolLayerOrFC)
                                                                     {
-                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain138"));
                                                                         if (pFS.SelectionSet.Count > 0)
                                                                         {
-                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain139"));
                                                                             pFS.SelectionSet.Search(sFilter, true, out cCurs);
-
                                                                             fCursor = cCurs as IFeatureCursor;
 
-                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
+
                                                                         }
                                                                         else
                                                                         {
-                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain141"));
                                                                             fCursor = sourceLayer.Search(sFilter, true);
-                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
                                                                         }
                                                                     }
                                                                     else
                                                                     {
-                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain142"));
                                                                         fCursor = sourceLayer.FeatureClass.Search(sFilter, true);
-                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain140"));
                                                                     }
-                                                                    if (fCursor == null)
+                                                                    sourceFeature = fCursor.NextFeature();
+                                                                    while (sourceFeature != null)
                                                                     {
-                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain143"));
-                                                                        continue;
-                                                                    }
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain144"));
-                                                                    while ((sourceFeature = fCursor.NextFeature()) != null)
-                                                                    {
-                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain145"));
-                                                                        if (sourceFeature.Class != inFeature.Class)
-                                                                        {
-                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain146"));
-
-                                                                            found = true;
-
-                                                                        }
-                                                                        else if (sourceFeature.Class == inFeature.Class && sourceFeature.OID != inFeature.OID)
-                                                                        {
-                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain148"));
 
 
-                                                                            found = true;
 
-                                                                        }
-                                                                        if (found == true)
-                                                                            break;
+                                                                        found = true;
+                                                                        break;
+
+
 
                                                                     }
 
-
-
-
-                                                                    if (found == false && AAState._CheckEnvelope)
-                                                                    {
-                                                                        sFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelEnvelopeIntersects;
-
-
-                                                                        pFS = (IFeatureSelection)sourceLayer;
-                                                                        if (boolLayerOrFC)
-                                                                        {
-                                                                            if (pFS.SelectionSet.Count > 0)
-                                                                            {
-                                                                                pFS.SelectionSet.Search(sFilter, true, out cCurs);
-                                                                                fCursor = cCurs as IFeatureCursor;
-
-
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                fCursor = sourceLayer.Search(sFilter, true);
-                                                                            }
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            fCursor = sourceLayer.FeatureClass.Search(sFilter, true);
-                                                                        }
-                                                                        sourceFeature = fCursor.NextFeature();
-                                                                        while (sourceFeature != null)
-                                                                        {
-
-
-
-                                                                            found = true;
-                                                                            break;
-
-
-
-                                                                        }
-
-                                                                    }
-
-                                                                }
-                                                                else
-                                                                {
-                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14c") + sourceLayerName);
-                                                                }
-
-                                                                if (found)
-                                                                {
-                                                                    break;
                                                                 }
 
                                                             }
@@ -14445,43 +14430,51 @@ namespace ArcGIS4LocalGovernment
                                                                 AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14c") + sourceLayerName);
                                                             }
 
-                                                        }
-
-
-
-                                                        if (found)
-                                                        {
-
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + valTrue);
-
-                                                            inObject.set_Value(intFldIdxs[0], valTrue);
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
-
+                                                            if (found)
+                                                            {
+                                                                break;
+                                                            }
 
                                                         }
                                                         else
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + valFalse);
-
-                                                            inObject.set_Value(intFldIdxs[0], valFalse);
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
-
-
+                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14c") + sourceLayerName);
                                                         }
 
+                                                    }
+
+
+
+                                                    if (found)
+                                                    {
+
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + valTrue);
+
+                                                        inObject.set_Value(intFldIdxs[0], valTrue);
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
 
 
                                                     }
                                                     else
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain153"));
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + valFalse);
+
+                                                        inObject.set_Value(intFldIdxs[0], valFalse);
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
+
+
                                                     }
+
+
 
                                                 }
                                                 else
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain154"));
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain153"));
                                                 }
+
+
+
 
                                             }
                                             catch (Exception ex)
