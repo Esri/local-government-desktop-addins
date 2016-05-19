@@ -13944,6 +13944,241 @@ namespace A4LGSharedFunctions
             }
 
         }
+        public static ILayer FindLayerNotInMemory(IMap pMap, string sLName, ref bool FoundAsFeatureLayer)
+        {
+            FoundAsFeatureLayer = false;
+            if (sLName == null)
+                return null;
+
+            if (sLName == "")
+                return null;
+
+            if (sLName.Trim() == "")
+                return null;
+
+            //Layer functionReturnValue = default(ILayer);
+            IEnumLayer pEnumLayer = default(IEnumLayer);
+            IDataset pDataset = null;
+            try
+            {
+                //************************************************************************************
+                //Produce by: Michael Miller *
+                //Purpose: To return a refernece to a layer specified by sLName *
+                //************************************************************************************
+
+
+                ILayer pLay = default(ILayer);
+                pDataset = default(IDataset);
+
+
+                pEnumLayer = pMap.get_Layers(null, true);
+                pEnumLayer.Reset();
+                pLay = pEnumLayer.Next();
+                while (!(pLay == null))
+                {
+                    if (!(pLay is IGroupLayer))
+                    {
+                        if (pLay is IDataset)
+                        {
+                            pDataset = (IDataset)pLay;
+                            if (pDataset.Workspace.WorkspaceFactory is InMemoryWorkspaceFactoryClass) { }
+                            else if (pDataset.Workspace.WorkspaceFactory.WorkspaceType.ToString() == "99") { }
+                            else
+                            {
+                                if (pLay.Name.ToUpper() == sLName.ToUpper())
+                                {
+                                    FoundAsFeatureLayer = true;
+                                    if (pLay is IBasemapSubLayer)
+                                    {
+                                        return ((IBasemapSubLayer)pLay).Layer;
+                                    }
+                                    else
+                                    {
+                                        return pLay;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    pLay = pEnumLayer.Next();
+
+                }
+                pEnumLayer.Reset();
+                pLay = pEnumLayer.Next();
+                while (!(pLay == null))
+                {
+                    if (!(pLay is IGroupLayer))
+                    {
+                        if (pLay is IDataset)
+                        {
+                            pDataset = (IDataset)pLay;
+                            if (pDataset.Workspace.WorkspaceFactory is InMemoryWorkspaceFactoryClass) { }
+                            else if (pDataset.Workspace.WorkspaceFactory.WorkspaceType.ToString() == "99") { }
+                            else
+                            {
+
+                                if (pDataset.BrowseName.ToUpper() == sLName.ToUpper())
+                                {
+                                    //functionReturnValue = pLay;
+
+                                    if (pLay is IBasemapSubLayer)
+                                    {
+                                        FoundAsFeatureLayer = false;
+                                        return ((IBasemapSubLayer)pLay).Layer;
+                                    }
+                                    else
+                                    {
+                                        FoundAsFeatureLayer = false;
+                                        return pLay;
+                                    }
+                                }
+                                if (pDataset.FullName.NameString.ToUpper() == sLName.ToUpper())
+                                {
+                                    if (pLay is IBasemapSubLayer)
+                                    {
+                                        FoundAsFeatureLayer = false;
+                                        return ((IBasemapSubLayer)pLay).Layer;
+                                    }
+                                    else
+                                    {
+                                        FoundAsFeatureLayer = false;
+                                        return pLay;
+                                    }
+
+
+                                }
+                                if (pDataset.BrowseName.ToUpper().Substring(pDataset.BrowseName.LastIndexOf(".") + 1) == sLName.ToUpper())
+                                {
+                                    if (pLay is IBasemapSubLayer)
+                                    {
+                                        FoundAsFeatureLayer = false;
+                                        return ((IBasemapSubLayer)pLay).Layer;
+                                    }
+                                    else
+                                    {
+                                        FoundAsFeatureLayer = false;
+                                        return pLay;
+                                    }
+
+                                }
+                                if (pDataset.FullName.NameString.ToUpper().Substring(pDataset.FullName.NameString.LastIndexOf(".") + 1) == sLName.ToUpper())
+                                {
+                                    if (pLay is IBasemapSubLayer)
+                                    {
+                                        FoundAsFeatureLayer = false;
+                                        return ((IBasemapSubLayer)pLay).Layer;
+                                    }
+                                    else
+                                    {
+                                        FoundAsFeatureLayer = false;
+                                        return pLay;
+                                    }
+
+                                }
+                            }
+                        }
+                        else if (pLay is IBasemapSubLayer)
+                        {
+                            if (((IBasemapSubLayer)pLay).Layer is IDataset)
+                            {
+                                pDataset = (IDataset)((IBasemapSubLayer)pLay).Layer;
+                                if (pDataset.Workspace.WorkspaceFactory is InMemoryWorkspaceFactoryClass) { }
+                                else if (pDataset.Workspace.WorkspaceFactory.WorkspaceType.ToString() == "99") { }
+                                else
+                                {
+                                    if (pDataset.BrowseName.ToUpper() == sLName.ToUpper())
+                                    {
+                                        //functionReturnValue = pLay;
+
+                                        if (pLay is IBasemapSubLayer)
+                                        {
+                                            FoundAsFeatureLayer = false;
+                                            return ((IBasemapSubLayer)pLay).Layer;
+                                        }
+                                        else
+                                        {
+                                            FoundAsFeatureLayer = false;
+                                            return pLay;
+                                        }
+                                    }
+                                    if (pDataset.FullName.NameString.ToUpper() == sLName.ToUpper())
+                                    {
+                                        if (pLay is IBasemapSubLayer)
+                                        {
+                                            FoundAsFeatureLayer = false;
+                                            return ((IBasemapSubLayer)pLay).Layer;
+                                        }
+                                        else
+                                        {
+                                            FoundAsFeatureLayer = false;
+                                            return pLay;
+                                        }
+
+
+                                    }
+                                    if (pDataset.BrowseName.ToUpper().Substring(pDataset.BrowseName.LastIndexOf(".") + 1) == sLName.ToUpper())
+                                    {
+                                        if (pLay is IBasemapSubLayer)
+                                        {
+                                            FoundAsFeatureLayer = false;
+                                            return ((IBasemapSubLayer)pLay).Layer;
+                                        }
+                                        else
+                                        {
+                                            FoundAsFeatureLayer = false;
+                                            return pLay;
+                                        }
+
+                                    }
+                                    if (pDataset.FullName.NameString.ToUpper().Substring(pDataset.FullName.NameString.LastIndexOf(".") + 1) == sLName.ToUpper())
+                                    {
+                                        if (pLay is IBasemapSubLayer)
+                                        {
+                                            FoundAsFeatureLayer = false;
+                                            return ((IBasemapSubLayer)pLay).Layer;
+                                        }
+                                        else
+                                        {
+                                            FoundAsFeatureLayer = false;
+                                            return pLay;
+                                        }
+
+                                    }
+
+                                    //{
+                                    //    return ((IBasemapSubLayer)pLay).Layer;
+                                    //}
+                                    //else
+                                    //{
+                                    //return pLay;
+                                    //}
+                                }
+                            }
+                        }
+                    }
+                    pLay = pEnumLayer.Next();
+                }
+
+
+
+                pLay = null;
+
+                return null;
+            }
+            catch //()//Exception ex)
+            {
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                return null;
+            }
+            finally
+            {
+                pDataset = null;
+                if (pEnumLayer != null)
+                    Marshal.ReleaseComObject(pEnumLayer);
+                pEnumLayer = null;
+            }
+
+        }
 
         public static ILayer FindLayer(IMap pMap, string sLName, ref bool FoundAsFeatureLayer)
         {

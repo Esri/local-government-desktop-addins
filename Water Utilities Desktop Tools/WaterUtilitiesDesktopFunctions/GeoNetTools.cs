@@ -2305,7 +2305,7 @@ namespace A4WaterUtilities
                 {
                     bool FCorLayerTemp = true;
 
-                    valveFLs[i] = (IFeatureLayer)Globals.FindLayer(map, strValveFLs[i], ref FCorLayerTemp);
+                    valveFLs[i] = (IFeatureLayer)Globals.FindLayerNotInMemory(map, strValveFLs[i], ref FCorLayerTemp);
                     if (valveFLs[i] != null)
                     {
                         valveFCs[i] = valveFLs[i].FeatureClass;
