@@ -10173,29 +10173,18 @@ namespace ArcGIS4LocalGovernment
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "UPDATE_TO_EDGE_FIELD");
                                             }
                                             break;
-                                        //***************8
 
-
-
-
-
-
-
-
-
-
-
-                                        case "TRIGGER_UPDATE_INTERSECTING_FEATURE"://Intersected Feature|FieldIntersectingFeatureToChange|FromFieldinModifiedFeature
+                                        case "TRIGGER_AAEVENT_INTERSECTING_FEATURE"://Intersected Feature|FieldIntersectingFeatureToChange|FromFieldinModifiedFeature
                                             {
                                                 try
                                                 {
                                                     IFeatureCursor fLocalCursor = null;
                                                     IFeature sourceFeatureLocal = null;
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_UPDATE_INTERSECTING_FEATURE");
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_AAEVENT_INTERSECTING_FEATURE");
                                                     if (!String.IsNullOrEmpty(valData))
                                                     {
                                                         args = valData.Split('|');
-                                                        if (args.Length != 3)
+                                                        if (args.Length < 0)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ad"));
                                                             break;
@@ -10215,7 +10204,7 @@ namespace ArcGIS4LocalGovernment
                                                     if (intFldIdxs.Count > 1)
                                                     {
                                                         IRowChanges inChanges = inObject as IRowChanges;
-                                                        if (inChanges.get_ValueChanged(intFldIdxs[0]))
+                                                        if (inChanges.get_ValueChanged(intFldIdxs[0]) && (mode != "ON_CREATE" || mode != "ON_MANUAL" ))
                                                         {
                                                             cont = true;
                                                         }
@@ -10237,9 +10226,20 @@ namespace ArcGIS4LocalGovernment
                                                         sourceField = -1;
                                                         found = false;
                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bs"));
-                                                        sourceLayerNames = args[0].ToString().Split(',');
-                                                        sourceFieldName = args[1].ToString().Trim();
-                                                        string targetFieldName = args[2].ToString().Trim();
+                                                        switch (args.GetLength(0))
+                                                        {
+                                                            case 1:
+                                                                sourceLayerNames = args[0].ToString().Split(',');
+                                                                
+                                                                break;
+                                                            case 2:
+                                                                sourceLayerNames = args[0].ToString().Split(',');
+                                                                sourceFieldName = args[1].ToString().Trim();
+                                                                break;
+                                                            default: break;
+                                                        }
+                                                       
+                                                        
                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bt"));
                                                         if (sourceFieldName != null)
                                                         {
@@ -10434,12 +10434,12 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_UPDATE_INTERSECTING_FEATURE" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_INTERSECTING_FEATURE" + Environment.NewLine + ex.Message);
                                                 }
 
                                                 finally
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_UPDATE_INTERSECTING_FEATURE");
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_AAEVENT_INTERSECTING_FEATURE");
 
                                                 }
                                                 break;
@@ -10448,17 +10448,17 @@ namespace ArcGIS4LocalGovernment
 
 
 
-                                        case "TRIGGER_UPDATE_TO_JUNCTION":
+                                        case "TRIGGER_AAEVENT_TO_JUNCTION":
                                             try
                                             {
 
 
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_UPDATE_TO_JUNCTION");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_AAEVENT_TO_JUNCTION");
                                                 IRowChanges pRowCh = null;
 
                                                 pRowCh = inObject as IRowChanges;
 
-                                                if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true)
+                                                if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true  && (mode != "ON_CREATE" || mode != "ON_MANUAL" ))
                                                 {
 
 
@@ -10477,29 +10477,11 @@ namespace ArcGIS4LocalGovernment
                                                             {
 
                                                                 string netField = "";
-                                                                string netRestrictFC = "";
-                                                                string netRestrictField = "";
-                                                                string netRestrictValue = "";
                                                                 args = valData.Split('|');
                                                                 switch (args.GetLength(0))
                                                                 {
                                                                     case 1:  // sequenceColumnName only
                                                                         netField = args[0].ToString().Trim();
-                                                                        break;
-                                                                    case 2:  // sequenceColumnName|sequenceFixedWidth
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        break;
-                                                                    case 3:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        netRestrictField = args[2].ToString().Trim();
-                                                                        break;
-                                                                    case 4:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        netRestrictField = args[2].ToString().Trim();
-                                                                        netRestrictValue = args[3].ToString().Trim();
                                                                         break;
                                                                     default: break;
                                                                 }
@@ -10508,44 +10490,6 @@ namespace ArcGIS4LocalGovernment
                                                                 iEdgeFeat = (IEdgeFeature)netFeat;
                                                                 iJuncFeat = iEdgeFeat.ToJunctionFeature;
 
-                                                                if (netRestrictFC != "")
-                                                                {
-                                                                    string strClsName = Globals.getClassName(((IDataset)((IFeature)iJuncFeat).Class));
-
-                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bf") + strClsName);
-                                                                    if (strClsName != netRestrictFC)
-                                                                    {
-                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bg"));
-                                                                        break;
-                                                                    }
-                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bh"));
-                                                                    if (netRestrictField != "" && netRestrictValue != "")
-                                                                    {
-                                                                        int intTmpFld = Globals.GetFieldIndex(((IFeature)iJuncFeat).Fields, netRestrictField);
-
-                                                                        if (intTmpFld > -1)
-                                                                        {
-                                                                            if (((IFeature)iJuncFeat).get_Value(intTmpFld).ToString() == netRestrictValue)
-                                                                            {
-                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ay"));
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bl"));
-                                                                                break;
-
-                                                                            }
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            AAState.WriteLine("                  " + netRestrictField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
-                                                                        }
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bm"));
-                                                                    }
-                                                                }
                                                                 // verify that field (in junction) to copy exists
                                                                 if (netField == "CREATE")
                                                                 {
@@ -10594,24 +10538,24 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_UPDATE_TO_JUNCTION: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_TO_JUNCTION: " + ex.Message);
                                             }
                                             finally
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_UPDATE_TO_JUNCTION");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_AAEVENT_TO_JUNCTION");
                                             }
                                             break;
-                                        case "TRIGGER_UPDATE_FROM_JUNCTION":
+                                        case "TRIGGER_AAEVENT_FROM_JUNCTION":
                                             try
                                             {
 
 
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_UPDATE_FROM_JUNCTION");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_AAEVENT_FROM_JUNCTION");
                                                 IRowChanges pRowCh = null;
 
                                                 pRowCh = inObject as IRowChanges;
 
-                                                if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true)
+                                                if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true && (mode != "ON_CREATE" || mode != "ON_MANUAL"))
                                                 {
 
                                                     if (valData == null)
@@ -10629,78 +10573,18 @@ namespace ArcGIS4LocalGovernment
                                                             {
 
                                                                 string netField = "";
-                                                                string netRestrictFC = "";
-                                                                string netRestrictField = "";
-                                                                string netRestrictValue = "";
                                                                 args = valData.Split('|');
                                                                 switch (args.GetLength(0))
                                                                 {
-                                                                    case 1:
+                                                                    case 1:  // sequenceColumnName only
                                                                         netField = args[0].ToString().Trim();
-                                                                        break;
-                                                                    case 2:
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        break;
-                                                                    case 3:
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        netRestrictField = args[2].ToString().Trim();
-                                                                        break;
-                                                                    case 4:
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        netRestrictField = args[2].ToString().Trim();
-                                                                        netRestrictValue = args[3].ToString().Trim();
                                                                         break;
                                                                     default: break;
                                                                 }
 
-
-
-
-
                                                                 iEdgeFeat = (IEdgeFeature)netFeat;
                                                                 iJuncFeat = iEdgeFeat.FromJunctionFeature;
 
-                                                                if (netRestrictFC != "")
-                                                                {
-                                                                    string strClsName = Globals.getClassName(((IDataset)((IFeature)iJuncFeat).Class));
-
-                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bf") + strClsName);
-                                                                    if (strClsName != netRestrictFC)
-                                                                    {
-                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bg"));
-                                                                        break;
-                                                                    }
-                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bh"));
-                                                                    if (netRestrictField != "" && netRestrictValue != "")
-                                                                    {
-                                                                        int intTmpFld = Globals.GetFieldIndex(((IFeature)iJuncFeat).Fields, netRestrictField);
-
-                                                                        if (intTmpFld > -1)
-                                                                        {
-                                                                            if (((IFeature)iJuncFeat).get_Value(intTmpFld).ToString() == netRestrictValue)
-                                                                            {
-                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ay"));
-                                                                            }
-                                                                            else
-                                                                            {
-                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bl"));
-                                                                                break;
-
-                                                                            }
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            AAState.WriteLine("                  " + netRestrictField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
-                                                                        }
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bm"));
-                                                                    }
-                                                                }
                                                                 if (netField == "CREATE")
                                                                 {
                                                                     if (NewFeatureList == null)
@@ -10750,24 +10634,24 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_UPDATE_FROM_JUNCTION: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_FROM_JUNCTION: " + ex.Message);
                                             }
                                             finally
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_UPDATE_FROM_JUNCTION");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_AAEVENT_FROM_JUNCTION");
                                             }
                                             break;
-                                        case "TRIGGER_UPDATE_FROM_EDGE":
+                                        case "TRIGGER_AAEVENT_FROM_EDGE":
                                             try
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_UPDATE_FROM_EDGE");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_AAEVENT_FROM_EDGE");
                                                 if (inFeature != null)
                                                 {
                                                     IRowChanges pRowCh = null;
 
                                                     pRowCh = inObject as IRowChanges;
 
-                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true)
+                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true && (mode != "ON_CREATE" || mode != "ON_MANUAL"))
                                                     {
 
                                                         if (valData == null)
@@ -10781,29 +10665,12 @@ namespace ArcGIS4LocalGovernment
                                                             if (inFeature.FeatureType == esriFeatureType.esriFTComplexJunction || inFeature.FeatureType == esriFeatureType.esriFTSimpleJunction)
                                                             {
                                                                 string netField = "";
-                                                                string netRestrictFC = "";
-                                                                string netRestrictField = "";
-                                                                string netRestrictValue = "";
+                                                              
                                                                 args = valData.Split('|');
                                                                 switch (args.GetLength(0))
                                                                 {
                                                                     case 1:  // sequenceColumnName only
                                                                         netField = args[0].ToString().Trim();
-                                                                        break;
-                                                                    case 2:  // sequenceColumnName|sequenceFixedWidth
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        break;
-                                                                    case 3:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        netRestrictField = args[2].ToString().Trim();
-                                                                        break;
-                                                                    case 4:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        netRestrictField = args[2].ToString().Trim();
-                                                                        netRestrictValue = args[3].ToString().Trim();
                                                                         break;
                                                                     default: break;
                                                                 }
@@ -10823,49 +10690,7 @@ namespace ArcGIS4LocalGovernment
                                                                         iEdgeFeat = iSJunc.get_EdgeFeature(i);
                                                                         try
                                                                         {
-                                                                            if (netRestrictFC != "")
-                                                                            {
-                                                                                string strClsName = Globals.getClassName(((IDataset)((IFeature)iEdgeFeat).Class));
-
-                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bf") + strClsName);
-                                                                                if (strClsName != netRestrictFC)
-                                                                                {
-                                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bg"));
-                                                                                    continue;
-                                                                                }
-                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bh"));
-                                                                                if (netRestrictField != "" && netRestrictValue != "")
-                                                                                {
-                                                                                    int intTmpFld = Globals.GetFieldIndex(((IFeature)iEdgeFeat).Fields, netRestrictField);
-
-                                                                                    if (intTmpFld > -1)
-                                                                                    {
-                                                                                        //IFeature pTest = ((IFeature)iEdgeFeat);
-
-                                                                                        if (((IFeature)iEdgeFeat).get_Value(intTmpFld).ToString() == netRestrictValue)
-                                                                                        {
-                                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ay"));
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bl"));
-                                                                                            continue;
-
-                                                                                        }
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        AAState.WriteLine("                  " + netRestrictField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bm"));
-                                                                                }
-                                                                            }
-
-
-
+                                                                            
                                                                             iJuncFeat = iEdgeFeat.ToJunctionFeature;
                                                                             if (((IFeature)iJuncFeat).Shape.Equals(inFeature.Shape))
                                                                             {
@@ -10939,24 +10764,24 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_UPDATE_FROM_EDGE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_FROM_EDGE: " + ex.Message);
                                             }
                                             finally
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_UPDATE_FROM_EDGE");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_AAEVENT_FROM_EDGE");
                                             }
                                             break;
-                                        case "TRIGGER_UPDATE_TO_EDGE":
+                                        case "TRIGGER_AAEVENT_TO_EDGE":
                                             try
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_UPDATE_TO_EDGE");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TRIGGER_AAEVENT_TO_EDGE");
                                                 if (inFeature != null)
                                                 {
                                                     IRowChanges pRowCh = null;
 
                                                     pRowCh = inObject as IRowChanges;
 
-                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true)
+                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true && (mode != "ON_CREATE" || mode != "ON_MANUAL"))
                                                     {
 
                                                         if (valData == null)
@@ -10970,30 +10795,14 @@ namespace ArcGIS4LocalGovernment
                                                             if (inFeature.FeatureType == esriFeatureType.esriFTComplexJunction || inFeature.FeatureType == esriFeatureType.esriFTSimpleJunction)
                                                             {
                                                                 string netField = "";
-                                                                string netRestrictFC = "";
-                                                                string netRestrictField = "";
-                                                                string netRestrictValue = "";
+                                                              
                                                                 args = valData.Split('|');
                                                                 switch (args.GetLength(0))
                                                                 {
                                                                     case 1:  // sequenceColumnName only
                                                                         netField = args[0].ToString().Trim();
                                                                         break;
-                                                                    case 2:  // sequenceColumnName|sequenceFixedWidth
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        break;
-                                                                    case 3:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        netRestrictField = args[2].ToString().Trim();
-                                                                        break;
-                                                                    case 4:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                                        netField = args[0].ToString().Trim();
-                                                                        netRestrictFC = args[1].ToString().Trim();
-                                                                        netRestrictField = args[2].ToString().Trim();
-                                                                        netRestrictValue = args[3].ToString().Trim();
-                                                                        break;
+                                                                 
                                                                     default: break;
                                                                 }
 
@@ -11012,48 +10821,6 @@ namespace ArcGIS4LocalGovernment
                                                                         iEdgeFeat = iSJunc.get_EdgeFeature(i);
                                                                         try
                                                                         {
-
-                                                                            if (netRestrictFC != "")
-                                                                            {
-                                                                                string strClsName = Globals.getClassName(((IDataset)((IFeature)iEdgeFeat).Class));
-
-                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bf") + strClsName);
-                                                                                if (strClsName != netRestrictFC)
-                                                                                {
-                                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bg"));
-                                                                                    continue;
-                                                                                }
-                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bh"));
-                                                                                if (netRestrictField != "" && netRestrictValue != "")
-                                                                                {
-                                                                                    int intTmpFld = Globals.GetFieldIndex(((IFeature)iEdgeFeat).Fields, netRestrictField);
-
-                                                                                    if (intTmpFld > -1)
-                                                                                    {
-                                                                                        //IFeature pTest = ((IFeature)iEdgeFeat);
-
-                                                                                        if (((IFeature)iEdgeFeat).get_Value(intTmpFld).ToString() == netRestrictValue)
-                                                                                        {
-                                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ay"));
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bl"));
-                                                                                            continue;
-
-                                                                                        }
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        AAState.WriteLine("                  " + netRestrictField + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bm"));
-                                                                                }
-                                                                            }
-
 
                                                                             iJuncFeat = (IJunctionFeature)iEdgeFeat.FromJunctionFeature;
                                                                             if (((IFeature)iJuncFeat).Shape.Equals(inFeature.Shape))
@@ -11086,9 +10853,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     ChangeFeatureList.Add(((IFeature)iEdgeFeat));
                                                                                 }
 
-                                                                                break;
-                                                                                break;
-
+                                                                                break;                                                                        
 
                                                                             }
                                                                         }
@@ -11096,7 +10861,6 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14an"));
                                                                         }
-
 
                                                                     }
                                                                 }
@@ -11126,11 +10890,11 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_UPDATE_TO_EDGE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_TO_EDGE: " + ex.Message);
                                             }
                                             finally
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_UPDATE_TO_EDGE");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "TRIGGER_AAEVENT_TO_EDGE");
                                             }
                                             break;
                                         //***********8
