@@ -10204,7 +10204,7 @@ namespace ArcGIS4LocalGovernment
                                                     if (intFldIdxs.Count > 1)
                                                     {
                                                         IRowChanges inChanges = inObject as IRowChanges;
-                                                        if (inChanges.get_ValueChanged(intFldIdxs[0]) && (mode != "ON_CREATE" || mode != "ON_MANUAL" ))
+                                                        if (inChanges.get_ValueChanged(intFldIdxs[0]) && (mode != "ON_CREATE" || mode != "ON_MANUAL"))
                                                         {
                                                             cont = true;
                                                         }
@@ -10230,7 +10230,7 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             case 1:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                
+
                                                                 break;
                                                             case 2:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
@@ -10238,8 +10238,8 @@ namespace ArcGIS4LocalGovernment
                                                                 break;
                                                             default: break;
                                                         }
-                                                       
-                                                        
+
+
                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bt"));
                                                         if (sourceFieldName != null)
                                                         {
@@ -10458,7 +10458,7 @@ namespace ArcGIS4LocalGovernment
 
                                                 pRowCh = inObject as IRowChanges;
 
-                                                if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true  && (mode != "ON_CREATE" || mode != "ON_MANUAL" ))
+                                                if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true && (mode != "ON_CREATE" || mode != "ON_MANUAL"))
                                                 {
 
 
@@ -10665,7 +10665,7 @@ namespace ArcGIS4LocalGovernment
                                                             if (inFeature.FeatureType == esriFeatureType.esriFTComplexJunction || inFeature.FeatureType == esriFeatureType.esriFTSimpleJunction)
                                                             {
                                                                 string netField = "";
-                                                              
+
                                                                 args = valData.Split('|');
                                                                 switch (args.GetLength(0))
                                                                 {
@@ -10690,7 +10690,7 @@ namespace ArcGIS4LocalGovernment
                                                                         iEdgeFeat = iSJunc.get_EdgeFeature(i);
                                                                         try
                                                                         {
-                                                                            
+
                                                                             iJuncFeat = iEdgeFeat.ToJunctionFeature;
                                                                             if (((IFeature)iJuncFeat).Shape.Equals(inFeature.Shape))
                                                                             {
@@ -10795,14 +10795,14 @@ namespace ArcGIS4LocalGovernment
                                                             if (inFeature.FeatureType == esriFeatureType.esriFTComplexJunction || inFeature.FeatureType == esriFeatureType.esriFTSimpleJunction)
                                                             {
                                                                 string netField = "";
-                                                              
+
                                                                 args = valData.Split('|');
                                                                 switch (args.GetLength(0))
                                                                 {
                                                                     case 1:  // sequenceColumnName only
                                                                         netField = args[0].ToString().Trim();
                                                                         break;
-                                                                 
+
                                                                     default: break;
                                                                 }
 
@@ -10853,7 +10853,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     ChangeFeatureList.Add(((IFeature)iEdgeFeat));
                                                                                 }
 
-                                                                                break;                                                                        
+                                                                                break;
 
                                                                             }
                                                                         }
@@ -11838,22 +11838,21 @@ namespace ArcGIS4LocalGovernment
                                                                                 if (autoCommit)
                                                                                 {
                                                                                     pNewRow.Store();
-                                                                                    pNewRow = null;
+
                                                                                 }
-                                                                                else
+
+                                                                                if (NewFeatureList == null)
                                                                                 {
-                                                                                    if (NewFeatureList == null)
-                                                                                    {
-                                                                                        NewFeatureList = new List<IObject>();
-                                                                                    }
-                                                                                    IObject featobj = pNewRow as IObject;
-
-
-                                                                                    if (featobj != null)
-                                                                                    {
-                                                                                        NewFeatureList.Add(featobj);
-                                                                                    }
+                                                                                    NewFeatureList = new List<IObject>();
                                                                                 }
+                                                                                IObject featobj = pNewRow as IObject;
+
+
+                                                                                if (featobj != null)
+                                                                                {
+                                                                                    NewFeatureList.Add(featobj);
+                                                                                }
+
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain128"));
                                                                             }
 
