@@ -1585,9 +1585,7 @@ namespace ArcGIS4LocalGovernment
             MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain6"));
             try
             {
-                //inFeature = obj as IFeature;
-
-
+                inFeature = obj as IFeature;
                 if (inFeature != null)
                 {
 
@@ -1685,9 +1683,7 @@ namespace ArcGIS4LocalGovernment
         {
             try
             {
-                //inFeature = obj as IFeature;
-
-
+                inFeature = obj as IFeature;
                 sendEvent(obj, "ON_MANUAL");
             }
             catch (Exception ex)
