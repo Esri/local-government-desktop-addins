@@ -134,7 +134,8 @@
             <Button refID="A4WaterUtilities_ExportToExcel" separator="true" />
             <Button refID="A4WaterUtilities_IdentifySelected" separator="false" />
             <Button refID="A4WaterUtilities_SelectJunctionsByEdgeCount" separator="true" />
-
+            <Button refID="A4WaterUtilities_AttributeTransferLoader" separator="true" />
+            <Button refID="A4WaterUtilities_ShowConfigForm" separator="true" />
           </Items>
         </Toolbar>
       </Toolbars>
