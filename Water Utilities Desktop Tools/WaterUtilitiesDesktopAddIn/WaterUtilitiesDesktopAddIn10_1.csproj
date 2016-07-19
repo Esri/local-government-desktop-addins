@@ -235,6 +235,7 @@
       <Link>loaded.water.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <AddInContent Include="Config.de-DE.xml" />
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>
