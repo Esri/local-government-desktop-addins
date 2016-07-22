@@ -61,13 +61,14 @@ namespace A4LGSharedFunctions
         {
             if (Width < 180)
             {
-                this.Width = 230;
+                this.Width = 280;
             }
             else
             {
-                this.Width = Width + 50;
+                this.Width = Width + 100;
             }
-            cboSelectTemplate.Width = this.Width - 50;
+            //cboSelectTemplate.Width = this.Width - 50;
+            cboSelectTemplate.Width = this.Width - 50 - cboSelectTemplate.Left;
         }
         public void setComboType(ComboBoxStyle combSty)
         {
@@ -77,7 +78,7 @@ namespace A4LGSharedFunctions
 
         private void SelectTemplateForm_Resize(object sender, EventArgs e)
         {
-            cboSelectTemplate.Width = this.Width - 10 - cboSelectTemplate.Left;
+            cboSelectTemplate.Width = this.Width - 50 - cboSelectTemplate.Left;
         }
     }
 }
