@@ -118,5 +118,10 @@ namespace A4LGSharedFunctions
             this.Close();
 
         }
+
+        private void SelectOptionForm_Resize(object sender, EventArgs e)
+        {
+            cboSelectTemplate.Width = this.Width - 10 - cboSelectTemplate.Left;
+        }
     }
 }

@@ -13394,6 +13394,7 @@ namespace ArcGIS4LocalGovernment
                                         case "INTERSECTING_FEATURE":
                                             try
                                             {
+                                                bool switchToPrompt = false;
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "INTERSECTING_FEATURE");
                                                 if (inFeature != null & valData != null)
                                                 {
@@ -13433,6 +13434,10 @@ namespace ArcGIS4LocalGovernment
                                                                     case "C":
                                                                         strOpt = AAState.intersectOptions.Centroid;
                                                                         break;
+                                                                    case "CP":
+                                                                        strOpt = AAState.intersectOptions.Centroid;
+                                                                        switchToPrompt = true;
+                                                                        break;
                                                                     case "F":
                                                                         strOpt = AAState.intersectOptions.First;
                                                                         break;
@@ -13445,8 +13450,17 @@ namespace ArcGIS4LocalGovernment
                                                                     case "S":
                                                                         strOpt = AAState.intersectOptions.Start;
                                                                         break;
+                                                                    case "SP":
+                                                                        strOpt = AAState.intersectOptions.Start;
+                                                                        switchToPrompt = true;
+                                                                        break;
                                                                     case "E":
                                                                         strOpt = AAState.intersectOptions.End;
+
+                                                                        break;
+                                                                    case "EP":
+                                                                        strOpt = AAState.intersectOptions.End;
+                                                                        switchToPrompt = true;
                                                                         break;
                                                                 }
                                                                 break;
@@ -13467,6 +13481,10 @@ namespace ArcGIS4LocalGovernment
                                                                     case "C":
                                                                         strOpt = AAState.intersectOptions.Centroid;
                                                                         break;
+                                                                    case "CP":
+                                                                        strOpt = AAState.intersectOptions.Centroid;
+                                                                        switchToPrompt = true;
+                                                                        break;
                                                                     case "F":
                                                                         strOpt = AAState.intersectOptions.First;
                                                                         break;
@@ -13479,8 +13497,17 @@ namespace ArcGIS4LocalGovernment
                                                                     case "S":
                                                                         strOpt = AAState.intersectOptions.Start;
                                                                         break;
+                                                                    case "SP":
+                                                                        strOpt = AAState.intersectOptions.Start;
+                                                                        switchToPrompt = true;
+                                                                        break;
                                                                     case "E":
                                                                         strOpt = AAState.intersectOptions.End;
+
+                                                                        break;
+                                                                    case "EP":
+                                                                        strOpt = AAState.intersectOptions.End;
+                                                                        switchToPrompt = true;
                                                                         break;
                                                                 }
                                                                 nullOnNone = args[3].ToString();
@@ -13586,6 +13613,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.ToPoint, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                     pLyLine = null;
                                                                                     pLine = null;
+                                                                                    
                                                                                 }
                                                                                 else if (strOpt == AAState.intersectOptions.Start &&
                                                                                  (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
@@ -13596,6 +13624,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.FromPoint, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                     pLyLine = null;
                                                                                     pLine = null;
+                                                                                    
                                                                                 }
                                                                                 else
                                                                                 {
@@ -13603,6 +13632,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 pSRResolution = null;
                                                                                 pSRResolution2 = null;
+                                                                          
                                                                             }
                                                                             catch
                                                                             {
@@ -13630,6 +13660,10 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, mapTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                 }
+                                                                            }
+                                                                            if (switchToPrompt)
+                                                                            {
+                                                                                strOpt = AAState.intersectOptions.PromptMulti;
                                                                             }
                                                                             if (sFilter == null)
                                                                             {

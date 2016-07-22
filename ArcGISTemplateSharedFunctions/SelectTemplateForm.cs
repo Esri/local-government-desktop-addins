@@ -74,5 +74,10 @@ namespace A4LGSharedFunctions
             cboSelectTemplate.DropDownStyle = combSty;
 
         }
+
+        private void SelectTemplateForm_Resize(object sender, EventArgs e)
+        {
+            cboSelectTemplate.Width = this.Width - 10 - cboSelectTemplate.Left;
+        }
     }
 }

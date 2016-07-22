@@ -64,7 +64,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(314, 102);
+            this.ClientSize = new System.Drawing.Size(419, 169);
             this.ControlBox = false;
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.cboSelectTemplate);
@@ -76,6 +76,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Select Template";
             this.Load += new System.EventHandler(this.SelectTemplateForm_Load);
+            this.Resize += new System.EventHandler(this.SelectTemplateForm_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 
