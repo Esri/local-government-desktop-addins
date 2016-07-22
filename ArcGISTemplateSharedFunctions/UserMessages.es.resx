@@ -1,0 +1,3479 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AA_CultureInfo" xml:space="preserve">
+    <value>es-ES</value>
+    <comment>en-US</comment>
+  </data>
+  <data name="ActiveLayer" xml:space="preserve">
+    <value>Capa activa: </value>
+    <comment>Active Layer:</comment>
+  </data>
+  <data name="AddFlagOrClickReturnStatement" xml:space="preserve">
+    <value>Error_Se ha encontrado la ubicación del trazado, añada un marcador o haga clic en una ubicación de la red.</value>
+    <comment>Error_The trace locations are found, please add a flag or click a location on the network.</comment>
+  </data>
+  <data name="AddInAuthor" xml:space="preserve">
+    <value>Esri., Inc.</value>
+    <comment>Esri., Inc.</comment>
+  </data>
+  <data name="AddInCompany" xml:space="preserve">
+    <value>Esri., Inc.</value>
+    <comment>Esri., Inc.</comment>
+  </data>
+  <data name="AddInDate" xml:space="preserve">
+    <value>12/6/2013</value>
+    <comment>12/6/2013</comment>
+  </data>
+  <data name="AddInDesc" xml:space="preserve">
+    <value>Herramientas de ArcMap de Water, Wastewater and Stormwater</value>
+    <comment>ArcMap tools for Water, Wastewater and Stormwater</comment>
+  </data>
+  <data name="AddInName" xml:space="preserve">
+    <value>Herramientas de gestión de redes de agua</value>
+    <comment>Water Utility Network Tools</comment>
+  </data>
+  <data name="AddInVersion" xml:space="preserve">
+    <value>10.2.0.3</value>
+    <comment>10.2.0.3</comment>
+  </data>
+  <data name="AddLine" xml:space="preserve">
+    <value>Añadiendo línea</value>
+    <comment>Adding line</comment>
+  </data>
+  <data name="AddPtsAndSplitLn" xml:space="preserve">
+    <value>Añadir punto y partir línea</value>
+    <comment>Add Point and split line</comment>
+  </data>
+  <data name="ALT_1" xml:space="preserve">
+    <value>Añadir herramientas de acometidas</value>
+    <comment>[TEMP_TRAD] Add Lateral Tools</comment>
+  </data>
+  <data name="AssetFromThe" xml:space="preserve">
+    <value>activos de</value>
+    <comment>asset from the</comment>
+  </data>
+  <data name="AssetsFromThe" xml:space="preserve">
+    <value>activos de</value>
+    <comment>assets from the</comment>
+  </data>
+  <data name="AttributeAssistantAsk_2a" xml:space="preserve">
+    <value>¿Seguro que desea aplicar las reglas de cambio del asistente de atributos en las</value>
+    <comment>[TEMP_TRAD]Are you sure you wish to apply attribute assistant Change rules for the selected</comment>
+  </data>
+  <data name="AttributeAssistantAsk_2b" xml:space="preserve">
+    <value> filas y entidades seleccionadas?</value>
+    <comment>rows and features?</comment>
+  </data>
+  <data name="AttributeAssistantAsk_3a" xml:space="preserve">
+    <value>¿Seguro que desea aplicar las reglas manuales del asistente de atributos en las</value>
+    <comment>[TEMP_TRAD]Are you sure you wish to apply attribute assistant manual rules for the selected</comment>
+  </data>
+  <data name="AttributeAssistantAsk_4a" xml:space="preserve">
+    <value>¿Seguro que desea aplicar las reglas de cambio del asistente de atributos en las</value>
+    <comment>[TEMP_TRAD]Are you sure you wish to apply attribute assistant Create rules for the selected</comment>
+  </data>
+  <data name="AttributeAssistantDesc_2a" xml:space="preserve">
+    <value>Procesando 0 de </value>
+    <comment>Processing 0 of</comment>
+  </data>
+  <data name="AttributeAssistantDone_2a" xml:space="preserve">
+    <value>Ejecutar Reglas de cambio - Entidades</value>
+    <comment>[TEMP_TRAD]Run Change Rules - Features</comment>
+  </data>
+  <data name="AttributeAssistantDone_4a" xml:space="preserve">
+    <value>Ejecutar Reglas manuales - Entidades</value>
+    <comment>[TEMP_TRAD]Run Manual Rules - Features</comment>
+  </data>
+  <data name="AttributeAssistantDone_5a" xml:space="preserve">
+    <value>Ejecutar Reglas de creación - Entidades</value>
+    <comment>[TEMP_TRAD]Run Create Rules - Features</comment>
+  </data>
+  <data name="AttributeAssistantEditorCapt_1a" xml:space="preserve">
+    <value>El Asistente de atributos está encendido</value>
+    <comment>Attribute Assistant is on</comment>
+  </data>
+  <data name="AttributeAssistantEditorCapt_1b" xml:space="preserve">
+    <value>El Asistente de atributos está apagado</value>
+    <comment>Attribute Assistant is off</comment>
+  </data>
+  <data name="AttributeAssistantEditorCapt_2a" xml:space="preserve">
+    <value>Campo del último valor</value>
+    <comment>Last Value Field</comment>
+  </data>
+  <data name="AttributeAssistantEditorCapt_2b" xml:space="preserve">
+    <value>Valor actual</value>
+    <comment>Current Value</comment>
+  </data>
+  <data name="AttributeAssistantEditorCapt_2c" xml:space="preserve">
+    <value>Cambio</value>
+    <comment>[TEMP_TRAD]Change</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain0" xml:space="preserve">
+    <value>GetConfigDataTable: </value>
+    <comment>GetConfigDataTable:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain1" xml:space="preserve">
+    <value>createLastValueProperrtySet: </value>
+    <comment>createLastValueProperrtySet:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain10" xml:space="preserve">
+    <value>Comprobando reglas para la entidad editada: </value>
+    <comment>Checking rules for edited feature:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain100" xml:space="preserve">
+    <value>                  Ángulo de rotación no encontrado o erróneo</value>
+    <comment>                  Rotation Angle not found or errored out</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain101" xml:space="preserve">
+    <value>                  Ángulo de rotación establecido en: </value>
+    <comment>                  Rotation Angle set to:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain102" xml:space="preserve">
+    <value>                  Ángulo de rotación establecido</value>
+    <comment>                  Rotation Angle set</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain103" xml:space="preserve">
+    <value>                  El elemento es un elemento de la red</value>
+    <comment>                  Feature is a network feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain104" xml:space="preserve">
+    <value>                  El elemento es un nodo</value>
+    <comment>                  Feature is a junction feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain105" xml:space="preserve">
+    <value>                  Recuento de ejes: </value>
+    <comment>                  Edge Count:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain106" xml:space="preserve">
+    <value>                  Comprobando si el eje es Desde o Hasta</value>
+    <comment>                  Checking if Edge is From or To</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain107" xml:space="preserve">
+    <value>                  El eje es Eje-Hasta</value>
+    <comment>                  Edge is a To-Edge</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain108" xml:space="preserve">
+    <value>                  Obteniendo campo del Eje-Hasta</value>
+    <comment>                  Getting Field From To-Edge</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain109" xml:space="preserve">
+    <value>                  Comprobando si el Eje es Desde, omitiendo</value>
+    <comment>                  Checking if Edge is From Edge, skipping</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain11" xml:space="preserve">
+    <value>Estableciendo orden: Campo - RUNORDER</value>
+    <comment>Setting sort order: Field - RUNORDER</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain110" xml:space="preserve">
+    <value>                  El eje es Eje-Desde</value>
+    <comment>                  Edge is a From-Edge</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain111" xml:space="preserve">
+    <value>                  Obteniendo campo del Eje-Desde</value>
+    <comment>                  Getting Field From From-Edge</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain112" xml:space="preserve">
+    <value>                  Comprobando si el Eje es Hasta, omitiendo</value>
+    <comment>                  Checking if Edge is To Edge, skipping</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain113" xml:space="preserve">
+    <value>                  Obteniendo campo del eje</value>
+    <comment>                  Getting Field From Edge</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain114" xml:space="preserve">
+    <value>                  Analizando Valueinfo</value>
+    <comment>                  Parsing Valueinfo</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain115" xml:space="preserve">
+    <value>                  No es un elemento de la red</value>
+    <comment>                  Not a network feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain116" xml:space="preserve">
+    <value>                  ADVERTENCIA: está intentando rellenar su id con más de 25 - 0's</value>
+    <comment>[TEMP_TRAD]                  WARNING: you are trying to pad your id with a more than 25 - 0's</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain117" xml:space="preserve">
+    <value>Está intentando añadir 50 posiciones a su ID. No es compatible, arregle su tabla de DynamicValue</value>
+    <comment>You are trying to add 50 places to your ID, this is not supported, please fix your dynamic value table</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain118" xml:space="preserve">
+    <value>                  Comprobando que hay un campo para almacenar la expresión</value>
+    <comment>                  Checking to verify there is a field to store the expression</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain119" xml:space="preserve">
+    <value>                  Estableciendo Nulo</value>
+    <comment>[TEMP_TRAD]                  Setting Null</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain12" xml:space="preserve">
+    <value>                  VALIDATE_ATTRIBUTE_LOOKUP: Los valores de destino no han cambiado, omitiendo</value>
+    <comment>                 VALIDATE_ATTRIBUTE_LOOKUP: Target value(s) did not change, skipping</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain120" xml:space="preserve">
+    <value>                  Estableciendo valor a:</value>
+    <comment>                 Setting Value to:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain121" xml:space="preserve">
+    <value>                  Comprobando campos en la capa de origen</value>
+    <comment>                 Checking Fields in Source Layer</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain122" xml:space="preserve">
+    <value>                  Comprobando tabla para rellenar</value>
+    <comment>                 Checking for table to populate</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain123" xml:space="preserve">
+    <value>                  Intentando crear una línea en la tabla de destino</value>
+    <comment>                 Trying to create a row in the target table</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain124" xml:space="preserve">
+    <value>                  Línea creada</value>
+    <comment>                 Row Created</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain125" xml:space="preserve">
+    <value>                  Intentando copiar ID</value>
+    <comment>                 Trying to Copy ID</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain126" xml:space="preserve">
+    <value>                  ID copiado correctamente</value>
+    <comment>                  ID successfully copied</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain127" xml:space="preserve">
+    <value>                  Intentando copiar valor</value>
+    <comment>                 Trying to Copy Value</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain128" xml:space="preserve">
+    <value>                  Línea almacenada correctamente</value>
+    <comment>                 Row successfully stored</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain129" xml:space="preserve">
+    <value>                  Distancia de búsqueda especificada</value>
+    <comment>                 Search distance specified</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain13" xml:space="preserve">
+    <value>                  Buscando capa:</value>
+    <comment>                  Looking for layer:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain130" xml:space="preserve">
+    <value>                  Iterando capas</value>
+    <comment>[TEMP_TRAD]                  Looping Through Layers</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain131" xml:space="preserve">
+    <value>                  Iterando campos</value>
+    <comment>[TEMP_TRAD]                  Looping Through Fields</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain132" xml:space="preserve">
+    <value>                  Comprobando si es un elemento de la red</value>
+    <comment>                  Checking if it is a network feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain133" xml:space="preserve">
+    <value>                  Intentando almacenar:</value>
+    <comment>                  Attempting to store:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain134" xml:space="preserve">
+    <value>                  Empezando a procesar la regla</value>
+    <comment>                  Starting to process rule</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain135" xml:space="preserve">
+    <value>                  Información de valor es: </value>
+    <comment>                  Value Info is:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain136" xml:space="preserve">
+    <value>                  Capa encontrada: </value>
+    <comment>                  Layer Found:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain137" xml:space="preserve">
+    <value>                  El filtro es nulo, esto causará un error</value>
+    <comment>                  Filter is null, this will cause an error</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain138" xml:space="preserve">
+    <value>                  Buscando en la capa</value>
+    <comment>                  Searching on Layer</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain139" xml:space="preserve">
+    <value>                  Buscando en la selección</value>
+    <comment>                  Searching on Selection Set</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain14" xml:space="preserve">
+    <value>                  Buscar capa</value>
+    <comment>                  Lookup layer</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain140" xml:space="preserve">
+    <value>                  Cursor creado</value>
+    <comment>                  Cursor created</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain141" xml:space="preserve">
+    <value>                  No hay entidades seleccionadas</value>
+    <comment>                  No Selected Features</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain142" xml:space="preserve">
+    <value>                  Buscando en la clase de entidad</value>
+    <comment>                  Searching on feature Class</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain143" xml:space="preserve">
+    <value>                  El cursor es nulo</value>
+    <comment>                  Cursor is null</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain144" xml:space="preserve">
+    <value>                  Iniciando iteración de entidades encontradas</value>
+    <comment>                  Starting Loop of found features</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain145" xml:space="preserve">
+    <value>                  Comprobando clase</value>
+    <comment>                  Checking Class</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain146" xml:space="preserve">
+    <value>                  Diferentes Clases de entidad</value>
+    <comment>                  Different FCs</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain147" xml:space="preserve">
+    <value>                  Estableciendo valor: </value>
+    <comment>                  Setting Value:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain148" xml:space="preserve">
+    <value>                  Misma clase de entidad</value>
+    <comment>                  Same FC</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain149" xml:space="preserve">
+    <value>Seleccionar entidad de</value>
+    <comment>Select A feature for</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain15" xml:space="preserve">
+    <value>encontrada: </value>
+    <comment>was Found:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain150" xml:space="preserve">
+    <value>                  ERROR: INTERSECTING_FEATURE: el nombre del campo de origen es nulo</value>
+    <comment>                  ERROR: INTERSECTING_FEATURE: source field name is null</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain151" xml:space="preserve">
+    <value>                  ERROR: INTERSECTING_FEATURE: la información de valor no está en el formato esperado</value>
+    <comment>                  ERROR: INTERSECTING_FEATURE: Value Info is not in the expected format</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain152" xml:space="preserve">
+    <value>                  ERROR: INTERSECTING_FEATURE: la entidad de entrada o la información de valor es nula</value>
+    <comment>                  ERROR: INTERSECTING_FEATURE: Input Feature or Value Info is null</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain153" xml:space="preserve">
+    <value>                  ERROR: INTERSECTING_BOOLEAN: la información de valor no está en el formato esperado</value>
+    <comment>                  ERROR: INTERSECTING_BOOLEAN: Value Info is not in the expected format</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain154" xml:space="preserve">
+    <value>                  ERROR: INTERSECTING_BOOLEAN: la entidad de entrada o la información de valor es nula</value>
+    <comment>                  ERROR: INTERSECTING_BOOLEAN: Input Feature or Value Info is null</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain155" xml:space="preserve">
+    <value>                  ERROR/ADVERTENCIA: No se ha encontrado ráster o valor de celda: </value>
+    <comment>                  ERROR/WARING: No cell value or raster was found:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain156" xml:space="preserve">
+    <value>                  Obteniendo lista de</value>
+    <comment>                  Getting list of</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain157" xml:space="preserve">
+    <value>capas</value>
+    <comment>Layers</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain158" xml:space="preserve">
+    <value>                  Lista recuperada de</value>
+    <comment>[TEMP_TRAD]                   List retrieved of</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain159" xml:space="preserve">
+    <value>                  Iniciando iteración</value>
+    <comment>                   Starting Loop</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain16" xml:space="preserve">
+    <value>                  Comprobando campo en la tabla de búsqueda</value>
+    <comment>                   Checking for field in Lookup table</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain160" xml:space="preserve">
+    <value>                  Iteración de la capa existente</value>
+    <comment>                   Exiting Layer Loop</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain161" xml:space="preserve">
+    <value>                  ERROR: Geo no encontrado</value>
+    <comment>                   ERROR: Geo not Found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain162" xml:space="preserve">
+    <value>Seleccionar una capa de intersección para</value>
+    <comment>Select a intersect layer for</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain163" xml:space="preserve">
+    <value>Seleccionar una capa de intersección</value>
+    <comment>Select a intersect layer</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain164" xml:space="preserve">
+    <value>Error al establecer el valor en Intersecting_Layer_Details</value>
+    <comment>Error Setting the value in the Intersecting_Layer_Details</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain165" xml:space="preserve">
+    <value>                  ERROR: la información del valor no es correcta</value>
+    <comment>                  ERROR: Value info is not correct</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain166" xml:space="preserve">
+    <value>                  El texto es demasiado largo: </value>
+    <comment>[TEMP_TRAD]                  Text is to long, defaulting to length along:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain167" xml:space="preserve">
+    <value>                  Valor establecido en: </value>
+    <comment>                  Value set to:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain168" xml:space="preserve">
+    <value>                  ERROR: método de valor incorrecto</value>
+    <comment>                  ERROR: Incorrect value method</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain169" xml:space="preserve">
+    <value>                  Buscando la capa</value>
+    <comment>                  Searching the layer</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain17" xml:space="preserve">
+    <value>                  El número de campos listados no coincide</value>
+    <comment>                  Number of listed fields do not match</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain170" xml:space="preserve">
+    <value>                  Hay una selección, comprobando solo los elementos seleccionados</value>
+    <comment>                  There is a seleciton set, only checking selected features</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain171" xml:space="preserve">
+    <value>                  Buscando la clase de entidad</value>
+    <comment>                  Searching the feature class</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain172" xml:space="preserve">
+    <value>                  Las clases de entidad son diferentes</value>
+    <comment>                  Feature Classes are different</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain173" xml:space="preserve">
+    <value>                  No hay campos coincidentes especificados</value>
+    <comment>                  No matching fields specified</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain174" xml:space="preserve">
+    <value>Error en Nearest Feature - Proximity Operator.  Puede estar causado por datos corruptos en la capa. Ejecute la herramienta de geoprocesamiento Comprobar/Reparar geometría en la capa</value>
+    <comment>Error in the Nearest Feature - Proximity Operator.  This may be caused by corrupt data in the layer, Please run Check/Repair Geometry GP tool on your layer</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain175" xml:space="preserve">
+    <value>                  campos coincidentes especificados</value>
+    <comment>                  matching fields specified</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain176" xml:space="preserve">
+    <value>                  Campos encontrados</value>
+    <comment>                  Fields Found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain177" xml:space="preserve">
+    <value>                  Campos no encontrados</value>
+    <comment>                  Fields Not Found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain178" xml:space="preserve">
+    <value>                  ERROR: Nombre de la capa de origen vacío</value>
+    <comment>                  ERROR: Empty source layer name</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain179" xml:space="preserve">
+    <value>TableName:</value>
+    <comment>TableName:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain18" xml:space="preserve">
+    <value>                  Campos ausentes: </value>
+    <comment>                  Fields Missing:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain180" xml:space="preserve">
+    <value>  FieldName: </value>
+    <comment>  FieldName:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain181" xml:space="preserve">
+    <value>ValueMethod: </value>
+    <comment>ValueMethod:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain182" xml:space="preserve">
+    <value>  ValueData: </value>
+    <comment>  ValueData:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain183" xml:space="preserve">
+    <value>Message: </value>
+    <comment>Message:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain184" xml:space="preserve">
+    <value>Mensaje del Asistente de atributos</value>
+    <comment>Attribute Assistant Message</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain185" xml:space="preserve">
+    <value>ERROR: TableName:</value>
+    <comment>ERROR: TableName:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain186" xml:space="preserve">
+    <value>      Regla no procesada</value>
+    <comment>      Rule not processed</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain187" xml:space="preserve">
+    <value>                           Valor nulo en el método de creación, no se ha almacenado en el conjunto de último valor</value>
+    <comment>                            Null Value in the create Method, not storing in last value array</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain188" xml:space="preserve">
+    <value>        Error al establecer el último valor</value>
+    <comment>        Error Setting Last Value</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain189" xml:space="preserve">
+    <value>Error al procesar las reglas</value>
+    <comment>Error processing the rules</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain19" xml:space="preserve">
+    <value>                     Cancelar edición</value>
+    <comment>                     Abort Edit</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain190" xml:space="preserve">
+    <value>Mensaje:</value>
+    <comment>Message:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain191" xml:space="preserve">
+    <value>Asistente de atributos completado</value>
+    <comment>[TEMP_TRAD] AA Complete</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain192" xml:space="preserve">
+    <value>getDefaultRows: </value>
+    <comment>getDefaultRows:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain193" xml:space="preserve">
+    <value>GetView: </value>
+    <comment>GetView:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain194" xml:space="preserve">
+    <value>                  Comprobando</value>
+    <comment>                  Checking</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain195" xml:space="preserve">
+    <value>                  Intentando</value>
+    <comment>                  Trying</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain196" xml:space="preserve">
+    <value>                  La geometría interseca</value>
+    <comment>                  Geometry does intersect</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain197" xml:space="preserve">
+    <value>                  No interseca</value>
+    <comment>                  Does not intersect</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain198" xml:space="preserve">
+    <value>                  Advertencia: tipo no compatible</value>
+    <comment>                  Warning: Unsupported type</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain2" xml:space="preserve">
+    <value>promptLastValueProperrtySet: </value>
+    <comment>promptLastValueProperrtySet:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain20" xml:space="preserve">
+    <value>                  Solicitando entrada de usuario</value>
+    <comment>                  Prompting for user input</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain21" xml:space="preserve">
+    <value>Seleccionar un valor válido para almacenar para</value>
+    <comment>Select a valid value to store for</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain22" xml:space="preserve">
+    <value>                  Valor seleccionado: </value>
+    <comment>                  Value selected:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain23" xml:space="preserve">
+    <value>                  Se ha encontrado una coincidencia exacta</value>
+    <comment>                  One Exact match was found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain24" xml:space="preserve">
+    <value>                  PREVIOUS_VALUE: los valores de destino no han cambiado, omitiendo</value>
+    <comment>                  PREVIOUS_VALUE: Target value(s) did not change, skipping</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain25" xml:space="preserve">
+    <value>                  Campo no encontrado</value>
+    <comment>                  Field not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain26" xml:space="preserve">
+    <value>                 La entidad de entrada no es una línea</value>
+    <comment>                 Input feature is not a line</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain27" xml:space="preserve">
+    <value>                 Obteniendo ángulo para la entidad</value>
+    <comment>                  Getting Angle for feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain28" xml:space="preserve">
+    <value>                  Ángulo calculado: </value>
+    <comment>                  Angle Calculated:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain29" xml:space="preserve">
+    <value>                  Ángulo almacenado</value>
+    <comment>                  Angle Stored</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain3" xml:space="preserve">
+    <value>StopOperation: </value>
+    <comment>StopOperation:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain30" xml:space="preserve">
+    <value>                  No se ha podido almacenar el ángulo</value>
+    <comment>                  Could not store angle</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain31" xml:space="preserve">
+    <value>                  Hecho</value>
+    <comment>                  Done</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain32" xml:space="preserve">
+    <value>                  ADVERTENCIA: los campos de entrada no se utilizan en esta herramienta</value>
+    <comment>                  WARNING: Input fields are not used for this tool</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain33" xml:space="preserve">
+    <value>                  Plantilla encontrada</value>
+    <comment>                  Template found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain34" xml:space="preserve">
+    <value>                  Añadida a la lista de entidades nueva</value>
+    <comment>                  Added to the new feature list</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain35" xml:space="preserve">
+    <value>                  Obteniendo valor máximo para el campo:</value>
+    <comment>                  Getting Max value for Field:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain36" xml:space="preserve">
+    <value>                  Valor devuelto: </value>
+    <comment>                  Value returned:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain37" xml:space="preserve">
+    <value>                  El campo especificado no es un campo numérico</value>
+    <comment>                  The field specified was not a numeric field</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain38" xml:space="preserve">
+    <value>                     Lado derecho</value>
+    <comment>                      Right Side</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain39" xml:space="preserve">
+    <value>                     Lado izquierdo</value>
+    <comment>                      Left Side</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain40" xml:space="preserve">
+    <value>                  Omitiendo, no se han encontrado resultados coincidentes</value>
+    <comment>                  Skipping, no Matching records found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain41" xml:space="preserve">
+    <value>                  Solicitud de usuario aceptada</value>
+    <comment>                  User accepted prompt</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain42" xml:space="preserve">
+    <value>                  Solicitud de usuario rechazada</value>
+    <comment>                  User declined prompt</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain43" xml:space="preserve">
+    <value>                  Solicitud suprimida</value>
+    <comment>                  Prompt surpressed</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain44" xml:space="preserve">
+    <value>                  COPY_FEATURE: el campo de la lista Nombre de campo no ha cambiado, omitiendo</value>
+    <comment>                  COPY_FEATURE: Field listed in the Field Name did not change, skipping</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain45" xml:space="preserve">
+    <value>                  COPY_FEATURE: el valor de destino no coincide con el valor de la lista, omitiendo</value>
+    <comment>                  COPY_FEATURE: Target value did not match listed value, skipping</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain46" xml:space="preserve">
+    <value>                  ADVERTENCIA: COPY_FEATURE: estableciendo valor: </value>
+    <comment>                  WARNING: COPY_FEATURE: Setting value:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain47" xml:space="preserve">
+    <value>CUT no está soportado en este momento</value>
+    <comment>CUT is not supported at the moment</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain48" xml:space="preserve">
+    <value>                     ERROR: la información de valor no era correcta</value>
+    <comment>                      ERROR: Value info was not correct</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain49" xml:space="preserve">
+    <value>                     Comprobando si la entidad está en una red geométrica</value>
+    <comment>                      Checking if feature is in a Geometric Network</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain5" xml:space="preserve">
+    <value>OnShutdown: </value>
+    <comment>OnShutdown:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain50" xml:space="preserve">
+    <value>                     La entidad está en una red geométrica</value>
+    <comment>                      Feature is in a Geometric Network</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain51" xml:space="preserve">
+    <value>                     No hay valores para los campos especificados</value>
+    <comment>                      No values for the specified fields</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain52" xml:space="preserve">
+    <value>                     Regla de conexión válida encontrada</value>
+    <comment>                      Valid Connection Rule Found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain53" xml:space="preserve">
+    <value>                     ERROR: el valor de conexión no es numérico</value>
+    <comment>                      ERROR: Connection value is not numeric</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain54" xml:space="preserve">
+    <value>                     ERROR: La entidad no es una entidad de red geométrica</value>
+    <comment>                      ERROR: Feature is not a Geometric Network feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain55" xml:space="preserve">
+    <value>                     Fila para inspeccionar especificada</value>
+    <comment>                      Row to monitor specified</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain56" xml:space="preserve">
+    <value>                     Comprobando campos para comparar: </value>
+    <comment>                      Checking fields to compare:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain57" xml:space="preserve">
+    <value>                     Obteniendo plantillas para la clase de entidad</value>
+    <comment>                      Getting templates for feature class</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain58" xml:space="preserve">
+    <value>                     Comprobando</value>
+    <comment>                      Checking</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain59" xml:space="preserve">
+    <value>                     La capa es una featurelayer</value>
+    <comment>                      Layer is a featurelayer</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain6" xml:space="preserve">
+    <value>BeforeStopOperation</value>
+    <comment>BeforeStopOperation</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain60" xml:space="preserve">
+    <value>                     Obteniendo el Administrador de plantillas de edición</value>
+    <comment>                      Getting Edit Template Manager</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain61" xml:space="preserve">
+    <value>                     Comprobando plantillas</value>
+    <comment>                      Checking templates</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain62" xml:space="preserve">
+    <value>                     Estado de la plantilla encontrada: </value>
+    <comment>                      Template Found Status:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain63" xml:space="preserve">
+    <value>                     ADVERTENCIA: No se han encontrado capas</value>
+    <comment>                      WARNING: No layers where found!</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain64" xml:space="preserve">
+    <value>                     Los campos inspeccionados no se han modificado</value>
+    <comment>                      Monitored fields where not changed</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain65" xml:space="preserve">
+    <value>                  Buscando</value>
+    <comment>                   Searching for</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain66" xml:space="preserve">
+    <value>                  Capa encontrada</value>
+    <comment>                   Layer Found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain67" xml:space="preserve">
+    <value>                  La fuente de datos es válida para</value>
+    <comment>                   Datasource is valid for</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain68" xml:space="preserve">
+    <value>                  Comprobando el tipo de geometría de origen</value>
+    <comment>                   Checking source Geometry Type</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain69" xml:space="preserve">
+    <value>                  Buscando</value>
+    <comment>                   Searching</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain7" xml:space="preserve">
+    <value>OnChangeFeature: </value>
+    <comment>OnChangeFeature:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain70" xml:space="preserve">
+    <value>entidad de intersección</value>
+    <comment>for intersected feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain71" xml:space="preserve">
+    <value>                  Dividiendo entidad de intersección número: </value>
+    <comment>[TEMP_TRAD]                   Splitting Intersected Feature number:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain72" xml:space="preserve">
+    <value>                  La línea para dividir es una línea de una red geométrica, esta operación no es válida para este tipo de entidades</value>
+    <comment>                   Line to split is a Geometric Network line, this operation is not valid for these types of features</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain73" xml:space="preserve">
+    <value>                  Añadiendo entidades divididas para llamar a la extensión Asistente de atributos</value>
+    <comment>[TEMP_TRAD]                   Adding split features to array to call the AA ext</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain74" xml:space="preserve">
+    <value>                  Dividir entidad </value>
+    <comment>                   Split feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain75" xml:space="preserve">
+    <value> en </value>
+    <comment> into</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain76" xml:space="preserve">
+    <value>                  Dividir no ha devuelto entidades</value>
+    <comment>                   Split return no features</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain77" xml:space="preserve">
+    <value>                  Error al dividir la entidad, quizá sea un elemento de una red geométrica</value>
+    <comment>                   Error splitting feature, the feature may be a Geometric Network feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain78" xml:space="preserve">
+    <value>                  Advertencia: No se encuentra la capa de intersección:</value>
+    <comment>                   Warning: Can't find intersecting layer:</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain79" xml:space="preserve">
+    <value>                  ADVERTENCIA:  distancia de búsqueda no especificada, se utilizará el valor predeterminado 0</value>
+    <comment>                   WARNING:  search distance as not specified, defaulting to 0</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain8" xml:space="preserve">
+    <value>AddSelected</value>
+    <comment>AddSelected</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain80" xml:space="preserve">
+    <value>                  Comprobando asignación de campos</value>
+    <comment>                   Checking Field Mapping</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain81" xml:space="preserve">
+    <value>                  Asignación de campos verificada</value>
+    <comment>                   Field Mapping verified</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain82" xml:space="preserve">
+    <value>                  Buscando entidad más próxima</value>
+    <comment>                   Searching for Nearest Feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain83" xml:space="preserve">
+    <value>                  Entidades encontradas, buscando la más cercana</value>
+    <comment>                   Features Found, looping for closest</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain84" xml:space="preserve">
+    <value>                  La entidad más cercana está a</value>
+    <comment>                   Closest Feature is</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain85" xml:space="preserve">
+    <value>de distancia con OID de </value>
+    <comment>[TEMP_TRAD]Away with OID of</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain86" xml:space="preserve">
+    <value>                  Intentando copiar</value>
+    <comment>                    Trying to copy</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain87" xml:space="preserve">
+    <value> a </value>
+    <comment> to</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain88" xml:space="preserve">
+    <value>                  No se ha encontrado ninguna entidad, campos predeterminados</value>
+    <comment>                    No Feature was found, default fields</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain89" xml:space="preserve">
+    <value>                  Evaluando el valor de longitud mínima</value>
+    <comment>                    Evaluating Minimum length value</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain9" xml:space="preserve">
+    <value>El Asistente de atributos ha fallado o ha sido cancelado</value>
+    <comment>Attribute Assistant has failed or was cancelled</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain90" xml:space="preserve">
+    <value>Línea demasiado corta</value>
+    <comment>Line too short</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain91" xml:space="preserve">
+    <value>                  Intentando obtener localizador de direcciones</value>
+    <comment>                    Trying to get address locator</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain92" xml:space="preserve">
+    <value>                  Localizador de direcciones inverso encontrado</value>
+    <comment>                    Reverse Address locator found</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain93" xml:space="preserve">
+    <value>                  Recuperando ubicación para geocodificación inversa</value>
+    <comment>                    Retrieving Location to reverse geocode</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain94" xml:space="preserve">
+    <value>                  Ubicación recuperada</value>
+    <comment>                    Location retrieved</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain95" xml:space="preserve">
+    <value>                  Estableciendo distancia</value>
+    <comment>                    Setting distance</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain96" xml:space="preserve">
+    <value>                  Error al obtener información de proyección del servicio</value>
+    <comment>                    Error getting service projection information</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain97" xml:space="preserve">
+    <value>                  No se ha podido obtener la ubicación para la geocodificación inversa</value>
+    <comment>                    Could not get location to Reverse Geocode</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain98" xml:space="preserve">
+    <value>                  La información de valor está vacía</value>
+    <comment>                     Value info is empty</comment>
+  </data>
+  <data name="AttributeAssistantEditorChain99" xml:space="preserve">
+    <value>                  Nombre de usuario: </value>
+    <comment>                     Username:</comment>
+  </data>
+  <data name="AttributeAssistantEditorCheck_1" xml:space="preserve">
+    <value>encendido</value>
+    <comment>on</comment>
+  </data>
+  <data name="AttributeAssistantEditorCheck_2" xml:space="preserve">
+    <value>apagado</value>
+    <comment>off</comment>
+  </data>
+  <data name="AttributeAssistantEditorCheck_3" xml:space="preserve">
+    <value>apagando</value>
+    <comment>off</comment>
+  </data>
+  <data name="AttributeAssistantEditorCheck_4" xml:space="preserve">
+    <value>iniciando</value>
+    <comment>startup</comment>
+  </data>
+  <data name="AttributeAssistantEditorDone_3a" xml:space="preserve">
+    <value>Extensión de edición inicializada</value>
+    <comment>Editor Extension Initialized</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_10a" xml:space="preserve">
+    <value>Error en el editor de cables: </value>
+    <comment>[TEMP_TRAD]Error in the Wire Editor Events:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_11a" xml:space="preserve">
+    <value>Error al iniciar la edición: </value>
+    <comment>Error On Start Editing Event:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_12a" xml:space="preserve">
+    <value>Error al enviar objeto del evento: </value>
+    <comment>[TEMP_TRAD]Error on the Send Event Object:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_13a" xml:space="preserve">
+    <value> - Creado a través de las reglas del Asistente de atributos - Ejecutando </value>
+    <comment>- Created through AA rules - Running</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14a" xml:space="preserve">
+    <value>                  ERROR: </value>
+    <comment>                    ERROR:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14aa" xml:space="preserve">
+    <value>Error al obtener la información de dirección del eje: </value>
+    <comment>Error getting address info from the centerline:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ab" xml:space="preserve">
+    <value>Error al obtener la información de dirección del eje, GET_ADDRESS_FROM_CENTERLINE</value>
+    <comment>Error getting address info from the centerline, GET_ADDRESS_FROM_CENTERLINE</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ac" xml:space="preserve">
+    <value>Error al obtener la ubicación, GET_ADDRESS_FROM_CENTERLINE</value>
+    <comment>Error getting Location, GET_ADDRESS_FROM_CENTERLINE</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ad" xml:space="preserve">
+    <value>Formato de valdata incorrecto</value>
+    <comment>[TEMP_TRAD]Format of valdata incorrect</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ae" xml:space="preserve">
+    <value>Dirección inversa. No se ha encontrado localizador</value>
+    <comment>[TEMP_TRAD]Reverse Address not locator found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14af" xml:space="preserve">
+    <value>La url del geocodificador no es el extremo rest</value>
+    <comment>The url to the geocoder is not to the rest endpoint</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ag" xml:space="preserve">
+    <value>El formato de fecha/hora no es válido</value>
+    <comment>Date/Time Format is invalid</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ah" xml:space="preserve">
+    <value>Geometría no soportada</value>
+    <comment>Unsupported Geometry</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ai" xml:space="preserve">
+    <value>Tipo de estadística no soportada: </value>
+    <comment>Unsupported stat type:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14aj" xml:space="preserve">
+    <value>No se ha establecido el valor en la entidad: </value>
+    <comment>Value was not set on feature:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ak" xml:space="preserve">
+    <value>Las entidades de entrada son nulas</value>
+    <comment>The input features is null</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14al" xml:space="preserve">
+    <value>estableciendo valor</value>
+    <comment>setting value</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14am" xml:space="preserve">
+    <value>Campo de origen no encontrado: </value>
+    <comment>Source field not found:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14an" xml:space="preserve">
+    <value>error</value>
+    <comment>error</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ao" xml:space="preserve">
+    <value>Secuencia no encontrada</value>
+    <comment>Sequence Not Found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ap" xml:space="preserve">
+    <value>no se ha encontrado la tabla</value>
+    <comment>table is not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14aq" xml:space="preserve">
+    <value>Método de valor incorrecto</value>
+    <comment>Improper value method</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ar" xml:space="preserve">
+    <value>Capa de entidades de intersección</value>
+    <comment>Intersecting feature Layer</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14as" xml:space="preserve">
+    <value>Campo de capa de entidades de intersección</value>
+    <comment>Intersecting feature Layer Field</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14at" xml:space="preserve">
+    <value>Entidad de intersección no encontrada</value>
+    <comment>Intersecting feature not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14au" xml:space="preserve">
+    <value>Número de secuencia no encontrado</value>
+    <comment>Sequence number not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14av" xml:space="preserve">
+    <value>evaluando la expresión para la entidad en</value>
+    <comment>evaluating the expression for feature in</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14aw" xml:space="preserve">
+    <value>No se ha podido copiar: </value>
+    <comment>Could not Copy:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ax" xml:space="preserve">
+    <value>La tabla para rellenar no se ha encontrado: </value>
+    <comment>Table to populate not found:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ay" xml:space="preserve">
+    <value>No se ha encontrado el ID o el campo para copiar</value>
+    <comment>ID or Field to Copy was not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14az" xml:space="preserve">
+    <value>El nombre de campo no es válido</value>
+    <comment>Field name is invalid</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14b" xml:space="preserve">
+    <value>                  ERROR/ADVERTENCIA: </value>
+    <comment>                  ERROR/WARNING:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ba" xml:space="preserve">
+    <value>Definición del método de valor no válido</value>
+    <comment>Invalid Value method definition</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bb" xml:space="preserve">
+    <value>Estableciendo valor:</value>
+    <comment>Setting value:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bc" xml:space="preserve">
+    <value>No se ha encontrado el campo de origen o de destino</value>
+    <comment>Either the source or target field was not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bd" xml:space="preserve">
+    <value>El par de campos no se ha definido correctamente</value>
+    <comment>Field pairing is not properly defined</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14be" xml:space="preserve">
+    <value>La capa de destino no es editable</value>
+    <comment>Target layer is not editable</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bf" xml:space="preserve">
+    <value>Las capas de origen y de destino tienen diferentes tipos de geometría</value>
+    <comment>Target layer and Source layer are different geometry types</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bg" xml:space="preserve">
+    <value>No se ha encontrado la capa de destino</value>
+    <comment>Target layer was not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bh" xml:space="preserve">
+    <value>La información de valor no tiene suficientes parámetros</value>
+    <comment>Value info does not have enough parameters</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bi" xml:space="preserve">
+    <value>No se ha encontrado el campo</value>
+    <comment>Field was not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bj" xml:space="preserve">
+    <value>No se ha encontrado la capa de destino</value>
+    <comment>Target layer was not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bk" xml:space="preserve">
+    <value>El valor de destino no se ha modificado, omitiendo</value>
+    <comment>Target value did not change, skipping</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bl" xml:space="preserve">
+    <value>La información de valor no tiene suficientes parámetros</value>
+    <comment>Value info does not have enough parameters</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bm" xml:space="preserve">
+    <value>La información de valor no tiene suficientes parámetros</value>
+    <comment>Value info does not have enough parameters</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14bn" xml:space="preserve">
+    <value>Esta herramienta requiere 2 campos en fieldname</value>
+    <comment>2 fields in fieldname are required for this tool</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14c" xml:space="preserve">
+    <value>No se ha podido almacenar el valor:</value>
+    <comment>Could not store Value:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14ck" xml:space="preserve">
+    <value>El ID es nulo</value>
+    <comment>ID was null</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14d" xml:space="preserve">
+    <value>el valuemethod no se ha definido correctamente para esta regla</value>
+    <comment>the valuemethod is not defined properly for this rule</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14e" xml:space="preserve">
+    <value>Información de valor no válido:</value>
+    <comment>Invalid Value Info:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14f" xml:space="preserve">
+    <value>No es una entidad o falta la información de valor</value>
+    <comment>Not a feature or missing Value Info</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14g" xml:space="preserve">
+    <value>Capa de destino no encontrada.</value>
+    <comment>Target layer not found.</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14h" xml:space="preserve">
+    <value>La capa de destino no es una capa de línea</value>
+    <comment>Target layer is not a line layer.</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14i" xml:space="preserve">
+    <value>CREATE_PERP_LINE no es compatible con una capa de estructura de destino</value>
+    <comment>[TEMP_TRAD]CREATE_PERP_LINE is not supported for a fabric layer target.</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14j" xml:space="preserve">
+    <value>No se ha podido establecer el valor:</value>
+    <comment>Could not set value:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14k" xml:space="preserve">
+    <value>No se ha encontrado el ID o el campo para rellenar</value>
+    <comment>ID or Field to populate was not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14l" xml:space="preserve">
+    <value>Información de valor no compatible:</value>
+    <comment>Unsupported Value Info:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14m" xml:space="preserve">
+    <value>no es una entidad o no hay información de valor</value>
+    <comment>not a feature or no Value Info</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14n" xml:space="preserve">
+    <value>copiando</value>
+    <comment>copying</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14o" xml:space="preserve">
+    <value>No se puede encontrar el campo</value>
+    <comment>Cant find field</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14p" xml:space="preserve">
+    <value>La entidad no es una línea</value>
+    <comment>Feature is not a Line</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14q" xml:space="preserve">
+    <value>Método de valor no soportado:</value>
+    <comment>Unsupported Value Method:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14r" xml:space="preserve">
+    <value>Campo de capa de entidades de activos</value>
+    <comment>Asset feature Layer Field</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14s" xml:space="preserve">
+    <value>No hay activos seleccionados en</value>
+    <comment>No assests selected in</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14t" xml:space="preserve">
+    <value>Hay demasiados activos seleccionados en</value>
+    <comment>To many assests are selected in</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14u" xml:space="preserve">
+    <value>Capa de activos</value>
+    <comment>Asset  Layer</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14v" xml:space="preserve">
+    <value>Campo de capa de activos</value>
+    <comment>Asset  Layer Field</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14w" xml:space="preserve">
+    <value>El campo es un número y el valor no</value>
+    <comment>Field is a number and Value is not</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14x" xml:space="preserve">
+    <value>El campo es un número y el valor no:</value>
+    <comment>Field is a number and Value is not:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14y" xml:space="preserve">
+    <value>la parte de los campos de valuemethod no tiene suficientes campos en lista</value>
+    <comment>the valuemethod fields part does not have enough fields listed</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_14z" xml:space="preserve">
+    <value>Error al establecer los valores de campo, GET_ADDRESS_FROM_CENTERLINE</value>
+    <comment>Error setting field values, GET_ADDRESS_FROM_CENTERLINE</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_1a" xml:space="preserve">
+    <value>Error al establecer el botón de enceder/apagar el Asistente de atributos:</value>
+    <comment>[TEMP_TRAD]Error setting AA Toggle button:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_1b" xml:space="preserve">
+    <value>WriteLine: </value>
+    <comment>WriteLine:</comment>
+  </data>
+  <data name="AttributeAssistantEditorError_4a" xml:space="preserve">
+    <value>Error al detener la edición: </value>
+    <comment>Error on the Stop Editing:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_11a" xml:space="preserve">
+    <value>Inicio de edición en el Asistente de atributos</value>
+    <comment>[TEMP_TRAD]Attribute Assistant start editing</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_12a" xml:space="preserve">
+    <value>Enviar actualizaciones de rendimiento está desactivado en el Asistente de atributos</value>
+    <comment>[TEMP_TRAD]Attribute Assistant Send Even Perform Updates is off</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_12b" xml:space="preserve">
+    <value>Recuento de procesos: </value>
+    <comment>Process Count:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_12c" xml:space="preserve">
+    <value>Última entidad coincide y hay un recuento de procesos</value>
+    <comment>[TEMP_TRAD]Last Feature matches and the there is a process count</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14a" xml:space="preserve">
+    <value>Actualizaciones de rendimiento es falso</value>
+    <comment>[TEMP_TRAD]Perform Updates is false</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14aa" xml:space="preserve">
+    <value>        ValueMethod: </value>
+    <comment>        ValueMethod:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ab" xml:space="preserve">
+    <value>        On Create: </value>
+    <comment>[TEMP_TRAD]        On Create:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ac" xml:space="preserve">
+    <value>        On Change: </value>
+    <comment>[TEMP_TRAD]        On Change:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ad" xml:space="preserve">
+    <value>        Orden: </value>
+    <comment>        Order:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ae" xml:space="preserve">
+    <value>      Comprobando restricción de subtipo</value>
+    <comment>       Checking for Subtype Restriction</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14af" xml:space="preserve">
+    <value>        Se ha encontrado una restricción de subtipo</value>
+    <comment>        Subtype restriction Found</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ag" xml:space="preserve">
+    <value>        Omitiendo, no es el subtipo definido</value>
+    <comment>        Skipping, not the subtype defined</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ah" xml:space="preserve">
+    <value>        El subtipo es válido</value>
+    <comment>        Subtype is valid</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ai" xml:space="preserve">
+    <value>        Omitiendo, el subtipo no está establecido</value>
+    <comment>        Skipping, subtype is not set</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14aj" xml:space="preserve">
+    <value>        ERROR: La capa no tiene subtipos</value>
+    <comment>        ERROR: Layer does not have subtypes</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ak" xml:space="preserve">
+    <value>      Nombre de campo: </value>
+    <comment>      Field Name:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14al" xml:space="preserve">
+    <value>se ha encontrado en el índice: </value>
+    <comment>was found at index:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14am" xml:space="preserve">
+    <value>Campo no encontrado</value>
+    <comment>Field not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14an" xml:space="preserve">
+    <value>      El campo está establecido como editable</value>
+    <comment>      Field is set to edited field</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ao" xml:space="preserve">
+    <value>      Agregando</value>
+    <comment>     Adding</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ap" xml:space="preserve">
+    <value>al conjunto de campos</value>
+    <comment>to field array</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14aq" xml:space="preserve">
+    <value>      El campo no se ha especificado, está vacío, o no se ha establecido para todos</value>
+    <comment>      Field is not specified, empty, or set for all.</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ar" xml:space="preserve">
+    <value>                  Intentando: </value>
+    <comment>                   Trying:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14as" xml:space="preserve">
+    <value>                  Completado: </value>
+    <comment>                   Finished:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14at" xml:space="preserve">
+    <value>Desconectando los eventos</value>
+    <comment>Unwiring the events</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14au" xml:space="preserve">
+    <value>Conectando los eventos</value>
+    <comment>Wiring the events</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14av" xml:space="preserve">
+    <value>No se ha encontrado información de valor incorrecta</value>
+    <comment>Incorrect Value info was not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14aw" xml:space="preserve">
+    <value>Campo no establecido</value>
+    <comment>Field Not Set</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ax" xml:space="preserve">
+    <value>                  El campo en lista ha cambiado</value>
+    <comment>                  Listed field changed</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ay" xml:space="preserve">
+    <value>                  Coincidencia de valores</value>
+    <comment>                  Values Match</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14az" xml:space="preserve">
+    <value>                  Valor establecido</value>
+    <comment>                  Value Set</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14b" xml:space="preserve">
+    <value>Falta la tabla Dynamic Value - Nombre en Config: </value>
+    <comment>Dynamic Value Table is missing - Name in Config:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ba" xml:space="preserve">
+    <value>La información de valor es nula</value>
+    <comment>Value info is null</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bb" xml:space="preserve">
+    <value>no se ha encontrado</value>
+    <comment>was not found</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bc" xml:space="preserve">
+    <value>no es una entidad de eje</value>
+    <comment>not an edge feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bd" xml:space="preserve">
+    <value>no es una entidad de red geométrica</value>
+    <comment>not an Geometric Network feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14be" xml:space="preserve">
+    <value>el campo no se ha modificado</value>
+    <comment>field was not changed</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bf" xml:space="preserve">
+    <value>Se ha encontrado una restricción de capa, el nombre de la clase del nodo es: </value>
+    <comment>Layer restriction found, Class name of junction is:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bg" xml:space="preserve">
+    <value>La restricción de la capa no coincide, finalizando</value>
+    <comment>Layer restriction does not match, breaking</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bh" xml:space="preserve">
+    <value>La restricción de la capa coincide, comprobando restricción de campo</value>
+    <comment>Layer restriction matches, checking for field restriction</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bi" xml:space="preserve">
+    <value>No se han encontrado ejes conectados</value>
+    <comment>No Connected Edges Found</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bj" xml:space="preserve">
+    <value>no es una entidad de cruce</value>
+    <comment>not an junction feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bk" xml:space="preserve">
+    <value>No es una entidad de red geométrica</value>
+    <comment>Not a Geometric Network Feature</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bl" xml:space="preserve">
+    <value>Los valores no coinciden</value>
+    <comment>[TEMP_TRAD]Values dont match Match</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bm" xml:space="preserve">
+    <value>Restricción del campo ausente e información de valor</value>
+    <comment>Missing Field restriction and value info</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bn" xml:space="preserve">
+    <value>Buscando un campo llamado</value>
+    <comment>Looking for a field called</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bo" xml:space="preserve">
+    <value>en la tabla de ID generada</value>
+    <comment>[TEMP_TRAD]in the generate ID table</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bp" xml:space="preserve">
+    <value>reemplazar campo: </value>
+    <comment>replace field:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bq" xml:space="preserve">
+    <value>con un valor</value>
+    <comment>with a value</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14br" xml:space="preserve">
+    <value>Expresión para ser evaluada:</value>
+    <comment>Expression to be eval:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bs" xml:space="preserve">
+    <value>Obteniendo información de valor</value>
+    <comment>Getting Value Info</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bt" xml:space="preserve">
+    <value>Comprobando valores</value>
+    <comment>Checking values</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bu" xml:space="preserve">
+    <value>Valor encontrado</value>
+    <comment>Value Found</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bv" xml:space="preserve">
+    <value>Valor utilizado</value>
+    <comment>Value used</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bw" xml:space="preserve">
+    <value>Proporcionar un valor para</value>
+    <comment>[TEMP_TRAD]Provide a value for</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bx" xml:space="preserve">
+    <value>Cláusula Where: </value>
+    <comment>Where Clause:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14by" xml:space="preserve">
+    <value>Entidad encontrada: </value>
+    <comment>Feature Found:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14bz" xml:space="preserve">
+    <value>Capa encontrada</value>
+    <comment>Layer found</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14c" xml:space="preserve">
+    <value>la dv.table es nula</value>
+    <comment>the dv.table is null</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ca" xml:space="preserve">
+    <value>Separando información de valor: </value>
+    <comment>Splitting up value info:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cb" xml:space="preserve">
+    <value>La entidad y la información del valor son válidas</value>
+    <comment>Feature and valueinfo is valid</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cc" xml:space="preserve">
+    <value>Distancia encontrada: </value>
+    <comment>Distance found:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cd" xml:space="preserve">
+    <value>Valor copiado correctamente</value>
+    <comment>Value successfully copied</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ce" xml:space="preserve">
+    <value>Registro relacionado no encontrado.</value>
+    <comment>Related record not found.</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cf" xml:space="preserve">
+    <value>Intentando copiar el valor del registro</value>
+    <comment>Trying to Copy Value from Record</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cg" xml:space="preserve">
+    <value>Intentando copiar el valor al registro</value>
+    <comment>Trying to Copy Value to the Record</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ch" xml:space="preserve">
+    <value>Establecido en el registro relacionado</value>
+    <comment>Set in related record</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ci" xml:space="preserve">
+    <value>Comprobando registro relacionado</value>
+    <comment>Checking for related record</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cj" xml:space="preserve">
+    <value>Comprobando campo en la capa editada</value>
+    <comment>Checking Field in Edited Layer</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14ck" xml:space="preserve">
+    <value>El valor de destino no se ha modificado, omitiendo</value>
+    <comment>Target value did not change, skipping</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cl" xml:space="preserve">
+    <value>Comprobando registro de unión</value>
+    <comment>[TEMP_TRAD]Checking for join record</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cm" xml:space="preserve">
+    <value>Comenzando en 1</value>
+    <comment>Starting at 1</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cn" xml:space="preserve">
+    <value>El valor no es numérico: </value>
+    <comment>Value is not numeric:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14co" xml:space="preserve">
+    <value>Intentando establecer el valor</value>
+    <comment>Trying to set value</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cp" xml:space="preserve">
+    <value>Estableciendo el valor en 1</value>
+    <comment>Setting the value to 1</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cq" xml:space="preserve">
+    <value>Aumentando a</value>
+    <comment>[TEMP_TRAD]Incrimented to</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cr" xml:space="preserve">
+    <value>Intentando aumentar</value>
+    <comment>[TEMP_TRAD]Trying to Incriment</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14cs" xml:space="preserve">
+    <value>El valor es numérico</value>
+    <comment>Value is numeric</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14d" xml:space="preserve">
+    <value>Iniciando el Asistente de atributos</value>
+    <comment>Starting AA</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14e" xml:space="preserve">
+    <value>El objeto de entrada es nulo</value>
+    <comment>Input object is null</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14f" xml:space="preserve">
+    <value>La regla de Último valor ha sido modificada, actualizando el conjunto de Último valor</value>
+    <comment>[TEMP_TRAD]Last Value rule was modified, updating Last Value Array</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14g" xml:space="preserve">
+    <value>La tabla editada es la tabla de valor dinámico, omitiendo</value>
+    <comment>Dynamic Value Table is the table that is edited, skipping</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14h" xml:space="preserve">
+    <value>falta la columna</value>
+    <comment>column is missing</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14i" xml:space="preserve">
+    <value>Comprobando reglas de</value>
+    <comment>Checking rules for</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14j" xml:space="preserve">
+    <value>Consultando la tabla para el último valor de la capa:</value>
+    <comment>Querying table for Last Value for layer:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14k" xml:space="preserve">
+    <value>  Consulta utilizada: </value>
+    <comment>  Query Used:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14l" xml:space="preserve">
+    <value>  Número de resultados: </value>
+    <comment>  Number of results:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14m" xml:space="preserve">
+    <value>       Buscando</value>
+    <comment>       Looking for</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14n" xml:space="preserve">
+    <value> campo encontrado en la posición: </value>
+    <comment> field found at position:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14o" xml:space="preserve">
+    <value> Ha sido modificado</value>
+    <comment> Has Changed</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14p" xml:space="preserve">
+    <value>                      Estableciendo Último valor</value>
+    <comment>                     Setting Last Value</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14q" xml:space="preserve">
+    <value>                      Omitiendo nulos en la creación</value>
+    <comment>                     Skipping null on create</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14r" xml:space="preserve">
+    <value> No ha sido modificado</value>
+    <comment> Has not changed</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14s" xml:space="preserve">
+    <value>  Consultando la tabla para reglas de la capa: </value>
+    <comment>  Querying table for rules for layer:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14t" xml:space="preserve">
+    <value>Tiene más de 15 procesos ejecutándose, probablemente sus reglas produzcan un bucle infinito. Cualquier regla que cree una entidad nueva con * como nombre de tabla puede causar este fallo.</value>
+    <comment>You have more than 15 processes running, more than likely your rules are causing an infinite loop.  Any rule that creates a new feature with * as the table name can cause this issue.</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14u" xml:space="preserve">
+    <value>  Iterando a través de las filas</value>
+    <comment>  Looping through the rows</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14v" xml:space="preserve">
+    <value>      Información de fila</value>
+    <comment>    Row Info</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14w" xml:space="preserve">
+    <value>        Número de fila</value>
+    <comment>      Row Number</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14x" xml:space="preserve">
+    <value>        TableName: </value>
+    <comment>      TableName:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14y" xml:space="preserve">
+    <value>        FieldName: </value>
+    <comment>      FieldName:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_14z" xml:space="preserve">
+    <value>        ValueInfo: </value>
+    <comment>      ValueInfo:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_1a" xml:space="preserve">
+    <value>El Asistente de atributos se ha encendido</value>
+    <comment>Attribute Assistant is being turn on</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_1b" xml:space="preserve">
+    <value>El Asistente de atributos se ha apagado</value>
+    <comment>Attribute Assistant is being turn off</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_1c" xml:space="preserve">
+    <value>Falta la columna ON_CHANGEGEO en la tabla Dynamic Value</value>
+    <comment>Dynamic value table is missing the ON_CHANGEGEO Column</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_1d" xml:space="preserve">
+    <value>Falta la columna ON_CHANGE en la tabla Dynamic Value</value>
+    <comment>Dynamic value table is missing the ON_CHANGE Column</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_1e" xml:space="preserve">
+    <value>Falta la columna ON_CREATE en la tabla Dynamic Value</value>
+    <comment>Dynamic value table is missing the ON_CREATE Column</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_1f" xml:space="preserve">
+    <value>Falta la columna ON_MANUAL en la tabla Dynamic Value</value>
+    <comment>Dynamic value table is missing the ON_MANUAL Column</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_1g" xml:space="preserve">
+    <value>Ha especificado SHAPE en una entrada de último valor en el Asistente de atributos, lo cual no es compatible</value>
+    <comment>You have specified SHAPE in a last value entry in the Attribute Assistant, this is not supported</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_2a" xml:space="preserve">
+    <value>El conjunto de último valor no se ha creado, active la extensión</value>
+    <comment>The last value array has not been created, please activate the extension</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_2b" xml:space="preserve">
+    <value>Establecer propiedad de</value>
+    <comment>Set Property for</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_2c" xml:space="preserve">
+    <value>El valor actual es: </value>
+    <comment>Current Value is:</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_2d" xml:space="preserve">
+    <value>Use &lt;null&gt; para un valor nulo</value>
+    <comment>Use &lt;null&gt; for a null value</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_3a" xml:space="preserve">
+    <value>El Asistente de atributos está apagado - InitEditing1</value>
+    <comment>Attribute Assistant is off - InitEditing1</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_3b" xml:space="preserve">
+    <value>El Asistente de atributos se está apagando - InitEditing2</value>
+    <comment>Attribute Assistant is being turn off - InitEditing2</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_3c" xml:space="preserve">
+    <value>El Asistente de atributos se está apagando- InitEditing FileWorkspace</value>
+    <comment>Attribute Assistant is being turn off - InitEditing FileWorkspace</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_3d" xml:space="preserve">
+    <value>El Asistente de atributos está encendido - InitEditing</value>
+    <comment>Attribute Assistant is on - InitEditing</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_4a" xml:space="preserve">
+    <value>Cerrando archivo de Log</value>
+    <comment>Closing Log File</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_5a" xml:space="preserve">
+    <value>El Asistente de atributos está apagado- init</value>
+    <comment>Attribute Assistant is turn off - init</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_5b" xml:space="preserve">
+    <value>El Asistente de atributos está encendido - init</value>
+    <comment>Attribute Assistant is turn on - init</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_5c" xml:space="preserve">
+    <value>Asistente de atributos agregando controladores de eventos</value>
+    <comment>Attribute Assistant Adding Event Handlers</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_6a" xml:space="preserve">
+    <value>Nuevo documento</value>
+    <comment>New Doc</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_7a" xml:space="preserve">
+    <value>El Asistente de atributos está apagado - cerrando documento</value>
+    <comment>Attribute Assistant is off - closing doc</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_8a" xml:space="preserve">
+    <value>El Asistente de atributos está desactivado - recargar</value>
+    <comment>Attribute Assistant is off - reload</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_9a" xml:space="preserve">
+    <value>El Asistente de atributos está apagado - iniciando</value>
+    <comment>Attribute Assistant is off - startup</comment>
+  </data>
+  <data name="AttributeAssistantEditorMess_9b" xml:space="preserve">
+    <value>                  script a procesar: </value>
+    <comment>                  script to process:</comment>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14a" xml:space="preserve">
+    <value>ERROR/ADVERTENCIA: </value>
+    <comment>ERROR/WARNING:</comment>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14b" xml:space="preserve">
+    <value>La capa de origen no es editable: </value>
+    <comment>Source Layer is not editable:</comment>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14c" xml:space="preserve">
+    <value>Capa de origen no encontrada: </value>
+    <comment>Source Layer not found:</comment>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14d" xml:space="preserve">
+    <value>Devuelto valor no numérico: </value>
+    <comment>Non numeric value returned:</comment>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14e" xml:space="preserve">
+    <value>La cadena de la capa de origen está vacía</value>
+    <comment>Source Layer string is empty</comment>
+  </data>
+  <data name="AttributeAssistantEditorWarn_14f" xml:space="preserve">
+    <value>La fuente de datos no es válida: </value>
+    <comment>Datasource is invalid:</comment>
+  </data>
+  <data name="AttributeAssistantError_2a" xml:space="preserve">
+    <value>ERROR AL ACTIVAR EL ASISTENTE DE ATRIBUTOS, Reiniciando ArcMap</value>
+    <comment>ERROR TURNING ON THE AA, Restart ArcMap</comment>
+  </data>
+  <data name="AttributeAssistantMess_1a" xml:space="preserve">
+    <value>El Asistente de atributos se está poniendo en suspensión</value>
+    <comment>[TEMP_TRAD]Attribute Assistant is being suspended</comment>
+  </data>
+  <data name="AttributeAssistantMess_1b" xml:space="preserve">
+    <value>El Asistente de atributos está activado</value>
+    <comment>Attribute Assistant is activated</comment>
+  </data>
+  <data name="AttributeAssistantMess_1c" xml:space="preserve">
+    <value>El Asistente de atributos se está activando de la suspensión</value>
+    <comment>Attribute Assistant is being actived from suspended</comment>
+  </data>
+  <data name="AttributeAssistantMess_1d" xml:space="preserve">
+    <value>El Asistente de atributos no está suspendido</value>
+    <comment>Attribute Assistant is not suspended</comment>
+  </data>
+  <data name="AttributeAssistantMess_1e" xml:space="preserve">
+    <value>El Asistente de atributos está suspendido</value>
+    <comment>Attribute Assistant is suspended</comment>
+  </data>
+  <data name="AttributeAssistantMess_1f" xml:space="preserve">
+    <value>Active el asistente de atributos antes de utilizar esta herramienta</value>
+    <comment>Please turn on the attribute assistant before using this tool</comment>
+  </data>
+  <data name="AttributeAssistantMess_1g" xml:space="preserve">
+    <value>Active la edición para ejecutar esta herramienta</value>
+    <comment>Please start editing to run this tool</comment>
+  </data>
+  <data name="AttributeAssistantMess_2a" xml:space="preserve">
+    <value>Ejecutando Reglas de cambio</value>
+    <comment>Running Change Rules</comment>
+  </data>
+  <data name="AttributeAssistantMess_2b" xml:space="preserve">
+    <value>AA - Evento de cambio de entidad eliminado para ejecutar las reglas de cambio</value>
+    <comment>AA - Removed the Feature Change event to run the change rules</comment>
+  </data>
+  <data name="AttributeAssistantMess_2c" xml:space="preserve">
+    <value>AA - Evento de cambio de entidad eliminado para ejecutar las reglas de cambio</value>
+    <comment>AA - Removed the Feature Change event to run the change rules</comment>
+  </data>
+  <data name="AttributeAssistantMess_2d" xml:space="preserve">
+    <value>Seleccione algunos elementos o filas para ejecutar este proceso</value>
+    <comment>Please select some features or rows to run this process.</comment>
+  </data>
+  <data name="AttributeAssistantMess_4a" xml:space="preserve">
+    <value>AA - Evento de cambio de entidad eliminado para ejecutar las reglas manuales</value>
+    <comment>AA - Removed the Feature Change event to run the manual rules</comment>
+  </data>
+  <data name="AttributeAssistantMess_4b" xml:space="preserve">
+    <value>AA - Se ha vuelto a agregar el evento de cambio de entidad tras las reglas manuales</value>
+    <comment>AA - Feature Change event readded after manual rules</comment>
+  </data>
+  <data name="AttributeAssistantMess_5a" xml:space="preserve">
+    <value>AA - Evento de cambio de entidad eliminado para ejecutar las reglas de creación</value>
+    <comment>AA - Removed the Feature Change event to run the create rules</comment>
+  </data>
+  <data name="AttributeAssistantMess_5b" xml:space="preserve">
+    <value>AA - Se ha vuelto a agregar el evento de cambio de entidad tras las reglas de creación</value>
+    <comment>AA - Feature Change event readded after create rules</comment>
+  </data>
+  <data name="AttributeAssistantProc_2a" xml:space="preserve">
+    <value>Procesamiento</value>
+    <comment>Processing</comment>
+  </data>
+  <data name="AttributeAssistantTitle_2a" xml:space="preserve">
+    <value>Procesando...</value>
+    <comment>Processing...</comment>
+  </data>
+  <data name="AttrTrasftLoadRError_1" xml:space="preserve">
+    <value>El valor de un campo de origen o de destino es nulo</value>
+    <comment>A source or target field value is null</comment>
+  </data>
+  <data name="CalibrateLn" xml:space="preserve">
+    <value>Calibrar líneas</value>
+    <comment>Calibrate Lines</comment>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+    <comment>Cancel</comment>
+  </data>
+  <data name="CanceledReturnStatement" xml:space="preserve">
+    <value>Cancelado</value>
+    <comment>Canceled</comment>
+  </data>
+  <data name="Clck2Pts" xml:space="preserve">
+    <value>Haga clic en dos puntos para trazar</value>
+    <comment>Please Click Two Points for Tracing</comment>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Completar</value>
+    <comment>Complete</comment>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirmar</value>
+    <comment>Confirm</comment>
+  </data>
+  <data name="ConnectAsset" xml:space="preserve">
+    <value>Conectando activo</value>
+    <comment>Connecting Asset</comment>
+  </data>
+  <data name="ConstrOptions" xml:space="preserve">
+    <value>Opciones de creación</value>
+    <comment>Construction Options</comment>
+  </data>
+  <data name="ConstrPtsAlongLine" xml:space="preserve">
+    <value>Crear puntos a lo largo de una línea</value>
+    <comment>Construct points along a line</comment>
+  </data>
+  <data name="ConstructionToolsAsk_1" xml:space="preserve">
+    <value> no se ha encontrado, no se agregará el punto a lo largo de la línea \n¿Continuar?</value>
+    <comment>was not found, the point along feature will not be added! \nContinue?</comment>
+  </data>
+  <data name="ConstructionToolsAsk_2" xml:space="preserve">
+    <value> se ha encontrado, pero no se ha establecido la fuente de datos \n¿Continuar?</value>
+    <comment>was found, but the datasource is not set! \nContinue?</comment>
+  </data>
+  <data name="ConstructionToolsAsk_3" xml:space="preserve">
+    <value> se ha encontrado en un punto de la capa, pero la geometría no es un punto</value>
+    <comment>was found for a point along layer, but the geometry is not a point</comment>
+  </data>
+  <data name="ConstructionToolsError_1" xml:space="preserve">
+    <value>No se pueden agregar líneas.</value>
+    <comment>Unable to add lines.</comment>
+  </data>
+  <data name="ConstructionToolsError_2" xml:space="preserve">
+    <value>Las líneas principales y de destino deben estar en clases de entidad diferentes.</value>
+    <comment>Mains and target lines muct be in different feature classes.</comment>
+  </data>
+  <data name="ConstructionToolsError_3" xml:space="preserve">
+    <value> no es una capa de polígonos</value>
+    <comment> is not a polygon layer</comment>
+  </data>
+  <data name="ConstructionToolsError_4" xml:space="preserve">
+    <value> no es editable o no es una capa de puntos</value>
+    <comment> is not editable or is not a point layer</comment>
+  </data>
+  <data name="ConstructionToolsError_5a" xml:space="preserve">
+    <value>No se ha encontrado una línea en</value>
+    <comment>A line was not found in</comment>
+  </data>
+  <data name="ConstructionToolsError_5b" xml:space="preserve">
+    <value>dentro de</value>
+    <comment>[TEMP_TRAD]with in</comment>
+  </data>
+  <data name="ConstructionToolsError_5c" xml:space="preserve">
+    <value>units.\r\nEsta herramienta respeta la selección y solo buscará en las entidades seleccionadas, pruebe después de borrar la selección</value>
+    <comment>units.\r\nThis tool honors a selection set and will only look at selected features, try again after clearing the selected features.</comment>
+  </data>
+  <data name="ConstructionToolsError_6" xml:space="preserve">
+    <value>La distancia lateral es 0, omitiendo esta entidad</value>
+    <comment>The lateral distance was 0, skipping this feature</comment>
+  </data>
+  <data name="ConstructionToolsError_7" xml:space="preserve">
+    <value>No se ha encontrado una línea más cercana dentro de la distancia especificada con los parámetros proporcionados, omitiendo</value>
+    <comment>A closest line was not found in the specified distance with the provided parameters, skipping</comment>
+  </data>
+  <data name="ConstructionToolsError_8" xml:space="preserve">
+    <value>No se ha encontrado la clase de punto a lo largo de la entidad</value>
+    <comment>The Point Along feature class was not found</comment>
+  </data>
+  <data name="ConstructionToolsError_9" xml:space="preserve">
+    <value>Error al intentar almacenar el ID de la tubería en la entidad\r\n</value>
+    <comment>Error trying to store the ID of the pipe on the feature\r\n</comment>
+  </data>
+  <data name="ConstructionToolsLbl_1" xml:space="preserve">
+    <value>Conectar el más cercano</value>
+    <comment>Connect Closest</comment>
+  </data>
+  <data name="ConstructionToolsLbl_2" xml:space="preserve">
+    <value>Agregar acometidas</value>
+    <comment>Add Laterals</comment>
+  </data>
+  <data name="ConstructionToolsLbl_3" xml:space="preserve">
+    <value>Crear sencillo</value>
+    <comment>[TEMP_TRAD]Create Single</comment>
+  </data>
+  <data name="ConstructionToolsLbl_4" xml:space="preserve">
+    <value>Crear dual</value>
+    <comment>[TEMP_TRAD]Create Dual</comment>
+  </data>
+  <data name="ConstructionToolsLbl_6" xml:space="preserve">
+    <value>Agregar entradas acometidas</value>
+    <comment>[TEMP_TRAD]Add Laterals Taps</comment>
+  </data>
+  <data name="ConstructionToolsMess_1" xml:space="preserve">
+    <value>No se ha encontrado la capa que representa las principales.  La configuración indica el nombre de entidad: </value>
+    <comment>[TEMP_TRAD]Layer representing mains was not found.  Configuration indicated feature class name:</comment>
+  </data>
+  <data name="ConstructionToolsMess_2" xml:space="preserve">
+    <value>La capa que representa las principales no es una capa de líneas:</value>
+    <comment>[TEMP_TRAD]Layer representing mains was not a line layer:</comment>
+  </data>
+  <data name="ConstructionToolsMess_3" xml:space="preserve">
+    <value>No se ha encontrado la capa que representa las líneas de destino.  La configuración indica el nombre de entidad:</value>
+    <comment>Layer representing target lines was not found.  Configuration indicated feature class name:</comment>
+  </data>
+  <data name="ConstructionToolsMess_4" xml:space="preserve">
+    <value>La capa que representa las líneas de destino no es una capa de líneas:</value>
+    <comment>Layer representing target lines is not a line layer:</comment>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Recuento</value>
+    <comment>Count</comment>
+  </data>
+  <data name="CrtAssetAndLat" xml:space="preserve">
+    <value>Crear activo y acometida</value>
+    <comment>Create asset and lateral</comment>
+  </data>
+  <data name="CrtLnWithPts" xml:space="preserve">
+    <value>Crear línea con puntos</value>
+    <comment>Create line with points</comment>
+  </data>
+  <data name="CrtPtsAlongLine" xml:space="preserve">
+    <value>Crear puntos a lo largo de una línea</value>
+    <comment>Create points along a line</comment>
+  </data>
+  <data name="CrtPtsToEnd" xml:space="preserve">
+    <value>Crear puntos adicionales en los extremos</value>
+    <comment>Create additional points on ends</comment>
+  </data>
+  <data name="CT_1" xml:space="preserve">
+    <value>Herramientas de coste - CIPProjectWindow: ShuffleControls</value>
+    <comment>Costing Tools - CIPProjectWindow: ShuffleControls</comment>
+  </data>
+  <data name="CT_2" xml:space="preserve">
+    <value>Herramientas de coste - CIPProjectWindow: AddControls</value>
+    <comment>Costing Tools - CIPProjectWindow: AddControls</comment>
+  </data>
+  <data name="CurrentOID" xml:space="preserve">
+    <value>Procesando ObjectID: </value>
+    <comment>Currently Processing ObjectID:</comment>
+  </data>
+  <data name="DataToolsLbl1" xml:space="preserve">
+    <value>Herramientas de datos</value>
+    <comment>Data Tools</comment>
+  </data>
+  <data name="DataToolsMess_1" xml:space="preserve">
+    <value>Seleccione entidades antes de ejecutar este comando.</value>
+    <comment>Select some features before running this command.</comment>
+  </data>
+  <data name="DataToolsMess_2" xml:space="preserve">
+    <value>Sugerencia: convierta algunas capas en seleccionables antes de ejecutar un análisis</value>
+    <comment>Hint: Make some layers selectable before running a trace.</comment>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Distancia</value>
+    <comment>Distance</comment>
+  </data>
+  <data name="DontFindFlowEltReturnStatement" xml:space="preserve">
+    <value>Error_Error al buscar elementos de flujo</value>
+    <comment>Error_Error in Finding Flow Elements</comment>
+  </data>
+  <data name="EditCtrl" xml:space="preserve">
+    <value>control de edición</value>
+    <comment>edit control</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error : </value>
+    <comment>Error :</comment>
+  </data>
+  <data name="ErrorInThe" xml:space="preserve">
+    <value>Error en </value>
+    <comment>[TEMP_TRAD]Error in the</comment>
+  </data>
+  <data name="ErrorOn" xml:space="preserve">
+    <value>Error en  </value>
+    <comment>Error on</comment>
+  </data>
+  <data name="ExportAsset" xml:space="preserve">
+    <value>Exportar activo</value>
+    <comment>Export asset</comment>
+  </data>
+  <data name="ExportBarriersName" xml:space="preserve">
+    <value>Barreras</value>
+    <comment>Barriers</comment>
+  </data>
+  <data name="ExportFlagsName" xml:space="preserve">
+    <value>Marcadores</value>
+    <comment>Flags</comment>
+  </data>
+  <data name="ExportXL" xml:space="preserve">
+    <value>Exportar a Excel</value>
+    <comment>Export to Excel</comment>
+  </data>
+  <data name="ExportXLError" xml:space="preserve">
+    <value>ocurrió un error al exportar a Excel, compruebe que tiene Excel 2003 o posterior instalado</value>
+    <comment>there was an error export to Excel, verify you have 2003 or newer of excel installed</comment>
+  </data>
+  <data name="FeatNotFound" xml:space="preserve">
+    <value>No se han encontrado entidades</value>
+    <comment>No Features Found</comment>
+  </data>
+  <data name="FeatureIn" xml:space="preserve">
+    <value>Entidad en</value>
+    <comment>Feature in</comment>
+  </data>
+  <data name="Field" xml:space="preserve">
+    <value>Campo</value>
+    <comment>Field</comment>
+  </data>
+  <data name="FinishSktchPrt" xml:space="preserve">
+    <value>Finalizar parte del boceto</value>
+    <comment>[TEMP_TRAD]Finish Sketch Part</comment>
+  </data>
+  <data name="ForLn" xml:space="preserve">
+    <value> para la línea</value>
+    <comment> for line</comment>
+  </data>
+  <data name="ForSltedLn" xml:space="preserve">
+    <value> para las líneas seleccionadas.</value>
+    <comment> for the selected lines.</comment>
+  </data>
+  <data name="GeometryToolsAsk_1" xml:space="preserve">
+    <value>¿Calibrar las líneas utilizando la dirección digitalizada?</value>
+    <comment>Calibrate lines using the digitized direction?</comment>
+  </data>
+  <data name="GeometryToolsError_1" xml:space="preserve">
+    <value>Debe tener al menos una capa en el mapa.</value>
+    <comment>Must have at least one layer in your map.</comment>
+  </data>
+  <data name="GeometryToolsError_2" xml:space="preserve">
+    <value>No se ha establecido la fuente de datos de la capa resaltada.</value>
+    <comment>The highlighted layer datasource is not set.</comment>
+  </data>
+  <data name="GeometryToolsError_3" xml:space="preserve">
+    <value>La capa resaltada no es compatible con las Medidas.</value>
+    <comment>The highlighted layer does not support Measures.</comment>
+  </data>
+  <data name="GeometryToolsError_4" xml:space="preserve">
+    <value>No se han seleccionado entidades en la capa resaltada.</value>
+    <comment>No features are selected in the highlighed layer.</comment>
+  </data>
+  <data name="GeometryToolsError_5" xml:space="preserve">
+    <value>Tiene geometría nula</value>
+    <comment>Has null geometry</comment>
+  </data>
+  <data name="GeometryToolsError_6" xml:space="preserve">
+    <value>Ninguna de las capas editables con entidades seleccionadas tiene especificada la rotación. En Propiedades de la capa, en la pestaña Simbología, haga clic en Avanzado para establecer el campo y tipo de rotación.</value>
+    <comment>None of the editable layers with selected features have rotation specified. \nIn Layer properties on the Symbology tab, click Advanced to set the rotation field and type.</comment>
+  </data>
+  <data name="GeometryToolsError_7" xml:space="preserve">
+    <value>No se han encontrado líneas editables con entidades seleccionadas</value>
+    <comment>No Editable lines with selected features where found</comment>
+  </data>
+  <data name="GeometryToolsError_8" xml:space="preserve">
+    <value>Ha ocurrido un error al crear el salto. Normalmente ocurre cuando dos o más líneas de intersecciones están cerca. El salto resultante puede tener una geometría no válida, compruebe el boceto(haga doble clic para mostrar los vértices y asegúrese de que la geometría es igual)</value>
+    <comment>There was an error creating the jump, this usually occurs when two more intersecting lines are to close.  The resulting jump may have an invalid gemeotry, check the sketch(double click to show the vertex's and make sure the geometry looks the same)</comment>
+  </data>
+  <data name="GeometryToolsError_9" xml:space="preserve">
+    <value>El segmento seleccionado no es suficientemente largo para crear el salto</value>
+    <comment>[TEMP_TRAD]The selected Segment is not long enough to create the jump</comment>
+  </data>
+  <data name="GeometryToolsLbl_1" xml:space="preserve">
+    <value>Establecer medidas</value>
+    <comment>Set Measures</comment>
+  </data>
+  <data name="GeometryToolsLbl_2" xml:space="preserve">
+    <value>Rotar puntos</value>
+    <comment>Rotate Points</comment>
+  </data>
+  <data name="GeometryToolsLbl_3" xml:space="preserve">
+    <value>Agregar rotación</value>
+    <comment>Add Rotate</comment>
+  </data>
+  <data name="GeometryToolsLbl_4" xml:space="preserve">
+    <value>Dividir líneas en un punto</value>
+    <comment>Split Lines At Location</comment>
+  </data>
+  <data name="GeometryToolsLbl_5" xml:space="preserve">
+    <value>Dividir líneas</value>
+    <comment>Split Lines</comment>
+  </data>
+  <data name="GeometryToolsLbl_6" xml:space="preserve">
+    <value>Crear saltos</value>
+    <comment>Create Jumps</comment>
+  </data>
+  <data name="GeometryToolsLbl_7" xml:space="preserve">
+    <value>Voltear líneas</value>
+    <comment>Flip Lines</comment>
+  </data>
+  <data name="GeometryToolsLbl_8" xml:space="preserve">
+    <value>Voltear líneas para coincidir con el flujo</value>
+    <comment>Flip Lines to Match Flow</comment>
+  </data>
+  <data name="GeometryToolsMess_1" xml:space="preserve">
+    <value>Estableciendo el valor de rotación de los puntos seleccionados</value>
+    <comment>Setting Rotation Value for Selected Points</comment>
+  </data>
+  <data name="GeometryToolsMess_2" xml:space="preserve">
+    <value>Construyendo lista de capa</value>
+    <comment>Building Layer List</comment>
+  </data>
+  <data name="GeometryToolsMess_3" xml:space="preserve">
+    <value>Capa añadida:</value>
+    <comment>Layer Added:</comment>
+  </data>
+  <data name="GeometryToolsMess_4a" xml:space="preserve">
+    <value>Comprobando capa:</value>
+    <comment>Checking Layer:</comment>
+  </data>
+  <data name="GeometryToolsMess_4b" xml:space="preserve">
+    <value>Comprobando fila</value>
+    <comment>Checking Row</comment>
+  </data>
+  <data name="GeometryToolsMess_4c" xml:space="preserve">
+    <value>de la capa:</value>
+    <comment>for Layer:</comment>
+  </data>
+  <data name="GeometryToolsMess_5" xml:space="preserve">
+    <value>Se volteará cualquier línea seleccionada de esta capa.</value>
+    <comment>Any selected lines in this layer will be flipped.</comment>
+  </data>
+  <data name="GeometryToolsProc_1" xml:space="preserve">
+    <value>Estableciendo medida</value>
+    <comment>Setting Measure</comment>
+  </data>
+  <data name="GeometryToolsProc_10" xml:space="preserve">
+    <value>Dividiendo en los puntos seleccionados</value>
+    <comment>Splitting At Selected Points</comment>
+  </data>
+  <data name="GeometryToolsProc_11" xml:space="preserve">
+    <value>Dividiendo línea</value>
+    <comment>Splitting line</comment>
+  </data>
+  <data name="GeometryToolsProc_12" xml:space="preserve">
+    <value>Creando saltos</value>
+    <comment>Creating Jumps</comment>
+  </data>
+  <data name="GeometryToolsProc_2" xml:space="preserve">
+    <value>Establecer Meds.</value>
+    <comment>[TEMP_TRAD]Set M's</comment>
+  </data>
+  <data name="GeometryToolsProc_3" xml:space="preserve">
+    <value>Rotando puntos</value>
+    <comment>Rotating points</comment>
+  </data>
+  <data name="GeometryToolsProc_4" xml:space="preserve">
+    <value>Agregando rotación al punto</value>
+    <comment>Adding rotation to point</comment>
+  </data>
+  <data name="GeometryToolsProc_5" xml:space="preserve">
+    <value>Rotar seleccionados</value>
+    <comment>Rotate Selected</comment>
+  </data>
+  <data name="GeometryToolsProc_6" xml:space="preserve">
+    <value>Rotando punto</value>
+    <comment>Rotating point</comment>
+  </data>
+  <data name="GeometryToolsProc_7" xml:space="preserve">
+    <value>Dividiendo líneas seleccionadas en la ubicación</value>
+    <comment>Splitting Selected Lines at Location</comment>
+  </data>
+  <data name="GeometryToolsProc_8" xml:space="preserve">
+    <value>Dividiendo líneas en la ubicación</value>
+    <comment>Splitting lines at Location</comment>
+  </data>
+  <data name="GeometryToolsProc_9" xml:space="preserve">
+    <value>Dividir líneas en los puntos</value>
+    <comment>Split Lines At Points</comment>
+  </data>
+  <data name="GeometryToolsRealName_1" xml:space="preserve">
+    <value>SplitLinesAsClick</value>
+    <comment>SplitLinesAsClick</comment>
+  </data>
+  <data name="GeoNetToolsAlias_1" xml:space="preserve">
+    <value>Elevación del terreno</value>
+    <comment>Ground Elevation</comment>
+  </data>
+  <data name="GeoNetToolsAlias_11" xml:space="preserve">
+    <value>Facilty ID</value>
+    <comment>Facilty ID</comment>
+  </data>
+  <data name="GeoNetToolsAlias_12" xml:space="preserve">
+    <value>Medida</value>
+    <comment>Measure</comment>
+  </data>
+  <data name="GeoNetToolsAlias_13" xml:space="preserve">
+    <value>Elevación</value>
+    <comment>Elevation</comment>
+  </data>
+  <data name="GeoNetToolsAlias_14" xml:space="preserve">
+    <value>Etiqueta</value>
+    <comment>Label</comment>
+  </data>
+  <data name="GeoNetToolsAlias_15" xml:space="preserve">
+    <value>Medida de origen</value>
+    <comment>[TEMP_TRAD]From Measure</comment>
+  </data>
+  <data name="GeoNetToolsAlias_16" xml:space="preserve">
+    <value>Medida de destino</value>
+    <comment>[TEMP_TRAD]To Measure</comment>
+  </data>
+  <data name="GeoNetToolsAlias_17" xml:space="preserve">
+    <value>Elevación de origen</value>
+    <comment>[TEMP_TRAD]From Elevation</comment>
+  </data>
+  <data name="GeoNetToolsAlias_18" xml:space="preserve">
+    <value>Elevación de destino</value>
+    <comment>[TEMP_TRAD]To Elevation</comment>
+  </data>
+  <data name="GeoNetToolsAlias_2" xml:space="preserve">
+    <value>Elevación de línea (Medidas aguas abajo)</value>
+    <comment>Line Elevation(Downstream Measures)</comment>
+  </data>
+  <data name="GeoNetToolsAlias_3" xml:space="preserve">
+    <value>Elevación de línea (Medidas aguas arriba)</value>
+    <comment>Line Elevation(Upstream Measures)</comment>
+  </data>
+  <data name="GeoNetToolsAlias_4" xml:space="preserve">
+    <value>Punto de elevación máxima</value>
+    <comment>[TEMP_TRAD]Point Top Elevation</comment>
+  </data>
+  <data name="GeoNetToolsAlias_5" xml:space="preserve">
+    <value>Punto de elevación mínima</value>
+    <comment>[TEMP_TRAD]Point Bottom Elevation</comment>
+  </data>
+  <data name="GeoNetToolsAlias_6" xml:space="preserve">
+    <value>Elevación máxima</value>
+    <comment>Top Elevation</comment>
+  </data>
+  <data name="GeoNetToolsAlias_7" xml:space="preserve">
+    <value>Elevación mínima</value>
+    <comment>Bottom Elevation</comment>
+  </data>
+  <data name="GeoNetToolsAlias_8" xml:space="preserve">
+    <value>ID</value>
+    <comment>ID</comment>
+  </data>
+  <data name="GeoNetToolsAsk_11a" xml:space="preserve">
+    <value>Con esta extensión y visibilidad de capa, comprobará la conectividad de</value>
+    <comment>With this extent and layer visibility, you will be checking connectivity for</comment>
+  </data>
+  <data name="GeoNetToolsAsk_11b" xml:space="preserve">
+    <value>entidades.</value>
+    <comment>features.</comment>
+  </data>
+  <data name="GeoNetToolsAsk_9a" xml:space="preserve">
+    <value>¿Seguro que desea desconectar las entidades</value>
+    <comment>Are you sure you wish to disconnect the selected</comment>
+  </data>
+  <data name="GeoNetToolsAsk_9b" xml:space="preserve">
+    <value>seleccionadas?</value>
+    <comment>features?</comment>
+  </data>
+  <data name="GeoNetToolsDesc_1" xml:space="preserve">
+    <value>Estableciendo dirección de flujo</value>
+    <comment>Setting Flow Direction</comment>
+  </data>
+  <data name="GeoNetToolsDesc_10" xml:space="preserve">
+    <value>Desconectando activos de la red geométrica.</value>
+    <comment>Diconnecting Assets to the geometric network.</comment>
+  </data>
+  <data name="GeoNetToolsDesc_11" xml:space="preserve">
+    <value>Comprobando conexiones de las redes geométricas...</value>
+    <comment>Checking geometric networks connections...</comment>
+  </data>
+  <data name="GeoNetToolsDesc_14a" xml:space="preserve">
+    <value>Buscar trazado conectado</value>
+    <comment>Find Connected Trace</comment>
+  </data>
+  <data name="GeoNetToolsDesc_14b" xml:space="preserve">
+    <value>Recorrido aguas abajo</value>
+    <comment>Downstream Trace</comment>
+  </data>
+  <data name="GeoNetToolsDesc_14c" xml:space="preserve">
+    <value>Recorrido aguas arriba</value>
+    <comment>Upstream Trace</comment>
+  </data>
+  <data name="GeoNetToolsDesc_15a" xml:space="preserve">
+    <value>Buscar más cercano</value>
+    <comment>Find Closest</comment>
+  </data>
+  <data name="GeoNetToolsDesc_16a" xml:space="preserve">
+    <value>Polígono de corte</value>
+    <comment>Isolation Trace</comment>
+  </data>
+  <data name="GeoNetToolsDesc_18a" xml:space="preserve">
+    <value>Progreso de la herramienta Resumen del trazado de aislamiento</value>
+    <comment>Progress of the Summary Iso Trace Tool</comment>
+  </data>
+  <data name="GeoNetToolsDesc_19a" xml:space="preserve">
+    <value>Buscando ruta</value>
+    <comment>Finding Path</comment>
+  </data>
+  <data name="GeoNetToolsDesc_7" xml:space="preserve">
+    <value>Conectando activos a la red geométrica</value>
+    <comment>Connecting Assets to the geometric network.</comment>
+  </data>
+  <data name="GeoNetToolsDone_10" xml:space="preserve">
+    <value>Desconectar seleccionados</value>
+    <comment>Disconnect Selected</comment>
+  </data>
+  <data name="GeoNetToolsDone_11a" xml:space="preserve">
+    <value>Eliminar desconectados</value>
+    <comment>Delete disconnected</comment>
+  </data>
+  <data name="GeoNetToolsDone_13a" xml:space="preserve">
+    <value>Mover entidades al nuevo principal</value>
+    <comment>Move Features To New Main</comment>
+  </data>
+  <data name="GeoNetToolsDone_18a" xml:space="preserve">
+    <value>Análisis correcto</value>
+    <comment>Trace Successful</comment>
+  </data>
+  <data name="GeoNetToolsDone_20a" xml:space="preserve">
+    <value>Acumulación completada de</value>
+    <comment>Accumulation completed for</comment>
+  </data>
+  <data name="GeoNetToolsDone_20b" xml:space="preserve">
+    <value>Acumulación de flujo completada</value>
+    <comment>Flow Accumulation Complete</comment>
+  </data>
+  <data name="GeoNetToolsErrorLbl_2" xml:space="preserve">
+    <value>No se puede realizar el trazado</value>
+    <comment>Unable to Trace</comment>
+  </data>
+  <data name="GeoNetToolsError_10" xml:space="preserve">
+    <value>No hay elementos para desconectar</value>
+    <comment>Nothing To Disconnect</comment>
+  </data>
+  <data name="GeoNetToolsError_11a" xml:space="preserve">
+    <value>No se han encontrado redes geométricas.</value>
+    <comment>No geometric networks found.</comment>
+  </data>
+  <data name="GeoNetToolsError_12a" xml:space="preserve">
+    <value>El estado operativo no se puede alternar debido a que la clase de entidad</value>
+    <comment>Operable status cannot be toggled since feature class</comment>
+  </data>
+  <data name="GeoNetToolsError_12b" xml:space="preserve">
+    <value>no está en el mapa.</value>
+    <comment>is not in map.</comment>
+  </data>
+  <data name="GeoNetToolsError_12c" xml:space="preserve">
+    <value>Alternar el estado operativo</value>
+    <comment>Toggle Operational Status</comment>
+  </data>
+  <data name="GeoNetToolsError_13a" xml:space="preserve">
+    <value>Las entidades de origen y destino están en clases de entidad diferentes</value>
+    <comment>The source and target feature are in different feature classes</comment>
+  </data>
+  <data name="GeoNetToolsError_13b" xml:space="preserve">
+    <value>no se puede mover</value>
+    <comment>was not able to be moved</comment>
+  </data>
+  <data name="GeoNetToolsError_13c" xml:space="preserve">
+    <value>Error al seleccionar ubicación para mover las conexiones \r\n</value>
+    <comment>Error Selecting Location for Moving connections \r\n</comment>
+  </data>
+  <data name="GeoNetToolsError_16a" xml:space="preserve">
+    <value>Error al establecer las válvulas operativas, no se han encontrado válvulas operativas\n</value>
+    <comment>Error setting the Operable Valves, no operable valves where found\n</comment>
+  </data>
+  <data name="GeoNetToolsError_17a" xml:space="preserve">
+    <value>No se ha encontrado la red geométrica</value>
+    <comment>The geometric network was not found</comment>
+  </data>
+  <data name="GeoNetToolsError_17b" xml:space="preserve">
+    <value>GN y los marcadores de trazado son nulos</value>
+    <comment>[TEMP_TRAD]GN and Trace flags are null</comment>
+  </data>
+  <data name="GeoNetToolsError_18a" xml:space="preserve">
+    <value>la capa no forma parte de una red geométrica</value>
+    <comment>layer is not part of a geometric network.</comment>
+  </data>
+  <data name="GeoNetToolsError_18b" xml:space="preserve">
+    <value> ha sido seleccionada. Haga una selección e inténtelo de nuevo.</value>
+    <comment>features are selected. Please create a selection set and try again.</comment>
+  </data>
+  <data name="GeoNetToolsError_18c" xml:space="preserve">
+    <value> no ha sido encontrada, agréguela al mapa.</value>
+    <comment>feature class was not found, add it to the map.</comment>
+  </data>
+  <data name="GeoNetToolsError_18d" xml:space="preserve">
+    <value>no se ha establecido la fuente de datos de la clase de entidad.</value>
+    <comment>feature class datasource is not set.</comment>
+  </data>
+  <data name="GeoNetToolsError_18e" xml:space="preserve">
+    <value>la capa debe ser editable.</value>
+    <comment>layer must be editable.</comment>
+  </data>
+  <data name="GeoNetToolsError_18f" xml:space="preserve">
+    <value>no se ha encontrado en la clase de entidad resultante.</value>
+    <comment>[TEMP_TRAD]not found in results feature class.</comment>
+  </data>
+  <data name="GeoNetToolsError_19a" xml:space="preserve">
+    <value>No se ha encontrado una ubicación</value>
+    <comment>A location was not found</comment>
+  </data>
+  <data name="GeoNetToolsError_19b" xml:space="preserve">
+    <value>) no se ha encontrado</value>
+    <comment>) was not found</comment>
+  </data>
+  <data name="GeoNetToolsError_19c" xml:space="preserve">
+    <value>El campo de elevacion aguas abajo (</value>
+    <comment>The Downstream elevation field(</comment>
+  </data>
+  <data name="GeoNetToolsError_19d" xml:space="preserve">
+    <value>El campo de elevacion aguas arriba (</value>
+    <comment>The Upstream elevation field(</comment>
+  </data>
+  <data name="GeoNetToolsError_19e" xml:space="preserve">
+    <value>) no se ha encontrado en la capa:</value>
+    <comment>) was not found for layer:</comment>
+  </data>
+  <data name="GeoNetToolsError_19f" xml:space="preserve">
+    <value>El campo de ID (</value>
+    <comment>The ID field(</comment>
+  </data>
+  <data name="GeoNetToolsError_1a" xml:space="preserve">
+    <value>Dirección de flujo de</value>
+    <comment>Flow direction for</comment>
+  </data>
+  <data name="GeoNetToolsError_1b" xml:space="preserve">
+    <value> no se ha establecido. Las clases de entidad no tienen la capacidad fuente/ sumidero.</value>
+    <comment>[TEMP_TRAD] not set.  No feature classes have source/sink capability.</comment>
+  </data>
+  <data name="GeoNetToolsError_1c" xml:space="preserve">
+    <value>Debe recrear su red geométrica para utilizar este comando en esta red.</value>
+    <comment>You must recreate your geometric network to use this command on this network.</comment>
+  </data>
+  <data name="GeoNetToolsError_2" xml:space="preserve">
+    <value>No hay capas visibles formando parte de una red geométrica.</value>
+    <comment>There are no visible layers that participate in a geometric network.</comment>
+  </data>
+  <data name="GeoNetToolsError_20a" xml:space="preserve">
+    <value>se ha encontrado una capa de entidades, pero no tiene establecida la fuente de datos.</value>
+    <comment>feature layer was found, but datasource was not set.</comment>
+  </data>
+  <data name="GeoNetToolsError_20b" xml:space="preserve">
+    <value>Debe editarse el espacio de trabajo que contiene</value>
+    <comment>[TEMP_TRAD]Must be editing the workspace containing</comment>
+  </data>
+  <data name="GeoNetToolsError_20c" xml:space="preserve">
+    <value>El config no contiene entradas para el análisis de acumulación</value>
+    <comment>The config does not contain any entries for the accumlation trace</comment>
+  </data>
+  <data name="GeoNetToolsError_20d" xml:space="preserve">
+    <value> no contiene</value>
+    <comment> does not contain</comment>
+  </data>
+  <data name="GeoNetToolsError_20e" xml:space="preserve">
+    <value> campo.</value>
+    <comment> field.</comment>
+  </data>
+  <data name="GeoNetToolsError_20f" xml:space="preserve">
+    <value>No se ha encontrado la capa o ubicación. Compruebe la ubicación donde hizo clic o el archivo de configuración.</value>
+    <comment>No location or layer found, check the location where you clicked or the config file.</comment>
+  </data>
+  <data name="GeoNetToolsError_8a" xml:space="preserve">
+    <value>Ninguna de las capas con entidades seleccionadas son entidades de red editables.</value>
+    <comment>None of the layers with selected features are editable network features.</comment>
+  </data>
+  <data name="GeoNetToolsError_8b" xml:space="preserve">
+    <value>No hay elementos para conectar</value>
+    <comment>Nothing To Connect</comment>
+  </data>
+  <data name="GeoNetToolsLbl_11" xml:space="preserve">
+    <value>Comprobar conexiones</value>
+    <comment>Check Connections</comment>
+  </data>
+  <data name="GeoNetToolsLbl_13a" xml:space="preserve">
+    <value>Mover marcador de entidad</value>
+    <comment>Move Feature Flag</comment>
+  </data>
+  <data name="GeoNetToolsLbl_13b" xml:space="preserve">
+    <value>Desactivando el Asistente de atributos</value>
+    <comment>Deactivating AA</comment>
+  </data>
+  <data name="GeoNetToolsLbl_16a" xml:space="preserve">
+    <value>Origen</value>
+    <comment>Origin</comment>
+  </data>
+  <data name="GeoNetToolsLbl_16b" xml:space="preserve">
+    <value>Destino</value>
+    <comment>Destination</comment>
+  </data>
+  <data name="GeoNetToolsLbl_17a" xml:space="preserve">
+    <value>Ruta del trazado</value>
+    <comment>Trace Path</comment>
+  </data>
+  <data name="GeoNetToolsLbl_18a" xml:space="preserve">
+    <value>Resumen del polígono de corte</value>
+    <comment>[TEMP_TRAD]Summary Isolation Trace</comment>
+  </data>
+  <data name="GeoNetToolsLbl_2" xml:space="preserve">
+    <value>Herramientas de Desktop</value>
+    <comment>Desktop Tools</comment>
+  </data>
+  <data name="GeoNetToolsLbl_20a" xml:space="preserve">
+    <value>Herramientas de acumulación de flujo</value>
+    <comment>Flow Accumulation Tools</comment>
+  </data>
+  <data name="GeoNetToolsLbl_3" xml:space="preserve">
+    <value>Agregar marcador</value>
+    <comment>Add Flag</comment>
+  </data>
+  <data name="GeoNetToolsMess_10a" xml:space="preserve">
+    <value>Desconectando entidades de</value>
+    <comment>Diconnecting Features from</comment>
+  </data>
+  <data name="GeoNetToolsMess_11a" xml:space="preserve">
+    <value> cruce innecesario en</value>
+    <comment> unneeded junction in</comment>
+  </data>
+  <data name="GeoNetToolsMess_11b" xml:space="preserve">
+    <value> se ha eliminado.</value>
+    <comment> has been removed.</comment>
+  </data>
+  <data name="GeoNetToolsMess_11c" xml:space="preserve">
+    <value> cruces innecesarios en</value>
+    <comment> unneeded junctions in</comment>
+  </data>
+  <data name="GeoNetToolsMess_11d" xml:space="preserve">
+    <value> se han eliminado.</value>
+    <comment> have been removed.</comment>
+  </data>
+  <data name="GeoNetToolsMess_11e" xml:space="preserve">
+    <value> se ha seleccionado</value>
+    <comment> has been selected.</comment>
+  </data>
+  <data name="GeoNetToolsMess_11f" xml:space="preserve">
+    <value> se han seleccionado.</value>
+    <comment> have been selected.</comment>
+  </data>
+  <data name="GeoNetToolsMess_11g" xml:space="preserve">
+    <value> capa no cumple los criterios de conectividad.</value>
+    <comment>[TEMP_TRAD] layer does not meet the connectivity criteria.</comment>
+  </data>
+  <data name="GeoNetToolsMess_11h" xml:space="preserve">
+    <value> capas no cumplen los criterios de conectividad.</value>
+    <comment>[TEMP_TRAD] layer do not meet the connectivity criteria.</comment>
+  </data>
+  <data name="GeoNetToolsMess_11i" xml:space="preserve">
+    <value> capa no conecta con ningún eje.  Inicie la edición y vuelva a ejecutar el comando para eliminar este cruce.</value>
+    <comment> layer does not connect to any edges.  Start editing and re-run this command to remove this junction.</comment>
+  </data>
+  <data name="GeoNetToolsMess_11j" xml:space="preserve">
+    <value> capas no conectan con ningún eje.  Inicie la edición y vuelva a ejecutar el comando para eliminar estos cruces.</value>
+    <comment>[TEMP_TRAD] layer do not connect to any edges.  Start editing and re-run this command to remove these junctions.</comment>
+  </data>
+  <data name="GeoNetToolsMess_11k" xml:space="preserve">
+    <value> capa conecta con un solo eje. Puede ser debido a una tubería desconectada o a que falta un activo. Revise la selección</value>
+    <comment> layer connects to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected</comment>
+  </data>
+  <data name="GeoNetToolsMess_11l" xml:space="preserve">
+    <value> capas conectan con un solo eje. Puede ser debido a una tubería desconectada o a que falta un activo. Revise la selección</value>
+    <comment>[TEMP_TRAD] layer connect to only one edge. This can be caused by a disconnected pipe or a missing asset. Review the selected</comment>
+  </data>
+  <data name="GeoNetToolsMess_13a" xml:space="preserve">
+    <value>Seleccione válvulas para continuar</value>
+    <comment>Please select some valves to proceed</comment>
+  </data>
+  <data name="GeoNetToolsMess_13b" xml:space="preserve">
+    <value>Inicie la edición de las capas en las que ha hecho clic</value>
+    <comment>Please start editing the layers that was clicked</comment>
+  </data>
+  <data name="GeoNetToolsMess_13c" xml:space="preserve">
+    <value>Esta herramienta está diseñada para funcionar solo con ejes complejos</value>
+    <comment>This tool is designed to work only on Complex Edges</comment>
+  </data>
+  <data name="GeoNetToolsMess_14a" xml:space="preserve">
+    <value>Borrando la selección y los gráficos</value>
+    <comment>Clearing Selection and Graphics</comment>
+  </data>
+  <data name="GeoNetToolsMess_14b" xml:space="preserve">
+    <value>Configurando el solucionador</value>
+    <comment>[TEMP_TRAD]Setting up solver</comment>
+  </data>
+  <data name="GeoNetToolsMess_14c" xml:space="preserve">
+    <value>Agregando marcador al solucionador</value>
+    <comment>[TEMP_TRAD]Adding flag to solver</comment>
+  </data>
+  <data name="GeoNetToolsMess_14d" xml:space="preserve">
+    <value>Ejecutando análisis</value>
+    <comment>Running Trace</comment>
+  </data>
+  <data name="GeoNetToolsMess_14e" xml:space="preserve">
+    <value>No se han encontrado entidades aguas abajo.</value>
+    <comment>No downstream features were found.</comment>
+  </data>
+  <data name="GeoNetToolsMess_14f" xml:space="preserve">
+    <value>Compruebe que la dirección dle flujo se ha calculado.</value>
+    <comment>Verify that flow direction has been calculated.</comment>
+  </data>
+  <data name="GeoNetToolsMess_14g" xml:space="preserve">
+    <value>No se han encontrado entidades aguas arriba.</value>
+    <comment>No upstream features were found.</comment>
+  </data>
+  <data name="GeoNetToolsMess_14h" xml:space="preserve">
+    <value>Creando resultados</value>
+    <comment>Creating Results</comment>
+  </data>
+  <data name="GeoNetToolsMess_15a" xml:space="preserve">
+    <value>Estableciendo marcadores de trazado</value>
+    <comment>Setting trace flags</comment>
+  </data>
+  <data name="GeoNetToolsMess_15b" xml:space="preserve">
+    <value>No hay entidades en la entidad</value>
+    <comment>[TEMP_TRAD]No features in the</comment>
+  </data>
+  <data name="GeoNetToolsMess_15c" xml:space="preserve">
+    <value> a las que se pueda acceder desde esta ubicación.</value>
+    <comment>[TEMP_TRAD] feature can be reached from this location.</comment>
+  </data>
+  <data name="GeoNetToolsMess_15d" xml:space="preserve">
+    <value>La </value>
+    <comment>[TEMP_TRAD]The</comment>
+  </data>
+  <data name="GeoNetToolsMess_15e" xml:space="preserve">
+    <value> clase de entidad no se ha encontrado en la red en la que ha hecho clic.</value>
+    <comment>[TEMP_TRAD] feature class was not found in the network you clicked.</comment>
+  </data>
+  <data name="GeoNetToolsMess_15f" xml:space="preserve">
+    <value>Puede que apuntara a la red incorrecta o necesite modificar la configuración para ajustarse a sus datos.</value>
+    <comment>Either you pointed to the wrong network or the configuration file needs to be modified to fit your data.</comment>
+  </data>
+  <data name="GeoNetToolsMess_16a" xml:space="preserve">
+    <value>No operativo</value>
+    <comment>No operable</comment>
+  </data>
+  <data name="GeoNetToolsMess_16b" xml:space="preserve">
+    <value>Agregue una</value>
+    <comment>Add a</comment>
+  </data>
+  <data name="GeoNetToolsMess_16c" xml:space="preserve">
+    <value> entidad en una ubicación apropiada de la red o</value>
+    <comment> feature at an appropriate location on the network or</comment>
+  </data>
+  <data name="GeoNetToolsMess_16d" xml:space="preserve">
+    <value> cambie su archivo de configuración para especificar una clase de entidad diferente para detener el análisis</value>
+    <comment> change your configuration file to specify a different feature class to use to stop the trace.</comment>
+  </data>
+  <data name="GeoNetToolsMess_16e" xml:space="preserve">
+    <value>Este problema puede estar causado por las barreras de la red</value>
+    <comment>This issue could be caused by the barriers on the network</comment>
+  </data>
+  <data name="GeoNetToolsMess_18a" xml:space="preserve">
+    <value>Creando la capa de resumen</value>
+    <comment>Creating the Summary Layer</comment>
+  </data>
+  <data name="GeoNetToolsMess_1a" xml:space="preserve">
+    <value>Dirección de flujo establecida en las</value>
+    <comment>[TEMP_TRAD]Flow direction established for</comment>
+  </data>
+  <data name="GeoNetToolsMess_1b" xml:space="preserve">
+    <value> redes geométricas.</value>
+    <comment>[TEMP_TRAD] geometric network(s).</comment>
+  </data>
+  <data name="GeoNetToolsMess_20a" xml:space="preserve">
+    <value>Buscando acumulación para</value>
+    <comment>Finding Accumulation for</comment>
+  </data>
+  <data name="GeoNetToolsMess_20b" xml:space="preserve">
+    <value>Acumulación de flujo para elemento con OID: </value>
+    <comment>Flow Accumulation for feature with OID:</comment>
+  </data>
+  <data name="GeoNetToolsMess_7" xml:space="preserve">
+    <value>Conectando entidades de</value>
+    <comment>Connecting Features from</comment>
+  </data>
+  <data name="GeoNetToolsProc_1" xml:space="preserve">
+    <value>Estableciendo flujo</value>
+    <comment>Setting Flow</comment>
+  </data>
+  <data name="GeoNetToolsProc_10" xml:space="preserve">
+    <value>Desconectando entidades</value>
+    <comment>Diconnecting Features</comment>
+  </data>
+  <data name="GeoNetToolsProc_13a" xml:space="preserve">
+    <value>Moviendo conexiones</value>
+    <comment>Moving Connections</comment>
+  </data>
+  <data name="GeoNetToolsProc_13b" xml:space="preserve">
+    <value>Obteniendo entidades conectadas</value>
+    <comment>Getting Connected Features</comment>
+  </data>
+  <data name="GeoNetToolsProc_13c" xml:space="preserve">
+    <value>Desconectando la principal</value>
+    <comment>Disconnecting the main</comment>
+  </data>
+  <data name="GeoNetToolsProc_13d" xml:space="preserve">
+    <value>Moviendo entidades</value>
+    <comment>Moving Features</comment>
+  </data>
+  <data name="GeoNetToolsProc_14a" xml:space="preserve">
+    <value>Análisis de flujo</value>
+    <comment>Trace Flow</comment>
+  </data>
+  <data name="GeoNetToolsProc_15a" xml:space="preserve">
+    <value>Buscando activos conectados</value>
+    <comment>Finding Connected Assets</comment>
+  </data>
+  <data name="GeoNetToolsProc_15b" xml:space="preserve">
+    <value>Guardando activos conectados</value>
+    <comment>Saving connected assets</comment>
+  </data>
+  <data name="GeoNetToolsProc_16a" xml:space="preserve">
+    <value>Obteniendo capas de válvulas y origen</value>
+    <comment>Getting Source and Valve Layers</comment>
+  </data>
+  <data name="GeoNetToolsProc_16b" xml:space="preserve">
+    <value>Buscando primeras válvulas</value>
+    <comment>[TEMP_TRAD]Finding first valves</comment>
+  </data>
+  <data name="GeoNetToolsProc_16c" xml:space="preserve">
+    <value>Estableciendo barreras en las válvulas operativas</value>
+    <comment>Setting barriers on operables valves</comment>
+  </data>
+  <data name="GeoNetToolsProc_16d" xml:space="preserve">
+    <value>Advertencia: no se han encontrado válvulas operativas</value>
+    <comment>Warning, no operable valves were found</comment>
+  </data>
+  <data name="GeoNetToolsProc_16e" xml:space="preserve">
+    <value>Estableciendo válvulas operativas como barreras</value>
+    <comment>Setting Operable Valves as Barriers</comment>
+  </data>
+  <data name="GeoNetToolsProc_16f" xml:space="preserve">
+    <value>Ejecutando el primer análisis</value>
+    <comment>Running first trace</comment>
+  </data>
+  <data name="GeoNetToolsProc_16g" xml:space="preserve">
+    <value>Guardando válvulas que detienen el análisis</value>
+    <comment>Saving valves that stopped the trace</comment>
+  </data>
+  <data name="GeoNetToolsProc_16h" xml:space="preserve">
+    <value>Analizando para encontrar el origen</value>
+    <comment>[TEMP_TRAD]Tracing to find the source</comment>
+  </data>
+  <data name="GeoNetToolsProc_16i" xml:space="preserve">
+    <value>Guardando orígenes</value>
+    <comment>Saving Sources</comment>
+  </data>
+  <data name="GeoNetToolsProc_16j" xml:space="preserve">
+    <value> cambie su archivo de configuración para especificar una clase de entidad diferente como posible origen.</value>
+    <comment> change your configuration file to specify a different feature class as a possible source.</comment>
+  </data>
+  <data name="GeoNetToolsProc_16k" xml:space="preserve">
+    <value>Trazando para encontrar orígenes accesibles</value>
+    <comment>Tracing to find reachable sources</comment>
+  </data>
+  <data name="GeoNetToolsProc_16l" xml:space="preserve">
+    <value>Estableciendo barreras para el trazado final</value>
+    <comment>Setting barriers for final trace</comment>
+  </data>
+  <data name="GeoNetToolsProc_16m" xml:space="preserve">
+    <value>Buscando orígenes accesibles directos</value>
+    <comment>Finding directly reachable sources</comment>
+  </data>
+  <data name="GeoNetToolsProc_16n" xml:space="preserve">
+    <value>Eliminando orígenes accesibles directos</value>
+    <comment>Removing directly reachable sources</comment>
+  </data>
+  <data name="GeoNetToolsProc_16o" xml:space="preserve">
+    <value> entidad puede ser accesible desde esta ubicación además de aquellas que sean aisladas por un apagón.</value>
+    <comment>[TEMP_TRAD] feature can be reached from this location other than those that would be isolated by a shutdown.</comment>
+  </data>
+  <data name="GeoNetToolsProc_16p" xml:space="preserve">
+    <value>Comprobando resultados</value>
+    <comment>Verifying Results</comment>
+  </data>
+  <data name="GeoNetToolsProc_16q" xml:space="preserve">
+    <value>Analizando para obtener resultados finales</value>
+    <comment>Tracing to get final results</comment>
+  </data>
+  <data name="GeoNetToolsProc_18a" xml:space="preserve">
+    <value>principales.</value>
+    <comment>mains.</comment>
+  </data>
+  <data name="GeoNetToolsProc_18b" xml:space="preserve">
+    <value>Analizando: </value>
+    <comment>Tracing:</comment>
+  </data>
+  <data name="GeoNetToolsProc_19a" xml:space="preserve">
+    <value>Creando gráfico de perfil</value>
+    <comment>Creating Profile Graph</comment>
+  </data>
+  <data name="GeoNetToolsProc_2" xml:space="preserve">
+    <value>Establecer flujo</value>
+    <comment>Establish Flow</comment>
+  </data>
+  <data name="GeoNetToolsProc_3" xml:space="preserve">
+    <value>Establecer flujo por la dirección digitalizada</value>
+    <comment>Establish Flow by Digitized Direction</comment>
+  </data>
+  <data name="GeoNetToolsProc_4" xml:space="preserve">
+    <value>Buscando red</value>
+    <comment>Finding Network</comment>
+  </data>
+  <data name="GeoNetToolsProc_5" xml:space="preserve">
+    <value>Buscando marcador</value>
+    <comment>Finding flag</comment>
+  </data>
+  <data name="GeoNetToolsProc_6" xml:space="preserve">
+    <value>Buscando barrera</value>
+    <comment>Finding barrier</comment>
+  </data>
+  <data name="GeoNetToolsProc_7" xml:space="preserve">
+    <value>Conectando entidades</value>
+    <comment>Connecting Features</comment>
+  </data>
+  <data name="GeoNetToolsProc_8" xml:space="preserve">
+    <value>Conectar selección</value>
+    <comment>Connect Selected</comment>
+  </data>
+  <data name="GeoNetToolsTitle_1" xml:space="preserve">
+    <value>Herramientas de red geométrica</value>
+    <comment>Geometric Network Tools</comment>
+  </data>
+  <data name="GeoNetToolsTitle_10" xml:space="preserve">
+    <value>Desconectando</value>
+    <comment>Diconnecting</comment>
+  </data>
+  <data name="GeoNetToolsTitle_11" xml:space="preserve">
+    <value>Comprobador de conexión</value>
+    <comment>Connection Checker</comment>
+  </data>
+  <data name="GeoNetToolsTitle_14a" xml:space="preserve">
+    <value>Buscar trazado conectado</value>
+    <comment>Find Connected Trace</comment>
+  </data>
+  <data name="GeoNetToolsTitle_14b" xml:space="preserve">
+    <value>Recorrido aguas abajo</value>
+    <comment>Downstream Trace</comment>
+  </data>
+  <data name="GeoNetToolsTitle_14c" xml:space="preserve">
+    <value>Recorrido aguas arriba</value>
+    <comment>Upstream Trace</comment>
+  </data>
+  <data name="GeoNetToolsTitle_15a" xml:space="preserve">
+    <value>Buscar más cercano</value>
+    <comment>Find Closest</comment>
+  </data>
+  <data name="GeoNetToolsTitle_16a" xml:space="preserve">
+    <value>Polígono de corte</value>
+    <comment>Isolation Trace</comment>
+  </data>
+  <data name="GeoNetToolsTitle_18a" xml:space="preserve">
+    <value>Procesando...</value>
+    <comment>Processing...</comment>
+  </data>
+  <data name="GeoNetToolsTitle_19a" xml:space="preserve">
+    <value>Analizando</value>
+    <comment>Tracing</comment>
+  </data>
+  <data name="GeoNetToolsTitle_7" xml:space="preserve">
+    <value>Conectando</value>
+    <comment>Connecting</comment>
+  </data>
+  <data name="GeoNetToolsWait_1" xml:space="preserve">
+    <value>Estableciendo dirección de flujo. Espere...</value>
+    <comment>Establishing flow direction. Please wait....</comment>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>en</value>
+    <comment> in</comment>
+  </data>
+  <data name="Is" xml:space="preserve">
+    <value> es </value>
+    <comment> is</comment>
+  </data>
+  <data name="IsNowOperable" xml:space="preserve">
+    <value>  ahora es </value>
+    <comment> is now</comment>
+  </data>
+  <data name="JunctionInThe" xml:space="preserve">
+    <value> nodo en</value>
+    <comment> junction in the</comment>
+  </data>
+  <data name="JunctionsInThe" xml:space="preserve">
+    <value> nodos en</value>
+    <comment> junctions in the</comment>
+  </data>
+  <data name="LambdaReturnStatement" xml:space="preserve">
+    <value>Error_The </value>
+    <comment>Error_The</comment>
+  </data>
+  <data name="LayerNotFoundReturnStatement" xml:space="preserve">
+    <value>Capa no encontrada en la red</value>
+    <comment>Layer no found in newtork</comment>
+  </data>
+  <data name="LineLength" xml:space="preserve">
+    <value>Longitud de línea:</value>
+    <comment>Line Length:</comment>
+  </data>
+  <data name="Load" xml:space="preserve">
+    <value>Cargar</value>
+    <comment>Load</comment>
+  </data>
+  <data name="LoadImg" xml:space="preserve">
+    <value>Cargando imagen</value>
+    <comment>loading an image</comment>
+  </data>
+  <data name="LV_1" xml:space="preserve">
+    <value>Visor de capa - LayerWindow: initAddin</value>
+    <comment>Layer Viewer - LayerWindow: initAddin</comment>
+  </data>
+  <data name="LW_1" xml:space="preserve">
+    <value>LayerWindow - New</value>
+    <comment>LayerWindow - New</comment>
+  </data>
+  <data name="LW_10" xml:space="preserve">
+    <value>LayerWindow - tbCntlDisplay_Resize</value>
+    <comment>LayerWindow - tbCntlDisplay_Resize</comment>
+  </data>
+  <data name="LW_11" xml:space="preserve">
+    <value>LayerWindow - CenterButton</value>
+    <comment>LayerWindow - CenterButton</comment>
+  </data>
+  <data name="LW_12" xml:space="preserve">
+    <value>LayerWindow - setButtonState</value>
+    <comment>LayerWindow - setButtonState</comment>
+  </data>
+  <data name="LW_2" xml:space="preserve">
+    <value>LayerWindow - s_BtnNextClick</value>
+    <comment>LayerWindow - s_BtnNextClick</comment>
+  </data>
+  <data name="LW_3" xml:space="preserve">
+    <value>LayerWindow - s_BtnZoomToClick</value>
+    <comment>LayerWindow - s_BtnZoomToClick</comment>
+  </data>
+  <data name="LW_4" xml:space="preserve">
+    <value>Layer Window - s_BtnPreviousClick</value>
+    <comment>Layer Window - s_BtnPreviousClick</comment>
+  </data>
+  <data name="LW_5" xml:space="preserve">
+    <value>Layer Window - s_BtnRefreshClick</value>
+    <comment>Layer Window - s_BtnRefreshClick</comment>
+  </data>
+  <data name="LW_7" xml:space="preserve">
+    <value>LayerWindow - LoadCursor</value>
+    <comment>LayerWindow - LoadCursor</comment>
+  </data>
+  <data name="LW_8" xml:space="preserve">
+    <value>LayerWindow - s_gpBoxOptions_Click</value>
+    <comment>LayerWindow - s_gpBoxOptions_Click</comment>
+  </data>
+  <data name="LW_9" xml:space="preserve">
+    <value>LayerWindow - s_cboLayers_SelectedIndexChanged</value>
+    <comment>LayerWindow - s_cboLayers_SelectedIndexChanged</comment>
+  </data>
+  <data name="Measure_1" xml:space="preserve">
+    <value>Todas las líneas seleccionadas de esta capa tendrán establecidas las medidas.</value>
+    <comment>Any selected lines in this layer will have it measures set.</comment>
+  </data>
+  <data name="MergeOprt_1" xml:space="preserve">
+    <value>Cargando Fusión de entidades</value>
+    <comment>Loading Merge Features</comment>
+  </data>
+  <data name="MergeOprt_2" xml:space="preserve">
+    <value>Cambiando Fusión de entidades</value>
+    <comment>Changing Merge Feature</comment>
+  </data>
+  <data name="MergeOprt_3" xml:space="preserve">
+    <value>Operación de fusión cancelada.\r\nLas geometrías de eje multiparte no son compatibles, las entidades seleccionadas pueden formar entidades multiparte.</value>
+    <comment>Merge operation aborted.\r\nMultipart edge geometries are not supported, selected features may form multipart feature.</comment>
+  </data>
+  <data name="MergeOprt_4" xml:space="preserve">
+    <value>Fusionar entidades de red</value>
+    <comment>Merge Network Features</comment>
+  </data>
+  <data name="MergeOprt_5" xml:space="preserve">
+    <value>fusionando entidades</value>
+    <comment>merging features</comment>
+  </data>
+  <data name="MergeOprt_6" xml:space="preserve">
+    <value> El campo mostrado se utiliza para fusionar las entidades, el campo contiene nulos, pruebe a establecer el campo Object ID como el campo mostrado</value>
+    <comment>The display field is used to merge the features, the field contains nulls, try setting the display field to the Object ID field</comment>
+  </data>
+  <data name="MergeSlct_1" xml:space="preserve">
+    <value>Elija la entidad en la que se fusionarán otras entidades</value>
+    <comment>Choose the feature with which other features will be merged</comment>
+  </data>
+  <data name="MergeSlct_2" xml:space="preserve">
+    <value>Fusionar los datos de elevación aguas arriba y aguas abajo cuando estén presentes.</value>
+    <comment>Merge Upstream and Downstream Elevation Data when present.</comment>
+  </data>
+  <data name="MustBEditg" xml:space="preserve">
+    <value>Debe editarse.</value>
+    <comment>Must be editing.</comment>
+  </data>
+  <data name="NbOfPts" xml:space="preserve">
+    <value>Número de puntos</value>
+    <comment>Number of points</comment>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ningún</value>
+    <comment>No</comment>
+  </data>
+  <data name="NoError" xml:space="preserve">
+    <value>No se han encontrado errores.</value>
+    <comment>No errors found.</comment>
+  </data>
+  <data name="NoFeaturesReturnStatement" xml:space="preserve">
+    <value>Error_No hay entidades</value>
+    <comment>Error_No features</comment>
+  </data>
+  <data name="NoFlagReturnStatement" xml:space="preserve">
+    <value>Error_No se han encontrado marcadores</value>
+    <comment>Error_No flags are found!</comment>
+  </data>
+  <data name="NoFtrFndOnClck" xml:space="preserve">
+    <value>No se ha encontrado una entidad en la ubicación en la que ha hecho clic</value>
+    <comment>A feature was not found at the location you clicked</comment>
+  </data>
+  <data name="NotIntersectReturnStatement" xml:space="preserve">
+    <value>Error_La ubicación no interseca una principal, pruebe otra vez.</value>
+    <comment>Error_The location does not intersect a main, please try again.</comment>
+  </data>
+  <data name="NoWaterSourceIdentifiedReturnStatement" xml:space="preserve">
+    <value>Error_No se pueden identificar orígenes de agua habilitados, asegúrese de que un origen válido alimenta este sistema y que el campo Enabled está establecido en verdadero (probablemente este sea el problema)</value>
+    <comment>[TEMP_TRAD]Error_No Enabled water sources can be identified, make sure a valid source is feeding this system and its Enabled field is set to true(this is probably the issue)</comment>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value> de </value>
+    <comment> of</comment>
+  </data>
+  <data name="OID" xml:space="preserve">
+    <value>Object ID:</value>
+    <comment>Object ID:</comment>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>Aceptar</value>
+    <comment>OK</comment>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Haga clic para opciones</value>
+    <comment>Click for options</comment>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value> o</value>
+    <comment> or</comment>
+  </data>
+  <data name="OutOf" xml:space="preserve">
+    <value> de </value>
+    <comment> out of</comment>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Página</value>
+    <comment>Page</comment>
+  </data>
+  <data name="Proceed" xml:space="preserve">
+    <value>¿Continuar?</value>
+    <comment>Proceed?</comment>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Consulta:</value>
+    <comment>Query:</comment>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Actualizar</value>
+    <comment>Refresh</comment>
+  </data>
+  <data name="Scale" xml:space="preserve">
+    <value>Escala:</value>
+    <comment>Scale:</comment>
+  </data>
+  <data name="SetValue" xml:space="preserve">
+    <value> (Establecer este valor primero)</value>
+    <comment> (Set This Value First)</comment>
+  </data>
+  <data name="SlctLbl_1" xml:space="preserve">
+    <value>Seleccione una configuración para cargar:</value>
+    <comment>Select a config to load:</comment>
+  </data>
+  <data name="SlctLbl_2" xml:space="preserve">
+    <value>Seleccione una congifuración para transferir atributo</value>
+    <comment>Select Config for Attribute Transfer</comment>
+  </data>
+  <data name="SlctMainFtr" xml:space="preserve">
+    <value>Seleccione una tubería del diálogo para fusionar</value>
+    <comment>[TEMP_TRAD]Please select a main to merge in the dialog</comment>
+  </data>
+  <data name="SlctOneFtr" xml:space="preserve">
+    <value>Debe tener una entidad seleccionada antes de continuar</value>
+    <comment>Must have one feature selected before continuing</comment>
+  </data>
+  <data name="SlctSrcAndTarget" xml:space="preserve">
+    <value>Seleccione una línea de origen y después una de destino</value>
+    <comment>Please Select a source and then a target line</comment>
+  </data>
+  <data name="SltByJctCountLbl_1" xml:space="preserve">
+    <value>Capas de nodos</value>
+    <comment>Junction Layers</comment>
+  </data>
+  <data name="SltByJctCountLbl_10" xml:space="preserve">
+    <value>X Max:</value>
+    <comment>X Max:</comment>
+  </data>
+  <data name="SltByJctCountLbl_11" xml:space="preserve">
+    <value>Y Max:</value>
+    <comment>Y Max:</comment>
+  </data>
+  <data name="SltByJctCountLbl_12" xml:space="preserve">
+    <value>X Min:</value>
+    <comment>X Min:</comment>
+  </data>
+  <data name="SltByJctCountLbl_13" xml:space="preserve">
+    <value>Definido por el usuario</value>
+    <comment>User Defined</comment>
+  </data>
+  <data name="SltByJctCountLbl_14" xml:space="preserve">
+    <value>Extensión actual</value>
+    <comment>Current Extent</comment>
+  </data>
+  <data name="SltByJctCountLbl_15" xml:space="preserve">
+    <value>Extensión total</value>
+    <comment>Full Extent</comment>
+  </data>
+  <data name="SltByJctCountLbl_16" xml:space="preserve">
+    <value>Cerrar</value>
+    <comment>Close</comment>
+  </data>
+  <data name="SltByJctCountLbl_17" xml:space="preserve">
+    <value>Seleccionar</value>
+    <comment>Select</comment>
+  </data>
+  <data name="SltByJctCountLbl_18" xml:space="preserve">
+    <value>Recuento de ejes</value>
+    <comment>Edge Count</comment>
+  </data>
+  <data name="SltByJctCountLbl_19" xml:space="preserve">
+    <value>Recuento máximo</value>
+    <comment>[TEMP_TRAD]Maximum Edge Count</comment>
+  </data>
+  <data name="SltByJctCountLbl_2" xml:space="preserve">
+    <value>Seleccionar todo</value>
+    <comment>Select All</comment>
+  </data>
+  <data name="SltByJctCountLbl_20" xml:space="preserve">
+    <value>Recuento mínimo</value>
+    <comment>[TEMP_TRAD]Minimum Edge Count</comment>
+  </data>
+  <data name="SltByJctCountLbl_21" xml:space="preserve">
+    <value>Seleccionar nodo por recuento de ejes</value>
+    <comment>Select Junction by Edge Count</comment>
+  </data>
+  <data name="SltByJctCountLbl_22" xml:space="preserve">
+    <value>Seleccionar por nodo</value>
+    <comment>Select by Junction</comment>
+  </data>
+  <data name="SltByJctCountLbl_3" xml:space="preserve">
+    <value>Borrar selección de todo</value>
+    <comment>Deselect All</comment>
+  </data>
+  <data name="SltByJctCountLbl_4" xml:space="preserve">
+    <value>Opciones de selección</value>
+    <comment>Selection Options</comment>
+  </data>
+  <data name="SltByJctCountLbl_5" xml:space="preserve">
+    <value>label10</value>
+    <comment>label10</comment>
+  </data>
+  <data name="SltByJctCountLbl_6" xml:space="preserve">
+    <value>label9</value>
+    <comment>label9</comment>
+  </data>
+  <data name="SltByJctCountLbl_7" xml:space="preserve">
+    <value>Y Min:</value>
+    <comment>Y Min:</comment>
+  </data>
+  <data name="SltByJctCountLbl_8" xml:space="preserve">
+    <value>label7</value>
+    <comment>label7</comment>
+  </data>
+  <data name="SltByJctCountLbl_9" xml:space="preserve">
+    <value>label6</value>
+    <comment>label6</comment>
+  </data>
+  <data name="SltByJctCountMess_1" xml:space="preserve">
+    <value> nodos han sido seleccionados</value>
+    <comment> junctions were selected</comment>
+  </data>
+  <data name="SltByJctCountProc_1" xml:space="preserve">
+    <value>Seleccionando nodos por recuento de eje</value>
+    <comment>Selecting junctions by edge count</comment>
+  </data>
+  <data name="SltByJctCountProc_2" xml:space="preserve">
+    <value>Seleccionando nodos de</value>
+    <comment>Selecting junctions for</comment>
+  </data>
+  <data name="SltByJctCountProc_3" xml:space="preserve">
+    <value>Comprobando entidad</value>
+    <comment>Checking feature</comment>
+  </data>
+  <data name="SourceFrom" xml:space="preserve">
+    <value>Origen de</value>
+    <comment>Source from</comment>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value> Paso: </value>
+    <comment> Step:</comment>
+  </data>
+  <data name="StrtEditing" xml:space="preserve">
+    <value>Inicie la edición</value>
+    <comment>Please Start Editing</comment>
+  </data>
+  <data name="SubTpChange" xml:space="preserve">
+    <value>cambio de subtipo</value>
+    <comment>subtype change</comment>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>English</value>
+    <comment>[NO_TRAD]English</comment>
+  </data>
+  <data name="TOC_1" xml:space="preserve">
+    <value>La capa resaltada en la tabla de contenidos debe ser una capa de entidad.</value>
+    <comment>The highlighted layer in the TOC must be a feature layer.</comment>
+  </data>
+  <data name="TOC_2" xml:space="preserve">
+    <value>La capa resaltada en la tabla de contenidos debe contener líneas.</value>
+    <comment>The highlighted layer in the TOC must contain lines.</comment>
+  </data>
+  <data name="TOC_3" xml:space="preserve">
+    <value>La capa resaltada en la tabla de contenidos debe formar parte de una red geométrica.</value>
+    <comment>The highlighted layer in the TOC must be part of a geometric network.</comment>
+  </data>
+  <data name="TOC_5" xml:space="preserve">
+    <value>Las líneas seleccionadas de esta capa se fusionarán.</value>
+    <comment>Any selected lines in this layer will be merged.</comment>
+  </data>
+  <data name="TOC_6" xml:space="preserve">
+    <value>Debe tener una capa resaltada en la tabla de contenidos</value>
+    <comment>You must have one higlighted layer in the TOC.</comment>
+  </data>
+  <data name="ValveFrom" xml:space="preserve">
+    <value>Valor </value>
+    <comment>Valve from</comment>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Advertencia</value>
+    <comment>Warning</comment>
+  </data>
+  <data name="WithOID" xml:space="preserve">
+    <value> con un OID de</value>
+    <comment> with an OID of</comment>
+  </data>
+  <data name="ZoomOn" xml:space="preserve">
+    <value>Hacer zoom al cambio de registro</value>
+    <comment>Zoom on record change</comment>
+  </data>
+  <data name="ZoomTo" xml:space="preserve">
+    <value>Hacer zoom a</value>
+    <comment>[TEMP_TRAD]Zoom To</comment>
+  </data>
+  <data name="lstValueFormText" xml:space="preserve">
+    <value>Seleccionar la entrada de Último Valor a cambiar, utilizar &lt;null&gt; para valores null.</value>
+    <comment>Select the Last Value entry to change, use &lt;null&gt; for null.</comment>
+  </data>
+  <data name="lstValueFormTitle" xml:space="preserve">
+    <value>Array de Último Valor</value>
+    <comment>Last Value Array</comment>
+  </data>
+  <data name="AAOptionDialogOption" xml:space="preserve">
+    <value>Seleccionar una opción</value>
+    <comment>Select Option</comment>
+  </data>
+  <data name="AAOptionDialogTemplate" xml:space="preserve">
+    <value>Seleccionar una plantilla</value>
+    <comment>Select Template</comment>
+  </data>
+  <data name="ConfigDlgConfigFiles" xml:space="preserve">
+    <value>Archivos de configuración</value>
+    <comment>Configuration Files</comment>
+  </data>
+  <data name="ConfigDlgFilePath" xml:space="preserve">
+    <value>Ruta del archivo de configuración</value>
+    <comment>Config File Path</comment>
+  </data>
+  <data name="ConfigDlgLoad" xml:space="preserve">
+    <value>Cargar</value>
+    <comment>Load</comment>
+  </data>
+  <data name="ConfigDlgLoadedConfig" xml:space="preserve">
+    <value>Archivo de configuración cargado</value>
+    <comment>Loaded Config</comment>
+  </data>
+  <data name="ConfigDlgLogFile" xml:space="preserve">
+    <value>Archivo de log</value>
+    <comment>Log File</comment>
+  </data>
+  <data name="ConfigDlgNote" xml:space="preserve">
+    <value>Nota: Debe tener apagado el AA para abrir este archivo.</value>
+    <comment>Note:  You must have the AA turned off to open this file</comment>
+  </data>
+  <data name="ConfigDlgOpenLoc" xml:space="preserve">
+    <value>Abrir ubicación</value>
+    <comment>Open Location</comment>
+  </data>
+  <data name="ConfigDlgPreview" xml:space="preserve">
+    <value>Previsualizar</value>
+    <comment>Preview</comment>
+  </data>
+  <data name="ConfigDlgText" xml:space="preserve">
+    <value>Archivos de configuración y de log</value>
+    <comment>Config and Log File Dialog</comment>
+  </data>
+  <data name="GeoNetToolsBatchBarrier" xml:space="preserve">
+    <value>Seleccionar una capa desde la que cargar barreras</value>
+    <comment>Select a layer to load barriers from</comment>
+  </data>
+  <data name="traceLayerName" xml:space="preserve">
+    <value>Trace Results</value>
+     <comment>Needs Localization</comment>
+  </data>
+  <data name="OutageAreaName" xml:space="preserve">
+    <value>Trace Area</value>
+    <comment>Needs Localization</comment>
+  </data>
+  <data name="IsoTraceResultsLayerSuffix" xml:space="preserve">
+    <value>resultados</value>
+  </data>
+  <data name="TraceResultsCount" xml:space="preserve">
+    <value>This results contains {0} features, do you want to draw the results, this could take a long time?</value>
+    <comment>Needs translation</comment>
+  </data>
+</root>
