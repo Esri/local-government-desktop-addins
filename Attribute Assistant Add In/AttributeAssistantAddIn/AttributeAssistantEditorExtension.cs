@@ -150,7 +150,7 @@ namespace ArcGIS4LocalGovernment
         // Declare configuration variables 
         public static string _defaultsTableName = "DynamicValue";
         public static string _sequenceTableName = "GenerateId";
-
+        public static bool setOff = true;
         public static void setIcon()
         {
             try
@@ -164,6 +164,20 @@ namespace ArcGIS4LocalGovernment
 
                     return;
 
+                if (setOff) {
+                    if (AAState.PerformUpdates) {
+                        AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOn);
+                        AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1a");
+                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1a"));
+                    }
+                    else {
+                        AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
+                        AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b");
+                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
+                    }
+                    setOff = false;
+                    
+                }
                 if (AAState.PerformUpdates && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_1"))) //on
                 {
 
@@ -173,7 +187,8 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1a"));
 
                 }
-                else if (AAState.PerformUpdates == false && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_2")) && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_3"))) //off
+                else if (AAState.PerformUpdates == false && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_2")) && 
+                    !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_3"))) //off
                 {
 
                     AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
@@ -181,6 +196,7 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
 
                 }
+               
                 else if (AAState.commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_4"))) //startup
                 {
 
@@ -201,6 +217,16 @@ namespace ArcGIS4LocalGovernment
                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
 
                     }
+                }
+                else if (AAState.PerformUpdates == false && 
+                    commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_2")) &&
+                     !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b"))) //off
+                {
+
+                    AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
+                    AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b");
+                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
+
                 }
             }
             catch (Exception ex)
@@ -1120,6 +1146,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.setOff = true;
                 AAState.setIcon();
             }
             catch { }
@@ -5894,6 +5921,7 @@ namespace ArcGIS4LocalGovernment
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "NEAREST_FEATURE_ATTRIBUTES");
                                                 try
                                                 {
+                                                    bool resetToDefault = false;
                                                     if ((valData != null) && (inFeature != null))
                                                     {
                                                         sourceLayerName = "";
@@ -5917,6 +5945,14 @@ namespace ArcGIS4LocalGovernment
                                                             sourceFieldNames = args[1].ToString().Split(',');
                                                             destFieldNames = args[2].ToString().Split(',');
                                                             Double.TryParse(args[3], out searchDistance);
+                                                        }
+                                                        else if (args.Length == 5)
+                                                        {
+                                                            sourceLayerName = args[0].ToString().Trim();
+                                                            sourceFieldNames = args[1].ToString().Split(',');
+                                                            destFieldNames = args[2].ToString().Split(',');
+                                                            Double.TryParse(args[3], out searchDistance);
+                                                            resetToDefault = args[4].ToString().ToUpper() == "TRUE" ? true : false;
                                                         }
                                                         else
                                                         {
@@ -6105,7 +6141,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                             }
                                                                         }
-                                                                        else
+                                                                        else if (resetToDefault)
                                                                         {
                                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain88"));
 

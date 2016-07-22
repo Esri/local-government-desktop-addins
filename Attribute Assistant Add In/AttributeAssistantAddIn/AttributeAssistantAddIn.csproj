@@ -271,22 +271,6 @@
   <ItemGroup>
     <AddInContent Include="Images\Config2.png" />
     <AddInContent Include="Config.es-ES.xml" />
-    <Content Include="Images\Old\AttributeAssistantAddIn.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOff.bmp" />
-    <Content Include="Images\Old\AttributeAssistantToogleOff.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOn.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnOff.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnRes.bmp" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnRes.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnSolidOff.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnSolidOffAddIn.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnSolidOn.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnSolidOnAddin.png" />
-    <Content Include="Images\Old\LoadLastValue.png" />
-    <Content Include="Images\Old\RunChangeRules.png" />
-    <Content Include="Images\Old\RunChangeRules2.png" />
-    <Content Include="Images\Old\RunChangeRules3.png" />
-    <Content Include="Images\Old\RunChangeRules5.png" />
     <AddInContent Include="Images\RunChangeGeoRules.png" />
     <AddInContent Include="Images\RunCreateRules.png" />
     <AddInContent Include="Images\RunManualRules.png" />
@@ -296,6 +280,7 @@
       <Link>loaded.aa.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <AddInContent Include="Config.de-DE.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\Configs\loaded.water.config">
