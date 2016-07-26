@@ -564,6 +564,14 @@ namespace A4LGSharedFunctions
 
     public static class Globals
     {
+
+         public static string GetActiveDocumentPath(IApplication application)
+        {
+            // The active document is always the last template  
+            ITemplates templates = application.Templates;
+            return templates.get_Item(templates.Count - 1);
+        }    
+  
         public static IGroupLayer AddGNResultClasses(IGeometricNetwork geomNetwork, IApplication app, string ID, System.DateTime dateTimeValue, string IDFieldName, string DateFieldName, out string suffix, bool addAllLayers, bool removeMZ)
         {
             IEnumFeatureClass enumFC = null;
