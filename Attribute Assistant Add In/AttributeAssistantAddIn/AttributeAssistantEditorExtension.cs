@@ -13171,7 +13171,7 @@ namespace ArcGIS4LocalGovernment
                                             try
                                             {
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FEATURE_STATS");
-                                                if (inFeature != null & valData != null)
+                                                if (inObject != null & valData != null)
                                                 {
 
                                                     sourceFieldName = "";
