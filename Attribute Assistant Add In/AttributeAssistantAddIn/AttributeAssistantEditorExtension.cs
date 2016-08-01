@@ -11854,28 +11854,35 @@ namespace ArcGIS4LocalGovernment
                                                         autoCommit = args[5].ToString().Trim().ToLower() == "true" ? true : false;
 
                                                     }
-                                                    int countFld = 1;
-                                                    if (args.Length == 6)
+                                                    else if (args.Length == 7)
                                                     {
+                                                        autoCommit = args[6].ToString().Trim().ToLower() == "true" ? true : false;
 
-                                                        if (!Globals.IsNumeric(args[5].ToString().Trim()))
+                                                    }
+                                                    int countFld = 1;
+                                                    if (args.Length >= 6)
+                                                    {
+                                                        if (args[5].ToString().Trim() != "")
                                                         {
-                                                            int fldx = Globals.GetFieldIndex(inObject.Fields, args[5].ToString().Trim());
-
-                                                            if (fldx > 0)
+                                                            if (!Globals.IsNumeric(args[5].ToString().Trim()))
                                                             {
-                                                                string tempVal = inObject.get_Value(fldx).ToString();
-                                                                if (Globals.IsNumeric(tempVal))
-                                                                    countFld = Convert.ToInt32(tempVal);
+                                                                int fldx = Globals.GetFieldIndex(inObject.Fields, args[5].ToString().Trim());
 
+                                                                if (fldx > 0)
+                                                                {
+                                                                    string tempVal = inObject.get_Value(fldx).ToString();
+                                                                    if (Globals.IsNumeric(tempVal))
+                                                                        countFld = Convert.ToInt32(tempVal);
+
+
+                                                                }
 
                                                             }
+                                                            else
+                                                            {
+                                                                countFld = Convert.ToInt32(args[5].ToString().Trim());
 
-                                                        }
-                                                        else
-                                                        {
-                                                            countFld = Convert.ToInt32(args[5].ToString().Trim());
-
+                                                            }
                                                         }
 
                                                     }
