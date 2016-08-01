@@ -13188,7 +13188,7 @@ namespace ArcGIS4LocalGovernment
                                                     // Parse arguments
                                                     args = valData.Split('|');
                                                     int AverageCount = 0;
-                                                    if (args.GetLength(0) > 1)
+                                                    if (args.Length > 1)
                                                     {
                                                         string delim = ",";
                                                         string sortOrder = "none";
@@ -13197,11 +13197,11 @@ namespace ArcGIS4LocalGovernment
 
                                                         string[] sourceFieldNames = args[0].ToString().Split(',');
                                                         string statType = args[1].ToString();
-                                                        if (args.GetLength(0) >= 2)
+                                                        if (args.Length > 2)
                                                         {
                                                             delim = args[2].ToString();
                                                         }
-                                                        if (args.GetLength(0) >= 3)
+                                                        if (args.Length > 3)
                                                         {
                                                             sortOrder = args[3].ToString();
                                                         }
