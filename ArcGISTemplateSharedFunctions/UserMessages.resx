@@ -133,7 +133,7 @@
     <value>12/6/2013</value>
   </data>
   <data name="AddInDesc" xml:space="preserve">
-    <value>ArcMap tools for Water, Wastewater and Stormwater</value>
+    <value>ArcMap tools for Water, Wastewater, and Stormwater</value>
   </data>
   <data name="AddInName" xml:space="preserve">
     <value>Water Utility Network Tools</value>
@@ -199,7 +199,7 @@
     <value>Unable to add lines.</value>
   </data>
   <data name="ConstructionToolsError_2" xml:space="preserve">
-    <value>Mains and target lines muct be in different feature classes.</value>
+    <value>Mains and target lines must be in different feature classes.</value>
   </data>
   <data name="ConstructionToolsError_3" xml:space="preserve">
     <value> is not a polygon layer</value>
@@ -244,13 +244,13 @@
     <value>Add Laterals Taps</value>
   </data>
   <data name="ConstructionToolsMess_1" xml:space="preserve">
-    <value>Layer representing mains was not found.  Configuration indicated feature class name: </value>
+    <value>Layer representing mains was not found. Configuration indicated feature class name: </value>
   </data>
   <data name="ConstructionToolsMess_2" xml:space="preserve">
     <value>Layer representing mains was not a line layer: </value>
   </data>
   <data name="ConstructionToolsMess_3" xml:space="preserve">
-    <value>Layer representing target lines was not found.  Configuration indicated feature class name: </value>
+    <value>Layer representing target lines was not found. Configuration indicated feature class name: </value>
   </data>
   <data name="ConstructionToolsMess_4" xml:space="preserve">
     <value>Layer representing target lines is not a line layer: </value>
@@ -313,7 +313,7 @@
     <value>Export to Excel</value>
   </data>
   <data name="ExportXLError" xml:space="preserve">
-    <value>there was an error export to Excel, verify you have 2003 or newer of excel installed</value>
+    <value>there was an error export to Excel; verify you have Excel 2003 or later installed</value>
   </data>
   <data name="FeatNotFound" xml:space="preserve">
     <value>No Features Found</value>
@@ -346,7 +346,7 @@
     <value>The highlighted layer does not support Measures.</value>
   </data>
   <data name="GeometryToolsError_4" xml:space="preserve">
-    <value>No features are selected in the highlighed layer.</value>
+    <value>No features are selected in the highlighted layer.</value>
   </data>
   <data name="GeometryToolsError_5" xml:space="preserve">
     <value> Has null geometry</value>
@@ -358,7 +358,7 @@
     <value>No Editable lines with selected features where found</value>
   </data>
   <data name="GeometryToolsError_8" xml:space="preserve">
-    <value>There was an error creating the jump, this usually occurs when two more intersecting lines are to close.  The resulting jump may have an invalid gemeotry, check the sketch(double click to show the vertex's and make sure the geometry looks the same)</value>
+    <value>There was an error creating the jump; this usually occurs when two more intersecting lines are too close. The resulting jump may have an invalid geometry; check the sketch (double click to show the vertices and make sure the geometry looks the same).</value>
   </data>
   <data name="GeometryToolsError_9" xml:space="preserve">
     <value>The selected Segment is not long enough to create the jump</value>
@@ -451,7 +451,7 @@
     <value>Ground Elevation</value>
   </data>
   <data name="GeoNetToolsAlias_11" xml:space="preserve">
-    <value>Facilty ID</value>
+    <value>Facility ID</value>
   </data>
   <data name="GeoNetToolsAlias_12" xml:space="preserve">
     <value>Measure</value>
@@ -649,7 +649,7 @@
     <value>Must be editing the workspace containing </value>
   </data>
   <data name="GeoNetToolsError_20c" xml:space="preserve">
-    <value>The config does not contain any entries for the accumlation trace</value>
+    <value>The config does not contain any entries for the accumulation trace</value>
   </data>
   <data name="GeoNetToolsError_20d" xml:space="preserve">
     <value> does not contain </value>
@@ -853,7 +853,7 @@
     <value>Finding first valves</value>
   </data>
   <data name="GeoNetToolsProc_16c" xml:space="preserve">
-    <value>Setting barriers on operables valves</value>
+    <value>Setting barriers on operable valves</value>
   </data>
   <data name="GeoNetToolsProc_16d" xml:space="preserve">
     <value>Warning, no operable valves were found</value>
@@ -982,7 +982,7 @@
     <value>Error_The </value>
   </data>
   <data name="LayerNotFoundReturnStatement" xml:space="preserve">
-    <value>Layer no found in newtork</value>
+    <value>Layer no found in network</value>
   </data>
   <data name="LineLength" xml:space="preserve">
     <value>Line Length:</value>
@@ -1240,7 +1240,7 @@
     <value>Any selected lines in this layer will be merged.</value>
   </data>
   <data name="TOC_6" xml:space="preserve">
-    <value>You must have one higlighted layer in the TOC.</value>
+    <value>You must have one highlighted layer in the TOC.</value>
   </data>
   <data name="ValveFrom" xml:space="preserve">
     <value>Value </value>
@@ -1258,7 +1258,7 @@
     <value>Zoom To</value>
   </data>
   <data name="AttributeAssistantAsk_2a" xml:space="preserve">
-    <value>Are you sure you wish to apply attribute assistant Change rules for the selected </value>
+    <value>Are you sure you wish to apply Attribute Assistant Change rules for the selected </value>
   </data>
   <data name="AttributeAssistantAsk_2b" xml:space="preserve">
     <value> rows and features?</value>
@@ -1273,7 +1273,7 @@
     <value>Attribute Assistant is activated</value>
   </data>
   <data name="AttributeAssistantMess_1c" xml:space="preserve">
-    <value>Attribute Assistant is being actived from suspended</value>
+    <value>Attribute Assistant is being activated from suspended</value>
   </data>
   <data name="AttributeAssistantMess_1d" xml:space="preserve">
     <value>Attribute Assistant is not suspended</value>
@@ -1282,7 +1282,7 @@
     <value>Attribute Assistant is suspended</value>
   </data>
   <data name="AttributeAssistantMess_1f" xml:space="preserve">
-    <value>Please turn on the attribute assistant before using this tool</value>
+    <value>Please turn on the Attribute Assistant before using this tool</value>
   </data>
   <data name="AttributeAssistantMess_1g" xml:space="preserve">
     <value>Please start editing to run this tool</value>
@@ -1300,10 +1300,10 @@
     <value>en-US</value>
   </data>
   <data name="AttributeAssistantAsk_3a" xml:space="preserve">
-    <value>Are you sure you wish to apply attribute assistant manual rules for the selected </value>
+    <value>Are you sure you wish to apply Attribute Assistant manual rules for the selected </value>
   </data>
   <data name="AttributeAssistantAsk_4a" xml:space="preserve">
-    <value>Are you sure you wish to apply attribute assistant Create rules for the selected </value>
+    <value>Are you sure you wish to apply Attribute Assistant Create rules for the selected </value>
   </data>
   <data name="AttributeAssistantDone_2a" xml:space="preserve">
     <value>Run Change Rules - Features</value>
@@ -1795,10 +1795,10 @@
     <value>Asset feature Layer Field</value>
   </data>
   <data name="AttributeAssistantEditorError_14s" xml:space="preserve">
-    <value>No assests selected in </value>
+    <value>No assets selected in </value>
   </data>
   <data name="AttributeAssistantEditorError_14t" xml:space="preserve">
-    <value>To many assests are selected in </value>
+    <value>To many assets are selected in </value>
   </data>
   <data name="AttributeAssistantEditorError_14u" xml:space="preserve">
     <value>Asset  Layer</value>
@@ -1852,7 +1852,7 @@
     <value>Not a Geometric Network Feature</value>
   </data>
   <data name="AttributeAssistantEditorMess_14bl" xml:space="preserve">
-    <value>Values dont match Match</value>
+    <value>Values do not match Match</value>
   </data>
   <data name="AttributeAssistantEditorMess_14bm" xml:space="preserve">
     <value>Missing Field restriction and value info</value>
@@ -1945,10 +1945,10 @@
     <value>Setting the value to 1</value>
   </data>
   <data name="AttributeAssistantEditorMess_14cq" xml:space="preserve">
-    <value>Incrimented to </value>
+    <value>Incremented to </value>
   </data>
   <data name="AttributeAssistantEditorMess_14cr" xml:space="preserve">
-    <value>Trying to Incriment </value>
+    <value>Trying to Increment </value>
   </data>
   <data name="AttributeAssistantEditorMess_14cs" xml:space="preserve">
     <value>Value is numeric</value>
@@ -1975,10 +1975,10 @@
     <value>GetConfigDataTable: </value>
   </data>
   <data name="AttributeAssistantEditorChain1" xml:space="preserve">
-    <value>createLastValueProperrtySet: </value>
+    <value>createLastValuePropertySet: </value>
   </data>
   <data name="AttributeAssistantEditorChain2" xml:space="preserve">
-    <value>promptLastValueProperrtySet: </value>
+    <value>promptLastValuePropertySet: </value>
   </data>
   <data name="AttributeAssistantEditorChain3" xml:space="preserve">
     <value>StopOperation:</value>
@@ -1996,7 +1996,7 @@
     <value>AddSelected</value>
   </data>
   <data name="AttributeAssistantEditorChain9" xml:space="preserve">
-    <value>Attribute Assistant has failed or was cancelled</value>
+    <value>Attribute Assistant has failed or was canceled</value>
   </data>
   <data name="AttributeAssistantEditorChain10" xml:space="preserve">
     <value>Checking rules for edited feature: </value>
@@ -2098,7 +2098,7 @@
     <value>                  User declined prompt</value>
   </data>
   <data name="AttributeAssistantEditorChain43" xml:space="preserve">
-    <value>                  Prompt surpressed</value>
+    <value>                  Prompt suppressed</value>
   </data>
   <data name="AttributeAssistantEditorChain44" xml:space="preserve">
     <value>                  COPY_FEATURE: Field listed in the Field Name did not change, skipping</value>
@@ -2467,7 +2467,7 @@
     <value>                  ERROR: Value info is not correct</value>
   </data>
   <data name="AttributeAssistantEditorChain166" xml:space="preserve">
-    <value>                  Text is to long, defaulting to length along: </value>
+    <value>                  Text is too long, defaulting to length along: </value>
   </data>
   <data name="AttributeAssistantEditorChain167" xml:space="preserve">
     <value>                  Value set to: </value>
@@ -2479,7 +2479,7 @@
     <value>                  Searching the layer</value>
   </data>
   <data name="AttributeAssistantEditorChain170" xml:space="preserve">
-    <value>                  There is a seleciton set, only checking selected features</value>
+    <value>                  There is a selection set, only checking selected features</value>
   </data>
   <data name="AttributeAssistantEditorChain171" xml:space="preserve">
     <value>                  Searching the feature class</value>
