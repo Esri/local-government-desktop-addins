@@ -3691,7 +3691,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     }
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain35") + strFldNames[0]);
-                                                    string res = Globals.GetFieldStats(inObject.Class as IFeatureClass, strFldNames[0], Globals.statsType.Max);
+                                                    string res = Globals.GetFieldStats(inObject, strFldNames[0], Globals.statsType.Max);
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain36") + res);
                                                     if (res == "External component has thrown an exception.")
                                                     {
