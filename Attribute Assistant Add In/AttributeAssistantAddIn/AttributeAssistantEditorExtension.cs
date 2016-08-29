@@ -31,6 +31,7 @@ using System.Xml;
 using System.Runtime.Serialization.Json;
 using System.Text.RegularExpressions;
 using ESRI.ArcGIS.ADF;
+//using ESRI.ArcGIS.ADF.Local;
 using ESRI.ArcGIS.CartoUI;
 using ESRI.ArcGIS.ArcMapUI;
 using ESRI.ArcGIS.ArcMap;
@@ -43,7 +44,6 @@ using ESRI.ArcGIS.GeoDatabaseExtensions;
 using ESRI.ArcGIS.GeoDatabaseUI;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.esriSystem;
-using ESRI.ArcGIS.ADF;
 using ESRI.ArcGIS.DataSourcesRaster;
 using ESRI.ArcGIS.Location;
 using System.Drawing;
@@ -186,6 +186,7 @@ namespace ArcGIS4LocalGovernment
 
 
                     AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOn);
+                    
                     AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1a");
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1a"));
 
@@ -3691,7 +3692,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     }
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain35") + strFldNames[0]);
-                                                    string res = Globals.GetFieldStats(inObject.Class as IFeatureClass, strFldNames[0], Globals.statsType.Max);
+                                                    string res = Globals.GetFieldStats(inObject, strFldNames[0], Globals.statsType.Max);
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain36") + res);
                                                     if (res == "External component has thrown an exception.")
                                                     {
@@ -16262,8 +16263,8 @@ namespace ArcGIS4LocalGovernment
         public long unversionedEdit(IQueryFilter qFilterGen, int sequenceColumnNum, int idxSeqField, int curLoop, ref ITransactions transactions)
         {
             long sequenceValue = -1;
-            using (ComReleaser comReleaser = new ComReleaser())
-            {
+            //using (ComReleaser comReleaser = new ComReleaser())
+            //{
 
                 if (AAState._gentabWorkspace.IsInEditOperation)
                 {
@@ -16276,11 +16277,12 @@ namespace ArcGIS4LocalGovernment
                 }
 
                 transactions.StartTransaction();
+                ICursor seq_updateCursor = null;
                 try
                 {
                     // Use ITable.Update to create an update cursor.
-                    ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, true);
-                    comReleaser.ManageLifetime(seq_updateCursor);
+                    seq_updateCursor = AAState._gentab.Update(qFilterGen, true);
+                    //comReleaser.ManageLifetime(seq_updateCursor);
 
                     IRow seq_row = null;
                     seq_row = seq_updateCursor.NextRow();
@@ -16380,6 +16382,7 @@ namespace ArcGIS4LocalGovernment
                         transactions.AbortTransaction();
                         return -1;
                     }
+
                 }
                 catch (COMException comExc)
                 {
@@ -16389,9 +16392,15 @@ namespace ArcGIS4LocalGovernment
                     transactions.AbortTransaction();
                     return -1;
                 }
+                finally {
+                    if (seq_updateCursor != null)
+                    {
+                        Marshal.ReleaseComObject(seq_updateCursor);
+                    }
+                }
 
-
-            }
+               
+           // }
 
         }
         #endregion

@@ -9736,7 +9736,7 @@ namespace A4LGSharedFunctions
 
         };
 
-        public static string GetFieldStats(IFeatureClass inClass, string FldName, statsType statType)
+        public static string GetFieldStats(IObject inObject, string FldName, statsType statType)
         {
             ICursor cursor = null;
             IDataStatistics dataStatistics = null;
@@ -9744,7 +9744,18 @@ namespace A4LGSharedFunctions
             ESRI.ArcGIS.esriSystem.IStatisticsResults statisticsResults = null;
             try
             {
-                cursor = (ICursor)inClass.Search(null, false);
+                if (inObject.Class is IFeatureClass) {
+
+                    cursor = (ICursor)(inObject.Class as IFeatureClass).Search(null, false);
+                }
+                else if (inObject.Class is ITable)
+                {
+                    cursor = (ICursor)(inObject.Class as ITable).Search(null, false);
+
+                }
+                else {
+                    return null;
+                }
 
                 dataStatistics = new DataStatisticsClass();
                 dataStatistics.Field = FldName;
