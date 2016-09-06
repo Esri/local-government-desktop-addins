@@ -270,7 +270,9 @@
   </ItemGroup>
   <ItemGroup>
     <AddInContent Include="Images\Config2.png" />
-    <AddInContent Include="Config.es-ES.xml" />
+    <AddInContent Include="Config.es-ES.xml">
+      <SubType>Designer</SubType>
+    </AddInContent>
     <AddInContent Include="Images\RunChangeGeoRules.png" />
     <AddInContent Include="Images\RunCreateRules.png" />
     <AddInContent Include="Images\RunManualRules.png" />
@@ -280,7 +282,9 @@
       <Link>loaded.aa.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <AddInContent Include="Config.de-DE.xml" />
+    <AddInContent Include="Config.de-DE.xml">
+      <SubType>Designer</SubType>
+    </AddInContent>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\Configs\loaded.water.config">

@@ -284,8 +284,12 @@
   </ItemGroup>
   <ItemGroup>
     <AddInContent Include="Images\BatchBarrier.png" />
-    <AddInContent Include="Config.es-ES.xml" />
-    <AddInContent Include="Config.fr-FR.xml" />
+    <AddInContent Include="Config.es-ES.xml">
+      <SubType>Designer</SubType>
+    </AddInContent>
+    <AddInContent Include="Config.fr-FR.xml">
+      <SubType>Designer</SubType>
+    </AddInContent>
     <Content Include="..\Configs\loaded.gas.config">
       <Link>loaded.gas.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

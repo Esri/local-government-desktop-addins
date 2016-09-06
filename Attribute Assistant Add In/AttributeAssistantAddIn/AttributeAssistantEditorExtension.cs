@@ -151,6 +151,11 @@ namespace ArcGIS4LocalGovernment
         public static string _defaultsTableName = "DynamicValue";
         public static string _sequenceTableName = "GenerateId";
         public static bool setOff = true;
+
+        public static string _seqNameField = "SEQNAME";
+        public static string _seqCounterField = "SEQCOUNTER";
+        public static string _seqIntervalField = "SEQINTERV";
+
         public static void setIcon()
         {
             try
@@ -1094,6 +1099,9 @@ namespace ArcGIS4LocalGovernment
                 AAState._clearLastValue = false;
 
 
+            AAState._seqNameField = ConfigUtil.GetConfigValue("SequenceName", AAState._seqNameField);
+            AAState._seqCounterField = ConfigUtil.GetConfigValue("SequenceCounter", AAState._seqCounterField);
+            AAState._seqIntervalField = ConfigUtil.GetConfigValue("SequenceInterval", AAState._seqIntervalField);
 
         }
 
@@ -11103,10 +11111,9 @@ namespace ArcGIS4LocalGovernment
                                                             MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain117"));
                                                         }
                                                         qFilter = new QueryFilterClass();
-                                                        qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
-
-                                                        sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
-                                                        sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
+                                                        qFilter.WhereClause = AAState._seqNameField + " = '" + sequenceColumnName + "'";
+                                                        sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
+                                                        sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
                                                         ITransactions pTras = null;
 
                                                         long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
@@ -11400,10 +11407,11 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bn") + sequenceColumnName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bo"));
 
                                                         qFilter = new QueryFilterClass();
-                                                        qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
-                                                        cCurs = AAState._gentab.Update(qFilter, false);
-                                                        sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
-                                                        sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
+
+                                                        qFilter.WhereClause = AAState._seqNameField + " = '" + sequenceColumnName + "'";
+                                                        //cCurs = AAState._gentab.Update(qFilter, false);
+                                                        sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
+                                                        sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
                                                         ITransactions pTras = null;
 
                                                         long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
