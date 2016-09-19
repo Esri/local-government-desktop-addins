@@ -2726,7 +2726,12 @@ Partial Public Class CostEstimatingWindow
                 pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = s_lblTotArea.Text
             End If
             If pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField) > 0 Then
-                pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                If s_lblTotPnt.Text <> "" Then
+                    pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                Else
+                    pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = 0
+                End If
+
             End If
             
             If pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayCostField) > 0 Then
@@ -2743,7 +2748,12 @@ Partial Public Class CostEstimatingWindow
                 pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = s_lblTotArea.Text
             End If
             If pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField) > 0 Then
-                pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                If s_lblTotPnt.Text <> "" Then
+                    pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                Else
+                    pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = 0
+                End If
+
             End If
             If pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField) > 0 Then
                 pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField)) = s_lblTotLength.Text
@@ -2764,7 +2774,11 @@ Partial Public Class CostEstimatingWindow
                 pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = s_lblTotArea.Text
             End If
             If pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField) > 0 Then
-                pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                If s_lblTotPnt.Text <> "" Then
+                    pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                Else
+                    pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = 0
+                End If
             End If
             If pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField) > 0 Then
                 pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField)) = s_lblTotLength.Text
@@ -7825,7 +7839,7 @@ Partial Public Class CostEstimatingWindow
             s_lblTotalCost.Text = FormatCurrency(TotCost, 2, TriState.True, TriState.True) 'Format(Total, "#,###.00")
             s_lblTotLength.Text = Format(TotLen, "#,###.00")
             s_lblTotArea.Text = Format(TotArea, "#,###.00")
-            s_lblTotPnt.Text = Format(TotPnt, "#,###")
+            s_lblTotPnt.Text = Format(TotPnt, "#,##0")
 
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow: setProjectCostAndTotal" & vbCrLf & ex.Message)
