@@ -1153,7 +1153,7 @@ namespace A4LGSharedFunctions
                                             }
                                             catch (Exception ex)
                                             {
-                                                Console.WriteLine(pFld.Name + " " + ex.Message);
+                                                Console.WriteLine(pFld.Name + " " + ex.ToString());
                                             }
                                         }
                                     }
@@ -2274,7 +2274,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in addPointAlongLineWithIntersect: " + ex.Message);
+                MessageBox.Show("Error in addPointAlongLineWithIntersect: " + ex.ToString());
                 return null;
             }
             finally
@@ -2357,7 +2357,7 @@ namespace A4LGSharedFunctions
                         catch (Exception ex)
                         {
 
-                            MessageBox.Show("Error storing new feature in the " + pointFLayer.Name + " layer\nThis is typically caused by a rule in the AA causing this feature not to be valid and deleting it\nModule: AddPointAlongLine\n" + ex.Message);
+                            MessageBox.Show("Error storing new feature in the " + pointFLayer.Name + " layer\nThis is typically caused by a rule in the AA causing this feature not to be valid and deleting it\nModule: AddPointAlongLine\n" + ex.ToString());
 
                             return null;
                         }
@@ -2373,7 +2373,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in addPointAlongLine: " + ex.Message);
+                MessageBox.Show("Error in addPointAlongLine: " + ex.ToString());
 
                 return null;
             }
@@ -2864,7 +2864,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.ToString());
             }
             finally
             {
@@ -2889,7 +2889,7 @@ namespace A4LGSharedFunctions
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show("Error in the changeVertexSymbol" + ex.Message);
+        //        MessageBox.Show("Error in the changeVertexSymbol" + ex.ToString());
         //    }
 
         //    finally
@@ -2915,7 +2915,7 @@ namespace A4LGSharedFunctions
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show("Error in the changeVertexSymbol" + ex.Message);
+        //        MessageBox.Show("Error in the changeVertexSymbol" + ex.ToString());
         //    }
 
         //    finally
@@ -2936,7 +2936,7 @@ namespace A4LGSharedFunctions
         //    }
         //    catch(Exception ex)
         //    {
-        //        MessageBox.Show("Error in the changeVertexSymbol" + ex.Message);
+        //        MessageBox.Show("Error in the changeVertexSymbol" + ex.ToString());
         //    }
 
         //    finally
@@ -3647,7 +3647,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the ReturnAccumulation\n" + ex.Message);
+                MessageBox.Show("Error in the ReturnAccumulation\n" + ex.ToString());
                 return "Error";
             }
             finally
@@ -3849,7 +3849,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Global Functions - getFlowDirection" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Global Functions - getFlowDirection" + Environment.NewLine + ex.ToString());
 
                 return ESRI.ArcGIS.Geodatabase.esriFlowDirection.esriFDUninitialized;
             }
@@ -3898,7 +3898,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Global Functions - SetFlowDirection" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Global Functions - SetFlowDirection" + Environment.NewLine + ex.ToString());
 
                 return;
             }
@@ -4002,7 +4002,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Global Functions - GetGeomtricNetworksJunctionsLayersHT" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Global Functions - GetGeomtricNetworksJunctionsLayersHT" + Environment.NewLine + ex.ToString());
 
                 return null;
             }
@@ -4061,7 +4061,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Global Functions - GetGeometricNetworksJunctionsLayers" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Global Functions - GetGeometricNetworksJunctionsLayers" + Environment.NewLine + ex.ToString());
 
                 return null;
             }
@@ -4222,7 +4222,7 @@ namespace A4LGSharedFunctions
             catch (Exception ex)
             {
                 pGNs = null;
-                MessageBox.Show("Error occurred in GetNetworkAndFeatureAtLocation \r\n" + ex.Message);
+                MessageBox.Show("Error occurred in GetNetworkAndFeatureAtLocation \r\n" + ex.ToString());
                 return null;
             }
             finally
@@ -4270,7 +4270,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error occurred in GetFeatureByEID \r\n" + ex.Message);
+                MessageBox.Show("Error occurred in GetFeatureByEID \r\n" + ex.ToString());
                 return null;
             }
             finally
@@ -4340,7 +4340,7 @@ namespace A4LGSharedFunctions
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show("Error in the Global Functions - GetGeomtricNetworksCurrentVisible" + Environment.NewLine + ex.Message);
+        //        MessageBox.Show("Error in the Global Functions - GetGeomtricNetworksCurrentVisible" + Environment.NewLine + ex.ToString());
 
         //        return null;
         //    }
@@ -4401,7 +4401,7 @@ namespace A4LGSharedFunctions
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show("Error in the Global Functions - GetGeomtricNetworksCurrentVisible" + Environment.NewLine + ex.Message);
+        //        MessageBox.Show("Error in the Global Functions - GetGeomtricNetworksCurrentVisible" + Environment.NewLine + ex.ToString());
 
         //        return null;
         //    }
@@ -4947,7 +4947,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in ClearGNFlags\n" + ex.Message);
+                MessageBox.Show("Error in ClearGNFlags\n" + ex.ToString());
 
             }
             finally
@@ -7396,11 +7396,11 @@ namespace A4LGSharedFunctions
 
                 return pline;
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(Ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
 
-                System.Diagnostics.Trace.WriteLine(Ex.Message);
+                System.Diagnostics.Trace.WriteLine(ex.ToString());
 
                 return null;
             }
@@ -7672,7 +7672,7 @@ namespace A4LGSharedFunctions
                 }
                 catch (Exception ex)
                 {
-                    //  System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                    //  System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                     return null;
                 }
             }
@@ -7722,7 +7722,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - getFileAtDLLLocation" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - getFileAtDLLLocation" + Environment.NewLine + ex.ToString());
                 return "";
 
 
@@ -8089,7 +8089,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error getting Editing Template \r\n" + ex.Message);
+                MessageBox.Show("Error getting Editing Template \r\n" + ex.ToString());
                 return null;
             }
         }
@@ -8172,7 +8172,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("PromptAndGetEditTemplateGraphic: " + ex.Message);
+                MessageBox.Show("PromptAndGetEditTemplateGraphic: " + ex.ToString());
                 return null;
             }
             finally
@@ -8273,7 +8273,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                return new OptionsToPresent(-1, ex.Message, "", null);
+                return new OptionsToPresent(-1, ex.ToString(), "", null);
 
             }
 
@@ -8390,7 +8390,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error getting Template Names: \r\n" + ex.Message);
+                MessageBox.Show("Error getting Template Names: \r\n" + ex.ToString());
                 return null;
             }
             finally
@@ -8433,7 +8433,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error getting Template: \r\n" + ex.Message);
+                MessageBox.Show("Error getting Template: \r\n" + ex.ToString());
                 return null;
             }
         }
@@ -8466,7 +8466,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error getting Manager: \r\n" + ex.Message);
+                MessageBox.Show("Error getting Manager: \r\n" + ex.ToString());
                 return null;
             }
             finally
@@ -8522,7 +8522,7 @@ namespace A4LGSharedFunctions
 
             catch (Exception ex)
             {
-                MessageBox.Show("Error in FeatureIsValid Function: \r\n" + ex.Message);
+                MessageBox.Show("Error in FeatureIsValid Function: \r\n" + ex.ToString());
                 return false;
             }
         }
@@ -8558,7 +8558,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - IsEditable" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - IsEditable" + Environment.NewLine + ex.ToString());
                 return false;
             }
             finally
@@ -8582,7 +8582,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                // MessageBox.Show("Error in Global Functions - IsEditable" + Environment.NewLine + ex.Message);
+                // MessageBox.Show("Error in Global Functions - IsEditable" + Environment.NewLine + ex.ToString());
                 return false;
             }
             finally
@@ -8605,7 +8605,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                //      MessageBox.Show("Error in Global Functions - IsEditable" + Environment.NewLine + ex.Message);
+                //      MessageBox.Show("Error in Global Functions - IsEditable" + Environment.NewLine + ex.ToString());
                 return false;
             }
             finally
@@ -8889,7 +8889,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error creating a feature with template\r\nFeature Template: " + pEditTemplate.Name + "\r\n" + ex.Message);
+                MessageBox.Show("Error creating a feature with template\r\nFeature Template: " + pEditTemplate.Name + "\r\n" + ex.ToString());
                 return null;
 
             }
@@ -9075,7 +9075,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Create Feature: " + ex.Message);
+                MessageBox.Show("Error in Create Feature: " + ex.ToString());
                 return null;
 
             }
@@ -9491,7 +9491,7 @@ namespace A4LGSharedFunctions
 
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Get Nearest Feature\n" + ex.Message, ex.Source);
+                MessageBox.Show("Error in the Get Nearest Feature\n" + ex.ToString(), ex.Source);
                 return null;
             }
 
@@ -9830,7 +9830,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                return ex.Message.ToString();
+                return ex.ToString().ToString();
             }
             finally
             {
@@ -9886,7 +9886,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Global Functions - CenterMapOnFeatureWithScale" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Global Functions - CenterMapOnFeatureWithScale" + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -9914,7 +9914,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Project Costing Tools - Globals.Functions: GetMapCoordinatesFromScreenCoordinates" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Project Costing Tools - Globals.Functions: GetMapCoordinatesFromScreenCoordinates" + Environment.NewLine + ex.ToString());
                 return null;
             }
             finally
@@ -9948,7 +9948,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Project Costing Tools - Globals.Functions: GetScreenCoordinatesFromMapCoordinates" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Project Costing Tools - Globals.Functions: GetScreenCoordinatesFromMapCoordinates" + Environment.NewLine + ex.ToString());
                 return new System.Drawing.Point();
 
             }
@@ -9978,7 +9978,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - CreateContext" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - CreateContext" + Environment.NewLine + ex.ToString());
                 return null;
 
             }
@@ -10011,7 +10011,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                // MessageBox.Show("Error in Global Functions - GetCommand" + Environment.NewLine + ex.Message);
+                // MessageBox.Show("Error in Global Functions - GetCommand" + Environment.NewLine + ex.ToString());
                 return null;
 
             }
@@ -11064,7 +11064,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Global Functions - GetGeomCenter" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Global Functions - GetGeomCenter" + Environment.NewLine + ex.ToString());
                 return null;
             }
         }
@@ -11150,7 +11150,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Global Functions - GetGeomCenter" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Global Functions - GetGeomCenter" + Environment.NewLine + ex.ToString());
                 return null;
             }
             finally
@@ -11345,7 +11345,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - Env2Polygon" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - Env2Polygon" + Environment.NewLine + ex.ToString());
                 return null;
             }
             finally
@@ -11578,7 +11578,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Get Intersection: " + ex.Message);
+                MessageBox.Show("Error in the Get Intersection: " + ex.ToString());
                 return null;
             }
             finally
@@ -11766,7 +11766,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the PointOnLine" + ex.Message);
+                MessageBox.Show("Error in the PointOnLine" + ex.ToString());
 
                 return null;
             }
@@ -11905,9 +11905,9 @@ namespace A4LGSharedFunctions
                 else
                     return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Error in the PointDistanceOnLine" + Ex.Message);
+                MessageBox.Show("Error in the PointDistanceOnLine" + ex.ToString());
 
                 return -1;
             }
@@ -11950,7 +11950,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in CreatePolylineFromPoints: " + ex.Message);
+                MessageBox.Show("Error in CreatePolylineFromPoints: " + ex.ToString());
                 return null;
             }
             finally
@@ -12308,7 +12308,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in CreatePolylineFromPointsNewTurn: " + ex.Message);
+                MessageBox.Show("Error in CreatePolylineFromPointsNewTurn: " + ex.ToString());
                 return null;
             }
             finally
@@ -12557,7 +12557,7 @@ namespace A4LGSharedFunctions
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show("Error in CreatePolylineFromPointsNewTurn: " + ex.Message);
+        //        MessageBox.Show("Error in CreatePolylineFromPointsNewTurn: " + ex.ToString());
         //        return null;
         //    }
         //    finally
@@ -12614,7 +12614,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - GetShapeFromGraphic" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - GetShapeFromGraphic" + Environment.NewLine + ex.ToString());
 
                 return null;
             }
@@ -12774,7 +12774,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - ConvertFeetToMapUnits" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - ConvertFeetToMapUnits" + Environment.NewLine + ex.ToString());
                 return -1.0;
             }
             finally
@@ -12808,7 +12808,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - ConvertSpatRefToFeet" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - ConvertSpatRefToFeet" + Environment.NewLine + ex.ToString());
                 return -1.0;
             }
             finally
@@ -12854,7 +12854,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - ConvertUnitType2" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - ConvertUnitType2" + Environment.NewLine + ex.ToString());
                 return esriUnits.esriUnknownUnits;
             }
             finally
@@ -12896,7 +12896,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - ConvertUnitType" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - ConvertUnitType" + Environment.NewLine + ex.ToString());
                 return esriUnits.esriUnknownUnits;
             }
             finally
@@ -12918,7 +12918,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - ConvertUnits" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - ConvertUnits" + Environment.NewLine + ex.ToString());
                 return 0.0;
             }
             finally
@@ -12966,7 +12966,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - DomainToList" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - DomainToList" + Environment.NewLine + ex.ToString());
                 return null;
             }
             finally
@@ -13011,7 +13011,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - SubtypeToList" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - SubtypeToList" + Environment.NewLine + ex.ToString());
                 return null;
             }
             finally
@@ -13042,7 +13042,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - GetDomainDisplay" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - GetDomainDisplay" + Environment.NewLine + ex.ToString());
                 return null;
 
             }
@@ -13107,7 +13107,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - GetDomainDisplay" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - GetDomainDisplay" + Environment.NewLine + ex.ToString());
                 return null;
 
             }
@@ -13134,7 +13134,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - GetDomainValue" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - GetDomainValue" + Environment.NewLine + ex.ToString());
                 return null;
             }
         }
@@ -13174,7 +13174,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - GetSubtypeValue" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - GetSubtypeValue" + Environment.NewLine + ex.ToString());
                 return -99999;
             }
             finally
@@ -13213,7 +13213,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - SubtypeCount" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - SubtypeCount" + Environment.NewLine + ex.ToString());
 
                 return -99999;
             }
@@ -13260,7 +13260,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - GetSubtypeDisplay" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - GetSubtypeDisplay" + Environment.NewLine + ex.ToString());
                 return "";
             }
             finally
@@ -13308,7 +13308,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - SubtypeValuesAtIndex" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - SubtypeValuesAtIndex" + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -13338,7 +13338,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Global Functions - DomainValuesAtIndex" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in Global Functions - DomainValuesAtIndex" + Environment.NewLine + ex.ToString());
             }
             finally
             {
@@ -13692,7 +13692,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -13744,7 +13744,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -13966,7 +13966,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -14201,7 +14201,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -14418,7 +14418,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -14624,7 +14624,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -14671,7 +14671,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -14741,7 +14741,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -14811,7 +14811,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -14887,7 +14887,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally
@@ -14967,7 +14967,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Errir in getClassName\n" + ex.Message);
+                MessageBox.Show("Errir in getClassName\n" + ex.ToString());
                 return "";
             }
             finally
@@ -15227,7 +15227,7 @@ namespace A4LGSharedFunctions
                 catch (Exception ex)
                 {
                     editor.AbortOperation();
-                    MessageBox.Show("EstablishFlow\n" + ex.Message, ex.Source);
+                    MessageBox.Show("EstablishFlow\n" + ex.ToString(), ex.Source);
                 }
                 finally
                 {
@@ -15454,7 +15454,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Global Functions - LayerExist" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Global Functions - LayerExist" + Environment.NewLine + ex.ToString());
                 return false;
 
             }
@@ -15619,7 +15619,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("FindTable: " + ex.Message);
+                MessageBox.Show("FindTable: " + ex.ToString());
                 return null;
             }
 
@@ -16194,7 +16194,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("copyFields: " + ex.Message);
+                MessageBox.Show("copyFields: " + ex.ToString());
                 return null;
             }
             finally
@@ -16354,7 +16354,7 @@ namespace A4LGSharedFunctions
             }
             catch //()//Exception ex)
             {
-                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.Message);
+                //MessageBox.Show("Error in the Costing Tools - FindLayer" + Environment.NewLine  + ex.ToString());
                 return null;
             }
             finally

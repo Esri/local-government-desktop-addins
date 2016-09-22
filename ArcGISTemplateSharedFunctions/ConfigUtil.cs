@@ -171,7 +171,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("generateUserCachePath:  " + ex.Message);
+                MessageBox.Show("generateUserCachePath:  " + ex.ToString());
                 return "";
             }
 
@@ -221,7 +221,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("GetAllConfigFiles:  " + ex.Message);
+                MessageBox.Show("GetAllConfigFiles:  " + ex.ToString());
                 return null;
             }
 
@@ -288,7 +288,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("GetAllConfigFilesNames:  " + ex.Message);
+                MessageBox.Show("GetAllConfigFilesNames:  " + ex.ToString());
 
                 return null;
             }
@@ -372,7 +372,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ChangeConfig:  " + ex.Message);
+                MessageBox.Show("ChangeConfig:  " + ex.ToString());
                 return false;
 
             }
@@ -424,7 +424,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("GetConfigFile:  " + ex.Message);
+                MessageBox.Show("GetConfigFile:  " + ex.ToString());
                 return "";
             }
 
@@ -476,7 +476,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("getInstalledConfig:  " + ex.Message);
+                MessageBox.Show("getInstalledConfig:  " + ex.ToString());
                 return "";
             }
         }
@@ -531,7 +531,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                 return defaultValue;
             }
             finally
@@ -590,7 +590,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                 return defaultValue;
             }
             finally
@@ -647,7 +647,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                 return defaultValue;
             }
             finally
@@ -667,7 +667,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("compareConfigValue:  " + ex.Message);
+                MessageBox.Show("compareConfigValue:  " + ex.ToString());
                 return false;
             }
         }
@@ -718,7 +718,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                 return "";
             }
             finally
@@ -740,7 +740,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("GetConfigValue:" + ex.Message);
+                System.Windows.Forms.MessageBox.Show("GetConfigValue:" + ex.ToString());
                 return defaultValue;
             }
         }
@@ -779,7 +779,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("KeyExists:  " + ex.Message);
+                MessageBox.Show("KeyExists:  " + ex.ToString());
                 return false;
             }
             finally
@@ -817,14 +817,14 @@ namespace A4LGSharedFunctions
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                    System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                     return null;
                 }
             }
             catch (Exception ex)
             {
 
-                MessageBox.Show("getConfigAsXMLDoc:  " + ex.Message);
+                MessageBox.Show("getConfigAsXMLDoc:  " + ex.ToString());
                 return null;
 
             }

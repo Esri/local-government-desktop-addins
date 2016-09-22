@@ -204,7 +204,7 @@ namespace A4WaterUtilities
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_1") + "\n" + ex.Message + A4LGSharedFunctions.Localizer.GetString("OID") + pFeature.OID);
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_1") + "\n" + ex.ToString() + A4LGSharedFunctions.Localizer.GetString("OID") + pFeature.OID);
                         }
                     }
 
@@ -220,7 +220,7 @@ namespace A4WaterUtilities
             catch (Exception ex)
             {
                 editor.AbortOperation();
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_1") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_1") + "\n" + ex.ToString(), ex.Source);
                 return;
             }
             finally
@@ -455,7 +455,7 @@ namespace A4WaterUtilities
                                 {
                                     editor.AbortOperation();
                                     progressDialog.HideDialog();
-                                    MessageBox.Show("AddRotate\n" + ex.Message, ex.Source);
+                                    MessageBox.Show("AddRotate\n" + ex.ToString(), ex.Source);
                                     return;
                                 }
 
@@ -489,7 +489,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5"));
                 return;
             }
             finally
@@ -715,7 +715,7 @@ namespace A4WaterUtilities
                                 {
                                     editor.AbortOperation();
                                     progressDialog.HideDialog();
-                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5") + "\n" + ex.Message, ex.Source);
+                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5") + "\n" + ex.ToString(), ex.Source);
                                     return;
                                 }
 
@@ -749,7 +749,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_5"));
                 return;
             }
             finally
@@ -1213,7 +1213,7 @@ namespace A4WaterUtilities
         //        catch (Exception ex)
         //        {
 
-        //            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
+        //            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
         //            if (logEditOperation)
         //                editor.AbortOperation();
 
@@ -1237,7 +1237,7 @@ namespace A4WaterUtilities
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
+        //        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
         //        return;
         //    }
         //    finally
@@ -1591,7 +1591,7 @@ namespace A4WaterUtilities
         //        catch (Exception ex)
         //        {
         //            editor.AbortOperation();
-        //            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
+        //            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
         //            return;
         //        }
         //        finally
@@ -1623,7 +1623,7 @@ namespace A4WaterUtilities
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
+        //        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
         //        return;
         //    }
         //    finally
@@ -2110,7 +2110,7 @@ namespace A4WaterUtilities
                 catch (Exception ex)
                 {
 
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
                     if (logEditOperation)
                         editor.AbortOperation();
 
@@ -2132,7 +2132,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
                 return;
             }
             finally
@@ -2348,7 +2348,7 @@ namespace A4WaterUtilities
                 catch (Exception ex)
                 {
                     editor.AbortOperation();
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
                     return;
                 }
                 finally
@@ -2364,7 +2364,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
                 return;
             }
             finally
@@ -2710,7 +2710,7 @@ namespace A4WaterUtilities
                 catch (Exception ex)
                 {
                     editor.AbortOperation();
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
                     return;
                 }
                 finally
@@ -2742,7 +2742,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
                 return;
             }
             finally
@@ -3227,7 +3227,7 @@ namespace A4WaterUtilities
                 catch (Exception ex)
                 {
                     editor.AbortOperation();
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_6") + "\n" + ex.Message, ex.Source);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_6") + "\n" + ex.ToString(), ex.Source);
                 }
 
                 finally
@@ -3299,7 +3299,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_6") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_6") + "\n" + ex.ToString(), ex.Source);
                 return;
             }
             finally
@@ -3535,7 +3535,7 @@ namespace A4WaterUtilities
                 catch (Exception ex)
                 {
                     editor.AbortOperation();
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7") + "\n" + ex.Message, ex.Source);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7") + "\n" + ex.ToString(), ex.Source);
                 }
                 finally
                 {
@@ -3566,7 +3566,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_7"));
                 return;
             }
             finally

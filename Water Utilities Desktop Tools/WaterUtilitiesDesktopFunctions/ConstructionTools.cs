@@ -282,7 +282,7 @@ namespace A4WaterUtilities
             catch (Exception ex)
             {
 
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Error") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Error") + ex.ToString());
                 return false;
             }
             finally
@@ -523,7 +523,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.ToString(), ex.Source);
 
                     }
 
@@ -550,7 +550,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
                 return null;
             }
             finally
@@ -866,7 +866,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.ToString(), ex.Source);
 
                         // Cleanup
                         if (progressDialog != null)
@@ -884,7 +884,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
                 return null;
             }
             finally
@@ -1612,7 +1612,7 @@ namespace A4WaterUtilities
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
 
                             }
                             finally
@@ -1712,7 +1712,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
 
 
                     }
@@ -1771,7 +1771,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
                 return "";
             }
             finally
@@ -1893,7 +1893,7 @@ namespace A4WaterUtilities
                         }
                         catch (Exception ex)
                         {
-                            // MessageBox.Show("The Feature could not be stored, this is typically because the layer has Z and the geometric network was not created to honors, you need to drop the network and recreate it with Z's enabled\n" + ex.Message);
+                            // MessageBox.Show("The Feature could not be stored, this is typically because the layer has Z and the geometric network was not created to honors, you need to drop the network and recreate it with Z's enabled\n" + ex.ToString());
                         }
 
                         //Old Way
@@ -1931,7 +1931,7 @@ namespace A4WaterUtilities
                         //}
                         //catch (Exception ex)
                         //{
-                        //    // MessageBox.Show("The Feature could not be stored, this is typically because the layer has Z and the geometric network was not created to honors, you need to drop the network and recreate it with Z's enabled\n" + ex.Message);
+                        //    // MessageBox.Show("The Feature could not be stored, this is typically because the layer has Z and the geometric network was not created to honors, you need to drop the network and recreate it with Z's enabled\n" + ex.ToString());
                         //}
                         return true;
                         //AddPointAlongLine(newPolyLine as ICurve, targetPointFLayer, targetPointDistance, targetPointDistanceIsPercent, targetPointSubtype, targetPointValue, targetPointFieldName);
@@ -1963,7 +1963,7 @@ namespace A4WaterUtilities
 
                 if (showErrors == true)
                 {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_3") + "\n" + ex.Message, ex.Source);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_3") + "\n" + ex.ToString(), ex.Source);
                 }
                 return false;
             }
@@ -2241,7 +2241,7 @@ namespace A4WaterUtilities
             {
                 if (showErrors == true)
                 {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_4") + "\n" + ex.Message, ex.Source);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_4") + "\n" + ex.ToString(), ex.Source);
                 }
                 return false;
             }
@@ -2310,7 +2310,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_9") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_9") + ex.ToString());
 
             }
         }
@@ -2379,7 +2379,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "CreateToAndTurnPoints: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "CreateToAndTurnPoints: " + ex.ToString());
             }
             finally
             {
@@ -2493,7 +2493,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("CreateToAndTurnPointsDual\r\n" + ex.Message);
+                MessageBox.Show("CreateToAndTurnPointsDual\r\n" + ex.ToString());
 
             }
             finally
@@ -2587,7 +2587,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("DeleteFeatureAtPoint\r\n" + ex.Message);
+                MessageBox.Show("DeleteFeatureAtPoint\r\n" + ex.ToString());
 
             }
             finally
@@ -2670,7 +2670,7 @@ namespace A4WaterUtilities
             catch (Exception ex)
             {
 
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExistingFeatures\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExistingFeatures\r\n" + ex.ToString());
 
             }
             finally
@@ -2725,7 +2725,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExisitingJunction: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExisitingJunction: " + ex.ToString());
             }
             finally
             {
@@ -2754,7 +2754,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteNeeded: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteNeeded: " + ex.ToString());
                 return false;
 
             }
@@ -2795,7 +2795,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteTargetPoints: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteTargetPoints: " + ex.ToString());
 
             }
             finally
@@ -2854,7 +2854,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteOrphanJunctions: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteOrphanJunctions: " + ex.ToString());
             }
             finally
             {
@@ -3421,7 +3421,7 @@ namespace A4WaterUtilities
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
 
                             }
                             finally
@@ -3467,7 +3467,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
 
 
                     }
@@ -3526,7 +3526,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
                 return "";
             }
             finally

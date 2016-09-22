@@ -396,7 +396,7 @@ namespace A4WaterUtilities
                     ExcelApp = null;
 
                 //ExcelApp.Visible = true;
-                MessageBox.Show("ExportSelectedRecordsToExcel\n" + ex.Message, ex.Source);
+                MessageBox.Show("ExportSelectedRecordsToExcel\n" + ex.ToString(), ex.Source);
                 return;
             }
             finally

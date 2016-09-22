@@ -152,7 +152,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("btnLoadConfig\n" + ex.Message);
+                MessageBox.Show("btnLoadConfig\n" + ex.ToString());
 
             }
         }
@@ -167,7 +167,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in Reload Click: " + ex.Message);
+                MessageBox.Show("Error in Reload Click: " + ex.ToString());
             }
         }
 

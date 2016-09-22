@@ -514,7 +514,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             editor.AbortOperation();
                             ran = false;
-                            MessageBox.Show("RunChangeRule\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunChangeRule\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             return;
                         }
                         finally
@@ -604,7 +604,7 @@ namespace ArcGIS4LocalGovernment
                         catch (Exception ex)
                         {
                             editor.AbortOperation();
-                            MessageBox.Show("RunChangeRules\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunChangeRules\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             ran = false;
 
                             return;
@@ -619,7 +619,7 @@ namespace ArcGIS4LocalGovernment
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + " " + ex.Message);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + " " + ex.ToString());
 
                             }
 
@@ -642,7 +642,7 @@ namespace ArcGIS4LocalGovernment
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " \n" + "RunChangeRules", ex.Source);
+                MessageBox.Show(ex.ToString() + " \n" + "RunChangeRules", ex.Source);
                 ran = false;
 
                 return;
@@ -888,7 +888,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             editor.AbortOperation();
                             ran = false;
-                            MessageBox.Show("RunChangeRule\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunChangeRule\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             return;
                         }
                         finally
@@ -928,7 +928,7 @@ namespace ArcGIS4LocalGovernment
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " \n" + "RunChangeGeoRules", ex.Source);
+                MessageBox.Show(ex.ToString() + " \n" + "RunChangeGeoRules", ex.Source);
                 ran = false;
 
                 return;
@@ -1199,7 +1199,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             editor.AbortOperation();
                             ran = false;
-                            MessageBox.Show("RunManualRules\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunManualRules\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             return;
                         }
                         finally
@@ -1278,7 +1278,7 @@ namespace ArcGIS4LocalGovernment
                         catch (Exception ex)
                         {
                             editor.AbortOperation();
-                            MessageBox.Show("RunManualRules\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunManualRules\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             ran = false;
 
                             return;
@@ -1316,7 +1316,7 @@ namespace ArcGIS4LocalGovernment
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " \n" + "RunManualRules", ex.Source);
+                MessageBox.Show(ex.ToString() + " \n" + "RunManualRules", ex.Source);
                 ran = false;
 
                 return;
@@ -1600,7 +1600,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             editor.AbortOperation();
                             ran = false;
-                            MessageBox.Show("RunCreateRule\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunCreateRule\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             return;
                         }
                         finally
@@ -1690,7 +1690,7 @@ namespace ArcGIS4LocalGovernment
                         catch (Exception ex)
                         {
                             editor.AbortOperation();
-                            MessageBox.Show("RunCreateRules\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunCreateRules\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             ran = false;
 
                             return;
@@ -1705,7 +1705,7 @@ namespace ArcGIS4LocalGovernment
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + " " + ex.Message);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + " " + ex.ToString());
 
                             }
 
@@ -1729,7 +1729,7 @@ namespace ArcGIS4LocalGovernment
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " \n" + "RunCreateRules", ex.Source);
+                MessageBox.Show(ex.ToString() + " \n" + "RunCreateRules", ex.Source);
                 ran = false;
 
                 return;

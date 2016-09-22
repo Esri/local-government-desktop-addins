@@ -51,7 +51,7 @@ Public Class SelectExistingProject
             CostEstimatingWindow.SelectTool(CostEstimatingWindow.CIPTools.SelectExistingProject, False)
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPHighlightCandidate: Deactivate" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPHighlightCandidate: Deactivate" & vbCrLf & ex.ToString())
         Finally
 
         End Try

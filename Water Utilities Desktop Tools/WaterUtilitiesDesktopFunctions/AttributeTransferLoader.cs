@@ -159,7 +159,7 @@ namespace A4WaterUtilities
             }
             catch(Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "LoadAttributeTransfer: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "LoadAttributeTransfer: " + ex.ToString());
             }
             finally
             {

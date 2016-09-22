@@ -117,7 +117,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_1") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_1") + Environment.NewLine + ex.ToString());
 
             }
         }
@@ -233,7 +233,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_2") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_2") + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -257,7 +257,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_3") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_3") + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -286,7 +286,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_4") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_4") + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -348,7 +348,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_5") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_5") + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -438,7 +438,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LV_1") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LV_1") + Environment.NewLine + ex.ToString());
 
 
             }
@@ -488,7 +488,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_7") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_7") + Environment.NewLine + ex.ToString());
 
                 return false;
             }
@@ -710,7 +710,7 @@ namespace A4WaterUtilities
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_1") + Environment.NewLine + ex.Message);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_1") + Environment.NewLine + ex.ToString());
 
                 }
 
@@ -939,7 +939,7 @@ namespace A4WaterUtilities
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_1") + Environment.NewLine + ex.Message);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_1") + Environment.NewLine + ex.ToString());
 
                 }
 
@@ -1067,7 +1067,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_2") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_2") + Environment.NewLine + ex.ToString());
 
             }
 
@@ -1416,7 +1416,7 @@ namespace A4WaterUtilities
             }
             catch// (Exception ex)
             {
-                //  MsgBox("Error in the edit control record loader" & vbCrLf & ex.Message)
+                //  MsgBox("Error in the edit control record loader" & vbCrLf & ex.ToString())
                 return "";
             }
             finally
@@ -2521,7 +2521,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_2") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CT_2") + Environment.NewLine + ex.ToString());
 
             }
 
@@ -2555,7 +2555,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LoadImg") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LoadImg") + Environment.NewLine + ex.ToString());
 
             }
         }
@@ -2842,7 +2842,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("SubTpChange") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("SubTpChange") + Environment.NewLine + ex.ToString());
 
             }
         }
@@ -2868,7 +2868,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_8") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_8") + Environment.NewLine + ex.ToString());
 
             }
 
@@ -2926,7 +2926,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_9") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_9") + Environment.NewLine + ex.ToString());
 
             }
         }
@@ -2950,7 +2950,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_10") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_10") + Environment.NewLine + ex.ToString());
 
 
             }
@@ -2973,7 +2973,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_11") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_11") + Environment.NewLine + ex.ToString());
 
 
             }
@@ -3039,7 +3039,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_12") + Environment.NewLine + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("LW_12") + Environment.NewLine + ex.ToString());
 
 
             }

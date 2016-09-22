@@ -274,7 +274,7 @@ namespace A4LGSharedFunctions
                     //                MessageBox.Show("Error getting Edge Geometry\n" +
                     //                                "Edge EID is " + edgeEID + "\n" +
                     //                                fc.AliasName + " with Object ID of " + userId + "\n" +
-                    //                                 inFeature.Class.AliasName + " with Object ID:" + inFeature.OID + "\n" + ex.Message +
+                    //                                 inFeature.Class.AliasName + " with Object ID:" + inFeature.OID + "\n" + ex.ToString() +
                     //                                 "\n-------------------------\n" +
                     //                                 "If the error says no Geometric newtork, it probably should say\n" +
                     //                                "The edge feature has the same from and to junction feature - delete network element and rebuild connectivity\n");
@@ -698,7 +698,7 @@ namespace A4LGSharedFunctions
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error Rotation Feature at " + inFeature.Class.AliasName + " with Object ID:" + inFeature.OID + "\n" + ex.Message);
+                    MessageBox.Show("Error Rotation Feature at " + inFeature.Class.AliasName + " with Object ID:" + inFeature.OID + "\n" + ex.ToString());
                     return -1;
                 }
 

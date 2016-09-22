@@ -510,7 +510,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
 
             }
             finally

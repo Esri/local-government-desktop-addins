@@ -192,7 +192,7 @@ namespace A4GasUtilities
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error in the Add Lateral Tools: " + ex.Message);
+                MessageBox.Show("Error in the Add Lateral Tools: " + ex.ToString());
                 m_editor.AbortOperation();
 
             }
@@ -353,7 +353,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Lateral Tools: " + ex.Message);
+                MessageBox.Show("Error in the Add Lateral Tools: " + ex.ToString());
                 m_editor.AbortOperation();
 
             }
@@ -667,7 +667,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Point and Split\n" + ex.Message);
+                MessageBox.Show("Error in the Add Point and Split\n" + ex.ToString());
                 m_editor.AbortOperation();
 
             }

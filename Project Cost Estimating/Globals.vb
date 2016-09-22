@@ -185,7 +185,7 @@ Namespace My
 
                     Return displayTransformation.ToMapPoint(CInt(Fix(screenPoint.X)), CInt(Fix(screenPoint.Y)))
                 Catch ex As Exception
-                    MsgBox("Error in the Project Costing Tools - Globals.Functions: GetMapCoordinatesFromScreenCoordinates" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Project Costing Tools - Globals.Functions: GetMapCoordinatesFromScreenCoordinates" & vbCrLf & ex.ToString())
                 End Try
 
             End Function
@@ -204,7 +204,7 @@ Namespace My
                     Return pScPnt
 
                 Catch ex As Exception
-                    MsgBox("Error in Project Costing Tools - Globals.Functions: GetScreenCoordinatesFromMapCoordinates" & vbCrLf & ex.Message)
+                    MsgBox("Error in Project Costing Tools - Globals.Functions: GetScreenCoordinatesFromMapCoordinates" & vbCrLf & ex.ToString())
                 End Try
 
             End Function
@@ -274,7 +274,7 @@ Namespace My
 
                     Return pRetLay
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - FindLayers" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - FindLayers" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -331,7 +331,7 @@ Namespace My
 
                     Return Nothing
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - FindLayer" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - FindLayer" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -362,7 +362,7 @@ Namespace My
                     pTableCollection = Nothing
                     Return Nothing
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - FindTable" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - FindTable" & vbCrLf & ex.ToString())
                     Return Nothing
 
                 End Try
@@ -406,7 +406,7 @@ Namespace My
                     pTableCollection = Nothing
                     Return False
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - TableExist" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - TableExist" & vbCrLf & ex.ToString())
                     Return False
 
                 End Try
@@ -468,7 +468,7 @@ Namespace My
                     Return False
 
                 Catch ex As Exception
-                    MsgBox("Error in LayerExist: " & ex.Message)
+                    MsgBox("Error in LayerExist: " & ex.ToString())
 
                     Return False
 
@@ -486,7 +486,7 @@ Namespace My
                     pContextMenu.Add(pUID)
                     Return pContextMenu
                 Catch ex As Exception
-                    MsgBox("Error creating context menu - CreateContext" & vbCrLf & ex.Message)
+                    MsgBox("Error creating context menu - CreateContext" & vbCrLf & ex.ToString())
                     Return Nothing
 
                 Finally
@@ -504,7 +504,7 @@ Namespace My
                     Return My.ArcMap.Application.Document.CommandBars.Find(pUID)
 
                 Catch ex As Exception
-                    MsgBox("Error finding command item - GetCommand" & vbCrLf & ex.Message)
+                    MsgBox("Error finding command item - GetCommand" & vbCrLf & ex.ToString())
                     Return Nothing
 
                 Finally
@@ -521,7 +521,7 @@ Namespace My
                     Return pEditLayers.IsEditable(My.Globals.Functions.FindLayer(LayerName))
 
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - Globals: isEditable" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - Globals: isEditable" & vbCrLf & ex.ToString())
 
 
                 End Try
@@ -664,7 +664,7 @@ Namespace My
                     iuc = Nothing
                     Return convertedValue
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: ConvertUnits" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: ConvertUnits" & vbCrLf & ex.ToString())
 
                     Return 0.0
 
@@ -692,7 +692,7 @@ Namespace My
 
                     Return pArrList
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: DomainToList" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: DomainToList" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -721,7 +721,7 @@ Namespace My
 
                     Return pArrList
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: SubtypeToList" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: SubtypeToList" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -741,7 +741,7 @@ Namespace My
                     Next i
                     Return Value
                 Catch ex As Exception
-                    '  MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainDisplay" & vbCrLf & ex.Message)
+                    '  MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainDisplay" & vbCrLf & ex.ToString())
                     Return Value
                 End Try
             End Function
@@ -759,7 +759,7 @@ Namespace My
                     Next i
                     Return Display
                 Catch ex As Exception
-                    '    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainValue" & vbCrLf & ex.Message)
+                    '    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainValue" & vbCrLf & ex.ToString())
                     Return Display
                 End Try
             End Function
@@ -791,7 +791,7 @@ Namespace My
                     Return -99
 
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainValue" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainValue" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -833,7 +833,7 @@ Namespace My
 
 
                     Catch ex As Exception
-                        MsgBox("Error in the Costing Tools - CIPProjectWindow: GetGraphicShape" & vbCrLf & ex.Message)
+                        MsgBox("Error in the Costing Tools - CIPProjectWindow: GetGraphicShape" & vbCrLf & ex.ToString())
 
                         Return Nothing
                     Finally
@@ -844,7 +844,7 @@ Namespace My
 
 
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetGraphicShape" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetGraphicShape" & vbCrLf & ex.ToString())
 
                     Return Nothing
 
@@ -934,7 +934,7 @@ Namespace My
 
                     Return i
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: getSubtypeCount" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: getSubtypeCount" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -970,7 +970,7 @@ Namespace My
                     pEnumSubTypes = Nothing
 
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: getSubtypeValesAtIndex" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: getSubtypeValesAtIndex" & vbCrLf & ex.ToString())
 
                 End Try
 
@@ -992,7 +992,7 @@ Namespace My
 
                     Next i
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: my.Globals.Functions.DomainValuesAtIndex" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: my.Globals.Functions.DomainValuesAtIndex" & vbCrLf & ex.ToString())
 
                 End Try
 
@@ -1108,7 +1108,7 @@ Namespace My
 
                     Return defaultValue
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return defaultValue
                 End Try
             End Function
@@ -1152,7 +1152,7 @@ Namespace My
 
                     Return defaultValue
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return defaultValue
                 End Try
             End Function
@@ -1196,7 +1196,7 @@ Namespace My
 
                     Return defaultValue
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return defaultValue
                 End Try
             End Function
@@ -1315,7 +1315,7 @@ Namespace My
 
                     Return ""
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return ""
                 End Try
             End Function
@@ -1329,7 +1329,7 @@ Namespace My
                         Return strConfigVal
                     End If
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return defaultValue
                 End Try
             End Function
