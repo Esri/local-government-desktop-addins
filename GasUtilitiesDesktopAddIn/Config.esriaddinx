@@ -96,17 +96,17 @@
               <Category>Point Construction</Category>
             </Construction>
           </Tool>
-          <Tool id="Esri_A4GasUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Creates a point and attempts to split an intersecting line feature." caption="Split Line at Point" tip="Split Line at Point" category="ArcGIS for Utilities" image="Images\SplitLinesAtLocation.png">
+          <Tool id="Esri_A4GasUtilities_AddPointSplitLine" class="AddPointSplitLine" message="Creates a point and attempts to split an intersecting line feature.(Gas)" caption="Split Line at Point(Gas)" tip="Split Line at Point(Gas)" category="ArcGIS for Utilities" image="Images\SplitLinesAtLocation.png">
             <Construction>
               <Category>Point Construction</Category>
             </Construction>
           </Tool>
-          <!--<Tool id="Esri_A4GasUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Creates a line feature and optionally splits that line at every vertex. This tool can also place Point features at the end of a line or at each vertex.  Defines which layers qualify for this tool, how to split the line, and how and what kind of Points to place in the configuration file." caption="Create a line with Points" tip="Create a line with Points" category="ArcGIS for Utilities" image="Images\AddLineWithEndPoints.png">
+          <Tool id="Esri_A4GasUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Creates a line feature and optionally splits that line at every vertex. This tool can also place Point features at the end of a line or at each vertex.  Defines which layers qualify for this tool, how to split the line, and how and what kind of Points to place in the configuration file.(Gas)" caption="Create a line with Points(Gas)" tip="Create a line with Points(Gas)" category="ArcGIS for Utilities" image="Images\AddLineWithEndPoints.png">
             <Construction>
               <Category>Polyline Construction</Category>
               <Category>Geometric Network Line Construction</Category>
             </Construction>
-          </Tool>-->
+          </Tool>
         </Commands>
       </Editor>
     </ArcMap>

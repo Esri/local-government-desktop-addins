@@ -29,6 +29,52 @@ using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Display;
 namespace A4WaterUtilities
 {
+    public class TestEdit : ESRI.ArcGIS.Desktop.AddIns.Button
+    {
+
+        IEditor m_editor;
+
+        public TestEdit()
+        {
+            ConfigUtil.type = "water";
+            m_editor = Globals.getEditor(ArcMap.Application);
+
+      
+        }
+
+        protected override void OnClick()
+        {
+            ConfigUtil.type = "water";
+
+            GeometryTools.testEditing(ArcMap.Application);
+        }
+
+        protected override void OnUpdate()
+        {
+
+            if (m_editor == null)
+            {
+                Enabled = false;
+                return;
+            }
+            if (m_editor.EditState != esriEditState.esriStateEditing)
+            {
+                Enabled = false;
+                return;
+            }
+            Enabled = true;
+
+        }
+        protected override void Dispose(bool __p1)
+        {
+            base.Dispose(__p1);
+
+            m_editor = null;
+        }
+    }
+
+
+
     public class MoveConnections : ESRI.ArcGIS.Desktop.AddIns.Tool
     {
         IEditor m_Editor;

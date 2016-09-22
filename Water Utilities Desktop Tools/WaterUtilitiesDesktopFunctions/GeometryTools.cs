@@ -425,7 +425,7 @@ namespace A4WaterUtilities
                                         }
                                         else
                                         {
-                                             Double.TryParse( pointFeature.get_Value(rotationFieldPos).ToString(),out angle);
+                                            Double.TryParse(pointFeature.get_Value(rotationFieldPos).ToString(), out angle);
                                         }
                                         angle = angle + addSpinAngle;
                                         if (angle > 360) angle -= 360;
@@ -570,7 +570,7 @@ namespace A4WaterUtilities
                 int maxIndividualRefresh = 100;
 
                 //Get list of editable layers
-                 editor = Globals.getEditor(app);
+                editor = Globals.getEditor(app);
                 eLayers = (IEditLayers)editor;
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
@@ -814,15 +814,15 @@ namespace A4WaterUtilities
         //    IRelationalOperator relOp = null;
         //    ICurve curve = null;
         //    List<MergeSplitGeoNetFeatures> m_Config = null;
-           
+
         //    ISet pSet = null;
         //    IFeature pSplitResFeat = null;
-           
-              
+
+
         //    try
         //    {
         //        m_Config = ConfigUtil.GetMergeSplitConfig();
-              
+
         //        if (SplitSuspendAA.ToUpper() == "TRUE")
         //        {
         //            pCmd = Globals.GetCommand("ArcGIS4LocalGovernment_AttributeAssistantSuspendOffCommand", app);
@@ -985,7 +985,7 @@ namespace A4WaterUtilities
 
 
 
-                                      
+
         //                                double dblHighVal = 0;
         //                                double dblLowVal = 0;
         //                                int intHighIdx = -1;
@@ -1325,8 +1325,8 @@ namespace A4WaterUtilities
         //    try
         //    {
         //        m_Config = ConfigUtil.GetMergeSplitConfig();
-              
-               
+
+
         //        if (SplitSuspendAA.ToUpper() == "TRUE")
         //        {
         //            pCmd = Globals.GetCommand("ArcGIS4LocalGovernment_AttributeAssistantSuspendOffCommand", app);
@@ -1426,8 +1426,8 @@ namespace A4WaterUtilities
         //        ICurve curve = null;
 
 
-               
-                
+
+
         //        try
         //        {
         //            // step through all points and split the lines that intersect them
@@ -1510,7 +1510,7 @@ namespace A4WaterUtilities
         //                                        }
         //                                    }
 
-                                          
+
         //                                }
         //                                if (intHighIdx > -1 && intLowIdx > -1)
         //                                {
@@ -1528,7 +1528,7 @@ namespace A4WaterUtilities
         //                                        dblMidVal = Convert.ToDouble(string.Format(m_Config[0].SplitFormatString, dblLowVal + ((dblHighVal - dblLowVal) * percentSplit)));
 
         //                                    }
-                                            
+
 
         //                                    //Split feature
         //                                    pSet = featureEdit.SplitWithUpdate(pSplitPnt);
@@ -1855,7 +1855,7 @@ namespace A4WaterUtilities
                         lineFeature = lineFCursor.NextFeature();
                         while (!(lineFeature == null))
                         {
-                            Globals.splitLineWithPoint(lineFeature, SplitPoint, SplitAtLocationSnap, pFldsNames, strFormValu,app);
+                            Globals.splitLineWithPoint(lineFeature, SplitPoint, SplitAtLocationSnap, pFldsNames, strFormValu, app);
                             //featureEdit = lineFeature as IFeatureEdit2;
                             //hitTest = lineFeature.ShapeCopy as IHitTest;
                             //pHitPnt = new PointClass();
@@ -2184,6 +2184,227 @@ namespace A4WaterUtilities
 
             }
         }
+        public static void testEditing(IApplication app)
+        {
+
+
+            ICursor editCursor = null;
+            IFeatureSelection editSel = null;
+            IFeature editFeature = null;
+
+            IProgressDialogFactory progressDialogFactory = null;
+            ITrackCancel trackCancel = null;
+            IStepProgressor stepProgressor = null;
+
+            IProgressDialog2 progressDialog = null;
+
+
+            IEditLayers eLayers = null;
+            IEditor editor = null;
+            IMxDocument mxdoc = null;
+            IMap map = null;
+
+            IFeatureLayer fLayer = null;
+            IFeatureSelection fSel = null;
+
+            UID geoFeatureLayerID = null;
+
+            IEnumLayer enumLayer = null;
+
+
+            List<IFeatureLayer> editLayers = null;
+
+            ILayer layer = null;
+            IFeature pNewFeat = null;
+            try
+            {
+
+                editor = Globals.getEditor(app);
+                if (editor.EditState != esriEditState.esriStateEditing)
+                {
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
+                    return;
+                }
+
+                //Get enumeration of editable layers
+                eLayers = (IEditLayers)editor;
+
+
+                mxdoc = (IMxDocument)app.Document;
+                map = editor.Map;
+
+                int i = 0;
+                int total = 0;
+
+                //Get enumeration of feature layers
+                geoFeatureLayerID = new UIDClass();
+                geoFeatureLayerID.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
+                enumLayer = map.get_Layers(((ESRI.ArcGIS.esriSystem.UID)geoFeatureLayerID), true);
+
+                // Create list of visible point layers with selected feature(s)
+                editLayers = new List<IFeatureLayer>();
+                enumLayer.Reset();
+                layer = enumLayer.Next();
+                while (layer != null)
+                {
+                    fLayer = (IFeatureLayer)layer;
+                    if (fLayer.Valid)
+                    {
+                        fSel = fLayer as IFeatureSelection;
+                        if (fSel.SelectionSet.Count > 0)
+                        {
+                            total += fSel.SelectionSet.Count;
+                            editLayers.Add(fLayer);
+                        }
+                    }
+
+                    layer = enumLayer.Next();
+                }
+
+
+                //ProgressBar
+                progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
+
+                // Create a CancelTracker
+                trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
+
+                // Set the properties of the Step Progressor
+                System.Int32 int32_hWnd = app.hWnd;
+                stepProgressor = progressDialogFactory.Create(trackCancel, int32_hWnd);
+                stepProgressor.MinRange = 0;
+                stepProgressor.MaxRange = total;
+                stepProgressor.StepValue = 1;
+                stepProgressor.Message = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_10");
+
+                // Create the ProgressDialog. This automatically displays the dialog
+                progressDialog = (ESRI.ArcGIS.Framework.IProgressDialog2)stepProgressor;
+
+                // Set the properties of the ProgressDialog
+                progressDialog.CancelEnabled = true;
+                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_11") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
+                progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_9");
+                progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriDownloadFile;
+
+                //Create an edit operation enabling undo/redo
+                editor.StartOperation();
+
+                try
+                {
+                    // step through all points and split the lines that intersect them
+                    ESRI.ArcGIS.esriSystem.IStatusBar statusBar = app.StatusBar;
+                    foreach (IFeatureLayer editLayer in editLayers)
+                    {
+                        IField pFld = null;
+                        int intFldIdx = -1;
+
+                        for (var a = 0; a < editLayer.FeatureClass.Fields.FieldCount - 1; a++)
+                        {
+                            if (editLayer.FeatureClass.Fields.get_Field(a).Type == esriFieldType.esriFieldTypeString &&
+                                editLayer.FeatureClass.Fields.get_Field(a).Editable == true)
+                            {
+                                pFld = editLayer.FeatureClass.Fields.get_Field(a);
+                                intFldIdx = a ;
+                                a = editLayer.FeatureClass.Fields.FindField(pFld.Name);
+                                break;
+
+                            }
+                        }
+                        if (pFld != null)
+                        {
+                            editSel = editLayer as IFeatureSelection;
+                            editSel.SelectionSet.Search(null, false, out editCursor);
+                            editFeature = editCursor.NextRow() as IFeature;
+
+                            while (!(editFeature == null))
+                            {
+
+                                editFeature.set_Value(intFldIdx, Globals.generateRandomInt(1));
+                                editFeature.Store();
+                                pNewFeat = Globals.CreateFeature(editFeature.ShapeCopy, editLayer, editor, app, false, false, false);
+                                pNewFeat.Store();
+                                //Update progress bar
+                                i += 1;
+                                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_11") + i.ToString() + A4LGSharedFunctions.Localizer.GetString("Of") + total.ToString() + ".";
+                                stepProgressor.Step();
+
+                                statusBar.set_Message(0, i.ToString());
+
+                                //Check if the cancel button was pressed. If so, stop process
+                                if (!trackCancel.Continue())
+                                {
+                                    break;
+                                }
+                                editFeature = editCursor.NextRow() as IFeature;
+                            }
+                            if (!trackCancel.Continue())
+                            {
+                                break;
+                            }
+                            //editCursor.Flush();
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    editor.AbortOperation();
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
+                    return;
+                }
+                finally
+                {
+
+                }
+                progressDialog.HideDialog();
+
+
+                //Stop the edit operation 
+                editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_9"));
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5") + "\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_5"));
+                return;
+            }
+            finally
+            {
+                pNewFeat = null;
+                editCursor = null;
+                editSel = null;
+                editFeature = null;
+                if (progressDialog != null)
+                    progressDialog.HideDialog();
+
+                progressDialogFactory = null;
+                trackCancel = null;
+                stepProgressor = null;
+
+                progressDialog = null;
+
+
+                eLayers = null;
+                editor = null;
+                mxdoc = null;
+                map = null;
+
+                fLayer = null;
+                fSel = null;
+
+                geoFeatureLayerID = null;
+
+                enumLayer = null;
+
+
+                editLayers = null;
+
+                layer = null;
+
+
+
+            }
+        }
+
         public static void SplitLines(IApplication app, string SplitSuspendAA, double SplitAtLocationSnap, double SkipDistance)
         {
 
@@ -2363,7 +2584,7 @@ namespace A4WaterUtilities
 
                                 while (!(lineFeature == null))
                                 {
-                                    Globals.splitLineWithPoint(lineFeature, pointFeature.Shape as IPoint, SplitAtLocationSnap, pFldsNames, strFormValu,app);
+                                    Globals.splitLineWithPoint(lineFeature, pointFeature.Shape as IPoint, SplitAtLocationSnap, pFldsNames, strFormValu, app);
 
                                     //featureEdit = lineFeature as IFeatureEdit2;
 
@@ -2568,7 +2789,7 @@ namespace A4WaterUtilities
                 pSplitResFeat = null;
             }
         }
-      
+
         public static void CreateJumps(IApplication app, JumpTypes jumpType, double jumpDistance)
         {
             IProgressDialog2 progressDialog = default(IProgressDialog2);
@@ -2627,7 +2848,7 @@ namespace A4WaterUtilities
 
                 // Set the properties of the ProgressDialog
                 progressDialog.CancelEnabled = false;
-                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_12") +"...";
+                progressDialog.Description = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_12") + "...";
                 progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_12");
                 progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriProgressGlobe;
 
@@ -2868,7 +3089,7 @@ namespace A4WaterUtilities
                                                     {
                                                         //Create the curve segment and add it to the polyline
                                                         constructCircArc = new CircularArcClass();
-                                                       // proximityOP = (IProximityOperator)intersectPoint;
+                                                        // proximityOP = (IProximityOperator)intersectPoint;
                                                         //pointDistance = proximityOP.ReturnDistance(beginPoint);
                                                         pointDistance = jumpDistance;
 
@@ -3013,7 +3234,7 @@ namespace A4WaterUtilities
                 {
 
                     // Refresh
-                    if (invalid!= null)
+                    if (invalid != null)
                         invalid.Invalidate((short)esriScreenCache.esriAllScreenCaches);
 
                     linePointCollection = null;
@@ -3074,7 +3295,7 @@ namespace A4WaterUtilities
                 // Stop the edit operation 
                 editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_6"));
 
-              
+
             }
             catch (Exception ex)
             {
@@ -3374,29 +3595,29 @@ namespace A4WaterUtilities
 
             IEditor editor = null;
             frmMergeGNLines mergeLines = null;
-            
-            try 
+
+            try
             {
-                
+
 
                 editor = Globals.getEditor(app);
                 mergeLines = new frmMergeGNLines(app, editor);
                 if (mergeLines.loadDialog())
                     mergeLines.Show(new Globals.WindowWrapper((IntPtr)app.hWnd));
             }
-            catch 
-            { 
-            
+            catch
+            {
+
             }
-            finally 
+            finally
             {
                 editor = null;
                 mergeLines = null;
             }
-                
+
 
 
         }
     }
- 
+
 }

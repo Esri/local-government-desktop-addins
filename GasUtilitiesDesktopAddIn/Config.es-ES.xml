@@ -145,13 +145,13 @@
               <Category>Point Construction</Category>
             </Construction>
           </Tool>
-
+-->
           <Tool id="Esri_A4GasUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Crea una entidad de línea y, opcionalmente, divide la línea en cada vértice. Esta herramienta también puede ubicar nodos al final de una línea o en cada vértice. Defina qué capas se habilitan para esta herramienta, cómo dividir la línea y cómo y qué tipo de puntos ubicar en el archivo de configuración." caption="Crear línea con nodos" tip="Crear línea con nodos" category="ArcGIS for Utilities" image="Images\AddLineWithEndPoints.png">
             <Construction>
               <Category>Polyline Construction</Category>
               <Category>Geometric Network Line Construction</Category>
             </Construction>
-          </Tool>-->
+          </Tool>
           <!--<Tool id="Esri_A4GasUtilities_PointsAlongLineTool" class="PointsAlongLineTool" message="Creates Points at regular intervals along a sketch" caption="Points along a line" tip="Points along a line tool" category="ArcGIS for Utilities" image="Images\PointsAlongLineTool.png">
           <Construction>
             <Category>Point Construction</Category>
