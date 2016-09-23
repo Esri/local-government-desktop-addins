@@ -188,13 +188,13 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArcGISTemplateSharedFunctions\LGSharedFunctions.csproj">
+    <ProjectReference Include="..\ArcGISTemplateSharedFunctions\LGSharedFunctions10_1.csproj">
       <Project>{17F1BA9D-F53B-4601-8333-6D3127A162D4}</Project>
-      <Name>LGSharedFunctions</Name>
+      <Name>LGSharedFunctions10_1</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Water Utilities Desktop Tools\WaterUtilitiesDesktopFunctions\UtilitiesDesktopFunctions.csproj">
+    <ProjectReference Include="..\Water Utilities Desktop Tools\WaterUtilitiesDesktopFunctions\UtilitiesDesktopFunctions10_1.csproj">
       <Project>{A1285DE2-50A3-4121-A119-4715810F3232}</Project>
-      <Name>UtilitiesDesktopFunctions</Name>
+      <Name>UtilitiesDesktopFunctions10_1</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

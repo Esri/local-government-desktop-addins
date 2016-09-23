@@ -20,11 +20,11 @@
   <Name>Attribute Assistant</Name>
   <AddInID>{5CAD338F-775E-44D8-A342-8DC123BF8E7B}</AddInID>
   <Description>Allows attributes to be automatically populated as features are created or modified based on a series of user defined rules.</Description>
-  <Version>2.25.2016</Version>
+  <Version>7.15.2016</Version>
   <Image>Images\AttributeAssistantAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>2/25/2016</Date>
+  <Date>7/15/2016</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
@@ -36,34 +36,34 @@
       </Extensions>
 
       <Commands>
-        <Button id="ArcGIS4LocalGovernment_AttributeAssistantToggleCommand" class="AttributeAssistantToggleCommand" onDemand="false" message="Toggles the Attribute Assistant add-in on (green version) and off (red verison)." caption="Turn Attribute Assistant On/Off" tip="Turn Attribute Assistant On/Off" category="ArcGIS for Local Government" image="Images\AttributeAssistantToggleOnSolidOffAddIn.png">
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantToggleCommand" class="AttributeAssistantToggleCommand" onDemand="false" message="Toggles the Attribute Assistant Add-In on (green) and off (red)." caption="Turn Attribute Assistant On/Off" tip="Turn Attribute Assistant On/Off" category="ArcGIS for Local Government" image="Images\AttributeAssistantToggleOnSolidOffAddIn.png">
           <Help heading="Attribute Assistant On/Off " />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_RunChangeRulesCommand" class="RunChangeRulesCommand" message="Triggers a change event on each selected feature. If the Attribute Assistant is on, all rules defined in the Dynamic Value table will be processed." caption="Run change rules for selected features" tip="Run change rules for selected features" category="ArcGIS for Local Government" image="Images\RunChangeRules.png">
+        <Button id="ArcGIS4LocalGovernment_RunChangeRulesCommand" class="RunChangeRulesCommand" message="Triggers a change event on each selected feature. If the Attribute Assistant is on, all rules defined in the DynamicValue table will be processed." caption="Run Change Rules for Selected Features" tip="Run Change Rules for Selected Features" category="ArcGIS for Local Government" image="Images\RunChangeRules.png">
           <Help heading="Run Change Rules" />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_RunChangeGeoRulesCommand" class="RunChangeGeoRulesCommand" message="Triggers a change geometry event on each selected feature. If the Attribute Assistant is on, all rules defined in the Dynamic Value table will be processed." caption="Run change geometry rules for selected features" tip="Run change geometry rules for selected features" category="ArcGIS for Local Government" image="Images\RunChangeGeoRules.png">
+        <Button id="ArcGIS4LocalGovernment_RunChangeGeoRulesCommand" class="RunChangeGeoRulesCommand" message="Triggers a change geometry event on each selected feature. If the Attribute Assistant is on, all rules defined in the DynamicValue table will be processed." caption="Run Change Geometry Rules for Selected Features" tip="Run Change Geometry Rules for Selected Features" category="ArcGIS for Local Government" image="Images\RunChangeGeoRules.png">
           <Help heading="Run Change Geometry Rules" />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_RunManualRulesCommand" class="RunManualRulesCommand" message="Triggers a manual event on each selected feature. If the Attribute Assistant is on, all rules defined in the Dynamic Value table will be processed." caption="Run manual rules for selected features" tip="Run manual rules for selected features" category="ArcGIS for Local Government" image="Images\RunManualRules.png">
+        <Button id="ArcGIS4LocalGovernment_RunManualRulesCommand" class="RunManualRulesCommand" message="Triggers a manual event on each selected feature. If the Attribute Assistant is on, all rules defined in the DynamicValue table will be processed." caption="Run Manual Rules for Selected Features" tip="Run Manual Rules for Selected Features" category="ArcGIS for Local Government" image="Images\RunManualRules.png">
           <Help heading="Run Manual Rules" />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_RunCreateRulesCommand" class="RunCreateRulesCommand" message="Triggers a create event on each selected feature. If the Attribute Assistant is on, all rules defined in the Dynamic Value table will be processed." caption="Run create rules for selected features" tip="Run create rules for selected features" category="ArcGIS for Local Government" image="Images\RunCreateRules.png">
+        <Button id="ArcGIS4LocalGovernment_RunCreateRulesCommand" class="RunCreateRulesCommand" message="Triggers a create event on each selected feature. If the Attribute Assistant is on, all rules defined in the DynamicValue table will be processed." caption="Run Create Rules for Selected Features" tip="Run Create Rules for Selected Features" category="ArcGIS for Local Government" image="Images\RunCreateRules.png">
           <Help heading="Run Create Rules" />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendOffCommand" class="AttributeAssistantSuspendOffCommand" onDemand="false" message="Toggle suspension - Attribute Assistant" caption="Toggle suspension - Attribute Assistant" tip="Toggle Suspension on Attribute Assistant." category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOnOff.png">
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendOffCommand" class="AttributeAssistantSuspendOffCommand" onDemand="false" message="Toggle suspension - Attribute Assistant" caption="Toggle Suspension" tip="Toggle Suspension" category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOnOff.png">
           <Help heading="Attribute Assistant On/Off " />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendOnCommand" class="AttributeAssistantSuspendOnCommand" onDemand="false" message="Turn On Suspension on Attribute Assistant" caption="Turn On Suspension on Attribute Assistant" tip="Turn On Suspension on Attribute Assistant." category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOn.png">
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendOnCommand" class="AttributeAssistantSuspendOnCommand" onDemand="false" message="Enable Suspension - Attribute Assistant" caption="Enable Suspension" tip="Enable Suspension" category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOn.png">
           <Help heading="Attribute Assistant On/Off " />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendCommand" class="AttributeAssistantSuspendCommand" onDemand="false" message="Turn Off Suspension on Attribute Assistant" caption="Turn Off Suspension on Attribute Assistant" tip="Turn Off Suspension on Attribute Assistant." category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOff.png">
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendCommand" class="AttributeAssistantSuspendCommand" onDemand="false" message="Disable Suspension - Attribute Assistant" caption="Disable Suspension" tip="Disable Suspension" category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOff.png">
           <Help heading="Attribute Assistant On/Off " />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_AttributeAssistantLoadLastValue" class="AttributeAssistantLoadLastValue" onDemand="false" message="Presents a dialog box to view and update each Last Value field listed in the Dynamic Value table." caption="Load last value array" tip="Load last value array" category="ArcGIS for Local Government" image="Images\LoadLastValue.png">
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantLoadLastValue" class="AttributeAssistantLoadLastValue" onDemand="false" message="Presents a dialog box to view and update each Last Value field listed in the DynamicValue table." caption="Load Last Value Array" tip="Load Last Value Array" category="ArcGIS for Local Government" image="Images\LoadLastValue.png">
           <Help heading="Attribute Assistant On/Off " />
         </Button>
-        <Button id="ArcGIS4LocalGovernment_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file and the location of the configuration file, and for loading another configuration file." caption="Show Config Information(AA)" tip="Show Config Information" category="ArcGIS for Local Government" image="Images\Config2.png" />
+        <Button id="ArcGIS4LocalGovernment_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file,  the location of the configuration file, and for loading another configuration file." caption="Show Config Information (AA)" tip="Show Config Information (AA)" category="ArcGIS for Local Government" image="Images\Config2.png" />
       </Commands>
       <Toolbars>
         <Toolbar id="ArcGIS4LocalGovernment_AttributeAssistantToolbar" caption="Attribute Assistant" showInitially="false">

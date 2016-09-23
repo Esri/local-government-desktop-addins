@@ -945,7 +945,41 @@ namespace A4LGSharedFunctions
                 pSingleEntries = null;
             }
         }
+        public static AddResultsAsLayersOptions GetAddResultsAsLayersOptions()
+        {
 
+
+            XmlDocument xmld = getConfigAsXMLDoc();
+            if (xmld == null) return null;
+            //XmlNodeList nodelist = default(XmlNodeList);
+            XmlNode node = default(XmlNode);
+
+            try
+            {
+
+                node = xmld.SelectSingleNode("configuration/AddResultsAsLayersOptions");
+                if (node == null) { return null; }
+
+                AddResultsAsLayersOptions pSingleEntries;
+                pSingleEntries = (AddResultsAsLayersOptions)Globals.DeserializeObject(node, typeof(AddResultsAsLayersOptions));
+
+
+
+                return pSingleEntries;
+            }
+            catch //(Exception ex)
+            {
+
+                return null;
+            }
+            finally
+            {
+                xmld = null;
+                //  nodelist = null;
+                node = null;
+
+            }
+        }
         public static LayerViewerConfig GetLayerViewerConfig()
         {
 

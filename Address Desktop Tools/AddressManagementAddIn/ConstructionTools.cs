@@ -31,6 +31,7 @@ using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.ArcMap;
 using ESRI.ArcGIS.ArcMapUI;
+using ESRI.ArcGIS.SystemUI;
 using ESRI.ArcGIS.Display;
 using A4LGSharedFunctions;
 
@@ -173,7 +174,11 @@ namespace A4LGAddressManagement
         private IEditEvents5_Event m_editEvents5;
         private IEditSketch3 m_edSketch;
         private IShapeConstructor m_csc;
-      
+        private AddressMapTip m_addressMaptip;
+        private IFeatureLayer m_targetLayer;
+        private string m_className;
+        private AddressSettings m_settings = AddressSettings.Default;
+
         public CreatePointAndRefPoint()
         {
             ConfigUtil.type = "address";
@@ -192,6 +197,8 @@ namespace A4LGAddressManagement
         {
             ConfigUtil.type = "address";
             m_editor.CurrentTask = null;
+            m_targetLayer = ((IFeatureLayer)m_editor.CurrentTemplate.Layer);
+            m_className = Globals.getClassName(m_targetLayer);
 
             m_edSketch = m_editor as IEditSketch3;
             m_edSketch.GeometryType = esriGeometryType.esriGeometryMultipoint;
@@ -210,6 +217,11 @@ namespace A4LGAddressManagement
             m_editEvents5.OnShapeConstructorChanged += OnShapeConstructorChanged;
             m_editEvents.OnSketchFinished += OnSketchFinished;
 
+            // Initialize address map tip
+            m_addressMaptip = new AddressMapTip();
+            var mxPtr = new IntPtr(ArcMap.Application.hWnd);
+            m_addressMaptip.Show(Control.FromHandle(mxPtr));
+            m_addressMaptip.Visible = false;
         }
 
         protected override bool OnDeactivate()
@@ -217,6 +229,12 @@ namespace A4LGAddressManagement
             m_editEvents.OnSketchModified -= OnSketchModified;
             m_editEvents5.OnShapeConstructorChanged -= OnShapeConstructorChanged;
             m_editEvents.OnSketchFinished -= OnSketchFinished;
+
+            // Destroy address map tip
+            m_addressMaptip.Close();
+            m_addressMaptip = null;
+            m_settings.Save();
+
             return true;
         }
 
@@ -236,6 +254,27 @@ namespace A4LGAddressManagement
             }
             else
                 m_edSketch.FinishSketch();
+        }
+
+        protected sealed override void OnMouseMove(MouseEventArgs arg)
+        {
+            m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            UpdateMapTip();
+        }
+
+        protected sealed override void OnKeyUp(KeyEventArgs arg)
+        {
+            m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
+            if (arg.KeyCode == Keys.A)
+            {
+                var autoIncrement = new AutoIncrementWindow(m_settings.AutoIncrement);
+
+                var mxPtr = new IntPtr(ArcMap.Application.hWnd);
+                if (autoIncrement.ShowDialog(Control.FromHandle(mxPtr)) == DialogResult.OK)
+                {
+                    m_settings.AutoIncrement = Convert.ToInt16(autoIncrement.GetIncrementValue());
+                }
+            }
         }
 
         private void OnSketchModified()
@@ -318,6 +357,8 @@ namespace A4LGAddressManagement
 
                 int targetIDFieldIdx = Globals.GetFieldIndex(((IFeatureLayer)m_editor.CurrentTemplate.Layer), configDetails[idxConfig].AddressPntKeyField);
 
+                int targetCenterlineIDFieldIdx = Globals.GetFieldIndex(((IFeatureLayer)m_editor.CurrentTemplate.Layer), configDetails[idxConfig].StreetIDField);
+
                 //if (targetIDFieldIdx == -1)
                 //    return;
 
@@ -333,8 +374,9 @@ namespace A4LGAddressManagement
 
                 }
 
-                foreach (IFeature pFeat in pFeats)
+                for (int i = 0; i < pFeats.Count; i++)
                 {
+                    var pFeat = pFeats[i];
                     if (retInfo.AddressDetails.StreetGeometry == null)
                     {
                         if (targetNameFieldIdx != -1)
@@ -348,17 +390,20 @@ namespace A4LGAddressManagement
                         pPnt = Globals.GetPointOnLine(pFeat.Shape as IPoint, retInfo.AddressDetails.StreetGeometry as IPolyline, 10000, out rightSide);
                         if (rightSide)
                         {
-                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.RightAddress);
+                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.RightAddress + (i * m_settings.AutoIncrement));
                         }
                         else
                         {
-                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.LeftAddress);
+                            pFeat.set_Value(targetAddFieldIdx, retInfo.AddressDetails.LeftAddress + (i * m_settings.AutoIncrement));
                         }
                         if (targetNameFieldIdx != -1)
                             pFeat.set_Value(targetNameFieldIdx, retInfo.AddressDetails.StreetName);
 
                         if (targetIDFieldIdx != -1)
                             pFeat.set_Value(targetIDFieldIdx, retInfo.AddressPointKey);
+
+                        if (targetCenterlineIDFieldIdx != -1)
+                            pFeat.set_Value(targetCenterlineIDFieldIdx, retInfo.AddressDetails.StreetID);
                         pFeat.Store();
                     }
                 }
@@ -393,7 +438,47 @@ namespace A4LGAddressManagement
             }
         }
 
+        private void UpdateMapTip()
+        {
+            var point = ((ISketchTool)this).Location;
+            var configDetails = ConfigUtil.GetCreatePointWithRefConfig();
 
+            CreatePointWithReferenceDetails createPointDet = null;
+            for (int i = 0; i < configDetails.Count; i++)
+            {
+                if (configDetails[i].LayerName == m_className || configDetails[i].LayerName == m_targetLayer.Name)
+                {
+                    createPointDet = configDetails[0];
+
+                    bool pointFndAsFL = true;
+                    var pointLayer = Globals.FindLayer(ArcMap.Application, createPointDet.ReferencePointLayerName, ref pointFndAsFL) as IFeatureLayer;
+                    if (pointLayer == null)
+                        continue;
+
+                    var featureClass = pointLayer.FeatureClass;
+                    point.Project(((IGeoDataset)featureClass).SpatialReference);
+                    point.SnapToSpatialReference();
+
+                    AddressInfo addInfo = Globals.GetAddressInfo(ArcMap.Application, point, createPointDet.AddressCenterlineDetails.FeatureClassName, createPointDet.AddressCenterlineDetails.FullName,
+                            createPointDet.AddressCenterlineDetails.LeftTo, createPointDet.AddressCenterlineDetails.RightTo,
+                            createPointDet.AddressCenterlineDetails.LeftFrom, createPointDet.AddressCenterlineDetails.RightFrom, createPointDet.AddressCenterlineDetails.IDField, false, 2);
+
+                    if (addInfo == null)
+                    {
+                        m_addressMaptip.Visible = false;
+                        return;
+                    }
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine(string.Format("{0} / {1} {2}", addInfo.LeftAddress, addInfo.RightAddress, addInfo.StreetName));
+                    sb.AppendLine(string.Format("Distance: {0}", addInfo.DistanceAlong));
+                    m_addressMaptip.SetLabel(sb.ToString());
+                    m_addressMaptip.Top = System.Windows.Forms.Cursor.Position.Y + 15;
+                    m_addressMaptip.Left = System.Windows.Forms.Cursor.Position.X;
+                    m_addressMaptip.Visible = true;
+                    return;
+                }
+            }
+        }
     }
-
 }

@@ -189,11 +189,6 @@ namespace A4LGAddressManagement
             m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
-        protected sealed override void OnMouseMove(MouseEventArgs arg)
-        {
-            m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
-        }
-
         protected sealed override void OnMouseUp(MouseEventArgs arg)
         {
             m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
@@ -202,10 +197,6 @@ namespace A4LGAddressManagement
         protected sealed override void OnKeyDown(KeyEventArgs arg)
         {
             m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
-        }
-        protected sealed override void OnKeyUp(KeyEventArgs arg)
-        {
-            m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
         }
 
         protected sealed override bool OnContextMenu(int x, int y)

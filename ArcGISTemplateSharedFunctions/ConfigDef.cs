@@ -34,20 +34,20 @@ namespace A4LGSharedFunctions
     {
         public AddressReturnInfo()
         {
-          
+
         }
-        public AddressReturnInfo( AddressInfo addressDetails , string addressPointKey)
+        public AddressReturnInfo(AddressInfo addressDetails, string addressPointKey)
         {
             AddressDetails = addressDetails;
-           
+
             AddressPointKey = "";
 
         }
         public AddressInfo AddressDetails { get; set; }
-        
+
         public string AddressPointKey { get; set; }
     }
-   
+
     public class AddressInfo
     {
         public AddressInfo(string messages)
@@ -58,7 +58,7 @@ namespace A4LGSharedFunctions
             StreetGeometry = null;
             Messages = messages;
         }
-        
+
         public AddressInfo()
         {
             LeftAddress = 0;
@@ -67,20 +67,22 @@ namespace A4LGSharedFunctions
             StreetGeometry = null;
             Messages = "";
         }
-        public AddressInfo(int leftAddress, int rightAddress, string streetName,IGeometry streetGeometry)
+        public AddressInfo(int leftAddress, int rightAddress, string streetName, IGeometry streetGeometry)
         {
             LeftAddress = leftAddress;
             RightAddress = rightAddress;
             StreetName = streetName;
-            StreetGeometry =streetGeometry;
+            StreetGeometry = streetGeometry;
             Messages = "";
         }
-        
+
         public double LeftAddress { get; set; }
         public double RightAddress { get; set; }
         public string StreetName { get; set; }
+        public string StreetID { get; set; }
         public IGeometry StreetGeometry { get; set; }
-        public string Messages{ get; set; }
+        public string Messages { get; set; }
+        public string DistanceAlong { get; set; }
     }
 
     [XmlRootAttribute(ElementName = "Line_Along", IsNullable = true)]
@@ -101,7 +103,7 @@ namespace A4LGSharedFunctions
         public string Line_IDField { get; set; }
 
     }
-  
+
     [XmlRootAttribute(ElementName = "ProfileGraphDetails", IsNullable = false)]
     public class ProfileGraphDetails
     {
@@ -124,7 +126,7 @@ namespace A4LGSharedFunctions
 
         [XmlElement("Point_InvertElevationField")]
         public string Point_InvertElevationField { get; set; }
-        
+
         [XmlElement("Point_TopElevationField")]
         public string Point_TopElevationField { get; set; }
 
@@ -133,7 +135,7 @@ namespace A4LGSharedFunctions
 
         [XmlElement("Point_BottomElevationTypeField")]
         public string Point_BottomElevationTypeField { get; set; }
-      
+
         [XmlElement("Point_IDField")]
         public string Point_IDField { get; set; }
 
@@ -166,7 +168,7 @@ namespace A4LGSharedFunctions
 
         [XmlElement("PointAlong_ShowLabels")]
         public string PointAlong_ShowLabels { get; set; }
-        
+
         [XmlArray("PointAlong_Labels"), XmlArrayItem(ElementName = "PointAlong_Label", Type = typeof(string))]
         public string[] PointAlong_Labels { get; set; }
 
@@ -177,8 +179,8 @@ namespace A4LGSharedFunctions
 
         [XmlElement("Graph_Name")]
         public string Graph_Name { get; set; }
-        
-            [XmlElement("GraphTitle_Name")]
+
+        [XmlElement("GraphTitle_Name")]
         public string GraphTitle_Name { get; set; }
         [XmlElement("Legend_Name")]
         public string Legend_Name { get; set; }
@@ -188,23 +190,23 @@ namespace A4LGSharedFunctions
         public string TopAxis_Name { get; set; }
         [XmlElement("BottomAxis_Name")]
         public string BottomAxis_Name { get; set; }
-        
+
 
 
 
 
     }
 
-   [XmlRootAttribute(ElementName = "FlowLayerDetails", IsNullable = true)]
+    [XmlRootAttribute(ElementName = "FlowLayerDetails", IsNullable = true)]
     public class FlowLayerDetails
     {
-    
-    // <FlowLayerDetails>
-    //  <LayerName>Sewer Manholes</LayerName>
-    //  <SumFlowField>SUMFLOW</SumFlowField>
-    //  <WeightName></WeightName>
-    //  <FlowDirection>UpStream</FlowDirection>
-    //</FlowLayerDetails>    
+
+        // <FlowLayerDetails>
+        //  <LayerName>Sewer Manholes</LayerName>
+        //  <SumFlowField>SUMFLOW</SumFlowField>
+        //  <WeightName></WeightName>
+        //  <FlowDirection>UpStream</FlowDirection>
+        //</FlowLayerDetails>    
         public FlowLayerDetails()
         {
 
@@ -222,7 +224,7 @@ namespace A4LGSharedFunctions
         [XmlElement("FlowDirection")]
         public string FlowDirection { get; set; }
 
-        
+
 
     }
 
@@ -230,16 +232,16 @@ namespace A4LGSharedFunctions
     [XmlRootAttribute(ElementName = "AddressCenterlineDetails", IsNullable = true)]
     public class AddressCenterlineDetails
     {
-        
-    // <AddressCenterlineDetails>
-    //    <LayerName></LayerName>
-    //    <FullName></FullName>
-    //    <LeftFrom></LeftFrom>
-    //    <LeftTo></LeftTo>
-    //    <RightFrom></RightFrom>
-    //    <RightTo></RightTo>
-      
-    //</AddressCenterlineDetails>
+
+        // <AddressCenterlineDetails>
+        //    <LayerName></LayerName>
+        //    <FullName></FullName>
+        //    <LeftFrom></LeftFrom>
+        //    <LeftTo></LeftTo>
+        //    <RightFrom></RightFrom>
+        //    <RightTo></RightTo>
+
+        //</AddressCenterlineDetails>
         public AddressCenterlineDetails()
         {
 
@@ -262,27 +264,29 @@ namespace A4LGSharedFunctions
 
         [XmlElement("RightTo")]
         public string RightTo { get; set; }
-        
+
+        [XmlElement("IDField")]
+        public string IDField { get; set; }
 
     }
 
     //<CreatePointWithReferenceDetails>
-   
-        // <LayerName>Site Address Point</LayerName>
-        //<ValueField>FULLNAME</ValueField>
-        //<ReferencePointLayerName>Address Point</ReferencePointLayerName>
-        //<CreateIfExisting>false</CreateIfExisting>
-        //<ProrateAddressInfo>true</ProrateAddressInfo>
-        //<AddressCenterlineDetails>
-        //  <LayerName>Road Centerlines</LayerName>
-        //  <FullName>FULLNAME</FullName>
-        //  <LeftFrom>FROMLEFT</LeftFrom>
-        //  <LeftTo>TOLEFT</LeftTo>
-        //  <RightFrom>FROMRIGHT</RightFrom>
-        //  <RightTo>TORIGHT</RightTo>
 
-        //</AddressCenterlineDetails>
-        
+    // <LayerName>Site Address Point</LayerName>
+    //<ValueField>FULLNAME</ValueField>
+    //<ReferencePointLayerName>Address Point</ReferencePointLayerName>
+    //<CreateIfExisting>false</CreateIfExisting>
+    //<ProrateAddressInfo>true</ProrateAddressInfo>
+    //<AddressCenterlineDetails>
+    //  <LayerName>Road Centerlines</LayerName>
+    //  <FullName>FULLNAME</FullName>
+    //  <LeftFrom>FROMLEFT</LeftFrom>
+    //  <LeftTo>TOLEFT</LeftTo>
+    //  <RightFrom>FROMRIGHT</RightFrom>
+    //  <RightTo>TORIGHT</RightTo>
+
+    //</AddressCenterlineDetails>
+
     //  </CreatePointWithReferenceDetails>
     [XmlRootAttribute(ElementName = "CreatePointWithReferenceDetails", IsNullable = false)]
     public class CreatePointWithReferenceDetails
@@ -296,15 +300,18 @@ namespace A4LGSharedFunctions
 
         [XmlElement("LayerName")]
         public string LayerName { get; set; }
-         
+
         [XmlElement("AddressField")]
         public string AddressField { get; set; }
 
         [XmlElement("StreetNameField")]
         public string StreetNameField { get; set; }
-        
+
         [XmlElement("AddressPntKeyField")]
-        public string AddressPntKeyField{ get; set; }
+        public string AddressPntKeyField { get; set; }
+
+        [XmlElement("StreetIDField")]
+        public string StreetIDField { get; set; }
 
         [XmlElement("ReferencePointLayerName")]
         public string ReferencePointLayerName { get; set; }
@@ -315,7 +322,6 @@ namespace A4LGSharedFunctions
         [XmlElement("ReferencePointEditTemplate")]
         public string ReferencePointEditTemplate { get; set; }
 
-        
         //[XmlElement("CreateIfExisting", IsNullable = true)]
         //public string CreateIfExisting { get; set; }
 
@@ -324,20 +330,20 @@ namespace A4LGSharedFunctions
 
         [XmlElement("AddressCenterlineDetails", IsNullable = true)]
         public AddressCenterlineDetails AddressCenterlineDetails { get; set; }
-        
+
 
     }
 
     [XmlRootAttribute(ElementName = "MoveConnectionsDetails", IsNullable = false)]
     public class MoveConnectionsDetails
     {
-    //    <MoveConnection Name="Water Mains">
-    //  <LineLayer>wMain</LineLayer>
-    //  <LayersToMove>
-    //    <Layer>wFittings</Layer>
-    //    <Layer>wNetworkStructure</Layer>
-    //  </LayersToMove>
-    //</MoveConnection>
+        //    <MoveConnection Name="Water Mains">
+        //  <LineLayer>wMain</LineLayer>
+        //  <LayersToMove>
+        //    <Layer>wFittings</Layer>
+        //    <Layer>wNetworkStructure</Layer>
+        //  </LayersToMove>
+        //</MoveConnection>
 
         public MoveConnectionsDetails()
         {
@@ -350,25 +356,25 @@ namespace A4LGSharedFunctions
         [XmlElement("LineLayer")]
         public string LineLayer { get; set; }
 
-        
+
         [XmlArray("LayersToMove"), XmlArrayItem(ElementName = "Layer", Type = typeof(string))]
         public List<string> LayersToMove { get; set; }
 
-        
-      
+
+
     }
 
 
     [XmlRootAttribute(ElementName = "ConstructLineWithPointsDetails", IsNullable = false)]
     public class ConstructLineWithPointsDetails
-    {   
+    {
 
         public ConstructLineWithPointsDetails()
         {
 
         }
         [XmlElement("Line_LayerName")]
-        public string Line_LayerName{get;set;}
+        public string Line_LayerName { get; set; }
 
         [XmlElement("Point_Start_LayerName")]
         public string Point_Start_LayerName { get; set; }
@@ -378,22 +384,22 @@ namespace A4LGSharedFunctions
         [XmlElement("Point_Along_LayerName")]
         public string Point_Along_LayerName { get; set; }
         [XmlElement("Point_Along_EditTemplate")]
-         public string Point_Along_EditTemplate { get; set; }
+        public string Point_Along_EditTemplate { get; set; }
 
-         [XmlElement("Point_End_LayerName")]
-         public string Point_End_LayerName { get; set; }
-         [XmlElement("Point_End_EditTemplate")]
-         public string Point_End_EditTemplate { get; set; }
-        
+        [XmlElement("Point_End_LayerName")]
+        public string Point_End_LayerName { get; set; }
+        [XmlElement("Point_End_EditTemplate")]
+        public string Point_End_EditTemplate { get; set; }
+
         //[XmlElement("Point_LayerName")]
-         //public string Point_LayerName { get; set; }
-         //[XmlElement("Point_EditTemplate")]
-         //public string Point_EditTemplate { get; set; }
-         [XmlElement("TwoPointLines")]
-         public string TwoPointLines { get; set; }
-         [XmlElement("PointAtVertices")]
-         public string PointAtVertices { get; set; }
-       
+        //public string Point_LayerName { get; set; }
+        //[XmlElement("Point_EditTemplate")]
+        //public string Point_EditTemplate { get; set; }
+        [XmlElement("TwoPointLines")]
+        public string TwoPointLines { get; set; }
+        [XmlElement("PointAtVertices")]
+        public string PointAtVertices { get; set; }
+
     }
 
     [XmlRootAttribute(ElementName = "ConnectClosestDetails", IsNullable = false)]
@@ -428,7 +434,7 @@ namespace A4LGSharedFunctions
         //public string Line_ValueToPopulate { get; set; }
         [XmlElement("Line_EditTemplate")]
         public string Line_EditTemplate { get; set; }
-        
+
         [XmlElement("Search_Threshold")]
         public int Search_Threshold { get; set; }
 
@@ -472,7 +478,7 @@ namespace A4LGSharedFunctions
         [XmlElement("SourceField")]
         public string SourceField { get; set; }
 
-         [XmlElement("TargetField")]
+        [XmlElement("TargetField")]
         public string TargetField { get; set; }
 
         [XmlElement("Prefix")]
@@ -489,7 +495,7 @@ namespace A4LGSharedFunctions
         [XmlElement("Field2")]
         public string Field2 { get; set; }
 
-        
+
     }
     public class Field
     {
@@ -501,13 +507,13 @@ namespace A4LGSharedFunctions
 
         [XmlElement("MergeRule")]
         public string MergeRule { get; set; }
-        
+
         [XmlElement("SplitRule")]
         public string SplitRule { get; set; }
 
     }
 
-      
+
     [XmlRootAttribute(ElementName = "MergeSplitGeoNetFeatures", IsNullable = false)]
     public class MergeSplitGeoNetFeatures
     {
@@ -519,13 +525,13 @@ namespace A4LGSharedFunctions
 
         [XmlElement("SplitFormatString")]
         public string SplitFormatString { get; set; }
-        
+
         [XmlArray("Fields"), XmlArrayItem(ElementName = "Field", Type = typeof(Field))]
         public Field[] Fields { get; set; }
 
 
     }
-       
+
     [XmlRootAttribute(ElementName = "AddLateralDetails", IsNullable = false)]
     public class AddLateralDetails
     {
@@ -537,52 +543,52 @@ namespace A4LGSharedFunctions
 
         [XmlElement("Point_LayerName")]
         public string Point_LayerName { get; set; }
-        
+
         [XmlElement("MainLine_LayerName")]
         public string MainLine_LayerName { get; set; }
-        
+
         [XmlElement("LateralLine_LayerName")]
         public string LateralLine_LayerName { get; set; }
-        
-        [XmlElement("LateralLine_EditTemplate",IsNullable = true)]
+
+        [XmlElement("LateralLine_EditTemplate", IsNullable = true)]
         public string LateralLine_EditTemplate { get; set; }
-        
-      
+
+
         [XmlArray("FromToFields"), XmlArrayItem(ElementName = "FromToField", Type = typeof(FromToField))]
         public FromToField[] FromToFields { get; set; }
 
-     
+
         [XmlElement("LateralLine_StartAtMain")]
         [System.ComponentModel.DefaultValue(false)]
         public bool LateralLine_StartAtMain { get; set; }
-        
+
         [XmlElement("DeleteExistingLines")]
         [System.ComponentModel.DefaultValue(false)]
         public bool DeleteExistingLines { get; set; }
-        
+
         [XmlElement("TolerenceForDelete")]
         [System.ComponentModel.DefaultValue(.5)]
         public double TolerenceForDelete { get; set; }
-        
+
         [XmlElement("SearchOnLayer")]
         [System.ComponentModel.DefaultValue(true)]
         public bool SearchOnLayer { get; set; }
-        
+
         [XmlElement("SearchDistance")]
         [System.ComponentModel.DefaultValue(500)]
         public int SearchDistance { get; set; }
-        
+
         [XmlArray("PointsAlong"), XmlArrayItem(ElementName = "PointAlong", Type = typeof(PointAlong))]
         public PointAlong[] PointAlong { get; set; }
-        
+
         [XmlElement("Dual_When_Two_Selected")]
         [System.ComponentModel.DefaultValue(false)]
         public bool Dual_When_Two_Selected { get; set; }
-        
+
         [XmlElement("Dual_When_Nearby")]
         [System.ComponentModel.DefaultValue(false)]
         public bool Dual_When_Nearby { get; set; }
-        
+
         [XmlElement("Dual_Max_Distance_When_Nearby")]
         [System.ComponentModel.DefaultValue(30)]
         public double Dual_Max_Distance_When_Nearby { get; set; }
@@ -590,29 +596,29 @@ namespace A4LGSharedFunctions
         [XmlElement("Dual_Max_Distance_When_Two_Selected")]
         [System.ComponentModel.DefaultValue(100)]
         public double Dual_Max_Distance_When_Two_Selected { get; set; }
-        
+
         [XmlElement("Dual_Option_Make_Square")]
         [System.ComponentModel.DefaultValue(false)]
         public bool Dual_Option_Make_Square { get; set; }
-        
+
         [XmlElement("Hook_DoglegDistance")]
         [System.ComponentModel.DefaultValue(0.0)]
         public double Hook_DoglegDistance { get; set; }
-        
+
         [XmlElement("Hook_DistanceIsPercent")]
-        [System.ComponentModel.DefaultValue(false)] 
+        [System.ComponentModel.DefaultValue(false)]
         public bool Hook_DistanceIsPercent { get; set; }
-        
+
         [XmlElement("Hook_Angle")]
         [System.ComponentModel.DefaultValue(45.0)]
         public double Hook_Angle { get; set; }
-        
+
         [XmlElement("Reset_Flow")]
         [System.ComponentModel.DefaultValue("NONE")]
         public string Reset_Flow { get; set; }
         //[XmlElement("Direction_StartAtMain")]
         //public bool Direction_StartAtMain { get; set; }
-        
+
 
 
     }
@@ -629,7 +635,7 @@ namespace A4LGSharedFunctions
         [XmlElement("Point_LayerName")]
         public string Point_LayerName { get; set; }
 
-      
+
 
         [XmlElement("MainLine_LayerName")]
         public string MainLine_LayerName { get; set; }
@@ -643,7 +649,7 @@ namespace A4LGSharedFunctions
         [XmlElement("LateralLine_AngleDetails")]
         [System.ComponentModel.DefaultValue(false)]
         public LateralLine_AngleDetails LateralLine_AngleDetails { get; set; }
-        
+
         [XmlElement("LateralLine_StartAtMain")]
         [System.ComponentModel.DefaultValue(false)]
         public bool LateralLine_StartAtMain { get; set; }
@@ -652,7 +658,7 @@ namespace A4LGSharedFunctions
         [XmlArray("FromToFields"), XmlArrayItem(ElementName = "FromToField", Type = typeof(FromToField))]
         public FromToField[] FromToFields { get; set; }
 
-       
+
 
         [XmlElement("SearchOnLayer")]
         [System.ComponentModel.DefaultValue(true)]
@@ -664,7 +670,7 @@ namespace A4LGSharedFunctions
         [XmlElement("Reset_Flow")]
         [System.ComponentModel.DefaultValue("NONE")]
         public string Reset_Flow { get; set; }
-    
+
 
 
     }
@@ -691,7 +697,7 @@ namespace A4LGSharedFunctions
         [XmlElement("LookingUpstreamValue")]
         [System.ComponentModel.DefaultValue("U")]
         public string LookingUpstreamValue { get; set; }
-        
+
         [XmlElement("LookingDownstreamValue")]
         [System.ComponentModel.DefaultValue("D")]
         public string LookingDownstreamValue { get; set; }
@@ -759,16 +765,38 @@ namespace A4LGSharedFunctions
         [XmlElement("PolygonOffsetSide")]
         public string PolygonOffsetSide { get; set; }
         //public int Subtype { get; set; }
-   
+
         //public string FieldToPopulate { get; set; }
-   
+
         //public string ValueToPopulate { get; set; }
-      [XmlElement("Distance")]
+        [XmlElement("Distance")]
         public double Distance { get; set; }
-       [XmlElement("DistanceIsPercent")]
+        [XmlElement("DistanceIsPercent")]
         public bool DistanceIsPercent { get; set; }
         [XmlElement("EditTemplate")]
-       public string EditTemplate { get; set; }
+        public string EditTemplate { get; set; }
+
+    }
+
+
+    [XmlRootAttribute(ElementName = "AddResultsAsLayersOptions", IsNullable = false)]
+    public class AddResultsAsLayersOptions
+    {
+        public AddResultsAsLayersOptions()
+        {
+        }
+
+        [XmlArray("ResultCountToFields"), XmlArrayItem(ElementName = "ResultCountToField", Type = typeof(ResultCountToField))]
+        public ResultCountToField[] ResultCountToField { get; set; }
+
+    }
+    public class ResultCountToField
+    {
+        public ResultCountToField()
+        { }
+        public string FeatureClassName { get; set; }
+        public string TargetField { get; set; }
+
 
     }
 

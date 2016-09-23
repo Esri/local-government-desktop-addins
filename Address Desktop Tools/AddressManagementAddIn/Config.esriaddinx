@@ -22,11 +22,11 @@
   <AddInID>{00d1d3d9-b338-4498-9585-00d2e81e1e0e}</AddInID>
   <Description>ArcMap Address Management Toolset</Description>
 
-   <Version>2.25.2016</Version>
+   <Version>7.15.2016</Version>
   <Image>Images\AddressManagementAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>2/25/2016</Date>
+  <Date>7/15/2016</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
@@ -36,7 +36,7 @@
         <Button id="A4LGAddressManagement_AddressFlipLines" class="AddressFlipLines" message="Flips the direction of a selected road segment and swaps the right to left address range values to ensure they match the direction of the road segment." caption="Flip Roads and Swap Parity" tip="Flip Roads and Swap Parity" category= "ArcGIS for Local Government" image="Images\AddressFlipLines.png" />
         <Button id="A4LGAddressManagement_AddressFlipLinesNoAddress" class="AddressFlipLinesNoAddress" message="Flips the direction of a selected road segment but does not change the right to left address range values." caption="Flip Roads" tip="Flip Roads" category= "ArcGIS for Local Government" image="Images\AddressFlipLinesNoAddress.png" />
         <Button id="A4LGAddressManagement_CreateIntersectionPoints" class="AddressCreateIntersectionPoints" message="Creates a point layer from the intersections of the selected road segments." caption="Create Intersection Point Layer" tip="Create Intersection Point Layer" category= "ArcGIS for Local Government" image="Images\AddressPointAtIntersection.png" />
-        <Button id="A4LGAddressManagement_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file and the location of the configuration file, and for loading another configuration file." caption="Show Config Information(Address)" tip="Show Config Information" category="ArcGIS for Local Government" image="Images\Config2.png" />
+        <Button id="A4LGAddressManagement_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file, the location of the configuration file, and for loading another configuration file." caption="Show Config Information (Address)" tip="Show Config Information (Address)" category="ArcGIS for Local Government" image="Images\Config2.png" />
 
       </Commands>
       <Toolbars>

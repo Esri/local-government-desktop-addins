@@ -79,9 +79,9 @@ namespace A4WaterUtilities
     {
 
         public static ISpatialReferenceFactory spatRefFact = new SpatialReferenceEnvironmentClass();
-       
+
         public static IGeographicCoordinateSystem srWGS84 = spatRefFact.CreateGeographicCoordinateSystem((int)esriSRGeoCSType.esriSRGeoCS_WGS1984);
-       
+
         private static IApplication _app;
         private Excel.Application ExcelApp;
         private Excel.Workbook objBook;
@@ -204,12 +204,27 @@ namespace A4WaterUtilities
 
                 if ((feat != null) && (selectionInTable == true))
                 {
-                    ExcelApp = new Excel.ApplicationClass();
-
+                    try
+                    {
+                        ExcelApp = new Excel.ApplicationClass();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
+                        return;
+                    }
 
                     //Delete default worksheets
                     ExcelApp.DisplayAlerts = false;
-                    objBook = ExcelApp.Workbooks.Add(missing);
+                    try
+                    {
+                        objBook = ExcelApp.Workbooks.Add(missing);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
+                        return;
+                    }
                     //objBook = ExcelApp.Workbooks.get_Item(1);
                     for (int m = objBook.Sheets.Count; m > 1; m--)
                     {
@@ -245,9 +260,9 @@ namespace A4WaterUtilities
                             tableSel = (ITableSelection)openTable;
                             if (tableSel.SelectionSet.Count > 0)
                             {
-                                if (ExportTable(objBook, mxdoc, standTable, ref progressDialog, ref stepProgressor,ref trackCancel) == false)
+                                if (ExportTable(objBook, mxdoc, standTable, ref progressDialog, ref stepProgressor, ref trackCancel) == false)
                                 {
-                                return;
+                                    return;
                                 }
                             }
                         }
@@ -256,11 +271,29 @@ namespace A4WaterUtilities
                 else if ((feat != null) && (selectionInTable == false))
                 {
 
-                    ExcelApp = new Excel.ApplicationClass();
+                    try
+                    {
+                        ExcelApp = new Excel.ApplicationClass();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
+                        return;
+                    }
 
                     //Delete default worksheets
                     ExcelApp.DisplayAlerts = false;
-                    objBook = ExcelApp.Workbooks.Add(missing);
+
+                    try
+                    {
+                        objBook = ExcelApp.Workbooks.Add(missing);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
+                        return;
+                    }
+
                     //objBook = ExcelApp.Workbooks.get_Item(1);
                     for (int m = objBook.Sheets.Count; m > 1; m--)
                     {
@@ -277,7 +310,7 @@ namespace A4WaterUtilities
                         if (pTLay is IFeatureLayer)
                         {
                             featlayer = (IFeatureLayer)pTLay;
-                            if ((featlayer.Valid) )
+                            if ((featlayer.Valid))
                             {
                                 featSel = (IFeatureSelection)featlayer;
                                 if (featSel.SelectionSet.Count > 0)
@@ -297,7 +330,16 @@ namespace A4WaterUtilities
                 }
                 else if ((feat == null) && (selectionInTable == true))
                 {
-                    ExcelApp = new Excel.ApplicationClass();
+                    try
+                    {
+                        ExcelApp = new Excel.ApplicationClass();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Failed to export to Excel, please ensure MS office and Excel is installed");
+                        return;
+                    }
+
 
                     //Delete default worksheets
                     ExcelApp.DisplayAlerts = false;
@@ -712,7 +754,7 @@ namespace A4WaterUtilities
 
             }
         }
-        private bool ExportTable(Excel.Workbook ExcelWbk, IMxDocument MxDoc, IStandaloneTable StandTable, ref IProgressDialog2 progressDialog, ref IStepProgressor stepProgressor,ref ITrackCancel trackCancel)
+        private bool ExportTable(Excel.Workbook ExcelWbk, IMxDocument MxDoc, IStandaloneTable StandTable, ref IProgressDialog2 progressDialog, ref IStepProgressor stepProgressor, ref ITrackCancel trackCancel)
         {
             ITableProperties TableProperties = null;
             IEnumTableProperties EnumTableProperties = null;

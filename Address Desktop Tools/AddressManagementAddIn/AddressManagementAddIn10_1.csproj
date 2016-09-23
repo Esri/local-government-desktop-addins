@@ -104,6 +104,23 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddressMapTip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddressMapTip.Designer.cs">
+      <DependentUpon>AddressMapTip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddressSettings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>AddressSettings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="AutoIncrementWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutoIncrementWindow.Designer.cs">
+      <DependentUpon>AutoIncrementWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConstructionTools.cs" />
     <Compile Include="Config.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -131,14 +148,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ArcGISTemplateSharedFunctions\LGSharedFunctions.csproj">
+    <ProjectReference Include="..\..\ArcGISTemplateSharedFunctions\LGSharedFunctions10_1.csproj">
       <Project>{17F1BA9D-F53B-4601-8333-6D3127A162D4}</Project>
-      <Name>LGSharedFunctions</Name>
+      <Name>LGSharedFunctions10_1</Name>
     </ProjectReference>
     <ProjectReference Include="..\AddressManagementFunctions\AddressManagementFunctions.csproj">
       <Project>{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}</Project>
       <Name>AddressManagementFunctions</Name>
-      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +210,23 @@
   </ItemGroup>
   <ItemGroup>
     <AddInContent Include="Images\Config2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AddressMapTip.resx">
+      <DependentUpon>AddressMapTip.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AutoIncrementWindow.resx">
+      <DependentUpon>AutoIncrementWindow.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AddressSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>AddressSettings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="app.config" />
   </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>esriAddIn</ZipFileExtension>

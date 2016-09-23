@@ -1,9 +1,8 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressManagementFunctions", "Address Desktop Tools\AddressManagementFunctions\AddressManagementFunctions.csproj", "{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AddressManagementFunctions10_1", "Address Desktop Tools\AddressManagementFunctions\AddressManagementFunctions10_1.csproj", "{5D00EC80-2E06-4D4D-9C9D-49732E35CDB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LGSharedFunctions", "ArcGISTemplateSharedFunctions\LGSharedFunctions.csproj", "{17F1BA9D-F53B-4601-8333-6D3127A162D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LGSharedFunctions10_1", "ArcGISTemplateSharedFunctions\LGSharedFunctions10_1.csproj", "{17F1BA9D-F53B-4601-8333-6D3127A162D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AttributeAssistantAddIn10_1", "Attribute Assistant Add In\AttributeAssistantAddIn\AttributeAssistantAddIn10_1.csproj", "{F7BAFF33-9613-4608-8ACF-E3BF528BDFF0}"
 EndProject
@@ -15,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaterUtilitiesDesktopAddIn1
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProjectCostEstimatingTools10_1", "Project Cost Estimating\ProjectCostEstimatingTools10_1.vbproj", "{CED73875-ED55-417C-BA75-AF4C208DAC6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilitiesDesktopFunctions", "Water Utilities Desktop Tools\WaterUtilitiesDesktopFunctions\UtilitiesDesktopFunctions.csproj", "{A1285DE2-50A3-4121-A119-4715810F3232}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilitiesDesktopFunctions10_1", "Water Utilities Desktop Tools\WaterUtilitiesDesktopFunctions\UtilitiesDesktopFunctions10_1.csproj", "{A1285DE2-50A3-4121-A119-4715810F3232}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

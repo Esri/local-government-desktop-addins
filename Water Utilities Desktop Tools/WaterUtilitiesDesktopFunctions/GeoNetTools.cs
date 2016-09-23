@@ -1949,6 +1949,10 @@ namespace A4WaterUtilities
                 for (int i = 0; i < gnList.Count; i++)
                 {
                     geometricNetwork = gnList[i] as IGeometricNetwork;
+                    if (geometricNetwork == null)
+                    {
+                        continue;
+                    }
                     enumClass = null;
                     featureClass = null;
                     featureLayer = null;
@@ -2301,7 +2305,7 @@ namespace A4WaterUtilities
                 {
                     bool FCorLayerTemp = true;
 
-                    valveFLs[i] = (IFeatureLayer)Globals.FindLayer(map, strValveFLs[i], ref FCorLayerTemp);
+                    valveFLs[i] = (IFeatureLayer)Globals.FindLayerNotInMemory(map, strValveFLs[i], ref FCorLayerTemp);
                     if (valveFLs[i] != null)
                     {
                         valveFCs[i] = valveFLs[i].FeatureClass;
@@ -4384,7 +4388,8 @@ namespace A4WaterUtilities
 
         public static string TraceIsolation(double[] x, double[] y, IApplication app, string sourceFLName, string valveFLName, string operableFieldNameValves, string operableFieldNameSources,
                                   double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName,
-                                  string MeterCritField, string MeterCritVal, string closedValveQuery, IFeatureLayer mainsFL, out IPolyline mergedLines, out List<int> lineOIDs, bool addResultsAsLayer)
+                                  string MeterCritField, string MeterCritVal, string closedValveQuery, IFeatureLayer mainsFL, out IPolyline mergedLines, out List<int> lineOIDs, bool addResultsAsLayer,
+                                   bool suppressDialog= false)
         {
 
             mergedLines = null;
@@ -5873,12 +5878,14 @@ namespace A4WaterUtilities
 
                 if (totalCount > totalPrompt)
                 {
-                    DialogResult msgResult = MessageBox.Show(String.Format(A4LGSharedFunctions.Localizer.GetString("TraceResultsCount"), totalCount), A4LGSharedFunctions.Localizer.GetString("Proceed"), MessageBoxButtons.YesNo);
-                    if (msgResult == DialogResult.No)
+                    if (suppressDialog == false)
                     {
-                        return "";
+                        DialogResult msgResult = MessageBox.Show(String.Format(A4LGSharedFunctions.Localizer.GetString("TraceResultsCount"), totalCount), A4LGSharedFunctions.Localizer.GetString("Proceed"), MessageBoxButtons.YesNo);
+                        if (msgResult == DialogResult.No)
+                        {
+                            return "";
+                        }
                     }
-
                 }
 
                 string returnVal = "";
@@ -6557,7 +6564,7 @@ namespace A4WaterUtilities
 
                         string result = GeoNetTools.TraceIsolation(new double[] { pPnt.X }, new double[] { pPnt.Y }, app, sourceFLName, valveFLName, operableFieldNameValve,
                             operableFieldNameSource, snapTol, false, opValues, addSQL, traceIndeterminate, ZeroSourceCont, true, meterFLName, metersCritFieldName,
-                            metersCritValue, closedValveQuery, mainsFL, out mergedLines, out procoids, false);
+                            metersCritValue, closedValveQuery, mainsFL, out mergedLines, out procoids, false, true);
                         string[] resVals = result.Split('_');
                         processedIDs.Add(intCurID);
                         if (resVals.Length == 3)
