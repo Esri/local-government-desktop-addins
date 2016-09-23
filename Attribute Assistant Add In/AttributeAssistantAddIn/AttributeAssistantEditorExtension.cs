@@ -146,7 +146,8 @@ namespace ArcGIS4LocalGovernment
         public static List<int> _fabricObjectClassIds;
         public static Dictionary<int, ITable> _fabricInMemTablesLookUp;
         public static bool _CheckEnvelope = false;
-
+        public static bool _bypassEditOperationCheck = false;
+        
         // Declare configuration variables 
         public static string _defaultsTableName = "DynamicValue";
         public static string _sequenceTableName = "GenerateId";
@@ -825,7 +826,7 @@ namespace ArcGIS4LocalGovernment
             try
             {
 
-                if (AAState._onStopOperationEvent == true)
+                if (AAState._onStopOperationEvent == true && AAState._bypassEditOperationCheck == false)
                 {
                     IWorkspaceEdit2 wsEdit = (IWorkspaceEdit2)AAState._editor.EditWorkspace;
                     if (wsEdit.IsInEditOperation == true)
@@ -1098,6 +1099,10 @@ namespace ArcGIS4LocalGovernment
             else
                 AAState._clearLastValue = false;
 
+            if (ConfigUtil.GetConfigValue("BypassEditOperationCheck", "FALSE").ToUpper() == "TRUE")
+                AAState._bypassEditOperationCheck = true;
+            else
+                AAState._bypassEditOperationCheck = false;
 
             AAState._seqNameField = ConfigUtil.GetConfigValue("SequenceName", AAState._seqNameField);
             AAState._seqCounterField = ConfigUtil.GetConfigValue("SequenceCounter", AAState._seqCounterField);
