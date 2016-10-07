@@ -3394,7 +3394,7 @@ namespace A4LGSharedFunctions
                         }
                         else
                         {
-                            dis = dis + " | " + pRow.get_Value(FieldIndex[i]).ToString();
+                            dis = dis + " " + (char)150 + " " + pRow.get_Value(FieldIndex[i]).ToString();
                         }
                     }
                     vals.Add(dis.Trim());

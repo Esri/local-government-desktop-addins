@@ -3279,12 +3279,19 @@ namespace ArcGIS4LocalGovernment
                                                                     else
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain22") + selectVal);
-                                                                        string[] strVals = selectVal.Split('|');
-
-                                                                        for (int i = 0; i < sourceFieldNums.Length; i++)
-                                                                        {
-                                                                            inObject.set_Value(intFldIdxs[i], (strVals[i].Trim()));
+                                                                        if (sourceFieldNums.Length == 1) {
+                                                                            inObject.set_Value(intFldIdxs[0], sourceFieldNums);
                                                                         }
+                                                                        else {
+                                                                            string[] strVals = selectVal.Split((char)150);
+
+                                                                            for (int i = 0; i < sourceFieldNums.Length; i++)
+                                                                            {
+                                                                                inObject.set_Value(intFldIdxs[i], (strVals[i].Trim()));
+                                                                            }
+                                                                        }
+
+                                                                        
 
                                                                     }
 
