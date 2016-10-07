@@ -3157,6 +3157,7 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 sqlUpp = "UPPER";
                                                             }
+                                                            bool valueIsNull = false;
                                                             for (int i = 0; i < sourceFieldNames.Length; i++)
                                                             {
                                                                 sourceFieldNums[i] = Globals.GetFieldIndex(pFlds, sourceFieldNames[i].Trim());
@@ -3167,8 +3168,17 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                 }
+                                                                if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
+                                                                {
+                                                                    if (valueIsNull == false)
+                                                                    {
+                                                                        valueIsNull = true;
+                                                                    }
+
+                                                                }
                                                                 if (pFlds.get_Field(sourceFieldNums[i]).Type == esriFieldType.esriFieldTypeString)
                                                                 {
+                                                                    
                                                                     if (sqlString == "")
                                                                     {
                                                                         sqlString = pFlds.get_Field(sourceFieldNums[i]).Name + "" + " = '" + inObject.get_Value(intFldIdxs[i]).ToString().Replace("'", "''") + "'";
@@ -3183,6 +3193,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
+
                                                                     if (sqlString == "")
                                                                     {
                                                                         sqlString = pFlds.get_Field(sourceFieldNums[i]).Name + " = " + inObject.get_Value(intFldIdxs[i]);
@@ -3269,7 +3280,9 @@ namespace ArcGIS4LocalGovernment
 
                                                                     }
                                                                     string selectVal = Globals.showOptionsForm(pLst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
-                                                                    if (selectVal == "||Cancelled||")
+                                                                    if (selectVal == "||Cancelled||" && valueIsNull == true)
+                                                                    {}
+                                                                    else if (selectVal == "||Cancelled||" && valueIsNull == false)
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
                                                                         AAState._editor.AbortOperation();
@@ -3280,7 +3293,7 @@ namespace ArcGIS4LocalGovernment
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain22") + selectVal);
                                                                         if (sourceFieldNums.Length == 1) {
-                                                                            inObject.set_Value(intFldIdxs[0], sourceFieldNums);
+                                                                            inObject.set_Value(intFldIdxs[0], selectVal);
                                                                         }
                                                                         else {
                                                                             string[] strVals = selectVal.Split((char)150);
