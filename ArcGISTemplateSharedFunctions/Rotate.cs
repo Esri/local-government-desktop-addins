@@ -41,7 +41,7 @@ namespace A4LGSharedFunctions
 {
     class Rotate
     {
-        public double RotatePoint(IMap pMap, IFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName)
+        public Nullable<double> RotatePoint(IMap pMap, IFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName)
         {
             IFeatureClass pPointFC = default(IFeatureClass);
             ISpatialFilter pSFilter = default(ISpatialFilter);
@@ -181,7 +181,7 @@ namespace A4LGSharedFunctions
                 case 0:
                     //One line such as at valves
 
-                    return 0.0;
+                    return null;
 
                 case 1:
                     //One line such as at valves
@@ -291,7 +291,7 @@ namespace A4LGSharedFunctions
             public IPoint pntEnd { get; set; }
             public double angle { get; set; }
         }
-        public double RotatePointByNetwork(IMap pMap, INetworkFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName )
+        public Nullable<double> RotatePointByNetwork(IMap pMap, INetworkFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName)
         {
             //This routine is used by both RotateDuringCreateFeature and RotateSelectedFeature.
             //It contains all of logic for determining the rotation angle.
@@ -413,7 +413,7 @@ namespace A4LGSharedFunctions
                     case 0:
                         //One line such as at valves
 
-                        return 0.0;
+                        return null;
 
                     case 1:
                         //One line such as at valves
