@@ -50,7 +50,6 @@ namespace A4LGSharedFunctions
     public partial class ConfigFormNoLog : Form
     {
         ConfigEntries m_LoadedConfig;
-        ReloadMonitor m_ReloadMonitor;
         public ConfigFormNoLog()
         {
             InitializeComponent();
@@ -71,11 +70,6 @@ namespace A4LGSharedFunctions
             catch
             { }
             initForm();
-
-            m_ReloadMonitor = new ReloadMonitor();
-            if (m_ReloadMonitor == null)
-                MessageBox.Show("Reloading config file is not enabled, error in event handler");
-
 
         }
         private string configType;
@@ -133,29 +127,12 @@ namespace A4LGSharedFunctions
 
                 ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem));
 
-            
-                m_ReloadMonitor.Reload();
-
                 MessageBox.Show("Config file has been changed");
             }
             catch (Exception ex)
             {
                 MessageBox.Show("btnLoadConfig\n" + ex.ToString());
 
-            }
-        }
-
-        private void btnReload_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                m_ReloadMonitor.Reload();
-
-                MessageBox.Show("Config file has been reloaded");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error in Reload Click: " + ex.ToString());
             }
         }
 
