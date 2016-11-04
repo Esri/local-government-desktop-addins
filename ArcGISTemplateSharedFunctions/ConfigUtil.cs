@@ -341,15 +341,28 @@ namespace A4LGSharedFunctions
                 return false;
             }
         }
-        public static bool ChangeConfig(ConfigEntries LoadedConfig, ConfigEntries ConfigToLoad)
+        public static bool ChangeConfig(ConfigEntries LoadedConfig, ConfigEntries ConfigToLoad,bool backupConfig)
         {
             try
             {
-                string SourceFile = ConfigToLoad.Path + "\\" + LoadedConfig.FileName;
-                string SourceCopyFile = ConfigToLoad.Path + "\\" + LoadedConfig.Name + "." + type + ".config";
-                string TargetFile = LoadedConfig.Path + "\\" + ConfigToLoad.FileName;
+                string SourceFile = LoadedConfig.FullName;//ConfigToLoad.Path + "\\" + LoadedConfig.FileName;
+                string SourceCopyFile = LoadedConfig.Path + "\\" + LoadedConfig.Name + "." + type + ".config";
+                string TargetFile = ConfigToLoad.FullName;//LoadedConfig.Path + "\\" + ConfigToLoad.FileName;
 
-                if (copyFileContents(SourceFile, SourceCopyFile))
+                if (backupConfig == true) {
+                    if (copyFileContents(SourceFile, SourceCopyFile))
+                        if (copyFileContents(TargetFile, SourceFile))
+                        {
+                            //LoadedConfig.Name = ConfigToLoad.Name;
+                            return true;
+                        }
+                        else
+                            return false;
+
+                    else
+                        return false;
+                }
+                else { 
                     if (copyFileContents(TargetFile, SourceFile))
                     {
                         //LoadedConfig.Name = ConfigToLoad.Name;
@@ -357,10 +370,7 @@ namespace A4LGSharedFunctions
                     }
                     else
                         return false;
-
-                else
-                    return false;
-
+                }
                 //File.Copy(LoadedConfig.FullName, LoadedConfig.Path + "\\" + LoadedConfig.Name + ".config", true);
 
                 //File.Copy(ConfigToLoad.FullName, ConfigToLoad.Path + "\\" + "Config" + ".config", true);

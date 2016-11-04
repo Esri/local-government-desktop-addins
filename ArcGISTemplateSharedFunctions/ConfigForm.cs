@@ -69,6 +69,7 @@ namespace A4LGSharedFunctions
                 this.gpBxconfigFiles.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgConfigFiles");
                 this.gpBxLog.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgLogFile");
                 this.label2.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgNote");
+                this.chkBxBackupConfig.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgBackupConfig");
             }
             catch
             { }
@@ -142,7 +143,7 @@ namespace A4LGSharedFunctions
             {
                 if (cboConfigs.Items.Count == 0) return;
 
-                ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem));
+                ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem), this.chkBxBackupConfig.Checked);
 
                 initForm(configType);
 

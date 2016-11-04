@@ -40,6 +40,7 @@
             this.lblConfig = new System.Windows.Forms.Label();
             this.txtBxLoadedConfig = new System.Windows.Forms.TextBox();
             this.gpBxconfigFiles = new System.Windows.Forms.GroupBox();
+            this.chkBxBackupConfig = new System.Windows.Forms.CheckBox();
             this.btnPreview = new System.Windows.Forms.Button();
             this.gpBxLog = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -154,6 +155,7 @@
             // 
             // gpBxconfigFiles
             // 
+            this.gpBxconfigFiles.Controls.Add(this.chkBxBackupConfig);
             this.gpBxconfigFiles.Controls.Add(this.btnPreview);
             this.gpBxconfigFiles.Controls.Add(this.btnLoadConfig);
             this.gpBxconfigFiles.Controls.Add(this.cboConfigs);
@@ -164,6 +166,18 @@
             this.gpBxconfigFiles.TabIndex = 6;
             this.gpBxconfigFiles.TabStop = false;
             this.gpBxconfigFiles.Text = "Configuration Files";
+            // 
+            // chkBxBackupConfig
+            // 
+            this.chkBxBackupConfig.AutoSize = true;
+            this.chkBxBackupConfig.Checked = true;
+            this.chkBxBackupConfig.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkBxBackupConfig.Location = new System.Drawing.Point(164, 61);
+            this.chkBxBackupConfig.Name = "chkBxBackupConfig";
+            this.chkBxBackupConfig.Size = new System.Drawing.Size(80, 17);
+            this.chkBxBackupConfig.TabIndex = 6;
+            this.chkBxBackupConfig.Text = "checkBox1";
+            this.chkBxBackupConfig.UseVisualStyleBackColor = true;
             // 
             // btnPreview
             // 
@@ -242,6 +256,7 @@
             this.gpBxConfig.ResumeLayout(false);
             this.gpBxConfig.PerformLayout();
             this.gpBxconfigFiles.ResumeLayout(false);
+            this.gpBxconfigFiles.PerformLayout();
             this.gpBxLog.ResumeLayout(false);
             this.gpBxLog.PerformLayout();
             this.ResumeLayout(false);
@@ -267,5 +282,6 @@
         private System.Windows.Forms.TextBox txtBoxLogPath;
         private System.Windows.Forms.Button btnPrevLog;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox chkBxBackupConfig;
     }
 }

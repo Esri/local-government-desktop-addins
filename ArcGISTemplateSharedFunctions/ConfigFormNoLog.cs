@@ -65,7 +65,7 @@ namespace A4LGSharedFunctions
                 this.btnPreview.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgPreview");
                 this.lblConfig.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgLoadedConfig");
                 this.gpBxconfigFiles.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgConfigFiles");
-             
+                this.chkBxBackupConfig.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgBackupConfig");
             }
             catch
             { }
@@ -125,7 +125,7 @@ namespace A4LGSharedFunctions
             {
                 if (cboConfigs.Items.Count == 0) return;
 
-                ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem));
+                ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem), chkBxBackupConfig.Checked);
 
                 MessageBox.Show("Config file has been changed");
             }

@@ -3476,4 +3476,8 @@
     <value>This results contains {0} features, do you want to draw the results, this could take a long time?</value>
     <comment>Needs translation</comment>
   </data>
+  <data name="ConfigDlgBackupConfig" xml:space="preserve">
+    <value>Backup existing configuration</value>
+    <comment>Needs Translation</comment>
+  </data>
 </root>
