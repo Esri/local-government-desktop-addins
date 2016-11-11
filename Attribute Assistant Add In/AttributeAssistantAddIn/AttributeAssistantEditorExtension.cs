@@ -4452,6 +4452,14 @@ namespace ArcGIS4LocalGovernment
 
                                                         Double.TryParse("1", out searchDistance);
                                                     }
+                                                    else if (args.GetLength(0) >= 1)
+                                                    {
+
+                                                        sourceLayerNames = args[0].ToString().Split(',');
+                                                        offsetVal = 0;
+                                                        searchDistance = 1;
+                                                     
+                                                    }
                                                     else
                                                     {
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14av"));
