@@ -559,7 +559,7 @@ namespace ArcGIS4LocalGovernment
 
                     pDR = pDt.NewRow();
 
-                    string strVal = ((object[])lstNames)[i].ToString();
+                    string strVal = ((object[])lstNames)[i].ToString().Trim();
                     pDR["Field"] = strVal;
 
                     pDR["Changed"] = "F";
@@ -594,7 +594,7 @@ namespace ArcGIS4LocalGovernment
                             lstVal = AAState.lastValueProperties.GetProperty(dr[0].ToString()) as LastValueEntry;
                             if (lstVal != null)
                             {
-                                lstVal.Value = dr[1].ToString();
+                                lstVal.Value = dr[1].ToString().Trim();
                                 AAState.lastValueProperties.SetProperty(dr[0].ToString(), lstVal);
                             }
                         }
@@ -629,7 +629,7 @@ namespace ArcGIS4LocalGovernment
                 LastValueEntry lstVal;
                 for (int i = 0; i < AAState.lastValueProperties.Count; i++)
                 {
-                    string strVal = ((object[])lstNames)[i].ToString();
+                    string strVal = ((object[])lstNames)[i].ToString().Trim();
 
                     lstVal = AAState.lastValueProperties.GetProperty(strVal) as LastValueEntry;
                     if (lstVal != null)
@@ -3603,10 +3603,10 @@ namespace ArcGIS4LocalGovernment
 
                                                     for (int i = 0; i < sourceLayerNames.Length; i++)
                                                     {
-                                                        sourceLayerName = sourceLayerNames[i].ToString();
+                                                        sourceLayerName = sourceLayerNames[i].ToString().Trim();
                                                         if (sourceLayerName != "")
 
-                                                            sourceLayerName = args[i].ToString();
+                                                            sourceLayerName = args[i].ToString().Trim();
                                                         if (i == 0)
                                                             i++;
                                                         boolLayerOrFC = true;
@@ -3866,10 +3866,10 @@ namespace ArcGIS4LocalGovernment
                                                     found = false;
                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bs"));
                                                     targetLayerNames = args[0].ToString().Split(',');
-                                                    targetFieldName = args[1].ToString();
+                                                    targetFieldName = args[1].ToString().Trim();
                                                     string targetLayerName = "";
-                                                    string sourceIDFieldName = args[2].ToString();
-                                                    string targetIDFieldName = args[3].ToString();
+                                                    string sourceIDFieldName = args[2].ToString().Trim();
+                                                    string targetIDFieldName = args[3].ToString().Trim();
                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bt"));
                                                     if (targetFieldName != null)
                                                     {
@@ -4208,10 +4208,10 @@ namespace ArcGIS4LocalGovernment
                                                         found = false;
                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bs"));
                                                         targetLayerNames = args[0].ToString().Split(',');
-                                                        targetFieldName = args[1].ToString();
+                                                        targetFieldName = args[1].ToString().Trim();
                                                         string targetLayerName = "";
-                                                        string sourceIDFieldName = args[2].ToString();
-                                                        string targetIDFieldName = args[3].ToString();
+                                                        string sourceIDFieldName = args[2].ToString().Trim();
+                                                        string targetIDFieldName = args[3].ToString().Trim();
                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bt"));
                                                         if (targetFieldName != null)
                                                         {
@@ -4476,10 +4476,10 @@ namespace ArcGIS4LocalGovernment
 
                                                     for (int i = 0; i < sourceLayerNames.Length; i++)
                                                     {
-                                                        sourceLayerName = sourceLayerNames[i].ToString();
+                                                        sourceLayerName = sourceLayerNames[i].ToString().Trim();
                                                         if (sourceLayerName != "")
 
-                                                            sourceLayerName = args[i].ToString();
+                                                            sourceLayerName = args[i].ToString().Trim();
                                                         if (i == 0)
                                                             i++;
                                                         boolLayerOrFC = true;
@@ -4675,8 +4675,8 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             case 3:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                sourceFieldName = args[1].ToString();
-                                                                inputFieldName = args[2].ToString();
+                                                                sourceFieldName = args[1].ToString().Trim();
+                                                                inputFieldName = args[2].ToString().Trim();
                                                                 break;
                                                             default:
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SIDE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bm"));
@@ -4690,7 +4690,7 @@ namespace ArcGIS4LocalGovernment
 
                                                             for (int i = 0; i < sourceLayerNames.Length; i++)
                                                             {
-                                                                sourceLayerName = sourceLayerNames[i].ToString();
+                                                                sourceLayerName = sourceLayerNames[i].ToString().Trim();
 
                                                                 if (sourceLayerName != "")
                                                                 {
@@ -6405,17 +6405,17 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:  // Feature Layer only
-                                                        intersectLayerName = args[0].ToString();
+                                                        intersectLayerName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:  // Feature Layer| Field to copy
-                                                        intersectLayerName = args[0].ToString();
+                                                        intersectLayerName = args[0].ToString().Trim();
 
 
                                                         intersectLayerFieldNameList = new List<string>(args[1].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
 
                                                         break;
                                                     case 3:  // Feature Layer| Field to copy | for future
-                                                        intersectLayerName = args[0].ToString();
+                                                        intersectLayerName = args[0].ToString().Trim();
                                                         intersectLayerFieldNameList = new List<string>(args[1].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
 
                                                         break;
@@ -7828,7 +7828,7 @@ namespace ArcGIS4LocalGovernment
                                                             if (Globals.IsNumeric(args[1].ToString()))
                                                                 AAState.rCalc.SpinAngle = Convert.ToDouble(args[1]);
                                                             AAState.rCalc.UseDiameter = true;
-                                                            AAState.rCalc.DiameterFieldName = args[2].ToString();
+                                                            AAState.rCalc.DiameterFieldName = args[2].ToString().Trim();
 
                                                         }
 
@@ -7839,8 +7839,8 @@ namespace ArcGIS4LocalGovernment
                                                             if (Globals.IsNumeric(args[1].ToString()))
                                                                 AAState.rCalc.SpinAngle = Convert.ToDouble(args[1]);
                                                             AAState.rCalc.UseDiameter = true;
-                                                            AAState.rCalc.DiameterFieldName = args[2].ToString();
-                                                            AAState.rCalc.OnlyLayerName = args[3].ToString();
+                                                            AAState.rCalc.DiameterFieldName = args[2].ToString().Trim();
+                                                            AAState.rCalc.OnlyLayerName = args[3].ToString().Trim();
 
                                                         }
                                                         else
@@ -8414,22 +8414,22 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
-                                                        sourceFieldName = args[0].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
                                                         break;
                                                     case 3:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
                                                         break;
                                                     case 4:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
-                                                        sortOrder = args[3].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
+                                                        sortOrder = args[3].ToString().Trim();
                                                         break;
                                                     default: break;
                                                 }
@@ -8678,22 +8678,22 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
-                                                        sourceFieldName = args[0].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
                                                         break;
                                                     case 3:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
                                                         break;
                                                     case 4:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
-                                                        sortOrder = args[3].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
+                                                        sortOrder = args[3].ToString().Trim();
                                                         break;
                                                     default: break;
                                                 }
@@ -8944,22 +8944,22 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
-                                                        sourceFieldName = args[0].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
                                                         break;
                                                     case 3:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
                                                         break;
                                                     case 4:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
-                                                        sortOrder = args[3].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
+                                                        sortOrder = args[3].ToString().Trim();
                                                         break;
                                                     default: break;
                                                 }
@@ -9203,7 +9203,7 @@ namespace ArcGIS4LocalGovernment
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain114"));
 
 
-                                                    sourceFieldName = args[0].ToString();
+                                                    sourceFieldName = args[0].ToString().Trim();
                                                     string[] fieldsToPop = args[1].ToString().Split(',');
 
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TO_EDGE_MULTI_FIELD_INTERSECT");
@@ -9319,7 +9319,7 @@ namespace ArcGIS4LocalGovernment
                                                 {
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain114"));
 
-                                                    sourceFieldName = args[0].ToString();
+                                                    sourceFieldName = args[0].ToString().Trim();
                                                     string[] fieldsToPop = args[1].ToString().Split(',');
 
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FROM_EDGE_MULTI_FIELD_INTERSECT");
@@ -11098,20 +11098,20 @@ namespace ArcGIS4LocalGovernment
                                                     switch (args.GetLength(0))
                                                     {
                                                         case 1:  // sequenceColumnName only
-                                                            sequenceColumnName = args[0].ToString(); break;
+                                                            sequenceColumnName = args[0].ToString().Trim(); break;
                                                         case 2:  // sequenceColumnName|sequenceFixedWidth
-                                                            sequenceColumnName = args[0].ToString();
-                                                            sequenceFixedWidth = args[1].ToString();
+                                                            sequenceColumnName = args[0].ToString().Trim();
+                                                            sequenceFixedWidth = args[1].ToString().Trim();
                                                             break;
                                                         case 3:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                            sequenceColumnName = args[0].ToString();
-                                                            sequenceFixedWidth = args[1].ToString();
-                                                            formatString = args[2].ToString();
+                                                            sequenceColumnName = args[0].ToString().Trim();
+                                                            sequenceFixedWidth = args[1].ToString().Trim();
+                                                            formatString = args[2].ToString().Trim();
                                                             break;
                                                         case 4:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                            sequenceColumnName = args[0].ToString();
-                                                            sequenceFixedWidth = args[1].ToString();
-                                                            formatString = args[2].ToString();
+                                                            sequenceColumnName = args[0].ToString().Trim();
+                                                            sequenceFixedWidth = args[1].ToString().Trim();
+                                                            formatString = args[2].ToString().Trim();
                                                             onlyWhenNull = args[3].ToString().ToUpper() == "TRUE" ? true : false;
 
                                                             break;
@@ -11270,38 +11270,38 @@ namespace ArcGIS4LocalGovernment
                                                     switch (args.GetLength(0))
                                                     {
                                                         case 3:  //columnName
-                                                            intersectLayerName = args[0].ToString();
-                                                            intersectLayerFieldName = args[1].ToString();
-                                                            // genIdAreaFieldName = args[2].ToString();
-                                                            sequenceColumnName = args[2].ToString();
+                                                            intersectLayerName = args[0].ToString().Trim();
+                                                            intersectLayerFieldName = args[1].ToString().Trim();
+                                                            // genIdAreaFieldName = args[2].ToString().Trim();
+                                                            sequenceColumnName = args[2].ToString().Trim();
                                                             break;
                                                         case 4:  // columnName|sequenceFixedWidth 
                                                             //sequenceFixedWidth formats the sequence with leading zeros to create specified width
-                                                            intersectLayerName = args[0].ToString();
-                                                            intersectLayerFieldName = args[1].ToString();
-                                                            //genIdAreaFieldName = args[2].ToString();
-                                                            sequenceColumnName = args[2].ToString();
+                                                            intersectLayerName = args[0].ToString().Trim();
+                                                            intersectLayerFieldName = args[1].ToString().Trim();
+                                                            //genIdAreaFieldName = args[2].ToString().Trim();
+                                                            sequenceColumnName = args[2].ToString().Trim();
                                                             sequenceFixedWidth = Convert.ToString(0);
-                                                            formatString = args[3].ToString();
+                                                            formatString = args[3].ToString().Trim();
 
                                                             break;
                                                         case 5:  // columnName|sequenceFixedWidth|formatString 
                                                             //formatString must contain [seq] and [id]  and may contain [area] plus any desired text
-                                                            intersectLayerName = args[0].ToString();
-                                                            intersectLayerFieldName = args[1].ToString();
-                                                            //genIdAreaFieldName = args[2].ToString();
-                                                            sequenceColumnName = args[2].ToString();
-                                                            sequenceFixedWidth = args[3].ToString();
-                                                            formatString = args[4].ToString();
+                                                            intersectLayerName = args[0].ToString().Trim();
+                                                            intersectLayerFieldName = args[1].ToString().Trim();
+                                                            //genIdAreaFieldName = args[2].ToString().Trim();
+                                                            sequenceColumnName = args[2].ToString().Trim();
+                                                            sequenceFixedWidth = args[3].ToString().Trim();
+                                                            formatString = args[4].ToString().Trim();
                                                             break;
                                                         case 6:  // columnName|sequenceFixedWidth|formatString|onlyWhenNull
                                                             //formatString must contain [seq] and [id]  and may contain [area] plus any desired text
-                                                            intersectLayerName = args[0].ToString();
-                                                            intersectLayerFieldName = args[1].ToString();
-                                                            //genIdAreaFieldName = args[2].ToString();
-                                                            sequenceColumnName = args[2].ToString();
-                                                            sequenceFixedWidth = args[3].ToString();
-                                                            formatString = args[4].ToString();
+                                                            intersectLayerName = args[0].ToString().Trim();
+                                                            intersectLayerFieldName = args[1].ToString().Trim();
+                                                            //genIdAreaFieldName = args[2].ToString().Trim();
+                                                            sequenceColumnName = args[2].ToString().Trim();
+                                                            sequenceFixedWidth = args[3].ToString().Trim();
+                                                            formatString = args[4].ToString().Trim();
                                                             onlyWhenNull = args[5].ToString().ToUpper() == "TRUE" ? true : false;
                                                             break;
 
@@ -12681,7 +12681,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         if (args.GetLength(0) >= 5)
                                                         {
-                                                            delim = args[4].ToString();
+                                                            delim = args[4].ToString().Trim();
                                                         }
                                                         else
                                                         {
@@ -12690,7 +12690,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         if (args.GetLength(0) >= 6)
                                                         {
-                                                            sortOrder = args[5].ToString();
+                                                            sortOrder = args[5].ToString().Trim();
                                                         }
                                                         else
                                                         {
@@ -13241,14 +13241,14 @@ namespace ArcGIS4LocalGovernment
 
 
                                                         string[] sourceFieldNames = args[0].ToString().Split(',');
-                                                        string statType = args[1].ToString();
+                                                        string statType = args[1].ToString().Trim();
                                                         if (args.Length > 2)
                                                         {
-                                                            delim = args[2].ToString();
+                                                            delim = args[2].ToString().Trim();
                                                         }
                                                         if (args.Length > 3)
                                                         {
-                                                            sortOrder = args[3].ToString();
+                                                            sortOrder = args[3].ToString().Trim();
                                                         }
                                                         double result = -999999.1;
                                                         string textRes = "";
@@ -13261,7 +13261,7 @@ namespace ArcGIS4LocalGovernment
                                                             for (int i = 0; i < sourceFieldNames.Length; i++)
                                                             {
 
-                                                                sourceFieldName = sourceFieldNames[i].ToString();
+                                                                sourceFieldName = sourceFieldNames[i].ToString().Trim();
                                                                 if (sourceFieldName != "")
                                                                 {
 
@@ -13452,10 +13452,10 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
-                                                        sourceFieldName = args[0].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:
-                                                        sourceFieldName = args[1].ToString();
+                                                        sourceFieldName = args[1].ToString().Trim();
                                                         break;
 
                                                     default: break;
@@ -13570,11 +13570,11 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             case 2:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                sourceFieldName = args[1].ToString();
+                                                                sourceFieldName = args[1].ToString().Trim();
                                                                 break;
                                                             case 3:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                sourceFieldName = args[1].ToString();
+                                                                sourceFieldName = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
                                                                     case "PROMPT":
@@ -13621,7 +13621,7 @@ namespace ArcGIS4LocalGovernment
                                                                 break;
                                                             case 4:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                sourceFieldName = args[1].ToString();
+                                                                sourceFieldName = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
                                                                     case "PROMPT":
@@ -13665,7 +13665,7 @@ namespace ArcGIS4LocalGovernment
                                                                         switchToPrompt = true;
                                                                         break;
                                                                 }
-                                                                nullOnNone = args[3].ToString();
+                                                                nullOnNone = args[3].ToString().Trim();
                                                                 break;
                                                             default: break;
                                                         }
@@ -14242,12 +14242,12 @@ namespace ArcGIS4LocalGovernment
                                                             break;
                                                         case 2:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            valTrue = args[1].ToString();
+                                                            valTrue = args[1].ToString().Trim();
                                                             break;
                                                         case 3:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            valTrue = args[1].ToString();
-                                                            valFalse = args[2].ToString();
+                                                            valTrue = args[1].ToString().Trim();
+                                                            valFalse = args[2].ToString().Trim();
 
                                                             break;
                                                         default: break;
@@ -14491,7 +14491,7 @@ namespace ArcGIS4LocalGovernment
                                                             break;
                                                         case 2:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            formatString = args[1].ToString();
+                                                            formatString = args[1].ToString().Trim();
                                                             break;
                                                         default: break;
                                                     }
@@ -14567,11 +14567,11 @@ namespace ArcGIS4LocalGovernment
                                                                 break;
                                                             case 2:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                formatString = args[1].ToString();
+                                                                formatString = args[1].ToString().Trim();
                                                                 break;
                                                             case 3:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                formatString = args[1].ToString();
+                                                                formatString = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
                                                                     case "PROMPT":
@@ -14596,7 +14596,7 @@ namespace ArcGIS4LocalGovernment
                                                                 break;
                                                             case 4:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                formatString = args[1].ToString();
+                                                                formatString = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
                                                                     case "PROMPT":
@@ -14781,10 +14781,10 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         for (int i = 0; i < sourceLayerNames.Length; i++)
                                                         {
-                                                            sourceLayerName = sourceLayerNames[i].ToString();
+                                                            sourceLayerName = sourceLayerNames[i].ToString().Trim();
                                                             if (sourceLayerName != "")
 
-                                                                sourceLayerName = args[i].ToString();
+                                                                sourceLayerName = args[i].ToString().Trim();
                                                             if (i == 0)
                                                                 i++;
                                                             boolLayerOrFC = true;
@@ -15064,11 +15064,11 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         case 2:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            sourceFieldName = args[1].ToString();
+                                                            sourceFieldName = args[1].ToString().Trim();
                                                             break;
                                                         case 3:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            sourceFieldName = args[1].ToString();
+                                                            sourceFieldName = args[1].ToString().Trim();
 
                                                             Double.TryParse(args[2], out searchDistance);
                                                             break;
@@ -15078,10 +15078,10 @@ namespace ArcGIS4LocalGovernment
 
                                                         case 5:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            sourceFieldName = args[1].ToString();
+                                                            sourceFieldName = args[1].ToString().Trim();
                                                             Double.TryParse(args[2], out searchDistance);
-                                                            sourceMatField = args[3].ToString();
-                                                            targetMatField = args[4].ToString();
+                                                            sourceMatField = args[3].ToString().Trim();
+                                                            targetMatField = args[4].ToString().Trim();
                                                             break;
                                                         default:
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain168"));
@@ -15093,7 +15093,7 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         for (int i = 0; i < sourceLayerNames.Length; i++)
                                                         {
-                                                            sourceLayerName = sourceLayerNames[i].ToString();
+                                                            sourceLayerName = sourceLayerNames[i].ToString().Trim();
                                                             if (sourceLayerName != "")
                                                             {
                                                                 boolLayerOrFC = true;
