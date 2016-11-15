@@ -11724,6 +11724,11 @@ namespace ArcGIS4LocalGovernment
                                                                     {
                                                                         intDigits = val.ToString().Split(',')[1].Length;
                                                                     }
+                                                                    else if (val.ToString().IndexOf("'") >= 0)
+                                                                    {
+                                                                        intDigits = val.ToString().Split('\'')[1].Length;
+                                                                    }
+                                                                        
                                                                     else
                                                                     {
                                                                         intDigits = 2;
