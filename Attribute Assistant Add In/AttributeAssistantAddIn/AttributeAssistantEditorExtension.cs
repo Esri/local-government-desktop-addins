@@ -1907,6 +1907,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             AAState._processCount++;
                             //Set attributes based on the dynamic defaults configuration table
+                            inFeature = inObject as IFeature;
                             bool success = SetDynamicValues(inObject, eventType, out changedFeatureList, out newFeatureList, out changedFeatureGeoList);
                             try
                             {
