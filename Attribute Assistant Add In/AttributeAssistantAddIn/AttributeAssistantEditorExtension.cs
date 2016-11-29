@@ -3671,31 +3671,219 @@ namespace ArcGIS4LocalGovernment
 
                                                         IPolyline pTempLine = new PolylineClass();
                                                         pTempLine = Globals.CreateAngledLineFromLocationOnLine((IPoint)inFeature.Shape, sourceLayer,
-                                                            boolLayerOrFC, Globals.ConvertDegToRads(90), offsetVal, "true", true, false);
+                                                            boolLayerOrFC, Globals.ConvertDegToRads(90), offsetVal, "true", true, false, searchDistance);
 
-                                                        IEditTemplate pTemp = null;
-                                                        IFeature pFeat = null;
-
-                                                        if (targetLayerTemp != "")
-                                                            pTemp = Globals.GetEditTemplate(targetLayerTemp, targetLayer);
-                                                        if (pTemp != null)
+                                                        if (pTempLine != null)
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain33"));
-                                                            pFeat = Globals.CreateFeature(pTempLine, pTemp, AAState._editor, ArcMap.Application, false, false, false);
+                                                            if (pTempLine.IsEmpty == false)
+                                                            {
+                                                                IEditTemplate pTemp = null;
+                                                                IFeature pFeat = null;
 
+                                                                if (targetLayerTemp != "")
+                                                                    pTemp = Globals.GetEditTemplate(targetLayerTemp, targetLayer);
+                                                                if (pTemp != null)
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain33"));
+                                                                    pFeat = Globals.CreateFeature(pTempLine, pTemp, AAState._editor, ArcMap.Application, false, false, false);
+
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    pFeat = Globals.CreateFeature(pTempLine, targetLayer, AAState._editor, ArcMap.Application, false, false, false);
+                                                                }
+
+                                                                if (NewFeatureList == null)
+                                                                {
+                                                                    NewFeatureList = new List<IObject>();
+                                                                }
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain34"));
+                                                                NewFeatureList.Add(pFeat);
+                                                            }
+                                                            else{
+                                                                AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
+                                                            }
                                                         }
                                                         else
                                                         {
-
-                                                            pFeat = Globals.CreateFeature(pTempLine, targetLayer, AAState._editor, ArcMap.Application, false, false, false);
+                                                            AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
                                                         }
+                                                        
 
-                                                        if (NewFeatureList == null)
+                                                    }
+                                                }
+
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CREATE_PERP_LINE: " + ex.ToString());
+                                            }
+                                            finally
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "CREATE_PERP_LINE");
+                                            }
+                                            break;
+                                        case "CREATE_PERP_LINE_TO_LINE"://Layer to Search For|Search distance to look for a line|TargetLayer|TargetLayerTemplate
+
+                                            try
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "CREATE_PERP_LINE");
+                                                if (inFeature != null & valData != null)
+                                                {
+                                                    sourceLayerName = "";
+                                                    string targetLayerName = "";
+                                                    IFeatureLayer targetLayer = null;
+                                                    string targetLayerTemp = "";
+
+                                                    // Parse arguments
+                                                    args = valData.Split('|');
+                                                    
+                                                    if (args.GetLength(0) == 4)
+                                                    {
+
+                                                        sourceLayerNames = args[0].ToString().Split(',');
+
+                                                    
+                                                        Double.TryParse(args[1], out searchDistance);
+                                                        targetLayerName = args[2];
+                                                        targetLayerTemp = args[3];
+
+                                                    }
+                                                    else if (args.GetLength(0) == 3)
+                                                    {
+
+
+                                                        sourceLayerNames = args[0].ToString().Split(',');
+
+
+                                                        Double.TryParse(args[1], out searchDistance);
+                                                        targetLayerName = args[2];
+                                                        targetLayerTemp = args[3];
+                                                    }
+                                                    else
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14av"));
+                                                        continue;
+                                                    }
+                                                    if (intFldIdxs.Count > 0)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain32"));
+                                                        continue;
+                                                    }
+
+                                                    targetLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, targetLayerName, ref boolLayerOrFC);
+                                                    if (targetLayer == null)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14g") + targetLayerName);
+                                                        continue;
+                                                    }
+                                                    if (targetLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPolyline)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14h") + targetLayerName);
+                                                        continue;
+                                                    }
+                                                    if (targetLayer is ICadastralFabricSubLayer2)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14i") + targetLayerName);
+                                                        continue;
+                                                    }
+
+                                                    for (int i = 0; i < sourceLayerNames.Length; i++)
+                                                    {
+                                                        sourceLayerName = sourceLayerNames[i].ToString().Trim();
+                                                        if (sourceLayerName != "")
+
+                                                            sourceLayerName = args[i].ToString().Trim();
+                                                        if (i == 0)
+                                                            i++;
+                                                        boolLayerOrFC = true;
+
+                                                        if (sourceLayerName.Contains("("))
                                                         {
-                                                            NewFeatureList = new List<IObject>();
+                                                            string[] tempSplt = sourceLayerName.Split('(');
+                                                            sourceLayerName = tempSplt[0];
+                                                            sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+
+                                                            if (tempSplt[1].ToUpper().Contains("LAYER)"))
+                                                            {
+                                                                boolLayerOrFC = true;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("FEATURELAYER)"))
+                                                            {
+                                                                boolLayerOrFC = true;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("FEATURECLASS)"))
+                                                            {
+                                                                boolLayerOrFC = false;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("CLASS)"))
+                                                            {
+                                                                boolLayerOrFC = false;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("FEATURE)"))
+                                                            {
+                                                                boolLayerOrFC = false;
+                                                            }
+                                                            else
+                                                            {
+                                                                boolLayerOrFC = true;
+                                                            }
                                                         }
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain34"));
-                                                        NewFeatureList.Add(pFeat);
+                                                        else
+                                                        {
+                                                            sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+
+                                                        }
+                                                        if (sourceLayer == null)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14b") + sourceLayer + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
+                                                            continue;
+                                                        }
+                                                      
+
+                                                        IPolyline pTempLine = new PolylineClass();
+                                                        pTempLine = Globals.CreateAngledLineFromLocationToLine((IPoint)inFeature.Shape, sourceLayer, boolLayerOrFC, true, false, searchDistance);
+
+                                                        if (pTempLine != null)
+                                                        {
+                                                            if (pTempLine.IsEmpty == false)
+                                                            {
+                                                                IEditTemplate pTemp = null;
+                                                                IFeature pFeat = null;
+
+                                                                if (targetLayerTemp != "")
+                                                                    pTemp = Globals.GetEditTemplate(targetLayerTemp, targetLayer);
+                                                                if (pTemp != null)
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain33"));
+                                                                    pFeat = Globals.CreateFeature(pTempLine, pTemp, AAState._editor, ArcMap.Application, false, false, false);
+
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    pFeat = Globals.CreateFeature(pTempLine, targetLayer, AAState._editor, ArcMap.Application, false, false, false);
+                                                                }
+
+                                                                if (NewFeatureList == null)
+                                                                {
+                                                                    NewFeatureList = new List<IObject>();
+                                                                }
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain34"));
+                                                                NewFeatureList.Add(pFeat);
+                                                            }
+                                                            else
+                                                            {
+                                                                AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
+                                                        }
+
 
                                                     }
                                                 }

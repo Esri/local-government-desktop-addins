@@ -2418,8 +2418,69 @@ namespace A4LGSharedFunctions
             return value * (360 / 12);
 
         }
+        public static IPolyline CreateAngledLineFromLocationToLine(IPoint inPoint, IFeatureLayer mainLayer, bool boolLayerOrFC,
+                                                                   bool StartAtInput, bool CheckSelection,double searchDist)
+        {
+
+            IPoint snapPnt = null;
+            IPolyline pPolyline = null;
+            IFeature geoMainLine = null;
+            IPoint pNewPt = null;
+            IConstructPoint2 pConsPoint = null;
+            //double dAlong;
+            try
+            {
+
+                if (mainLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolygon)
+                {
+                    return null;
+
+                }
+                if (mainLayer == null)
+                {
+                    return null;
+                }
+
+                geoMainLine = Globals.GetClosestFeature(inPoint, mainLayer, searchDist, boolLayerOrFC, CheckSelection);
+                bool side = false;
+
+                if (geoMainLine != null)
+                {
+                    snapPnt = Globals.GetPointOnLine(inPoint, (IGeometry)geoMainLine.ShapeCopy, searchDist, out side);
+
+                    pPolyline = new PolylineClass();
+                    if (StartAtInput)
+                    {
+                        pPolyline.FromPoint = snapPnt;
+                        pPolyline.ToPoint = inPoint;
+                    }
+                    else
+                    {
+                        pPolyline.FromPoint = inPoint;
+                        pPolyline.ToPoint = snapPnt;
+                    }
+                    return pPolyline;
+
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+
+                // snapPnt = null;
+                pPolyline = null;
+                geoMainLine = null;
+                pNewPt = null;
+                pConsPoint = null;
+            }
+        }
+   
         public static IPolyline CreateAngledLineFromLocationOnLine(IPoint inPoint, IFeatureLayer mainLayer, bool boolLayerOrFC,
-           double RadianAngle, double LineLength, string AddAngleToLineAngle, bool StartAtInput, bool CheckSelection)
+           double RadianAngle, double LineLength, string AddAngleToLineAngle, bool StartAtInput, bool CheckSelection, double searchDistance = 0)
         {
 
             IPoint snapPnt = null;
@@ -2442,8 +2503,15 @@ namespace A4LGSharedFunctions
                     return null;
                 }
 
-
-                double searchDist = Globals.GetXYTolerance(mainLayer) * 2000;
+                double searchDist;
+                if (searchDistance <= 0)
+                {
+                    searchDist = Globals.GetXYTolerance(mainLayer) * 2000;
+                }
+                else{
+                    searchDist = searchDistance;
+                }
+                
 
                 geoMainLine = Globals.GetClosestFeature(inPoint, mainLayer, searchDist, boolLayerOrFC, CheckSelection);
                 bool side = false;
