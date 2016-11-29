@@ -3760,7 +3760,7 @@ namespace ArcGIS4LocalGovernment
 
                                                         Double.TryParse(args[1], out searchDistance);
                                                         targetLayerName = args[2];
-                                                        targetLayerTemp = args[3];
+
                                                     }
                                                     else
                                                     {
