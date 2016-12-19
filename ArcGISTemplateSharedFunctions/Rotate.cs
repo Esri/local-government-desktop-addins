@@ -104,7 +104,7 @@ namespace A4LGSharedFunctions
                 {
 
 
-                    if (pFLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolyline && pFLayer.Visible && (strLayerName == "" || strLayerName == Globals.getClassName((IDataset)pFLayer.FeatureClass)))
+                    if (pFLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolyline && pFLayer.Visible && (strLayerName == "" || strLayerName == null || strLayerName == Globals.getClassName((IDataset)pFLayer.FeatureClass)))
                     {
                         //Apply the filter this line layer
                         pLineCursor = pFLayer.FeatureClass.Search(pSFilter, true);
