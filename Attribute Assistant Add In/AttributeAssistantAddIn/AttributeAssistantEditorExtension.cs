@@ -6091,19 +6091,19 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             if (pFS.SelectionSet.Count > 0)
                                                                             {
-                                                                                pFS.SelectionSet.Search(sFilter, true, out cCurs);
+                                                                                pFS.SelectionSet.Search(sFilter, false, out cCurs);
                                                                                 fCursor = cCurs as IFeatureCursor;
 
 
                                                                             }
                                                                             else
                                                                             {
-                                                                                fCursor = intersectLayer.Search(sFilter, true);
+                                                                                fCursor = intersectLayer.Search(sFilter, false);
                                                                             }
                                                                         }
                                                                         else
                                                                         {
-                                                                            fCursor = intersectLayer.FeatureClass.Search(sFilter, true);
+                                                                            fCursor = intersectLayer.FeatureClass.Search(sFilter, false);
                                                                         }
 
                                                                         IFeature intsersectFeature;
