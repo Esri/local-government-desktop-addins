@@ -89,31 +89,28 @@ namespace A4WaterUtilities
                     pStartPointLayer = Globals.FindLayer(app, pDet.Point_Start_LayerName, ref FCorLayerStart) as IFeatureLayer;
                     pAlongPointLayer = Globals.FindLayer(app, pDet.Point_Along_LayerName, ref FCorLayerAlong) as IFeatureLayer;
                     pEndPointLayer = Globals.FindLayer(app, pDet.Point_End_LayerName, ref FCorLayerEnd) as IFeatureLayer;
-                    if (pStartPointLayer == null)
-                        continue;
-                    else if (pStartPointLayer.FeatureClass == null)
-                        continue;
-                    //if (pAlongPointLayer == null)
-                    //    continue;
-                    //else if (pAlongPointLayer.FeatureClass == null)
-                    //    continue;
-                    if (pEndPointLayer == null)
-                        continue;
-                    else if (pEndPointLayer.FeatureClass == null)
-                        continue;
-                    //if (pDet.lineLayerName == SourceLayer.Name)
 
-
-                    if (!Globals.IsEditable(ref pStartPointLayer, ref editor))
-                        return false;
+                    if (pStartPointLayer != null)
+                    {
+                        if (pStartPointLayer.FeatureClass == null)
+                            pStartPointLayer = null;
+                        else if (!Globals.IsEditable(ref pStartPointLayer, ref editor))
+                            pStartPointLayer = null;
+                    }
+                    if (pEndPointLayer != null)
+                    {
+                        if (pEndPointLayer.FeatureClass == null)
+                            pEndPointLayer = null;
+                        else if (!Globals.IsEditable(ref pEndPointLayer, ref editor))
+                            pEndPointLayer = null;
+                    }
                     if (pAlongPointLayer != null)
                     {
-                        if (!Globals.IsEditable(ref pAlongPointLayer, ref editor))
-                            return false;
+                        if (pAlongPointLayer.FeatureClass == null)
+                            pAlongPointLayer = null;
+                        else if (!Globals.IsEditable(ref pAlongPointLayer, ref editor))
+                            pAlongPointLayer = null;
                     }
-                    if (!Globals.IsEditable(ref pEndPointLayer, ref editor))
-                        return false;
-                    //IFeatureLayer pPointLay = Globals.FindLayer(app, pDet.pointLayerName) as IFeatureLayer;
 
                     pCur = line;// as ICurve; 
 
@@ -123,14 +120,20 @@ namespace A4WaterUtilities
                         //pEditTempAlong = Globals.PromptAndGetEditTemplate(app, pAlongPointLayer, pDet.Point_Along_EditTemplate, "Template for Point Along Layer: " + pAlongPointLayer.Name);
 
                         //pEditTempEnd = Globals.PromptAndGetEditTemplate(app, pEndPointLayer, pDet.Point_End_EditTemplate, "Template for End Layer: " + pEndPointLayer.Name);
-
-                        pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, pDet.Point_Start_EditTemplate);
+                        if (pStartPointLayer != null)
+                        {
+                            pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, pDet.Point_Start_EditTemplate);
+                        }
                         if (pAlongPointLayer != null)
                         {
                             pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, pDet.Point_Along_EditTemplate);
 
                         }
-                        pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, pDet.Point_End_EditTemplate);
+                        if (pEndPointLayer != null)
+                        {
+                            pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, pDet.Point_End_EditTemplate);
+                        }
+
 
 
                     }
@@ -140,13 +143,19 @@ namespace A4WaterUtilities
                         //pEditTempAlong = Globals.PromptAndGetEditTemplate(app, pAlongPointLayer, "", "Template for Point Along Layer: " + pAlongPointLayer.Name);
 
                         //pEditTempEnd = Globals.PromptAndGetEditTemplate(app, pEndPointLayer, "", "Template for End Layer: " + pEndPointLayer.Name);
+                        if (pStartPointLayer != null)
+                        {
+                            pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, "");
+                        }
 
-                        pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, "");
                         if (pAlongPointLayer != null)
                         {
                             pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, "");
                         }
-                        pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, "");
+                        if (pEndPointLayer != null)
+                        {
+                            pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, "");
+                        }
 
 
                     }
@@ -166,35 +175,40 @@ namespace A4WaterUtilities
                         {
                             if (pntIdx == 0)
                             {
-                                if (pEditTempStart == null)
+                                if (pStartPointLayer != null)
                                 {
-                                    pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pStartPointLayer, pPntFeat);
-                                    //  pPntFeat.Store();
-                                }
-                                else
-                                {
-                                    pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
-                                    //pPntFeat.Store();
+                                    if (pEditTempStart == null)
+                                    {
+                                        pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pStartPointLayer, pPntFeat);
+                                        //  pPntFeat.Store();
+                                    }
+                                    else
+                                    {
+                                        pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
+                                        //pPntFeat.Store();
+                                    }
                                 }
 
                             }
                             else if (pntIdx == pPointColl.PointCount - 1)
                             {
-
-                                if (pEditTempEnd == null)
+                                if (pEndPointLayer != null)
                                 {
+                                    if (pEditTempEnd == null)
+                                    {
 
-                                    pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pEndPointLayer, pPntFeat);
-                                    // pPntFeat.Store();
-                                }
-                                else
-                                {
-                                    pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pEditTempEnd.Layer, pPntFeat);
-                                    //   pPntFeat.Store();
+                                        pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pEndPointLayer, pPntFeat);
+                                        // pPntFeat.Store();
+                                    }
+                                    else
+                                    {
+                                        pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pEditTempEnd.Layer, pPntFeat);
+                                        //   pPntFeat.Store();
+                                    }
                                 }
                             }
                             else
@@ -229,46 +243,49 @@ namespace A4WaterUtilities
                     }
                     else
                     {
-
-                        if (pEditTempStart == null)
+                        if (pStartPointLayer != null)
                         {
-                            pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
-                            if (pPntFeat != null)
+                            if (pEditTempStart == null)
                             {
-                                pLstFeat.Add(pPntFeat);
-                                // pPntFeat.Store();
+                                pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
+                                if (pPntFeat != null)
+                                {
+                                    pLstFeat.Add(pPntFeat);
+                                    // pPntFeat.Store();
+                                }
+                            }
+                            else
+                            {
+                                pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
+                                if (pPntFeat != null)
+                                {
+                                    pLstFeat.Add(pPntFeat);
+                                    // pPntFeat.Store();
+                                }
                             }
                         }
-                        else
+                        if (pEndPointLayer == null)
                         {
-                            pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
-                            if (pPntFeat != null)
+                            if (pEditTempEnd == null)
                             {
-                                pLstFeat.Add(pPntFeat);
-                                // pPntFeat.Store();
+                                pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
+                                if (pPntFeat != null)
+                                {
+                                    pLstFeat.Add(pPntFeat);
+                                    // pPntFeat.Store();
+                                }
                             }
-                        }
-
-                        if (pEditTempEnd == null)
-                        {
-                            pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
-                            if (pPntFeat != null)
+                            else
                             {
-                                pLstFeat.Add(pPntFeat);
-                                // pPntFeat.Store();
+                                pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
+                                if (pPntFeat != null)
+                                {
+                                    pLstFeat.Add(pPntFeat);
+                                    // pPntFeat.Store();
+                                }
                             }
-                        }
-                        else
-                        {
-                            pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
-                            if (pPntFeat != null)
-                            {
-                                pLstFeat.Add(pPntFeat);
-                                // pPntFeat.Store();
-                            }
-                        }
 
-
+                        }
 
                     }
                     return Convert.ToBoolean(pDet.TwoPointLines);
@@ -928,7 +945,8 @@ namespace A4WaterUtilities
         private static string _caption = A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2");
 
 
-        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection) {
+        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection)
+        {
             return AddLaterals(app, addLateralsDetails, inFeatures, logOperation, suppressDialog, store, ForceSourcePointConnection, null);
 
         }
@@ -1005,7 +1023,7 @@ namespace A4WaterUtilities
 
                 mxdoc = (IMxDocument)app.Document;
                 map = editor.Map;
-   
+
                 for (int k = 0; k < addLateralsDetails.Count; k++)
                 {
                     bool FCorLayerPoint = true;
@@ -1020,7 +1038,8 @@ namespace A4WaterUtilities
                             continue;
                         }
                     }
-                    else { 
+                    else
+                    {
                         pointFLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].Point_LayerName, ref FCorLayerPoint);
                     }
                     if (inFeatures != null)
@@ -1097,7 +1116,7 @@ namespace A4WaterUtilities
                     //Confirm that the two line layers are different Feature classes
                     if ((matchLineFLayer.FeatureClass.CLSID == targetLineFLayer.FeatureClass.CLSID) && (matchLineFLayer.FeatureClass.AliasName == targetLineFLayer.FeatureClass.AliasName))
                     {
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1") , A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2") );
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1"), A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2"));
                         return "";
                     }
 
@@ -1148,14 +1167,14 @@ namespace A4WaterUtilities
                                 pointAlongLayer.PointAlongLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].PointAlong[j].LayerName, ref FCorLayerPointsAlong);
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
                                 }
                                 else if (pointAlongLayer.PointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -1163,13 +1182,13 @@ namespace A4WaterUtilities
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPoint)
                                 {
-                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3") , A4LGSharedFunctions.Localizer.GetString("Warning") );
+                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3"), A4LGSharedFunctions.Localizer.GetString("Warning"));
 
                                     return "";
                                 }
@@ -1185,7 +1204,7 @@ namespace A4WaterUtilities
                                 pointAlongLayer.FoundAsLayer = FCorLayerTemp;
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -1298,7 +1317,8 @@ namespace A4WaterUtilities
                     {
                         showError = false;
                     }
-                    else {
+                    else
+                    {
                         showError = true;
                     }
                     int i = 0;
@@ -1623,7 +1643,7 @@ namespace A4WaterUtilities
                             if (addLateralsDetails[k].Reset_Flow != null)
                             {
                                 resetFlow = addLateralsDetails[k].Reset_Flow;
-                               
+
 
                                 if (resetFlow.ToUpper() == "DIGITIZED")
                                 {
@@ -1677,7 +1697,7 @@ namespace A4WaterUtilities
                                 else
                                 {
                                 }
-                                }
+                            }
 
                         }
 
@@ -1819,7 +1839,7 @@ namespace A4WaterUtilities
                                                   IFeatureLayer targetLineFLayer, IEditTemplate targetLineEditTemplate,
                                                   List<pointAlongSettings> pointAlongLayers,
                                                   bool startAtMain, bool deleteExistingLines, FromToField[] fromToPairs, double doglegDistance,
-                                                  bool DistAsPercent, double tolerenceForDelete, bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection,bool showErrors)
+                                                  bool DistAsPercent, double tolerenceForDelete, bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection, bool showErrors)
         {
 
             IFeature lineFeature = null;
@@ -2034,7 +2054,7 @@ namespace A4WaterUtilities
 
                     //Create the new base line (possibly hooked)
 
-                    polyline = Globals.CreatePolylineFromPointsNewTurn(joinPoint, turnPoint, toPoint, ref matchLineFLayer, ref lineFeature, SearchOnLayer, angle,editor.Map.SpatialReference);
+                    polyline = Globals.CreatePolylineFromPointsNewTurn(joinPoint, turnPoint, toPoint, ref matchLineFLayer, ref lineFeature, SearchOnLayer, angle, editor.Map.SpatialReference);
 
 
                     //If requested, store pipe id in the point
@@ -2232,7 +2252,7 @@ namespace A4WaterUtilities
                     {
                         MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_7"));
                     }
-                            return false;
+                    return false;
 
                 }
             }
@@ -3001,8 +3021,8 @@ namespace A4WaterUtilities
                 return "";
             }
             catch
-            { 
-                return ""; 
+            {
+                return "";
             }
             finally
             {
@@ -3157,7 +3177,7 @@ namespace A4WaterUtilities
                     //Confirm that the two line layers are different Feature classes
                     if ((matchLineFLayer.FeatureClass.CLSID == targetLineFLayer.FeatureClass.CLSID) && (matchLineFLayer.FeatureClass.AliasName == targetLineFLayer.FeatureClass.AliasName))
                     {
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1") , A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2") );
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1"), A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2"));
                         return "";
                     }
 
@@ -3208,14 +3228,14 @@ namespace A4WaterUtilities
                                 pointAlongLayer.PointAlongLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].PointAlong[j].LayerName, ref FCorLayerPointsAlong);
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
                                 }
                                 else if (pointAlongLayer.PointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -3223,13 +3243,13 @@ namespace A4WaterUtilities
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPoint)
                                 {
-                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3") , A4LGSharedFunctions.Localizer.GetString("Warning") );
+                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3"), A4LGSharedFunctions.Localizer.GetString("Warning"));
 
                                     return "";
                                 }
@@ -3245,7 +3265,7 @@ namespace A4WaterUtilities
                                 pointAlongLayer.FoundAsLayer = FCorLayerTemp;
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
