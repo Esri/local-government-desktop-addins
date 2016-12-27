@@ -290,11 +290,26 @@ namespace A4LGSharedFunctions
             public IPoint pntStart{ get; set; }
             public IPoint pntEnd { get; set; }
             public double angle { get; set; }
+            public string location { get; set; }
+        }
+        private double flattenAngle(double in_angle)
+        {
+        
+            double newAngle = in_angle;
+            while (newAngle <= 0 ){
+                newAngle = newAngle + 360; 
+            }
+            while (newAngle >= 180){
+                newAngle = newAngle -180; 
+            }
+            return newAngle;
+        
         }
         public Nullable<double> RotatePointByNetwork(IMap pMap, INetworkFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName)
         {
             //This routine is used by both RotateDuringCreateFeature and RotateSelectedFeature.
             //It contains all of logic for determining the rotation angle.
+            double xyTol;
 
             const int iAngleTol = 5;
             double dblAngle = 0;
@@ -326,7 +341,7 @@ namespace A4LGSharedFunctions
                 }
                 //Create spatial filter to find intersecting features at this given point
 
-
+                xyTol = Globals.GetXYTolerance(pPoint);
                 pSimpJunc = (ISimpleJunctionFeature)pPointFeature;
 
 
@@ -390,13 +405,22 @@ namespace A4LGSharedFunctions
                         cAngles.Add(dblAngle);
 
                       
-                            diamPnt = new diameterMeterFeat();
+                        diamPnt = new diameterMeterFeat();
                             
-                            diamPnt.dblDiameter = dblDiameter;
-                            diamPnt.pntStart = ((IPolyline)pTempFeat.Shape).FromPoint;
-                            diamPnt.pntEnd = ((IPolyline)pTempFeat.Shape).ToPoint;
-                            diamPnt.angle = dblAngle;
-                            diametersWithPoints.Add(diamPnt);
+                        diamPnt.dblDiameter = dblDiameter;
+                        double distFrom = Globals.GetDistanceBetweenPoints(((IPolyline)pTempFeat.Shape).FromPoint, pPoint);
+                        double distTo = Globals.GetDistanceBetweenPoints(((IPolyline)pTempFeat.Shape).ToPoint, pPoint);
+                        if (distFrom < xyTol * 2) {
+                            diamPnt.location = "From";
+                        }
+                        if (distTo < xyTol * 2)
+                        {
+                            diamPnt.location = "To";
+                        }
+                        diamPnt.pntStart = ((IPolyline)pTempFeat.Shape).FromPoint;
+                        diamPnt.pntEnd = ((IPolyline)pTempFeat.Shape).ToPoint;
+                        diamPnt.angle = dblAngle;
+                        diametersWithPoints.Add(diamPnt);
 
                            
                       
@@ -529,6 +553,69 @@ namespace A4LGSharedFunctions
 
                         break;
                     case 3:
+                        double flatAngle1 = flattenAngle(cAngles[0]);
+                        double flatAngle2 = flattenAngle(cAngles[1]);
+                        double flatAngle3 = flattenAngle(cAngles[2]);
+
+                        double angleDifA = Math.Abs(flatAngle1 - flatAngle2);
+                        double angleDifB = Math.Abs(flatAngle1 - flatAngle3);
+                        double angleDifC = Math.Abs(flatAngle2 - flatAngle3);
+
+                        if (angleDifA <= (iAngleTol * 2) || angleDifA >= (180 - (iAngleTol * 2)))
+                        {
+                            if (diametersWithPoints[2].location == "From")
+                            {
+                                if (cAngles[2] >= 180)
+                                {
+                                    return cAngles[2] - 180;
+                                }
+                                else
+                                {
+                                    return cAngles[2] + 180;
+                                }
+
+                            }
+                            else
+                            {
+                                return cAngles[2];
+                            }
+                        }
+                        if (angleDifB <= (iAngleTol * 2) || angleDifB >= (180 - (iAngleTol * 2)))
+                        {
+                            if (diametersWithPoints[1].location == "From")
+                            {
+                                if (cAngles[1] >= 180) {
+                                    return cAngles[1] - 180;
+                                }
+                                else {
+                                    return cAngles[1] + 180;
+                                }
+                                
+                            }
+                            else {
+                                return cAngles[1];
+                            }
+                            
+                        }
+                        if (angleDifC <= (iAngleTol * 2) || angleDifC >= (180 - (iAngleTol * 2)))
+                        {
+                            if (diametersWithPoints[0].location == "From")
+                            {
+                                if (cAngles[0] >= 180)
+                                {
+                                    return cAngles[0] - 180;
+                                }
+                                else
+                                {
+                                    return cAngles[0] + 180;
+                                }
+
+                            }
+                            else
+                            {
+                                return cAngles[0];
+                            }
+                        }
                         //Three lines such as at tee fittings where line is broken
                         ltest = Math.Abs(cAngles[0] - cAngles[1]);
                         if (ltest >= 180 - iAngleTol & ltest <= 180 + iAngleTol)
