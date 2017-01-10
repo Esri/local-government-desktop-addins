@@ -2645,17 +2645,18 @@ Partial Public Class CostEstimatingWindow
 
                             ElseIf TypeOf inCnt Is DateTimePicker Then
 
+                                If CType(inCnt, DateTimePicker).Checked Then
+                                    If pCIPFeat.Fields.FindField(inCnt.Tag) > 0 Then
+                                        pCIPFeat.Value(pCIPFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                    End If
+                                    If pCIPOverFeat.Fields.FindField(inCnt.Tag) > 0 Then
 
-                                If pCIPFeat.Fields.FindField(inCnt.Tag) > 0 Then
-                                    pCIPFeat.Value(pCIPFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
-                                End If
-                                If pCIPOverFeat.Fields.FindField(inCnt.Tag) > 0 Then
+                                        pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                    End If
+                                    If pCIPOverPointFeat.Fields.FindField(inCnt.Tag) > 0 Then
 
-                                    pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
-                                End If
-                                If pCIPOverPointFeat.Fields.FindField(inCnt.Tag) > 0 Then
-
-                                    pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                        pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                    End If
                                 End If
                             ElseIf TypeOf inCnt Is ComboBox Then
 
