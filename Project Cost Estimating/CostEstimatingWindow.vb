@@ -2857,8 +2857,10 @@ Partial Public Class CostEstimatingWindow
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
                         pTmpGeo = pGeo
 
-                        pNewFeat = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.CreateFeature
-                        pTotArea = pTotArea + CType(pNewFeat.Shape, IArea).Area
+                        pNewFeat = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.CreateFeature()
+                        Dim dblLength As Double = My.Globals.Functions.getGeodeticMeasure(pGeo)
+
+                        pTotArea = pTotArea + dblLength 'CType(pNewFeat.Shape, IArea).Area
                         pFieldsTest = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.Fields
                         lGeomIndex = pFieldsTest.FindField(My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.ShapeFieldName)
 
@@ -2893,7 +2895,7 @@ Partial Public Class CostEstimatingWindow
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
                         pTopo = pGeo
                         pTmpGeo = pTopo.Buffer(m_BufferAmount)
-                        pNewFeat = My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.CreateFeature
+                        pNewFeat = My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.CreateFeature()
                         pFieldsTest = My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.Fields
                         lGeomIndex = pFieldsTest.FindField(My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.ShapeFieldName)
 
@@ -5565,6 +5567,7 @@ Partial Public Class CostEstimatingWindow
 
         End Try
     End Sub
+
     Private Shared Function AddRecordFromGraphic(ByVal geo As IGeometry, ByVal AddToGraphicLayer As Boolean, ByVal ConfigLayerName As String, Optional ByVal oid As Integer = -9999999) As Boolean
         Try
 
@@ -5702,27 +5705,8 @@ Partial Public Class CostEstimatingWindow
             ' MsgBox("Do sketchs have a strategy of new")
 
             pCostRow = CheckForCostFeat(ConfigLayerName, pFCName, s_cboStrategy.SelectedValue, s_cboAction.Text, s_cboAction.SelectedValue, strDefVal1, strDefVal2)
-            Select Case geo.GeometryType
-                Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
-                    Try
+            dblLength = My.Globals.Functions.getGeodeticMeasure(geo)
 
-                        dblLength = CType(geo, ICurve).Length
-
-                    Catch ex As Exception
-
-
-                    End Try
-                Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
-                    Try
-
-                        dblLength = Math.Abs(CType(geo, IArea).Area)
-
-
-                    Catch ex As Exception
-
-
-                    End Try
-            End Select
 
 
 
@@ -5889,6 +5873,7 @@ Partial Public Class CostEstimatingWindow
 
         Dim pPolyLine1 As IPolyline
         Dim pPolyLine2 As IPolyline
+        Dim dblLength As Double
 
         Try
 
@@ -5951,8 +5936,8 @@ Partial Public Class CostEstimatingWindow
                         Else
                             s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue.ToString & " | " & "User Reshaped"
                         End If
-
-                        s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(pPolyLine1.Length, "#,###.00")
+                        dblLength = My.Globals.Functions.getGeodeticMeasure(pPolyLine1)
+                        s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine1.Length
 
                         SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
 
@@ -5962,7 +5947,9 @@ Partial Public Class CostEstimatingWindow
 
                         pNewRow = CopyRecord(s_dgCIP.SelectedRows(0).Index)
                         pNewRow.Cells("OID").Value = pTag(2) & ":" & strExistingSplitTag & "b"
-                        pNewRow.Cells("LENGTH").Value = Format(pPolyLine2.Length, "#,###.00")
+                        dblLength = My.Globals.Functions.getGeodeticMeasure(pPolyLine2)
+
+                        pNewRow.Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine2.Length
 
                         SetRowsTotal(pNewRow.Index)
 
@@ -5984,8 +5971,9 @@ Partial Public Class CostEstimatingWindow
                             Else
                                 s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue & " | " & "User Reshaped"
                             End If
+                            dblLength = My.Globals.Functions.getGeodeticMeasure(pPolyLine1)
 
-                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(pPolyLine1.Length, "#,###.00")
+                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine1.Length
 
                             SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
 
@@ -6003,8 +5991,9 @@ Partial Public Class CostEstimatingWindow
                             Else
                                 s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue & " | " & "User Reshaped"
                             End If
+                            dblLength = My.Globals.Functions.getGeodeticMeasure(pPolyLine2)
 
-                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(pPolyLine2.Length, "#,###.00")
+                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine2.Length
 
                             SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
 
@@ -7630,7 +7619,8 @@ Partial Public Class CostEstimatingWindow
 
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
                                                 If dblLength = 0.0 Then
-                                                    dblLength = CType(pGeo, IArea).Area
+
+                                                    dblLength = My.Globals.Functions.getGeodeticMeasure(pGeo) 'CType(pGeo, IArea).Area
                                                 End If
 
 
