@@ -54,25 +54,16 @@ namespace A4LGSharedFunctions
             UID pId = new UID();
             UID pUID = new UID();
             ITopologicalOperator pTopo = null;
-
-            
-            List<string> pLstInt = new List<string>();
-           
-
-            double dblAngle = 0;
-            double dblDiameter = 0;
-            double ltest = 0;
-            int iLineDiameterFieldPos = 0;
+            List<string> pLstInt = new List<string>();           
             List<diameterMeterFeat> diametersWithPoints = new List<diameterMeterFeat>();
             double xyTol;
-//double mapTol = ((IMxDocument)ArcMap.Application.Document).SearchTolerance;
+
             try
             {
                 //This routine is used by both RotateDuringCreateFeature and RotateSelectedFeature.
                 //It contains all of logic for determining the rotation angle.
 
                 const int iAngleTol = 5;
-               ;
                 //Used for Tees> a straight line is 180 + or - iAngleTol
                 pPointFC = (IFeatureClass)pPointFeature.Class;
                 pPoint = (IPoint)pPointFeature.Shape;
@@ -505,11 +496,7 @@ namespace A4LGSharedFunctions
             double xyTol;
 
             const int iAngleTol = 5;
-            double dblAngle = 0;
-            double dblDiameter = 0;
-            double ltest = 0;
             diameterMeterFeat diamPnt = null;
-            int iLineDiameterFieldPos = 0;
 
             IPoint pPoint = default(IPoint);
             ISimpleJunctionFeature pSimpJunc = null;
