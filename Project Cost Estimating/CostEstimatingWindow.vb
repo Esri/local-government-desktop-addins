@@ -2362,7 +2362,7 @@ Partial Public Class CostEstimatingWindow
 
             End If
             showOverwriteOption(False)
-
+            shuffleTotals()
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow:  ResetGrid" & vbCrLf & ex.ToString())
 
@@ -7062,6 +7062,8 @@ Partial Public Class CostEstimatingWindow
                 s_lblPoint.Visible = Not CType(e.ClickedItem, ToolStripMenuItem).Checked
 
             End If
+            shuffleTotals()
+
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow: ctxMenuTotals_ItemClicked" & vbCrLf & ex.ToString(), MsgBoxStyle.DefaultButton1, "Error")
         End Try
@@ -7875,11 +7877,44 @@ Partial Public Class CostEstimatingWindow
             s_lblTotArea.Text = Format(TotArea, "#,###.00")
             s_lblTotPnt.Text = Format(TotPnt, "#,##0")
 
+          
+            shuffleTotals()
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow: setProjectCostAndTotal" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
+    Friend Shared Sub shuffleTotals()
+        'Dim g As System.Drawing.Graphics
+        'Dim s As System.Drawing.SizeF
+        'g = s_lblTotalCost.CreateGraphics()
+
+        's = g.MeasureString(s_lblTotalCost.Text, s_lblTotalCost.Font)
+        Dim pad As Integer = 5
+
+
+        Dim intStart = s_lblTotalCost.Left + s_lblTotalCost.Width + pad
+        If s_lblLength.Visible Then
+            s_lblLength.Left = intStart ' s.Width
+            s_lblTotLength.Left = s_lblLength.Left + s_lblLength.Width + 1
+            intStart = s_lblTotLength.Left + s_lblTotLength.Width + pad
+        End If
+
+        If s_lblPoint.Visible Then
+            s_lblPoint.Left = intStart ' s.Width
+            s_lblTotPnt.Left = s_lblPoint.Left + s_lblPoint.Width + 1
+            intStart = s_lblTotPnt.Left + s_lblTotPnt.Width + pad
+        End If
+
+        If s_lblArea.Visible Then
+            s_lblArea.Left = intStart ' s.Width
+            s_lblTotArea.Left = s_lblArea.Left + s_lblArea.Width + 1
+            intStart = s_lblTotArea.Left + s_lblTotArea.Width + pad
+        End If
+
+
+    End Sub
+
     Friend Shared Sub loadRecord(ByVal pGeo As IGeometry, ByVal strSourceLayerNameConfig As String, ByVal strSourceClassName As String, ByVal strSourceLayerID As String, ByVal dblSourceCost As String, _
                            ByVal dblSourceAddCost As String, ByVal dblLength As Double, ByVal dblTotalCost As String, ByVal strFiltVal1 As String, _
                            ByVal strFiltVal2 As String, ByVal strFiltFld1 As String, ByVal strFiltFld2 As String, ByVal strOID As String, _

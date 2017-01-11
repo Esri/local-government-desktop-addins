@@ -314,7 +314,7 @@ Partial Class CostEstimatingWindow
         '
         Me.ctxMenuTotals.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowLength, Me.ShowArea, Me.ShowPoint})
         Me.ctxMenuTotals.Name = "ContextMenuStrip1"
-        Me.ctxMenuTotals.Size = New System.Drawing.Size(178, 70)
+        Me.ctxMenuTotals.Size = New System.Drawing.Size(178, 92)
         Me.ctxMenuTotals.Text = "Totals"
         '
         'ShowLength
@@ -328,14 +328,18 @@ Partial Class CostEstimatingWindow
         '
         'ShowArea
         '
+        Me.ShowArea.Checked = True
         Me.ShowArea.CheckOnClick = True
+        Me.ShowArea.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ShowArea.Name = "ShowArea"
         Me.ShowArea.Size = New System.Drawing.Size(177, 22)
         Me.ShowArea.Text = "Toggle Area"
         '
         'ShowPoint
         '
+        Me.ShowPoint.Checked = True
         Me.ShowPoint.CheckOnClick = True
+        Me.ShowPoint.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ShowPoint.Name = "ShowPoint"
         Me.ShowPoint.Size = New System.Drawing.Size(177, 22)
         Me.ShowPoint.Text = "Toggle Point Count"
@@ -355,7 +359,7 @@ Partial Class CostEstimatingWindow
         Me.lblLength.AutoSize = True
         Me.lblLength.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblLength.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLength.Location = New System.Drawing.Point(194, 6)
+        Me.lblLength.Location = New System.Drawing.Point(202, 6)
         Me.lblLength.Name = "lblLength"
         Me.lblLength.Size = New System.Drawing.Size(63, 18)
         Me.lblLength.TabIndex = 26
@@ -367,7 +371,7 @@ Partial Class CostEstimatingWindow
         Me.lblTotLength.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblTotLength.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotLength.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.lblTotLength.Location = New System.Drawing.Point(255, 6)
+        Me.lblTotLength.Location = New System.Drawing.Point(260, 6)
         Me.lblTotLength.Name = "lblTotLength"
         Me.lblTotLength.Size = New System.Drawing.Size(31, 18)
         Me.lblTotLength.TabIndex = 35
@@ -378,12 +382,11 @@ Partial Class CostEstimatingWindow
         Me.lblArea.AutoSize = True
         Me.lblArea.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblArea.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArea.Location = New System.Drawing.Point(296, 6)
+        Me.lblArea.Location = New System.Drawing.Point(385, 6)
         Me.lblArea.Name = "lblArea"
         Me.lblArea.Size = New System.Drawing.Size(47, 18)
         Me.lblArea.TabIndex = 36
         Me.lblArea.Text = "Area:"
-        Me.lblArea.Visible = False
         '
         'lblTotArea
         '
@@ -391,24 +394,22 @@ Partial Class CostEstimatingWindow
         Me.lblTotArea.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblTotArea.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotArea.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.lblTotArea.Location = New System.Drawing.Point(340, 6)
+        Me.lblTotArea.Location = New System.Drawing.Point(428, 6)
         Me.lblTotArea.Name = "lblTotArea"
         Me.lblTotArea.Size = New System.Drawing.Size(31, 18)
         Me.lblTotArea.TabIndex = 37
         Me.lblTotArea.Text = "0.0"
-        Me.lblTotArea.Visible = False
         '
         'lblPoint
         '
         Me.lblPoint.AutoSize = True
         Me.lblPoint.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblPoint.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPoint.Location = New System.Drawing.Point(385, 6)
+        Me.lblPoint.Location = New System.Drawing.Point(300, 6)
         Me.lblPoint.Name = "lblPoint"
         Me.lblPoint.Size = New System.Drawing.Size(61, 18)
         Me.lblPoint.TabIndex = 38
         Me.lblPoint.Text = "Points:"
-        Me.lblPoint.Visible = False
         '
         'lblTotPnt
         '
@@ -416,12 +417,11 @@ Partial Class CostEstimatingWindow
         Me.lblTotPnt.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblTotPnt.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotPnt.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.lblTotPnt.Location = New System.Drawing.Point(447, 6)
+        Me.lblTotPnt.Location = New System.Drawing.Point(358, 6)
         Me.lblTotPnt.Name = "lblTotPnt"
         Me.lblTotPnt.Size = New System.Drawing.Size(17, 18)
         Me.lblTotPnt.TabIndex = 39
         Me.lblTotPnt.Text = "0"
-        Me.lblTotPnt.Visible = False
         '
         'gpBxCIPCan
         '
@@ -472,7 +472,7 @@ Partial Class CostEstimatingWindow
         Me.gpBoxAfterOverwrite.Controls.Add(Me.lblTotalCost)
         Me.gpBoxAfterOverwrite.Controls.Add(Me.lblPoint)
         Me.gpBoxAfterOverwrite.Controls.Add(Me.lblTotPnt)
-        Me.gpBoxAfterOverwrite.Location = New System.Drawing.Point(735, 13)
+        Me.gpBoxAfterOverwrite.Location = New System.Drawing.Point(743, 13)
         Me.gpBoxAfterOverwrite.Name = "gpBoxAfterOverwrite"
         Me.gpBoxAfterOverwrite.Size = New System.Drawing.Size(579, 29)
         Me.gpBoxAfterOverwrite.TabIndex = 41
