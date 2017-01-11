@@ -7431,6 +7431,7 @@ Partial Public Class CostEstimatingWindow
                                 Dim strFiltField2 As String = ""
                                 Dim strMultiField As String = ""
                                 Dim strLenField As String = ""
+                                Dim boolShapeLength As Boolean = False
 
                                 If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefMultiField)) Is Nothing Then
                                     If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefMultiField)) Is DBNull.Value Then
@@ -7451,6 +7452,7 @@ Partial Public Class CostEstimatingWindow
                                     If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField)) Is DBNull.Value Then
                                         If Not Trim(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField))) = "" Then
                                             If UCase(Trim(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField)))).Contains("SHAPE") Then
+                                                boolShapeLength = True
                                                 If pAssetFl.FeatureClass.FindField(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField))) > 0 Then
                                                     strLenField = pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField))
                                                 ElseIf pAssetFl.FeatureClass.FindField("Shape.len") > 0 Then
@@ -7643,13 +7645,20 @@ Partial Public Class CostEstimatingWindow
 
                                     Try
                                         If strLenField <> "" Then
+                                            If boolShapeLength Then
+                                                dblLength = My.Globals.Functions.getGeodeticMeasure(pGeo)
+                                            Else
+                                                dblLength = pFeat.Value(pFeat.Fields.FindField(strLenField))
+                                            End If
 
-                                            dblLength = pFeat.Value(pFeat.Fields.FindField(strLenField))
                                         End If
                                         Select Case pGeo.GeometryType
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPoint
 
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
+                                                If dblLength = 0.0 Then
+                                                    dblLength = My.Globals.Functions.getGeodeticMeasure(pGeo) 'CType(pGeo, IArea).Area
+                                                End If
 
 
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
