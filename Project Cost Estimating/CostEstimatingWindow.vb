@@ -109,6 +109,9 @@ Partial Public Class CostEstimatingWindow
     Private Shared s_ShowPoint As ToolStripItem
     Private Shared s_ShowArea As ToolStripItem
 
+    Private Shared s_chkProject As CheckBox
+    Private Shared s_gpBoxAfterOverwrite As Panel
+
     Private Shared s_numCIPInvCount As System.Windows.Forms.NumericUpDown
     Public Sub init()
 
@@ -184,9 +187,10 @@ Partial Public Class CostEstimatingWindow
             s_ShowLength = ShowLength
             s_ShowPoint = ShowPoint
 
+            s_chkProject = chkProject
             s_numCIPInvCount = numCIPInvCount
 
-
+            s_gpBoxAfterOverwrite = gpBoxAfterOverwrite
 
             ' Add any initialization after the InitializeComponent() call.
             makeImagesTrans()
@@ -2357,6 +2361,8 @@ Partial Public Class CostEstimatingWindow
 
 
             End If
+            showOverwriteOption(False)
+
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow:  ResetGrid" & vbCrLf & ex.ToString())
 
@@ -2805,18 +2811,40 @@ Partial Public Class CostEstimatingWindow
 
             Try
                 Dim pQFilt As IQueryFilter = New QueryFilter
-                pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "'"
-                If My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) <> 0 Then
-                    If MsgBox("The CIP Project name is already in use, Override project?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                Dim pPrjNameToSearch As String = pPrjName
+                If s_chkProject.Visible And s_chkProject.Checked = True And pPrjName <> s_chkProject.Text Then
+                    pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "' or " & My.Globals.Constants.c_CIPProjectLayNameField & " = '" & s_chkProject.Text & "'"
+                Else
+                    pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "'"
+                End If
+
+                If My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) = 1 Then
+                    If s_chkProject.Visible And s_chkProject.Checked = True Then
                         deleteCIPProjects(pPrjName)
+                        deleteCIPProjects(s_chkProject.Text)
+                    Else
+                        If MsgBox("The CIP Project name is already in use by another project, proceeding with delete and replace it with the current list of assets.", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                            deleteCIPProjects(pPrjName)
+                        Else
+                            pQFilt = Nothing
+                            My.Globals.Variables.v_Editor.AbortOperation()
+                            Return
+                        End If
+                    End If
+                ElseIf My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) > 1 Then
+                    If MsgBox("The CIP Project name is already in use by another project, proceeding with delete the selected project and the project of the name you specified and replace it with the current list of assets.", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        deleteCIPProjects(pPrjName)
+                        If s_chkProject.Visible And s_chkProject.Checked = True Then
+                            deleteCIPProjects(s_chkProject.Text)
+                        End If
+
                     Else
                         pQFilt = Nothing
                         My.Globals.Variables.v_Editor.AbortOperation()
                         Return
-
                     End If
-
                 End If
+
             Catch ex As Exception
                 MsgBox("Error trying to check Project Names - Make sure the overview layer has a field named: " & My.Globals.Constants.c_CIPProjectAssetNameField)
                 My.Globals.Variables.v_Editor.AbortOperation()
@@ -3250,7 +3278,7 @@ Partial Public Class CostEstimatingWindow
 
 
 
-
+            showOverwriteOption(False)
             pOverGeo = Nothing
             pPrjGeo = Nothing
             pTopo = Nothing
@@ -3525,6 +3553,7 @@ Partial Public Class CostEstimatingWindow
 
             s_lblTotalCost.Parent.Refresh()
             Cleargraphics()
+            showOverwriteOption(False)
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow: ClearControl" & vbCrLf & ex.ToString())
 
@@ -6229,7 +6258,7 @@ Partial Public Class CostEstimatingWindow
         Try
             ResetControls(False)
             '' CostEstimatingExtension.DeactivateCIPTools(False)
-
+            
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow:  btnClear_Click" & vbCrLf & ex.ToString())
 
@@ -7263,6 +7292,11 @@ Partial Public Class CostEstimatingWindow
 
             LoadExistingAssetsToForm(strPrjName)
             setProjectCostAndTotal()
+
+            s_chkProject.Text = strPrjName
+
+            showOverwriteOption(True)
+            s_chkProject.Parent.Refresh()
             '        Call s_dgCIP_SelectionChanged(Nothing, Nothing)
 
         Catch ex As Exception
@@ -8127,10 +8161,30 @@ Partial Public Class CostEstimatingWindow
 
     End Class
 
-    Private Sub gpBxCIPCan_Enter(sender As System.Object, e As System.EventArgs) Handles gpBxCIPCan.Enter
+
+    Private Sub CostEstimatingWindow_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        showOverwriteOption()
 
     End Sub
+    Private Shared Sub showOverwriteOption(Optional show As Boolean = False)
+        If show Then
+            s_chkProject.Visible = True
+
+            Dim g As System.Drawing.Graphics = s_chkProject.CreateGraphics()
+            Dim s As System.Drawing.SizeF = g.MeasureString(s_chkProject.Text, s_chkProject.Font)
+            s_chkProject.Width = s.Width + 25
+            s_gpBoxAfterOverwrite.Left = s_chkProject.Left + s_chkProject.Width + 4
+
+        Else
+            s_chkProject.Visible = False
+            s_chkProject.Checked = False
+
+            s_gpBoxAfterOverwrite.Left = s_btnSavePrj.Left + s_btnSavePrj.Width + 4
+        End If
+    End Sub
+
 End Class
+
 
 
 
