@@ -162,6 +162,10 @@
       <DependentUpon>Config.esriaddinx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="Config1.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Config.esriaddinx</DependentUpon>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -242,9 +246,9 @@
   <ItemGroup>
     <AddInContent Include="Config.esriaddinx">
       <Generator>ArcGISAddInHostGenerator</Generator>
-      <LastGenOutput>Config.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Config1.Designer.vb</LastGenOutput>
     </AddInContent>
     <AddInContent Include="Images\AddIn_CIPToggleWindow.png" />
   </ItemGroup>

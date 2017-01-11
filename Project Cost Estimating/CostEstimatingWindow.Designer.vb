@@ -603,7 +603,7 @@ Partial Class CostEstimatingWindow
         Me.btnSelectAssets.Name = "btnSelectAssets"
         Me.btnSelectAssets.Size = New System.Drawing.Size(26, 26)
         Me.btnSelectAssets.TabIndex = 8
-        Me.tlTip.SetToolTip(Me.btnSelectAssets, "Select an Asset for Costing")
+        Me.tlTip.SetToolTip(Me.btnSelectAssets, "Select an asset for costing")
         Me.btnSelectAssets.UseVisualStyleBackColor = True
         '
         'cboDefLayers
