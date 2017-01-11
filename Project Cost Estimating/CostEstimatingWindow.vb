@@ -8183,6 +8183,13 @@ Partial Public Class CostEstimatingWindow
         End If
     End Sub
 
+    Private Sub btnSketch_CheckedChanged(sender As Object, e As EventArgs) Handles btnSketch.CheckedChanged
+        If s_btnSketch.Checked Then
+            s_gpBxCIPCostingLayers.Enabled = False
+        Else
+            s_gpBxCIPCostingLayers.Enabled = True
+        End If
+    End Sub
 End Class
 
 
