@@ -565,7 +565,7 @@ Partial Class CostEstimatingWindow
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(26, 26)
         Me.btnClear.TabIndex = 11
-        Me.tlTip.SetToolTip(Me.btnClear, "Clear Selected Assets from the costing window")
+        Me.tlTip.SetToolTip(Me.btnClear, "Clear costing window")
         Me.btnClear.UseVisualStyleBackColor = True
         '
         'btnSelect
