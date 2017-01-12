@@ -544,9 +544,14 @@ Namespace My
 
                 End If
             End Function
-            Friend Shared Function getMeasureOfGeo(pGeo As IGeometry, useGeodetic As Boolean) As Double
+            Friend Shared Function getMeasureOfGeo(pGeo As IGeometry, useGeodetic As Boolean, unit As ILinearUnit) As Double
+                Dim pLinUnit As ILinearUnit = Nothing
+                If unit Is Nothing Then
+                    pLinUnit = get_linear_unit(pGeo)
+                Else
+                    pLinUnit = unit
+                End If
 
-                Dim pLinUnit As ILinearUnit = get_linear_unit(pGeo)
                 Select Case pGeo.GeometryType
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
                         Try
@@ -562,7 +567,7 @@ Namespace My
                             Else
                                 Return CType(pGeo, ICurve).Length
                             End If
-                            
+
                         Catch ex As Exception
                         End Try
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
@@ -611,6 +616,22 @@ Namespace My
                     'pGeoCoord = Nothing
 
                 End If
+            End Function
+            Friend Shared Function unitToLinearUnit(unit As String) As ILinearUnit
+
+                Dim spatialReferenceFactory As ISpatialReferenceFactory2 = New SpatialReferenceEnvironment
+                Select Case UCase(unit)
+                    Case "FEET", "FOOT"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_Foot)
+                    Case "METER"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_Meter)
+                    Case "MILE", "MILES"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_SurveyMile)
+                    Case "KILOMETER"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_Kilometer)
+                End Select
+                Return Nothing
+             
             End Function
             Friend Shared Function ConvertUnitType2(ByVal linearUnit As ESRI.ArcGIS.Geometry.ILinearUnit) _
                                                 As ESRI.ArcGIS.esriSystem.esriUnits

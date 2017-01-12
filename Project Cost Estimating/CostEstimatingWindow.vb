@@ -57,6 +57,7 @@ Partial Public Class CostEstimatingWindow
     Private Shared m_BufferAmountConvext As Double = 60
     Private Shared m_BufferAmount As Double = 15
     Private Shared s_measureGeodetic As Boolean = False
+    Private Shared s_measureUnit As ILinearUnit = Nothing
 
     Private Shared s_enabled As Boolean
 
@@ -146,7 +147,13 @@ Partial Public Class CostEstimatingWindow
                 s_measureGeodetic = False
             End If
 
+            Dim stringUnit = My.Globals.Functions.GetConfigValue("MeasureUnit")
+            If stringUnit = "" Then
+                s_measureUnit = Nothing
 
+            Else
+                s_measureUnit = My.Globals.Functions.unitToLinearUnit(stringUnit)
+            End If
 
             'Init Shared Controls
             s_tblDisabled = tblDisabled
@@ -2893,7 +2900,7 @@ Partial Public Class CostEstimatingWindow
                         pTmpGeo = pGeo
 
                         pNewFeat = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.CreateFeature()
-                        Dim dblLength As Double = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic)
+                        Dim dblLength As Double = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit)
 
                         pTotArea = pTotArea + dblLength 'CType(pNewFeat.Shape, IArea).Area
                         pFieldsTest = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.Fields
@@ -5741,7 +5748,7 @@ Partial Public Class CostEstimatingWindow
             ' MsgBox("Do sketchs have a strategy of new")
 
             pCostRow = CheckForCostFeat(ConfigLayerName, pFCName, s_cboStrategy.SelectedValue, s_cboAction.Text, s_cboAction.SelectedValue, strDefVal1, strDefVal2)
-            dblLength = My.Globals.Functions.getMeasureOfGeo(geo, s_measureGeodetic)
+            dblLength = My.Globals.Functions.getMeasureOfGeo(geo, s_measureGeodetic, s_measureUnit)
 
 
 
@@ -5972,7 +5979,7 @@ Partial Public Class CostEstimatingWindow
                         Else
                             s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue.ToString & " | " & "User Reshaped"
                         End If
-                        dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine1, s_measureGeodetic)
+                        dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine1, s_measureGeodetic, s_measureUnit)
                         s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine1.Length
 
                         SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
@@ -5983,7 +5990,7 @@ Partial Public Class CostEstimatingWindow
 
                         pNewRow = CopyRecord(s_dgCIP.SelectedRows(0).Index)
                         pNewRow.Cells("OID").Value = pTag(2) & ":" & strExistingSplitTag & "b"
-                        dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine2, s_measureGeodetic)
+                        dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine2, s_measureGeodetic, s_measureUnit)
 
                         pNewRow.Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine2.Length
 
@@ -6007,7 +6014,7 @@ Partial Public Class CostEstimatingWindow
                             Else
                                 s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue & " | " & "User Reshaped"
                             End If
-                            dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine1, s_measureGeodetic)
+                            dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine1, s_measureGeodetic, s_measureUnit)
 
                             s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine1.Length
 
@@ -6027,7 +6034,7 @@ Partial Public Class CostEstimatingWindow
                             Else
                                 s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue & " | " & "User Reshaped"
                             End If
-                            dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine2, s_measureGeodetic)
+                            dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine2, s_measureGeodetic, s_measureUnit)
 
                             s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine2.Length
 
@@ -7654,7 +7661,7 @@ Partial Public Class CostEstimatingWindow
                                     Try
                                         If strLenField <> "" Then
                                             If boolShapeLength Then
-                                                dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic)
+                                                dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit)
                                             Else
                                                 dblLength = pFeat.Value(pFeat.Fields.FindField(strLenField))
                                             End If
@@ -7665,14 +7672,14 @@ Partial Public Class CostEstimatingWindow
 
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
                                                 If dblLength = 0.0 Then
-                                                    dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic) 'CType(pGeo, IArea).Area
+                                                    dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit) 'CType(pGeo, IArea).Area
                                                 End If
 
 
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
                                                 If dblLength = 0.0 Then
 
-                                                    dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic) 'CType(pGeo, IArea).Area
+                                                    dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit) 'CType(pGeo, IArea).Area
                                                 End If
 
 
