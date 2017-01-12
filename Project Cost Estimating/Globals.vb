@@ -544,37 +544,44 @@ Namespace My
 
                 End If
             End Function
-            Friend Shared Function getGeodeticMeasure(pGeo As IGeometry) As Double
+            Friend Shared Function getMeasureOfGeo(pGeo As IGeometry, useGeodetic As Boolean) As Double
 
                 Dim pLinUnit As ILinearUnit = get_linear_unit(pGeo)
                 Select Case pGeo.GeometryType
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
                         Try
 
-                            Try
-                                Dim pCurveGeop As IPolycurveGeodetic
-                                pCurveGeop = CType(pGeo, IPolycurve)
-                                Return pCurveGeop.LengthGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pLinUnit)
-                            Catch ex As Exception
+                            If useGeodetic = True Then
+                                Try
+                                    Dim pCurveGeop As IPolycurveGeodetic
+                                    pCurveGeop = CType(pGeo, IPolycurve)
+                                    Return pCurveGeop.LengthGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pLinUnit)
+                                Catch ex As Exception
+                                    Return CType(pGeo, ICurve).Length
+                                End Try
+                            Else
                                 Return CType(pGeo, ICurve).Length
-                            End Try
+                            End If
+                            
                         Catch ex As Exception
                         End Try
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
                         Try
-                            Try
-                                Dim pPolyGeop As IAreaGeodetic
-                                pPolyGeop = CType(pGeo, IPolygon)
-                                Return Math.Abs(pPolyGeop.AreaGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pLinUnit))
+                            If useGeodetic = True Then
+                                Try
+                                    Dim pPolyGeop As IAreaGeodetic
+                                    pPolyGeop = CType(pGeo, IPolygon)
+                                    Return Math.Abs(pPolyGeop.AreaGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pLinUnit))
 
-                            Catch ex As Exception
+                                Catch ex As Exception
+                                    Return Math.Abs(CType(pGeo, IArea).Area)
+
+                                End Try
+                            Else
                                 Return Math.Abs(CType(pGeo, IArea).Area)
-
-                            End Try
-
+                            End If
 
                         Catch ex As Exception
-
 
                         End Try
                 End Select
