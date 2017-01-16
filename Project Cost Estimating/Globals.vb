@@ -209,7 +209,7 @@ Namespace My
 
             End Function
             Friend Shared Function getClassName(ByVal Dataset As IDataset) As String
-                    
+
                 If Dataset.BrowseName <> "" And Dataset.BrowseName.Contains(".") Then
                     Return Dataset.BrowseName.Substring(Dataset.BrowseName.LastIndexOf(".") + 1)
 
@@ -429,33 +429,33 @@ Namespace My
                     Do Until pLay Is Nothing
                         Try
 
-                        
-                        If pLay.Valid Then
 
-                            If UCase(pLay.Name) = UCase(sLName) Then
+                            If pLay.Valid Then
 
-                                Return True
+                                If UCase(pLay.Name) = UCase(sLName) Then
 
+                                    Return True
+
+                                End If
+                                If TypeOf pLay Is IDataset Then
+                                    pDataset = pLay
+                                    If UCase(pDataset.BrowseName) = UCase(sLName) Then
+                                        Return True
+
+
+                                    End If
+                                    If UCase(pDataset.FullName.NameString) = UCase(sLName) Then
+                                        Return True
+
+                                    End If
+                                    If UCase(pDataset.FullName.NameString).Substring(pDataset.FullName.NameString.LastIndexOf(".") + 1) = UCase(sLName) Then
+                                        Return True
+                                    End If
+                                    If UCase(pDataset.BrowseName).Substring(pDataset.BrowseName.LastIndexOf(".") + 1) = UCase(sLName) Then
+                                        Return True
+                                    End If
+                                End If
                             End If
-                            If TypeOf pLay Is IDataset Then
-                                pDataset = pLay
-                                If UCase(pDataset.BrowseName) = UCase(sLName) Then
-                                    Return True
-
-
-                                End If
-                                If UCase(pDataset.FullName.NameString) = UCase(sLName) Then
-                                    Return True
-
-                                End If
-                                If UCase(pDataset.FullName.NameString).Substring(pDataset.FullName.NameString.LastIndexOf(".") + 1) = UCase(sLName) Then
-                                    Return True
-                                End If
-                                If UCase(pDataset.BrowseName).Substring(pDataset.BrowseName.LastIndexOf(".") + 1) = UCase(sLName) Then
-                                    Return True
-                                End If
-                            End If
-                        End If
                         Catch ex As Exception
 
                         End Try
@@ -526,6 +526,72 @@ Namespace My
 
                 End Try
             End Function
+            Friend Shared Function get_linear_unit(pGeo As IGeometry) As ILinearUnit
+                If TypeOf pGeo.SpatialReference Is IProjectedCoordinateSystem Then
+                    Dim pPrjCoord As IProjectedCoordinateSystem
+
+                    pPrjCoord = pGeo.SpatialReference
+
+                    Return pPrjCoord.CoordinateUnit
+
+                Else
+                    Dim pGeoCoord As IGeographicCoordinateSystem
+
+                    pGeoCoord = pGeo.SpatialReference
+
+                    Return pGeoCoord.CoordinateUnit
+                    'pGeoCoord = Nothing
+
+                End If
+            End Function
+            Friend Shared Function getMeasureOfGeo(pGeo As IGeometry, useGeodetic As Boolean, unit As ILinearUnit) As Double
+                Dim pLinUnit As ILinearUnit = Nothing
+                If unit Is Nothing Then
+                    pLinUnit = get_linear_unit(pGeo)
+                Else
+                    pLinUnit = unit
+                End If
+
+                Select Case pGeo.GeometryType
+                    Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
+                        Try
+
+                            If useGeodetic = True Then
+                                Try
+                                    Dim pCurveGeop As IPolycurveGeodetic
+                                    pCurveGeop = CType(pGeo, IPolycurve)
+                                    Return pCurveGeop.LengthGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pLinUnit)
+                                Catch ex As Exception
+                                    Return CType(pGeo, ICurve).Length
+                                End Try
+                            Else
+                                Return CType(pGeo, ICurve).Length
+                            End If
+
+                        Catch ex As Exception
+                        End Try
+                    Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
+                        Try
+                            If useGeodetic = True Then
+                                Try
+                                    Dim pPolyGeop As IAreaGeodetic
+                                    pPolyGeop = CType(pGeo, IPolygon)
+                                    Return Math.Abs(pPolyGeop.AreaGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pLinUnit))
+
+                                Catch ex As Exception
+                                    Return Math.Abs(CType(pGeo, IArea).Area)
+
+                                End Try
+                            Else
+                                Return Math.Abs(CType(pGeo, IArea).Area)
+                            End If
+
+                        Catch ex As Exception
+
+                        End Try
+                End Select
+                Return Nothing
+            End Function
             Friend Shared Function ConvertFeetToMapUnits(ByVal unitsFeet As Double) As Double
 
 
@@ -550,6 +616,22 @@ Namespace My
                     'pGeoCoord = Nothing
 
                 End If
+            End Function
+            Friend Shared Function unitToLinearUnit(unit As String) As ILinearUnit
+
+                Dim spatialReferenceFactory As ISpatialReferenceFactory2 = New SpatialReferenceEnvironment
+                Select Case UCase(unit)
+                    Case "FEET", "FOOT"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_Foot)
+                    Case "METER"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_Meter)
+                    Case "MILE", "MILES"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_SurveyMile)
+                    Case "KILOMETER"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_Kilometer)
+                End Select
+                Return Nothing
+             
             End Function
             Friend Shared Function ConvertUnitType2(ByVal linearUnit As ESRI.ArcGIS.Geometry.ILinearUnit) _
                                                 As ESRI.ArcGIS.esriSystem.esriUnits
@@ -1023,10 +1105,10 @@ Namespace My
                 End If
                 Return retVal
             End Function
-                 
+
 
             Public Shared Function GetConfigFiles() As String()
-              
+
                 Dim pPathToUserFolder As String = getUserFolder("ArcGISSolutions", "ProjectCostingTools")
                 If File.Exists(System.IO.Path.Combine(pPathToUserFolder, "ProjectCost.Config")) Then
                     Return {System.IO.Path.Combine(pPathToUserFolder, "ProjectCost.Config")}
@@ -1385,7 +1467,7 @@ Namespace My
                 End Property
                 Public Function getValue() As String
                     Return m_Value
-                    
+
                 End Function
                 Public Function getDisplay() As String
                     Return m_Display

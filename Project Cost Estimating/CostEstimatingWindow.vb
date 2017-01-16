@@ -56,7 +56,8 @@ Partial Public Class CostEstimatingWindow
     Inherits UserControl
     Private Shared m_BufferAmountConvext As Double = 60
     Private Shared m_BufferAmount As Double = 15
-
+    Private Shared s_measureGeodetic As Boolean = False
+    Private Shared s_measureUnit As ILinearUnit = Nothing
 
     Private Shared s_enabled As Boolean
 
@@ -109,6 +110,9 @@ Partial Public Class CostEstimatingWindow
     Private Shared s_ShowPoint As ToolStripItem
     Private Shared s_ShowArea As ToolStripItem
 
+    Private Shared s_chkProject As CheckBox
+    Private Shared s_gpBoxAfterOverwrite As Panel
+
     Private Shared s_numCIPInvCount As System.Windows.Forms.NumericUpDown
     Public Sub init()
 
@@ -137,7 +141,19 @@ Partial Public Class CostEstimatingWindow
 
             End If
 
+            If UCase(My.Globals.Functions.GetConfigValue("MeasureGeodetic", "FALSE")) = "TRUE" Then
+                s_measureGeodetic = True
+            Else
+                s_measureGeodetic = False
+            End If
 
+            Dim stringUnit = My.Globals.Functions.GetConfigValue("MeasureUnit")
+            If stringUnit = "" Then
+                s_measureUnit = Nothing
+
+            Else
+                s_measureUnit = My.Globals.Functions.unitToLinearUnit(stringUnit)
+            End If
 
             'Init Shared Controls
             s_tblDisabled = tblDisabled
@@ -184,9 +200,10 @@ Partial Public Class CostEstimatingWindow
             s_ShowLength = ShowLength
             s_ShowPoint = ShowPoint
 
+            s_chkProject = chkProject
             s_numCIPInvCount = numCIPInvCount
 
-
+            s_gpBoxAfterOverwrite = gpBoxAfterOverwrite
 
             ' Add any initialization after the InitializeComponent() call.
             makeImagesTrans()
@@ -2357,6 +2374,8 @@ Partial Public Class CostEstimatingWindow
 
 
             End If
+            showOverwriteOption(False)
+            shuffleTotals()
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow:  ResetGrid" & vbCrLf & ex.ToString())
 
@@ -2645,17 +2664,18 @@ Partial Public Class CostEstimatingWindow
 
                             ElseIf TypeOf inCnt Is DateTimePicker Then
 
+                                If CType(inCnt, DateTimePicker).Checked Then
+                                    If pCIPFeat.Fields.FindField(inCnt.Tag) > 0 Then
+                                        pCIPFeat.Value(pCIPFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                    End If
+                                    If pCIPOverFeat.Fields.FindField(inCnt.Tag) > 0 Then
 
-                                If pCIPFeat.Fields.FindField(inCnt.Tag) > 0 Then
-                                    pCIPFeat.Value(pCIPFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
-                                End If
-                                If pCIPOverFeat.Fields.FindField(inCnt.Tag) > 0 Then
+                                        pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                    End If
+                                    If pCIPOverPointFeat.Fields.FindField(inCnt.Tag) > 0 Then
 
-                                    pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
-                                End If
-                                If pCIPOverPointFeat.Fields.FindField(inCnt.Tag) > 0 Then
-
-                                    pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                        pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                    End If
                                 End If
                             ElseIf TypeOf inCnt Is ComboBox Then
 
@@ -2804,18 +2824,40 @@ Partial Public Class CostEstimatingWindow
 
             Try
                 Dim pQFilt As IQueryFilter = New QueryFilter
-                pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "'"
-                If My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) <> 0 Then
-                    If MsgBox("The CIP Project name is already in use, Override project?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                Dim pPrjNameToSearch As String = pPrjName
+                If s_chkProject.Visible And s_chkProject.Checked = True And pPrjName <> s_chkProject.Text Then
+                    pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "' or " & My.Globals.Constants.c_CIPProjectLayNameField & " = '" & s_chkProject.Text & "'"
+                Else
+                    pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "'"
+                End If
+
+                If My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) = 1 Then
+                    If s_chkProject.Visible And s_chkProject.Checked = True Then
                         deleteCIPProjects(pPrjName)
+                        deleteCIPProjects(s_chkProject.Text)
+                    Else
+                        If MsgBox("The CIP Project name is already in use by another project, proceeding with delete and replace it with the current list of assets.", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                            deleteCIPProjects(pPrjName)
+                        Else
+                            pQFilt = Nothing
+                            My.Globals.Variables.v_Editor.AbortOperation()
+                            Return
+                        End If
+                    End If
+                ElseIf My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) > 1 Then
+                    If MsgBox("The CIP Project name is already in use by another project, proceeding with delete the selected project and the project of the name you specified and replace it with the current list of assets.", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                        deleteCIPProjects(pPrjName)
+                        If s_chkProject.Visible And s_chkProject.Checked = True Then
+                            deleteCIPProjects(s_chkProject.Text)
+                        End If
+
                     Else
                         pQFilt = Nothing
                         My.Globals.Variables.v_Editor.AbortOperation()
                         Return
-
                     End If
-
                 End If
+
             Catch ex As Exception
                 MsgBox("Error trying to check Project Names - Make sure the overview layer has a field named: " & My.Globals.Constants.c_CIPProjectAssetNameField)
                 My.Globals.Variables.v_Editor.AbortOperation()
@@ -2857,8 +2899,10 @@ Partial Public Class CostEstimatingWindow
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
                         pTmpGeo = pGeo
 
-                        pNewFeat = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.CreateFeature
-                        pTotArea = pTotArea + CType(pNewFeat.Shape, IArea).Area
+                        pNewFeat = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.CreateFeature()
+                        Dim dblLength As Double = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit)
+
+                        pTotArea = pTotArea + dblLength 'CType(pNewFeat.Shape, IArea).Area
                         pFieldsTest = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.Fields
                         lGeomIndex = pFieldsTest.FindField(My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.ShapeFieldName)
 
@@ -2893,7 +2937,7 @@ Partial Public Class CostEstimatingWindow
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
                         pTopo = pGeo
                         pTmpGeo = pTopo.Buffer(m_BufferAmount)
-                        pNewFeat = My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.CreateFeature
+                        pNewFeat = My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.CreateFeature()
                         pFieldsTest = My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.Fields
                         lGeomIndex = pFieldsTest.FindField(My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.ShapeFieldName)
 
@@ -3247,7 +3291,7 @@ Partial Public Class CostEstimatingWindow
 
 
 
-
+            showOverwriteOption(False)
             pOverGeo = Nothing
             pPrjGeo = Nothing
             pTopo = Nothing
@@ -3522,6 +3566,7 @@ Partial Public Class CostEstimatingWindow
 
             s_lblTotalCost.Parent.Refresh()
             Cleargraphics()
+            showOverwriteOption(False)
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow: ClearControl" & vbCrLf & ex.ToString())
 
@@ -5565,6 +5610,7 @@ Partial Public Class CostEstimatingWindow
 
         End Try
     End Sub
+
     Private Shared Function AddRecordFromGraphic(ByVal geo As IGeometry, ByVal AddToGraphicLayer As Boolean, ByVal ConfigLayerName As String, Optional ByVal oid As Integer = -9999999) As Boolean
         Try
 
@@ -5702,27 +5748,8 @@ Partial Public Class CostEstimatingWindow
             ' MsgBox("Do sketchs have a strategy of new")
 
             pCostRow = CheckForCostFeat(ConfigLayerName, pFCName, s_cboStrategy.SelectedValue, s_cboAction.Text, s_cboAction.SelectedValue, strDefVal1, strDefVal2)
-            Select Case geo.GeometryType
-                Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
-                    Try
+            dblLength = My.Globals.Functions.getMeasureOfGeo(geo, s_measureGeodetic, s_measureUnit)
 
-                        dblLength = CType(geo, ICurve).Length
-
-                    Catch ex As Exception
-
-
-                    End Try
-                Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
-                    Try
-
-                        dblLength = Math.Abs(CType(geo, IArea).Area)
-
-
-                    Catch ex As Exception
-
-
-                    End Try
-            End Select
 
 
 
@@ -5889,6 +5916,7 @@ Partial Public Class CostEstimatingWindow
 
         Dim pPolyLine1 As IPolyline
         Dim pPolyLine2 As IPolyline
+        Dim dblLength As Double
 
         Try
 
@@ -5951,8 +5979,8 @@ Partial Public Class CostEstimatingWindow
                         Else
                             s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue.ToString & " | " & "User Reshaped"
                         End If
-
-                        s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(pPolyLine1.Length, "#,###.00")
+                        dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine1, s_measureGeodetic, s_measureUnit)
+                        s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine1.Length
 
                         SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
 
@@ -5962,7 +5990,9 @@ Partial Public Class CostEstimatingWindow
 
                         pNewRow = CopyRecord(s_dgCIP.SelectedRows(0).Index)
                         pNewRow.Cells("OID").Value = pTag(2) & ":" & strExistingSplitTag & "b"
-                        pNewRow.Cells("LENGTH").Value = Format(pPolyLine2.Length, "#,###.00")
+                        dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine2, s_measureGeodetic, s_measureUnit)
+
+                        pNewRow.Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine2.Length
 
                         SetRowsTotal(pNewRow.Index)
 
@@ -5984,8 +6014,9 @@ Partial Public Class CostEstimatingWindow
                             Else
                                 s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue & " | " & "User Reshaped"
                             End If
+                            dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine1, s_measureGeodetic, s_measureUnit)
 
-                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(pPolyLine1.Length, "#,###.00")
+                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine1.Length
 
                             SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
 
@@ -6003,8 +6034,9 @@ Partial Public Class CostEstimatingWindow
                             Else
                                 s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue & " | " & "User Reshaped"
                             End If
+                            dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine2, s_measureGeodetic, s_measureUnit)
 
-                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(pPolyLine2.Length, "#,###.00")
+                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine2.Length
 
                             SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
 
@@ -7043,6 +7075,8 @@ Partial Public Class CostEstimatingWindow
                 s_lblPoint.Visible = Not CType(e.ClickedItem, ToolStripMenuItem).Checked
 
             End If
+            shuffleTotals()
+
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow: ctxMenuTotals_ItemClicked" & vbCrLf & ex.ToString(), MsgBoxStyle.DefaultButton1, "Error")
         End Try
@@ -7273,6 +7307,11 @@ Partial Public Class CostEstimatingWindow
 
             LoadExistingAssetsToForm(strPrjName)
             setProjectCostAndTotal()
+
+            s_chkProject.Text = strPrjName
+
+            showOverwriteOption(True)
+            s_chkProject.Parent.Refresh()
             '        Call s_dgCIP_SelectionChanged(Nothing, Nothing)
 
         Catch ex As Exception
@@ -7407,6 +7446,7 @@ Partial Public Class CostEstimatingWindow
                                 Dim strFiltField2 As String = ""
                                 Dim strMultiField As String = ""
                                 Dim strLenField As String = ""
+                                Dim boolShapeLength As Boolean = False
 
                                 If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefMultiField)) Is Nothing Then
                                     If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefMultiField)) Is DBNull.Value Then
@@ -7427,6 +7467,7 @@ Partial Public Class CostEstimatingWindow
                                     If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField)) Is DBNull.Value Then
                                         If Not Trim(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField))) = "" Then
                                             If UCase(Trim(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField)))).Contains("SHAPE") Then
+                                                boolShapeLength = True
                                                 If pAssetFl.FeatureClass.FindField(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField))) > 0 Then
                                                     strLenField = pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField))
                                                 ElseIf pAssetFl.FeatureClass.FindField("Shape.len") > 0 Then
@@ -7619,18 +7660,26 @@ Partial Public Class CostEstimatingWindow
 
                                     Try
                                         If strLenField <> "" Then
+                                            If boolShapeLength Then
+                                                dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit)
+                                            Else
+                                                dblLength = pFeat.Value(pFeat.Fields.FindField(strLenField))
+                                            End If
 
-                                            dblLength = pFeat.Value(pFeat.Fields.FindField(strLenField))
                                         End If
                                         Select Case pGeo.GeometryType
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPoint
 
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
+                                                If dblLength = 0.0 Then
+                                                    dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit) 'CType(pGeo, IArea).Area
+                                                End If
 
 
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
                                                 If dblLength = 0.0 Then
-                                                    dblLength = CType(pGeo, IArea).Area
+
+                                                    dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit) 'CType(pGeo, IArea).Area
                                                 End If
 
 
@@ -7841,11 +7890,44 @@ Partial Public Class CostEstimatingWindow
             s_lblTotArea.Text = Format(TotArea, "#,###.00")
             s_lblTotPnt.Text = Format(TotPnt, "#,##0")
 
+          
+            shuffleTotals()
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow: setProjectCostAndTotal" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
+    Friend Shared Sub shuffleTotals()
+        'Dim g As System.Drawing.Graphics
+        'Dim s As System.Drawing.SizeF
+        'g = s_lblTotalCost.CreateGraphics()
+
+        's = g.MeasureString(s_lblTotalCost.Text, s_lblTotalCost.Font)
+        Dim pad As Integer = 5
+
+
+        Dim intStart = s_lblTotalCost.Left + s_lblTotalCost.Width + pad
+        If s_lblLength.Visible Then
+            s_lblLength.Left = intStart ' s.Width
+            s_lblTotLength.Left = s_lblLength.Left + s_lblLength.Width + 1
+            intStart = s_lblTotLength.Left + s_lblTotLength.Width + pad
+        End If
+
+        If s_lblPoint.Visible Then
+            s_lblPoint.Left = intStart ' s.Width
+            s_lblTotPnt.Left = s_lblPoint.Left + s_lblPoint.Width + 1
+            intStart = s_lblTotPnt.Left + s_lblTotPnt.Width + pad
+        End If
+
+        If s_lblArea.Visible Then
+            s_lblArea.Left = intStart ' s.Width
+            s_lblTotArea.Left = s_lblArea.Left + s_lblArea.Width + 1
+            intStart = s_lblTotArea.Left + s_lblTotArea.Width + pad
+        End If
+
+
+    End Sub
+
     Friend Shared Sub loadRecord(ByVal pGeo As IGeometry, ByVal strSourceLayerNameConfig As String, ByVal strSourceClassName As String, ByVal strSourceLayerID As String, ByVal dblSourceCost As String, _
                            ByVal dblSourceAddCost As String, ByVal dblLength As Double, ByVal dblTotalCost As String, ByVal strFiltVal1 As String, _
                            ByVal strFiltVal2 As String, ByVal strFiltFld1 As String, ByVal strFiltFld2 As String, ByVal strOID As String, _
@@ -8136,10 +8218,37 @@ Partial Public Class CostEstimatingWindow
 
     End Class
 
-    Private Sub gpBxCIPCan_Enter(sender As System.Object, e As System.EventArgs) Handles gpBxCIPCan.Enter
+
+    Private Sub CostEstimatingWindow_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        showOverwriteOption()
 
     End Sub
+    Private Shared Sub showOverwriteOption(Optional show As Boolean = False)
+        If show Then
+            s_chkProject.Visible = True
+
+            Dim g As System.Drawing.Graphics = s_chkProject.CreateGraphics()
+            Dim s As System.Drawing.SizeF = g.MeasureString(s_chkProject.Text, s_chkProject.Font)
+            s_chkProject.Width = s.Width + 25
+            s_gpBoxAfterOverwrite.Left = s_chkProject.Left + s_chkProject.Width + 4
+
+        Else
+            s_chkProject.Visible = False
+            s_chkProject.Checked = False
+
+            s_gpBoxAfterOverwrite.Left = s_btnSavePrj.Left + s_btnSavePrj.Width + 4
+        End If
+    End Sub
+
+    Private Sub btnSketch_CheckedChanged(sender As Object, e As EventArgs) Handles btnSketch.CheckedChanged
+        If s_btnSketch.Checked Then
+            s_gpBxCIPCostingLayers.Enabled = False
+        Else
+            s_gpBxCIPCostingLayers.Enabled = True
+        End If
+    End Sub
 End Class
+
 
 
 

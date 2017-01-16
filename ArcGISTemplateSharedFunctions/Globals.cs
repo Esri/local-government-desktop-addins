@@ -10877,14 +10877,14 @@ namespace A4LGSharedFunctions
                     try
                     {
                         pSet = featureEdit.SplitWithUpdate(pHitPnt);
-                    }
-                    catch
+                        }
+                    catch (Exception ex)
                     {
                         try
                         {
                             pSet = featureEdit.Split(pHitPnt);
                         }
-                        catch
+                        catch (Exception exInner)
                         {
                             return null;
                         }

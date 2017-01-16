@@ -104,7 +104,7 @@ namespace A4LGSharedFunctions
 
                     if (!(inFeature is INetworkFeature))
                     {
-                        rotationAngle = rotFunc.RotatePoint(pMxDoc.FocusMap, inFeature, m_rotationType == esriSymbolRotationType.esriRotateSymbolArithmetic, m_diameterFieldName,m_onlyLayerName);
+                        rotationAngle = rotFunc.RotatePoint(pMxDoc.FocusMap, pMxDoc.SearchTolerance,inFeature, m_rotationType == esriSymbolRotationType.esriRotateSymbolArithmetic, m_diameterFieldName,m_onlyLayerName);
 
 
                     }

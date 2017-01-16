@@ -111,7 +111,8 @@ namespace A4WaterUtilities
                         else if (!Globals.IsEditable(ref pAlongPointLayer, ref editor))
                             pAlongPointLayer = null;
                     }
-
+                    if (pAlongPointLayer == null && pEndPointLayer == null && pStartPointLayer == null)
+                        continue;
                     pCur = line;// as ICurve; 
 
                     if (bUseTemplate)
@@ -264,7 +265,7 @@ namespace A4WaterUtilities
                                 }
                             }
                         }
-                        if (pEndPointLayer == null)
+                        if (pEndPointLayer != null)
                         {
                             if (pEditTempEnd == null)
                             {
