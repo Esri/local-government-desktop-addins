@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AA_CultureInfo" xml:space="preserve">
     <value>es-ES</value>
@@ -3462,22 +3462,22 @@
     <comment>Select a layer to load barriers from</comment>
   </data>
   <data name="traceLayerName" xml:space="preserve">
-    <value>Resultado del trazado</value>
+    <value>Trace Results</value>
     <comment>Needs Localization</comment>
   </data>
   <data name="OutageAreaName" xml:space="preserve">
-    <value>Polígono de corte</value>
+    <value>Trace Area</value>
     <comment>Needs Localization</comment>
   </data>
   <data name="IsoTraceResultsLayerSuffix" xml:space="preserve">
     <value>resultados</value>
   </data>
   <data name="TraceResultsCount" xml:space="preserve">
-    <value>El resultado contiene {0} elementos, ¿desea mostrar el resultado?. Puede tardar un tiempo elevado.</value>
+    <value>This results contains {0} features, do you want to draw the results, this could take a long time?</value>
     <comment>Needs translation</comment>
   </data>
   <data name="ConfigDlgBackupConfig" xml:space="preserve">
-    <value>Copia de seguridad de la configuración actual</value>
+    <value>Backup existing configuration</value>
     <comment>Needs translation</comment>
   </data>
 </root>

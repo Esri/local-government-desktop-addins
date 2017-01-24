@@ -13,8 +13,3 @@ Release/
 # Snap backups
 *.7z
 
-Water Utilities Desktop Tools/WaterUtilitiesDesktopAddIn/WaterUtilitiesDesktopAddIn.csproj
-*.csproj
-Water Utilities Desktop Tools/WaterUtilitiesDesktopFunctions/UtilitiesDesktopFunctions.csproj
-Water Utilities Desktop Tools/WaterUtilitiesDesktopFunctions/UtilitiesDesktopFunctions.csproj
-Water Utilities Desktop Tools/WaterUtilitiesDesktopFunctions/UtilitiesDesktopFunctions10_1.csproj
