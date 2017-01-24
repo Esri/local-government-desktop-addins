@@ -147,7 +147,7 @@ namespace ArcGIS4LocalGovernment
         public static Dictionary<int, ITable> _fabricInMemTablesLookUp;
         public static bool _CheckEnvelope = false;
         public static bool _bypassEditOperationCheck = false;
-        
+
         // Declare configuration variables 
         public static string _defaultsTableName = "DynamicValue";
         public static string _sequenceTableName = "GenerateId";
@@ -1584,23 +1584,30 @@ namespace ArcGIS4LocalGovernment
                     if (AAState._fabricObjectClassIds != null)
                         bIsFabricRecord = AAState._fabricObjectClassIds.Contains(obj.Class.ObjectClassID);
 
-
-                    pFeatChange = (IFeatureChanges)inFeature;
-                    if (pFeatChange.ShapeChanged)
+                    if ((inFeature as INetworkFeature) != null && NetworkConnectivityChanged(obj))
+                    //check to see if a feature is connected or disconnected
                     {
-                        if (bIsFabricRecord)
-                        {
-                            if (pFeatChange.OriginalShape.IsEmpty)
-                                sendEvent(obj, "ON_CREATE"); //original shape empty, but shape change means new parcel
-                            else
-                                sendEvent(obj, "ON_CHANGE");//treat geometry changes as standard change for fabric
-                        }
-                        else
-                            sendEvent(obj, "ON_CHANGEGEO");
+                        sendEvent(obj, "ON_CHANGEGEO");
                     }
                     else
                     {
-                        sendEvent(obj, "ON_CHANGE");
+                        pFeatChange = (IFeatureChanges)inFeature;
+                        if (pFeatChange.ShapeChanged)
+                        {
+                            if (bIsFabricRecord)
+                            {
+                                if (pFeatChange.OriginalShape.IsEmpty)
+                                    sendEvent(obj, "ON_CREATE"); //original shape empty, but shape change means new parcel
+                                else
+                                    sendEvent(obj, "ON_CHANGE");//treat geometry changes as standard change for fabric
+                            }
+                            else
+                                sendEvent(obj, "ON_CHANGEGEO");
+                        }
+                        else
+                        {
+                            sendEvent(obj, "ON_CHANGE");
+                        }
                     }
                 }
                 else
@@ -1621,6 +1628,36 @@ namespace ArcGIS4LocalGovernment
 
             }
         }
+
+        private bool NetworkConnectivityChanged(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            return (!ValuesChanged(obj) && !ShapeChanged(obj));
+        }
+
+        private bool ValuesChanged(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            IRowChanges rowChanges;
+            rowChanges = obj as IRowChanges;
+            for (int i = 0; i <= obj.Fields.FieldCount - 1; i++)
+            {
+                if (rowChanges.get_ValueChanged(i))
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
+        }
+
+        private bool ShapeChanged(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            IFeatureChanges featureChanges;
+            featureChanges = obj as IFeatureChanges;
+
+            return featureChanges.ShapeChanged;
+        }
+
         private void OnBeforeStopOperation(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
             IFeatureChanges pFeatChange = null;
@@ -3179,7 +3216,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 if (pFlds.get_Field(sourceFieldNums[i]).Type == esriFieldType.esriFieldTypeString)
                                                                 {
-                                                                    
+
                                                                     if (sqlString == "")
                                                                     {
                                                                         sqlString = pFlds.get_Field(sourceFieldNums[i]).Name + "" + " = '" + inObject.get_Value(intFldIdxs[i]).ToString().Replace("'", "''") + "'";
@@ -3282,7 +3319,7 @@ namespace ArcGIS4LocalGovernment
                                                                     }
                                                                     string selectVal = Globals.showOptionsForm(pLst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
                                                                     if (selectVal == "||Cancelled||" && valueIsNull == true)
-                                                                    {}
+                                                                    { }
                                                                     else if (selectVal == "||Cancelled||" && valueIsNull == false)
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
@@ -3293,10 +3330,12 @@ namespace ArcGIS4LocalGovernment
                                                                     else
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain22") + selectVal);
-                                                                        if (sourceFieldNums.Length == 1) {
+                                                                        if (sourceFieldNums.Length == 1)
+                                                                        {
                                                                             inObject.set_Value(intFldIdxs[0], selectVal);
                                                                         }
-                                                                        else {
+                                                                        else
+                                                                        {
                                                                             string[] strVals = selectVal.Split((char)150);
 
                                                                             for (int i = 0; i < sourceFieldNums.Length; i++)
@@ -3305,7 +3344,7 @@ namespace ArcGIS4LocalGovernment
                                                                             }
                                                                         }
 
-                                                                        
+
 
                                                                     }
 
@@ -3701,7 +3740,8 @@ namespace ArcGIS4LocalGovernment
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain34"));
                                                                 NewFeatureList.Add(pFeat);
                                                             }
-                                                            else{
+                                                            else
+                                                            {
                                                                 AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
                                                             }
                                                         }
@@ -3709,7 +3749,7 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
                                                         }
-                                                        
+
 
                                                     }
                                                 }
@@ -3739,13 +3779,13 @@ namespace ArcGIS4LocalGovernment
 
                                                     // Parse arguments
                                                     args = valData.Split('|');
-                                                    
+
                                                     if (args.GetLength(0) == 4)
                                                     {
 
                                                         sourceLayerNames = args[0].ToString().Split(',');
 
-                                                    
+
                                                         Double.TryParse(args[1], out searchDistance);
                                                         targetLayerName = args[2];
                                                         targetLayerTemp = args[3];
@@ -3841,7 +3881,7 @@ namespace ArcGIS4LocalGovernment
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14b") + sourceLayer + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
                                                             continue;
                                                         }
-                                                      
+
 
                                                         IPolyline pTempLine = new PolylineClass();
                                                         pTempLine = Globals.CreateAngledLineFromLocationToLine((IPoint)inFeature.Shape, sourceLayer, boolLayerOrFC, true, false, searchDistance);
@@ -4647,7 +4687,7 @@ namespace ArcGIS4LocalGovernment
                                                         sourceLayerNames = args[0].ToString().Split(',');
                                                         offsetVal = 0;
                                                         searchDistance = 1;
-                                                     
+
                                                     }
                                                     else
                                                     {
@@ -11917,7 +11957,7 @@ namespace ArcGIS4LocalGovernment
                                                                     {
                                                                         intDigits = val.ToString().Split('\'')[1].Length;
                                                                     }
-                                                                        
+
                                                                     else
                                                                     {
                                                                         intDigits = 2;
