@@ -279,6 +279,7 @@
     <Content Include="..\..\Configs\loaded.water.config">
       <Link>loaded.water.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\..\Configs\loaded.aa.config">
       <Link>loaded.aa.config</Link>

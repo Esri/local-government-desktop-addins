@@ -565,13 +565,13 @@ namespace A4LGSharedFunctions
     public static class Globals
     {
 
-         public static string GetActiveDocumentPath(IApplication application)
+        public static string GetActiveDocumentPath(IApplication application)
         {
             // The active document is always the last template  
             ITemplates templates = application.Templates;
             return templates.get_Item(templates.Count - 1);
-        }    
-  
+        }
+
         public static IGroupLayer AddGNResultClasses(IGeometricNetwork geomNetwork, IApplication app, string ID, System.DateTime dateTimeValue, string IDFieldName, string DateFieldName, out string suffix, bool addAllLayers, bool removeMZ)
         {
             IEnumFeatureClass enumFC = null;
@@ -2118,7 +2118,7 @@ namespace A4LGSharedFunctions
 
         public static IFeature AddPointAlongLineWithIntersect(ref IApplication app, ref  IEditor editor, ICurve curve, IFeatureLayer pointFLayer, double targetPointDistance,
                                                          bool targetPointDistanceIsPercent, IEditTemplate editTemplate, IFeatureLayer pPolyFL,
-                                                         string side)
+                                                         string side, bool storeFeature)
         {
 
             double workingDist = targetPointDistance;
@@ -2149,7 +2149,7 @@ namespace A4LGSharedFunctions
                     pFeat = pFC.NextFeature();
                     if (pFeat == null)
                     {
-                        return AddPointAlongLine(ref app, ref editor, curve, pointFLayer, targetPointDistance, targetPointDistanceIsPercent, editTemplate);
+                        return AddPointAlongLine(ref app, ref editor, curve, pointFLayer, targetPointDistance, targetPointDistanceIsPercent, editTemplate, storeFeature);
 
                     }
                     else
@@ -2218,7 +2218,7 @@ namespace A4LGSharedFunctions
                         }
                         if (intersectFound == false)
                         {
-                            AddPointAlongLine(ref app, ref editor, curve, pointFLayer, targetPointDistance, targetPointDistanceIsPercent, editTemplate);
+                            return AddPointAlongLine(ref app, ref editor, curve, pointFLayer, targetPointDistance, targetPointDistanceIsPercent, editTemplate, storeFeature);
 
                         }
 
@@ -2239,25 +2239,31 @@ namespace A4LGSharedFunctions
                             }
 
 
-
-                            try
+                            if (storeFeature == true)
                             {
-                                if (pFeat != null)
+                                try
                                 {
-                                    Globals.ValidateFeature(pFeat);
-                                    pFeat.Store();
-                                    return pFeat;
+                                    if (pFeat != null)
+                                    {
+                                        Globals.ValidateFeature(pFeat);
+                                        pFeat.Store();
+                                        return pFeat;
+                                    }
+                                    else
+
+                                        return null;
+
+
                                 }
-                                else
+                                catch
+                                {
 
                                     return null;
-
-
+                                }
                             }
-                            catch
+                            else
                             {
-
-                                return null;
+                                return pFeat;
                             }
                         }
                         else
@@ -2291,7 +2297,7 @@ namespace A4LGSharedFunctions
 
         }
         public static IFeature AddPointAlongLine(ref IApplication app, ref  IEditor editor, ICurve curve, IFeatureLayer pointFLayer, double targetPointDistance,
-                                                         bool targetPointDistanceIsPercent, IEditTemplate editTemplate)
+                                                         bool targetPointDistanceIsPercent, IEditTemplate editTemplate, bool storeFeature)
         {
             double workingDist = targetPointDistance;
 
@@ -2341,7 +2347,7 @@ namespace A4LGSharedFunctions
 
                         try
                         {
-                            if (pFeat != null)
+                            if (pFeat != null && storeFeature == true)
                             {
                                 Globals.ValidateFeature(pFeat);
                                 pFeat.Store();
@@ -2419,7 +2425,7 @@ namespace A4LGSharedFunctions
 
         }
         public static IPolyline CreateAngledLineFromLocationToLine(IPoint inPoint, IFeatureLayer mainLayer, bool boolLayerOrFC,
-                                                                   bool StartAtInput, bool CheckSelection,double searchDist)
+                                                                   bool StartAtInput, bool CheckSelection, double searchDist)
         {
 
             IPoint snapPnt = null;
@@ -2478,18 +2484,18 @@ namespace A4LGSharedFunctions
                 pConsPoint = null;
             }
         }
-   
+
         public static IPolyline CreateAngledLineFromLocationOnLine(IPoint inPoint, IFeatureLayer mainLayer, bool boolLayerOrFC,
-           double RadianAngle, double LineLength, string AddAngleToLineAngle, bool StartAtInput, bool CheckSelection, double searchDistance = 0)
+           double RadianAngle, double LineLength, string AddAngleToLineAngle, bool StartAtInput, bool CheckSelection, out IFeature mainFeature, double searchDistance = 0 )
         {
 
             IPoint snapPnt = null;
             IPolyline pPolyline = null;
-            IFeature geoMainLine = null;
+          
             IPoint pNewPt = null;
             IConstructPoint2 pConsPoint = null;
             //double dAlong;
-
+            mainFeature = null;
             try
             {
 
@@ -2508,21 +2514,22 @@ namespace A4LGSharedFunctions
                 {
                     searchDist = Globals.GetXYTolerance(mainLayer) * 2000;
                 }
-                else{
+                else
+                {
                     searchDist = searchDistance;
                 }
-                
 
-                geoMainLine = Globals.GetClosestFeature(inPoint, mainLayer, searchDist, boolLayerOrFC, CheckSelection);
+
+                mainFeature = Globals.GetClosestFeature(inPoint, mainLayer, searchDist, boolLayerOrFC, CheckSelection);
                 bool side = false;
 
 
                 double angleOfLine = 0;
-                if (geoMainLine != null)
+                if (mainFeature != null)
                 {
-                    snapPnt = Globals.GetPointOnLine(inPoint, (IGeometry)geoMainLine.ShapeCopy, searchDist, out side);
+                    snapPnt = Globals.GetPointOnLine(inPoint, (IGeometry)mainFeature.ShapeCopy, searchDist, out side);
                     //snapPnt = inPoint;
-                    angleOfLine = Globals.GetAngleOfLineAtPoint((IPolyline)geoMainLine.ShapeCopy, snapPnt, searchDist);
+                    angleOfLine = Globals.GetAngleOfLineAtPoint((IPolyline)mainFeature.ShapeCopy, snapPnt, searchDist);
                     if (angleOfLine <= Math.PI)
                     {
                         angleOfLine = angleOfLine + Math.PI;
@@ -2593,7 +2600,7 @@ namespace A4LGSharedFunctions
 
                 // snapPnt = null;
                 pPolyline = null;
-                geoMainLine = null;
+                
                 pNewPt = null;
                 pConsPoint = null;
             }
@@ -2692,6 +2699,22 @@ namespace A4LGSharedFunctions
                 pLine = null;
             }
         }
+        public static bool pointOnLine(IPolyline inLine, IPoint location, double xyTol)
+        {
+            IPoint pSnapPt = null;
+            double dist = Globals.PointDistanceOnLine(location, inLine, 15, out pSnapPt);
+            IRelationalOperator2 pRelOp = (IRelationalOperator2)location;
+            if (pRelOp.Within(inLine))
+            {
+                return true;
+            }
+            if (pRelOp.Touches(inLine))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static double GetAngleOfLineAtPoint(IPolyline inLine, IPoint location, double xyTol)
         {
 
@@ -8789,6 +8812,50 @@ namespace A4LGSharedFunctions
             IZAware pZAware = null;
             try
             {
+                try
+                {
+                    if (geo.GeometryType == esriGeometryType.esriGeometryPolyline)
+                    {
+                        if (((IPolyline)geo).IsEmpty == true)
+                        {
+                            return null;
+
+                        }
+                        else if (((IPolyline)geo).Length < (GetXYTolerance(geo) * 2))
+                        {
+                            return null;
+
+                        }
+                    }
+                    else if (geo.GeometryType == esriGeometryType.esriGeometryPolygon)
+                    {
+                        if (((IPolygon)geo).IsEmpty == true)
+                        {
+                            return null;
+
+                        }
+                        else
+                        {
+                            IArea area = (IArea)geo;
+                            if (area.Area == 0)
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                    else if (geo.GeometryType == esriGeometryType.esriGeometryPoint)
+                    {
+                        if (((IPoint)geo).IsEmpty == true)
+                        {
+                            return null;
+
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
                 if (pEditTemplate == null)
                 {
                     MessageBox.Show("Please select an edit template to continue");
@@ -8994,6 +9061,49 @@ namespace A4LGSharedFunctions
             ISubtypes pSub = null;
             try
             {
+                try
+                {
+                    if (geo.GeometryType == esriGeometryType.esriGeometryPolyline)
+                    {
+                        if (((IPolyline)geo).IsEmpty == true)
+                        {
+                            return null;
+
+                        }
+                        else if (((IPolyline)geo).Length < (GetXYTolerance(geo) * 2))
+                        {
+                            return null;
+
+                        }
+                    }
+                    else if (geo.GeometryType == esriGeometryType.esriGeometryPolygon)
+                    {
+                        if (((IPolygon)geo).IsEmpty == true)
+                        {
+                            return null;
+
+                        }
+                        else
+                        {
+                            IArea area = (IArea)geo;
+                            if (area.Area == 0)
+                            {
+                                return null;
+                            }
+                        }
+                    }
+                    else if (geo.GeometryType == esriGeometryType.esriGeometryPoint)
+                    {
+                        if (((IPoint)geo).IsEmpty == true)
+                        {
+                            return null;
+
+                        }
+                    }
+                }
+                catch { 
+                
+                }
                 pfeatureClass = FeatureLay.FeatureClass;
                 if (checkForExisting)
                 {
@@ -10877,7 +10987,7 @@ namespace A4LGSharedFunctions
                     try
                     {
                         pSet = featureEdit.SplitWithUpdate(pHitPnt);
-                        }
+                    }
                     catch (Exception ex)
                     {
                         try

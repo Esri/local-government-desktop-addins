@@ -3709,8 +3709,9 @@ namespace ArcGIS4LocalGovernment
                                                         }
 
                                                         IPolyline pTempLine = new PolylineClass();
+                                                        IFeature sourceFeature = null;
                                                         pTempLine = Globals.CreateAngledLineFromLocationOnLine((IPoint)inFeature.Shape, sourceLayer,
-                                                            boolLayerOrFC, Globals.ConvertDegToRads(90), offsetVal, "true", true, false, searchDistance);
+                                                            boolLayerOrFC, Globals.ConvertDegToRads(90), offsetVal, "true", true, false, out sourceFeature, searchDistance);
 
                                                         if (pTempLine != null)
                                                         {
