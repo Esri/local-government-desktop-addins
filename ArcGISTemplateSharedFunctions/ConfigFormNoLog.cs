@@ -75,26 +75,27 @@ namespace A4LGSharedFunctions
         private string configType;
         private void initForm()
         {
-            
+
             txtBxPath.Text = ConfigUtil.generateUserCachePath();
 
             List<ConfigEntries> ConfigNames = ConfigUtil.GetAllConfigFilesNames(true);
-
-            foreach (ConfigEntries pConEn in ConfigNames)
+            if (ConfigNames != null)
             {
-                if (pConEn.Loaded == true)
+                foreach (ConfigEntries pConEn in ConfigNames)
                 {
-                    m_LoadedConfig = pConEn;
-                    txtBxLoadedConfig.Text = pConEn.Name;
-                    ConfigNames.Remove(pConEn);
-                    break;
+                    if (pConEn.Loaded == true)
+                    {
+                        m_LoadedConfig = pConEn;
+                        txtBxLoadedConfig.Text = pConEn.Name;
+                        ConfigNames.Remove(pConEn);
+                        break;
+                    }
                 }
+
+                cboConfigs.DataSource = ConfigNames;
+                cboConfigs.DisplayMember = "Name";
+
             }
-
-            cboConfigs.DataSource = ConfigNames;
-            cboConfigs.DisplayMember = "Name";
-
-            
         }
         private void btnOpenLoc_Click(object sender, EventArgs e)
         {
@@ -125,8 +126,17 @@ namespace A4LGSharedFunctions
             {
                 if (cboConfigs.Items.Count == 0) return;
 
-                ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem), chkBxBackupConfig.Checked);
+                string name = ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem), chkBxBackupConfig.Checked);
+                initForm();
+                //txtBxLoadedConfig.Text = name;
+                //List<ConfigEntries> ConfigNames = ConfigUtil.GetAllConfigFilesNames(true);
+                //if (ConfigNames != null)
+                //{
+                
+                //    cboConfigs.DataSource = ConfigNames;
+                //    cboConfigs.DisplayMember = "Name";
 
+                //}
                 MessageBox.Show("Config file has been changed");
             }
             catch (Exception ex)
@@ -153,7 +163,7 @@ namespace A4LGSharedFunctions
 
         }
 
-      
+
 
     }
 }

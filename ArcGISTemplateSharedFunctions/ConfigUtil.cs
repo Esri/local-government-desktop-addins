@@ -91,7 +91,7 @@ namespace A4LGSharedFunctions
 
         public static string fileName = "loaded";
         public static string type = "aa";
-
+        public static Encoding encoding = Encoding.GetEncoding("ISO-8859-1");
         public static string GetHelpFile()
         {
             string helpFile = "";
@@ -246,9 +246,15 @@ namespace A4LGSharedFunctions
 
                 for (int i = 0; i < pConfFiles.Count; i++)
                 {
-                    oXml = new XmlDocument();
-                    oXml.Load(pConfFiles[i]);
+                    //oXml = new XmlDocument();
+                    //oXml.Load(pConfFiles[i]);
 
+                    oXml = new XmlDocument();
+
+                    using (StreamReader oReader = new StreamReader(pConfFiles[i], encoding))
+                    {
+                        oXml.Load(oReader);
+                    }
                     // XmlNode pXMLNode = oXml.FirstChild;
 
                     confEn = new ConfigEntries();
@@ -308,7 +314,7 @@ namespace A4LGSharedFunctions
         {
             try
             {
-                using (StreamReader sr = new StreamReader(SourceFile))
+                using (StreamReader sr = new StreamReader(SourceFile, encoding))
                 {
                     String line = sr.ReadToEnd();
 
@@ -316,11 +322,13 @@ namespace A4LGSharedFunctions
 
                     if (File.Exists(TargetFile))
                     {
-                        using (System.IO.StreamWriter sw = new System.IO.StreamWriter(TargetFile))
+                        using (FileStream fs = new FileStream(TargetFile, FileMode.Create))
                         {
-                            sw.Write(line);
+                            using (System.IO.StreamWriter sw = new StreamWriter(fs, encoding))
+                            {
+                                sw.Write(line);
+                            }
                         }
-
                     }
                     else
                     {
@@ -328,9 +336,12 @@ namespace A4LGSharedFunctions
                         if (Directory.Exists(dir) == false)
                             Directory.CreateDirectory(dir);
                         //Directory.CreateDirectory()
-                        using (StreamWriter sw = File.CreateText(TargetFile))
+                        using (FileStream fs = new FileStream(TargetFile, FileMode.CreateNew))
                         {
-                            sw.Write(line);
+                            using (System.IO.StreamWriter sw = new StreamWriter(fs, encoding))
+                            {
+                                sw.Write(line);
+                            }
                         }
                     }
                 }
@@ -341,7 +352,7 @@ namespace A4LGSharedFunctions
                 return false;
             }
         }
-        public static bool ChangeConfig(ConfigEntries LoadedConfig, ConfigEntries ConfigToLoad,bool backupConfig)
+        public static string ChangeConfig(ConfigEntries LoadedConfig, ConfigEntries ConfigToLoad,bool backupConfig)
         {
             try
             {
@@ -354,22 +365,22 @@ namespace A4LGSharedFunctions
                         if (copyFileContents(TargetFile, SourceFile))
                         {
                             //LoadedConfig.Name = ConfigToLoad.Name;
-                            return true;
+                            return ConfigToLoad.Name;
                         }
                         else
-                            return false;
+                            return "";
 
                     else
-                        return false;
+                        return "";
                 }
                 else { 
                     if (copyFileContents(TargetFile, SourceFile))
                     {
                         //LoadedConfig.Name = ConfigToLoad.Name;
-                        return true;
+                        return ConfigToLoad.Name;
                     }
                     else
-                        return false;
+                        return "";
                 }
                 //File.Copy(LoadedConfig.FullName, LoadedConfig.Path + "\\" + LoadedConfig.Name + ".config", true);
 
@@ -379,11 +390,12 @@ namespace A4LGSharedFunctions
 
 
                 //return true;
+                return ConfigToLoad.Name;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("ChangeConfig:  " + ex.ToString());
-                return false;
+                return "";
 
             }
             finally
@@ -505,7 +517,13 @@ namespace A4LGSharedFunctions
                 if (File.Exists(pConfigFiles))
                 {
                     oXml = new XmlDocument();
-                    oXml.Load(pConfigFiles);
+
+                    using (StreamReader oReader = new StreamReader(pConfigFiles, encoding))
+                    {
+                        oXml.Load(oReader);
+                    }
+                    
+                    //oXml.Load(pConfigFiles);
 
                     oList = oXml.GetElementsByTagName("appSettings");
                     if (oList == null) return defaultValue;
