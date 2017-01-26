@@ -2849,6 +2849,208 @@ namespace ArcGIS4LocalGovernment
                                 {
                                     switch (valMethod)
                                     {
+                                        case "VALIDATE_DOMAIN":
+
+                                            try
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "VALIDATE_DOMAIN");
+                                                IRowChanges pRowCh = null;
+                                                if (valData != null)
+                                                {
+
+
+                                                    //args = valData.Split('|');
+                                                    //if (args.Length < 2)
+                                                    //{
+                                                    //    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MAP_INFO: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bh"));
+                                                    //    continue;
+                                                    //}
+
+
+                                                    if (intFldIdxs.Count == 0)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorErrr_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aw"));
+                                                        continue;
+                                                    }
+                                                   
+                                                    pRowCh = inObject as IRowChanges;
+                                                    //if (pRowCh.get_ValueChanged(intFldIdxs[i]) == false && (mode != "ON_CREATE" && mode != "ON_MANUAL"))
+                                                    //{
+                                                    //    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain64"));
+
+                                                    //    continue;
+
+                                                    //}
+
+
+                                                    if (mode != "ON_MANUAL")
+                                                    {
+                                                        bool valueChanged = false;
+                                                        for (int i = 0; i < intFldIdxs.Count; i++)
+                                                        {
+                                                            if (pRowCh.get_ValueChanged(intFldIdxs[i]) == true)
+                                                            {
+                                                                valueChanged = true;
+                                                                break;
+
+                                                            }
+                                                        }
+                                                        if (valueChanged == true)
+                                                        {
+                                                            for (int i = 0; i < intFldIdxs.Count; i++)
+                                                            {
+                                                                if (pRowCh.get_ValueChanged(intFldIdxs[i]) == true)
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ax"));
+                                                                    if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttrTrasftLoadRError_1"));
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        IDomain pD = null;
+                                                                        ISubtypes pSubType = (ISubtypes)inObject.Class;
+                                                                        if (pSubType.HasSubtype)
+                                                                        {
+                                                                            AAState.WriteLine("Layer has subtypes");
+                                                                            if (pSubType.SubtypeFieldIndex == intFldIdxs[i])
+                                                                            {
+                                                                                AAState.WriteLine("Subtype field changed");
+                                                                                IList<Globals.DomSubList> subList = Globals.SubtypeToList(pSubType);
+                                                                                bool fldValid = false;
+                                                                                foreach (Globals.DomSubList sub in subList)
+                                                                                {
+                                                                                    if (sub.Value == inObject.get_Value(pSubType.SubtypeFieldIndex).ToString())
+                                                                                    {
+                                                                                        fldValid = true;
+                                                                                    }
+                                                                                }
+                                                                                if (fldValid == false)
+                                                                                {
+                                                                                    AAState.WriteLine("subtype not valid, aborting");
+
+                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
+                                                                                    AAState._editor.AbortOperation();
+                                                                                    return false;
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    AAState.WriteLine("Valid subtype");
+                                                                                }
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                pD = pSubType.get_Domain((int)inObject.get_Value(pSubType.SubtypeFieldIndex), inObject.Fields.get_Field(intFldIdxs[i]).Name);
+
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                            if (inObject.Fields.get_Field(intFldIdxs[i]).Domain != null)
+                                                                            {
+                                                                                pD = inObject.Fields.get_Field(intFldIdxs[i]).Domain;
+                                                                            }
+                                                                        }
+                                                                        if (pD != null)
+                                                                        {
+
+                                                                            bool fldValid = false;
+                                                                            if (pD is ICodedValueDomain)
+                                                                            {
+                                                                                AAState.WriteLine("Field has a coded value domain, checking value: " + inObject.get_Value(intFldIdxs[i]).ToString());
+                                                                                ICodedValueDomain2 pCD = (ICodedValueDomain2)pD;
+                                                                                for (int j = 0; j < pCD.CodeCount; j++)
+                                                                                {
+                                                                                    if (pCD.get_Value(j) == inObject.get_Value(intFldIdxs[i]))
+                                                                                    {
+                                                                                        fldValid = true;
+                                                                                        break;
+                                                                                    }
+
+                                                                                }
+                                                                                pCD = null;
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                try
+                                                                                {
+                                                                                    AAState.WriteLine("Field has a range domain, checking value: " + inObject.get_Value(intFldIdxs[i]).ToString());
+                                                                                    IRangeDomain pRD = (IRangeDomain)pD;
+                                                                                    double fldVal;
+                                                                                    double minValue;
+                                                                                    double maxValue;
+                                                                                    double.TryParse(inObject.get_Value(intFldIdxs[i]).ToString(), out fldVal);
+                                                                                    double.TryParse(pRD.MinValue.ToString(), out minValue);
+                                                                                    double.TryParse(pRD.MaxValue.ToString(), out maxValue);
+                                                                                    if (fldVal >= minValue && fldVal <= maxValue)
+                                                                                    {
+                                                                                        fldValid = true;
+                                                                                    }
+                                                                                    else {
+                                                                                        AAState.WriteLine("Value is outside ther range: " + minValue.ToString() + " - " +  maxValue.ToString());
+                                                                                  
+                                                                                    }
+
+                                                                                    pRD = null;
+                                                                                }
+                                                                                catch
+                                                                                {
+
+                                                                                }
+                                                                            }
+                                                                            pD = null;
+                                                                            if (fldValid == false)
+                                                                            {
+                                                                                AAState.WriteLine("Value not valid, aborting");
+
+                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
+                                                                                AAState._editor.AbortOperation();
+                                                                                return false;
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                AAState.WriteLine("Valid value");
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                            //do nothing
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            AAState.WriteLine("Listed Fields did not change");
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        AAState.WriteLine("Unsupported mode:" + mode);
+                                                    }
+                                                }
+
+                                                pRowCh = null;
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MAP_INFO: " + ex.ToString());
+                                            }
+                                            finally
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "MAP_INFO");
+
+                                            }
+                                            break;
                                         case "MAP_INFO"://Value|FieldToChange|Value
 
                                             try
@@ -2985,7 +3187,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     if (intFldIdxs.Count == 0)
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aw"));
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorErrr_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aw"));
                                                         continue;
                                                     }
                                                     if (intFldIdxs[0] == -1)

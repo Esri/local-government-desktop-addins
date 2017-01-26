@@ -200,7 +200,6 @@
     <Compile Include="CustomPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="deleteme.cs" />
     <Compile Include="frmSelectAttTransConfig.cs">
       <SubType>Form</SubType>
     </Compile>
