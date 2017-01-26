@@ -2901,6 +2901,7 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 if (pRowCh.get_ValueChanged(intFldIdxs[i]) == true)
                                                                 {
+                                                                    
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ax"));
                                                                     if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
                                                                     {
@@ -2965,7 +2966,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 ICodedValueDomain2 pCD = (ICodedValueDomain2)pD;
                                                                                 for (int j = 0; j < pCD.CodeCount; j++)
                                                                                 {
-                                                                                    if (pCD.get_Value(j) == inObject.get_Value(intFldIdxs[i]))
+                                                                                    if (pCD.get_Value(j).ToString() == inObject.get_Value(intFldIdxs[i]).ToString())
                                                                                     {
                                                                                         fldValid = true;
                                                                                         break;
@@ -3015,7 +3016,7 @@ namespace ArcGIS4LocalGovernment
                                                                             }
                                                                             else
                                                                             {
-                                                                                AAState.WriteLine("Valid value");
+                                                                                AAState.WriteLine(inObject.Fields.get_Field(intFldIdxs[i]).Name + " is valid");
                                                                             }
                                                                         }
                                                                         else
