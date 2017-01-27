@@ -6365,7 +6365,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application);
+                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application,true);
 
                                                                                     if (featset != null)
                                                                                     {
@@ -6416,7 +6416,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application);
+                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application,true);
 
 
                                                                                     if (featset == null)

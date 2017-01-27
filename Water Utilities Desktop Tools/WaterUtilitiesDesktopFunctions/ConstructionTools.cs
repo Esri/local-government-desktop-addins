@@ -947,14 +947,14 @@ namespace A4WaterUtilities
         private static string _caption = A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2");
 
 
-        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection)
+        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, MergeSplitGeoNetFeatures msgnf)
         {
-            return AddLaterals(app, addLateralsDetails, inFeatures, logOperation, suppressDialog, store, ForceSourcePointConnection, null);
+            return AddLaterals(app, addLateralsDetails, inFeatures, logOperation, suppressDialog, store, ForceSourcePointConnection, null, msgnf);
 
         }
 
         public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures,
-            bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, IFeatureLayer pEditLayer)
+            bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, IFeatureLayer pEditLayer, MergeSplitGeoNetFeatures msgnf)
         {
             ICommandItem pCmdItem;
             string resetFlow = "";
@@ -1463,7 +1463,7 @@ namespace A4WaterUtilities
                                                               addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                               addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
                                                               addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
-                                                              boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain);
+                                                              boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain,msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature2);
                                             if (LatCreated)
@@ -1489,7 +1489,7 @@ namespace A4WaterUtilities
                                                              addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].DeleteExistingLines,
                                                              addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                              addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer,
-                                                             addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain);
+                                                             addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature);
 
@@ -1498,7 +1498,7 @@ namespace A4WaterUtilities
                                                             addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                             addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
                                                             addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
-                                                            boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain);
+                                                            boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature2);
 
@@ -1574,7 +1574,7 @@ namespace A4WaterUtilities
                                                               addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                               addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
                                                               addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
-                                                              boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain);
+                                                              boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature2);
                                             if (LatCreated)
@@ -1598,7 +1598,7 @@ namespace A4WaterUtilities
                                                 addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].DeleteExistingLines,
                                                             addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                             addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer,
-                                                            addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain);
+                                                            addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature);
                                             //CreateSingleOld(pointFeature, matchLineFLayer, lineFeature, targetLineFLayer, targetPointFLayer,
@@ -1618,7 +1618,7 @@ namespace A4WaterUtilities
                                                              addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                             addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
                                                             addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
-                                                            boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain);
+                                                            boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                         if (LatCreated)
                                             ComplFeat.Add(pointFeature);
                                         //CreateSingleOld(pointFeature, matchLineFLayer, lineFeature, targetLineFLayer, targetPointFLayer,
@@ -1843,7 +1843,7 @@ namespace A4WaterUtilities
                                                   List<pointAlongSettings> pointAlongLayers,
                                                   bool startAtMain, bool deleteExistingLines, FromToField[] fromToPairs, double doglegDistance,
                                                   bool DistAsPercent, double tolerenceForDelete, bool store, bool SearchOnLayer,
-                                                  int searchDistance, double angle, bool checkSelection, bool showErrors, bool splitMain)
+                                                  int searchDistance, double angle, bool checkSelection, bool showErrors, bool splitMain,MergeSplitGeoNetFeatures msgnf)
         {
 
             IFeature lineFeature = null;
@@ -2033,7 +2033,7 @@ namespace A4WaterUtilities
                         if (splitMain == true)
                         {
 
-                            Globals.splitLineWithPoint(lineFeature, toPoint, Convert.ToDouble(searchDistance), null, null, app);
+                            Globals.splitLineWithPoint(lineFeature, toPoint, Convert.ToDouble(searchDistance), null, null, app, msgnf.SplitUpdateAndAdd);
                         }
                         return true;
 
@@ -2087,7 +2087,7 @@ namespace A4WaterUtilities
                                                           List<pointAlongSettings> pointAlongLayers,
                                                           bool deleteExistingLines, bool startAtMain, bool squareDualLines,
                                                          FromToField[] fromToPairs, double doglegDistance, bool DistAsPercent, double tolerenceForDelete,
-                                                        bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection, bool showErrors, bool splitMain)
+                                                        bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection, bool showErrors, bool splitMain,MergeSplitGeoNetFeatures msgnf)
         {
 
             IPoint point = null;
@@ -2645,7 +2645,7 @@ namespace A4WaterUtilities
                     if (splitMain == true)
                     {
 
-                        Globals.splitLineWithPoint(lineFeature, toPoint, Convert.ToDouble(searchDistance), null, null, app);
+                        Globals.splitLineWithPoint(lineFeature, toPoint, Convert.ToDouble(searchDistance), null, null, app,msgnf.SplitUpdateAndAdd);
                     }
 
                     return true;
@@ -3436,9 +3436,9 @@ namespace A4WaterUtilities
         }
         private static string _caption = A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_6");
 
-        public static string AddLateralsFromMainPoint(IApplication app, List<AddLateralFromMainPointDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store)
+        public static string AddLateralsFromMainPoint(IApplication app, List<AddLateralFromMainPointDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store,MergeSplitGeoNetFeatures msgnf)
         {
-
+              
             string resetFlow = "";
             bool useDefaultTemplate;
             List<IFeature> ComplFeat = new List<IFeature>();
@@ -3836,7 +3836,8 @@ namespace A4WaterUtilities
                                 }
 
                                 CreateLateralFromMainPoint(ref app, ref editor, pointFeature, matchLineFLayer, targetLineFLayer, pLateralLineEditTemp, pointAlongLayers, addLateralsDetails[k].LateralLine_StartAtMain,
-                                    addLateralsDetails[k].FromToFields, addLateralsDetails[k].LateralLine_AngleDetails, addLateralsDetails[k].SearchOnLayer, boolSelectedEdges, addLateralsDetails[k].LateralLine_SplitMain);
+                                    addLateralsDetails[k].FromToFields, addLateralsDetails[k].LateralLine_AngleDetails, addLateralsDetails[k].SearchOnLayer, boolSelectedEdges, addLateralsDetails[k].LateralLine_SplitMain,
+                                    msgnf);
 
                             }
                             catch (Exception ex)
@@ -3992,7 +3993,7 @@ namespace A4WaterUtilities
         private static bool CreateLateralFromMainPoint(ref IApplication app, ref  IEditor editor, IFeature pointFeature,
                                                      IFeatureLayer mainLineFLayer, IFeatureLayer targetLineFLayer, IEditTemplate targetLineEditTemplate,
                                                      List<pointAlongSettings> pointAlongLayers, bool startAtMain, FromToField[] fromToPairs, LateralLine_AngleDetails latDet,
-                                                     bool SearchOnLayer, bool CheckSelection, bool splitMain)
+                                                     bool SearchOnLayer, bool CheckSelection, bool splitMain,MergeSplitGeoNetFeatures msgnf)
         {
 
 
@@ -4287,7 +4288,8 @@ namespace A4WaterUtilities
 
             if (splitMain == true)
             {
-                Globals.splitLineWithPoint(mainFeature, (IPoint)pointFeature.Shape, 0.0, null, null, app);
+
+                Globals.splitLineWithPoint(mainFeature, (IPoint)pointFeature.Shape, 0.0, null, null, app, msgnf.SplitUpdateAndAdd);
             }
             return true;
 

@@ -163,9 +163,10 @@ namespace A4WaterUtilities
                 return;
             }
             m_editor.StartOperation();
+            List<MergeSplitGeoNetFeatures> m_Config = null;
+            m_Config = ConfigUtil.GetMergeSplitConfig();
 
-
-            string resetFlow = AddLateralsLinesCmds.AddLaterals(ArcMap.Application, ConfigUtil.GetAddLateralsConfig(), null, true, false, true, true);
+            string resetFlow = AddLateralsLinesCmds.AddLaterals(ArcMap.Application, ConfigUtil.GetAddLateralsConfig(), null, true, false, true, true,m_Config[0]);
 
           
 
@@ -240,8 +241,9 @@ namespace A4WaterUtilities
                 return;
             }
             m_editor.StartOperation();
-          
-            string resetFlow = AddLateralsFromPoint.AddLateralsFromMainPoint(ArcMap.Application, ConfigUtil.GetAddLateralsFromMainConfig(), null, false, false, false);
+            List<MergeSplitGeoNetFeatures> m_Config = null;
+            m_Config = ConfigUtil.GetMergeSplitConfig();
+            string resetFlow = AddLateralsFromPoint.AddLateralsFromMainPoint(ArcMap.Application, ConfigUtil.GetAddLateralsFromMainConfig(), null, false, false, false, m_Config[0]);
             // m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
 
 

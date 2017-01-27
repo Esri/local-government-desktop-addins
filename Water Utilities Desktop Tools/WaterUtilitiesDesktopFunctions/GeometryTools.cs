@@ -1855,7 +1855,7 @@ namespace A4WaterUtilities
                         lineFeature = lineFCursor.NextFeature();
                         while (!(lineFeature == null))
                         {
-                            Globals.splitLineWithPoint(lineFeature, SplitPoint, SplitAtLocationSnap, pFldsNames, strFormValu, app);
+                            Globals.splitLineWithPoint(lineFeature, SplitPoint, SplitAtLocationSnap, pFldsNames, strFormValu, app, m_Config[0].SplitUpdateAndAdd);
                             //featureEdit = lineFeature as IFeatureEdit2;
                             //hitTest = lineFeature.ShapeCopy as IHitTest;
                             //pHitPnt = new PointClass();
@@ -2441,7 +2441,7 @@ namespace A4WaterUtilities
             try
             {
                 m_Config = ConfigUtil.GetMergeSplitConfig();
-
+                
 
                 if (SplitSuspendAA.ToUpper() == "TRUE")
                 {
@@ -2584,7 +2584,7 @@ namespace A4WaterUtilities
 
                                 while (!(lineFeature == null))
                                 {
-                                    Globals.splitLineWithPoint(lineFeature, pointFeature.Shape as IPoint, SplitAtLocationSnap, pFldsNames, strFormValu, app);
+                                    Globals.splitLineWithPoint(lineFeature, pointFeature.Shape as IPoint, SplitAtLocationSnap, pFldsNames, strFormValu, app, m_Config[0].SplitUpdateAndAdd);
 
                                     //featureEdit = lineFeature as IFeatureEdit2;
 

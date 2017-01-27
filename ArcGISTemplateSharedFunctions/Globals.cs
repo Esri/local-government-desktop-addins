@@ -10869,7 +10869,7 @@ namespace A4LGSharedFunctions
         #endregion
 
         #region GeometryTools
-        public static ISet splitLineWithPoint(IFeature lineFeature, IPoint SplitPoint, double SnapTol, IList<MergeSplitFlds> pFldsNames, string SplitFormatString, IApplication app)
+        public static ISet splitLineWithPoint(IFeature lineFeature, IPoint SplitPoint, double SnapTol, IList<MergeSplitFlds> pFldsNames, string SplitFormatString, IApplication app,bool trySplitUpdateFirst)
         {
             IHitTest hitTest = null;
             IFeatureEdit2 featureEdit = null;
@@ -10986,7 +10986,23 @@ namespace A4LGSharedFunctions
                     //Split feature
                     try
                     {
-                        pSet = featureEdit.SplitWithUpdate(pHitPnt);
+                        if (trySplitUpdateFirst == true)
+                        {
+                            pSet = featureEdit.SplitWithUpdate(pHitPnt);
+                        }
+                        else
+                        {
+                           
+                            try
+                            {
+                                pSet = featureEdit.Split(pHitPnt);
+                            }
+                            catch (Exception ex)
+                            {
+                                pSet = featureEdit.SplitWithUpdate(pHitPnt);
+                            }
+                        }
+                        //pSet = featureEdit.SplitWithUpdate(pHitPnt);
                     }
                     catch (Exception ex)
                     {

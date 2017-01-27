@@ -526,6 +526,10 @@ namespace A4LGSharedFunctions
         [XmlElement("SplitFormatString")]
         public string SplitFormatString { get; set; }
 
+        [XmlElement("SplitUpdateAndAdd")]
+        [System.ComponentModel.DefaultValue(true)]
+        public bool SplitUpdateAndAdd{ get; set; }
+
         [XmlArray("Fields"), XmlArrayItem(ElementName = "Field", Type = typeof(Field))]
         public Field[] Fields { get; set; }
 
