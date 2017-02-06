@@ -3480,4 +3480,10 @@
     <value>Copia de seguridad de la configuración actual</value>
     <comment>Needs Translation</comment>
   </data>
+  <data name="Category_Style" xml:space="preserve">
+    <value>Predeterminado</value>
+  </data>
+  <data name="Point_Style" xml:space="preserve">
+    <value>Círculo 2</value>
+  </data>
 </root>
