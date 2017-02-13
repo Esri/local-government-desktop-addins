@@ -3119,7 +3119,7 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     if (pTarField.Length < resultValue.Length)
                                                                     {
-                                                                        resultValue = resultValue.Substring(0, pTarField.Length - 1);
+                                                                        resultValue = resultValue.Substring(0, pTarField.Length);
                                                                     }
                                                                     inObject.set_Value(targetFldIdx, resultValue);
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az") + resultValue);
