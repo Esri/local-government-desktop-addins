@@ -234,6 +234,7 @@
     <Content Include="..\..\Configs\loaded.water.config">
       <Link>loaded.water.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <AddInContent Include="Config.de-DE.xml" />
     <None Include="Images\Open2.png" />
