@@ -314,7 +314,7 @@ Partial Class CostEstimatingWindow
         '
         Me.ctxMenuTotals.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowLength, Me.ShowArea, Me.ShowPoint})
         Me.ctxMenuTotals.Name = "ContextMenuStrip1"
-        Me.ctxMenuTotals.Size = New System.Drawing.Size(178, 92)
+        Me.ctxMenuTotals.Size = New System.Drawing.Size(178, 70)
         Me.ctxMenuTotals.Text = "Totals"
         '
         'ShowLength
@@ -460,6 +460,7 @@ Partial Class CostEstimatingWindow
         '
         'gpBoxAfterOverwrite
         '
+        Me.gpBoxAfterOverwrite.AutoSize = True
         Me.gpBoxAfterOverwrite.Controls.Add(Me.lblTotLength)
         Me.gpBoxAfterOverwrite.Controls.Add(Me.pnlSeperator)
         Me.gpBoxAfterOverwrite.Controls.Add(Me.btnSave)
@@ -474,7 +475,7 @@ Partial Class CostEstimatingWindow
         Me.gpBoxAfterOverwrite.Controls.Add(Me.lblTotPnt)
         Me.gpBoxAfterOverwrite.Location = New System.Drawing.Point(743, 13)
         Me.gpBoxAfterOverwrite.Name = "gpBoxAfterOverwrite"
-        Me.gpBoxAfterOverwrite.Size = New System.Drawing.Size(579, 29)
+        Me.gpBoxAfterOverwrite.Size = New System.Drawing.Size(579, 31)
         Me.gpBoxAfterOverwrite.TabIndex = 41
         '
         'btnSave
