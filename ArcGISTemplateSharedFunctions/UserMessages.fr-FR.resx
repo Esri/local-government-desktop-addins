@@ -2638,4 +2638,8 @@
     <value>Backup existing configuration</value>
     <comment>Needs Translation</comment>
   </data>
+  <data name="FieldWrongType" xml:space="preserve">
+    <value>The field type does not match the value</value>
+    <comment>Needs Localization</comment>
+  </data>
 </root>

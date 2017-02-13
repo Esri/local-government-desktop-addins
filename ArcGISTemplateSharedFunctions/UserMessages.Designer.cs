@@ -4192,6 +4192,15 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default.
+        /// </summary>
+        internal static string Category_Style {
+            get {
+                return ResourceManager.GetString("Category_Style", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please Click Two Points for Tracing.
         /// </summary>
         internal static string Clck2Pts {
@@ -4764,6 +4773,15 @@ namespace A4LGSharedFunctions {
         internal static string Field {
             get {
                 return ResourceManager.GetString("Field", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The field type does not match the value.
+        /// </summary>
+        internal static string FieldWrongType {
+            get {
+                return ResourceManager.GetString("FieldWrongType", resourceCulture);
             }
         }
         
@@ -7149,6 +7167,15 @@ namespace A4LGSharedFunctions {
         internal static string Page {
             get {
                 return ResourceManager.GetString("Page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Circle 2.
+        /// </summary>
+        internal static string Point_Style {
+            get {
+                return ResourceManager.GetString("Point_Style", resourceCulture);
             }
         }
         

@@ -2858,31 +2858,13 @@ namespace ArcGIS4LocalGovernment
                                                 if (valData != null)
                                                 {
 
-
-                                                    //args = valData.Split('|');
-                                                    //if (args.Length < 2)
-                                                    //{
-                                                    //    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MAP_INFO: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bh"));
-                                                    //    continue;
-                                                    //}
-
-
                                                     if (intFldIdxs.Count == 0)
                                                     {
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorErrr_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aw"));
                                                         continue;
                                                     }
-                                                   
+
                                                     pRowCh = inObject as IRowChanges;
-                                                    //if (pRowCh.get_ValueChanged(intFldIdxs[i]) == false && (mode != "ON_CREATE" && mode != "ON_MANUAL"))
-                                                    //{
-                                                    //    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain64"));
-
-                                                    //    continue;
-
-                                                    //}
-
-
                                                     if (mode != "ON_MANUAL")
                                                     {
                                                         bool valueChanged = false;
@@ -2901,7 +2883,7 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 if (pRowCh.get_ValueChanged(intFldIdxs[i]) == true)
                                                                 {
-                                                                    
+
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ax"));
                                                                     if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
                                                                     {
@@ -2992,9 +2974,10 @@ namespace ArcGIS4LocalGovernment
                                                                                     {
                                                                                         fldValid = true;
                                                                                     }
-                                                                                    else {
-                                                                                        AAState.WriteLine("Value is outside ther range: " + minValue.ToString() + " - " +  maxValue.ToString());
-                                                                                  
+                                                                                    else
+                                                                                    {
+                                                                                        AAState.WriteLine("Value is outside ther range: " + minValue.ToString() + " - " + maxValue.ToString());
+
                                                                                     }
 
                                                                                     pRD = null;
@@ -3044,11 +3027,11 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MAP_INFO: " + ex.ToString());
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "VALIDATE_DOMAIN: " + ex.ToString());
                                             }
                                             finally
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "MAP_INFO");
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "VALIDATE_DOMAIN");
 
                                             }
                                             break;
@@ -3108,6 +3091,9 @@ namespace ArcGIS4LocalGovernment
                                                                 pDs = null;
                                                                 pVersion = null;
                                                             }
+                                                            else{
+                                                                resultValue = "FGDB";
+                                                            }
                                                             break;
 
 
@@ -3119,16 +3105,29 @@ namespace ArcGIS4LocalGovernment
 
                                                         if (targetFldIdx >= 0)
                                                         {
-                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14co") + resultValue);
-                                                            try
-                                                            {
+                                                            IField pTarField = inObject.Fields.get_Field(targetFldIdx);
 
-                                                                inObject.set_Value(targetFldIdx, resultValue);
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az") + resultValue);
-                                                            }
-                                                            catch
+                                                            if (pTarField.Type != esriFieldType.esriFieldTypeString)
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14c") + resultValue);
+                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("FieldWrongType"));
+                                                              
+                                                            }
+                                                            else
+                                                            {
+                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14co") + resultValue);
+                                                                try
+                                                                {
+                                                                    if (pTarField.Length < resultValue.Length)
+                                                                    {
+                                                                        resultValue = resultValue.Substring(0, pTarField.Length - 1);
+                                                                    }
+                                                                    inObject.set_Value(targetFldIdx, resultValue);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az") + resultValue);
+                                                                }
+                                                                catch
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14c") + resultValue);
+                                                                }
                                                             }
                                                         }
                                                         else
@@ -6365,7 +6364,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application,true);
+                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application, true);
 
                                                                                     if (featset != null)
                                                                                     {
@@ -6416,7 +6415,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application,true);
+                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application, true);
 
 
                                                                                     if (featset == null)
