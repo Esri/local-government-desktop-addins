@@ -6806,7 +6806,9 @@ namespace A4WaterUtilities
                 pTracePoint = pMxDoc.CurrentLocation;
 
 
-                pMarkerSym = Globals.FindMarkerSym("Esri.style", "Default", "Circle 2", pMxDoc);
+                //pMarkerSym = Globals.FindMarkerSym("Esri.style", "Default", "Circle 2", pMxDoc);
+                //Name Symbol depends on localization
+                pMarkerSym = Globals.FindMarkerSym("Esri.style", "Default", A4LGSharedFunctions.Localizer.GetString("Point_Style"), pMxDoc);
                 pRGBColor = Globals.GetColor(255, 0, 0);
 
 

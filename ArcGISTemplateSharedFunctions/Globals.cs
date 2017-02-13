@@ -10713,7 +10713,8 @@ namespace A4LGSharedFunctions
                 pStyGallStor = (IStyleGalleryStorage)pStyGall;
 
                 //Set the styleset
-                pEnumStyGallItm = pStyGall.get_Items("Marker Symbols", stylename, stylecategory);
+                //pEnumStyGallItm = pStyGall.get_Items("Marker Symbols", stylename, stylecategory);
+                pEnumStyGallItm = pStyGall.get_Items("Marker Symbols", stylename, A4LGSharedFunctions.Localizer.GetString("Category_Style"));
                 pEnumStyGallItm.Reset();
 
 
