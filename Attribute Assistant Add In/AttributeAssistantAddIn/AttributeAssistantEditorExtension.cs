@@ -1382,10 +1382,9 @@ namespace ArcGIS4LocalGovernment
                         AAState._editEvents.OnStartEditing -= OnStartEditing;
                         AAState._editEvents.OnStopEditing -= OnStopEditing;
                         AAState._editEvents2 = (IEditEvents2_Event)AAState._editor;// SG Jan 2003
-
-                        AAState._editor = null;
-                        AAState._editEvents = null;
-                        AAState._editEvents2 = null;  // SG Jan 2003
+                        //AAState._editor = null;
+                        //AAState._editEvents = null;
+                        //AAState._editEvents2 = null;  // SG Jan 2003
 
                     }
                 }

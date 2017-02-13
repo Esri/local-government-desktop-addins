@@ -58,7 +58,7 @@ Partial Class CostEstimatingWindow
         Me.btnStopEditing = New System.Windows.Forms.Button()
         Me.btnStartEditing = New System.Windows.Forms.Button()
         Me.lblTotalCost = New System.Windows.Forms.Label()
-        Me.chkProject = New System.Windows.Forms.CheckBox()
+        Me.chkProject = New System.Windows.Forms.Label()
         Me.btnSelectPrj = New System.Windows.Forms.RadioButton()
         Me.btnSavePrj = New System.Windows.Forms.Button()
         Me.btnClear = New System.Windows.Forms.Button()
@@ -531,8 +531,8 @@ Partial Class CostEstimatingWindow
         Me.chkProject.Name = "chkProject"
         Me.chkProject.Size = New System.Drawing.Size(111, 27)
         Me.chkProject.TabIndex = 34
+        Me.chkProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.tlTip.SetToolTip(Me.chkProject, "Select this option to overwrite a project")
-        Me.chkProject.UseVisualStyleBackColor = True
         '
         'btnSelectPrj
         '
@@ -788,7 +788,7 @@ Partial Class CostEstimatingWindow
     Friend WithEvents gpBxCIPPrj As System.Windows.Forms.GroupBox
     Friend WithEvents tbCntCIPDetails As System.Windows.Forms.TabControl
     Friend WithEvents tlTip As System.Windows.Forms.ToolTip
-    Friend WithEvents chkProject As System.Windows.Forms.CheckBox
+    Friend WithEvents chkProject As System.Windows.Forms.Label
     Friend WithEvents gpBoxAfterOverwrite As System.Windows.Forms.Panel
 
 End Class

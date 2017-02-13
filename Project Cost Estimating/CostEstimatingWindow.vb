@@ -110,7 +110,7 @@ Partial Public Class CostEstimatingWindow
     Private Shared s_ShowPoint As ToolStripItem
     Private Shared s_ShowArea As ToolStripItem
 
-    Private Shared s_chkProject As CheckBox
+    Private Shared s_chkProject As Label
     Private Shared s_gpBoxAfterOverwrite As Panel
 
     Private Shared s_numCIPInvCount As System.Windows.Forms.NumericUpDown
@@ -2825,16 +2825,28 @@ Partial Public Class CostEstimatingWindow
             Try
                 Dim pQFilt As IQueryFilter = New QueryFilter
                 Dim pPrjNameToSearch As String = pPrjName
-                If s_chkProject.Visible And s_chkProject.Checked = True And pPrjName <> s_chkProject.Text Then
+                If s_chkProject.Visible And pPrjName <> s_chkProject.Text Then
                     pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "' or " & My.Globals.Constants.c_CIPProjectLayNameField & " = '" & s_chkProject.Text & "'"
                 Else
                     pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "'"
                 End If
 
                 If My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) = 1 Then
-                    If s_chkProject.Visible And s_chkProject.Checked = True Then
+                    If s_chkProject.Visible = True And pPrjName <> s_chkProject.Text Then
+                        Dim re As DialogResult = MessageBox.Show("You have selected a project and specified a new name." + vbNewLine + vbNewLine + "Click Yes to rename and update the selected project." + vbNewLine + "Click No to save a new project.", "Overwrite existing project", MessageBoxButtons.YesNoCancel)
+                        If re = DialogResult.Yes Then
+
+                            deleteCIPProjects(pPrjName)
+                            deleteCIPProjects(s_chkProject.Text)
+                        ElseIf re = DialogResult.No Then
+                            deleteCIPProjects(pPrjName)
+                        Else
+                            pQFilt = Nothing
+                            My.Globals.Variables.v_Editor.AbortOperation()
+                            Return
+                        End If
+                    ElseIf s_chkProject.Visible = True And pPrjName = s_chkProject.Text Then
                         deleteCIPProjects(pPrjName)
-                        deleteCIPProjects(s_chkProject.Text)
                     Else
                         If MsgBox("The CIP Project name is already in use by another project, proceeding with delete and replace it with the current list of assets.", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
                             deleteCIPProjects(pPrjName)
@@ -2845,18 +2857,31 @@ Partial Public Class CostEstimatingWindow
                         End If
                     End If
                 ElseIf My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) > 1 Then
-                    If MsgBox("The CIP Project name is already in use by another project, proceeding with delete the selected project and the project of the name you specified and replace it with the current list of assets.", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
-                        deleteCIPProjects(pPrjName)
-                        If s_chkProject.Visible And s_chkProject.Checked = True Then
-                            deleteCIPProjects(s_chkProject.Text)
-                        End If
+                    If s_chkProject.Visible = True Then
+                        Dim re As DialogResult = MessageBox.Show("You have selected a project and specified a new name.  There is a project already with that new name." + vbNewLine + vbNewLine + "Click Yes to rename and update the selected project.  This will delete the existing project with this name" + vbNewLine + "Click No to copy the project, this will overwrite the existing project with the name.", "Overwrite existing project", MessageBoxButtons.YesNoCancel)
+                        If re = DialogResult.Yes Then
 
+                            deleteCIPProjects(pPrjName)
+                            deleteCIPProjects(s_chkProject.Text)
+                        ElseIf re = DialogResult.No Then
+                            deleteCIPProjects(s_chkProject.Text)
+                        Else
+                            pQFilt = Nothing
+                            My.Globals.Variables.v_Editor.AbortOperation()
+                            Return
+                        End If
                     Else
-                        pQFilt = Nothing
-                        My.Globals.Variables.v_Editor.AbortOperation()
-                        Return
+                        If MsgBox("The CIP Project name is already in use by another project, proceeding with delete and replace it with the current list of assets.", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                            deleteCIPProjects(pPrjName)
+                        Else
+                            pQFilt = Nothing
+                            My.Globals.Variables.v_Editor.AbortOperation()
+                            Return
+                        End If
                     End If
+
                 End If
+
 
             Catch ex As Exception
                 MsgBox("Error trying to check Project Names - Make sure the overview layer has a field named: " & My.Globals.Constants.c_CIPProjectAssetNameField)
@@ -5216,6 +5241,7 @@ Partial Public Class CostEstimatingWindow
 
             s_dgCIP.AllowUserToDeleteRows = False
             AddHandler s_dgCIP.RowsAdded, AddressOf dgCIP_RowsAdded
+            AddHandler s_dgCIP.RowsRemoved, AddressOf dgCIP_RowsRemoved
             AddHandler s_dgCIP.Scroll, AddressOf dgCIP_Scroll
 
             AddHandler s_dgCIP.CellClick, AddressOf dgCIP_CellClick
@@ -6695,6 +6721,25 @@ Partial Public Class CostEstimatingWindow
 
     End Sub
     Private Shared Sub dgCIP_RowsAdded(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewRowsAddedEventArgs)
+        Try
+            If s_dgCIP Is Nothing Then Return
+            If s_dgCIP.Rows.Count > 0 Then
+                If My.Globals.Variables.v_Editor.EditState = esriEditState.esriStateEditing Then
+                    s_btnSavePrj.Enabled = True
+                Else
+                    s_btnSavePrj.Enabled = False
+                End If
+
+            Else
+                s_btnSavePrj.Enabled = False
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_RowsAdded" & vbCrLf & ex.ToString())
+
+        End Try
+    End Sub
+    Private Shared Sub dgCIP_RowsRemoved(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewRowsRemovedEventArgs)
         Try
             If s_dgCIP Is Nothing Then Return
             If s_dgCIP.Rows.Count > 0 Then
@@ -8229,12 +8274,12 @@ Partial Public Class CostEstimatingWindow
 
             Dim g As System.Drawing.Graphics = s_chkProject.CreateGraphics()
             Dim s As System.Drawing.SizeF = g.MeasureString(s_chkProject.Text, s_chkProject.Font)
-            s_chkProject.Width = s.Width + 25
+            s_chkProject.Width = s.Width + 10
             s_gpBoxAfterOverwrite.Left = s_chkProject.Left + s_chkProject.Width + 4
 
         Else
             s_chkProject.Visible = False
-            s_chkProject.Checked = False
+            's_chkProject.Checked = False
 
             s_gpBoxAfterOverwrite.Left = s_btnSavePrj.Left + s_btnSavePrj.Width + 4
         End If
