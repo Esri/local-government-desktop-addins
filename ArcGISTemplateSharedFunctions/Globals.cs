@@ -8289,6 +8289,11 @@ namespace A4LGSharedFunctions
                 tmpForm.setComboType(cboSt);
                 Graphics g = tmpForm.cboSelectTemplate.CreateGraphics();
                 int frmWidth = Globals.getLongestText(values, tmpForm.cboSelectTemplate.Font, ref g);
+                SizeF tmpF = g.MeasureString(LabelValue, tmpForm.lblLayer.Font);
+                if (Convert.ToInt32(tmpF.Width) > frmWidth)
+                {
+                    frmWidth = Convert.ToInt32(tmpF.Width);
+                }
                 g = null;
                 tmpForm.setWidth(frmWidth);
                 tmpForm.FormClosing += new FormClosingEventHandler(tmpForm_FormClosing);
@@ -8324,6 +8329,11 @@ namespace A4LGSharedFunctions
                 Graphics g = tmpForm.cboSelectTemplate.CreateGraphics();
 
                 int frmWidth = getLongestText(values, tmpForm.cboSelectTemplate.Font, ref g);
+                SizeF tmpF = g.MeasureString(LabelValue, tmpForm.lblLayer.Font);
+                if (Convert.ToInt32(tmpF.Width) > frmWidth)
+                {
+                    frmWidth = Convert.ToInt32(tmpF.Width);
+                }
                 g = null;
                 tmpForm.setWidth(frmWidth);
                 tmpForm.FormClosing += new FormClosingEventHandler(tmpForm_FormClosing);
@@ -8351,6 +8361,11 @@ namespace A4LGSharedFunctions
                 tmpForm.lblLayer.Text = caption;
                 Graphics g = tmpForm.cboSelectTemplate.CreateGraphics();
                 int frmWidth = getLongestText(features, tmpForm.cboSelectTemplate.Font, ref g);
+                SizeF tmpF = g.MeasureString(caption, tmpForm.lblLayer.Font);
+                if (Convert.ToInt32(tmpF.Width) > frmWidth)
+                {
+                    frmWidth = Convert.ToInt32(tmpF.Width);
+                }
                 g = null;
                 tmpForm.setWidth(frmWidth);
                 tmpForm.cboSelectTemplate.DataSource = features;
@@ -8427,6 +8442,12 @@ namespace A4LGSharedFunctions
                 tmpForm.lblLayer.Text = caption;
                 Graphics g = tmpForm.cboSelectTemplate.CreateGraphics();
                 int frmWidth = getLongestText(options, tmpForm.cboSelectTemplate.Font, ref g);
+                SizeF tmpF = g.MeasureString(caption, tmpForm.lblLayer.Font);
+                if (Convert.ToInt32(tmpF.Width) > frmWidth)
+                {
+                    frmWidth = Convert.ToInt32(tmpF.Width);
+                }
+          
                 g = null;
                 tmpForm.setWidth(frmWidth);
                 tmpForm.showCancelButton();

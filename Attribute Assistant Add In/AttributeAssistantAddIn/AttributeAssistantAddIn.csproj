@@ -296,6 +296,7 @@
     <Content Include="..\..\Configs\loaded.address.config">
       <Link>loaded.address.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
