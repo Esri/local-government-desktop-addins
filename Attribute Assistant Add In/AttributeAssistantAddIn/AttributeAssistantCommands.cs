@@ -310,6 +310,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Change;
                 //Get list of editable layers
                 IEditor editor = _editor;
                 IEditLayers eLayers = (IEditLayers)editor;
@@ -354,7 +355,6 @@ namespace ArcGIS4LocalGovernment
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
-                        AAState.triggerByTools = AAState.TriggerByToolsOptions.Change;
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
                         ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -512,7 +512,6 @@ namespace ArcGIS4LocalGovernment
 
                         catch (Exception ex)
                         {
-                            AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                             editor.AbortOperation();
                             ran = false;
                             MessageBox.Show("RunChangeRule\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
@@ -520,7 +519,6 @@ namespace ArcGIS4LocalGovernment
                         }
                         finally
                         {
-                            AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                             //  AAState.StartChangeMonitor();
                             try
                             {
@@ -532,12 +530,6 @@ namespace ArcGIS4LocalGovernment
 
                         }
 
-
-
-
-
-
-                        AAState.triggerByTools = AAState.TriggerByToolsOptions.Change;
                         editor.StartOperation();
                         try
                         {
@@ -605,7 +597,6 @@ namespace ArcGIS4LocalGovernment
                         }
                         catch (Exception ex)
                         {
-                            AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                             editor.AbortOperation();
                             MessageBox.Show("RunChangeRules\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             ran = false;
@@ -614,7 +605,6 @@ namespace ArcGIS4LocalGovernment
                         }
                         finally
                         {
-                            AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                             AAState.StartChangeMonitor();
                             try
                             {
@@ -653,6 +643,7 @@ namespace ArcGIS4LocalGovernment
             }
             finally
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                 if (ran)
                     //  MessageBox.Show("Process has completed successfully");
 
@@ -729,6 +720,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Geo;
                 //Get list of editable layers
                 IEditor editor = _editor;
                 IEditLayers eLayers = (IEditLayers)editor;
@@ -752,7 +744,6 @@ namespace ArcGIS4LocalGovernment
                     if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
-
 
 
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
@@ -939,6 +930,7 @@ namespace ArcGIS4LocalGovernment
             }
             finally
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                 if (ran)
                     //MessageBox.Show("Process has completed successfully");
 
@@ -1014,6 +1006,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Manual;
                 //Get list of editable layers
                 IEditor editor = _editor;
                 IEditLayers eLayers = (IEditLayers)editor;
@@ -1058,7 +1051,7 @@ namespace ArcGIS4LocalGovernment
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
-
+                        
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
                         ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -1327,6 +1320,7 @@ namespace ArcGIS4LocalGovernment
             }
             finally
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                 if (ran)
                     //MessageBox.Show("Process has completed successfully");
 
@@ -1402,6 +1396,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Create;
                 //Get list of editable layers
                 IEditor editor = _editor;
                 IEditLayers eLayers = (IEditLayers)editor;
@@ -1446,8 +1441,7 @@ namespace ArcGIS4LocalGovernment
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
-
-
+               
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
                         ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -1602,6 +1596,7 @@ namespace ArcGIS4LocalGovernment
                         }
                         catch (Exception ex)
                         {
+               
                             editor.AbortOperation();
                             ran = false;
                             MessageBox.Show("RunCreateRule\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
@@ -1619,11 +1614,6 @@ namespace ArcGIS4LocalGovernment
                             { }
 
                         }
-
-
-
-
-
 
 
                         editor.StartOperation();
@@ -1740,6 +1730,8 @@ namespace ArcGIS4LocalGovernment
             }
             finally
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
+               
                 if (ran)
                     //  MessageBox.Show("Process has completed successfully");
 

@@ -282,9 +282,6 @@
       <Link>loaded.aa.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <AddInContent Include="Config.de-DE.xml">
-      <SubType>Designer</SubType>
-    </AddInContent>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\Configs\loaded.water.config">

@@ -84,7 +84,7 @@ namespace ArcGIS4LocalGovernment
         public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature, Start, End }
         public static ESRI.ArcGIS.esriSystem.IPropertySet2 lastValueProperties;
         public static string _filePath = "";
-        public enum TriggerByToolsOptions { Edit, Change, Geo, Manual }
+        public enum TriggerByToolsOptions { Edit, Create, Change, Geo, Manual }
         public static TriggerByToolsOptions triggerByTools = TriggerByToolsOptions.Edit;
 
         public static ISpatialReference _sr1;
