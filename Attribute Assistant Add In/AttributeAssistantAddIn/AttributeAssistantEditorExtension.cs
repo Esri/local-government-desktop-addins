@@ -84,6 +84,8 @@ namespace ArcGIS4LocalGovernment
         public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature, Start, End }
         public static ESRI.ArcGIS.esriSystem.IPropertySet2 lastValueProperties;
         public static string _filePath = "";
+        public enum TriggerByToolsOptions {Edit, Change, Geo, Manual}
+        public static TriggerByToolsOptions triggerByTools = TriggerByToolsOptions.Edit;
 
         public static ISpatialReference _sr1;
         public static RotationCalculator rCalc;
@@ -1586,7 +1588,15 @@ namespace ArcGIS4LocalGovernment
                     if ((inFeature as INetworkFeature) != null && NetworkConnectivityChanged(obj))
                     //check to see if a feature is connected or disconnected
                     {
-                        sendEvent(obj, "ON_CHANGEGEO");
+                        if (AAState.triggerByTools == AAState.TriggerByToolsOptions.Change) {
+                            sendEvent(obj, "ON_CHANGE");
+                        }
+                        else
+                        {
+                            sendEvent(obj, "ON_CHANGEGEO");
+
+                        }
+                        
                     }
                     else
                     {
@@ -3053,7 +3063,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     if (intFldIdxs.Count > 0)
                                                     {
-                                                        if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false && (mode != "ON_CREATE" && mode != "ON_MANUAL"))
+                                                        if (pRowCh.get_ValueChanged(intFldIdxs[0]) == false && (mode != "ON_CREATE" && mode != "ON_MANUAL") && AAState.triggerByTools == AAState.TriggerByToolsOptions.Edit)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain64"));
 
@@ -3094,7 +3104,10 @@ namespace ArcGIS4LocalGovernment
                                                                 resultValue = "FGDB";
                                                             }
                                                             break;
+                                                        default:
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain48"));
 
+                                                            continue;
 
                                                     }
                                                     int targetFldIdx = -1;
