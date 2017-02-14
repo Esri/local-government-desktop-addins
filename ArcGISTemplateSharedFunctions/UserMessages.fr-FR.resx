@@ -2642,4 +2642,8 @@
     <value>The field type does not match the value</value>
     <comment>Needs Localization</comment>
   </data>
+  <data name="dynamicValueTableMissing" xml:space="preserve">
+    <value>Dynamic Value Table is required to activate the Attribute Assistant</value>
+    <comment>Needs Translation</comment>
+  </data>
 </root>

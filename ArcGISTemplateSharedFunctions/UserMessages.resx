@@ -2649,4 +2649,7 @@
   <data name="FieldWrongType" xml:space="preserve">
     <value>The field type does not match the value</value>
   </data>
+  <data name="dynamicValueTableMissing" xml:space="preserve">
+    <value>Dynamic Value Table is required to activate the Attribute Assistant</value>
+  </data>
 </root>

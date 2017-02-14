@@ -4669,6 +4669,15 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dynamic Value Table is required to activate the Attribute Assistant.
+        /// </summary>
+        internal static string dynamicValueTableMissing {
+            get {
+                return ResourceManager.GetString("dynamicValueTableMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to edit control.
         /// </summary>
         internal static string EditCtrl {
