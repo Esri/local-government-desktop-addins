@@ -820,7 +820,7 @@ namespace A4WaterUtilities
                                                                              pointFeature.ShapeCopy, pointFLayer, connectLineFLayer, bSelectedOnly);
 
                             if (pNearestFeature == null)
-                                break;
+                                continue;
 
                             pNewPoly = new PolylineClass();
                             pNewPoly.FromPoint = pNearestFeature as IPoint;
