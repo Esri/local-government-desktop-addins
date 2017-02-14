@@ -214,7 +214,6 @@
   <ItemGroup>
     <AddInContent Include="Images\Config2.png" />
     <AddInContent Include="Config.es-ES.xml" />
-    <AddInContent Include="Config.de-DE.xml" />
     <Content Include="Images\Old\AttributeAssistantAddIn.png" />
     <Content Include="Images\Old\AttributeAssistantToogleOff.bmp" />
     <Content Include="Images\Old\AttributeAssistantToogleOff.png" />
