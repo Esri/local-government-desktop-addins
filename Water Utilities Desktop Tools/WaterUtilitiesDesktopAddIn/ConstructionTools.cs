@@ -146,7 +146,7 @@ namespace A4WaterUtilities
                 m_editor.StartOperation();
                 Globals.ClearSelected(ArcMap.Application, false, new List<esriGeometryType>() { esriGeometryType.esriGeometryPoint });
 
-                pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, false, true);
+                pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, false, false);
 
                 //CreatePoint(m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate);
 
@@ -157,10 +157,12 @@ namespace A4WaterUtilities
                 // addLat.AddLateralAtPoint(m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name);
 
                 //((IFeatureSelection)m_editor.CurrentTemplate.Layer).Clear();
-                m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
-
+              
                 List<MergeSplitGeoNetFeatures> m_Config = null;
                 m_Config = ConfigUtil.GetMergeSplitConfig();
+                ISpatialReference pSpatRef = pFeat.Shape.SpatialReference;
+
+                m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
 
                 string resetFlow = AddLateralsLinesCmds.AddLaterals(ArcMap.Application, ConfigUtil.GetAddLateralsConfig(), pFeat, false, true, false, false, (IFeatureLayer)m_editor.CurrentTemplate.Layer, m_Config[0]);
                 // m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
@@ -168,7 +170,10 @@ namespace A4WaterUtilities
 
                 m_editor.Display.Invalidate((ArcMap.Document as IMxDocument).ActiveView.Extent, true, (short)esriScreenCache.esriAllScreenCaches);
 
+                pFeat.Shape.SpatialReference = pSpatRef;
+
                 pFeat.Store();
+                m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
 
                 (ArcMap.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, null, (ArcMap.Document as IMxDocument).ActiveView.Extent.Envelope);
 

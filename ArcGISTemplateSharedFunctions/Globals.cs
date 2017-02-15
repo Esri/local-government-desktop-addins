@@ -86,6 +86,17 @@ using Microsoft.VisualBasic;
 
 namespace A4LGSharedFunctions
 {
+    public class SaveFeature
+    {
+        public SaveFeature(IFeatureLayer in_layer, IFeature in_feature) {
+            feature = in_feature;
+            layer = in_layer;
+        }
+
+        public IFeatureLayer layer { get; set; }
+        public IFeature feature { get; set; }
+
+    }
     public class geoFeat
     {
         public IGeometryCollection geo { get; set; }
@@ -2118,7 +2129,7 @@ namespace A4LGSharedFunctions
 
         public static IFeature AddPointAlongLineWithIntersect(ref IApplication app, ref  IEditor editor, ICurve curve, IFeatureLayer pointFLayer, double targetPointDistance,
                                                          bool targetPointDistanceIsPercent, IEditTemplate editTemplate, IFeatureLayer pPolyFL,
-                                                         string side, bool storeFeature)
+                                                         string side)
         {
 
             double workingDist = targetPointDistance;
@@ -2149,7 +2160,7 @@ namespace A4LGSharedFunctions
                     pFeat = pFC.NextFeature();
                     if (pFeat == null)
                     {
-                        return AddPointAlongLine(ref app, ref editor, curve, pointFLayer, targetPointDistance, targetPointDistanceIsPercent, editTemplate, storeFeature);
+                        return AddPointAlongLine(ref app, ref editor, curve, pointFLayer, targetPointDistance, targetPointDistanceIsPercent, editTemplate);
 
                     }
                     else
@@ -2218,7 +2229,7 @@ namespace A4LGSharedFunctions
                         }
                         if (intersectFound == false)
                         {
-                            return AddPointAlongLine(ref app, ref editor, curve, pointFLayer, targetPointDistance, targetPointDistanceIsPercent, editTemplate, storeFeature);
+                            return AddPointAlongLine(ref app, ref editor, curve, pointFLayer, targetPointDistance, targetPointDistanceIsPercent, editTemplate);
 
                         }
 
@@ -2231,40 +2242,15 @@ namespace A4LGSharedFunctions
 
                             if (editTemplate != null)
                             {
-                                pFeat = Globals.CreateFeature(point, editTemplate, editor, app, true, false, true);
+                                pFeat = Globals.CreateFeature(point, editTemplate, editor, app, true, false, false);
                             }
                             else
                             {
-                                pFeat = Globals.CreateFeature(point, pointFLayer, editor, app, true, false, true);
+                                pFeat = Globals.CreateFeature(point, pointFLayer, editor, app, true, false, false);
                             }
 
-
-                            if (storeFeature == true)
-                            {
-                                try
-                                {
-                                    if (pFeat != null)
-                                    {
-                                        Globals.ValidateFeature(pFeat);
-                                        pFeat.Store();
-                                        return pFeat;
-                                    }
-                                    else
-
-                                        return null;
-
-
-                                }
-                                catch
-                                {
-
-                                    return null;
-                                }
-                            }
-                            else
-                            {
-                                return pFeat;
-                            }
+                            return pFeat;
+                            
                         }
                         else
 
@@ -2297,7 +2283,7 @@ namespace A4LGSharedFunctions
 
         }
         public static IFeature AddPointAlongLine(ref IApplication app, ref  IEditor editor, ICurve curve, IFeatureLayer pointFLayer, double targetPointDistance,
-                                                         bool targetPointDistanceIsPercent, IEditTemplate editTemplate, bool storeFeature)
+                                                         bool targetPointDistanceIsPercent, IEditTemplate editTemplate)
         {
             double workingDist = targetPointDistance;
 
@@ -2336,28 +2322,18 @@ namespace A4LGSharedFunctions
 
                         if (editTemplate != null)
                         {
-                            pFeat = Globals.CreateFeature(point, editTemplate, editor, app, true, false, true);
+                            pFeat = Globals.CreateFeature(point, editTemplate, editor, app, true, false, false);
                         }
                         else
                         {
-                            pFeat = Globals.CreateFeature(point, pointFLayer, editor, app, true, false, true);
+                            pFeat = Globals.CreateFeature(point, pointFLayer, editor, app, true, false, false);
                         }
 
 
 
                         try
                         {
-                            if (pFeat != null && storeFeature == true)
-                            {
-                                Globals.ValidateFeature(pFeat);
-                                pFeat.Store();
-                            }
-                            //if (pFeat is INetworkFeature)
-                            //{
-                            //    INetworkFeature pNF = (INetworkFeature)pFeat;
-
-                            //    pNF.Connect();
-                            //}
+                            
                             return pFeat;
                         }
                         catch (Exception ex)
@@ -9030,8 +9006,12 @@ namespace A4LGSharedFunctions
 
                 //    pNF.Connect();
                 //}
-                if (SelectFeature)
+                if (SelectFeature) { 
+                    ISpatialReference pSpatRef = feature.Shape.SpatialReference;
+                    //selecting a feature before storing it wacks the spatial reference with z coord systems
                     Editor.Map.SelectFeature(pfeatureLayer, feature);
+                    feature.Shape.SpatialReference = pSpatRef;
+                }
                 // MessageBox.Show(Editor.Map.SelectionCount.ToString());
 
                 //Invalidate the area around the new feature
@@ -9260,7 +9240,12 @@ namespace A4LGSharedFunctions
                     Editor.Map.ClearSelection();
 
                 if (SelectFeature)
+                {
+                    ISpatialReference pSpatRef = feature.Shape.SpatialReference;
+                    //selecting a feature before storing it wacks the spatial reference with z coord systems
                     Editor.Map.SelectFeature(FeatureLay, feature);
+                    feature.Shape.SpatialReference = pSpatRef;
+                }
                 // Editor.Map.SelectFeature(FeatureLay, feature);
                 //Invalidate the area around the new feature
                 //IEnvelope pEnv = null;

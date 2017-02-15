@@ -59,7 +59,7 @@ namespace A4WaterUtilities
         public static bool CreatePoints(IApplication app, List<ConstructLineWithPointsDetails> linesWithPointsDetails, IPolyline line, IFeatureLayer SourceLayer, bool bUseTemplate, out List<IFeature> pLstFeat)
         {
             pLstFeat = null;
-
+            List<A4LGSharedFunctions.SaveFeature> saveFeatList = new List<SaveFeature>();
             IFeatureLayer pStartPointLayer = null;
             IFeatureLayer pAlongPointLayer = null;
             IFeatureLayer pEndPointLayer = null;
@@ -181,13 +181,15 @@ namespace A4WaterUtilities
                                 {
                                     if (pEditTempStart == null)
                                     {
-                                        pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
+                                        pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, false);
+                                        saveFeatList.Add(new SaveFeature(pStartPointLayer, pPntFeat));
                                         //editor.Map.SelectFeature(pStartPointLayer, pPntFeat);
                                         //  pPntFeat.Store();
                                     }
                                     else
                                     {
-                                        pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
+                                        pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, false);
+                                        saveFeatList.Add(new SaveFeature(pEditTempStart.Layer as IFeatureLayer, pPntFeat));
                                         //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
                                         //pPntFeat.Store();
                                     }
@@ -201,13 +203,15 @@ namespace A4WaterUtilities
                                     if (pEditTempEnd == null)
                                     {
 
-                                        pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
+                                        pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, false);
+                                        saveFeatList.Add(new SaveFeature(pEndPointLayer, pPntFeat));
                                         //editor.Map.SelectFeature(pEndPointLayer, pPntFeat);
                                         // pPntFeat.Store();
                                     }
                                     else
                                     {
-                                        pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
+                                        pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, false);
+                                        saveFeatList.Add(new SaveFeature(pEditTempEnd.Layer as IFeatureLayer, pPntFeat));
                                         //editor.Map.SelectFeature(pEditTempEnd.Layer, pPntFeat);
                                         //   pPntFeat.Store();
                                     }
@@ -219,12 +223,14 @@ namespace A4WaterUtilities
                                 {
                                     if (pEditTempAlong != null)
                                     {
-                                        pPntFeat = Globals.CreateFeature(ppnt, pEditTempAlong, editor, app, true, false, true);
+                                        pPntFeat = Globals.CreateFeature(ppnt, pEditTempAlong, editor, app, true, false, false);
+                                        saveFeatList.Add(new SaveFeature(pEditTempAlong.Layer as IFeatureLayer, pPntFeat));
                                         //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
                                     }
                                     else
                                     {
-                                        pPntFeat = Globals.CreateFeature(ppnt, pAlongPointLayer, editor, app, true, false, true);
+                                        pPntFeat = Globals.CreateFeature(ppnt, pAlongPointLayer, editor, app, true, false, false);
+                                        saveFeatList.Add(new SaveFeature(pAlongPointLayer, pPntFeat));
                                         //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
                                     }
                                 }
@@ -249,19 +255,21 @@ namespace A4WaterUtilities
                         {
                             if (pEditTempStart == null)
                             {
-                                pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
+                                pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, false);
                                 if (pPntFeat != null)
                                 {
                                     pLstFeat.Add(pPntFeat);
+                                    saveFeatList.Add(new SaveFeature(pStartPointLayer, pPntFeat));
                                     // pPntFeat.Store();
                                 }
                             }
                             else
                             {
-                                pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
+                                pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, false);
                                 if (pPntFeat != null)
                                 {
                                     pLstFeat.Add(pPntFeat);
+                                    saveFeatList.Add(new SaveFeature(pEditTempStart.Layer as IFeatureLayer, pPntFeat));
                                     // pPntFeat.Store();
                                 }
                             }
@@ -270,25 +278,31 @@ namespace A4WaterUtilities
                         {
                             if (pEditTempEnd == null)
                             {
-                                pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
+                                pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, false);
                                 if (pPntFeat != null)
                                 {
                                     pLstFeat.Add(pPntFeat);
+                                    saveFeatList.Add(new SaveFeature(pEndPointLayer, pPntFeat));
                                     // pPntFeat.Store();
                                 }
                             }
                             else
                             {
-                                pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
+                                pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, false);
                                 if (pPntFeat != null)
                                 {
                                     pLstFeat.Add(pPntFeat);
+                                    saveFeatList.Add(new SaveFeature(pEditTempEnd.Layer as IFeatureLayer, pPntFeat));
                                     // pPntFeat.Store();
                                 }
                             }
 
                         }
 
+                    }
+                    foreach (SaveFeature sf in saveFeatList)
+                    {
+                        editor.Map.SelectFeature(sf.layer, sf.feature);
                     }
                     return Convert.ToBoolean(pDet.TwoPointLines);
 
@@ -330,6 +344,7 @@ namespace A4WaterUtilities
         public static returnFeatArray ConnectClosestFeatureAtPoint(IApplication app, List<ConnectClosestDetails> connectClosestLayers, IPoint location, string LayerName, bool logOperation, Keys mod)
         {
 
+            List<A4LGSharedFunctions.SaveFeature> saveFeatList = new List<SaveFeature>();
             bool bSelectedOnly;
             bool bUseTemplate;
             if (mod == Keys.Shift)
@@ -504,11 +519,13 @@ namespace A4WaterUtilities
 
                         if (pEditTemp == null)
                         {
-                            pLine = Globals.CreateFeature(pNewPoly, connectLineFLayer, editor, app, false, false, true);
+                            pLine = Globals.CreateFeature(pNewPoly, connectLineFLayer, editor, app, false, false, false);
+                            saveFeatList.Add(new SaveFeature(connectLineFLayer, pLine));
                         }
                         else
                         {
-                            pLine = Globals.CreateFeature(pNewPoly, pEditTemp, editor, app, false, false, true);
+                            pLine = Globals.CreateFeature(pNewPoly, pEditTemp, editor, app, false, false, false);
+                            saveFeatList.Add(new SaveFeature(pEditTemp.Layer as IFeatureLayer, pLine));
                         }
                         pLine.Store();
                         pRetFeature.Add(pLine);
@@ -562,8 +579,13 @@ namespace A4WaterUtilities
 
                     }
                 }
+                foreach (SaveFeature sf in saveFeatList)
+                {
+                    editor.Map.SelectFeature(sf.layer, sf.feature);
+                }
                 (map as IActiveView).Refresh();
                 retVal.Features = pRetFeature;
+               
                 return retVal;
             }
 
@@ -592,6 +614,7 @@ namespace A4WaterUtilities
 
         public static returnFeatArray ConnectClosestFeature(IApplication app, List<ConnectClosestDetails> connectClosestLayers, bool logOperation, bool suppressDialog, string LayerName)
         {
+            List<A4LGSharedFunctions.SaveFeature> saveFeatList = new List<SaveFeature>();
             bool bUseTemplate;
             bool bSelectedOnly;
             if (Control.ModifierKeys == Keys.Shift)
@@ -830,11 +853,13 @@ namespace A4WaterUtilities
 
                             if (pEditTemp == null)
                             {
-                                pLine = Globals.CreateFeature(pNewPoly, connectLineFLayer, editor, app, false, false, true);
+                                pLine = Globals.CreateFeature(pNewPoly, connectLineFLayer, editor, app, false, false, false);
+                                saveFeatList.Add(new SaveFeature(connectLineFLayer, pLine));
                             }
                             else
                             {
-                                pLine = Globals.CreateFeature(pNewPoly, pEditTemp, editor, app, false, false, true);
+                                pLine = Globals.CreateFeature(pNewPoly, pEditTemp, editor, app, false, false, false);
+                                saveFeatList.Add(new SaveFeature(pEditTemp.Layer as IFeatureLayer, pLine));
                             }
                             pLine.Store();
                             pRetFeature.Add(pLine);
@@ -895,6 +920,10 @@ namespace A4WaterUtilities
 
 
 
+                }
+                foreach (SaveFeature sf in saveFeatList)
+                {
+                    editor.Map.SelectFeature(sf.layer, sf.feature);
                 }
                 (map as IActiveView).Refresh();
                 retVal.Features = pRetFeature;
@@ -1845,7 +1874,7 @@ namespace A4WaterUtilities
                                                   bool DistAsPercent, double tolerenceForDelete, bool store, bool SearchOnLayer,
                                                   int searchDistance, double angle, bool checkSelection, bool showErrors, bool splitMain,MergeSplitGeoNetFeatures msgnf)
         {
-
+            List<A4LGSharedFunctions.SaveFeature> saveFeatList = new List<SaveFeature>();
             IFeature lineFeature = null;
             IPoint thisPoint = null;
             IPoint turnPoint = null;
@@ -1902,10 +1931,11 @@ namespace A4WaterUtilities
                             {
                                 IFeature pAlongFeat = null;
                                 if (pPointAlongLayer.PolygonIntersectLayer != null)
-                                    pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
+                                    pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide);
 
                                 else
-                                    pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                                    pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate);
+                                saveFeatList.Add(new SaveFeature(pPointAlongLayer.PointAlongLayer, pAlongFeat));
                                 pAlongFeatures.Add(pAlongFeat);
                                 if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
                                 {
@@ -1963,11 +1993,13 @@ namespace A4WaterUtilities
                             {
                                 if (targetLineEditTemplate != null)
                                 {
-                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                                    saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                                 }
                                 else
                                 {
-                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, false);
+                                    saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                                 }
                                 if (pFeat != null)
                                 {
@@ -1991,11 +2023,13 @@ namespace A4WaterUtilities
                         {
                             if (targetLineEditTemplate != null)
                             {
-                                pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                                saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                             }
                             else
                             {
-                                pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, false);
+                                saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                             }
                             if (pFeat != null)
                             {
@@ -2034,6 +2068,9 @@ namespace A4WaterUtilities
                         {
 
                             Globals.splitLineWithPoint(lineFeature, toPoint, Convert.ToDouble(searchDistance), null, null, app, msgnf.SplitUpdateAndAdd);
+                        }
+                        foreach (SaveFeature sf in saveFeatList){
+                            editor.Map.SelectFeature(sf.layer, sf.feature);
                         }
                         return true;
 
@@ -2089,7 +2126,7 @@ namespace A4WaterUtilities
                                                          FromToField[] fromToPairs, double doglegDistance, bool DistAsPercent, double tolerenceForDelete,
                                                         bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection, bool showErrors, bool splitMain,MergeSplitGeoNetFeatures msgnf)
         {
-
+            List<A4LGSharedFunctions.SaveFeature> saveFeatList = new List<SaveFeature>();
             IPoint point = null;
             IPoint point2 = null;
             IPoint turnPoint = null;
@@ -2159,10 +2196,15 @@ namespace A4WaterUtilities
                             {
                                 IFeature pAlongFeat = null;
                                 if (pPointAlongLayer.PolygonIntersectLayer != null)
-                                    pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
-
+                                {
+                                    pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide);
+ 
+                                }
                                 else
-                                    pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                                {
+                                    pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate);
+                                }
+                                saveFeatList.Add(new SaveFeature(pPointAlongLayer.PointAlongLayer, pAlongFeat));
                                 pAlongFeatures.Add(pAlongFeat);
                                 if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
                                 {
@@ -2255,11 +2297,13 @@ namespace A4WaterUtilities
 
                                 if (targetLineEditTemplate != null)
                                 {
-                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                                    saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                                 }
                                 else
                                 {
-                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, false);
+                                    saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                                 }
                                 if (pFeat != null)
                                 {
@@ -2289,11 +2333,13 @@ namespace A4WaterUtilities
                             {
                                 if (targetLineEditTemplate != null)
                                 {
-                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                                    saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                                 }
                                 else
                                 {
-                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, false);
+                                    saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                                 }
                                 if (pFeat != null)
                                 {
@@ -2356,10 +2402,11 @@ namespace A4WaterUtilities
                                 {
                                     IFeature pAlongFeat = null;
                                     if (pPointAlongLayer.PolygonIntersectLayer != null)
-                                        pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
+                                        pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide);
 
                                     else
-                                        pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                                        pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate);
+                                    saveFeatList.Add(new SaveFeature(pPointAlongLayer.PointAlongLayer, pAlongFeat));
                                     pAlongFeatures.Add(pAlongFeat);
                                     if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
                                     {
@@ -2417,11 +2464,13 @@ namespace A4WaterUtilities
                                 {
                                     if (targetLineEditTemplate != null)
                                     {
-                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                                        saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                                     }
                                     else
                                     {
-                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, false);
+                                        saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                                     }
                                     if (pFeat != null)
                                     {
@@ -2445,11 +2494,13 @@ namespace A4WaterUtilities
                             {
                                 if (targetLineEditTemplate != null)
                                 {
-                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                                    saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                                 }
                                 else
                                 {
                                     pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                    saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                                 }
                                 if (pFeat != null)
                                 {
@@ -2501,10 +2552,11 @@ namespace A4WaterUtilities
                                     {
                                         IFeature pAlongFeat = null;
                                         if (pPointAlongLayer.PolygonIntersectLayer != null)
-                                            pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
+                                            pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide);
 
                                         else
-                                            pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                                            pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate);
+                                        saveFeatList.Add(new SaveFeature(pPointAlongLayer.PointAlongLayer, pAlongFeat));
                                         pAlongFeatures.Add(pAlongFeat);
                                         if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
                                         {
@@ -2562,11 +2614,13 @@ namespace A4WaterUtilities
                                 {
                                     if (targetLineEditTemplate != null)
                                     {
-                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                                        saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                                     }
                                     else
                                     {
-                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, false);
+                                        saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                                     }
                                     if (pFeat != null)
                                     {
@@ -2590,11 +2644,13 @@ namespace A4WaterUtilities
                             {
                                 if (targetLineEditTemplate != null)
                                 {
-                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                                    saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                                 }
                                 else
                                 {
-                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, false);
+                                    saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                                 }
                                 if (pFeat != null)
                                 {
@@ -2647,7 +2703,10 @@ namespace A4WaterUtilities
 
                         Globals.splitLineWithPoint(lineFeature, toPoint, Convert.ToDouble(searchDistance), null, null, app,msgnf.SplitUpdateAndAdd);
                     }
-
+                    foreach (SaveFeature sf in saveFeatList)
+                    {
+                        editor.Map.SelectFeature(sf.layer, sf.feature);
+                    }
                     return true;
                 }
                 else
@@ -3996,7 +4055,7 @@ namespace A4WaterUtilities
                                                      bool SearchOnLayer, bool CheckSelection, bool splitMain,MergeSplitGeoNetFeatures msgnf)
         {
 
-
+            List<A4LGSharedFunctions.SaveFeature> saveFeatList = new List<SaveFeature>();
             //IGeometry pGeometry;
             IPolyline polyline;
 
@@ -4140,10 +4199,11 @@ namespace A4WaterUtilities
                 {
                     IFeature pAlongFeat = null;
                     if (pPointAlongLayer.PolygonIntersectLayer != null)
-                        pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
+                        pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide);
 
                     else
-                        pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                        pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate);
+                    saveFeatList.Add(new SaveFeature(pPointAlongLayer.PointAlongLayer, pAlongFeat));
                     pAlongFeatures.Add(pAlongFeat);
                     if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
                     {
@@ -4202,11 +4262,13 @@ namespace A4WaterUtilities
                 {
                     if (targetLineEditTemplate != null)
                     {
-                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                        saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                     }
                     else
                     {
-                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, false);
+                        saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                     }
                     if (pFeat == null)
                     {
@@ -4232,11 +4294,13 @@ namespace A4WaterUtilities
             {
                 if (targetLineEditTemplate != null)
                 {
-                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, false);
+                    saveFeatList.Add(new SaveFeature(targetLineEditTemplate.Layer as IFeatureLayer, pFeat));
                 }
                 else
                 {
-                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, false);
+                    saveFeatList.Add(new SaveFeature(targetLineFLayer, pFeat));
                 }
                 if (pFeat == null)
                 {
@@ -4290,6 +4354,10 @@ namespace A4WaterUtilities
             {
 
                 Globals.splitLineWithPoint(mainFeature, (IPoint)pointFeature.Shape, 0.0, null, null, app, msgnf.SplitUpdateAndAdd);
+            }
+            foreach (SaveFeature sf in saveFeatList)
+            {
+                editor.Map.SelectFeature(sf.layer, sf.feature);
             }
             return true;
 
