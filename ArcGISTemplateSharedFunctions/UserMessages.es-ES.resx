@@ -142,8 +142,8 @@
     <comment>12/6/2013</comment>
   </data>
   <data name="AddInDesc" xml:space="preserve">
-    <value>Herramientas de ArcMap de Water, Wastewater and Stormwater</value>
-    <comment>ArcMap tools for Water, Wastewater and Stormwater</comment>
+    <value>Herramientas de ArcMap de Water, Wastewater, and Stormwater</value>
+    <comment>ArcMap tools for Water, Wastewater, and Stormwater</comment>
   </data>
   <data name="AddInName" xml:space="preserve">
     <value>Herramientas de gestión de redes de agua</value>
