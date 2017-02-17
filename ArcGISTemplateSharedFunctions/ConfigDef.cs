@@ -399,6 +399,10 @@ namespace A4LGSharedFunctions
         public string TwoPointLines { get; set; }
         [XmlElement("PointAtVertices")]
         public string PointAtVertices { get; set; }
+        
+        [XmlElement("Store_Order")]
+        [System.ComponentModel.DefaultValue("Active")]
+        public string Store_Order { get; set; }
 
     }
 
@@ -441,6 +445,10 @@ namespace A4LGSharedFunctions
         [XmlElement("Reset_Flow")]
         [System.ComponentModel.DefaultValue("NONE")]
         public string Reset_Flow { get; set; }
+        
+        [XmlElement("Store_Order")]
+        [System.ComponentModel.DefaultValue("Active")]
+        public string Store_Order { get; set; }
 
     }
 

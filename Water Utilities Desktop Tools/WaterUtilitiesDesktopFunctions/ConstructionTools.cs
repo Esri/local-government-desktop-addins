@@ -510,7 +510,6 @@ namespace A4WaterUtilities
                         {
                             pLine = Globals.CreateFeature(pNewPoly, pEditTemp, editor, app, false, false, true);
                         }
-                        pLine.Store();
                         pRetFeature.Add(pLine);
 
                         if ((connectClosestLayers[k] as ConnectClosestDetails).Reset_Flow != null)

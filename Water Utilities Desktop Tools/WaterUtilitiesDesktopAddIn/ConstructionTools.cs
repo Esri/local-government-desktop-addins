@@ -496,7 +496,10 @@ namespace A4WaterUtilities
                     twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, true, out pLstFeat);
                 }
 
-
+                foreach (IFeature pFt in pLstFeat)
+                {
+                    pFt.Store();
+                }
                 if (twoPoint)
                 {
 
@@ -531,10 +534,7 @@ namespace A4WaterUtilities
 
                 }
 
-                foreach (IFeature pFt in pLstFeat)
-                {
-                    pFt.Store();
-                }
+
                 pLstFeat = null;
 
                 m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtLnWithPts"));
@@ -780,73 +780,97 @@ namespace A4WaterUtilities
 
         private void OnSketchFinished()
         {
-            ConfigUtil.type = "water";
-            Keys ModKey = Control.ModifierKeys;
-
-            // Send a shift-tab to hide the construction toolbar
-
-            m_editor.StartOperation();
-            IFeature pFeat = null;
-            returnFeatArray pRetVal = null;
-            if (ModKey == Keys.Shift)
-            {
-                pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, false, true);
-                pRetVal = ConnectClosest.ConnectClosestFeatureAtPoint(ArcMap.Application, ConfigUtil.GetConnectClosestConfig(), m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name, true, ModKey);
-                //   pFeat.Store();
-            }
-            else if (ModKey == (Keys.Control | Keys.Shift))
-            {
-                pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, false, true);
-                pRetVal = ConnectClosest.ConnectClosestFeatureAtPoint(ArcMap.Application, ConfigUtil.GetConnectClosestConfig(), m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name, true, ModKey);
-                // pFeat.Store();
-            }
-            else if (ModKey == Keys.Control)
-            {
-                pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, true, true);
-                pRetVal = ConnectClosest.ConnectClosestFeatureAtPoint(ArcMap.Application, ConfigUtil.GetConnectClosestConfig(), m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name, true, ModKey);
-                //    pFeat.Store();
-            }
-            else
+            try
             {
 
-                pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, true, true);
-                pRetVal = ConnectClosest.ConnectClosestFeatureAtPoint(ArcMap.Application, ConfigUtil.GetConnectClosestConfig(), m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name, true, ModKey);
 
+                ConfigUtil.type = "water";
+                Keys ModKey = Control.ModifierKeys;
+
+                // Send a shift-tab to hide the construction toolbar
+
+                m_editor.StartOperation();
+                IFeature pFeat = null;
+                returnFeatArray pRetVal = null;
+                if (ModKey == Keys.Shift)
+                {
+                    pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, false, true);
+                    pRetVal = ConnectClosest.ConnectClosestFeatureAtPoint(ArcMap.Application, ConfigUtil.GetConnectClosestConfig(), m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name, true, ModKey);
+                    //   pFeat.Store();
+                }
+                else if (ModKey == (Keys.Control | Keys.Shift))
+                {
+                    pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, false, true);
+                    pRetVal = ConnectClosest.ConnectClosestFeatureAtPoint(ArcMap.Application, ConfigUtil.GetConnectClosestConfig(), m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name, true, ModKey);
+                    // pFeat.Store();
+                }
+                else if (ModKey == Keys.Control)
+                {
+                    pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, true, true);
+                    pRetVal = ConnectClosest.ConnectClosestFeatureAtPoint(ArcMap.Application, ConfigUtil.GetConnectClosestConfig(), m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name, true, ModKey);
+                    //    pFeat.Store();
+                }
+                else
+                {
+
+                    pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, true, true);
+                    pRetVal = ConnectClosest.ConnectClosestFeatureAtPoint(ArcMap.Application, ConfigUtil.GetConnectClosestConfig(), m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name, true, ModKey);
+
+                }
+                //INetworkFeature netFeature = null;
+                //netFeature = pFeat as INetworkFeature;
+                //if (netFeature != null)
+                //{
+                //    netFeature.Connect();
+                //}
+                pFeat.Store();
+                foreach (IFeature featus in pRetVal.Features)
+                {
+
+                    //netFeature = featus as INetworkFeature;
+                    //if (netFeature != null)
+                    //{
+                    //    netFeature.Connect();
+                    //}
+                    featus.Store();
+
+                }
+
+                if (pRetVal.Options == "DIGITIZED")
+                {
+                    Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
+
+                }
+                else if (pRetVal.Options == "ROLE")
+                {
+                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
+                }
+                else if (pRetVal.Options == "Ancillary".ToUpper())
+                {
+                    Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
+                }
+                else
+                {
+                }
+                //            addLat.AddLateralAtPoint(m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name);
+
+                m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
+
+                //IEnvelope pEnv = pFeat.Shape.Envelope;
+                //pEnv.Expand(8, 8, true);
+
+                (ArcMap.Application.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, pFeat, null);
+                //pEnv = null;
+                pFeat = null;
+                pRetVal = null;
             }
-            pFeat.Store();
-            foreach (IFeature featus in pRetVal.Features)
+            catch (Exception ex)
             {
-                featus.Store();
 
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ALT_1") + ex.ToString());
+                m_editor.AbortOperation();
             }
-
-            if (pRetVal.Options == "DIGITIZED")
-            {
-                Globals.GetCommand("A4WaterUtilities_EstablishFlowDigitized", ArcMap.Application).Execute();
-
-            }
-            else if (pRetVal.Options == "ROLE")
-            {
-                Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
-            }
-            else if (pRetVal.Options == "Ancillary".ToUpper())
-            {
-                Globals.GetCommand("A4WaterUtilities_EstablishFlowAncillary", ArcMap.Application).Execute();
-            }
-            else
-            {
-            }
-            //            addLat.AddLateralAtPoint(m_edSketch.Geometry as IPoint, m_editor.CurrentTemplate.Layer.Name);
-
-            m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("CrtAssetAndLat"));
-
-            //IEnvelope pEnv = pFeat.Shape.Envelope;
-            //pEnv.Expand(8, 8, true);
-
-            (ArcMap.Application.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, pFeat, null);
-            //pEnv = null;
-            pFeat = null;
-            pRetVal = null;
+            finally { }
         }
 
 

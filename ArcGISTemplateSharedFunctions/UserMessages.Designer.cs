@@ -4669,7 +4669,7 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dynamic Value Table is required to activate the Attribute Assistant.
+        ///   Looks up a localized string similar to DynamicValue Table is required to activate the Attribute Assistant.
         /// </summary>
         internal static string dynamicValueTableMissing {
             get {
