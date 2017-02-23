@@ -78,7 +78,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(747, 138);
+            this.ClientSize = new System.Drawing.Size(902, 192);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSelect);
@@ -91,6 +91,7 @@
             this.ShowInTaskbar = false;
             this.Text = "Select Option";
             this.Load += new System.EventHandler(this.SelectFeatureForm_Load_1);
+            this.Resize += new System.EventHandler(this.SelectOptionForm_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 

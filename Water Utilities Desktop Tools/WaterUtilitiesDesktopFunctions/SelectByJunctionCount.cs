@@ -86,7 +86,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "LoadJunctionsFeatureLayers\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "LoadJunctionsFeatureLayers\n" + ex.ToString());
             }
             //foreach (IFeatureLayer pJL in pJuncLayers)
             //{
@@ -301,10 +301,10 @@ namespace A4WaterUtilities
                 }
 
             }
-            catch (Exception Ex)
+            catch (Exception ex)
 
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_22") + "\r\n" + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("SltByJctCountLbl_22") + "\r\n" + ex.ToString());
 
             }
             finally

@@ -59,45 +59,5 @@ namespace ArcGIS4LocalGovernment.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap AttributeAssistantToggleOnSolidOff {
-            get {
-                object obj = ResourceManager.GetObject("AttributeAssistantToggleOnSolidOff", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap AttributeAssistantToggleOnSolidOffAddin {
-            get {
-                object obj = ResourceManager.GetObject("AttributeAssistantToggleOnSolidOffAddin", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap AttributeAssistantToggleOnSolidOn {
-            get {
-                object obj = ResourceManager.GetObject("AttributeAssistantToggleOnSolidOn", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap AttributeAssistantToggleOnSolidOnAddin {
-            get {
-                object obj = ResourceManager.GetObject("AttributeAssistantToggleOnSolidOnAddin", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

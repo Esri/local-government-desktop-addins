@@ -399,6 +399,10 @@ namespace A4LGSharedFunctions
         public string TwoPointLines { get; set; }
         [XmlElement("PointAtVertices")]
         public string PointAtVertices { get; set; }
+        
+        [XmlElement("Store_Order")]
+        [System.ComponentModel.DefaultValue("Active")]
+        public string Store_Order { get; set; }
 
     }
 
@@ -441,6 +445,10 @@ namespace A4LGSharedFunctions
         [XmlElement("Reset_Flow")]
         [System.ComponentModel.DefaultValue("NONE")]
         public string Reset_Flow { get; set; }
+        
+        [XmlElement("Store_Order")]
+        [System.ComponentModel.DefaultValue("Active")]
+        public string Store_Order { get; set; }
 
     }
 
@@ -526,6 +534,10 @@ namespace A4LGSharedFunctions
         [XmlElement("SplitFormatString")]
         public string SplitFormatString { get; set; }
 
+        [XmlElement("SplitUpdateAndAdd")]
+        [System.ComponentModel.DefaultValue(true)]
+        public bool SplitUpdateAndAdd{ get; set; }
+
         [XmlArray("Fields"), XmlArrayItem(ElementName = "Field", Type = typeof(Field))]
         public Field[] Fields { get; set; }
 
@@ -561,6 +573,10 @@ namespace A4LGSharedFunctions
         [XmlElement("LateralLine_StartAtMain")]
         [System.ComponentModel.DefaultValue(false)]
         public bool LateralLine_StartAtMain { get; set; }
+
+        [XmlElement("LateralLine_SplitMain")]
+        [System.ComponentModel.DefaultValue(false)]
+        public bool LateralLine_SplitMain { get; set; }
 
         [XmlElement("DeleteExistingLines")]
         [System.ComponentModel.DefaultValue(false)]
@@ -654,6 +670,9 @@ namespace A4LGSharedFunctions
         [System.ComponentModel.DefaultValue(false)]
         public bool LateralLine_StartAtMain { get; set; }
 
+        [XmlElement("LateralLine_SplitMain")]
+        [System.ComponentModel.DefaultValue(false)]
+        public bool LateralLine_SplitMain { get; set; }
 
         [XmlArray("FromToFields"), XmlArrayItem(ElementName = "FromToField", Type = typeof(FromToField))]
         public FromToField[] FromToFields { get; set; }
@@ -764,6 +783,12 @@ namespace A4LGSharedFunctions
         public string PolygonOffsetLayerName { get; set; }
         [XmlElement("PolygonOffsetSide")]
         public string PolygonOffsetSide { get; set; }
+
+        [XmlElement("SplitLateral")]
+        [System.ComponentModel.DefaultValue(false)]
+        public bool SplitLateral { get; set; }
+
+        
         //public int Subtype { get; set; }
 
         //public string FieldToPopulate { get; set; }

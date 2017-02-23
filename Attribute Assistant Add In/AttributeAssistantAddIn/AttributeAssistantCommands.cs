@@ -310,6 +310,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Change;
                 //Get list of editable layers
                 IEditor editor = _editor;
                 IEditLayers eLayers = (IEditLayers)editor;
@@ -353,7 +354,6 @@ namespace ArcGIS4LocalGovernment
                     if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
-
 
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
@@ -514,7 +514,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             editor.AbortOperation();
                             ran = false;
-                            MessageBox.Show("RunChangeRule\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunChangeRule\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             return;
                         }
                         finally
@@ -529,12 +529,6 @@ namespace ArcGIS4LocalGovernment
                             { }
 
                         }
-
-
-
-
-
-
 
                         editor.StartOperation();
                         try
@@ -604,7 +598,7 @@ namespace ArcGIS4LocalGovernment
                         catch (Exception ex)
                         {
                             editor.AbortOperation();
-                            MessageBox.Show("RunChangeRules\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunChangeRules\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             ran = false;
 
                             return;
@@ -619,7 +613,7 @@ namespace ArcGIS4LocalGovernment
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + " " + ex.Message);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + " " + ex.ToString());
 
                             }
 
@@ -642,13 +636,14 @@ namespace ArcGIS4LocalGovernment
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " \n" + "RunChangeRules", ex.Source);
+                MessageBox.Show(ex.ToString() + " \n" + "RunChangeRules", ex.Source);
                 ran = false;
 
                 return;
             }
             finally
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                 if (ran)
                     //  MessageBox.Show("Process has completed successfully");
 
@@ -725,6 +720,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Geo;
                 //Get list of editable layers
                 IEditor editor = _editor;
                 IEditLayers eLayers = (IEditLayers)editor;
@@ -748,7 +744,6 @@ namespace ArcGIS4LocalGovernment
                     if (MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2a") + totalCount + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantAsk_2b"),
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
-
 
 
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
@@ -888,7 +883,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             editor.AbortOperation();
                             ran = false;
-                            MessageBox.Show("RunChangeRule\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunChangeRule\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             return;
                         }
                         finally
@@ -928,13 +923,14 @@ namespace ArcGIS4LocalGovernment
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " \n" + "RunChangeGeoRules", ex.Source);
+                MessageBox.Show(ex.ToString() + " \n" + "RunChangeGeoRules", ex.Source);
                 ran = false;
 
                 return;
             }
             finally
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                 if (ran)
                     //MessageBox.Show("Process has completed successfully");
 
@@ -1010,6 +1006,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Manual;
                 //Get list of editable layers
                 IEditor editor = _editor;
                 IEditLayers eLayers = (IEditLayers)editor;
@@ -1054,7 +1051,7 @@ namespace ArcGIS4LocalGovernment
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
-
+                        
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
                         ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -1199,7 +1196,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             editor.AbortOperation();
                             ran = false;
-                            MessageBox.Show("RunManualRules\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunManualRules\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             return;
                         }
                         finally
@@ -1278,7 +1275,7 @@ namespace ArcGIS4LocalGovernment
                         catch (Exception ex)
                         {
                             editor.AbortOperation();
-                            MessageBox.Show("RunManualRules\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunManualRules\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             ran = false;
 
                             return;
@@ -1316,13 +1313,14 @@ namespace ArcGIS4LocalGovernment
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " \n" + "RunManualRules", ex.Source);
+                MessageBox.Show(ex.ToString() + " \n" + "RunManualRules", ex.Source);
                 ran = false;
 
                 return;
             }
             finally
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
                 if (ran)
                     //MessageBox.Show("Process has completed successfully");
 
@@ -1398,6 +1396,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Create;
                 //Get list of editable layers
                 IEditor editor = _editor;
                 IEditLayers eLayers = (IEditLayers)editor;
@@ -1442,8 +1441,7 @@ namespace ArcGIS4LocalGovernment
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
-
-
+               
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
                         ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -1598,9 +1596,10 @@ namespace ArcGIS4LocalGovernment
                         }
                         catch (Exception ex)
                         {
+               
                             editor.AbortOperation();
                             ran = false;
-                            MessageBox.Show("RunCreateRule\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunCreateRule\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             return;
                         }
                         finally
@@ -1615,11 +1614,6 @@ namespace ArcGIS4LocalGovernment
                             { }
 
                         }
-
-
-
-
-
 
 
                         editor.StartOperation();
@@ -1690,7 +1684,7 @@ namespace ArcGIS4LocalGovernment
                         catch (Exception ex)
                         {
                             editor.AbortOperation();
-                            MessageBox.Show("RunCreateRules\n" + ex.Message + " \n" + lastLay + ": " + lastOID, ex.Source);
+                            MessageBox.Show("RunCreateRules\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
                             ran = false;
 
                             return;
@@ -1705,7 +1699,7 @@ namespace ArcGIS4LocalGovernment
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + " " + ex.Message);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + " " + ex.ToString());
 
                             }
 
@@ -1729,13 +1723,15 @@ namespace ArcGIS4LocalGovernment
 
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " \n" + "RunCreateRules", ex.Source);
+                MessageBox.Show(ex.ToString() + " \n" + "RunCreateRules", ex.Source);
                 ran = false;
 
                 return;
             }
             finally
             {
+                AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
+               
                 if (ran)
                     //  MessageBox.Show("Process has completed successfully");
 

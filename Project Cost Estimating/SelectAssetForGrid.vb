@@ -52,7 +52,7 @@ Public Class SelectAssetForGrid
 
                 Catch ex As Exception
                     pRubberEnv = Nothing
-                    MsgBox("Error in the Costing Tools: OnMouseDown - Drawing Selection Envelope" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools: OnMouseDown - Drawing Selection Envelope" & vbCrLf & ex.ToString())
 
                     Return
 
@@ -62,14 +62,14 @@ Public Class SelectAssetForGrid
                     CostEstimatingWindow.LoadAssetsByShape(pEnv)
 
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools: OnMouseDown - Costing Assets" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools: OnMouseDown - Costing Assets" & vbCrLf & ex.ToString())
 
                 End Try
 
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPSelectAssetForCandidate: OnMouseDown" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPSelectAssetForCandidate: OnMouseDown" & vbCrLf & ex.ToString())
         End Try
 
     End Sub
@@ -95,7 +95,7 @@ Public Class SelectAssetForGrid
 
             Return True
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPSelectAssetForCandidate: OnContextMenu" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPSelectAssetForCandidate: OnContextMenu" & vbCrLf & ex.ToString())
             Return False
         Finally
             pShortCut = Nothing
@@ -109,7 +109,7 @@ Public Class SelectAssetForGrid
             CostEstimatingWindow.SelectTool(CostEstimatingWindow.CIPTools.SelectAssetsForGrid, False)
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPHighlightCandidate: Deactivate" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPHighlightCandidate: Deactivate" & vbCrLf & ex.ToString())
         Finally
 
         End Try

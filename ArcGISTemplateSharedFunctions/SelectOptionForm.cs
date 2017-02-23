@@ -95,15 +95,17 @@ namespace A4LGSharedFunctions
         }
         public void setWidth(int Width)
         {
+
             if (Width < 180)
             {
                 this.Width = 280;
             }
             else
             {
-                this.Width = Width + 50;
+                this.Width = Width + 100;
             }
-            cboSelectTemplate.Width = this.Width -50;
+            //cboSelectTemplate.Width = this.Width -50;
+            cboSelectTemplate.Width = this.Width - 50 - cboSelectTemplate.Left;
         }
         public void showCancelButton()
         {
@@ -117,6 +119,11 @@ namespace A4LGSharedFunctions
 
             this.Close();
 
+        }
+
+        private void SelectOptionForm_Resize(object sender, EventArgs e)
+        {
+            cboSelectTemplate.Width = this.Width - 50 - cboSelectTemplate.Left;
         }
     }
 }

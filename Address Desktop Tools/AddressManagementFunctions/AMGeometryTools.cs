@@ -400,7 +400,7 @@ namespace A4LGAddressManagement
                     catch (Exception ex)
                     {
                         // editor.AbortOperation();
-                        MessageBox.Show("CreateIntersectionPoints\n" + ex.Message, ex.Source);
+                        MessageBox.Show("CreateIntersectionPoints\n" + ex.ToString(), ex.Source);
                         break;
                     }
                     finally
@@ -434,7 +434,7 @@ namespace A4LGAddressManagement
             }
             catch (Exception ex)
             {
-                MessageBox.Show("CreateIntersectionPoints\n" + ex.Message, "CreateIntersectionPoints");
+                MessageBox.Show("CreateIntersectionPoints\n" + ex.ToString(), "CreateIntersectionPoints");
                 return;
             }
             finally
@@ -665,7 +665,7 @@ namespace A4LGAddressManagement
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show("FlipLines\n" + ex.Message, ex.Source);
+                        MessageBox.Show("FlipLines\n" + ex.ToString(), ex.Source);
                         break;
                     }
                     finally
@@ -700,7 +700,7 @@ namespace A4LGAddressManagement
             }
             catch (Exception ex)
             {
-                MessageBox.Show("FlipLines\n" + ex.Message, "FlipLines");
+                MessageBox.Show("FlipLines\n" + ex.ToString(), "FlipLines");
                 return;
             }
             finally
@@ -1068,7 +1068,7 @@ namespace A4LGAddressManagement
         //                }
         //                catch (Exception ex)
         //                {
-        //                    MessageBox.Show("SplitAndProrate\n" + ex.Message, "SplitAndProrate");
+        //                    MessageBox.Show("SplitAndProrate\n" + ex.ToString(), "SplitAndProrate");
         //                }
 
         //            }
@@ -1157,7 +1157,7 @@ namespace A4LGAddressManagement
         //    }
         //    catch (Exception ex)
         //    {
-        //        MessageBox.Show("SplitAndProrate\n" + ex.Message, "SplitAndProrate");
+        //        MessageBox.Show("SplitAndProrate\n" + ex.ToString(), "SplitAndProrate");
         //        return;
         //    }
         //    finally
@@ -1533,7 +1533,7 @@ namespace A4LGAddressManagement
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("SplitAndProrate\n" + ex.Message, "SplitAndProrate");
+                            MessageBox.Show("SplitAndProrate\n" + ex.ToString(), "SplitAndProrate");
                         }
 
                     }
@@ -1634,7 +1634,7 @@ namespace A4LGAddressManagement
             }
             catch (Exception ex)
             {
-                MessageBox.Show("SplitAndProrate\n" + ex.Message, "SplitAndProrate:" + locationForDebug);
+                MessageBox.Show("SplitAndProrate\n" + ex.ToString(), "SplitAndProrate:" + locationForDebug);
                 return;
             }
             finally

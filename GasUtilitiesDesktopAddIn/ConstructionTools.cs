@@ -161,7 +161,10 @@ namespace A4GasUtilities
                 //((IFeatureSelection)m_editor.CurrentTemplate.Layer).Clear();
                 m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
 
-               string resetFlow =  AddLateralsLinesCmds.AddLaterals(ArcMap.Application, ConfigUtil.GetAddLateralsConfig(), pFeat, false, true, false, false);
+                List<MergeSplitGeoNetFeatures> m_Config = null;
+                m_Config = ConfigUtil.GetMergeSplitConfig();
+
+                string resetFlow = AddLateralsLinesCmds.AddLaterals(ArcMap.Application, ConfigUtil.GetAddLateralsConfig(), pFeat, false, true, false, false, m_Config[0]);
                 // m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
 
 
@@ -192,7 +195,7 @@ namespace A4GasUtilities
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error in the Add Lateral Tools: " + ex.Message);
+                MessageBox.Show("Error in the Add Lateral Tools: " + ex.ToString());
                 m_editor.AbortOperation();
 
             }
@@ -321,8 +324,9 @@ namespace A4GasUtilities
 
                 //((IFeatureSelection)m_editor.CurrentTemplate.Layer).Clear();
                 m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
-
-                string resetFlow = AddLateralsFromPoint.AddLateralsFromMainPoint(ArcMap.Application, ConfigUtil.GetAddLateralsFromMainConfig(), pFeat, false, true, false);
+                List<MergeSplitGeoNetFeatures> m_Config = null;
+                m_Config = ConfigUtil.GetMergeSplitConfig();
+                string resetFlow = AddLateralsFromPoint.AddLateralsFromMainPoint(ArcMap.Application, ConfigUtil.GetAddLateralsFromMainConfig(), pFeat, false, true, false, m_Config[0]);
                 // m_editor.Map.SelectFeature(m_editor.CurrentTemplate.Layer as IFeatureLayer, pFeat);
 
 
@@ -353,7 +357,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Lateral Tools: " + ex.Message);
+                MessageBox.Show("Error in the Add Lateral Tools: " + ex.ToString());
                 m_editor.AbortOperation();
 
             }
@@ -667,7 +671,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Point and Split\n" + ex.Message);
+                MessageBox.Show("Error in the Add Point and Split\n" + ex.ToString());
                 m_editor.AbortOperation();
 
             }

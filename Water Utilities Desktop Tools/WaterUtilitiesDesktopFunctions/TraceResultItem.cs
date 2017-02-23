@@ -295,8 +295,8 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                return ex.Message;
-                //throw ex.Message;
+                return ex.ToString();
+                //throw ex.ToString();
             }
 
         }

@@ -50,7 +50,7 @@ Public Class SelectCostedAsset
             CostEstimatingWindow.SelectTool(CostEstimatingWindow.CIPTools.SelectCostedAsset, False)
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPHighlightCandidate: Deactivate" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPHighlightCandidate: Deactivate" & vbCrLf & ex.ToString())
         Finally
 
         End Try
@@ -82,7 +82,7 @@ Public Class SelectCostedAsset
 
             Catch ex As Exception
 
-                MsgBox("Error in the Costing Tools: OnMouseDown - Drawing Selection Envelope" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools: OnMouseDown - Drawing Selection Envelope" & vbCrLf & ex.ToString())
 
                 Return
             Finally

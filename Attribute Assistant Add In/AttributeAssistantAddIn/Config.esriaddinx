@@ -20,11 +20,11 @@
   <Name>Attribute Assistant</Name>
   <AddInID>{5CAD338F-775E-44D8-A342-8DC123BF8E7B}</AddInID>
   <Description>Allows attributes to be automatically populated as features are created or modified based on a series of user defined rules.</Description>
-  <Version>7.15.2016</Version>
+  <Version>2017.3.1</Version>
   <Image>Images\AttributeAssistantAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>7/15/2016</Date>
+  <Date>3/1/2017</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
@@ -36,7 +36,7 @@
       </Extensions>
 
       <Commands>
-        <Button id="ArcGIS4LocalGovernment_AttributeAssistantToggleCommand" class="AttributeAssistantToggleCommand" onDemand="false" message="Toggles the Attribute Assistant Add-In on (green) and off (red)." caption="Turn Attribute Assistant On/Off" tip="Turn Attribute Assistant On/Off" category="ArcGIS for Local Government" image="Images\AttributeAssistantToggleOnSolidOffAddIn.png">
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantToggleCommand" class="AttributeAssistantToggleCommand" onDemand="false" message="Toggles the Attribute Assistant Add-In on (green) and off (red)." caption="Turn Attribute Assistant On/Off" tip="Turn Attribute Assistant On/Off" category="ArcGIS for Local Government" image="Images\AttributeAssistantToggleOnSolidOffAddin.png">
           <Help heading="Attribute Assistant On/Off " />
         </Button>
         <Button id="ArcGIS4LocalGovernment_RunChangeRulesCommand" class="RunChangeRulesCommand" message="Triggers a change event on each selected feature. If the Attribute Assistant is on, all rules defined in the DynamicValue table will be processed." caption="Run Change Rules for Selected Features" tip="Run Change Rules for Selected Features" category="ArcGIS for Local Government" image="Images\RunChangeRules.png">

@@ -63,8 +63,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.ADF.dll</HintPath>
     </Reference>
-    <Reference Include="ESRI.ArcGIS.ArcMap">
-      <HintPath>..\..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.ArcMap.dll</HintPath>
+    <Reference Include="ESRI.ArcGIS.ArcMap, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.ArcMapUI">
@@ -270,23 +270,9 @@
   </ItemGroup>
   <ItemGroup>
     <AddInContent Include="Images\Config2.png" />
-    <AddInContent Include="Config.es-ES.xml" />
-    <Content Include="Images\Old\AttributeAssistantAddIn.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOff.bmp" />
-    <Content Include="Images\Old\AttributeAssistantToogleOff.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOn.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnOff.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnRes.bmp" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnRes.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnSolidOff.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnSolidOffAddIn.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnSolidOn.png" />
-    <Content Include="Images\Old\AttributeAssistantToogleOnSolidOnAddin.png" />
-    <Content Include="Images\Old\LoadLastValue.png" />
-    <Content Include="Images\Old\RunChangeRules.png" />
-    <Content Include="Images\Old\RunChangeRules2.png" />
-    <Content Include="Images\Old\RunChangeRules3.png" />
-    <Content Include="Images\Old\RunChangeRules5.png" />
+    <AddInContent Include="Config.es-ES.xml">
+      <SubType>Designer</SubType>
+    </AddInContent>
     <AddInContent Include="Images\RunChangeGeoRules.png" />
     <AddInContent Include="Images\RunCreateRules.png" />
     <AddInContent Include="Images\RunManualRules.png" />
@@ -307,6 +293,7 @@
     <Content Include="..\..\Configs\loaded.address.config">
       <Link>loaded.address.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

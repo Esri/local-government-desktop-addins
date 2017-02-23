@@ -56,7 +56,8 @@ Partial Public Class CostEstimatingWindow
     Inherits UserControl
     Private Shared m_BufferAmountConvext As Double = 60
     Private Shared m_BufferAmount As Double = 15
-
+    Private Shared s_measureGeodetic As Boolean = False
+    Private Shared s_measureUnit As ILinearUnit = Nothing
 
     Private Shared s_enabled As Boolean
 
@@ -109,6 +110,9 @@ Partial Public Class CostEstimatingWindow
     Private Shared s_ShowPoint As ToolStripItem
     Private Shared s_ShowArea As ToolStripItem
 
+    Private Shared s_chkProject As Label
+    Private Shared s_gpBoxAfterOverwrite As Panel
+
     Private Shared s_numCIPInvCount As System.Windows.Forms.NumericUpDown
     Public Sub init()
 
@@ -137,7 +141,19 @@ Partial Public Class CostEstimatingWindow
 
             End If
 
+            If UCase(My.Globals.Functions.GetConfigValue("MeasureGeodetic", "FALSE")) = "TRUE" Then
+                s_measureGeodetic = True
+            Else
+                s_measureGeodetic = False
+            End If
 
+            Dim stringUnit = My.Globals.Functions.GetConfigValue("MeasureUnit")
+            If stringUnit = "" Then
+                s_measureUnit = Nothing
+
+            Else
+                s_measureUnit = My.Globals.Functions.unitToLinearUnit(stringUnit)
+            End If
 
             'Init Shared Controls
             s_tblDisabled = tblDisabled
@@ -184,9 +200,10 @@ Partial Public Class CostEstimatingWindow
             s_ShowLength = ShowLength
             s_ShowPoint = ShowPoint
 
+            s_chkProject = chkProject
             s_numCIPInvCount = numCIPInvCount
 
-
+            s_gpBoxAfterOverwrite = gpBoxAfterOverwrite
 
             ' Add any initialization after the InitializeComponent() call.
             makeImagesTrans()
@@ -248,7 +265,7 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: New" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: New" & vbCrLf & ex.ToString())
         End Try
     End Sub
 
@@ -487,7 +504,7 @@ Partial Public Class CostEstimatingWindow
                 pTbPageCo = Nothing
                 pCurTabPage = Nothing
             Catch ex As Exception
-                MsgBox("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" & vbCrLf & ex.ToString())
 
             End Try
 
@@ -677,7 +694,7 @@ Partial Public Class CostEstimatingWindow
                 pTbPageCo = Nothing
                 pCurTabPage = Nothing
             Catch ex As Exception
-                MsgBox("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" & vbCrLf & ex.ToString())
 
             End Try
 
@@ -1497,7 +1514,7 @@ Partial Public Class CostEstimatingWindow
             s_tbCntCIPDetails.Refresh()
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: AddControls" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: AddControls" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -1741,7 +1758,7 @@ Partial Public Class CostEstimatingWindow
                 Next
             Next
         Catch ex As Exception
-            MsgBox("Error in the edit control subtype change" & vbCrLf & ex.Message)
+            MsgBox("Error in the edit control subtype change" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -1768,7 +1785,7 @@ Partial Public Class CostEstimatingWindow
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the edit control loading an image" & vbCrLf & ex.Message)
+            MsgBox("Error in the edit control loading an image" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -2035,7 +2052,7 @@ Partial Public Class CostEstimatingWindow
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: LoadExistingAssetsToForm" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: LoadExistingAssetsToForm" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -2086,7 +2103,7 @@ Partial Public Class CostEstimatingWindow
 
         Catch ex As Exception
 
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: EnableCIPTools" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: EnableCIPTools" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Shared Function FindPrjAtLocation(ByVal pPnt As IPoint) As IFeature
@@ -2107,7 +2124,7 @@ Partial Public Class CostEstimatingWindow
             Return pFCurs.NextFeature
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: FindPrjAtLocation" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: FindPrjAtLocation" & vbCrLf & ex.ToString())
 
             Return Nothing
 
@@ -2331,7 +2348,7 @@ Partial Public Class CostEstimatingWindow
             Return strPrjName
 
         Catch ex As Exception
-            '  MsgBox("Error in the edit control record loader" & vbCrLf & ex.Message)
+            '  MsgBox("Error in the edit control record loader" & vbCrLf & ex.ToString())
             Return ""
         Finally
             '   pSFilt = Nothing
@@ -2357,8 +2374,10 @@ Partial Public Class CostEstimatingWindow
 
 
             End If
+            showOverwriteOption(False)
+            shuffleTotals()
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow:  ResetGrid" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow:  ResetGrid" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -2394,7 +2413,7 @@ Partial Public Class CostEstimatingWindow
                 Else
                     pChk.Checked = False
                 End If
-                
+
                 AddHandler pChk.CheckedChanged, AddressOf layerChecked
                 s_gpBxCIPCostingLayers.Controls.Add(pChk)
 
@@ -2413,7 +2432,7 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: LoadLayersToPanel" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: LoadLayersToPanel" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -2436,7 +2455,7 @@ Partial Public Class CostEstimatingWindow
                 s_btnSavePrj.Enabled = False
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: EnableSavePrj" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: EnableSavePrj" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -2645,17 +2664,18 @@ Partial Public Class CostEstimatingWindow
 
                             ElseIf TypeOf inCnt Is DateTimePicker Then
 
+                                If CType(inCnt, DateTimePicker).Checked Then
+                                    If pCIPFeat.Fields.FindField(inCnt.Tag) > 0 Then
+                                        pCIPFeat.Value(pCIPFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                    End If
+                                    If pCIPOverFeat.Fields.FindField(inCnt.Tag) > 0 Then
 
-                                If pCIPFeat.Fields.FindField(inCnt.Tag) > 0 Then
-                                    pCIPFeat.Value(pCIPFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
-                                End If
-                                If pCIPOverFeat.Fields.FindField(inCnt.Tag) > 0 Then
+                                        pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                    End If
+                                    If pCIPOverPointFeat.Fields.FindField(inCnt.Tag) > 0 Then
 
-                                    pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
-                                End If
-                                If pCIPOverPointFeat.Fields.FindField(inCnt.Tag) > 0 Then
-
-                                    pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                        pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(inCnt.Tag)) = inCnt.Text
+                                    End If
                                 End If
                             ElseIf TypeOf inCnt Is ComboBox Then
 
@@ -2726,9 +2746,14 @@ Partial Public Class CostEstimatingWindow
                 pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = s_lblTotArea.Text
             End If
             If pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField) > 0 Then
-                pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                If s_lblTotPnt.Text <> "" Then
+                    pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                Else
+                    pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = 0
+                End If
+
             End If
-            
+
             If pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayCostField) > 0 Then
                 pCIPFeat.Value(pCIPFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayCostField)) = s_lblTotalCost.Text
             End If
@@ -2743,7 +2768,12 @@ Partial Public Class CostEstimatingWindow
                 pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = s_lblTotArea.Text
             End If
             If pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField) > 0 Then
-                pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                If s_lblTotPnt.Text <> "" Then
+                    pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                Else
+                    pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = 0
+                End If
+
             End If
             If pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField) > 0 Then
                 pCIPOverFeat.Value(pCIPOverFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField)) = s_lblTotLength.Text
@@ -2764,7 +2794,11 @@ Partial Public Class CostEstimatingWindow
                 pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotAreaField)) = s_lblTotArea.Text
             End If
             If pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField) > 0 Then
-                pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                If s_lblTotPnt.Text <> "" Then
+                    pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = s_lblTotPnt.Text
+                Else
+                    pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotPntField)) = 0
+                End If
             End If
             If pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField) > 0 Then
                 pCIPOverPointFeat.Value(pCIPOverPointFeat.Fields.FindField(My.Globals.Constants.c_CIPProjectLayTotLenField)) = s_lblTotLength.Text
@@ -2790,18 +2824,65 @@ Partial Public Class CostEstimatingWindow
 
             Try
                 Dim pQFilt As IQueryFilter = New QueryFilter
-                pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "'"
-                If My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) <> 0 Then
-                    If MsgBox("The CIP Project name is already in use, Override project?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                Dim pPrjNameToSearch As String = pPrjName
+                If s_chkProject.Visible And pPrjName <> s_chkProject.Text Then
+                    pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "' or " & My.Globals.Constants.c_CIPProjectLayNameField & " = '" & s_chkProject.Text & "'"
+                Else
+                    pQFilt.WhereClause = My.Globals.Constants.c_CIPProjectLayNameField & " = '" & pPrjName & "'"
+                End If
+
+                If My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) = 1 Then
+                    If s_chkProject.Visible = True And pPrjName <> s_chkProject.Text Then
+                        Dim re As DialogResult = MessageBox.Show("You have selected a project and specified a new name." + vbNewLine + vbNewLine + "Click Yes to rename and update the selected project." + vbNewLine + "Click No to save a new project.", "Overwrite existing project", MessageBoxButtons.YesNoCancel)
+                        If re = DialogResult.Yes Then
+
+                            deleteCIPProjects(pPrjName)
+                            deleteCIPProjects(s_chkProject.Text)
+                        ElseIf re = DialogResult.No Then
+                            deleteCIPProjects(pPrjName)
+                        Else
+                            pQFilt = Nothing
+                            My.Globals.Variables.v_Editor.AbortOperation()
+                            Return
+                        End If
+                    ElseIf s_chkProject.Visible = True And pPrjName = s_chkProject.Text Then
                         deleteCIPProjects(pPrjName)
                     Else
-                        pQFilt = Nothing
-                        My.Globals.Variables.v_Editor.AbortOperation()
-                        Return
+                        If MsgBox("The CIP Project name is already in use by another project, proceeding with delete and replace it with the current list of assets.", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                            deleteCIPProjects(pPrjName)
+                        Else
+                            pQFilt = Nothing
+                            My.Globals.Variables.v_Editor.AbortOperation()
+                            Return
+                        End If
+                    End If
+                ElseIf My.Globals.Variables.v_CIPLayerPrj.FeatureClass.FeatureCount(pQFilt) > 1 Then
+                    If s_chkProject.Visible = True Then
+                        Dim re As DialogResult = MessageBox.Show("You have selected a project and specified a new name.  There is a project already with that new name." + vbNewLine + vbNewLine + "Click Yes to rename and update the selected project.  This will delete the existing project with this name" + vbNewLine + "Click No to copy the project, this will overwrite the existing project with the name.", "Overwrite existing project", MessageBoxButtons.YesNoCancel)
+                        If re = DialogResult.Yes Then
 
+                            deleteCIPProjects(pPrjName)
+                            deleteCIPProjects(s_chkProject.Text)
+                        ElseIf re = DialogResult.No Then
+                            deleteCIPProjects(s_chkProject.Text)
+                        Else
+                            pQFilt = Nothing
+                            My.Globals.Variables.v_Editor.AbortOperation()
+                            Return
+                        End If
+                    Else
+                        If MsgBox("The CIP Project name is already in use by another project, proceeding with delete and replace it with the current list of assets.", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then
+                            deleteCIPProjects(pPrjName)
+                        Else
+                            pQFilt = Nothing
+                            My.Globals.Variables.v_Editor.AbortOperation()
+                            Return
+                        End If
                     End If
 
                 End If
+
+
             Catch ex As Exception
                 MsgBox("Error trying to check Project Names - Make sure the overview layer has a field named: " & My.Globals.Constants.c_CIPProjectAssetNameField)
                 My.Globals.Variables.v_Editor.AbortOperation()
@@ -2843,8 +2924,10 @@ Partial Public Class CostEstimatingWindow
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
                         pTmpGeo = pGeo
 
-                        pNewFeat = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.CreateFeature
-                        pTotArea = pTotArea + CType(pNewFeat.Shape, IArea).Area
+                        pNewFeat = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.CreateFeature()
+                        Dim dblLength As Double = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit)
+
+                        pTotArea = pTotArea + dblLength 'CType(pNewFeat.Shape, IArea).Area
                         pFieldsTest = My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.Fields
                         lGeomIndex = pFieldsTest.FindField(My.Globals.Variables.v_CIPLayerPolygon.FeatureClass.ShapeFieldName)
 
@@ -2879,7 +2962,7 @@ Partial Public Class CostEstimatingWindow
                     Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
                         pTopo = pGeo
                         pTmpGeo = pTopo.Buffer(m_BufferAmount)
-                        pNewFeat = My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.CreateFeature
+                        pNewFeat = My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.CreateFeature()
                         pFieldsTest = My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.Fields
                         lGeomIndex = pFieldsTest.FindField(My.Globals.Variables.v_CIPLayerPolyline.FeatureClass.ShapeFieldName)
 
@@ -3102,7 +3185,7 @@ Partial Public Class CostEstimatingWindow
 
 
 
-             
+
 
 
 
@@ -3192,7 +3275,7 @@ Partial Public Class CostEstimatingWindow
 
 
 
-                
+
                 pCIPFeat.Shape = pOverGeo
                 pCIPOverFeat.Shape = pOverTopo 'pPoly 'pgoncoll
                 pCIPOverPointFeat.Shape = pOverPnt 'CType(pOverTopo, IArea).Centroid 'pPoly 'pgoncoll
@@ -3233,7 +3316,7 @@ Partial Public Class CostEstimatingWindow
 
 
 
-
+            showOverwriteOption(False)
             pOverGeo = Nothing
             pPrjGeo = Nothing
             pTopo = Nothing
@@ -3243,7 +3326,7 @@ Partial Public Class CostEstimatingWindow
             pTrkCan = Nothing
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: CreateCIPProject" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: CreateCIPProject" & vbCrLf & ex.ToString())
             My.Globals.Variables.v_Editor.AbortOperation()
 
         Finally
@@ -3344,7 +3427,7 @@ Partial Public Class CostEstimatingWindow
 
             Return pSimpleRenderer
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: createSimpleRenderer" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: createSimpleRenderer" & vbCrLf & ex.ToString())
             Return Nothing
 
         End Try
@@ -3451,7 +3534,7 @@ Partial Public Class CostEstimatingWindow
             pLineSymbol = Nothing
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools -  CIPProjectWindow: createGraphicSymbols" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools -  CIPProjectWindow: createGraphicSymbols" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -3508,8 +3591,9 @@ Partial Public Class CostEstimatingWindow
 
             s_lblTotalCost.Parent.Refresh()
             Cleargraphics()
+            showOverwriteOption(False)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: ClearControl" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: ClearControl" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -3549,7 +3633,7 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: makeImagesTrans" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: makeImagesTrans" & vbCrLf & ex.ToString())
         End Try
     End Sub
 
@@ -3568,7 +3652,7 @@ Partial Public Class CostEstimatingWindow
             Next
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: RemoveControl" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: RemoveControl" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -3595,7 +3679,7 @@ Partial Public Class CostEstimatingWindow
             pTxtBox = Nothing
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: addTextBox" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: addTextBox" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -3628,7 +3712,7 @@ Partial Public Class CostEstimatingWindow
             pCboBox = Nothing
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: addComboBox" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: addComboBox" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -3758,7 +3842,7 @@ Partial Public Class CostEstimatingWindow
             pDomFilt2 = Nothing
             pDomFilt1 = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: saveCombo" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: saveCombo" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -3812,7 +3896,7 @@ Partial Public Class CostEstimatingWindow
             End If
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: setRowsTotal" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: setRowsTotal" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -3853,7 +3937,7 @@ Partial Public Class CostEstimatingWindow
 
             setProjectCostAndTotal()
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: applyCostToRow" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: applyCostToRow" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -3930,7 +4014,7 @@ Partial Public Class CostEstimatingWindow
 
             pTxtBox.Parent.Controls.Remove(pTxtBox)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: SaveTextBox" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: SaveTextBox" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -3941,7 +4025,7 @@ Partial Public Class CostEstimatingWindow
 
             My.ArcMap.Document.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, RemoveGraphic(Tag), My.ArcMap.Document.ActiveView.Extent)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: RowRemoved" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: RowRemoved" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -3989,7 +4073,7 @@ Partial Public Class CostEstimatingWindow
             pElProp = Nothing
             Return Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: RowRemoved" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: RowRemoved" & vbCrLf & ex.ToString())
 
             Return Nothing
 
@@ -4046,7 +4130,7 @@ Partial Public Class CostEstimatingWindow
             pElem = Nothing
             pElementProp = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: AddGraphic" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: AddGraphic" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -4427,7 +4511,7 @@ Partial Public Class CostEstimatingWindow
     '        Return pDefRow
 
     '    Catch ex As Exception
-    '        MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckForCostCBO" & vbCrLf & ex.Message)
+    '        MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckForCostCBO" & vbCrLf & ex.ToString())
     '        Return Nothing
     '    End Try
 
@@ -4529,7 +4613,7 @@ Partial Public Class CostEstimatingWindow
 
 
     '    Catch ex As Exception
-    '        MsgBox("Error in the Costing Tools -  CIPProjectWindow: CheckForCostTxt" & vbCrLf & ex.Message)
+    '        MsgBox("Error in the Costing Tools -  CIPProjectWindow: CheckForCostTxt" & vbCrLf & ex.ToString())
     '        Return Nothing
     '    End Try
 
@@ -4552,7 +4636,7 @@ Partial Public Class CostEstimatingWindow
 
             Return getFeatureCount
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - getFeatureCount" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - getFeatureCount" & vbCrLf & ex.ToString())
             Return Nothing
 
         End Try
@@ -4567,7 +4651,7 @@ Partial Public Class CostEstimatingWindow
             If DefTable.Fields.FindField(My.Globals.Constants.c_CIPDefActiveField) < 0 Then Return False
             Return True
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIP Selection: ValidDefTable" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIP Selection: ValidDefTable" & vbCrLf & ex.ToString())
             Return False
 
         End Try
@@ -4676,7 +4760,7 @@ Partial Public Class CostEstimatingWindow
 
 
     '    Catch ex As Exception
-    '        MsgBox("Error in the Costing Tools -  CIPProjectWindow: CheckForCostFeature" & vbCrLf & ex.Message)
+    '        MsgBox("Error in the Costing Tools -  CIPProjectWindow: CheckForCostFeature" & vbCrLf & ex.ToString())
     '        Return Nothing
     '    End Try
 
@@ -4769,7 +4853,7 @@ Partial Public Class CostEstimatingWindow
             If strActionVal = strActionLookup Then
                 pSQL = pSQL & " AND ("
                 Dim strAct As String = strActionVal
-                
+
 
                 pSQL = pSQL & My.Globals.Constants.c_CIPCostActionField & " = '" & strAct & "' OR "
                 strAct = strActionLookup
@@ -4797,7 +4881,7 @@ Partial Public Class CostEstimatingWindow
 
                 pSQL = pSQL & ")"
             End If
-          
+
 
 
 
@@ -4864,7 +4948,7 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools -  CIPProjectWindow: CheckForCostFeature" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools -  CIPProjectWindow: CheckForCostFeature" & vbCrLf & ex.ToString())
             Return Nothing
         End Try
 
@@ -4961,7 +5045,7 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools -  CIPProjectWindow: getReplacementValues" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools -  CIPProjectWindow: getReplacementValues" & vbCrLf & ex.ToString())
             Return
         End Try
 
@@ -5069,7 +5153,7 @@ Partial Public Class CostEstimatingWindow
 
 
     '    Catch ex As Exception
-    '        MsgBox("Error in the Costing Tools -  CIPProjectWindow: CheckForCostFeature" & vbCrLf & ex.Message)
+    '        MsgBox("Error in the Costing Tools -  CIPProjectWindow: CheckForCostFeature" & vbCrLf & ex.ToString())
     '        Return Nothing
     '    End Try
 
@@ -5088,7 +5172,7 @@ Partial Public Class CostEstimatingWindow
 
             Next
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools -  CIPProjectWindow: saveControl" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools -  CIPProjectWindow: saveControl" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -5105,7 +5189,7 @@ Partial Public Class CostEstimatingWindow
                 End If
             Next
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools -  CIPProjectWindow: addQuote" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools -  CIPProjectWindow: addQuote" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -5125,7 +5209,7 @@ Partial Public Class CostEstimatingWindow
                 End If
             Next
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools -  CIPProjectWindow: addQuote" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools -  CIPProjectWindow: addQuote" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -5142,7 +5226,7 @@ Partial Public Class CostEstimatingWindow
             RowRemoved(strTag)
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools -  CIPProjectWindow: deleteRecord" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools -  CIPProjectWindow: deleteRecord" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -5157,6 +5241,7 @@ Partial Public Class CostEstimatingWindow
 
             s_dgCIP.AllowUserToDeleteRows = False
             AddHandler s_dgCIP.RowsAdded, AddressOf dgCIP_RowsAdded
+            AddHandler s_dgCIP.RowsRemoved, AddressOf dgCIP_RowsRemoved
             AddHandler s_dgCIP.Scroll, AddressOf dgCIP_Scroll
 
             AddHandler s_dgCIP.CellClick, AddressOf dgCIP_CellClick
@@ -5251,7 +5336,7 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools -  CIPProjectWindow: InitGrid" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools -  CIPProjectWindow: InitGrid" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -5263,7 +5348,7 @@ Partial Public Class CostEstimatingWindow
             If s_cboDefLayers.Items.Count = 0 Then Return Nothing
             Return s_cboDefLayers.SelectedItem
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: GetTarget" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: GetTarget" & vbCrLf & ex.ToString())
             Return Nothing
 
         End Try
@@ -5308,7 +5393,7 @@ Partial Public Class CostEstimatingWindow
             End If
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: HighlightAtLocation" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: HighlightAtLocation" & vbCrLf & ex.ToString())
         Finally
             pMxApp = Nothing
             pEnumElem = Nothing
@@ -5351,7 +5436,7 @@ Partial Public Class CostEstimatingWindow
             End If
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: HighlightAtLocation" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: HighlightAtLocation" & vbCrLf & ex.ToString())
         Finally
 
             pEnumElem = Nothing
@@ -5371,7 +5456,7 @@ Partial Public Class CostEstimatingWindow
             Next
             Return Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: FindRow" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: FindRow" & vbCrLf & ex.ToString())
             Return Nothing
         End Try
     End Function
@@ -5386,7 +5471,7 @@ Partial Public Class CostEstimatingWindow
             pDataset = Nothing
             Return GetCIPWorkspace
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: GetCIPWorkspace" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: GetCIPWorkspace" & vbCrLf & ex.ToString())
             Return Nothing
         End Try
 
@@ -5401,7 +5486,7 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckEditingWorkspace" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckEditingWorkspace" & vbCrLf & ex.ToString())
             Return False
         End Try
 
@@ -5446,9 +5531,9 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            If Not ex.Message.Contains("COM object") Then
+            If Not ex.ToString().Contains("COM object") Then
 
-                MsgBox("Error in the Costing Tools - CIPProjectWindow: loadDefLayersCboBox" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: loadDefLayersCboBox" & vbCrLf & ex.ToString())
             End If
 
         End Try
@@ -5489,7 +5574,7 @@ Partial Public Class CostEstimatingWindow
 
             Return pDom
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: ActionDomain" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: ActionDomain" & vbCrLf & ex.ToString())
             Return Nothing
         End Try
     End Function
@@ -5513,7 +5598,7 @@ Partial Public Class CostEstimatingWindow
             s_cboAction.DataSource = My.Globals.Functions.DomainToList(ActionDomain(s_cboStrategy.SelectedValue, My.Globals.Variables.v_CIPTableCost))
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: loadActionCboBox" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: loadActionCboBox" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -5544,13 +5629,14 @@ Partial Public Class CostEstimatingWindow
             pSubType = Nothing
 
         Catch ex As Exception
-            If Not ex.Message.Contains("COM object") Then
+            If Not ex.ToString().Contains("COM object") Then
 
-                MsgBox("Error in the Costing Tools - CIPProjectWindow: loadStrategyCboBox" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: loadStrategyCboBox" & vbCrLf & ex.ToString())
             End If
 
         End Try
     End Sub
+
     Private Shared Function AddRecordFromGraphic(ByVal geo As IGeometry, ByVal AddToGraphicLayer As Boolean, ByVal ConfigLayerName As String, Optional ByVal oid As Integer = -9999999) As Boolean
         Try
 
@@ -5640,7 +5726,7 @@ Partial Public Class CostEstimatingWindow
             End If
 
 
-            
+
 
             If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefMultiField)) Is Nothing Then
                 If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefMultiField)) Is DBNull.Value Then
@@ -5688,27 +5774,8 @@ Partial Public Class CostEstimatingWindow
             ' MsgBox("Do sketchs have a strategy of new")
 
             pCostRow = CheckForCostFeat(ConfigLayerName, pFCName, s_cboStrategy.SelectedValue, s_cboAction.Text, s_cboAction.SelectedValue, strDefVal1, strDefVal2)
-            Select Case geo.GeometryType
-                Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
-                    Try
+            dblLength = My.Globals.Functions.getMeasureOfGeo(geo, s_measureGeodetic, s_measureUnit)
 
-                        dblLength = CType(geo, ICurve).Length
-
-                    Catch ex As Exception
-
-
-                    End Try
-                Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
-                    Try
-
-                        dblLength = Math.Abs(CType(geo, IArea).Area)
-
-
-                    Catch ex As Exception
-
-
-                    End Try
-            End Select
 
 
 
@@ -5789,7 +5856,7 @@ Partial Public Class CostEstimatingWindow
 
             Return True
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: AddRecordFromGraphic" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: AddRecordFromGraphic" & vbCrLf & ex.ToString())
 
         End Try
     End Function
@@ -5834,7 +5901,7 @@ Partial Public Class CostEstimatingWindow
             pElem = Nothing
             pElProp = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: loadGraphicsToGrid" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: loadGraphicsToGrid" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -5852,7 +5919,7 @@ Partial Public Class CostEstimatingWindow
 
             Return pPline
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: Split_At_Point" & vbCrLf & ex.Message, MsgBoxStyle.DefaultButton1, "Error")
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: Split_At_Point" & vbCrLf & ex.ToString(), MsgBoxStyle.DefaultButton1, "Error")
             Return Nothing
 
         End Try
@@ -5875,6 +5942,7 @@ Partial Public Class CostEstimatingWindow
 
         Dim pPolyLine1 As IPolyline
         Dim pPolyLine2 As IPolyline
+        Dim dblLength As Double
 
         Try
 
@@ -5915,10 +5983,21 @@ Partial Public Class CostEstimatingWindow
                     pNewGeoCol = New Polyline
                     pNewGeoCol.AddGeometry(pGeoColl.Geometry(0))
                     pPolyLine1 = pNewGeoCol
+                    Try
+                        pPolyLine1.SpatialReference = pElem.Geometry.SpatialReference
+                    Catch ex As Exception
+
+                    End Try
+
 
                     pNewGeoCol = New Polyline
                     pNewGeoCol.AddGeometry(pGeoColl.Geometry(1))
                     pPolyLine2 = pNewGeoCol
+                    Try
+                        pPolyLine2.SpatialReference = pElem.Geometry.SpatialReference
+                    Catch ex As Exception
+
+                    End Try
 
                     RemoveGraphic(strTag)
 
@@ -5937,8 +6016,8 @@ Partial Public Class CostEstimatingWindow
                         Else
                             s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue.ToString & " | " & "User Reshaped"
                         End If
-
-                        s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(pPolyLine1.Length, "#,###.00")
+                        dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine1, s_measureGeodetic, s_measureUnit)
+                        s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine1.Length
 
                         SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
 
@@ -5948,7 +6027,9 @@ Partial Public Class CostEstimatingWindow
 
                         pNewRow = CopyRecord(s_dgCIP.SelectedRows(0).Index)
                         pNewRow.Cells("OID").Value = pTag(2) & ":" & strExistingSplitTag & "b"
-                        pNewRow.Cells("LENGTH").Value = Format(pPolyLine2.Length, "#,###.00")
+                        dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine2, s_measureGeodetic, s_measureUnit)
+
+                        pNewRow.Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine2.Length
 
                         SetRowsTotal(pNewRow.Index)
 
@@ -5970,8 +6051,9 @@ Partial Public Class CostEstimatingWindow
                             Else
                                 s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue & " | " & "User Reshaped"
                             End If
+                            dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine1, s_measureGeodetic, s_measureUnit)
 
-                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(pPolyLine1.Length, "#,###.00")
+                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine1.Length
 
                             SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
 
@@ -5989,8 +6071,9 @@ Partial Public Class CostEstimatingWindow
                             Else
                                 s_dgCIP.SelectedRows(0).Cells("NOTES").Value = s_dgCIP.SelectedRows(0).Cells("NOTES").FormattedValue & " | " & "User Reshaped"
                             End If
+                            dblLength = My.Globals.Functions.getMeasureOfGeo(pPolyLine2, s_measureGeodetic, s_measureUnit)
 
-                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(pPolyLine2.Length, "#,###.00")
+                            s_dgCIP.SelectedRows(0).Cells("LENGTH").Value = Format(dblLength, "#,###.00") 'pPolyLine2.Length
 
                             SetRowsTotal(s_dgCIP.SelectedRows(0).Index)
 
@@ -6018,7 +6101,7 @@ Partial Public Class CostEstimatingWindow
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: splitSegmentAtLocation" & vbCrLf & ex.Message, MsgBoxStyle.DefaultButton1, "Error")
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: splitSegmentAtLocation" & vbCrLf & ex.ToString(), MsgBoxStyle.DefaultButton1, "Error")
         Finally
             pPolyLine1 = Nothing
             pPolyLine2 = Nothing
@@ -6041,7 +6124,7 @@ Partial Public Class CostEstimatingWindow
 
             loadActionCboBox()
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: cboStrategy_SelectedIndexChanged" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: cboStrategy_SelectedIndexChanged" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Shared Sub gpBxCIPPrj_Resize(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gpBxCIPPrj.Resize
@@ -6053,7 +6136,7 @@ Partial Public Class CostEstimatingWindow
 
             ShuffleControls(False)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: gpBxCIPPrj_Resize" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: gpBxCIPPrj_Resize" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Shared Sub btnRemoveInv_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRemoveInv.Click
@@ -6065,7 +6148,7 @@ Partial Public Class CostEstimatingWindow
                 s_lstInventory.Items.Remove(s_lstInventory.SelectedItem)
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnRemoveInv_Click" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnRemoveInv_Click" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Shared Sub lblTotalCost_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblTotalCost.TextChanged
@@ -6083,7 +6166,7 @@ Partial Public Class CostEstimatingWindow
             'lblTotLength.Left = lblLength.Left + lblLength.Width
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: lblTotalCost_TextChanged" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: lblTotalCost_TextChanged" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Shared Sub btnSelectPrj_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnSelectPrj.Click
@@ -6100,7 +6183,7 @@ Partial Public Class CostEstimatingWindow
                 My.ArcMap.Application.CurrentTool = Nothing
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSelectPrj_clcik" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSelectPrj_clcik" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Shared Sub btnStopEditing_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnStopEditing.Click
@@ -6207,7 +6290,7 @@ Partial Public Class CostEstimatingWindow
             loadDefLayersCboBox()
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: LayerCheck" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: LayerCheck" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Shared Sub btnSavePrj_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSavePrj.Click
@@ -6216,7 +6299,7 @@ Partial Public Class CostEstimatingWindow
 
             CreateCIPProject() 'txtPrjName.Text, lblTotalCost.Text, dtTimeStart.Value.ToShortDateString, dtTimeEnd.Value.ToShortDateString, cboCIPStat.Text, cboCIPStim.Text, cboEnginner.Text, cboPrjMan.Text, txtNotes.Text)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSavePrj_Click" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSavePrj_Click" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -6227,7 +6310,7 @@ Partial Public Class CostEstimatingWindow
             '' CostEstimatingExtension.DeactivateCIPTools(False)
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow:  btnClear_Click" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow:  btnClear_Click" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6244,7 +6327,7 @@ Partial Public Class CostEstimatingWindow
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: rdoBtnShowCan_CheckedChanged" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: rdoBtnShowCan_CheckedChanged" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6259,7 +6342,7 @@ Partial Public Class CostEstimatingWindow
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: rdoBtnShowDetails_CheckedChanged" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: rdoBtnShowDetails_CheckedChanged" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -6276,7 +6359,7 @@ Partial Public Class CostEstimatingWindow
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: rdoShowInv_CheckedChanged" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: rdoShowInv_CheckedChanged" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6296,7 +6379,7 @@ Partial Public Class CostEstimatingWindow
             End If
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: rdoBtnShowLayers_CheckedChanged" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: rdoBtnShowLayers_CheckedChanged" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6304,7 +6387,7 @@ Partial Public Class CostEstimatingWindow
         Try
             s_lstInventory.Items.Add(s_cboCIPInvTypes.Text & ":" & s_numCIPInvCount.Value)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnAddInv_Click" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnAddInv_Click" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6338,7 +6421,7 @@ Partial Public Class CostEstimatingWindow
                 Loop
 
             Catch ex As Exception
-                MsgBox("Error in the Costing Tools - CIPProjectWindow: getCIPGrpahic" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: getCIPGrpahic" & vbCrLf & ex.ToString())
 
             Finally
                 pElProp = Nothing
@@ -6349,7 +6432,7 @@ Partial Public Class CostEstimatingWindow
             pElem = Nothing
             pElProp = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: getCIPGrpahic" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: getCIPGrpahic" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -6444,7 +6527,7 @@ Partial Public Class CostEstimatingWindow
                 'End If
                 My.ArcMap.Document.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, pOldGeo, My.ArcMap.Document.ActiveView.Extent)
             Catch ex As Exception
-                MsgBox("Error in the Costing Tools - CIPProjectWindow: RowChanged" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: RowChanged" & vbCrLf & ex.ToString())
 
             Finally
 
@@ -6457,7 +6540,7 @@ Partial Public Class CostEstimatingWindow
             pElem = Nothing
             pElProp = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: RowChanged" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: RowChanged" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -6527,7 +6610,7 @@ Partial Public Class CostEstimatingWindow
 
 
             Catch ex As Exception
-                MsgBox("Error in the Costing Tools - CIPProjectWindow: UnRowChanged" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: UnRowChanged" & vbCrLf & ex.ToString())
 
             Finally
 
@@ -6541,7 +6624,7 @@ Partial Public Class CostEstimatingWindow
             pElem = Nothing
             pElProp = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: unSelectRow" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: unSelectRow" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -6609,7 +6692,7 @@ Partial Public Class CostEstimatingWindow
 
 
             Catch ex As Exception
-                MsgBox("Error in the Costing Tools - CIPProjectWindow: SelectRow" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: SelectRow" & vbCrLf & ex.ToString())
 
             Finally
 
@@ -6621,7 +6704,7 @@ Partial Public Class CostEstimatingWindow
             pElem = Nothing
             pElProp = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: SelectRow" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: SelectRow" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -6633,7 +6716,7 @@ Partial Public Class CostEstimatingWindow
             s_gpBxSwitch.Width = 85
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: CIPProjectWindow_Resize" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: CIPProjectWindow_Resize" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -6643,7 +6726,7 @@ Partial Public Class CostEstimatingWindow
         Try
             EnableSavePrj()
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: txtPrjName_TextChanged" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: txtPrjName_TextChanged" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -6663,7 +6746,26 @@ Partial Public Class CostEstimatingWindow
             End If
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_RowsAdded" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_RowsAdded" & vbCrLf & ex.ToString())
+
+        End Try
+    End Sub
+    Private Shared Sub dgCIP_RowsRemoved(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewRowsRemovedEventArgs)
+        Try
+            If s_dgCIP Is Nothing Then Return
+            If s_dgCIP.Rows.Count > 0 Then
+                If My.Globals.Variables.v_Editor.EditState = esriEditState.esriStateEditing Then
+                    s_btnSavePrj.Enabled = True
+                Else
+                    s_btnSavePrj.Enabled = False
+                End If
+
+            Else
+                s_btnSavePrj.Enabled = False
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_RowsAdded" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6787,7 +6889,7 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_CellClick" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_CellClick" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6796,7 +6898,7 @@ Partial Public Class CostEstimatingWindow
 
             saveCombo(sender)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: comboClick" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: comboClick" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6805,7 +6907,7 @@ Partial Public Class CostEstimatingWindow
             If s_dgCIP Is Nothing Then Return
             RemoveControl(True)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_Scroll" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_Scroll" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6833,7 +6935,7 @@ Partial Public Class CostEstimatingWindow
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools -CIPProjectWindow:  s_dgCIP_DataGridKeyIntercept" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools -CIPProjectWindow:  s_dgCIP_DataGridKeyIntercept" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6849,7 +6951,7 @@ Partial Public Class CostEstimatingWindow
                 RowChanged(strTag)
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_SelectionChanged" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_SelectionChanged" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -6886,13 +6988,13 @@ Partial Public Class CostEstimatingWindow
 
         Catch ex As Exception
 
-            'If (ex.Message.ToString().Contains("a lock")) Then
+            'If (ex.ToString().ToString().Contains("a lock")) Then
 
             MsgBox("The workspace could not be edited, it may be locked by another edit session.")
 
             'Else
 
-            'MsgBox("Error in the Costing Tools - CIPProjectWindow: btnStartEditing_Click" & vbCrLf & ex.Message)
+            'MsgBox("Error in the Costing Tools - CIPProjectWindow: btnStartEditing_Click" & vbCrLf & ex.ToString())
             'End If
 
 
@@ -6912,7 +7014,7 @@ Partial Public Class CostEstimatingWindow
             My.Globals.Variables.v_Editor.StartEditing(workspaceEdit)
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSave_Click" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSave_Click" & vbCrLf & ex.ToString())
         End Try
 
     End Sub
@@ -6928,7 +7030,7 @@ Partial Public Class CostEstimatingWindow
 
             End Select
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: ctxMenu_ItemClicked" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: ctxMenu_ItemClicked" & vbCrLf & ex.ToString())
         End Try
 
     End Sub
@@ -6949,7 +7051,7 @@ Partial Public Class CostEstimatingWindow
             End If
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_CellMouseClick" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_dgCIP_CellMouseClick" & vbCrLf & ex.ToString())
         End Try
 
 
@@ -6964,7 +7066,7 @@ Partial Public Class CostEstimatingWindow
                 My.ArcMap.Application.CurrentTool = Nothing
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_btnSelectAssets_Click" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: s_btnSelectAssets_Click" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Shared Sub btnSelect_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSelect.Click
@@ -6982,17 +7084,17 @@ Partial Public Class CostEstimatingWindow
                 My.ArcMap.Application.CurrentTool = Nothing
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSelect_Click" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSelect_Click" & vbCrLf & ex.ToString())
         End Try
     End Sub
-    Private Shared Sub btnSketch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) 
+    Private Shared Sub btnSketch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
             If s_btnSketch Is Nothing Then Return
-         
-                Dim pCmdItem As ICommandItem
+
+            Dim pCmdItem As ICommandItem
 
             pCmdItem = My.Globals.Functions.GetCommand("ArcGIS4LocalGovernment_CreateAssetForGrid")
-                If My.ArcMap.Application.CurrentTool IsNot pCmdItem Then
+            If My.ArcMap.Application.CurrentTool IsNot pCmdItem Then
                 My.ArcMap.Application.CurrentTool = pCmdItem
 
                 pCmdItem = Nothing
@@ -7007,7 +7109,7 @@ Partial Public Class CostEstimatingWindow
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSelect_Click" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: btnSelect_Click" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Shared Sub ctxMenuTotals_ItemClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.ToolStripItemClickedEventArgs) Handles ctxMenuTotals.ItemClicked
@@ -7029,8 +7131,10 @@ Partial Public Class CostEstimatingWindow
                 s_lblPoint.Visible = Not CType(e.ClickedItem, ToolStripMenuItem).Checked
 
             End If
+            shuffleTotals()
+
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: ctxMenuTotals_ItemClicked" & vbCrLf & ex.Message, MsgBoxStyle.DefaultButton1, "Error")
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: ctxMenuTotals_ItemClicked" & vbCrLf & ex.ToString(), MsgBoxStyle.DefaultButton1, "Error")
         End Try
     End Sub
     'Private Shared Sub ApplyDomainToProject()
@@ -7097,7 +7201,7 @@ Partial Public Class CostEstimatingWindow
     '        End If
     '        pPrjLay = Nothing
     '    Catch ex As Exception
-    '        MsgBox("Error in the Costing Tools - CIPProjectWindow:  ApplyDomainToProject" & vbCrLf & ex.Message)
+    '        MsgBox("Error in the Costing Tools - CIPProjectWindow:  ApplyDomainToProject" & vbCrLf & ex.ToString())
     '    End Try
     'End Sub
 
@@ -7108,7 +7212,7 @@ Partial Public Class CostEstimatingWindow
 
 
     '    Catch ex As Exception
-    '        MsgBox("Error in the Costing Tools - CIPProjectWindow: onMapChange" & vbCrLf & ex.Message)
+    '        MsgBox("Error in the Costing Tools - CIPProjectWindow: onMapChange" & vbCrLf & ex.ToString())
 
 
     '    End Try
@@ -7154,7 +7258,7 @@ Partial Public Class CostEstimatingWindow
 
 
     '    Catch ex As Exception
-    '        MsgBox("Error in the Costing Tools - CIPProjectWindow:  ApplyDomainToProject" & vbCrLf & ex.Message)
+    '        MsgBox("Error in the Costing Tools - CIPProjectWindow:  ApplyDomainToProject" & vbCrLf & ex.ToString())
     '    End Try
     'End Sub
 
@@ -7206,7 +7310,7 @@ Partial Public Class CostEstimatingWindow
             End If
             pWkSpace = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: m_EditorEvents_OnStartEditing" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: m_EditorEvents_OnStartEditing" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -7234,7 +7338,7 @@ Partial Public Class CostEstimatingWindow
             'End If
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: m_EditorEvents_OnStopEditing" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: m_EditorEvents_OnStopEditing" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -7259,10 +7363,15 @@ Partial Public Class CostEstimatingWindow
 
             LoadExistingAssetsToForm(strPrjName)
             setProjectCostAndTotal()
+
+            s_chkProject.Text = strPrjName
+
+            showOverwriteOption(True)
+            s_chkProject.Parent.Refresh()
             '        Call s_dgCIP_SelectionChanged(Nothing, Nothing)
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: LoadProjectFromLocation" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: LoadProjectFromLocation" & vbCrLf & ex.ToString())
         Finally
             pFeat = Nothing
 
@@ -7366,7 +7475,7 @@ Partial Public Class CostEstimatingWindow
                         If My.Globals.Functions.isVisible(pAssetFl) = False Then
                             pStepPro.Message = "Skipping assets from " & pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefNameField)) & " Not visible"
                         Else
-                       
+
                             Dim pRowCount As Integer = getFeatureCount(pAssetFl, pEnv, "")
 
                             pStepPro.Message = "Costing " & pRowCount & " assets from " & pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefNameField))
@@ -7393,6 +7502,7 @@ Partial Public Class CostEstimatingWindow
                                 Dim strFiltField2 As String = ""
                                 Dim strMultiField As String = ""
                                 Dim strLenField As String = ""
+                                Dim boolShapeLength As Boolean = False
 
                                 If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefMultiField)) Is Nothing Then
                                     If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefMultiField)) Is DBNull.Value Then
@@ -7413,6 +7523,7 @@ Partial Public Class CostEstimatingWindow
                                     If Not pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField)) Is DBNull.Value Then
                                         If Not Trim(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField))) = "" Then
                                             If UCase(Trim(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField)))).Contains("SHAPE") Then
+                                                boolShapeLength = True
                                                 If pAssetFl.FeatureClass.FindField(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField))) > 0 Then
                                                     strLenField = pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefLenField))
                                                 ElseIf pAssetFl.FeatureClass.FindField("Shape.len") > 0 Then
@@ -7605,18 +7716,26 @@ Partial Public Class CostEstimatingWindow
 
                                     Try
                                         If strLenField <> "" Then
+                                            If boolShapeLength Then
+                                                dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit)
+                                            Else
+                                                dblLength = pFeat.Value(pFeat.Fields.FindField(strLenField))
+                                            End If
 
-                                            dblLength = pFeat.Value(pFeat.Fields.FindField(strLenField))
                                         End If
                                         Select Case pGeo.GeometryType
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPoint
 
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
+                                                If dblLength = 0.0 Then
+                                                    dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit) 'CType(pGeo, IArea).Area
+                                                End If
 
 
                                             Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
                                                 If dblLength = 0.0 Then
-                                                    dblLength = CType(pGeo, IArea).Area
+
+                                                    dblLength = My.Globals.Functions.getMeasureOfGeo(pGeo, s_measureGeodetic, s_measureUnit) 'CType(pGeo, IArea).Area
                                                 End If
 
 
@@ -7717,7 +7836,7 @@ Partial Public Class CostEstimatingWindow
 
             pDefFilt = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools: LoadAssetsByShape - Error costing assets" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools: LoadAssetsByShape - Error costing assets" & vbCrLf & ex.ToString())
 
         Finally
             If pProDlg IsNot Nothing Then
@@ -7784,7 +7903,7 @@ Partial Public Class CostEstimatingWindow
             pElProp = Nothing
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: Cleargraphics" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: Cleargraphics" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -7825,13 +7944,46 @@ Partial Public Class CostEstimatingWindow
             s_lblTotalCost.Text = FormatCurrency(TotCost, 2, TriState.True, TriState.True) 'Format(Total, "#,###.00")
             s_lblTotLength.Text = Format(TotLen, "#,###.00")
             s_lblTotArea.Text = Format(TotArea, "#,###.00")
-            s_lblTotPnt.Text = Format(TotPnt, "#,###")
+            s_lblTotPnt.Text = Format(TotPnt, "#,##0")
 
+          
+            shuffleTotals()
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: setProjectCostAndTotal" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: setProjectCostAndTotal" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
+    Friend Shared Sub shuffleTotals()
+        'Dim g As System.Drawing.Graphics
+        'Dim s As System.Drawing.SizeF
+        'g = s_lblTotalCost.CreateGraphics()
+
+        's = g.MeasureString(s_lblTotalCost.Text, s_lblTotalCost.Font)
+        Dim pad As Integer = 5
+
+
+        Dim intStart = s_lblTotalCost.Left + s_lblTotalCost.Width + pad
+        If s_lblLength.Visible Then
+            s_lblLength.Left = intStart ' s.Width
+            s_lblTotLength.Left = s_lblLength.Left + s_lblLength.Width + 1
+            intStart = s_lblTotLength.Left + s_lblTotLength.Width + pad
+        End If
+
+        If s_lblPoint.Visible Then
+            s_lblPoint.Left = intStart ' s.Width
+            s_lblTotPnt.Left = s_lblPoint.Left + s_lblPoint.Width + 1
+            intStart = s_lblTotPnt.Left + s_lblTotPnt.Width + pad
+        End If
+
+        If s_lblArea.Visible Then
+            s_lblArea.Left = intStart ' s.Width
+            s_lblTotArea.Left = s_lblArea.Left + s_lblArea.Width + 1
+            intStart = s_lblTotArea.Left + s_lblTotArea.Width + pad
+        End If
+
+
+    End Sub
+
     Friend Shared Sub loadRecord(ByVal pGeo As IGeometry, ByVal strSourceLayerNameConfig As String, ByVal strSourceClassName As String, ByVal strSourceLayerID As String, ByVal dblSourceCost As String, _
                            ByVal dblSourceAddCost As String, ByVal dblLength As Double, ByVal dblTotalCost As String, ByVal strFiltVal1 As String, _
                            ByVal strFiltVal2 As String, ByVal strFiltFld1 As String, ByVal strFiltFld2 As String, ByVal strOID As String, _
@@ -7884,7 +8036,7 @@ Partial Public Class CostEstimatingWindow
 
             s_dgCIP.Rows.Add(pNewRow)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: loadRecord" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: loadRecord" & vbCrLf & ex.ToString())
 
         Finally
             '   AddHandler pFrm.RowChanged, AddressOf RowChanged
@@ -7903,7 +8055,7 @@ Partial Public Class CostEstimatingWindow
             Next
             Return pNewrow
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: CopyRecord" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: CopyRecord" & vbCrLf & ex.ToString())
             Return Nothing
 
         End Try
@@ -7939,7 +8091,7 @@ Partial Public Class CostEstimatingWindow
             End If
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: setDefLayersToDropdown" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: setDefLayersToDropdown" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -7986,7 +8138,7 @@ Partial Public Class CostEstimatingWindow
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow:  LoadControlsToDetailForm" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow:  LoadControlsToDetailForm" & vbCrLf & ex.ToString())
         End Try
     End Sub
 
@@ -7997,7 +8149,7 @@ Partial Public Class CostEstimatingWindow
             s_cboStrategy.Text = strStrat
             s_cboAction.Text = strAct
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: setStratAction" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: setStratAction" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -8024,7 +8176,7 @@ Partial Public Class CostEstimatingWindow
             End Select
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: SelectTool" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: SelectTool" & vbCrLf & ex.ToString())
         End Try
     End Sub
 #End Region
@@ -8122,10 +8274,37 @@ Partial Public Class CostEstimatingWindow
 
     End Class
 
-    Private Sub gpBxCIPCan_Enter(sender As System.Object, e As System.EventArgs) Handles gpBxCIPCan.Enter
+
+    Private Sub CostEstimatingWindow_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        showOverwriteOption()
 
     End Sub
+    Private Shared Sub showOverwriteOption(Optional show As Boolean = False)
+        If show Then
+            s_chkProject.Visible = True
+
+            Dim g As System.Drawing.Graphics = s_chkProject.CreateGraphics()
+            Dim s As System.Drawing.SizeF = g.MeasureString(s_chkProject.Text, s_chkProject.Font)
+            s_chkProject.Width = s.Width + 10
+            s_gpBoxAfterOverwrite.Left = s_chkProject.Left + s_chkProject.Width + 4
+
+        Else
+            s_chkProject.Visible = False
+            's_chkProject.Checked = False
+
+            s_gpBoxAfterOverwrite.Left = s_btnSavePrj.Left + s_btnSavePrj.Width + 4
+        End If
+    End Sub
+
+    Private Sub btnSketch_CheckedChanged(sender As Object, e As EventArgs) Handles btnSketch.CheckedChanged
+        If s_btnSketch.Checked Then
+            s_gpBxCIPCostingLayers.Enabled = False
+        Else
+            s_gpBxCIPCostingLayers.Enabled = True
+        End If
+    End Sub
 End Class
+
 
 
 

@@ -91,7 +91,7 @@ namespace A4LGSharedFunctions
 
         public static string fileName = "loaded";
         public static string type = "aa";
-
+        public static Encoding encoding = Encoding.GetEncoding("ISO-8859-1");
         public static string GetHelpFile()
         {
             string helpFile = "";
@@ -171,7 +171,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("generateUserCachePath:  " + ex.Message);
+                MessageBox.Show("generateUserCachePath:  " + ex.ToString());
                 return "";
             }
 
@@ -221,7 +221,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("GetAllConfigFiles:  " + ex.Message);
+                MessageBox.Show("GetAllConfigFiles:  " + ex.ToString());
                 return null;
             }
 
@@ -246,9 +246,15 @@ namespace A4LGSharedFunctions
 
                 for (int i = 0; i < pConfFiles.Count; i++)
                 {
-                    oXml = new XmlDocument();
-                    oXml.Load(pConfFiles[i]);
+                    //oXml = new XmlDocument();
+                    //oXml.Load(pConfFiles[i]);
 
+                    oXml = new XmlDocument();
+
+                    using (StreamReader oReader = new StreamReader(pConfFiles[i], encoding))
+                    {
+                        oXml.Load(oReader);
+                    }
                     // XmlNode pXMLNode = oXml.FirstChild;
 
                     confEn = new ConfigEntries();
@@ -288,7 +294,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("GetAllConfigFilesNames:  " + ex.Message);
+                MessageBox.Show("GetAllConfigFilesNames:  " + ex.ToString());
 
                 return null;
             }
@@ -308,7 +314,7 @@ namespace A4LGSharedFunctions
         {
             try
             {
-                using (StreamReader sr = new StreamReader(SourceFile))
+                using (StreamReader sr = new StreamReader(SourceFile, encoding))
                 {
                     String line = sr.ReadToEnd();
 
@@ -316,11 +322,13 @@ namespace A4LGSharedFunctions
 
                     if (File.Exists(TargetFile))
                     {
-                        using (System.IO.StreamWriter sw = new System.IO.StreamWriter(TargetFile))
+                        using (FileStream fs = new FileStream(TargetFile, FileMode.Create))
                         {
-                            sw.Write(line);
+                            using (System.IO.StreamWriter sw = new StreamWriter(fs, encoding))
+                            {
+                                sw.Write(line);
+                            }
                         }
-
                     }
                     else
                     {
@@ -328,9 +336,12 @@ namespace A4LGSharedFunctions
                         if (Directory.Exists(dir) == false)
                             Directory.CreateDirectory(dir);
                         //Directory.CreateDirectory()
-                        using (StreamWriter sw = File.CreateText(TargetFile))
+                        using (FileStream fs = new FileStream(TargetFile, FileMode.CreateNew))
                         {
-                            sw.Write(line);
+                            using (System.IO.StreamWriter sw = new StreamWriter(fs, encoding))
+                            {
+                                sw.Write(line);
+                            }
                         }
                     }
                 }
@@ -341,26 +352,36 @@ namespace A4LGSharedFunctions
                 return false;
             }
         }
-        public static bool ChangeConfig(ConfigEntries LoadedConfig, ConfigEntries ConfigToLoad)
+        public static string ChangeConfig(ConfigEntries LoadedConfig, ConfigEntries ConfigToLoad,bool backupConfig)
         {
             try
             {
-                string SourceFile = ConfigToLoad.Path + "\\" + LoadedConfig.FileName;
-                string SourceCopyFile = ConfigToLoad.Path + "\\" + LoadedConfig.Name + "." + type + ".config";
-                string TargetFile = LoadedConfig.Path + "\\" + ConfigToLoad.FileName;
+                string SourceFile = LoadedConfig.FullName;//ConfigToLoad.Path + "\\" + LoadedConfig.FileName;
+                string SourceCopyFile = LoadedConfig.Path + "\\" + LoadedConfig.Name + "." + type + ".config";
+                string TargetFile = ConfigToLoad.FullName;//LoadedConfig.Path + "\\" + ConfigToLoad.FileName;
 
-                if (copyFileContents(SourceFile, SourceCopyFile))
+                if (backupConfig == true) {
+                    if (copyFileContents(SourceFile, SourceCopyFile))
+                        if (copyFileContents(TargetFile, SourceFile))
+                        {
+                            //LoadedConfig.Name = ConfigToLoad.Name;
+                            return ConfigToLoad.Name;
+                        }
+                        else
+                            return "";
+
+                    else
+                        return "";
+                }
+                else { 
                     if (copyFileContents(TargetFile, SourceFile))
                     {
                         //LoadedConfig.Name = ConfigToLoad.Name;
-                        return true;
+                        return ConfigToLoad.Name;
                     }
                     else
-                        return false;
-
-                else
-                    return false;
-
+                        return "";
+                }
                 //File.Copy(LoadedConfig.FullName, LoadedConfig.Path + "\\" + LoadedConfig.Name + ".config", true);
 
                 //File.Copy(ConfigToLoad.FullName, ConfigToLoad.Path + "\\" + "Config" + ".config", true);
@@ -369,11 +390,12 @@ namespace A4LGSharedFunctions
 
 
                 //return true;
+                return ConfigToLoad.Name;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ChangeConfig:  " + ex.Message);
-                return false;
+                MessageBox.Show("ChangeConfig:  " + ex.ToString());
+                return "";
 
             }
             finally
@@ -424,7 +446,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("GetConfigFile:  " + ex.Message);
+                MessageBox.Show("GetConfigFile:  " + ex.ToString());
                 return "";
             }
 
@@ -476,7 +498,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("getInstalledConfig:  " + ex.Message);
+                MessageBox.Show("getInstalledConfig:  " + ex.ToString());
                 return "";
             }
         }
@@ -495,7 +517,13 @@ namespace A4LGSharedFunctions
                 if (File.Exists(pConfigFiles))
                 {
                     oXml = new XmlDocument();
-                    oXml.Load(pConfigFiles);
+
+                    using (StreamReader oReader = new StreamReader(pConfigFiles, encoding))
+                    {
+                        oXml.Load(oReader);
+                    }
+                    
+                    //oXml.Load(pConfigFiles);
 
                     oList = oXml.GetElementsByTagName("appSettings");
                     if (oList == null) return defaultValue;
@@ -531,7 +559,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                 return defaultValue;
             }
             finally
@@ -590,7 +618,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                 return defaultValue;
             }
             finally
@@ -647,7 +675,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                 return defaultValue;
             }
             finally
@@ -667,7 +695,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("compareConfigValue:  " + ex.Message);
+                MessageBox.Show("compareConfigValue:  " + ex.ToString());
                 return false;
             }
         }
@@ -718,7 +746,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                 return "";
             }
             finally
@@ -740,7 +768,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show("GetConfigValue:" + ex.Message);
+                System.Windows.Forms.MessageBox.Show("GetConfigValue:" + ex.ToString());
                 return defaultValue;
             }
         }
@@ -779,7 +807,7 @@ namespace A4LGSharedFunctions
             }
             catch (Exception ex)
             {
-                MessageBox.Show("KeyExists:  " + ex.Message);
+                MessageBox.Show("KeyExists:  " + ex.ToString());
                 return false;
             }
             finally
@@ -817,14 +845,14 @@ namespace A4LGSharedFunctions
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.Forms.MessageBox.Show(ex.Message + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
+                    System.Windows.Forms.MessageBox.Show(ex.ToString() + "\nTypically an error here is from an improperly formatted config file. \nThe structure(XML) is compromised by a change you made.");
                     return null;
                 }
             }
             catch (Exception ex)
             {
 
-                MessageBox.Show("getConfigAsXMLDoc:  " + ex.Message);
+                MessageBox.Show("getConfigAsXMLDoc:  " + ex.ToString());
                 return null;
 
             }

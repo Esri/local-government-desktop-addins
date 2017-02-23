@@ -22,7 +22,7 @@ Partial Class CostEstimatingWindow
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(CostEstimatingWindow))
         Me.gpBxCIPCostingLayers = New System.Windows.Forms.GroupBox()
-        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.pnlSeperator = New System.Windows.Forms.Panel()
         Me.rdoBtnShowLayers = New System.Windows.Forms.RadioButton()
         Me.rdoShowInv = New System.Windows.Forms.RadioButton()
         Me.gpBxSwitch = New System.Windows.Forms.GroupBox()
@@ -53,16 +53,18 @@ Partial Class CostEstimatingWindow
         Me.lblTotPnt = New System.Windows.Forms.Label()
         Me.gpBxCIPCan = New System.Windows.Forms.GroupBox()
         Me.gpBxControls = New System.Windows.Forms.GroupBox()
-        Me.btnSelectPrj = New System.Windows.Forms.RadioButton()
+        Me.gpBoxAfterOverwrite = New System.Windows.Forms.Panel()
+        Me.btnSave = New System.Windows.Forms.Button()
+        Me.btnStopEditing = New System.Windows.Forms.Button()
+        Me.btnStartEditing = New System.Windows.Forms.Button()
         Me.lblTotalCost = New System.Windows.Forms.Label()
+        Me.chkProject = New System.Windows.Forms.Label()
+        Me.btnSelectPrj = New System.Windows.Forms.RadioButton()
         Me.btnSavePrj = New System.Windows.Forms.Button()
         Me.btnClear = New System.Windows.Forms.Button()
         Me.btnSelect = New System.Windows.Forms.RadioButton()
         Me.btnSketch = New System.Windows.Forms.RadioButton()
         Me.btnSelectAssets = New System.Windows.Forms.RadioButton()
-        Me.btnSave = New System.Windows.Forms.Button()
-        Me.btnStopEditing = New System.Windows.Forms.Button()
-        Me.btnStartEditing = New System.Windows.Forms.Button()
         Me.cboDefLayers = New System.Windows.Forms.ComboBox()
         Me.tblDisabled = New System.Windows.Forms.TableLayoutPanel()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -79,8 +81,8 @@ Partial Class CostEstimatingWindow
         Me.gpBxInv.SuspendLayout()
         CType(Me.numCIPInvCount, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ctxMenuTotals.SuspendLayout()
-        Me.TotalDisplay.SuspendLayout()
         Me.gpBxControls.SuspendLayout()
+        Me.gpBoxAfterOverwrite.SuspendLayout()
         Me.tblDisabled.SuspendLayout()
         Me.ctxMenu.SuspendLayout()
         Me.gpBxCIPPrj.SuspendLayout()
@@ -98,13 +100,13 @@ Partial Class CostEstimatingWindow
         Me.gpBxCIPCostingLayers.Text = "Costing Layers"
         Me.gpBxCIPCostingLayers.Visible = False
         '
-        'Panel1
+        'pnlSeperator
         '
-        Me.Panel1.BackColor = System.Drawing.SystemColors.ControlDark
-        Me.Panel1.Location = New System.Drawing.Point(576, 16)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(5, 22)
-        Me.Panel1.TabIndex = 33
+        Me.pnlSeperator.BackColor = System.Drawing.SystemColors.ControlDark
+        Me.pnlSeperator.Location = New System.Drawing.Point(1, 4)
+        Me.pnlSeperator.Name = "pnlSeperator"
+        Me.pnlSeperator.Size = New System.Drawing.Size(5, 22)
+        Me.pnlSeperator.TabIndex = 33
         '
         'rdoBtnShowLayers
         '
@@ -302,7 +304,7 @@ Partial Class CostEstimatingWindow
         Me.lblCost.AutoSize = True
         Me.lblCost.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblCost.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCost.Location = New System.Drawing.Point(676, 17)
+        Me.lblCost.Location = New System.Drawing.Point(100, 6)
         Me.lblCost.Name = "lblCost"
         Me.lblCost.Size = New System.Drawing.Size(49, 18)
         Me.lblCost.TabIndex = 32
@@ -312,7 +314,7 @@ Partial Class CostEstimatingWindow
         '
         Me.ctxMenuTotals.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowLength, Me.ShowArea, Me.ShowPoint})
         Me.ctxMenuTotals.Name = "ContextMenuStrip1"
-        Me.ctxMenuTotals.Size = New System.Drawing.Size(179, 70)
+        Me.ctxMenuTotals.Size = New System.Drawing.Size(178, 70)
         Me.ctxMenuTotals.Text = "Totals"
         '
         'ShowLength
@@ -321,36 +323,34 @@ Partial Class CostEstimatingWindow
         Me.ShowLength.CheckOnClick = True
         Me.ShowLength.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ShowLength.Name = "ShowLength"
-        Me.ShowLength.Size = New System.Drawing.Size(178, 22)
+        Me.ShowLength.Size = New System.Drawing.Size(177, 22)
         Me.ShowLength.Text = "Toggle Length"
         '
         'ShowArea
         '
+        Me.ShowArea.Checked = True
         Me.ShowArea.CheckOnClick = True
+        Me.ShowArea.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ShowArea.Name = "ShowArea"
-        Me.ShowArea.Size = New System.Drawing.Size(178, 22)
+        Me.ShowArea.Size = New System.Drawing.Size(177, 22)
         Me.ShowArea.Text = "Toggle Area"
         '
         'ShowPoint
         '
+        Me.ShowPoint.Checked = True
         Me.ShowPoint.CheckOnClick = True
+        Me.ShowPoint.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ShowPoint.Name = "ShowPoint"
-        Me.ShowPoint.Size = New System.Drawing.Size(178, 22)
+        Me.ShowPoint.Size = New System.Drawing.Size(177, 22)
         Me.ShowPoint.Text = "Toggle Point Count"
         '
         'TotalDisplay
         '
         Me.TotalDisplay.AutoSize = True
         Me.TotalDisplay.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.TotalDisplay.Controls.Add(Me.lblLength)
-        Me.TotalDisplay.Controls.Add(Me.lblTotLength)
-        Me.TotalDisplay.Controls.Add(Me.lblArea)
-        Me.TotalDisplay.Controls.Add(Me.lblTotArea)
-        Me.TotalDisplay.Controls.Add(Me.lblPoint)
-        Me.TotalDisplay.Controls.Add(Me.lblTotPnt)
         Me.TotalDisplay.Location = New System.Drawing.Point(798, 17)
         Me.TotalDisplay.Name = "TotalDisplay"
-        Me.TotalDisplay.Size = New System.Drawing.Size(286, 18)
+        Me.TotalDisplay.Size = New System.Drawing.Size(0, 0)
         Me.TotalDisplay.TabIndex = 19
         Me.TotalDisplay.WrapContents = False
         '
@@ -359,7 +359,7 @@ Partial Class CostEstimatingWindow
         Me.lblLength.AutoSize = True
         Me.lblLength.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblLength.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLength.Location = New System.Drawing.Point(3, 0)
+        Me.lblLength.Location = New System.Drawing.Point(202, 6)
         Me.lblLength.Name = "lblLength"
         Me.lblLength.Size = New System.Drawing.Size(63, 18)
         Me.lblLength.TabIndex = 26
@@ -371,7 +371,7 @@ Partial Class CostEstimatingWindow
         Me.lblTotLength.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblTotLength.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotLength.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.lblTotLength.Location = New System.Drawing.Point(72, 0)
+        Me.lblTotLength.Location = New System.Drawing.Point(260, 6)
         Me.lblTotLength.Name = "lblTotLength"
         Me.lblTotLength.Size = New System.Drawing.Size(31, 18)
         Me.lblTotLength.TabIndex = 35
@@ -382,12 +382,11 @@ Partial Class CostEstimatingWindow
         Me.lblArea.AutoSize = True
         Me.lblArea.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblArea.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblArea.Location = New System.Drawing.Point(109, 0)
+        Me.lblArea.Location = New System.Drawing.Point(385, 6)
         Me.lblArea.Name = "lblArea"
         Me.lblArea.Size = New System.Drawing.Size(47, 18)
         Me.lblArea.TabIndex = 36
         Me.lblArea.Text = "Area:"
-        Me.lblArea.Visible = False
         '
         'lblTotArea
         '
@@ -395,24 +394,22 @@ Partial Class CostEstimatingWindow
         Me.lblTotArea.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblTotArea.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotArea.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.lblTotArea.Location = New System.Drawing.Point(162, 0)
+        Me.lblTotArea.Location = New System.Drawing.Point(428, 6)
         Me.lblTotArea.Name = "lblTotArea"
         Me.lblTotArea.Size = New System.Drawing.Size(31, 18)
         Me.lblTotArea.TabIndex = 37
         Me.lblTotArea.Text = "0.0"
-        Me.lblTotArea.Visible = False
         '
         'lblPoint
         '
         Me.lblPoint.AutoSize = True
         Me.lblPoint.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblPoint.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPoint.Location = New System.Drawing.Point(199, 0)
+        Me.lblPoint.Location = New System.Drawing.Point(300, 6)
         Me.lblPoint.Name = "lblPoint"
         Me.lblPoint.Size = New System.Drawing.Size(61, 18)
         Me.lblPoint.TabIndex = 38
         Me.lblPoint.Text = "Points:"
-        Me.lblPoint.Visible = False
         '
         'lblTotPnt
         '
@@ -420,12 +417,11 @@ Partial Class CostEstimatingWindow
         Me.lblTotPnt.ContextMenuStrip = Me.ctxMenuTotals
         Me.lblTotPnt.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotPnt.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.lblTotPnt.Location = New System.Drawing.Point(266, 0)
+        Me.lblTotPnt.Location = New System.Drawing.Point(358, 6)
         Me.lblTotPnt.Name = "lblTotPnt"
         Me.lblTotPnt.Size = New System.Drawing.Size(17, 18)
         Me.lblTotPnt.TabIndex = 39
         Me.lblTotPnt.Text = "0"
-        Me.lblTotPnt.Visible = False
         '
         'gpBxCIPCan
         '
@@ -441,30 +437,102 @@ Partial Class CostEstimatingWindow
         '
         'gpBxControls
         '
-        Me.gpBxControls.Controls.Add(Me.Panel1)
-        Me.gpBxControls.Controls.Add(Me.lblCost)
+        Me.gpBxControls.Controls.Add(Me.gpBoxAfterOverwrite)
+        Me.gpBxControls.Controls.Add(Me.chkProject)
         Me.gpBxControls.Controls.Add(Me.TotalDisplay)
         Me.gpBxControls.Controls.Add(Me.cboAction)
         Me.gpBxControls.Controls.Add(Me.btnSelectPrj)
         Me.gpBxControls.Controls.Add(Me.cboStrategy)
-        Me.gpBxControls.Controls.Add(Me.lblTotalCost)
         Me.gpBxControls.Controls.Add(Me.btnSavePrj)
         Me.gpBxControls.Controls.Add(Me.btnClear)
         Me.gpBxControls.Controls.Add(Me.btnSelect)
         Me.gpBxControls.Controls.Add(Me.btnSketch)
         Me.gpBxControls.Controls.Add(Me.btnSelectAssets)
-        Me.gpBxControls.Controls.Add(Me.btnSave)
-        Me.gpBxControls.Controls.Add(Me.btnStopEditing)
-        Me.gpBxControls.Controls.Add(Me.btnStartEditing)
         Me.gpBxControls.Controls.Add(Me.cboDefLayers)
         Me.gpBxControls.Dock = System.Windows.Forms.DockStyle.Top
         Me.gpBxControls.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold)
         Me.gpBxControls.Location = New System.Drawing.Point(0, 0)
         Me.gpBxControls.Name = "gpBxControls"
-        Me.gpBxControls.Size = New System.Drawing.Size(902, 47)
+        Me.gpBxControls.Size = New System.Drawing.Size(1400, 47)
         Me.gpBxControls.TabIndex = 21
         Me.gpBxControls.TabStop = False
         Me.gpBxControls.Visible = False
+        '
+        'gpBoxAfterOverwrite
+        '
+        Me.gpBoxAfterOverwrite.AutoSize = True
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.lblTotLength)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.pnlSeperator)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.btnSave)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.btnStopEditing)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.btnStartEditing)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.lblLength)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.lblArea)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.lblCost)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.lblTotArea)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.lblTotalCost)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.lblPoint)
+        Me.gpBoxAfterOverwrite.Controls.Add(Me.lblTotPnt)
+        Me.gpBoxAfterOverwrite.Location = New System.Drawing.Point(743, 13)
+        Me.gpBoxAfterOverwrite.Name = "gpBoxAfterOverwrite"
+        Me.gpBoxAfterOverwrite.Size = New System.Drawing.Size(579, 31)
+        Me.gpBoxAfterOverwrite.TabIndex = 41
+        '
+        'btnSave
+        '
+        Me.btnSave.Enabled = False
+        Me.btnSave.Image = Global.ArcGIS4LocalGovernment.My.Resources.Resources.SaveEdits
+        Me.btnSave.Location = New System.Drawing.Point(71, 2)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(26, 26)
+        Me.btnSave.TabIndex = 6
+        Me.tlTip.SetToolTip(Me.btnSave, "Save Edits")
+        Me.btnSave.UseVisualStyleBackColor = True
+        '
+        'btnStopEditing
+        '
+        Me.btnStopEditing.Enabled = False
+        Me.btnStopEditing.Image = Global.ArcGIS4LocalGovernment.My.Resources.Resources.StopEditing
+        Me.btnStopEditing.Location = New System.Drawing.Point(41, 2)
+        Me.btnStopEditing.Name = "btnStopEditing"
+        Me.btnStopEditing.Size = New System.Drawing.Size(26, 26)
+        Me.btnStopEditing.TabIndex = 5
+        Me.tlTip.SetToolTip(Me.btnStopEditing, "Stop Editing the CIP Layers Workspace")
+        Me.btnStopEditing.UseVisualStyleBackColor = True
+        '
+        'btnStartEditing
+        '
+        Me.btnStartEditing.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.btnStartEditing.Image = Global.ArcGIS4LocalGovernment.My.Resources.Resources.StartEditing
+        Me.btnStartEditing.Location = New System.Drawing.Point(11, 2)
+        Me.btnStartEditing.Name = "btnStartEditing"
+        Me.btnStartEditing.Size = New System.Drawing.Size(26, 26)
+        Me.btnStartEditing.TabIndex = 4
+        Me.btnStartEditing.TextAlign = System.Drawing.ContentAlignment.BottomCenter
+        Me.tlTip.SetToolTip(Me.btnStartEditing, "Start Editing the CIP Layers Workspace")
+        Me.btnStartEditing.UseVisualStyleBackColor = True
+        '
+        'lblTotalCost
+        '
+        Me.lblTotalCost.AutoSize = True
+        Me.lblTotalCost.ContextMenuStrip = Me.ctxMenuTotals
+        Me.lblTotalCost.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalCost.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.lblTotalCost.Location = New System.Drawing.Point(145, 6)
+        Me.lblTotalCost.Name = "lblTotalCost"
+        Me.lblTotalCost.Size = New System.Drawing.Size(40, 18)
+        Me.lblTotalCost.TabIndex = 25
+        Me.lblTotalCost.Text = "0.00"
+        '
+        'chkProject
+        '
+        Me.chkProject.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkProject.Location = New System.Drawing.Point(580, 15)
+        Me.chkProject.Name = "chkProject"
+        Me.chkProject.Size = New System.Drawing.Size(111, 27)
+        Me.chkProject.TabIndex = 34
+        Me.chkProject.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.tlTip.SetToolTip(Me.chkProject, "Select this option to overwrite a project")
         '
         'btnSelectPrj
         '
@@ -478,18 +546,6 @@ Partial Class CostEstimatingWindow
         Me.btnSelectPrj.TabIndex = 16
         Me.tlTip.SetToolTip(Me.btnSelectPrj, "Select and Load an existing project")
         Me.btnSelectPrj.UseVisualStyleBackColor = True
-        '
-        'lblTotalCost
-        '
-        Me.lblTotalCost.AutoSize = True
-        Me.lblTotalCost.ContextMenuStrip = Me.ctxMenuTotals
-        Me.lblTotalCost.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalCost.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.lblTotalCost.Location = New System.Drawing.Point(721, 17)
-        Me.lblTotalCost.Name = "lblTotalCost"
-        Me.lblTotalCost.Size = New System.Drawing.Size(40, 18)
-        Me.lblTotalCost.TabIndex = 25
-        Me.lblTotalCost.Text = "0.00"
         '
         'btnSavePrj
         '
@@ -510,7 +566,7 @@ Partial Class CostEstimatingWindow
         Me.btnClear.Name = "btnClear"
         Me.btnClear.Size = New System.Drawing.Size(26, 26)
         Me.btnClear.TabIndex = 11
-        Me.tlTip.SetToolTip(Me.btnClear, "Clear Selected Assets from the costing window")
+        Me.tlTip.SetToolTip(Me.btnClear, "Clear costing window")
         Me.btnClear.UseVisualStyleBackColor = True
         '
         'btnSelect
@@ -548,42 +604,8 @@ Partial Class CostEstimatingWindow
         Me.btnSelectAssets.Name = "btnSelectAssets"
         Me.btnSelectAssets.Size = New System.Drawing.Size(26, 26)
         Me.btnSelectAssets.TabIndex = 8
-        Me.tlTip.SetToolTip(Me.btnSelectAssets, "Select an Asset for Costing")
+        Me.tlTip.SetToolTip(Me.btnSelectAssets, "Select an asset for costing")
         Me.btnSelectAssets.UseVisualStyleBackColor = True
-        '
-        'btnSave
-        '
-        Me.btnSave.Enabled = False
-        Me.btnSave.Image = Global.ArcGIS4LocalGovernment.My.Resources.Resources.SaveEdits
-        Me.btnSave.Location = New System.Drawing.Point(644, 14)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(26, 26)
-        Me.btnSave.TabIndex = 6
-        Me.tlTip.SetToolTip(Me.btnSave, "Save Edits")
-        Me.btnSave.UseVisualStyleBackColor = True
-        '
-        'btnStopEditing
-        '
-        Me.btnStopEditing.Enabled = False
-        Me.btnStopEditing.Image = Global.ArcGIS4LocalGovernment.My.Resources.Resources.StopEditing
-        Me.btnStopEditing.Location = New System.Drawing.Point(614, 14)
-        Me.btnStopEditing.Name = "btnStopEditing"
-        Me.btnStopEditing.Size = New System.Drawing.Size(26, 26)
-        Me.btnStopEditing.TabIndex = 5
-        Me.tlTip.SetToolTip(Me.btnStopEditing, "Stop Editing the CIP Layers Workspace")
-        Me.btnStopEditing.UseVisualStyleBackColor = True
-        '
-        'btnStartEditing
-        '
-        Me.btnStartEditing.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.btnStartEditing.Image = Global.ArcGIS4LocalGovernment.My.Resources.Resources.StartEditing
-        Me.btnStartEditing.Location = New System.Drawing.Point(584, 14)
-        Me.btnStartEditing.Name = "btnStartEditing"
-        Me.btnStartEditing.Size = New System.Drawing.Size(26, 26)
-        Me.btnStartEditing.TabIndex = 4
-        Me.btnStartEditing.TextAlign = System.Drawing.ContentAlignment.BottomCenter
-        Me.tlTip.SetToolTip(Me.btnStartEditing, "Start Editing the CIP Layers Workspace")
-        Me.btnStartEditing.UseVisualStyleBackColor = True
         '
         'cboDefLayers
         '
@@ -628,7 +650,7 @@ Partial Class CostEstimatingWindow
         Me.tlStZoomTo.Image = CType(resources.GetObject("tlStZoomTo.Image"), System.Drawing.Image)
         Me.tlStZoomTo.ImageTransparentColor = System.Drawing.Color.Fuchsia
         Me.tlStZoomTo.Name = "tlStZoomTo"
-        Me.tlStZoomTo.Size = New System.Drawing.Size(123, 22)
+        Me.tlStZoomTo.Size = New System.Drawing.Size(122, 22)
         Me.tlStZoomTo.Text = "Zoom To"
         Me.tlStZoomTo.Visible = False
         '
@@ -637,14 +659,14 @@ Partial Class CostEstimatingWindow
         Me.tlStFlash.Image = CType(resources.GetObject("tlStFlash.Image"), System.Drawing.Image)
         Me.tlStFlash.ImageTransparentColor = System.Drawing.Color.White
         Me.tlStFlash.Name = "tlStFlash"
-        Me.tlStFlash.Size = New System.Drawing.Size(123, 22)
+        Me.tlStFlash.Size = New System.Drawing.Size(122, 22)
         Me.tlStFlash.Text = "Flash"
         Me.tlStFlash.Visible = False
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(120, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(119, 6)
         Me.ToolStripSeparator1.Visible = False
         '
         'tlStDelete
@@ -652,14 +674,14 @@ Partial Class CostEstimatingWindow
         Me.tlStDelete.Image = CType(resources.GetObject("tlStDelete.Image"), System.Drawing.Image)
         Me.tlStDelete.ImageTransparentColor = System.Drawing.Color.Fuchsia
         Me.tlStDelete.Name = "tlStDelete"
-        Me.tlStDelete.Size = New System.Drawing.Size(123, 22)
+        Me.tlStDelete.Size = New System.Drawing.Size(122, 22)
         Me.tlStDelete.Text = "Delete"
         '
         'ctxMenu
         '
         Me.ctxMenu.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tlStZoomTo, Me.tlStFlash, Me.ToolStripSeparator1, Me.tlStDelete})
         Me.ctxMenu.Name = "ctxMenu"
-        Me.ctxMenu.Size = New System.Drawing.Size(124, 76)
+        Me.ctxMenu.Size = New System.Drawing.Size(123, 76)
         '
         'gpBxCIPPrj
         '
@@ -668,7 +690,7 @@ Partial Class CostEstimatingWindow
         Me.gpBxCIPPrj.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gpBxCIPPrj.Location = New System.Drawing.Point(396, 47)
         Me.gpBxCIPPrj.Name = "gpBxCIPPrj"
-        Me.gpBxCIPPrj.Size = New System.Drawing.Size(506, 286)
+        Me.gpBxCIPPrj.Size = New System.Drawing.Size(1004, 286)
         Me.gpBxCIPPrj.TabIndex = 28
         Me.gpBxCIPPrj.TabStop = False
         Me.gpBxCIPPrj.Text = "CIP Project Details"
@@ -682,7 +704,7 @@ Partial Class CostEstimatingWindow
         Me.tbCntCIPDetails.Multiline = True
         Me.tbCntCIPDetails.Name = "tbCntCIPDetails"
         Me.tbCntCIPDetails.SelectedIndex = 0
-        Me.tbCntCIPDetails.Size = New System.Drawing.Size(500, 265)
+        Me.tbCntCIPDetails.Size = New System.Drawing.Size(998, 265)
         Me.tbCntCIPDetails.TabIndex = 0
         '
         'CostEstimatingWindow
@@ -695,17 +717,17 @@ Partial Class CostEstimatingWindow
         Me.Controls.Add(Me.gpBxSwitch)
         Me.Controls.Add(Me.gpBxControls)
         Me.Name = "CostEstimatingWindow"
-        Me.Size = New System.Drawing.Size(902, 333)
+        Me.Size = New System.Drawing.Size(1400, 333)
         Me.gpBxSwitch.ResumeLayout(False)
         Me.gpBxCIPInven.ResumeLayout(False)
         Me.gpBxInv.ResumeLayout(False)
         Me.gpBxInv.PerformLayout()
         CType(Me.numCIPInvCount, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ctxMenuTotals.ResumeLayout(False)
-        Me.TotalDisplay.ResumeLayout(False)
-        Me.TotalDisplay.PerformLayout()
         Me.gpBxControls.ResumeLayout(False)
         Me.gpBxControls.PerformLayout()
+        Me.gpBoxAfterOverwrite.ResumeLayout(False)
+        Me.gpBoxAfterOverwrite.PerformLayout()
         Me.tblDisabled.ResumeLayout(False)
         Me.tblDisabled.PerformLayout()
         Me.ctxMenu.ResumeLayout(False)
@@ -714,7 +736,7 @@ Partial Class CostEstimatingWindow
 
     End Sub
     Friend WithEvents gpBxCIPCostingLayers As System.Windows.Forms.GroupBox
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents pnlSeperator As System.Windows.Forms.Panel
     Friend WithEvents rdoBtnShowLayers As System.Windows.Forms.RadioButton
     Friend WithEvents rdoShowInv As System.Windows.Forms.RadioButton
     Friend WithEvents gpBxSwitch As System.Windows.Forms.GroupBox
@@ -766,5 +788,7 @@ Partial Class CostEstimatingWindow
     Friend WithEvents gpBxCIPPrj As System.Windows.Forms.GroupBox
     Friend WithEvents tbCntCIPDetails As System.Windows.Forms.TabControl
     Friend WithEvents tlTip As System.Windows.Forms.ToolTip
+    Friend WithEvents chkProject As System.Windows.Forms.Label
+    Friend WithEvents gpBoxAfterOverwrite As System.Windows.Forms.Panel
 
 End Class

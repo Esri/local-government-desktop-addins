@@ -158,7 +158,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn") + A4LGSharedFunctions.Localizer.GetString("MergeOprt_1") + "\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn") + A4LGSharedFunctions.Localizer.GetString("MergeOprt_1") + "\r\n" + ex.ToString());
                 return false;
             }
             finally
@@ -214,7 +214,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn") + A4LGSharedFunctions.Localizer.GetString("MergeOprt_2") + "\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn") + A4LGSharedFunctions.Localizer.GetString("MergeOprt_2") + "\r\n" + ex.ToString());
             }
             finally
             {
@@ -715,13 +715,13 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                if (ex.Message.ToString().Contains("Key cannot be null"))
+                if (ex.ToString().ToString().Contains("Key cannot be null"))
                 {
                     MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn")  + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + A4LGSharedFunctions.Localizer.GetString("MergeOprt_6"));
                 }
                 else
                 {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn")  + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + ex.Message);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn")  + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + ex.ToString());
                 }
 
                 try
@@ -768,7 +768,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn")  + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn")  + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + ex.ToString());
             }
 
         }

@@ -116,7 +116,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the LayerWindow - New" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the LayerWindow - New" + Environment.NewLine + ex.ToString());
 
             }
         }
@@ -231,7 +231,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - s_BtnNextClick" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in LayerWindow - s_BtnNextClick" + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -255,7 +255,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - s_BtnZoomToClick" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in LayerWindow - s_BtnZoomToClick" + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -284,7 +284,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Layer Window - s_BtnPreviousClick" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Layer Window - s_BtnPreviousClick" + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -346,7 +346,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Layer Window - s_BtnRefreshClick" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Layer Window - s_BtnRefreshClick" + Environment.NewLine + ex.ToString());
 
             }
             finally
@@ -425,7 +425,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Layer Viewer - LayerWindow: initAddin" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Layer Viewer - LayerWindow: initAddin" + Environment.NewLine + ex.ToString());
 
 
             }
@@ -475,7 +475,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - LoadCursor" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in LayerWindow - LoadCursor" + Environment.NewLine + ex.ToString());
 
                 return false;
             }
@@ -697,7 +697,7 @@ namespace A4GasUtilities
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" + Environment.NewLine + ex.Message);
+                    MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" + Environment.NewLine + ex.ToString());
 
                 }
 
@@ -926,7 +926,7 @@ namespace A4GasUtilities
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" + Environment.NewLine + ex.Message);
+                    MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: ShuffleControls" + Environment.NewLine + ex.ToString());
 
                 }
 
@@ -1054,7 +1054,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: AddControls" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: AddControls" + Environment.NewLine + ex.ToString());
 
             }
 
@@ -1403,7 +1403,7 @@ namespace A4GasUtilities
             }
             catch// (Exception ex)
             {
-                //  MsgBox("Error in the edit control record loader" & vbCrLf & ex.Message)
+                //  MsgBox("Error in the edit control record loader" & vbCrLf & ex.ToString())
                 return "";
             }
             finally
@@ -2508,7 +2508,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: AddControls" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the Costing Tools - CIPProjectWindow: AddControls" + Environment.NewLine + ex.ToString());
 
             }
 
@@ -2542,7 +2542,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the edit control loading an image" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the edit control loading an image" + Environment.NewLine + ex.ToString());
 
             }
         }
@@ -2829,7 +2829,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the edit control subtype change" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in the edit control subtype change" + Environment.NewLine + ex.ToString());
 
             }
         }
@@ -2855,7 +2855,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - s_gpBoxOptions_Click" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in LayerWindow - s_gpBoxOptions_Click" + Environment.NewLine + ex.ToString());
 
             }
 
@@ -2913,7 +2913,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - s_cboLayers_SelectedIndexChanged" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in LayerWindow - s_cboLayers_SelectedIndexChanged" + Environment.NewLine + ex.ToString());
 
             }
         }
@@ -2937,7 +2937,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - tbCntlDisplay_Resize" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in LayerWindow - tbCntlDisplay_Resize" + Environment.NewLine + ex.ToString());
 
 
             }
@@ -2960,7 +2960,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - CenterButton" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in LayerWindow - CenterButton" + Environment.NewLine + ex.ToString());
 
 
             }
@@ -3026,7 +3026,7 @@ namespace A4GasUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in LayerWindow - setButtonState" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error in LayerWindow - setButtonState" + Environment.NewLine + ex.ToString());
 
 
             }

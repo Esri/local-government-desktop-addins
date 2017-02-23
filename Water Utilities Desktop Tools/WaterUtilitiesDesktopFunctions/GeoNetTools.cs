@@ -615,7 +615,7 @@ namespace A4WaterUtilities
                         }
                         pLay = pLays.Next();
                     }
-                    //MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.Message, ex.Source);
+                    //MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.ToString(), ex.Source);
                     string strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsBatchBarrier"), ComboBoxStyle.DropDownList);
                     if (strRetVal != null && strRetVal != "||Cancelled||")
                     {
@@ -706,7 +706,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.Write(ex.Message);
+                System.Diagnostics.Debug.Write(ex.ToString());
             }
             finally
             {
@@ -797,7 +797,7 @@ namespace A4WaterUtilities
 
                     catch (Exception ex)
                     {
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.ToString(), ex.Source);
                         return;
                     }
                 }
@@ -805,7 +805,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.ToString(), ex.Source);
                 return;
             }
             finally
@@ -984,7 +984,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2") + "\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2") + "\n" + ex.ToString(), ex.Source);
                     }
                     finally
                     {
@@ -1016,7 +1016,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_2") + "\n" + ex.ToString(), ex.Source);
                 return;
 
 
@@ -1586,7 +1586,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_8") + "\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_8") + "\n" + ex.ToString(), ex.Source);
                         return;
                     }
                     finally
@@ -1639,7 +1639,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_8") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsProc_8") + "\n" + ex.ToString(), ex.Source);
                 return;
             }
             finally
@@ -1808,7 +1808,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_10") + "\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_10") + "\n" + ex.ToString(), ex.Source);
                         return;
                     }
                     finally
@@ -1842,7 +1842,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_10") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsDone_10") + "\n" + ex.ToString(), ex.Source);
                 return;
             }
 
@@ -1992,7 +1992,7 @@ namespace A4WaterUtilities
                             catch (Exception ex)
                             {
                                 editor.AbortOperation();
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_11") + "\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_11") + "\n" + ex.ToString(), ex.Source);
                             }
                             countDeleted = +count;
                             if (count == 1)
@@ -2210,7 +2210,7 @@ namespace A4WaterUtilities
             {
 
 
-                System.Windows.Forms.MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_11") + "\n" + ex.Message);
+                System.Windows.Forms.MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsTitle_11") + "\n" + ex.ToString());
             }
             finally
             {
@@ -2492,7 +2492,7 @@ namespace A4WaterUtilities
                         {
                             editor.AbortOperation();
 
-                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c") + "\n" + ex.Message, ex.Source);
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c") + "\n" + ex.ToString(), ex.Source);
                             return null;
                         }
                         finally
@@ -2666,7 +2666,7 @@ namespace A4WaterUtilities
                             catch (Exception ex)
                             {
                                 editor.AbortOperation();
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c") + "\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c") + "\n" + ex.ToString(), ex.Source);
                                 return null;
                             }
                             finally
@@ -2706,7 +2706,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_12c") + "\n" + ex.ToString(), ex.Source);
                 return null;
             }
             finally
@@ -3174,7 +3174,7 @@ namespace A4WaterUtilities
                 catch
                 { }
 
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_13c") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_13c") + ex.ToString());
                 return;
             }
             finally
@@ -4221,7 +4221,7 @@ namespace A4WaterUtilities
             catch (Exception ex)
             {
                 // MessageBox.Show(ex.ToString());
-                return ex.Message.ToString();
+                return ex.ToString().ToString();
 
             }
             finally
@@ -5151,14 +5151,14 @@ namespace A4WaterUtilities
                                 idxUser++;
                             }
                         }
-                        catch (Exception Ex)
+                        catch (Exception ex)
                         {
                             if (processEvent)
                             {
 
 
 
-                                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_16a") + Ex.Message;
+                                pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("GeoNetToolsError_16a") + ex.ToString();
                                 pStepPro.Step();
                                 boolCont = pTrkCan.Continue();
                                 return A4LGSharedFunctions.Localizer.GetString("CanceledReturnStatement");
@@ -5920,7 +5920,7 @@ namespace A4WaterUtilities
             catch (Exception ex)
             {
                 // MessageBox.Show(ex.ToString());
-                return ex.Message.ToString() + "\n" + pointAlong;
+                return ex.ToString().ToString() + "\n" + pointAlong;
 
             }
             finally
@@ -6288,9 +6288,9 @@ namespace A4WaterUtilities
 
 
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_17a") + "\n" + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_17a") + "\n" + ex.ToString());
                 return "";
 
             }
@@ -6604,9 +6604,9 @@ namespace A4WaterUtilities
                                     }
                                     pSumFeatBuf.Shape = mergedLines;
                                 }
-                                catch (Exception Ex)
+                                catch (Exception ex)
                                 {
-                                    comments = "Could not save merged geo: " + Ex.Message;
+                                    comments = "Could not save merged geo: " + ex.ToString();
                                     pSumFeatBuf.Shape = pMainsFeat.ShapeCopy;
                                 }
                             }
@@ -6674,12 +6674,12 @@ namespace A4WaterUtilities
 
 
                     }
-                    catch (Exception Ex)
+                    catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine(Ex.Message + A4LGSharedFunctions.Localizer.GetString("Step") + pStepPro.Position);
+                        System.Diagnostics.Debug.WriteLine(ex.ToString() + A4LGSharedFunctions.Localizer.GetString("Step") + pStepPro.Position);
 
-                        System.Diagnostics.Trace.WriteLine(Ex.Message + A4LGSharedFunctions.Localizer.GetString("Step") + pStepPro.Position);
-                        //    MessageBox.Show(Ex.Message);
+                        System.Diagnostics.Trace.WriteLine(ex.ToString() + A4LGSharedFunctions.Localizer.GetString("Step") + pStepPro.Position);
+                        //    MessageBox.Show(ex.ToString());
                     }
                     intCurID = pSelectIDs.Next();
 
@@ -6701,7 +6701,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a") + "\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_18a") + "\n" + ex.ToString());
 
                 if (pWSEdit != null)
                 {
@@ -6806,7 +6806,9 @@ namespace A4WaterUtilities
                 pTracePoint = pMxDoc.CurrentLocation;
 
 
-                pMarkerSym = Globals.FindMarkerSym("Esri.style", "Default", "Circle 2", pMxDoc);
+                //pMarkerSym = Globals.FindMarkerSym("Esri.style", "Default", "Circle 2", pMxDoc);
+                //Name Symbol depends on localization
+                pMarkerSym = Globals.FindMarkerSym("Esri.style", "Default", A4LGSharedFunctions.Localizer.GetString("Point_Style"), pMxDoc);
                 pRGBColor = Globals.GetColor(255, 0, 0);
 
 
@@ -7011,9 +7013,9 @@ namespace A4WaterUtilities
 
 
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "AddFlagsForSewerProfile " + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "AddFlagsForSewerProfile " + ex.ToString());
             }
             finally
             {
@@ -7590,9 +7592,9 @@ namespace A4WaterUtilities
 
 
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ProfileGetRelatedSewerElevData " + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ProfileGetRelatedSewerElevData " + ex.ToString());
             }
             finally
             {
@@ -8533,9 +8535,9 @@ namespace A4WaterUtilities
                 //                    maxSewerElev = (double)pRowSewerElev.get_Value(pRowSewerElev.Fields.FindField(currentField));
                 //                    Mmax = (double)pRowSewerElev.get_Value(pRowSewerElev.Fields.FindField("M"));
                 //                }
-                //                catch (Exception Ex)
+                //                catch (Exception ex)
                 //                {
-                //                    MessageBox.Show(Ex.Message);
+                //                    MessageBox.Show(ex.ToString());
 
                 //                }
 
@@ -8807,9 +8809,9 @@ namespace A4WaterUtilities
                 //// show the graph
                 //pDataGraphWin.Show(true);
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ProfileCreateGraph " + Ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ProfileCreateGraph " + ex.ToString());
             }
             finally
             {
@@ -9050,7 +9052,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_20a") + "\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_20a") + "\n" + ex.ToString());
             }
             finally
             {
@@ -9215,7 +9217,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_20a") + "\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_20a") + "\n" + ex.ToString());
             }
             finally
             {

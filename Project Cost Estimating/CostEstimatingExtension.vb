@@ -195,9 +195,9 @@ Public Class CostEstimatingExtension
 
 
         Catch ex As Exception
-            If Not ex.Message.Contains("COM object") Then
+            If Not ex.ToString().Contains("COM object") Then
 
-                MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckForCIPLayers" & vbCrLf & ex.Message)
+                MsgBox("Error in the Costing Tools - CIPProjectWindow: CheckForCIPLayers" & vbCrLf & ex.ToString())
 
             End If
 
@@ -225,7 +225,7 @@ Public Class CostEstimatingExtension
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: initCIPLayers" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: initCIPLayers" & vbCrLf & ex.ToString())
             Return False
 
 
@@ -293,7 +293,7 @@ Public Class CostEstimatingExtension
             initAddin()
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: layerAdded" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: layerAdded" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -303,7 +303,7 @@ Public Class CostEstimatingExtension
         Try
             initAddin()
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPProjectWindow: layerAdded" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPProjectWindow: layerAdded" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -337,7 +337,7 @@ Public Class CostEstimatingExtension
 
 
     '    Catch ex As Exception
-    '        MsgBox("Error in the Costing Tools - CIPProjectWindow: onActiveViewChanged" & vbCrLf & ex.Message)
+    '        MsgBox("Error in the Costing Tools - CIPProjectWindow: onActiveViewChanged" & vbCrLf & ex.ToString())
 
 
     '    End Try

@@ -4,11 +4,11 @@
   <Name>Gas Utility Network Tools</Name>
   <AddInID>{AF706D91-5AC0-40B2-890A-8B504C2191FA}</AddInID>
   <Description>ArcMap tools for Gas Utilities</Description>
-   <Version>9.29.2015</Version>
+  <Version>2017.1.15</Version>
   <Image>Images\GasUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>9.29.2015</Date>
+  <Date>12/6/2016</Date>
   <Targets>
     <Target name="Desktop" version="10.1"/>
   </Targets>
@@ -147,13 +147,13 @@
             <Construction>
               <Category>Point Construction</Category>
             </Construction>
-          </Tool>
+          </Tool>-->
           <Tool id="Esri_A4GasUtilities_AddLineWithEndPoints" class="AddLineWithEndPoints" message="Crée une entité linéaire et fractionne éventuellement cette ligne à chaque sommet. Cet outil peut également placer des entités ponctuelles à l&apos;extrémité d&apos;une ligne ou à chaque sommet.  Définit les couches adaptées à cet outil, la manière de fractionner la ligne et le type de points à placer dans le fichier de configuration." caption="Créer une ligne avec des points" tip="Créer une ligne avec des points" category="ArcGIS for Utilities" image="Images\AddLineWithEndPoints.png">
             <Construction>
               <Category>Polyline Construction</Category>
               <Category>Geometric Network Line Construction</Category>
             </Construction>
-          </Tool>-->
+          </Tool>
           <!--<Tool id="Esri_A4GasUtilities_PointsAlongLineTool" class="PointsAlongLineTool" message="Creates Points at regular intervals along a sketch" caption="Points along a line" tip="Points along a line tool" category="ArcGIS for Utilities" image="Images\PointsAlongLineTool.png">           <Construction>             <Category>Point Construction</Category>           </Construction>         </Tool>-->
         </Commands>
       </Editor>

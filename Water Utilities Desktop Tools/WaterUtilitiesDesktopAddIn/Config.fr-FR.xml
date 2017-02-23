@@ -3,12 +3,12 @@
 <ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Water Utility Network Tools</Name>
   <AddInID>{FD20EAB0-7ACB-4B35-AA41-753157745FD0}</AddInID>
-  <Description>ArcMap tools for Water, Wastewater and Stormwater</Description>
-   <Version>7.15.2016</Version>
+  <Description>ArcMap tools for Water, Wastewater, and Stormwater</Description>
+   <Version>2017.3.1</Version>
   <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>7/15/2016</Date>
+  <Date>3/1/2017</Date>
   <Targets>
     <Target name="Desktop" version="10.1"/>
   </Targets>
@@ -58,7 +58,7 @@
         <Button id="A4WaterUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Établit le sens d&apos;écoulement d&apos;après le rôle des équipements disposés sur le réseau géométrique." caption="Établir le sens d&apos;écoulement" tip="Établir le sens d&apos;écoulement" category="ArcGIS for Local Government" image="Images\EstablishFlow.png"/>
         <Button id="A4WaterUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Établit le sens d&apos;écoulement d&apos;après le sens de numérisation sur le réseau géométrique." caption="Établir le sens d&apos;écoulement d&apos;après le sens de numérisation" tip="Établir le sens d&apos;écoulement d&apos;après le sens de numérisation" category="ArcGIS for Local Government" image="Images\EstablishFlowDigitized.png"/>
         <Button id="A4WaterUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Chargement par lot de barrières depuis une couche." caption="Chargement par lot de barrières depuis une couche" tip="Chargement par lot de barrières depuis une couche" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
-
+        <Button id="A4WaterUtilities_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file,  the location of the configuration file, and for loading another configuration file." caption="Show Config Information (Water)" tip="Show Config Information (Water)" category="ArcGIS for Local Government" image="Images\Config2.png" />
       </Commands>
       <Toolbars>
         <Toolbar id="A4WaterUtilities_WaterUtilitiesEditTools" caption="Mise à jour des réseaux de distribution d&apos;eau" showInitially="false">
@@ -119,7 +119,8 @@
             <Button refID="A4WaterUtilities_ExportToExcel" separator="true"/>
             <Button refID="A4WaterUtilities_IdentifySelected" separator="false"/>
             <Button refID="A4WaterUtilities_SelectJunctionsByEdgeCount" separator="true"/>
-
+            <Button refID="A4WaterUtilities_AttributeTransferLoader" separator="true" />
+            <Button refID="A4WaterUtilities_ShowConfigForm" separator="true" />
           </Items>
         </Toolbar>
       </Toolbars>

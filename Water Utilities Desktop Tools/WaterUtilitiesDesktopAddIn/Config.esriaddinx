@@ -18,18 +18,19 @@
 <ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Water Utility Network Tools</Name>
   <AddInID>{FD20EAB0-7ACB-4B35-AA41-753157745FD0}</AddInID>
-  <Description>ArcMap tools for Water, Wastewater and Stormwater</Description>
-   <Version>7.15.2016</Version>
+  <Description>ArcMap tools for Water, Wastewater, and Stormwater</Description>
+  <Version>2017.3.1</Version>
   <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>7/15/2016</Date>
+  <Date>3/1/2017</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
   <AddIn language="CLR" library="WaterUtilityNetworkTools.dll" namespace="A4WaterUtilities">
     <ArcMap>
       <Commands>
+        <!--<Button id="A4WaterUtilities_TestEdit" class="TestEdit" message="TestEdit" caption="TestEdit" tip="TestEdit" category="ArcGIS for Local Government" image="Images\AddLaterals.png" />-->
         <Button id="A4WaterUtilities_AddLaterals" class="AddLaterals" message="Evaluates selected point features and draws a line from each point to the nearest feature in a line layer. Additional point features can be placed along the line. Pressing and holding the CTRL key overrides the defined templates, and prompts for an input point and line.  Pressing and holding the SHIFT key searches for the closest selected main." caption="Add Laterals at Connections" tip="Add Laterals at Connections" category="ArcGIS for Local Government" image="Images\AddLaterals.png" />
         <Button id="A4WaterUtilities_AddLateralsFromMain" class="AddLateralsFromMain" message="Evaluates selected point features and draws a line from each point, perpendicular to the line it intersects. Additional point features can be placed along the line. The point layer requires a field to store the direction of the line (either as clock bearing or compass bearing), a field to store at which direction the camera was traveling when recording the point (U for upstream, D for downstream), and a field with the length of the lateral to create. Other settings for the points along and field to copy are in the AddLateralFromMainPointLayers section of the configuration file." caption="Add Laterals from Line Locations" tip="Add Laterals from Line Locations" category="ArcGIS for Local Government" image="Images\AddLateralsFromMain.png" />
         <Button id="A4WaterUtilities_ConnectionChecker" class="ConnectionChecker" message="Evaluates the Geometric Network features in the visible extent to verify all junctions (points) connect to an edge (line) and all edges (lines) connect to another edge through a junction or end with a junction. Change CheckOnlyVisibleLayers in the configuration file, true for only visible layers, false for all layers regardless of visibilty." caption="Connection Checker" tip="Connection Checker" category="ArcGIS for Local Government" image="Images\ConnectionChecker.png" />
@@ -74,14 +75,16 @@
         <Button id="A4WaterUtilities_EstablishFlowAncillary" class="EstablishFlowAncillary" message="Establishes flow direction for Geometric Network based values of AncillaryRole." caption="Establish Flow Direction" tip="Establish Flow Direction" category="ArcGIS for Local Government" image="Images\EstablishFlow.png" />
         <Button id="A4WaterUtilities_EstablishFlowDigitized" class="EstablishFlowDigitized" message="Establishes flow direction for Geometric Network based on digitized direction." caption="Establish Digitized Flow Direction" tip="Establish Digitized Flow Direction" category="ArcGIS for Local Government" image="Images\EstablishFlowDigitized.png" />
         <Button id="A4WaterUtilities_AttributeTransferLoader" class="AttributeTransferLoaderButton" message="Presents a dialog box to map attribute and values between layers." caption="Attribute Transfer Loader" tip="Attribute Transfer Loader" category="ArcGIS for Local Government" image="Images\attributeTransfer.png" />
-        <Button id="A4WaterUtilities_FlagsBarriersToLayer" class="FlagsBarriersToLayer" message="Create a point layer from the flags and barriers." caption="Convert Flags and Barriers to a Set of Layers" tip="Convert Flags and Barriers to a Set of Layers" category="ArcGIS for Utilities" image="Images\ExportFlagBarriers.png" />
+        <!--<Button id="A4WaterUtilities_FlagsBarriersToLayer" class="FlagsBarriersToLayer" message="Create a point layer from the flags and barriers." caption="Convert Flags and Barriers to a Set of Layers" tip="Convert Flags and Barriers to a Set of Layers" category="ArcGIS for Local Government" image="Images\ExportFlagBarriers.png" />-->
         <Button id="A4WaterUtilities_BatchLoadBarriers" class="BatchLoadBarriers" message="Batch load barriers from a layer." caption="Batch Load Barriers" tip="Batch Load Barriers" category="ArcGIS for Utilities" image="Images\BatchBarrier.png" />
 
-
+        <Button id="A4WaterUtilities_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file,  the location of the configuration file, and for loading another configuration file." caption="Show Config Information (Water)" tip="Show Config Information (Water)" category="ArcGIS for Local Government" image="Images\Config2.png" />
       </Commands>
       <Toolbars>
         <Toolbar id="A4WaterUtilities_WaterUtilitiesEditTools" caption="Water Utility Network Editing" showInitially="false">
           <Items>
+            <!--<Button refID="A4WaterUtilities_TestEdit" separator="true" />-->
+            
             <ToolPalette refID="esriArcMapUI.SelectByToolsPalette" separator="false" />
             <Button refID="esriArcMapUI.ClearSelectionCommand" separator="false" />
             <Tool refID="esriEditor.EditTool" separator="true" />
@@ -103,7 +106,7 @@
             <Button refID="A4WaterUtilities_AddLateralsFromMain" separator="false" />
             <!--<Tool refID="A4WaterUtilities_MoveConnections" separator="false" />-->
             <Button refID="A4WaterUtilities_ConnectClosests" separator="true" />
-            
+
             <Button refID="A4WaterUtilities_EstablishFlowAncillary" separator="true" />
             <Button refID="A4WaterUtilities_EstablishFlowDigitized" separator="false" />
 
@@ -140,7 +143,7 @@
             <Button refID="A4WaterUtilities_SelectJunctionsByEdgeCount" separator="true" />
             <Button refID="A4WaterUtilities_AttributeTransferLoader" separator="true" />
             <Button refID="A4WaterUtilities_ShowConfigForm" separator="true" />
-    
+
           </Items>
         </Toolbar>
       </Toolbars>

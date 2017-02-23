@@ -105,8 +105,8 @@
       <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.3DAnalyst.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
-    <Reference Include="ESRI.ArcGIS.ArcMap">
-      <HintPath>..\..\..\..\Program Files (x86)\ArcGIS\DeveloperKit10.4\DotNet\ESRI.ArcGIS.ArcMap.dll</HintPath>
+    <Reference Include="ESRI.ArcGIS.ArcMap, Version=10.5.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.ArcMapUI">
@@ -259,6 +259,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserMessages.es.Designer.cs">
+      <DependentUpon>UserMessages.es.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="UserMessages.es-ES.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -305,6 +310,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SelectTemplateForm.resx">
       <DependentUpon>SelectTemplateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserMessages.es.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserMessages.es.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserMessages.es-ES.resx">
       <Generator>ResXFileCodeGenerator</Generator>

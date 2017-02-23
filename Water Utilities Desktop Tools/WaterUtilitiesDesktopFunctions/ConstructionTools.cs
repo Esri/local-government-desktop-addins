@@ -50,6 +50,7 @@ namespace A4WaterUtilities
         public double PointAlongDistance { get; set; }
         public bool DistanceIsPercent { get; set; }
         public bool FoundAsLayer { get; set; }
+        public bool Split { get; set; }
 
     }
     public static class CreateLineWithEndPoints
@@ -89,32 +90,30 @@ namespace A4WaterUtilities
                     pStartPointLayer = Globals.FindLayer(app, pDet.Point_Start_LayerName, ref FCorLayerStart) as IFeatureLayer;
                     pAlongPointLayer = Globals.FindLayer(app, pDet.Point_Along_LayerName, ref FCorLayerAlong) as IFeatureLayer;
                     pEndPointLayer = Globals.FindLayer(app, pDet.Point_End_LayerName, ref FCorLayerEnd) as IFeatureLayer;
-                    if (pStartPointLayer == null)
-                        continue;
-                    else if (pStartPointLayer.FeatureClass == null)
-                        continue;
-                    //if (pAlongPointLayer == null)
-                    //    continue;
-                    //else if (pAlongPointLayer.FeatureClass == null)
-                    //    continue;
-                    if (pEndPointLayer == null)
-                        continue;
-                    else if (pEndPointLayer.FeatureClass == null)
-                        continue;
-                    //if (pDet.lineLayerName == SourceLayer.Name)
 
-
-                    if (!Globals.IsEditable(ref pStartPointLayer, ref editor))
-                        return false;
+                    if (pStartPointLayer != null)
+                    {
+                        if (pStartPointLayer.FeatureClass == null)
+                            pStartPointLayer = null;
+                        else if (!Globals.IsEditable(ref pStartPointLayer, ref editor))
+                            pStartPointLayer = null;
+                    }
+                    if (pEndPointLayer != null)
+                    {
+                        if (pEndPointLayer.FeatureClass == null)
+                            pEndPointLayer = null;
+                        else if (!Globals.IsEditable(ref pEndPointLayer, ref editor))
+                            pEndPointLayer = null;
+                    }
                     if (pAlongPointLayer != null)
                     {
-                        if (!Globals.IsEditable(ref pAlongPointLayer, ref editor))
-                            return false;
+                        if (pAlongPointLayer.FeatureClass == null)
+                            pAlongPointLayer = null;
+                        else if (!Globals.IsEditable(ref pAlongPointLayer, ref editor))
+                            pAlongPointLayer = null;
                     }
-                    if (!Globals.IsEditable(ref pEndPointLayer, ref editor))
-                        return false;
-                    //IFeatureLayer pPointLay = Globals.FindLayer(app, pDet.pointLayerName) as IFeatureLayer;
-
+                    if (pAlongPointLayer == null && pEndPointLayer == null && pStartPointLayer == null)
+                        continue;
                     pCur = line;// as ICurve; 
 
                     if (bUseTemplate)
@@ -123,14 +122,20 @@ namespace A4WaterUtilities
                         //pEditTempAlong = Globals.PromptAndGetEditTemplate(app, pAlongPointLayer, pDet.Point_Along_EditTemplate, "Template for Point Along Layer: " + pAlongPointLayer.Name);
 
                         //pEditTempEnd = Globals.PromptAndGetEditTemplate(app, pEndPointLayer, pDet.Point_End_EditTemplate, "Template for End Layer: " + pEndPointLayer.Name);
-
-                        pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, pDet.Point_Start_EditTemplate);
+                        if (pStartPointLayer != null)
+                        {
+                            pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, pDet.Point_Start_EditTemplate);
+                        }
                         if (pAlongPointLayer != null)
                         {
                             pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, pDet.Point_Along_EditTemplate);
 
                         }
-                        pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, pDet.Point_End_EditTemplate);
+                        if (pEndPointLayer != null)
+                        {
+                            pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, pDet.Point_End_EditTemplate);
+                        }
+
 
 
                     }
@@ -140,13 +145,19 @@ namespace A4WaterUtilities
                         //pEditTempAlong = Globals.PromptAndGetEditTemplate(app, pAlongPointLayer, "", "Template for Point Along Layer: " + pAlongPointLayer.Name);
 
                         //pEditTempEnd = Globals.PromptAndGetEditTemplate(app, pEndPointLayer, "", "Template for End Layer: " + pEndPointLayer.Name);
+                        if (pStartPointLayer != null)
+                        {
+                            pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, "");
+                        }
 
-                        pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, "");
                         if (pAlongPointLayer != null)
                         {
                             pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, "");
                         }
-                        pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, "");
+                        if (pEndPointLayer != null)
+                        {
+                            pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, "");
+                        }
 
 
                     }
@@ -166,35 +177,40 @@ namespace A4WaterUtilities
                         {
                             if (pntIdx == 0)
                             {
-                                if (pEditTempStart == null)
+                                if (pStartPointLayer != null)
                                 {
-                                    pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pStartPointLayer, pPntFeat);
-                                    //  pPntFeat.Store();
-                                }
-                                else
-                                {
-                                    pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
-                                    //pPntFeat.Store();
+                                    if (pEditTempStart == null)
+                                    {
+                                        pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pStartPointLayer, pPntFeat);
+                                        //  pPntFeat.Store();
+                                    }
+                                    else
+                                    {
+                                        pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pEditTempStart.Layer, pPntFeat);
+                                        //pPntFeat.Store();
+                                    }
                                 }
 
                             }
                             else if (pntIdx == pPointColl.PointCount - 1)
                             {
-
-                                if (pEditTempEnd == null)
+                                if (pEndPointLayer != null)
                                 {
+                                    if (pEditTempEnd == null)
+                                    {
 
-                                    pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pEndPointLayer, pPntFeat);
-                                    // pPntFeat.Store();
-                                }
-                                else
-                                {
-                                    pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
-                                    //editor.Map.SelectFeature(pEditTempEnd.Layer, pPntFeat);
-                                    //   pPntFeat.Store();
+                                        pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pEndPointLayer, pPntFeat);
+                                        // pPntFeat.Store();
+                                    }
+                                    else
+                                    {
+                                        pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
+                                        //editor.Map.SelectFeature(pEditTempEnd.Layer, pPntFeat);
+                                        //   pPntFeat.Store();
+                                    }
                                 }
                             }
                             else
@@ -229,46 +245,49 @@ namespace A4WaterUtilities
                     }
                     else
                     {
-
-                        if (pEditTempStart == null)
+                        if (pStartPointLayer != null)
                         {
-                            pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
-                            if (pPntFeat != null)
+                            if (pEditTempStart == null)
                             {
-                                pLstFeat.Add(pPntFeat);
-                                // pPntFeat.Store();
+                                pPntFeat = Globals.CreateFeature(pCur.FromPoint, pStartPointLayer, editor, app, true, false, true);
+                                if (pPntFeat != null)
+                                {
+                                    pLstFeat.Add(pPntFeat);
+                                    // pPntFeat.Store();
+                                }
+                            }
+                            else
+                            {
+                                pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
+                                if (pPntFeat != null)
+                                {
+                                    pLstFeat.Add(pPntFeat);
+                                    // pPntFeat.Store();
+                                }
                             }
                         }
-                        else
+                        if (pEndPointLayer != null)
                         {
-                            pPntFeat = Globals.CreateFeature(pCur.FromPoint, pEditTempStart, editor, app, true, false, true);
-                            if (pPntFeat != null)
+                            if (pEditTempEnd == null)
                             {
-                                pLstFeat.Add(pPntFeat);
-                                // pPntFeat.Store();
+                                pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
+                                if (pPntFeat != null)
+                                {
+                                    pLstFeat.Add(pPntFeat);
+                                    // pPntFeat.Store();
+                                }
                             }
-                        }
-
-                        if (pEditTempEnd == null)
-                        {
-                            pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEndPointLayer, editor, app, true, false, true);
-                            if (pPntFeat != null)
+                            else
                             {
-                                pLstFeat.Add(pPntFeat);
-                                // pPntFeat.Store();
+                                pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
+                                if (pPntFeat != null)
+                                {
+                                    pLstFeat.Add(pPntFeat);
+                                    // pPntFeat.Store();
+                                }
                             }
-                        }
-                        else
-                        {
-                            pPntFeat = Globals.CreateFeature(pCur.ToPoint, pEditTempEnd, editor, app, true, false, true);
-                            if (pPntFeat != null)
-                            {
-                                pLstFeat.Add(pPntFeat);
-                                // pPntFeat.Store();
-                            }
-                        }
 
-
+                        }
 
                     }
                     return Convert.ToBoolean(pDet.TwoPointLines);
@@ -282,7 +301,7 @@ namespace A4WaterUtilities
             catch (Exception ex)
             {
 
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Error") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("Error") + ex.ToString());
                 return false;
             }
             finally
@@ -491,7 +510,6 @@ namespace A4WaterUtilities
                         {
                             pLine = Globals.CreateFeature(pNewPoly, pEditTemp, editor, app, false, false, true);
                         }
-                        pLine.Store();
                         pRetFeature.Add(pLine);
 
                         if ((connectClosestLayers[k] as ConnectClosestDetails).Reset_Flow != null)
@@ -523,7 +541,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.ToString(), ex.Source);
 
                     }
 
@@ -550,7 +568,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeatureAtPoint\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
                 return null;
             }
             finally
@@ -801,7 +819,7 @@ namespace A4WaterUtilities
                                                                              pointFeature.ShapeCopy, pointFLayer, connectLineFLayer, bSelectedOnly);
 
                             if (pNearestFeature == null)
-                                break;
+                                continue;
 
                             pNewPoly = new PolylineClass();
                             pNewPoly.FromPoint = pNearestFeature as IPoint;
@@ -866,7 +884,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.ToString(), ex.Source);
 
                         // Cleanup
                         if (progressDialog != null)
@@ -884,7 +902,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.Message, A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "ConnectClosestFeature\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_1"));
                 return null;
             }
             finally
@@ -928,13 +946,14 @@ namespace A4WaterUtilities
         private static string _caption = A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2");
 
 
-        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection) {
-            return AddLaterals(app, addLateralsDetails, inFeatures, logOperation, suppressDialog, store, ForceSourcePointConnection, null);
+        public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, MergeSplitGeoNetFeatures msgnf)
+        {
+            return AddLaterals(app, addLateralsDetails, inFeatures, logOperation, suppressDialog, store, ForceSourcePointConnection, null, msgnf);
 
         }
 
         public static string AddLaterals(IApplication app, List<AddLateralDetails> addLateralsDetails, IFeature inFeatures,
-            bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, IFeatureLayer pEditLayer)
+            bool logOperation, bool suppressDialog, bool store, bool ForceSourcePointConnection, IFeatureLayer pEditLayer, MergeSplitGeoNetFeatures msgnf)
         {
             ICommandItem pCmdItem;
             string resetFlow = "";
@@ -1005,7 +1024,7 @@ namespace A4WaterUtilities
 
                 mxdoc = (IMxDocument)app.Document;
                 map = editor.Map;
-   
+
                 for (int k = 0; k < addLateralsDetails.Count; k++)
                 {
                     bool FCorLayerPoint = true;
@@ -1020,7 +1039,8 @@ namespace A4WaterUtilities
                             continue;
                         }
                     }
-                    else { 
+                    else
+                    {
                         pointFLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].Point_LayerName, ref FCorLayerPoint);
                     }
                     if (inFeatures != null)
@@ -1097,7 +1117,7 @@ namespace A4WaterUtilities
                     //Confirm that the two line layers are different Feature classes
                     if ((matchLineFLayer.FeatureClass.CLSID == targetLineFLayer.FeatureClass.CLSID) && (matchLineFLayer.FeatureClass.AliasName == targetLineFLayer.FeatureClass.AliasName))
                     {
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1") , A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2") );
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1"), A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2"));
                         return "";
                     }
 
@@ -1148,14 +1168,14 @@ namespace A4WaterUtilities
                                 pointAlongLayer.PointAlongLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].PointAlong[j].LayerName, ref FCorLayerPointsAlong);
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
                                 }
                                 else if (pointAlongLayer.PointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -1163,13 +1183,13 @@ namespace A4WaterUtilities
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPoint)
                                 {
-                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3") , A4LGSharedFunctions.Localizer.GetString("Warning") );
+                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3"), A4LGSharedFunctions.Localizer.GetString("Warning"));
 
                                     return "";
                                 }
@@ -1183,9 +1203,10 @@ namespace A4WaterUtilities
                                 bool FCorLayerTemp = true;
                                 pointAlongLayer.PolygonIntersectLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].PointAlong[j].PolygonOffsetLayerName, ref FCorLayerTemp);
                                 pointAlongLayer.FoundAsLayer = FCorLayerTemp;
+                                pointAlongLayer.Split = addLateralsDetails[k].PointAlong[j].SplitLateral;
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -1298,7 +1319,8 @@ namespace A4WaterUtilities
                     {
                         showError = false;
                     }
-                    else {
+                    else
+                    {
                         showError = true;
                     }
                     int i = 0;
@@ -1440,7 +1462,7 @@ namespace A4WaterUtilities
                                                               addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                               addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
                                                               addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
-                                                              boolSelectedEdges, showError);
+                                                              boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain,msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature2);
                                             if (LatCreated)
@@ -1466,7 +1488,7 @@ namespace A4WaterUtilities
                                                              addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].DeleteExistingLines,
                                                              addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                              addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer,
-                                                             addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError);
+                                                             addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature);
 
@@ -1475,7 +1497,7 @@ namespace A4WaterUtilities
                                                             addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                             addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
                                                             addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
-                                                            boolSelectedEdges, showError);
+                                                            boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature2);
 
@@ -1551,7 +1573,7 @@ namespace A4WaterUtilities
                                                               addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                               addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
                                                               addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
-                                                              boolSelectedEdges, showError);
+                                                              boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature2);
                                             if (LatCreated)
@@ -1575,7 +1597,7 @@ namespace A4WaterUtilities
                                                 addLateralsDetails[k].LateralLine_StartAtMain, addLateralsDetails[k].DeleteExistingLines,
                                                             addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                             addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store, addLateralsDetails[k].SearchOnLayer,
-                                                            addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError);
+                                                            addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle, boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                             if (LatCreated)
                                                 ComplFeat.Add(pointFeature);
                                             //CreateSingleOld(pointFeature, matchLineFLayer, lineFeature, targetLineFLayer, targetPointFLayer,
@@ -1595,7 +1617,7 @@ namespace A4WaterUtilities
                                                              addLateralsDetails[k].FromToFields, addLateralsDetails[k].Hook_DoglegDistance,
                                                             addLateralsDetails[k].Hook_DistanceIsPercent, addLateralsDetails[k].TolerenceForDelete, store,
                                                             addLateralsDetails[k].SearchOnLayer, addLateralsDetails[k].SearchDistance, addLateralsDetails[k].Hook_Angle,
-                                                            boolSelectedEdges, showError);
+                                                            boolSelectedEdges, showError, addLateralsDetails[k].LateralLine_SplitMain, msgnf);
                                         if (LatCreated)
                                             ComplFeat.Add(pointFeature);
                                         //CreateSingleOld(pointFeature, matchLineFLayer, lineFeature, targetLineFLayer, targetPointFLayer,
@@ -1612,7 +1634,7 @@ namespace A4WaterUtilities
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
 
                             }
                             finally
@@ -1623,7 +1645,7 @@ namespace A4WaterUtilities
                             if (addLateralsDetails[k].Reset_Flow != null)
                             {
                                 resetFlow = addLateralsDetails[k].Reset_Flow;
-                               
+
 
                                 if (resetFlow.ToUpper() == "DIGITIZED")
                                 {
@@ -1677,7 +1699,7 @@ namespace A4WaterUtilities
                                 else
                                 {
                                 }
-                                }
+                            }
 
                         }
 
@@ -1712,7 +1734,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
 
 
                     }
@@ -1771,7 +1793,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
                 return "";
             }
             finally
@@ -1819,7 +1841,8 @@ namespace A4WaterUtilities
                                                   IFeatureLayer targetLineFLayer, IEditTemplate targetLineEditTemplate,
                                                   List<pointAlongSettings> pointAlongLayers,
                                                   bool startAtMain, bool deleteExistingLines, FromToField[] fromToPairs, double doglegDistance,
-                                                  bool DistAsPercent, double tolerenceForDelete, bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection,bool showErrors)
+                                                  bool DistAsPercent, double tolerenceForDelete, bool store, bool SearchOnLayer,
+                                                  int searchDistance, double angle, bool checkSelection, bool showErrors, bool splitMain,MergeSplitGeoNetFeatures msgnf)
         {
 
             IFeature lineFeature = null;
@@ -1862,79 +1885,157 @@ namespace A4WaterUtilities
                             polyline.ReverseOrientation();
 
 
-                        if (targetLineEditTemplate != null)
-                        {
-                            pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
-                        }
-                        else
-                        {
-                            pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
-                        }
-                        if (pFeat == null)
-                        {
-                            editor.AbortOperation();
-                            return false;
-
-                        }
-                        //Globals.SetFlowDirection(pFeat, targetLineFLayer);
-                        try
-                        {
-                            if (pFeat != null)
-                            {
-                                Globals.ValidateFeature(pFeat);
-                                pFeat.Store();
-                            }
-                            //if (pFeat is INetworkFeature)
-                            //{
-                            //    INetworkFeature pNF = (INetworkFeature)pFeat;
-
-                            //    pNF.Connect();
-                            //}
-                        }
-                        catch (Exception ex)
-                        {
-                            // MessageBox.Show("The Feature could not be stored, this is typically because the layer has Z and the geometric network was not created to honors, you need to drop the network and recreate it with Z's enabled\n" + ex.Message);
-                        }
 
                         //Old Way
                         //IFeature pFeat = CreateLineFeature(targetLineFLayer, newPolyLine, targetLineValue, targetLineFieldName, targetLineSubtype);
 
                         //Optionally, create new point along line
                         // int idx = 0;
+
+
+                        IList<IGeometry> pAlongShapes = new List<IGeometry>();
+                        IList<IFeature> pAlongFeatures = new List<IFeature>();
                         if (pointAlongLayers != null)
                         {
                             foreach (pointAlongSettings pPointAlongLayer in pointAlongLayers)
                             {
+                                IFeature pAlongFeat = null;
                                 if (pPointAlongLayer.PolygonIntersectLayer != null)
-                                    Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide);
+                                    pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
 
                                 else
-                                    Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate);
-                                //   idx++;
+                                    pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                                pAlongFeatures.Add(pAlongFeat);
+                                if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
+                                {
+                                    pAlongShapes.Add(pAlongFeat.ShapeCopy);
+                                }
                             }
                         }
 
-                        //Globals.SetFlowDirection(pFeat, targetLineFLayer,((IMxDocument)app.Document).FocusMap);
-                        //try
-                        //{
-                        //    if (pFeat != null)
-                        //    {
-                        //      //  Globals.ValidateFeature(pFeat);
-                        //        pFeat.Store();
-                        //    }
-                        //    //if (pFeat is INetworkFeature)
-                        //    //{
-                        //    //    INetworkFeature pNF = (INetworkFeature)pFeat;
+                        if (pAlongShapes.Count > 0)
+                        {
+                            IList<IPolyline> linesToCreate = new List<IPolyline>();
+                            linesToCreate.Add(polyline);
+                            foreach (IGeometry pAlongShape in pAlongShapes)
+                            {
+                                for (int j = 0; j <= linesToCreate.Count - 1; j++)
+                                {
+                                    IPolyline pTestLine = linesToCreate[j];
+                                    if (Globals.pointOnLine(pTestLine, (IPoint)pAlongShape, ((IMxDocument)app.Document).SearchTolerance))
+                                    {
 
-                        //    //    pNF.Connect();
-                        //    //}
-                        //}
-                        //catch (Exception ex)
-                        //{
-                        //    // MessageBox.Show("The Feature could not be stored, this is typically because the layer has Z and the geometric network was not created to honors, you need to drop the network and recreate it with Z's enabled\n" + ex.Message);
-                        //}
+                                        if (Globals.pointscoincident(pTestLine.FromPoint, (IPoint)pAlongShape))
+                                        {
+                                            //do nothing
+                                        }
+                                        else if (Globals.pointscoincident(pTestLine.ToPoint, (IPoint)pAlongShape))
+                                        {
+                                            //do nothing
+                                        }
+                                        else
+                                        {
+                                            bool boolSplitHappened;
+                                            int intNewPartIndex;
+                                            int ingNewSegmentIndex;
+                                            pTestLine.SplitAtPoint((IPoint)pAlongShape, false, true, out boolSplitHappened, out intNewPartIndex, out ingNewSegmentIndex);
+                                            if (boolSplitHappened)
+                                            {
+                                                linesToCreate.RemoveAt(j);
+                                                IGeometryCollection geometryCollection = pTestLine as IGeometryCollection;
+                                                for (int i = 0; i < geometryCollection.GeometryCount; i++)
+                                                {
+                                                    IGeometryCollection pNewGeoCol = new PolylineClass();
+                                                    pNewGeoCol.AddGeometry(geometryCollection.get_Geometry(i));
+                                                    IPolyline newPolyLine = (IPolyline)pNewGeoCol;
+                                                    linesToCreate.Add(newPolyLine);
+
+                                                }
+                                                break;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            foreach (IPolyline pLatLine in linesToCreate)
+                            {
+                                if (targetLineEditTemplate != null)
+                                {
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                }
+                                else
+                                {
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                }
+                                if (pFeat != null)
+                                {
+
+                                    try
+                                    {
+                                        if (pFeat != null)
+                                        {
+                                            Globals.ValidateFeature(pFeat);
+                                            pFeat.Store();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (targetLineEditTemplate != null)
+                            {
+                                pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                            }
+                            else
+                            {
+                                pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                            }
+                            if (pFeat != null)
+                            {
+
+                                try
+                                {
+                                    if (pFeat != null)
+                                    {
+                                        Globals.ValidateFeature(pFeat);
+                                        pFeat.Store();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+                            }
+                        }
+                        foreach (IFeature pAlongFeat in pAlongFeatures)
+                        {
+                            try
+                            {
+                                if (pAlongFeat != null)
+                                {
+                                    Globals.ValidateFeature(pAlongFeat);
+                                    pAlongFeat.Store();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+
+                        if (splitMain == true)
+                        {
+
+                            Globals.splitLineWithPoint(lineFeature, toPoint, Convert.ToDouble(searchDistance), null, null, app, msgnf.SplitUpdateAndAdd);
+                        }
                         return true;
-                        //AddPointAlongLine(newPolyLine as ICurve, targetPointFLayer, targetPointDistance, targetPointDistanceIsPercent, targetPointSubtype, targetPointValue, targetPointFieldName);
+
                     }
                     else
                     {
@@ -1963,7 +2064,7 @@ namespace A4WaterUtilities
 
                 if (showErrors == true)
                 {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_3") + "\n" + ex.Message, ex.Source);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_3") + "\n" + ex.ToString(), ex.Source);
                 }
                 return false;
             }
@@ -1985,7 +2086,7 @@ namespace A4WaterUtilities
                                                           List<pointAlongSettings> pointAlongLayers,
                                                           bool deleteExistingLines, bool startAtMain, bool squareDualLines,
                                                          FromToField[] fromToPairs, double doglegDistance, bool DistAsPercent, double tolerenceForDelete,
-                                                        bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection, bool showErrors)
+                                                        bool store, bool SearchOnLayer, int searchDistance, double angle, bool checkSelection, bool showErrors, bool splitMain,MergeSplitGeoNetFeatures msgnf)
         {
 
             IPoint point = null;
@@ -2000,6 +2101,7 @@ namespace A4WaterUtilities
             IPolyline polyline = null;
             IFeature pLineFeat = null;
             ICurve mainCurve = null;
+            IFeature pFeat = null;
             try
             {
                 point = (IPoint)pointFeature.Shape;
@@ -2034,41 +2136,37 @@ namespace A4WaterUtilities
 
                     //Create the new base line (possibly hooked)
 
-                    polyline = Globals.CreatePolylineFromPointsNewTurn(joinPoint, turnPoint, toPoint, ref matchLineFLayer, ref lineFeature, SearchOnLayer, angle,editor.Map.SpatialReference);
+                    polyline = Globals.CreatePolylineFromPointsNewTurn(joinPoint, turnPoint, toPoint, ref matchLineFLayer, ref lineFeature, SearchOnLayer, angle, editor.Map.SpatialReference);
 
 
                     //If requested, store pipe id in the point
                     StorePipeInfoPointFeature(lineFeature, pointFeature, fromToPairs, store);
                     StorePipeInfoPointFeature(lineFeature, pointFeature2, fromToPairs, store);
 
-                    if (polyline.Length != 0.0)
+                    if (polyline.Length > Globals.GetXYTolerance(targetLineFLayer) * 2)
                     {
                         if (startAtMain)
                             polyline.ReverseOrientation();
+                        IList<IPolyline> linesToCreate = new List<IPolyline>();
+                        linesToCreate.Add(polyline);
 
-
-                        if (targetLineEditTemplate != null)
-                        {
-                            pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
-                        }
-                        else
-                        {
-                            pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
-                        }
-
-                        pLineFeat.Store();
-
-                        // Globals.SetFlowDirection(pLineFeat, targetLineFLayer, ((IMxDocument)app.Document).FocusMap);
+                        IList<IGeometry> pAlongShapes = new List<IGeometry>();
+                        IList<IFeature> pAlongFeatures = new List<IFeature>();
                         if (pointAlongLayers != null)
                         {
                             foreach (pointAlongSettings pPointAlongLayer in pointAlongLayers)
                             {
+                                IFeature pAlongFeat = null;
                                 if (pPointAlongLayer.PolygonIntersectLayer != null)
-                                    Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide);
+                                    pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
 
                                 else
-                                    Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate);
-
+                                    pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                                pAlongFeatures.Add(pAlongFeat);
+                                if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
+                                {
+                                    pAlongShapes.Add(pAlongFeat.ShapeCopy);
+                                }
                             }
                         }
 
@@ -2079,36 +2177,14 @@ namespace A4WaterUtilities
                             if (startAtMain)
                                 polyline.ReverseOrientation();
 
-                            if (targetLineEditTemplate != null)
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
-                            }
-                            else
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
-                            }
+                            linesToCreate.Add(polyline);
                             // Globals.SetFlowDirection(pLineFeat, targetLineFLayer,((IMxDocument)app.Document).FocusMap);
                             //Create Arm 2
                             polyline = Globals.CreatePolylineFromPoints(point2, sqPoint2, joinPoint);
                             if (startAtMain)
                                 polyline.ReverseOrientation();
-                            pLineFeat.Store();
+                            linesToCreate.Add(polyline);
 
-
-                            if (targetLineEditTemplate != null)
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
-                            }
-                            else
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
-                            }
-
-                            // Globals.SetFlowDirection(pLineFeat, targetLineFLayer,((IMxDocument)app.Document).FocusMap);
-                            pLineFeat.Store();
-
-
-                            return true;
                         }
                         else
                         {
@@ -2118,41 +2194,154 @@ namespace A4WaterUtilities
                             if (startAtMain)
                                 polyline.ReverseOrientation();
 
-                            if (targetLineEditTemplate != null)
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
-                            }
-                            else
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
-                            }
-                            // Globals.SetFlowDirection(pLineFeat, targetLineFLayer,((IMxDocument)app.Document).FocusMap);
+                            linesToCreate.Add(polyline);
+
                             //Create Arm 2
                             polyline = Globals.CreatePolylineFromPoints(point2, joinPoint);
                             if (startAtMain)
                                 polyline.ReverseOrientation();
-                            pLineFeat.Store();
+                            linesToCreate.Add(polyline);
 
-
-                            if (targetLineEditTemplate != null)
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
-                            }
-                            else
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
-                            }
-                            //idx = 0;
-                            //  Globals.SetFlowDirection(pLineFeat, targetLineFLayer,((IMxDocument)app.Document).FocusMap);
-                            pLineFeat.Store();
-
-
-                            return true;
 
                         }
+
+                        if (pAlongShapes.Count > 0)
+                        {
+                            linesToCreate.Add(polyline);
+                            foreach (IGeometry pAlongShape in pAlongShapes)
+                            {
+                                for (int j = 0; j <= linesToCreate.Count - 1; j++)
+                                {
+                                    IPolyline pTestLine = linesToCreate[j];
+                                    if (Globals.pointOnLine(pTestLine, (IPoint)pAlongShape, ((IMxDocument)app.Document).SearchTolerance))
+                                    {
+
+                                        if (Globals.pointscoincident(pTestLine.FromPoint, (IPoint)pAlongShape))
+                                        {
+                                            //do nothing
+                                        }
+                                        else if (Globals.pointscoincident(pTestLine.ToPoint, (IPoint)pAlongShape))
+                                        {
+                                            //do nothing
+                                        }
+                                        else
+                                        {
+                                            bool boolSplitHappened;
+                                            int intNewPartIndex;
+                                            int ingNewSegmentIndex;
+                                            pTestLine.SplitAtPoint((IPoint)pAlongShape, false, true, out boolSplitHappened, out intNewPartIndex, out ingNewSegmentIndex);
+                                            if (boolSplitHappened)
+                                            {
+                                                linesToCreate.RemoveAt(j);
+                                                IGeometryCollection geometryCollection = pTestLine as IGeometryCollection;
+                                                for (int i = 0; i < geometryCollection.GeometryCount; i++)
+                                                {
+                                                    IGeometryCollection pNewGeoCol = new PolylineClass();
+                                                    pNewGeoCol.AddGeometry(geometryCollection.get_Geometry(i));
+                                                    IPolyline newPolyLine = (IPolyline)pNewGeoCol;
+                                                    linesToCreate.Add(newPolyLine);
+
+                                                }
+                                                break;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            foreach (IPolyline pLatLine in linesToCreate)
+                            {
+
+                                if (targetLineEditTemplate != null)
+                                {
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                }
+                                else
+                                {
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                }
+                                if (pFeat != null)
+                                {
+
+                                    try
+                                    {
+                                        if (pFeat != null)
+                                        {
+                                            Globals.ValidateFeature(pFeat);
+                                            pFeat.Store();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
+                                }
+
+                            }
+                        }
+
+
+
+                        else
+                        {
+                            foreach (IPolyline pLatLine in linesToCreate)
+                            {
+                                if (targetLineEditTemplate != null)
+                                {
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                }
+                                else
+                                {
+                                    pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                }
+                                if (pFeat != null)
+                                {
+
+                                    try
+                                    {
+                                        if (pFeat != null)
+                                        {
+                                            Globals.ValidateFeature(pFeat);
+                                            pFeat.Store();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
+                                }
+                            }
+                        }
+                        foreach (IFeature pAlongFeat in pAlongFeatures)
+                        {
+                            try
+                            {
+                                if (pAlongFeat != null)
+                                {
+                                    Globals.ValidateFeature(pAlongFeat);
+                                    pAlongFeat.Store();
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+
+
+
+
+
+
+
+
+
                     }
                     else
                     {
+                        IList<IGeometry> pAlongShapes = new List<IGeometry>();
+                        IList<IFeature> pAlongFeatures = new List<IFeature>();
+
                         //Create branch 1
                         polyline = Globals.CreatePolylineFromPoints(point, joinPoint);
                         if (polyline.Length != 0.0)
@@ -2160,60 +2349,286 @@ namespace A4WaterUtilities
                             if (startAtMain)
                                 polyline.ReverseOrientation();
 
-
-                            if (targetLineEditTemplate != null)
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
-                            }
-                            else
-                            {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
-                            }
-
-                            //  Globals.SetFlowDirection(pLineFeat, targetLineFLayer,((IMxDocument)app.Document).FocusMap);
-                            pLineFeat.Store();
-
-
                             if (pointAlongLayers != null)
                             {
                                 foreach (pointAlongSettings pPointAlongLayer in pointAlongLayers)
                                 {
-                                    Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate);
-                                    //   idx++;
+                                    IFeature pAlongFeat = null;
+                                    if (pPointAlongLayer.PolygonIntersectLayer != null)
+                                        pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
+
+                                    else
+                                        pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                                    pAlongFeatures.Add(pAlongFeat);
+                                    if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
+                                    {
+                                        pAlongShapes.Add(pAlongFeat.ShapeCopy);
+                                    }
+                                }
+                            }
+
+                            if (pAlongShapes.Count > 0)
+                            {
+                                IList<IPolyline> linesToCreate = new List<IPolyline>();
+                                linesToCreate.Add(polyline);
+                                foreach (IGeometry pAlongShape in pAlongShapes)
+                                {
+                                    for (int j = 0; j <= linesToCreate.Count - 1; j++)
+                                    {
+                                        IPolyline pTestLine = linesToCreate[j];
+                                        if (Globals.pointOnLine(pTestLine, (IPoint)pAlongShape, ((IMxDocument)app.Document).SearchTolerance))
+                                        {
+
+                                            if (Globals.pointscoincident(pTestLine.FromPoint, (IPoint)pAlongShape))
+                                            {
+                                                //do nothing
+                                            }
+                                            else if (Globals.pointscoincident(pTestLine.ToPoint, (IPoint)pAlongShape))
+                                            {
+                                                //do nothing
+                                            }
+                                            else
+                                            {
+                                                bool boolSplitHappened;
+                                                int intNewPartIndex;
+                                                int ingNewSegmentIndex;
+                                                pTestLine.SplitAtPoint((IPoint)pAlongShape, false, true, out boolSplitHappened, out intNewPartIndex, out ingNewSegmentIndex);
+                                                if (boolSplitHappened)
+                                                {
+                                                    linesToCreate.RemoveAt(j);
+                                                    IGeometryCollection geometryCollection = pTestLine as IGeometryCollection;
+                                                    for (int i = 0; i < geometryCollection.GeometryCount; i++)
+                                                    {
+                                                        IGeometryCollection pNewGeoCol = new PolylineClass();
+                                                        pNewGeoCol.AddGeometry(geometryCollection.get_Geometry(i));
+                                                        IPolyline newPolyLine = (IPolyline)pNewGeoCol;
+                                                        linesToCreate.Add(newPolyLine);
+
+                                                    }
+                                                    break;
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                                foreach (IPolyline pLatLine in linesToCreate)
+                                {
+                                    if (targetLineEditTemplate != null)
+                                    {
+                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                    }
+                                    else
+                                    {
+                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                    }
+                                    if (pFeat != null)
+                                    {
+
+                                        try
+                                        {
+                                            if (pFeat != null)
+                                            {
+                                                Globals.ValidateFeature(pFeat);
+                                                pFeat.Store();
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (targetLineEditTemplate != null)
+                                {
+                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                }
+                                else
+                                {
+                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                }
+                                if (pFeat != null)
+                                {
+
+                                    try
+                                    {
+                                        if (pFeat != null)
+                                        {
+                                            Globals.ValidateFeature(pFeat);
+                                            pFeat.Store();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
+                                }
+                            }
+                            foreach (IFeature pAlongFeat in pAlongFeatures)
+                            {
+                                try
+                                {
+                                    if (pAlongFeat != null)
+                                    {
+                                        Globals.ValidateFeature(pAlongFeat);
+                                        pAlongFeat.Store();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+
                                 }
                             }
 
 
+
+                            pAlongShapes = new List<IGeometry>();
+                            pAlongFeatures = new List<IFeature>();
                             //Create branch 2
                             polyline = Globals.CreatePolylineFromPoints(point2, joinPoint);
-                            if (startAtMain)
-                                polyline.ReverseOrientation();
-
-
-                            if (targetLineEditTemplate != null)
+                            if (polyline.Length != 0.0)
                             {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+
+                                if (startAtMain)
+                                    polyline.ReverseOrientation();
+                                if (pointAlongLayers != null)
+                                {
+                                    foreach (pointAlongSettings pPointAlongLayer in pointAlongLayers)
+                                    {
+                                        IFeature pAlongFeat = null;
+                                        if (pPointAlongLayer.PolygonIntersectLayer != null)
+                                            pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
+
+                                        else
+                                            pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                                        pAlongFeatures.Add(pAlongFeat);
+                                        if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
+                                        {
+                                            pAlongShapes.Add(pAlongFeat.ShapeCopy);
+                                        }
+                                    }
+                                }
+                            }
+                            if (pAlongShapes.Count > 0)
+                            {
+                                IList<IPolyline> linesToCreate = new List<IPolyline>();
+                                linesToCreate.Add(polyline);
+                                foreach (IGeometry pAlongShape in pAlongShapes)
+                                {
+                                    for (int j = 0; j <= linesToCreate.Count - 1; j++)
+                                    {
+                                        IPolyline pTestLine = linesToCreate[j];
+                                        if (Globals.pointOnLine(pTestLine, (IPoint)pAlongShape, ((IMxDocument)app.Document).SearchTolerance))
+                                        {
+
+                                            if (Globals.pointscoincident(pTestLine.FromPoint, (IPoint)pAlongShape))
+                                            {
+                                                //do nothing
+                                            }
+                                            else if (Globals.pointscoincident(pTestLine.ToPoint, (IPoint)pAlongShape))
+                                            {
+                                                //do nothing
+                                            }
+                                            else
+                                            {
+                                                bool boolSplitHappened;
+                                                int intNewPartIndex;
+                                                int ingNewSegmentIndex;
+                                                pTestLine.SplitAtPoint((IPoint)pAlongShape, false, true, out boolSplitHappened, out intNewPartIndex, out ingNewSegmentIndex);
+                                                if (boolSplitHappened)
+                                                {
+                                                    linesToCreate.RemoveAt(j);
+                                                    IGeometryCollection geometryCollection = pTestLine as IGeometryCollection;
+                                                    for (int i = 0; i < geometryCollection.GeometryCount; i++)
+                                                    {
+                                                        IGeometryCollection pNewGeoCol = new PolylineClass();
+                                                        pNewGeoCol.AddGeometry(geometryCollection.get_Geometry(i));
+                                                        IPolyline newPolyLine = (IPolyline)pNewGeoCol;
+                                                        linesToCreate.Add(newPolyLine);
+
+                                                    }
+                                                    break;
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                                foreach (IPolyline pLatLine in linesToCreate)
+                                {
+                                    if (targetLineEditTemplate != null)
+                                    {
+                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                    }
+                                    else
+                                    {
+                                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                    }
+                                    if (pFeat != null)
+                                    {
+
+                                        try
+                                        {
+                                            if (pFeat != null)
+                                            {
+                                                Globals.ValidateFeature(pFeat);
+                                                pFeat.Store();
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
+                                    }
+                                }
                             }
                             else
                             {
-                                pLineFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
-                            }
-
-                            //  Globals.SetFlowDirection(pLineFeat, targetLineFLayer,((IMxDocument)app.Document).FocusMap);
-                            pLineFeat.Store();
-
-                            if (pointAlongLayers != null)
-                            {
-                                foreach (pointAlongSettings pPointAlongLayer in pointAlongLayers)
+                                if (targetLineEditTemplate != null)
                                 {
-                                    Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate);
-                                    //   idx++;
+                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                                }
+                                else
+                                {
+                                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                                }
+                                if (pFeat != null)
+                                {
+
+                                    try
+                                    {
+                                        if (pFeat != null)
+                                        {
+                                            Globals.ValidateFeature(pFeat);
+                                            pFeat.Store();
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
                                 }
                             }
+                            foreach (IFeature pAlongFeat in pAlongFeatures)
+                            {
+                                try
+                                {
+                                    if (pAlongFeat != null)
+                                    {
+                                        Globals.ValidateFeature(pAlongFeat);
+                                        pAlongFeat.Store();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
 
-
-                            return true;
+                                }
+                            }
                         }
+
                         else
                         {
                             if (showErrors == true)
@@ -2223,7 +2638,16 @@ namespace A4WaterUtilities
                             return false;
 
                         }
+
                     }
+
+                    if (splitMain == true)
+                    {
+
+                        Globals.splitLineWithPoint(lineFeature, toPoint, Convert.ToDouble(searchDistance), null, null, app,msgnf.SplitUpdateAndAdd);
+                    }
+
+                    return true;
                 }
                 else
                 {
@@ -2232,7 +2656,7 @@ namespace A4WaterUtilities
                     {
                         MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_7"));
                     }
-                            return false;
+                    return false;
 
                 }
             }
@@ -2241,7 +2665,7 @@ namespace A4WaterUtilities
             {
                 if (showErrors == true)
                 {
-                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_4") + "\n" + ex.Message, ex.Source);
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_4") + "\n" + ex.ToString(), ex.Source);
                 }
                 return false;
             }
@@ -2310,7 +2734,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_9") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_9") + ex.ToString());
 
             }
         }
@@ -2379,7 +2803,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "CreateToAndTurnPoints: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "CreateToAndTurnPoints: " + ex.ToString());
             }
             finally
             {
@@ -2493,7 +2917,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("CreateToAndTurnPointsDual\r\n" + ex.Message);
+                MessageBox.Show("CreateToAndTurnPointsDual\r\n" + ex.ToString());
 
             }
             finally
@@ -2587,7 +3011,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show("DeleteFeatureAtPoint\r\n" + ex.Message);
+                MessageBox.Show("DeleteFeatureAtPoint\r\n" + ex.ToString());
 
             }
             finally
@@ -2670,7 +3094,7 @@ namespace A4WaterUtilities
             catch (Exception ex)
             {
 
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExistingFeatures\r\n" + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExistingFeatures\r\n" + ex.ToString());
 
             }
             finally
@@ -2725,7 +3149,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExisitingJunction: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteExisitingJunction: " + ex.ToString());
             }
             finally
             {
@@ -2754,7 +3178,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteNeeded: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteNeeded: " + ex.ToString());
                 return false;
 
             }
@@ -2795,7 +3219,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteTargetPoints: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteTargetPoints: " + ex.ToString());
 
             }
             finally
@@ -2854,7 +3278,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteOrphanJunctions: " + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + "DeleteOrphanJunctions: " + ex.ToString());
             }
             finally
             {
@@ -3001,8 +3425,8 @@ namespace A4WaterUtilities
                 return "";
             }
             catch
-            { 
-                return ""; 
+            {
+                return "";
             }
             finally
             {
@@ -3011,9 +3435,9 @@ namespace A4WaterUtilities
         }
         private static string _caption = A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_6");
 
-        public static string AddLateralsFromMainPoint(IApplication app, List<AddLateralFromMainPointDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store)
+        public static string AddLateralsFromMainPoint(IApplication app, List<AddLateralFromMainPointDetails> addLateralsDetails, IFeature inFeatures, bool logOperation, bool suppressDialog, bool store,MergeSplitGeoNetFeatures msgnf)
         {
-
+              
             string resetFlow = "";
             bool useDefaultTemplate;
             List<IFeature> ComplFeat = new List<IFeature>();
@@ -3157,7 +3581,7 @@ namespace A4WaterUtilities
                     //Confirm that the two line layers are different Feature classes
                     if ((matchLineFLayer.FeatureClass.CLSID == targetLineFLayer.FeatureClass.CLSID) && (matchLineFLayer.FeatureClass.AliasName == targetLineFLayer.FeatureClass.AliasName))
                     {
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1") , A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2") );
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_1"), A4LGSharedFunctions.Localizer.GetString("ConstructionToolsError_2"));
                         return "";
                     }
 
@@ -3204,18 +3628,19 @@ namespace A4WaterUtilities
                             for (int j = 0; j < addLateralsDetails[k].PointAlong.Length; j++)
                             {
                                 pointAlongLayer = new pointAlongSettings();
+                                pointAlongLayer.Split = (bool)addLateralsDetails[k].PointAlong[j].SplitLateral;
                                 bool FCorLayerPointsAlong = true;
                                 pointAlongLayer.PointAlongLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].PointAlong[j].LayerName, ref FCorLayerPointsAlong);
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
                                 }
                                 else if (pointAlongLayer.PointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -3223,13 +3648,13 @@ namespace A4WaterUtilities
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_2"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
                                 }
                                 else if (pointAlongLayer.PointAlongLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPoint)
                                 {
-                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3") , A4LGSharedFunctions.Localizer.GetString("Warning") );
+                                    MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_3"), A4LGSharedFunctions.Localizer.GetString("Warning"));
 
                                     return "";
                                 }
@@ -3243,9 +3668,10 @@ namespace A4WaterUtilities
                                 bool FCorLayerTemp = true;
                                 pointAlongLayer.PolygonIntersectLayer = (IFeatureLayer)Globals.FindLayer(map, addLateralsDetails[k].PointAlong[j].PolygonOffsetLayerName, ref FCorLayerTemp);
                                 pointAlongLayer.FoundAsLayer = FCorLayerTemp;
+                                
                                 if (pointAlongLayer == null)
                                 {
-                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1") , A4LGSharedFunctions.Localizer.GetString("Warning") , MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                                    if (MessageBox.Show(addLateralsDetails[k].PointAlong[j].LayerName + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsAsk_1"), A4LGSharedFunctions.Localizer.GetString("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
 
                                         return "";
 
@@ -3302,14 +3728,7 @@ namespace A4WaterUtilities
 
                                 //if (addLateralsDetails[k].PointAlong[j].DistanceIsPercent != null)
                                 pointAlongLayer.DistanceIsPercent = (bool)addLateralsDetails[k].PointAlong[j].DistanceIsPercent;
-                                //else
-                                //  pointAlongLayer.DistanceIsPercent =false;
-
-
-
-
-
-
+                          
 
                                 pointAlongLayers.Add(pointAlongLayer);
 
@@ -3416,12 +3835,13 @@ namespace A4WaterUtilities
                                 }
 
                                 CreateLateralFromMainPoint(ref app, ref editor, pointFeature, matchLineFLayer, targetLineFLayer, pLateralLineEditTemp, pointAlongLayers, addLateralsDetails[k].LateralLine_StartAtMain,
-                                    addLateralsDetails[k].FromToFields, addLateralsDetails[k].LateralLine_AngleDetails, addLateralsDetails[k].SearchOnLayer, boolSelectedEdges);
+                                    addLateralsDetails[k].FromToFields, addLateralsDetails[k].LateralLine_AngleDetails, addLateralsDetails[k].SearchOnLayer, boolSelectedEdges, addLateralsDetails[k].LateralLine_SplitMain,
+                                    msgnf);
 
                             }
                             catch (Exception ex)
                             {
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
 
                             }
                             finally
@@ -3467,7 +3887,7 @@ namespace A4WaterUtilities
                     catch (Exception ex)
                     {
                         editor.AbortOperation();
-                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                        MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
 
 
                     }
@@ -3526,7 +3946,7 @@ namespace A4WaterUtilities
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.Message, ex.Source);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("ConstructionToolsLbl_2") + "\n" + ex.ToString(), ex.Source);
                 return "";
             }
             finally
@@ -3571,10 +3991,10 @@ namespace A4WaterUtilities
 
         private static bool CreateLateralFromMainPoint(ref IApplication app, ref  IEditor editor, IFeature pointFeature,
                                                      IFeatureLayer mainLineFLayer, IFeatureLayer targetLineFLayer, IEditTemplate targetLineEditTemplate,
-                                                     List<pointAlongSettings> pointAlongLayers, bool startAtMain, FromToField[] fromToPairs, LateralLine_AngleDetails latDet, bool SearchOnLayer, bool CheckSelection)
+                                                     List<pointAlongSettings> pointAlongLayers, bool startAtMain, FromToField[] fromToPairs, LateralLine_AngleDetails latDet,
+                                                     bool SearchOnLayer, bool CheckSelection, bool splitMain,MergeSplitGeoNetFeatures msgnf)
         {
 
-            List<IFeature> pointsAlong = new List<IFeature>();
 
             //IGeometry pGeometry;
             IPolyline polyline;
@@ -3707,47 +4127,169 @@ namespace A4WaterUtilities
 
                 }
             }
-            polyline = Globals.CreateAngledLineFromLocationOnLine((IPoint)pointFeature.Shape, mainLineFLayer, SearchOnLayer, dblAngleRad, dblLateralLength, latDet.AddAngleToLineAngle, startAtMain, CheckSelection);
+            IFeature mainFeature = null;
+            polyline = Globals.CreateAngledLineFromLocationOnLine((IPoint)pointFeature.Shape, mainLineFLayer, SearchOnLayer, dblAngleRad, dblLateralLength, latDet.AddAngleToLineAngle, startAtMain, CheckSelection, out mainFeature);
             //Add that line to Laterals lateral
-            if (targetLineEditTemplate != null)
-            {
-                pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
-            }
-            else
-            {
-                pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
-            }
-            pFeat.Store();
+
+            IList<IGeometry> pAlongShapes = new List<IGeometry>();
+            IList<IFeature> pAlongFeatures = new List<IFeature>();
             if (pointAlongLayers != null)
             {
                 foreach (pointAlongSettings pPointAlongLayer in pointAlongLayers)
                 {
+                    IFeature pAlongFeat = null;
                     if (pPointAlongLayer.PolygonIntersectLayer != null)
-                        pointsAlong.Add(Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide));
+                        pAlongFeat = Globals.AddPointAlongLineWithIntersect(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, pPointAlongLayer.PolygonIntersectLayer, pPointAlongLayer.PolygonIntersectSide, false);
 
                     else
-                        pointsAlong.Add(Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate));
-
-
-                    //   idx++;
+                        pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
+                    pAlongFeatures.Add(pAlongFeat);
+                    if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
+                    {
+                        pAlongShapes.Add(pAlongFeat.ShapeCopy);
+                    }
                 }
             }
 
 
-
-
-
-
-
-            if (pFeat is INetworkFeature)
+            if (pAlongShapes.Count > 0)
             {
-                INetworkFeature pNF = (INetworkFeature)pFeat;
-                pNF.CreateNetworkElements();
-                //pNF.Connect();
+                IList<IPolyline> linesToCreate = new List<IPolyline>();
+                linesToCreate.Add(polyline);
+                foreach (IGeometry pAlongShape in pAlongShapes)
+                {
+                    for (int j = 0; j <= linesToCreate.Count - 1; j++)
+                    {
+                        IPolyline pTestLine = linesToCreate[j];
+                        if (Globals.pointOnLine(pTestLine, (IPoint)pAlongShape, ((IMxDocument)app.Document).SearchTolerance))
+                        {
 
+                            if (Globals.pointscoincident(pTestLine.FromPoint, (IPoint)pAlongShape))
+                            {
+                                //do nothing
+                            }
+                            else if (Globals.pointscoincident(pTestLine.ToPoint, (IPoint)pAlongShape))
+                            {
+                                //do nothing
+                            }
+                            else
+                            {
+                                bool boolSplitHappened;
+                                int intNewPartIndex;
+                                int ingNewSegmentIndex;
+                                pTestLine.SplitAtPoint((IPoint)pAlongShape, false, true, out boolSplitHappened, out intNewPartIndex, out ingNewSegmentIndex);
+                                if (boolSplitHappened)
+                                {
+                                    linesToCreate.RemoveAt(j);
+                                    IGeometryCollection geometryCollection = pTestLine as IGeometryCollection;
+                                    for (int i = 0; i < geometryCollection.GeometryCount; i++)
+                                    {
+                                        IGeometryCollection pNewGeoCol = new PolylineClass();
+                                        pNewGeoCol.AddGeometry(geometryCollection.get_Geometry(i));
+                                        IPolyline newPolyLine = (IPolyline)pNewGeoCol;
+                                        linesToCreate.Add(newPolyLine);
 
+                                    }
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+                }
+                foreach (IPolyline pLatLine in linesToCreate)
+                {
+                    if (targetLineEditTemplate != null)
+                    {
+                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                    }
+                    else
+                    {
+                        pFeat = Globals.CreateFeature(pLatLine as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                    }
+                    if (pFeat == null)
+                    {
+                        editor.AbortOperation();
+                        return false;
+
+                    }
+                    try
+                    {
+                        if (pFeat != null)
+                        {
+                            Globals.ValidateFeature(pFeat);
+                            pFeat.Store();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                if (targetLineEditTemplate != null)
+                {
+                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineEditTemplate, editor, app, false, false, true);
+                }
+                else
+                {
+                    pFeat = Globals.CreateFeature(polyline as IGeometry, targetLineFLayer, editor, app, false, false, true);
+                }
+                if (pFeat == null)
+                {
+                    editor.AbortOperation();
+                    return false;
+
+                }
+                try
+                {
+                    if (pFeat != null)
+                    {
+                        Globals.ValidateFeature(pFeat);
+                        pFeat.Store();
+                        if (pFeat is INetworkFeature)
+                        {
+                            INetworkFeature pNF = (INetworkFeature)pFeat;
+                            pNF.CreateNetworkElements();
+                            //pNF.Connect();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            foreach (IFeature pAlongFeat in pAlongFeatures)
+            {
+                try
+                {
+                    if (pAlongFeat != null)
+                    {
+                        Globals.ValidateFeature(pAlongFeat);
+                        pAlongFeat.Store();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
 
+            //if (pFeat is INetworkFeature)
+            //{
+            //    INetworkFeature pNF = (INetworkFeature)pFeat;
+            //    pNF.CreateNetworkElements();
+            //    //pNF.Connect();
+            //}
+
+            if (splitMain == true)
+            {
+
+                Globals.splitLineWithPoint(mainFeature, (IPoint)pointFeature.Shape, 0.0, null, null, app, msgnf.SplitUpdateAndAdd);
+            }
             return true;
 
 

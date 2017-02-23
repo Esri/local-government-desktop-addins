@@ -41,7 +41,7 @@ namespace A4LGSharedFunctions
 {
     class Rotate
     {
-        public double RotatePoint(IMap pMap, IFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName)
+        public Nullable<double> RotatePoint(IMap pMap,double mapTol , IFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName)
         {
             IFeatureClass pPointFC = default(IFeatureClass);
             ISpatialFilter pSFilter = default(ISpatialFilter);
@@ -54,192 +54,401 @@ namespace A4LGSharedFunctions
             UID pId = new UID();
             UID pUID = new UID();
             ITopologicalOperator pTopo = null;
+            List<string> pLstInt = new List<string>();           
+            List<diameterMeterFeat> diametersWithPoints = new List<diameterMeterFeat>();
+            double xyTol;
 
-            List<Double> cAngles = new List<Double>();
-            List<string> pLstInt = new List<string>();
-            List<double> cDiameters = new List<double>();
-
-
-            double dblAngle = 0;
-            double dblDiameter = 0;
-            double ltest = 0;
-            int iLineDiameterFieldPos = 0;
             try
-            { 
-            //This routine is used by both RotateDuringCreateFeature and RotateSelectedFeature.
-            //It contains all of logic for determining the rotation angle.
-
-            const int iAngleTol = 5;
-            //Used for Tees> a straight line is 180 + or - iAngleTol
-
-          
-            
-            
-                pPointFC = (IFeatureClass)pPointFeature.Class;
-            pPoint = (IPoint)pPointFeature.Shape;
-
-            //Create spatial filter to find intersecting features at this given point
-            pTopo = (ITopologicalOperator)pPoint;
-
-            pSFilter = new SpatialFilter();
-            pSFilter.Geometry = pTopo.Buffer(0.5);
-            //pPoint
-            pSFilter.GeometryField = pPointFC.ShapeFieldName;
-            pSFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
-
-            //Step through each feature layer
-            pUID.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
-            //GeoFeatureLayer
-            pEnumLayer = (IEnumLayer)pMap.get_Layers(pUID, true);
-            pEnumLayer.Reset();
-            pLayer = (ILayer)pEnumLayer.Next();
-           
-
-            while ((pLayer != null))
             {
-                //Verify that this is a line layer
-                pFLayer = (IFeatureLayer)pLayer;
+                //This routine is used by both RotateDuringCreateFeature and RotateSelectedFeature.
+                //It contains all of logic for determining the rotation angle.
 
-                if (pFLayer.FeatureClass != null)
+                const int iAngleTol = 5;
+                //Used for Tees> a straight line is 180 + or - iAngleTol
+                pPointFC = (IFeatureClass)pPointFeature.Class;
+                pPoint = (IPoint)pPointFeature.Shape;
+                xyTol = Globals.GetXYTolerance(pPoint);
+                //Create spatial filter to find intersecting features at this given point
+                pTopo = (ITopologicalOperator)pPoint;
+
+                pSFilter = new SpatialFilter();
+                pSFilter.Geometry = pTopo.Buffer(mapTol);
+                //pPoint
+                pSFilter.GeometryField = pPointFC.ShapeFieldName;
+                pSFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+
+                //Step through each feature layer
+                pUID.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
+                //GeoFeatureLayer
+                pEnumLayer = (IEnumLayer)pMap.get_Layers(pUID, true);
+                pEnumLayer.Reset();
+                pLayer = (ILayer)pEnumLayer.Next();
+
+                diameterMeterFeat diamPnt = null;
+                while ((pLayer != null))
                 {
+                    //Verify that this is a line layer
+                    pFLayer = (IFeatureLayer)pLayer;
 
-
-                    if (pFLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolyline && pFLayer.Visible && (strLayerName == "" || strLayerName == Globals.getClassName((IDataset)pFLayer.FeatureClass)))
+                    if (pFLayer.FeatureClass != null)
                     {
-                        //Apply the filter this line layer
-                        pLineCursor = pFLayer.FeatureClass.Search(pSFilter, true);
 
-                        //Loop through the found lines for this layer
-                        pLineFeature = pLineCursor.NextFeature();
-                        while ((pLineFeature != null))
+
+                        if (pFLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolyline && pFLayer.Visible && (strLayerName == "" || strLayerName == null || strLayerName == Globals.getClassName((IDataset)pFLayer.FeatureClass)))
                         {
-                            if (pLstInt.Count > 0)
-                            {
-                                if (pLstInt.Contains(pLineFeature.Class.ObjectClassID + " " + pLineFeature.OID))
-                                {
-                                    pLineFeature = pLineCursor.NextFeature();
-                                    continue;
-                                }
-                            }
-                            pLstInt.Add(pLineFeature.Class.ObjectClassID.ToString() + " " + pLineFeature.OID.ToString());
+                            //Apply the filter this line layer
+                            pLineCursor = pFLayer.FeatureClass.Search(pSFilter, true);
 
-                            dblAngle = Globals.GetAngleOfLineAtPoint((IPolyline)pLineFeature.ShapeCopy, (IPoint)pPointFeature.ShapeCopy, Globals.GetXYTolerance(pPointFeature));
-                            dblAngle = Globals.ConvertRadsToDegrees(dblAngle);
-
-
-                            //Convert to geographic degrees(zero north clockwise)
-                            if (!(bArithmeticAngle))
-                            {
-                                dblAngle = Globals.ConvertArithmeticToGeographic(dblAngle);
-                            }
-                            //Round angle
-                            dblAngle = Math.Round(dblAngle, 4);
-
-                            //Find diameter field, if it exists
-                            iLineDiameterFieldPos = pFLayer.FeatureClass.FindField(strDiameterFld);
-
-                            //Get diameter of line
-                            if (iLineDiameterFieldPos < 0)
-                            {
-                                dblDiameter = -9999;
-                            }
-                            else if (pLineFeature.get_Value(iLineDiameterFieldPos) == null)
-                            {
-                                dblDiameter = -9999;
-                            }
-                            else if (object.ReferenceEquals(pLineFeature.get_Value(iLineDiameterFieldPos), DBNull.Value))
-                            {
-                                dblDiameter = -9999;
-                            }
-                            else
-                            {
-                                Double.TryParse(pLineFeature.get_Value(iLineDiameterFieldPos).ToString(), out dblDiameter);
-
-                            }
-
-                            //add this line (angle and diameter) to a collection of line info for this point
-                            cAngles.Add(dblAngle);
-
-                            if (dblDiameter != -9999)
-                            {
-                                cDiameters.Add(dblDiameter);
-                            }
-
-                            //Get next line
+                            //Loop through the found lines for this layer
                             pLineFeature = pLineCursor.NextFeature();
+                            while ((pLineFeature != null))
+                            {
+                                if (pLstInt.Count > 0)
+                                {
+                                    if (pLstInt.Contains(pLineFeature.Class.ObjectClassID + " " + pLineFeature.OID))
+                                    {
+                                        pLineFeature = pLineCursor.NextFeature();
+                                        continue;
+                                    }
+                                }
+                                string listInt;
+                                diamPnt = null;
+                                angleLogic(pPoint, pLineFeature, bArithmeticAngle, strDiameterFld, xyTol, out listInt, out diamPnt);
+                                pLstInt.Add(listInt);
+                                
+                                diametersWithPoints.Add(diamPnt);
+                                //Get next line
+                                pLineFeature = pLineCursor.NextFeature();
+                            }
                         }
                     }
+                    //Get next line layer
+                    pLayer = pEnumLayer.Next();
                 }
-                //Get next line layer
-                pLayer = pEnumLayer.Next();
+                return getAngle(diametersWithPoints, iAngleTol);
+              
+            }
+            catch
+            {
+                return 0;
+            }
+            finally
+            {
+
+                pPointFC = null;
+                pSFilter = null;
+                pLineCursor = null;
+                pLineFeature = null;
+                pPoint = null;
+                pEnumLayer = null;
+                pLayer = null;
+                pFLayer = null;
+                pId = null;
+                pUID = null;
+                pTopo = null;
+
+               
+                pLstInt.Clear();
+                
+
             }
 
-            //Read the collection of line segment angles and diameters
-            //and use them to derive a symbol rotation angle for the point
-            switch (cAngles.Count)
+        }
+        private void angleLogic(IPoint pPoint, IFeature pFeat, bool bArithmeticAngle, string strDiameterFld, double xyTol, out string listInt, out diameterMeterFeat diamPnt)
+        {
+            double dblDiameter = 0;
+            double dblAngle;
+            int iLineDiameterFieldPos = 0;
+
+            listInt = pFeat.Class.ObjectClassID.ToString() + " " + pFeat.OID.ToString();
+            
+            dblAngle = Globals.GetAngleOfLineAtPoint((IPolyline)pFeat.ShapeCopy, pPoint, Globals.GetXYTolerance(pPoint));
+            dblAngle = Globals.ConvertRadsToDegrees(dblAngle);
+
+
+            //Convert to geographic degrees(zero north clockwise)
+            if (!(bArithmeticAngle))
+            {
+                dblAngle = Globals.ConvertArithmeticToGeographic(dblAngle);
+            }
+
+
+
+            //Round angle
+            dblAngle = Math.Round(dblAngle, 4);
+
+            //Find diameter field, if it exists
+            
+            iLineDiameterFieldPos = pFeat.Fields.FindField(strDiameterFld);
+
+            //Get diameter of line
+            if (iLineDiameterFieldPos < 0)
+            {
+                dblDiameter = -9999;
+            }
+            else if (pFeat.get_Value(iLineDiameterFieldPos) == null)
+            {
+                dblDiameter = -9999;
+            }
+            else if (object.ReferenceEquals(pFeat.get_Value(iLineDiameterFieldPos), DBNull.Value))
+            {
+                dblDiameter = -9999;
+            }
+            else
+            {
+                double.TryParse(pFeat.get_Value(iLineDiameterFieldPos).ToString(), out dblDiameter);
+            }
+
+
+            
+            diamPnt = new diameterMeterFeat();
+
+            diamPnt.dblDiameter = dblDiameter;
+            double distFrom = Globals.GetDistanceBetweenPoints(((IPolyline)pFeat.Shape).FromPoint, pPoint);
+            double distTo = Globals.GetDistanceBetweenPoints(((IPolyline)pFeat.Shape).ToPoint, pPoint);
+            if (distFrom < xyTol * 2)
+            {
+                diamPnt.location = "From";
+            }
+            else if (distTo < xyTol * 2)
+            {
+                diamPnt.location = "To";
+            }
+            else
+            {
+                diamPnt.location = null;
+            }
+            diamPnt.pntStart = ((IPolyline)pFeat.Shape).FromPoint;
+            diamPnt.pntEnd = ((IPolyline)pFeat.Shape).ToPoint;
+            diamPnt.angle = dblAngle;
+            
+        }
+        private Nullable<double> getAngle(List<diameterMeterFeat> diametersWithPoints, int iAngleTol)
+        {
+            double ltest = 0;
+            switch (diametersWithPoints.Count)
             {
                 case 0:
                     //One line such as at valves
 
-                    return 0.0;
+                    return null;
 
                 case 1:
                     //One line such as at valves
-                    return cAngles[0];
+                    if (diametersWithPoints[0].location == "From")
+                    {
+                        if (diametersWithPoints[0].angle >= 180)
+                        {
+                            return diametersWithPoints[0].angle - 180;
+                        }
+                        else
+                        {
+                            return diametersWithPoints[0].angle + 180;
+                        }
+
+                    }
+                    else
+                    {
+                        return diametersWithPoints[0].angle;
+                    }
+                    return diametersWithPoints[0].angle;
                 case 2:
                     //Two lines such as at reducers Or at tee fittings where line is not broken
 
-                    if (cDiameters.Count == 2)
+                    if (diametersWithPoints.Count == 2)
                     {
                         //If cDiameters(0) Is Nothing Or cDiameters(1) Is Nothing Then
                         //    Return cAngles.Item(0)
                         //Else
-                        if (cDiameters[0] > cDiameters[1])
+                        if (diametersWithPoints[0].dblDiameter == -9999 && diametersWithPoints[1].dblDiameter == -9999)
                         {
-                            return cAngles[1];
-                            //If cAngles.Item(0) = cAngles.Item(1) Then
-                            //    Return cAngles.Item(1)
-                            //Else
-                            //    Return cAngles.Item(1) - 180
-                            //End If
+                            return diametersWithPoints[0].angle;
+                        }
+                        else if (diametersWithPoints[0].dblDiameter == -9999)
+                        {
+                            return diametersWithPoints[1].angle;
+                        }
+                        else if (diametersWithPoints[1].dblDiameter == -9999)
+                        {
+                            return diametersWithPoints[0].angle;
+                        }
 
+                        else if (diametersWithPoints[0].dblDiameter > diametersWithPoints[1].dblDiameter)
+                        {
+                            if (Globals.pointscoincident(diametersWithPoints[0].pntStart, diametersWithPoints[1].pntStart))
+                            {
+                                //Checked
+                                return diametersWithPoints[0].angle;
+                            }
+                            else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntEnd))
+                            {
+                                //Checked
+                                if (diametersWithPoints[0].angle >= 180)
+                                {
+                                    return diametersWithPoints[0].angle - 180;
+                                }
+                                else
+                                {
+                                    return diametersWithPoints[0].angle + 180;
+                                }
+                            }
+                            else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntStart))
+                            {
+                                //Checked
+                                if (diametersWithPoints[0].angle >= 180)
+                                {
+                                    return diametersWithPoints[0].angle - 180;
+                                }
+                                else
+                                {
+                                    return diametersWithPoints[0].angle + 180;
+                                }
+
+                            }
+                            else
+                            {
+                                //Checked
+                                return diametersWithPoints[0].angle;
+                            }
+
+
+                        }
+                        else if (diametersWithPoints[0].dblDiameter < diametersWithPoints[1].dblDiameter)
+                        {
+                            if (Globals.pointscoincident(diametersWithPoints[0].pntStart, diametersWithPoints[1].pntStart))
+                            {
+                                //Checked
+                                return diametersWithPoints[1].angle;
+                            }
+                            else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntEnd))
+                            {
+                                //Checked
+                                if (diametersWithPoints[1].angle >= 180)
+                                {
+                                    return diametersWithPoints[1].angle - 180;
+                                }
+                                else
+                                {
+                                    return diametersWithPoints[1].angle + 180;
+                                }
+                            }
+                            else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntStart))
+                            {
+                                //Checked
+                                return diametersWithPoints[1].angle;
+                            }
+                            else
+                            {
+                                //Checked
+                                if (diametersWithPoints[1].angle >= 180)
+                                {
+                                    return diametersWithPoints[1].angle - 180;
+                                }
+                                else
+                                {
+                                    return diametersWithPoints[1].angle + 180;
+                                }
+                            }
                         }
                         else
                         {
-                            return cAngles[0];
-                            //If cAngles.Item(0) = cAngles.Item(1) Then
-                            //    Return cAngles.Item(0) - 180
-                            //Else
-                            //    Return cAngles.Item(1)
-                            //End If
+                            return diametersWithPoints[0].angle;
+
                         }
+
                     }
                     else
                     {
-                        return cAngles[0];
+                        return diametersWithPoints[0].angle;
                     }
 
                     break;
                 case 3:
-                    //Three lines such as at tee fittings where line is broken
-                    ltest = Math.Abs(cAngles[0] - cAngles[1]);
-                    if (ltest >= 180 - iAngleTol & ltest <= 180 + iAngleTol)
+                    double flatAngle1 = flattenAngle(diametersWithPoints[0].angle);
+                    double flatAngle2 = flattenAngle(diametersWithPoints[1].angle);
+                    double flatAngle3 = flattenAngle(diametersWithPoints[2].angle);
+
+                    double angleDifA = Math.Abs(flatAngle1 - flatAngle2);
+                    double angleDifB = Math.Abs(flatAngle1 - flatAngle3);
+                    double angleDifC = Math.Abs(flatAngle2 - flatAngle3);
+
+                    if (angleDifA <= (iAngleTol * 2) || angleDifA >= (180 - (iAngleTol * 2)))
                     {
-                        return cAngles[2];
-                    }
-                    else
-                    {
-                        ltest = Math.Abs(cAngles[0] - cAngles[2]);
-                        if (ltest >= 180 - iAngleTol & ltest <= 180 + iAngleTol)
+                        if (diametersWithPoints[2].location == "From")
                         {
-                            return cAngles[1];
+                            if (diametersWithPoints[2].angle >= 180)
+                            {
+                                return diametersWithPoints[2].angle - 180;
+                            }
+                            else
+                            {
+                                return diametersWithPoints[2].angle + 180;
+                            }
+
                         }
                         else
                         {
-                            ltest = Math.Abs(cAngles[1] - cAngles[2]);
+                            return diametersWithPoints[2].angle;
+                        }
+                    }
+                    if (angleDifB <= (iAngleTol * 2) || angleDifB >= (180 - (iAngleTol * 2)))
+                    {
+                        if (diametersWithPoints[1].location == "From")
+                        {
+                            if (diametersWithPoints[1].angle >= 180)
+                            {
+                                return diametersWithPoints[1].angle - 180;
+                            }
+                            else
+                            {
+                                return diametersWithPoints[1].angle + 180;
+                            }
+
+                        }
+                        else
+                        {
+                            return diametersWithPoints[1].angle;
+                        }
+
+                    }
+                    if (angleDifC <= (iAngleTol * 2) || angleDifC >= (180 - (iAngleTol * 2)))
+                    {
+                        if (diametersWithPoints[0].location == "From")
+                        {
+                            if (diametersWithPoints[0].angle >= 180)
+                            {
+                                return diametersWithPoints[0].angle - 180;
+                            }
+                            else
+                            {
+                                return diametersWithPoints[0].angle + 180;
+                            }
+
+                        }
+                        else
+                        {
+                            return diametersWithPoints[0].angle;
+                        }
+                    }
+                    //Three lines such as at tee fittings where line is broken
+                    ltest = Math.Abs(diametersWithPoints[0].angle - diametersWithPoints[1].angle);
+                    if (ltest >= 180 - iAngleTol & ltest <= 180 + iAngleTol)
+                    {
+                        return diametersWithPoints[2].angle;
+                    }
+                    else
+                    {
+                        ltest = Math.Abs(diametersWithPoints[0].angle - diametersWithPoints[2].angle);
+                        if (ltest >= 180 - iAngleTol & ltest <= 180 + iAngleTol)
+                        {
+                            return diametersWithPoints[1].angle;
+                        }
+                        else
+                        {
+                            ltest = Math.Abs(diametersWithPoints[1].angle - diametersWithPoints[2].angle);
                             if (ltest >= 180 - iAngleTol & ltest <= 180 + iAngleTol)
                             {
-                                return cAngles[0];
+                                return diametersWithPoints[0].angle;
                             }
                             else
                             {
@@ -251,66 +460,52 @@ namespace A4LGSharedFunctions
                 case 4:
                     //Four lines such as at crosses
                     //the angle of any of the four lines should work since the symbol should be symetrically
-                    return cAngles[0];
+                    return diametersWithPoints[0].angle;
                 default:
                     return 0;
-            }
-
-            //Clear collections
-            }
-            catch 
-            {
-                return 0;
-            }
-            finally 
-            {
-
-                 pPointFC = null;
-                 pSFilter = null;
-                 pLineCursor = null;
-                 pLineFeature = null;
-                 pPoint = null;
-                 pEnumLayer = null;
-                 pLayer = null;
-                 pFLayer = null;
-                 pId = null;
-                 pUID = null;
-                 pTopo = null;
-
-                 cAngles.Clear();
-                 pLstInt.Clear();
-                cDiameters.Clear();
-
             }
 
         }
         public class diameterMeterFeat
         {
             public double dblDiameter { get; set; }
-            public IPoint pntStart{ get; set; }
+            public IPoint pntStart { get; set; }
             public IPoint pntEnd { get; set; }
             public double angle { get; set; }
+            public string location { get; set; }
         }
-        public double RotatePointByNetwork(IMap pMap, INetworkFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName )
+        private double flattenAngle(double in_angle)
+        {
+
+            double newAngle = in_angle;
+            while (newAngle <= 0)
+            {
+                newAngle = newAngle + 360;
+            }
+            while (newAngle >= 180)
+            {
+                newAngle = newAngle - 180;
+            }
+            return newAngle;
+
+        }
+        public Nullable<double> RotatePointByNetwork(IMap pMap, INetworkFeature pPointFeature, bool bArithmeticAngle, string strDiameterFld, string strLayerName)
         {
             //This routine is used by both RotateDuringCreateFeature and RotateSelectedFeature.
             //It contains all of logic for determining the rotation angle.
+            double xyTol;
 
             const int iAngleTol = 5;
-            double dblAngle = 0;
-            double dblDiameter = 0;
-            double ltest = 0;
             diameterMeterFeat diamPnt = null;
-            int iLineDiameterFieldPos = 0;
-      
+
             IPoint pPoint = default(IPoint);
             ISimpleJunctionFeature pSimpJunc = null;
             IEdgeFeature pEdgeFeat = default(IEdgeFeature);
 
             List<string> pLstInt = new List<string>();
-            List<double> cAngles = new List<double>();
+            
             List<diameterMeterFeat> diametersWithPoints = new List<diameterMeterFeat>();
-         
+
 
             UID pId = new UID();
             IFeature pTempFeat = null;
@@ -326,7 +521,7 @@ namespace A4LGSharedFunctions
                 }
                 //Create spatial filter to find intersecting features at this given point
 
-
+                xyTol = Globals.GetXYTolerance(pPoint);
                 pSimpJunc = (ISimpleJunctionFeature)pPointFeature;
 
 
@@ -347,224 +542,18 @@ namespace A4LGSharedFunctions
 
                     if (strLayerName == Globals.getClassName((IDataset)pTempFeat.Class) || strLayerName == "" || strLayerName == null)
                     {
-                        pLstInt.Add(((IFeature)pEdgeFeat).Class.ObjectClassID.ToString() + " " + ((IFeature)pEdgeFeat).OID.ToString());
-
-                        dblAngle = Globals.GetAngleOfLineAtPoint((IPolyline)pTempFeat.ShapeCopy, pPoint, Globals.GetXYTolerance(pPoint));
-                        dblAngle = Globals.ConvertRadsToDegrees(dblAngle);
-
-
-                        //Convert to geographic degrees(zero north clockwise)
-                        if (!(bArithmeticAngle))
-                        {
-                            dblAngle = Globals.ConvertArithmeticToGeographic(dblAngle);
-                        }
-
-
-
-                        //Round angle
-                        dblAngle = Math.Round(dblAngle, 4);
-
-                        //Find diameter field, if it exists
-                        iLineDiameterFieldPos = ((IFeature)pEdgeFeat).Fields.FindField(strDiameterFld);
-
-                        //Get diameter of line
-                        if (iLineDiameterFieldPos < 0)
-                        {
-                            dblDiameter = -9999;
-                        }
-                        else if (((IFeature)pEdgeFeat).get_Value(iLineDiameterFieldPos) == null)
-                        {
-                            dblDiameter = -9999;
-                        }
-                        else if (object.ReferenceEquals(((IFeature)pEdgeFeat).get_Value(iLineDiameterFieldPos), DBNull.Value))
-                        {
-                            dblDiameter = -9999;
-                        }
-                        else
-                        {
-                            double.TryParse(((IFeature)pEdgeFeat).get_Value(iLineDiameterFieldPos).ToString(), out dblDiameter);
-                        }
-
-
-                        //add this line (angle and diameter) to a collection of line info for this point
-                        cAngles.Add(dblAngle);
-
-                      
-                            diamPnt = new diameterMeterFeat();
-                            
-                            diamPnt.dblDiameter = dblDiameter;
-                            diamPnt.pntStart = ((IPolyline)pTempFeat.Shape).FromPoint;
-                            diamPnt.pntEnd = ((IPolyline)pTempFeat.Shape).ToPoint;
-                            diamPnt.angle = dblAngle;
-                            diametersWithPoints.Add(diamPnt);
-
-                           
-                      
+                        string listInt;
+                        diamPnt = null;
+                        angleLogic(pPoint,pTempFeat,bArithmeticAngle,strDiameterFld,xyTol,out listInt,out diamPnt);
+                        pLstInt.Add(listInt);
+                       
+                        diametersWithPoints.Add(diamPnt);
 
                     }
-                    
 
                 }
-
-                //Read the collection of line segment angles and diameters
-                //and use them to derive a symbol rotation angle for the point
-                switch (cAngles.Count)
-                {
-                    case 0:
-                        //One line such as at valves
-
-                        return 0.0;
-
-                    case 1:
-                        //One line such as at valves
-                        return cAngles[0];
-                    case 2:
-                        //Two lines such as at reducers Or at tee fittings where line is not broken
-
-                        if (diametersWithPoints.Count == 2)
-                        {
-                            //If cDiameters(0) Is Nothing Or cDiameters(1) Is Nothing Then
-                            //    Return cAngles.Item(0)
-                            //Else
-                            if (diametersWithPoints[0].dblDiameter == -9999 && diametersWithPoints[1].dblDiameter == -9999)
-                            {
-                                return diametersWithPoints[0].angle;
-                            }
-                            else if (diametersWithPoints[0].dblDiameter == -9999)
-                            {
-                                return diametersWithPoints[1].angle;
-                            }
-                            else if (diametersWithPoints[1].dblDiameter == -9999) {
-                                return diametersWithPoints[0].angle;
-                            }
-
-                            else if (diametersWithPoints[0].dblDiameter > diametersWithPoints[1].dblDiameter)
-                            {
-                                if (Globals.pointscoincident(diametersWithPoints[0].pntStart, diametersWithPoints[1].pntStart))
-                                {
-                                    //Checked
-                                    return diametersWithPoints[0].angle;
-                                }
-                                else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntEnd))
-                                {
-                                    //Checked
-                                    if (diametersWithPoints[0].angle >= 180)
-                                    {
-                                        return diametersWithPoints[0].angle - 180;
-                                    }
-                                    else
-                                    {
-                                        return diametersWithPoints[0].angle + 180;
-                                    }
-                                }
-                                else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntStart))
-                                {
-                                    //Checked
-                                    if (diametersWithPoints[0].angle >= 180)
-                                    {
-                                        return diametersWithPoints[0].angle - 180;
-                                    }
-                                    else
-                                    {
-                                        return diametersWithPoints[0].angle + 180;
-                                    }
-
-                                }
-                                else
-                                {
-                                    //Checked
-                                    return diametersWithPoints[0].angle;
-                                }
-
-
-                            }
-                            else if (diametersWithPoints[0].dblDiameter < diametersWithPoints[1].dblDiameter)
-                            {
-                                if (Globals.pointscoincident(diametersWithPoints[0].pntStart, diametersWithPoints[1].pntStart))
-                                {
-                                    //Checked
-                                    return diametersWithPoints[1].angle;
-                                }
-                                else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntEnd))
-                                {
-                                    //Checked
-                                    if (diametersWithPoints[1].angle >= 180)
-                                    {
-                                        return diametersWithPoints[1].angle - 180;
-                                    }
-                                    else
-                                    {
-                                        return diametersWithPoints[1].angle + 180;
-                                    }
-                                }
-                                else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntStart))
-                                {
-                                    //Checked
-                                    return diametersWithPoints[1].angle;
-                                }
-                                else
-                                {
-                                    //Checked
-                                    if (diametersWithPoints[1].angle >= 180)
-                                    {
-                                        return diametersWithPoints[1].angle - 180;
-                                    }
-                                    else
-                                    {
-                                        return diametersWithPoints[1].angle + 180;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                return diametersWithPoints[0].angle;
-
-                            }
-
-                        }
-                        else
-                        {
-                            return cAngles[0];
-                        }
-
-                        break;
-                    case 3:
-                        //Three lines such as at tee fittings where line is broken
-                        ltest = Math.Abs(cAngles[0] - cAngles[1]);
-                        if (ltest >= 180 - iAngleTol & ltest <= 180 + iAngleTol)
-                        {
-                            return cAngles[2];
-                        }
-                        else
-                        {
-                            ltest = Math.Abs(cAngles[0] - cAngles[2]);
-                            if (ltest >= 180 - iAngleTol & ltest <= 180 + iAngleTol)
-                            {
-                                return cAngles[1];
-                            }
-                            else
-                            {
-                                ltest = Math.Abs(cAngles[1] - cAngles[2]);
-                                if (ltest >= 180 - iAngleTol & ltest <= 180 + iAngleTol)
-                                {
-                                    return cAngles[0];
-                                }
-                                else
-                                {
-                                    return -360;
-                                }
-                            }
-                        }
-                        break;
-                    case 4:
-                        //Four lines such as at crosses
-                        //the angle of any of the four lines should work since the symbol should be symetrically
-                        return cAngles[0];
-                    default:
-                        return 0;
-                }
-
-                //Clear collections
+                return getAngle( diametersWithPoints, iAngleTol);
+              
 
             }
             catch
@@ -574,14 +563,14 @@ namespace A4LGSharedFunctions
             finally
             {
                 diamPnt = null;
-                pPoint=null;
+                pPoint = null;
                 pSimpJunc = null;
                 pEdgeFeat = null;
 
                 pLstInt.Clear();
-                cAngles.Clear();
-                diametersWithPoints.Clear(); 
-                pId  = null;
+            
+                diametersWithPoints.Clear();
+                pId = null;
                 pTempFeat = null;
             }
 

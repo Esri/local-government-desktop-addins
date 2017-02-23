@@ -51,7 +51,7 @@ Public Class CreateAssetForGrid
             m_pNewLineFeedback = Nothing
             m_pSketchType = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPSketchNewCandidate: Finalize" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPSketchNewCandidate: Finalize" & vbCrLf & ex.ToString())
         Finally
             Try
                 MyBase.Finalize()
@@ -131,7 +131,7 @@ Public Class CreateAssetForGrid
             End If
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools: OnClick - CIPSketchNewCandidate" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools: OnClick - CIPSketchNewCandidate" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -238,7 +238,7 @@ Public Class CreateAssetForGrid
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools: OnDblClick - CIPSketchNewCandidate" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools: OnDblClick - CIPSketchNewCandidate" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -298,7 +298,7 @@ Public Class CreateAssetForGrid
 
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - OnMouseMove - CIPSketchNewCandidate" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - OnMouseMove - CIPSketchNewCandidate" & vbCrLf & ex.ToString())
 
 
         End Try
@@ -320,7 +320,7 @@ Public Class CreateAssetForGrid
             m_bMouseHasMoved = False
             MyBase.OnRefresh(hDC)
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - Refresh - CIPSketchNewCandidate" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - Refresh - CIPSketchNewCandidate" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -377,7 +377,7 @@ Public Class CreateAssetForGrid
         Catch ex As Exception
             m_pNewLineFeedback = Nothing
             m_pNewPolyFeedback = Nothing
-            MsgBox("Error in the Costing Tools: OnDblClick - CIPSketchNewCandidate" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools: OnDblClick - CIPSketchNewCandidate" & vbCrLf & ex.ToString())
 
         End Try
     End Sub
@@ -404,7 +404,7 @@ Public Class CreateAssetForGrid
             pTarget = Nothing
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools: resetType - CIPSketchNewCandidate" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools: resetType - CIPSketchNewCandidate" & vbCrLf & ex.ToString())
 
         End Try
 
@@ -441,7 +441,7 @@ Public Class CreateAssetForGrid
 
     '        Return False
     '    Catch ex As Exception
-    '        MsgBox("Error in the Costing Tools - CompareFC" & vbCrLf & ex.Message)
+    '        MsgBox("Error in the Costing Tools - CompareFC" & vbCrLf & ex.ToString())
     '        Return False
     '    End Try
     'End Function
@@ -461,7 +461,7 @@ Public Class CreateAssetForGrid
             Return Nothing
 
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPSketchNewCandidate: getFeatureClass" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPSketchNewCandidate: getFeatureClass" & vbCrLf & ex.ToString())
             Return Nothing
         End Try
     End Function
@@ -510,7 +510,7 @@ Public Class CreateAssetForGrid
 
             End If
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPSketchNewCandidate: setSnappingForLayer" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPSketchNewCandidate: setSnappingForLayer" & vbCrLf & ex.ToString())
         End Try
     End Sub
     Private Sub RefreshSnapWindow()
@@ -526,7 +526,7 @@ Public Class CreateAssetForGrid
             snapWindowUID = Nothing
             snapWindow = Nothing
         Catch ex As Exception
-            MsgBox("Error in the Costing Tools - CIPSketchNewCandidate: RefreshSnapWindow" & vbCrLf & ex.Message)
+            MsgBox("Error in the Costing Tools - CIPSketchNewCandidate: RefreshSnapWindow" & vbCrLf & ex.ToString())
         End Try
     End Sub
 #End Region

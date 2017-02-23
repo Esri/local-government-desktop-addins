@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AA_CultureInfo" xml:space="preserve">
     <value>fr-FR</value>
@@ -2632,6 +2632,18 @@
   </data>
   <data name="TraceResultsCount" xml:space="preserve">
     <value>This results contains {0} features, do you want to draw the results, this could take a long time?</value>
+    <comment>Needs Translation</comment>
+  </data>
+  <data name="ConfigDlgBackupConfig" xml:space="preserve">
+    <value>Backup existing configuration</value>
+    <comment>Needs Translation</comment>
+  </data>
+  <data name="FieldWrongType" xml:space="preserve">
+    <value>The field type does not match the value</value>
+    <comment>Needs Localization</comment>
+  </data>
+  <data name="dynamicValueTableMissing" xml:space="preserve">
+    <value>DynamicValue Table is required to activate the Attribute Assistant</value>
     <comment>Needs Translation</comment>
   </data>
 </root>

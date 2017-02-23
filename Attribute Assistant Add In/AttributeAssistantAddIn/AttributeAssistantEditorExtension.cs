@@ -84,6 +84,8 @@ namespace ArcGIS4LocalGovernment
         public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature, Start, End }
         public static ESRI.ArcGIS.esriSystem.IPropertySet2 lastValueProperties;
         public static string _filePath = "";
+        public enum TriggerByToolsOptions { Edit, Create, Change, Geo, Manual }
+        public static TriggerByToolsOptions triggerByTools = TriggerByToolsOptions.Edit;
 
         public static ISpatialReference _sr1;
         public static RotationCalculator rCalc;
@@ -146,10 +148,16 @@ namespace ArcGIS4LocalGovernment
         public static List<int> _fabricObjectClassIds;
         public static Dictionary<int, ITable> _fabricInMemTablesLookUp;
         public static bool _CheckEnvelope = false;
+        public static bool _bypassEditOperationCheck = false;
 
         // Declare configuration variables 
         public static string _defaultsTableName = "DynamicValue";
         public static string _sequenceTableName = "GenerateId";
+        public static bool setOff = true;
+
+        public static string _seqNameField = "SEQNAME";
+        public static string _seqCounterField = "SEQCOUNTER";
+        public static string _seqIntervalField = "SEQINTERV";
 
         public static void setIcon()
         {
@@ -164,6 +172,23 @@ namespace ArcGIS4LocalGovernment
 
                     return;
 
+                if (setOff)
+                {
+                    if (AAState.PerformUpdates)
+                    {
+                        AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOn);
+                        AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1a");
+                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1a"));
+                    }
+                    else
+                    {
+                        AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
+                        AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b");
+                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
+                    }
+                    setOff = false;
+
+                }
                 if (AAState.PerformUpdates && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_1"))) //on
                 {
 
@@ -173,7 +198,8 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1a"));
 
                 }
-                else if (AAState.PerformUpdates == false && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_2")) && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_3"))) //off
+                else if (AAState.PerformUpdates == false && !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_2")) &&
+                    !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_3"))) //off
                 {
 
                     AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
@@ -181,6 +207,7 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
 
                 }
+
                 else if (AAState.commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_4"))) //startup
                 {
 
@@ -202,10 +229,20 @@ namespace ArcGIS4LocalGovernment
 
                     }
                 }
+                else if (AAState.PerformUpdates == false &&
+                    commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCheck_2")) &&
+                     !commandItem.Caption.ToString().Contains(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b"))) //off
+                {
+
+                    AAState.commandItem.FaceID = ESRI.ArcGIS.ADF.COMSupport.OLE.GetIPictureDispFromBitmap(bmpOff);
+                    AAState.commandItem.Caption = A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorCapt_1b");
+                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1b"));
+
+                }
             }
             catch (Exception ex)
             {
-                //    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_1a") + ex.Message);
+                //    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_1a") + ex.ToString());
 
             }
 
@@ -331,7 +368,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain0") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain0") + ex.ToString());
                 return null;
             }
         }
@@ -346,7 +383,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_1b") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_1b") + ex.ToString());
             }
 
         }
@@ -480,7 +517,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain1") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain1") + ex.ToString());
             }
         }
         public static void promptLastValueProperrtySetOneForm()
@@ -524,7 +561,7 @@ namespace ArcGIS4LocalGovernment
 
                     pDR = pDt.NewRow();
 
-                    string strVal = ((object[])lstNames)[i].ToString();
+                    string strVal = ((object[])lstNames)[i].ToString().Trim();
                     pDR["Field"] = strVal;
 
                     pDR["Changed"] = "F";
@@ -559,7 +596,7 @@ namespace ArcGIS4LocalGovernment
                             lstVal = AAState.lastValueProperties.GetProperty(dr[0].ToString()) as LastValueEntry;
                             if (lstVal != null)
                             {
-                                lstVal.Value = dr[1].ToString();
+                                lstVal.Value = dr[1].ToString().Trim();
                                 AAState.lastValueProperties.SetProperty(dr[0].ToString(), lstVal);
                             }
                         }
@@ -571,7 +608,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain2") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain2") + ex.ToString());
             }
         }
         public static void promptLastValueProperrtySet()
@@ -594,7 +631,7 @@ namespace ArcGIS4LocalGovernment
                 LastValueEntry lstVal;
                 for (int i = 0; i < AAState.lastValueProperties.Count; i++)
                 {
-                    string strVal = ((object[])lstNames)[i].ToString();
+                    string strVal = ((object[])lstNames)[i].ToString().Trim();
 
                     lstVal = AAState.lastValueProperties.GetProperty(strVal) as LastValueEntry;
                     if (lstVal != null)
@@ -633,7 +670,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain2") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain2") + ex.ToString());
             }
         }
         public static void initEditing()
@@ -711,6 +748,7 @@ namespace ArcGIS4LocalGovernment
                 _editEvents.OnChangeFeature -= FeatureChange;
                 _editEvents.OnCreateFeature -= FeatureCreate;
                 _editEvents2.BeforeStopOperation -= StopOperation; // SG Jan 2013
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("dynamicValueTableMissing"));
 
 
             }
@@ -768,7 +806,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_4a") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_4a") + ex.ToString());
 
             }
         }
@@ -791,7 +829,7 @@ namespace ArcGIS4LocalGovernment
             try
             {
 
-                if (AAState._onStopOperationEvent == true)
+                if (AAState._onStopOperationEvent == true && AAState._bypassEditOperationCheck == false)
                 {
                     IWorkspaceEdit2 wsEdit = (IWorkspaceEdit2)AAState._editor.EditWorkspace;
                     if (wsEdit.IsInEditOperation == true)
@@ -849,7 +887,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain3") + ex.Message + " \n");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain3") + ex.ToString() + " \n");
             }
         }
 
@@ -902,7 +940,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("FeatureChange:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("FeatureChange:" + ex.ToString() + " \n" + obj.Class.AliasName + ": " + obj.OID);
 
             }
         }
@@ -918,7 +956,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("FeatureGeoChange:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("FeatureGeoChange:" + ex.ToString() + " \n" + obj.Class.AliasName + ": " + obj.OID);
 
             }
         }
@@ -934,7 +972,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("OnCreateFeature:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("OnCreateFeature:" + ex.ToString() + " \n" + obj.Class.AliasName + ": " + obj.OID);
             }
         }
         public static void FeatureManual(ESRI.ArcGIS.Geodatabase.IObject obj)
@@ -949,7 +987,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("OnFeatureManual:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("OnFeatureManual:" + ex.ToString() + " \n" + obj.Class.AliasName + ": " + obj.OID);
 
             }
         }
@@ -1064,7 +1102,14 @@ namespace ArcGIS4LocalGovernment
             else
                 AAState._clearLastValue = false;
 
+            if (ConfigUtil.GetConfigValue("BypassEditOperationCheck", "FALSE").ToUpper() == "TRUE")
+                AAState._bypassEditOperationCheck = true;
+            else
+                AAState._bypassEditOperationCheck = false;
 
+            AAState._seqNameField = ConfigUtil.GetConfigValue("SequenceName", AAState._seqNameField);
+            AAState._seqCounterField = ConfigUtil.GetConfigValue("SequenceCounter", AAState._seqCounterField);
+            AAState._seqIntervalField = ConfigUtil.GetConfigValue("SequenceInterval", AAState._seqIntervalField);
 
         }
 
@@ -1120,6 +1165,7 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                AAState.setOff = true;
                 AAState.setIcon();
             }
             catch { }
@@ -1251,7 +1297,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
 
             }
             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_9b") + newValue);
@@ -1339,10 +1385,9 @@ namespace ArcGIS4LocalGovernment
                         AAState._editEvents.OnStartEditing -= OnStartEditing;
                         AAState._editEvents.OnStopEditing -= OnStopEditing;
                         AAState._editEvents2 = (IEditEvents2_Event)AAState._editor;// SG Jan 2003
-
-                        AAState._editor = null;
-                        AAState._editEvents = null;
-                        AAState._editEvents2 = null;  // SG Jan 2003
+                        //AAState._editor = null;
+                        //AAState._editEvents = null;
+                        //AAState._editEvents2 = null;  // SG Jan 2003
 
                     }
                 }
@@ -1360,7 +1405,7 @@ namespace ArcGIS4LocalGovernment
 
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain5") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain5") + ex.ToString());
 
             }
         }
@@ -1432,7 +1477,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_10a") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_10a") + ex.ToString());
 
             }
         }
@@ -1482,7 +1527,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_11a") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_11a") + ex.ToString());
 
             }
 
@@ -1518,7 +1563,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("OnChangeGeoFeature:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("OnChangeGeoFeature:" + ex.ToString() + " \n" + obj.Class.AliasName + ": " + obj.OID);
 
             }
             finally
@@ -1541,23 +1586,39 @@ namespace ArcGIS4LocalGovernment
                     if (AAState._fabricObjectClassIds != null)
                         bIsFabricRecord = AAState._fabricObjectClassIds.Contains(obj.Class.ObjectClassID);
 
-
-                    pFeatChange = (IFeatureChanges)inFeature;
-                    if (pFeatChange.ShapeChanged)
+                    if ((inFeature as INetworkFeature) != null && NetworkConnectivityChanged(obj))
+                    //check to see if a feature is connected or disconnected
                     {
-                        if (bIsFabricRecord)
+                        if (AAState.triggerByTools == AAState.TriggerByToolsOptions.Change)
                         {
-                            if (pFeatChange.OriginalShape.IsEmpty)
-                                sendEvent(obj, "ON_CREATE"); //original shape empty, but shape change means new parcel
-                            else
-                                sendEvent(obj, "ON_CHANGE");//treat geometry changes as standard change for fabric
+                            sendEvent(obj, "ON_CHANGE");
                         }
                         else
+                        {
                             sendEvent(obj, "ON_CHANGEGEO");
+
+                        }
+
                     }
                     else
                     {
-                        sendEvent(obj, "ON_CHANGE");
+                        pFeatChange = (IFeatureChanges)inFeature;
+                        if (pFeatChange.ShapeChanged)
+                        {
+                            if (bIsFabricRecord)
+                            {
+                                if (pFeatChange.OriginalShape.IsEmpty)
+                                    sendEvent(obj, "ON_CREATE"); //original shape empty, but shape change means new parcel
+                                else
+                                    sendEvent(obj, "ON_CHANGE");//treat geometry changes as standard change for fabric
+                            }
+                            else
+                                sendEvent(obj, "ON_CHANGEGEO");
+                        }
+                        else
+                        {
+                            sendEvent(obj, "ON_CHANGE");
+                        }
                     }
                 }
                 else
@@ -1569,7 +1630,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain7") + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain7") + ex.ToString() + " \n" + obj.Class.AliasName + ": " + obj.OID);
 
             }
             finally
@@ -1578,6 +1639,36 @@ namespace ArcGIS4LocalGovernment
 
             }
         }
+
+        private bool NetworkConnectivityChanged(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            return (!ValuesChanged(obj) && !ShapeChanged(obj));
+        }
+
+        private bool ValuesChanged(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            IRowChanges rowChanges;
+            rowChanges = obj as IRowChanges;
+            for (int i = 0; i <= obj.Fields.FieldCount - 1; i++)
+            {
+                if (rowChanges.get_ValueChanged(i))
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
+        }
+
+        private bool ShapeChanged(ESRI.ArcGIS.Geodatabase.IObject obj)
+        {
+            IFeatureChanges featureChanges;
+            featureChanges = obj as IFeatureChanges;
+
+            return featureChanges.ShapeChanged;
+        }
+
         private void OnBeforeStopOperation(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
             IFeatureChanges pFeatChange = null;
@@ -1608,7 +1699,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("BeforeStopOperation:" + ex.Message);// + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("BeforeStopOperation:" + ex.ToString());// + " \n" + obj.Class.AliasName + ": " + obj.OID);
 
             }
             finally
@@ -1645,7 +1736,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain7") + ex.Message + " \n");
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain7") + ex.ToString() + " \n");
 
             }
             finally
@@ -1676,7 +1767,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("OnCreateFeature:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("OnCreateFeature:" + ex.ToString() + " \n" + obj.Class.AliasName + ": " + obj.OID);
             }
         }
         private void OnManualFeature(ESRI.ArcGIS.Geodatabase.IObject obj)
@@ -1688,7 +1779,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show("OnManualFeature:" + ex.Message + " \n" + obj.Class.AliasName + ": " + obj.OID);
+                MessageBox.Show("OnManualFeature:" + ex.ToString() + " \n" + obj.Class.AliasName + ": " + obj.OID);
             }
         }
         private void sendEvent(IObject inObject, string mode)
@@ -1838,7 +1929,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_12a") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_12a") + ex.ToString());
 
             }
         }
@@ -1864,6 +1955,7 @@ namespace ArcGIS4LocalGovernment
                         {
                             AAState._processCount++;
                             //Set attributes based on the dynamic defaults configuration table
+                            inFeature = inObject as IFeature;
                             bool success = SetDynamicValues(inObject, eventType, out changedFeatureList, out newFeatureList, out changedFeatureGeoList);
                             try
                             {
@@ -2021,7 +2113,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " in Wire Fabric Events");
+                MessageBox.Show(ex.ToString() + " in Wire Fabric Events");
             }
         }
 
@@ -2042,7 +2134,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + " in UnWire Fabric Events");
+                MessageBox.Show(ex.ToString() + " in UnWire Fabric Events");
             }
         }
 
@@ -2081,7 +2173,7 @@ namespace ArcGIS4LocalGovernment
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show("Error Creating In Memory Fabric Table" + Environment.NewLine + ex.Message);
+                            MessageBox.Show("Error Creating In Memory Fabric Table" + Environment.NewLine + ex.ToString());
                         }
                     }
                     if (AAState._fabricObjectClassIds == null)
@@ -2768,8 +2860,334 @@ namespace ArcGIS4LocalGovernment
                                 {
                                     switch (valMethod)
                                     {
+                                        case "VALIDATE_DOMAIN":
+
+                                            try
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "VALIDATE_DOMAIN");
+                                                IRowChanges pRowCh = null;
+                                                if (valData != null)
+                                                {
+
+                                                    if (intFldIdxs.Count == 0)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorErrr_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aw"));
+                                                        continue;
+                                                    }
+
+                                                    pRowCh = inObject as IRowChanges;
+                                                    if (mode != "ON_MANUAL")
+                                                    {
+                                                        bool valueChanged = false;
+                                                        for (int i = 0; i < intFldIdxs.Count; i++)
+                                                        {
+                                                            if (pRowCh.get_ValueChanged(intFldIdxs[i]) == true)
+                                                            {
+                                                                valueChanged = true;
+                                                                break;
+
+                                                            }
+                                                        }
+                                                        if (valueChanged == true)
+                                                        {
+                                                            for (int i = 0; i < intFldIdxs.Count; i++)
+                                                            {
+                                                                if (pRowCh.get_ValueChanged(intFldIdxs[i]) == true)
+                                                                {
+
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ax"));
+                                                                    if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttrTrasftLoadRError_1"));
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        IDomain pD = null;
+                                                                        ISubtypes pSubType = (ISubtypes)inObject.Class;
+                                                                        if (pSubType.HasSubtype)
+                                                                        {
+                                                                            AAState.WriteLine("Layer has subtypes");
+                                                                            if (pSubType.SubtypeFieldIndex == intFldIdxs[i])
+                                                                            {
+                                                                                AAState.WriteLine("Subtype field changed");
+                                                                                IList<Globals.DomSubList> subList = Globals.SubtypeToList(pSubType);
+                                                                                bool fldValid = false;
+                                                                                foreach (Globals.DomSubList sub in subList)
+                                                                                {
+                                                                                    if (sub.Value == inObject.get_Value(pSubType.SubtypeFieldIndex).ToString())
+                                                                                    {
+                                                                                        fldValid = true;
+                                                                                    }
+                                                                                }
+                                                                                if (fldValid == false)
+                                                                                {
+                                                                                    AAState.WriteLine("subtype not valid, aborting");
+
+                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
+                                                                                    AAState._editor.AbortOperation();
+                                                                                    return false;
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    AAState.WriteLine("Valid subtype");
+                                                                                }
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                pD = pSubType.get_Domain((int)inObject.get_Value(pSubType.SubtypeFieldIndex), inObject.Fields.get_Field(intFldIdxs[i]).Name);
+
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                            if (inObject.Fields.get_Field(intFldIdxs[i]).Domain != null)
+                                                                            {
+                                                                                pD = inObject.Fields.get_Field(intFldIdxs[i]).Domain;
+                                                                            }
+                                                                        }
+                                                                        if (pD != null)
+                                                                        {
+
+                                                                            bool fldValid = false;
+                                                                            if (pD is ICodedValueDomain)
+                                                                            {
+                                                                                AAState.WriteLine("Field has a coded value domain, checking value: " + inObject.get_Value(intFldIdxs[i]).ToString());
+                                                                                ICodedValueDomain2 pCD = (ICodedValueDomain2)pD;
+                                                                                for (int j = 0; j < pCD.CodeCount; j++)
+                                                                                {
+                                                                                    if (pCD.get_Value(j).ToString() == inObject.get_Value(intFldIdxs[i]).ToString())
+                                                                                    {
+                                                                                        fldValid = true;
+                                                                                        break;
+                                                                                    }
+
+                                                                                }
+                                                                                pCD = null;
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                try
+                                                                                {
+                                                                                    AAState.WriteLine("Field has a range domain, checking value: " + inObject.get_Value(intFldIdxs[i]).ToString());
+                                                                                    IRangeDomain pRD = (IRangeDomain)pD;
+                                                                                    double fldVal;
+                                                                                    double minValue;
+                                                                                    double maxValue;
+                                                                                    double.TryParse(inObject.get_Value(intFldIdxs[i]).ToString(), out fldVal);
+                                                                                    double.TryParse(pRD.MinValue.ToString(), out minValue);
+                                                                                    double.TryParse(pRD.MaxValue.ToString(), out maxValue);
+                                                                                    if (fldVal >= minValue && fldVal <= maxValue)
+                                                                                    {
+                                                                                        fldValid = true;
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        AAState.WriteLine("Value is outside ther range: " + minValue.ToString() + " - " + maxValue.ToString());
+
+                                                                                    }
+
+                                                                                    pRD = null;
+                                                                                }
+                                                                                catch
+                                                                                {
+
+                                                                                }
+                                                                            }
+                                                                            pD = null;
+                                                                            if (fldValid == false)
+                                                                            {
+                                                                                AAState.WriteLine("Value not valid, aborting");
+
+                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
+                                                                                AAState._editor.AbortOperation();
+                                                                                return false;
+
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                AAState.WriteLine(inObject.Fields.get_Field(intFldIdxs[i]).Name + " is valid");
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                            //do nothing
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            AAState.WriteLine("Listed Fields did not change");
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        AAState.WriteLine("Unsupported mode:" + mode);
+                                                    }
+                                                }
+
+                                                pRowCh = null;
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "VALIDATE_DOMAIN: " + ex.ToString());
+                                            }
+                                            finally
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "VALIDATE_DOMAIN");
+
+                                            }
+                                            break;
+                                        case "MAP_INFO"://Value|FieldToChange|Value
+
+                                            try
+                                            {
+                                                IRowChanges pRowCh = null;
+                                                if (valData != null)
+                                                {
+                                                    
+
+                                                    args = valData.Split('|');
+
+                                                    if (args.Length < 1 || args.Length > 2)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MAP_INFO: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bh"));
+                                                        continue;
+                                                    }
+                                                    string valType = "";
+                                                    string limitField = "";
+                                                    int limitFieldIdx = -1;
+                                                    int fieldToStoreResults = intFldIdxs[0];
+                                                    switch (args.Length)
+                                                    {
+                                                        case 1:
+                                                            valType = args[0];
+                                                            break;
+                                                        case 2:
+                                                            valType = args[0];
+                                                            limitField = args[1];
+                                                            limitFieldIdx = Globals.GetFieldIndex(inObject.Fields, limitField);
+                                                            break;
+                                                        default:
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MAP_INFO: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bh"));
+                                                            continue;
+                                                    }
+
+                                                    
+                                                    IDocumentInfo2 pDocInfo = (IDocumentInfo2)(ArcMap.Document as IMapDocument);
+                                                    string resultValue = null;
+                                                    switch (valType.ToUpper())
+                                                    {
+                                                        case "AUTHOR":
+                                                            resultValue = pDocInfo.Author;
+                                                            break;
+                                                        case "TITLE":
+                                                            resultValue = pDocInfo.DocumentTitle;
+                                                            break;
+                                                        case "NAME":
+                                                            resultValue = pDocInfo.Name;
+                                                            break;
+                                                        case "PATH":
+                                                            resultValue = pDocInfo.Path;
+                                                            break;
+                                                        case "VERSION":
+                                                            IDataset pDs = (IDataset)inObject.Class;
+                                                            IWorkspace pWork = pDs.Workspace;
+
+                                                            if (pWork is IVersionedWorkspace)
+                                                            {
+                                                                IVersion pVersion = (IVersion)(pWork as IVersionedWorkspace);
+                                                                resultValue = pVersion.VersionName;
+                                                                pDs = null;
+                                                                pVersion = null;
+                                                            }
+                                                            else
+                                                            {
+                                                                resultValue = "FGDB";
+                                                            }
+                                                            break;
+                                                        default:
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain48"));
+
+                                                            continue;
+
+                                                    }
 
 
+                                                    pRowCh = inObject as IRowChanges;
+
+                                                    if (limitFieldIdx >= 0)
+                                                    {
+                                                        if (pRowCh.get_ValueChanged(limitFieldIdx) == false && (mode != "ON_CREATE" && mode != "ON_MANUAL") && AAState.triggerByTools == AAState.TriggerByToolsOptions.Edit)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain64"));
+
+                                                            continue;
+
+                                                        }
+                                                    }
+
+                                                    if (resultValue != null)
+                                                    {
+                                                    
+                                                        if (fieldToStoreResults >= 0)
+                                                        {
+                                                            IField pTarField = inObject.Fields.get_Field(fieldToStoreResults);
+
+                                                            if (pTarField.Type != esriFieldType.esriFieldTypeString)
+                                                            {
+                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("FieldWrongType"));
+
+                                                            }
+                                                            else
+                                                            {
+                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14co") + resultValue);
+                                                                try
+                                                                {
+                                                                    if (pTarField.Length < resultValue.Length)
+                                                                    {
+                                                                        resultValue = resultValue.Substring(0, pTarField.Length);
+                                                                    }
+                                                                    inObject.set_Value(fieldToStoreResults, resultValue);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az") + resultValue);
+                                                                }
+                                                                catch
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14c") + resultValue);
+                                                                }
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain25"));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain48"));
+                                                    }
+                                                }
+                                                pRowCh = null;
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MAP_INFO: " + ex.ToString());
+                                            }
+                                            finally
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "MAP_INFO");
+
+                                            }
+                                            break;
 
                                         case "FIELD_TRIGGER"://Value|FieldToChange|Value
 
@@ -2804,7 +3222,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     if (intFldIdxs.Count == 0)
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aw"));
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorErrr_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14aw"));
                                                         continue;
                                                     }
                                                     if (intFldIdxs[0] == -1)
@@ -2844,7 +3262,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FIELD_TRIGGER: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FIELD_TRIGGER: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -3014,6 +3432,7 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 sqlUpp = "UPPER";
                                                             }
+                                                            bool valueIsNull = false;
                                                             for (int i = 0; i < sourceFieldNames.Length; i++)
                                                             {
                                                                 sourceFieldNums[i] = Globals.GetFieldIndex(pFlds, sourceFieldNames[i].Trim());
@@ -3024,8 +3443,17 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                 }
+                                                                if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
+                                                                {
+                                                                    if (valueIsNull == false)
+                                                                    {
+                                                                        valueIsNull = true;
+                                                                    }
+
+                                                                }
                                                                 if (pFlds.get_Field(sourceFieldNums[i]).Type == esriFieldType.esriFieldTypeString)
                                                                 {
+
                                                                     if (sqlString == "")
                                                                     {
                                                                         sqlString = pFlds.get_Field(sourceFieldNums[i]).Name + "" + " = '" + inObject.get_Value(intFldIdxs[i]).ToString().Replace("'", "''") + "'";
@@ -3040,6 +3468,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
+
                                                                     if (sqlString == "")
                                                                     {
                                                                         sqlString = pFlds.get_Field(sourceFieldNums[i]).Name + " = " + inObject.get_Value(intFldIdxs[i]);
@@ -3126,7 +3555,9 @@ namespace ArcGIS4LocalGovernment
 
                                                                     }
                                                                     string selectVal = Globals.showOptionsForm(pLst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
-                                                                    if (selectVal == "||Cancelled||")
+                                                                    if (selectVal == "||Cancelled||" && valueIsNull == true)
+                                                                    { }
+                                                                    else if (selectVal == "||Cancelled||" && valueIsNull == false)
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
                                                                         AAState._editor.AbortOperation();
@@ -3136,12 +3567,21 @@ namespace ArcGIS4LocalGovernment
                                                                     else
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain22") + selectVal);
-                                                                        string[] strVals = selectVal.Split('|');
-
-                                                                        for (int i = 0; i < sourceFieldNums.Length; i++)
+                                                                        if (sourceFieldNums.Length == 1)
                                                                         {
-                                                                            inObject.set_Value(intFldIdxs[i], (strVals[i].Trim()));
+                                                                            inObject.set_Value(intFldIdxs[0], selectVal);
                                                                         }
+                                                                        else
+                                                                        {
+                                                                            string[] strVals = selectVal.Split((char)150);
+
+                                                                            for (int i = 0; i < sourceFieldNums.Length; i++)
+                                                                            {
+                                                                                inObject.set_Value(intFldIdxs[i], (strVals[i].Trim()));
+                                                                            }
+                                                                        }
+
+
 
                                                                     }
 
@@ -3171,7 +3611,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "VALIDATE_ATTRIBUTE_LOOKUP" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "VALIDATE_ATTRIBUTE_LOOKUP" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -3253,7 +3693,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "PREVIOUS_VALUE" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "PREVIOUS_VALUE" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -3347,7 +3787,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "ANGLE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "ANGLE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -3440,10 +3880,10 @@ namespace ArcGIS4LocalGovernment
 
                                                     for (int i = 0; i < sourceLayerNames.Length; i++)
                                                     {
-                                                        sourceLayerName = sourceLayerNames[i].ToString();
+                                                        sourceLayerName = sourceLayerNames[i].ToString().Trim();
                                                         if (sourceLayerName != "")
 
-                                                            sourceLayerName = args[i].ToString();
+                                                            sourceLayerName = args[i].ToString().Trim();
                                                         if (i == 0)
                                                             i++;
                                                         boolLayerOrFC = true;
@@ -3506,32 +3946,48 @@ namespace ArcGIS4LocalGovernment
                                                         }
 
                                                         IPolyline pTempLine = new PolylineClass();
+                                                        IFeature sourceFeature = null;
                                                         pTempLine = Globals.CreateAngledLineFromLocationOnLine((IPoint)inFeature.Shape, sourceLayer,
-                                                            boolLayerOrFC, Globals.ConvertDegToRads(90), offsetVal, "true", true, false);
+                                                            boolLayerOrFC, Globals.ConvertDegToRads(90), offsetVal, "true", true, false, out sourceFeature, searchDistance);
 
-                                                        IEditTemplate pTemp = null;
-                                                        IFeature pFeat = null;
-
-                                                        if (targetLayerTemp != "")
-                                                            pTemp = Globals.GetEditTemplate(targetLayerTemp, targetLayer);
-                                                        if (pTemp != null)
+                                                        if (pTempLine != null)
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain33"));
-                                                            pFeat = Globals.CreateFeature(pTempLine, pTemp, AAState._editor, ArcMap.Application, false, false, false);
+                                                            if (pTempLine.IsEmpty == false)
+                                                            {
+                                                                IEditTemplate pTemp = null;
+                                                                IFeature pFeat = null;
 
+                                                                if (targetLayerTemp != "")
+                                                                    pTemp = Globals.GetEditTemplate(targetLayerTemp, targetLayer);
+                                                                if (pTemp != null)
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain33"));
+                                                                    pFeat = Globals.CreateFeature(pTempLine, pTemp, AAState._editor, ArcMap.Application, false, false, false);
+
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    pFeat = Globals.CreateFeature(pTempLine, targetLayer, AAState._editor, ArcMap.Application, false, false, false);
+                                                                }
+
+                                                                if (NewFeatureList == null)
+                                                                {
+                                                                    NewFeatureList = new List<IObject>();
+                                                                }
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain34"));
+                                                                NewFeatureList.Add(pFeat);
+                                                            }
+                                                            else
+                                                            {
+                                                                AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
+                                                            }
                                                         }
                                                         else
                                                         {
-
-                                                            pFeat = Globals.CreateFeature(pTempLine, targetLayer, AAState._editor, ArcMap.Application, false, false, false);
+                                                            AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
                                                         }
 
-                                                        if (NewFeatureList == null)
-                                                        {
-                                                            NewFeatureList = new List<IObject>();
-                                                        }
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain34"));
-                                                        NewFeatureList.Add(pFeat);
 
                                                     }
                                                 }
@@ -3540,7 +3996,181 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CREATE_PERP_LINE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CREATE_PERP_LINE: " + ex.ToString());
+                                            }
+                                            finally
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "CREATE_PERP_LINE");
+                                            }
+                                            break;
+                                        case "CREATE_PERP_LINE_TO_LINE"://Layer to Search For|Search distance to look for a line|TargetLayer|TargetLayerTemplate
+
+                                            try
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "CREATE_PERP_LINE");
+                                                if (inFeature != null & valData != null)
+                                                {
+                                                    sourceLayerName = "";
+                                                    string targetLayerName = "";
+                                                    IFeatureLayer targetLayer = null;
+                                                    string targetLayerTemp = "";
+
+                                                    // Parse arguments
+                                                    args = valData.Split('|');
+
+                                                    if (args.GetLength(0) == 4)
+                                                    {
+
+                                                        sourceLayerNames = args[0].ToString().Split(',');
+
+
+                                                        Double.TryParse(args[1], out searchDistance);
+                                                        targetLayerName = args[2];
+                                                        targetLayerTemp = args[3];
+
+                                                    }
+                                                    else if (args.GetLength(0) == 3)
+                                                    {
+
+
+                                                        sourceLayerNames = args[0].ToString().Split(',');
+
+
+                                                        Double.TryParse(args[1], out searchDistance);
+                                                        targetLayerName = args[2];
+
+                                                    }
+                                                    else
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14av"));
+                                                        continue;
+                                                    }
+                                                    if (intFldIdxs.Count > 0)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain32"));
+                                                        continue;
+                                                    }
+
+                                                    targetLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, targetLayerName, ref boolLayerOrFC);
+                                                    if (targetLayer == null)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14g") + targetLayerName);
+                                                        continue;
+                                                    }
+                                                    if (targetLayer.FeatureClass.ShapeType != esriGeometryType.esriGeometryPolyline)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14h") + targetLayerName);
+                                                        continue;
+                                                    }
+                                                    if (targetLayer is ICadastralFabricSubLayer2)
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14i") + targetLayerName);
+                                                        continue;
+                                                    }
+
+                                                    for (int i = 0; i < sourceLayerNames.Length; i++)
+                                                    {
+                                                        sourceLayerName = sourceLayerNames[i].ToString().Trim();
+                                                        if (sourceLayerName != "")
+
+                                                            sourceLayerName = args[i].ToString().Trim();
+                                                        if (i == 0)
+                                                            i++;
+                                                        boolLayerOrFC = true;
+
+                                                        if (sourceLayerName.Contains("("))
+                                                        {
+                                                            string[] tempSplt = sourceLayerName.Split('(');
+                                                            sourceLayerName = tempSplt[0];
+                                                            sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+
+                                                            if (tempSplt[1].ToUpper().Contains("LAYER)"))
+                                                            {
+                                                                boolLayerOrFC = true;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("FEATURELAYER)"))
+                                                            {
+                                                                boolLayerOrFC = true;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("FEATURECLASS)"))
+                                                            {
+                                                                boolLayerOrFC = false;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("CLASS)"))
+                                                            {
+                                                                boolLayerOrFC = false;
+                                                            }
+                                                            else if (tempSplt[1].ToUpper().Contains("FEATURE)"))
+                                                            {
+                                                                boolLayerOrFC = false;
+                                                            }
+                                                            else
+                                                            {
+                                                                boolLayerOrFC = true;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC);
+
+                                                        }
+                                                        if (sourceLayer == null)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14b") + sourceLayer + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
+                                                            continue;
+                                                        }
+
+
+                                                        IPolyline pTempLine = new PolylineClass();
+                                                        pTempLine = Globals.CreateAngledLineFromLocationToLine((IPoint)inFeature.Shape, sourceLayer, boolLayerOrFC, true, false, searchDistance);
+
+                                                        if (pTempLine != null)
+                                                        {
+                                                            if (pTempLine.IsEmpty == false)
+                                                            {
+                                                                IEditTemplate pTemp = null;
+                                                                IFeature pFeat = null;
+
+                                                                if (targetLayerTemp != "")
+                                                                    pTemp = Globals.GetEditTemplate(targetLayerTemp, targetLayer);
+                                                                if (pTemp != null)
+                                                                {
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain33"));
+                                                                    pFeat = Globals.CreateFeature(pTempLine, pTemp, AAState._editor, ArcMap.Application, false, false, false);
+
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    pFeat = Globals.CreateFeature(pTempLine, targetLayer, AAState._editor, ArcMap.Application, false, false, false);
+                                                                }
+
+                                                                if (NewFeatureList == null)
+                                                                {
+                                                                    NewFeatureList = new List<IObject>();
+                                                                }
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain34"));
+                                                                NewFeatureList.Add(pFeat);
+                                                            }
+                                                            else
+                                                            {
+                                                                AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            AAState.WriteLine("A line was not found in the search distance: " + "CREATE_PERP_LINE");
+                                                        }
+
+
+                                                    }
+                                                }
+
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CREATE_PERP_LINE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -3561,7 +4191,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     }
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain35") + strFldNames[0]);
-                                                    string res = Globals.GetFieldStats(inObject.Class as IFeatureClass, strFldNames[0], Globals.statsType.Max);
+                                                    string res = Globals.GetFieldStats(inObject, strFldNames[0], Globals.statsType.Max);
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain36") + res);
                                                     if (res == "External component has thrown an exception.")
                                                     {
@@ -3581,7 +4211,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14j") + ex.Message.ToString());
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14j") + ex.ToString().ToString());
                                                         }
                                                     }
                                                     else
@@ -3608,14 +4238,14 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14j") + ex.Message.ToString());
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14j") + ex.ToString().ToString());
                                                                 }
 
                                                             }
 
                                                             catch (Exception ex)
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14j") + ex.Message.ToString());
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14j") + ex.ToString().ToString());
                                                                 AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cp"));
                                                                 long val = 1;
 
@@ -3648,7 +4278,7 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             catch (Exception ex)
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14j") + ex.Message.ToString());
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14j") + ex.ToString().ToString());
                                                             }
 
 
@@ -3662,7 +4292,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "AUTONUMBER: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "AUTONUMBER: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -3703,10 +4333,10 @@ namespace ArcGIS4LocalGovernment
                                                     found = false;
                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bs"));
                                                     targetLayerNames = args[0].ToString().Split(',');
-                                                    targetFieldName = args[1].ToString();
+                                                    targetFieldName = args[1].ToString().Trim();
                                                     string targetLayerName = "";
-                                                    string sourceIDFieldName = args[2].ToString();
-                                                    string targetIDFieldName = args[3].ToString();
+                                                    string sourceIDFieldName = args[2].ToString().Trim();
+                                                    string targetIDFieldName = args[3].ToString().Trim();
                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bt"));
                                                     if (targetFieldName != null)
                                                     {
@@ -3897,7 +4527,7 @@ namespace ArcGIS4LocalGovernment
                                                                                                 }
                                                                                                 catch (Exception ex)
                                                                                                 {
-                                                                                                    AAState.WriteLine("                  Error trying to get the domain code, values: " + ex.Message);
+                                                                                                    AAState.WriteLine("                  Error trying to get the domain code, values: " + ex.ToString());
                                                                                                 }
                                                                                                 pRow = pCurs.NextRow();
 
@@ -3989,7 +4619,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "COPY_LINKED_RECORD" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "COPY_LINKED_RECORD" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -4045,10 +4675,10 @@ namespace ArcGIS4LocalGovernment
                                                         found = false;
                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bs"));
                                                         targetLayerNames = args[0].ToString().Split(',');
-                                                        targetFieldName = args[1].ToString();
+                                                        targetFieldName = args[1].ToString().Trim();
                                                         string targetLayerName = "";
-                                                        string sourceIDFieldName = args[2].ToString();
-                                                        string targetIDFieldName = args[3].ToString();
+                                                        string sourceIDFieldName = args[2].ToString().Trim();
+                                                        string targetIDFieldName = args[3].ToString().Trim();
                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bt"));
                                                         if (targetFieldName != null)
                                                         {
@@ -4232,7 +4862,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_LINKED_RECORD" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_LINKED_RECORD" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -4289,6 +4919,14 @@ namespace ArcGIS4LocalGovernment
 
                                                         Double.TryParse("1", out searchDistance);
                                                     }
+                                                    else if (args.GetLength(0) >= 1)
+                                                    {
+
+                                                        sourceLayerNames = args[0].ToString().Split(',');
+                                                        offsetVal = 0;
+                                                        searchDistance = 1;
+
+                                                    }
                                                     else
                                                     {
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14av"));
@@ -4305,10 +4943,10 @@ namespace ArcGIS4LocalGovernment
 
                                                     for (int i = 0; i < sourceLayerNames.Length; i++)
                                                     {
-                                                        sourceLayerName = sourceLayerNames[i].ToString();
+                                                        sourceLayerName = sourceLayerNames[i].ToString().Trim();
                                                         if (sourceLayerName != "")
 
-                                                            sourceLayerName = args[i].ToString();
+                                                            sourceLayerName = args[i].ToString().Trim();
                                                         if (i == 0)
                                                             i++;
                                                         boolLayerOrFC = true;
@@ -4461,7 +5099,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "OFFSET: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "OFFSET: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -4504,8 +5142,8 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             case 3:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                sourceFieldName = args[1].ToString();
-                                                                inputFieldName = args[2].ToString();
+                                                                sourceFieldName = args[1].ToString().Trim();
+                                                                inputFieldName = args[2].ToString().Trim();
                                                                 break;
                                                             default:
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SIDE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bm"));
@@ -4519,7 +5157,7 @@ namespace ArcGIS4LocalGovernment
 
                                                             for (int i = 0; i < sourceLayerNames.Length; i++)
                                                             {
-                                                                sourceLayerName = sourceLayerNames[i].ToString();
+                                                                sourceLayerName = sourceLayerNames[i].ToString().Trim();
 
                                                                 if (sourceLayerName != "")
                                                                 {
@@ -4627,7 +5265,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SIDE" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SIDE" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -4954,7 +5592,7 @@ namespace ArcGIS4LocalGovernment
 
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "PROMPT" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "PROMPT" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -5135,7 +5773,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CASCADE_ATTRIBUTE" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CASCADE_ATTRIBUTE" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -5394,7 +6032,7 @@ namespace ArcGIS4LocalGovernment
 
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "COPY_FEATURE" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "COPY_FEATURE" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -5539,7 +6177,7 @@ namespace ArcGIS4LocalGovernment
 
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "VALIDATE_CONNECTIVITY" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "VALIDATE_CONNECTIVITY" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -5646,7 +6284,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "VALIDATE_ATTRIBUTES" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "VALIDATE_ATTRIBUTES" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -5731,19 +6369,19 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             if (pFS.SelectionSet.Count > 0)
                                                                             {
-                                                                                pFS.SelectionSet.Search(sFilter, true, out cCurs);
+                                                                                pFS.SelectionSet.Search(sFilter, false, out cCurs);
                                                                                 fCursor = cCurs as IFeatureCursor;
 
 
                                                                             }
                                                                             else
                                                                             {
-                                                                                fCursor = intersectLayer.Search(sFilter, true);
+                                                                                fCursor = intersectLayer.Search(sFilter, false);
                                                                             }
                                                                         }
                                                                         else
                                                                         {
-                                                                            fCursor = intersectLayer.FeatureClass.Search(sFilter, true);
+                                                                            fCursor = intersectLayer.FeatureClass.Search(sFilter, false);
                                                                         }
 
                                                                         IFeature intsersectFeature;
@@ -5761,7 +6399,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application);
+                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application, true);
 
                                                                                     if (featset != null)
                                                                                     {
@@ -5812,7 +6450,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application);
+                                                                                    ISet featset = Globals.splitLineWithPoint(intsersectFeature, inFeature.ShapeCopy as IPoint, snapTol, null, "{0:0.00}", ArcMap.Application, true);
 
 
                                                                                     if (featset == null)
@@ -5879,7 +6517,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SPLIT_INTERSECTING_FEATURE" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SPLIT_INTERSECTING_FEATURE" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -5894,6 +6532,7 @@ namespace ArcGIS4LocalGovernment
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "NEAREST_FEATURE_ATTRIBUTES");
                                                 try
                                                 {
+                                                    bool resetToDefault = false;
                                                     if ((valData != null) && (inFeature != null))
                                                     {
                                                         sourceLayerName = "";
@@ -5917,6 +6556,14 @@ namespace ArcGIS4LocalGovernment
                                                             sourceFieldNames = args[1].ToString().Split(',');
                                                             destFieldNames = args[2].ToString().Split(',');
                                                             Double.TryParse(args[3], out searchDistance);
+                                                        }
+                                                        else if (args.Length == 5)
+                                                        {
+                                                            sourceLayerName = args[0].ToString().Trim();
+                                                            sourceFieldNames = args[1].ToString().Split(',');
+                                                            destFieldNames = args[2].ToString().Split(',');
+                                                            Double.TryParse(args[3], out searchDistance);
+                                                            resetToDefault = args[4].ToString().ToUpper() == "TRUE" ? true : false;
                                                         }
                                                         else
                                                         {
@@ -6105,7 +6752,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                             }
                                                                         }
-                                                                        else
+                                                                        else if (resetToDefault)
                                                                         {
                                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain88"));
 
@@ -6154,7 +6801,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "NEAREST_FEATURE_ATTRIBUTES" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "NEAREST_FEATURE_ATTRIBUTES" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -6201,7 +6848,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MINIMUM_LENGTH \n" + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MINIMUM_LENGTH \n" + ex.ToString());
                                                 }
                                                 finally
                                                 {
@@ -6225,17 +6872,17 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:  // Feature Layer only
-                                                        intersectLayerName = args[0].ToString();
+                                                        intersectLayerName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:  // Feature Layer| Field to copy
-                                                        intersectLayerName = args[0].ToString();
+                                                        intersectLayerName = args[0].ToString().Trim();
 
 
                                                         intersectLayerFieldNameList = new List<string>(args[1].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
 
                                                         break;
                                                     case 3:  // Feature Layer| Field to copy | for future
-                                                        intersectLayerName = args[0].ToString();
+                                                        intersectLayerName = args[0].ToString().Trim();
                                                         intersectLayerFieldNameList = new List<string>(args[1].ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
 
                                                         break;
@@ -6390,7 +7037,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LINK_TABLE_ASSET" + Environment.NewLine + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LINK_TABLE_ASSET" + Environment.NewLine + ex.ToString());
                                             }
 
                                             finally
@@ -6536,7 +7183,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14z") + Environment.NewLine + ex.Message);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14z") + Environment.NewLine + ex.ToString());
                                                                 }
                                                             }
                                                             else
@@ -6559,7 +7206,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GET_ADDRESS_FROM_CENTERLINE" + Environment.NewLine + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GET_ADDRESS_FROM_CENTERLINE" + Environment.NewLine + ex.ToString());
                                             }
 
                                             finally
@@ -6662,7 +7309,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GET_ADDRESS_USING_GEOCODER" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GET_ADDRESS_USING_GEOCODER" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -6835,7 +7482,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    AAState.WriteLine(ex.Message);
+                                                                    AAState.WriteLine(ex.ToString());
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain96"));
                                                                     //wkid = 4326;
                                                                 }
@@ -6901,7 +7548,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    AAState.WriteLine(ex.Message);
+                                                                    AAState.WriteLine(ex.ToString());
 
                                                                 }
                                                                 finally
@@ -6926,7 +7573,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GET_ADDRESS_USING_ARCGIS_SERVICE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GET_ADDRESS_USING_ARCGIS_SERVICE: " + ex.ToString());
                                             }
 
                                             finally
@@ -7049,7 +7696,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TIMESTAMP: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TIMESTAMP: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -7143,7 +7790,7 @@ namespace ArcGIS4LocalGovernment
                                             catch (Exception ex)
                                             {
 
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LAST_VALUE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LAST_VALUE: " + ex.ToString());
 
 
                                             }
@@ -7226,7 +7873,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "X_COORDINATE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "X_COORDINATE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -7306,7 +7953,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "Y_COORDINATE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "Y_COORDINATE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -7406,7 +8053,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LATITUDE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LATITUDE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -7511,7 +8158,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LONGITUDE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LONGITUDE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -7556,7 +8203,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + ex.Message);
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + ex.ToString());
                                                         }
 
                                                     }
@@ -7569,7 +8216,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "Field: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "Field: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -7598,7 +8245,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CURRENT_USER: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CURRENT_USER: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -7648,7 +8295,7 @@ namespace ArcGIS4LocalGovernment
                                                             if (Globals.IsNumeric(args[1].ToString()))
                                                                 AAState.rCalc.SpinAngle = Convert.ToDouble(args[1]);
                                                             AAState.rCalc.UseDiameter = true;
-                                                            AAState.rCalc.DiameterFieldName = args[2].ToString();
+                                                            AAState.rCalc.DiameterFieldName = args[2].ToString().Trim();
 
                                                         }
 
@@ -7659,8 +8306,8 @@ namespace ArcGIS4LocalGovernment
                                                             if (Globals.IsNumeric(args[1].ToString()))
                                                                 AAState.rCalc.SpinAngle = Convert.ToDouble(args[1]);
                                                             AAState.rCalc.UseDiameter = true;
-                                                            AAState.rCalc.DiameterFieldName = args[2].ToString();
-                                                            AAState.rCalc.OnlyLayerName = args[3].ToString();
+                                                            AAState.rCalc.DiameterFieldName = args[2].ToString().Trim();
+                                                            AAState.rCalc.OnlyLayerName = args[3].ToString().Trim();
 
                                                         }
                                                         else
@@ -7691,7 +8338,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "JUNCTION_ROTATION \r\n" + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "JUNCTION_ROTATION \r\n" + ex.ToString());
                                             }
                                             finally
                                             {
@@ -7780,7 +8427,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LENGTH: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "LENGTH: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -7811,7 +8458,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SET_MEASURES: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "SET_MEASURES: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -8050,7 +8697,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_FIELD: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_FIELD: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -8215,7 +8862,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_EDGE_FIELD: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_EDGE_FIELD: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -8234,22 +8881,22 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
-                                                        sourceFieldName = args[0].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
                                                         break;
                                                     case 3:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
                                                         break;
                                                     case 4:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
-                                                        sortOrder = args[3].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
+                                                        sortOrder = args[3].ToString().Trim();
                                                         break;
                                                     default: break;
                                                 }
@@ -8453,7 +9100,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.Message);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.ToString());
 
                                                                 }
 
@@ -8479,7 +9126,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_STATS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_STATS: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -8498,22 +9145,22 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
-                                                        sourceFieldName = args[0].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
                                                         break;
                                                     case 3:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
                                                         break;
                                                     case 4:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
-                                                        sortOrder = args[3].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
+                                                        sortOrder = args[3].ToString().Trim();
                                                         break;
                                                     default: break;
                                                 }
@@ -8719,7 +9366,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.Message);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.ToString());
 
                                                                 }
 
@@ -8745,7 +9392,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_EDGE_STATS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_EDGE_STATS: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -8764,22 +9411,22 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
-                                                        sourceFieldName = args[0].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
                                                         break;
                                                     case 3:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
                                                         break;
                                                     case 4:
-                                                        sourceFieldName = args[0].ToString();
-                                                        statType = args[1].ToString();
-                                                        delim = args[2].ToString();
-                                                        sortOrder = args[3].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
+                                                        statType = args[1].ToString().Trim();
+                                                        delim = args[2].ToString().Trim();
+                                                        sortOrder = args[3].ToString().Trim();
                                                         break;
                                                     default: break;
                                                 }
@@ -8973,7 +9620,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.Message);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.ToString());
 
                                                                 }
 
@@ -8999,7 +9646,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "EDGE_STATS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "EDGE_STATS: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -9023,7 +9670,7 @@ namespace ArcGIS4LocalGovernment
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain114"));
 
 
-                                                    sourceFieldName = args[0].ToString();
+                                                    sourceFieldName = args[0].ToString().Trim();
                                                     string[] fieldsToPop = args[1].ToString().Split(',');
 
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TO_EDGE_MULTI_FIELD_INTERSECT");
@@ -9117,7 +9764,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_MULTI_FIELD_INTERSECT: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_EDGE_MULTI_FIELD_INTERSECT: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -9139,7 +9786,7 @@ namespace ArcGIS4LocalGovernment
                                                 {
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain114"));
 
-                                                    sourceFieldName = args[0].ToString();
+                                                    sourceFieldName = args[0].ToString().Trim();
                                                     string[] fieldsToPop = args[1].ToString().Split(',');
 
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FROM_EDGE_MULTI_FIELD_INTERSECT");
@@ -9233,7 +9880,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_EDGE_MULTI_FIELD_INTERSECT: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_EDGE_MULTI_FIELD_INTERSECT: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -9365,7 +10012,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_JUNCTION_FIELD: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FROM_JUNCTION_FIELD: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -9514,7 +10161,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_JUNCTION_FIELD: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TO_JUNCTION_FIELD: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -9656,7 +10303,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_TO_JUNCTION_FIELD: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_TO_JUNCTION_FIELD: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -9803,7 +10450,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_FROM_JUNCTION_FIELD: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_FROM_JUNCTION_FIELD: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -9984,7 +10631,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_FROM_EDGE_FIELD: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_FROM_EDGE_FIELD: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -10162,7 +10809,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_TO_EDGE_FIELD: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_TO_EDGE_FIELD: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -10430,7 +11077,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_INTERSECTING_FEATURE" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_INTERSECTING_FEATURE" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -10534,7 +11181,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_TO_JUNCTION: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_TO_JUNCTION: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -10630,7 +11277,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_FROM_JUNCTION: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_FROM_JUNCTION: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -10760,7 +11407,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_FROM_EDGE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_FROM_EDGE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -10886,7 +11533,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_TO_EDGE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "TRIGGER_AAEVENT_TO_EDGE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -10918,20 +11565,20 @@ namespace ArcGIS4LocalGovernment
                                                     switch (args.GetLength(0))
                                                     {
                                                         case 1:  // sequenceColumnName only
-                                                            sequenceColumnName = args[0].ToString(); break;
+                                                            sequenceColumnName = args[0].ToString().Trim(); break;
                                                         case 2:  // sequenceColumnName|sequenceFixedWidth
-                                                            sequenceColumnName = args[0].ToString();
-                                                            sequenceFixedWidth = args[1].ToString();
+                                                            sequenceColumnName = args[0].ToString().Trim();
+                                                            sequenceFixedWidth = args[1].ToString().Trim();
                                                             break;
                                                         case 3:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                            sequenceColumnName = args[0].ToString();
-                                                            sequenceFixedWidth = args[1].ToString();
-                                                            formatString = args[2].ToString();
+                                                            sequenceColumnName = args[0].ToString().Trim();
+                                                            sequenceFixedWidth = args[1].ToString().Trim();
+                                                            formatString = args[2].ToString().Trim();
                                                             break;
                                                         case 4:  // sequenceColumnName|sequenceFixedWidth|formatString
-                                                            sequenceColumnName = args[0].ToString();
-                                                            sequenceFixedWidth = args[1].ToString();
-                                                            formatString = args[2].ToString();
+                                                            sequenceColumnName = args[0].ToString().Trim();
+                                                            sequenceFixedWidth = args[1].ToString().Trim();
+                                                            formatString = args[2].ToString().Trim();
                                                             onlyWhenNull = args[3].ToString().ToUpper() == "TRUE" ? true : false;
 
                                                             break;
@@ -10964,10 +11611,9 @@ namespace ArcGIS4LocalGovernment
                                                             MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain117"));
                                                         }
                                                         qFilter = new QueryFilterClass();
-                                                        qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
-
-                                                        sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
-                                                        sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
+                                                        qFilter.WhereClause = AAState._seqNameField + " = '" + sequenceColumnName + "'";
+                                                        sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
+                                                        sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
                                                         ITransactions pTras = null;
 
                                                         long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
@@ -11046,7 +11692,7 @@ namespace ArcGIS4LocalGovernment
 
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -11091,38 +11737,38 @@ namespace ArcGIS4LocalGovernment
                                                     switch (args.GetLength(0))
                                                     {
                                                         case 3:  //columnName
-                                                            intersectLayerName = args[0].ToString();
-                                                            intersectLayerFieldName = args[1].ToString();
-                                                            // genIdAreaFieldName = args[2].ToString();
-                                                            sequenceColumnName = args[2].ToString();
+                                                            intersectLayerName = args[0].ToString().Trim();
+                                                            intersectLayerFieldName = args[1].ToString().Trim();
+                                                            // genIdAreaFieldName = args[2].ToString().Trim();
+                                                            sequenceColumnName = args[2].ToString().Trim();
                                                             break;
                                                         case 4:  // columnName|sequenceFixedWidth 
                                                             //sequenceFixedWidth formats the sequence with leading zeros to create specified width
-                                                            intersectLayerName = args[0].ToString();
-                                                            intersectLayerFieldName = args[1].ToString();
-                                                            //genIdAreaFieldName = args[2].ToString();
-                                                            sequenceColumnName = args[2].ToString();
+                                                            intersectLayerName = args[0].ToString().Trim();
+                                                            intersectLayerFieldName = args[1].ToString().Trim();
+                                                            //genIdAreaFieldName = args[2].ToString().Trim();
+                                                            sequenceColumnName = args[2].ToString().Trim();
                                                             sequenceFixedWidth = Convert.ToString(0);
-                                                            formatString = args[3].ToString();
+                                                            formatString = args[3].ToString().Trim();
 
                                                             break;
                                                         case 5:  // columnName|sequenceFixedWidth|formatString 
                                                             //formatString must contain [seq] and [id]  and may contain [area] plus any desired text
-                                                            intersectLayerName = args[0].ToString();
-                                                            intersectLayerFieldName = args[1].ToString();
-                                                            //genIdAreaFieldName = args[2].ToString();
-                                                            sequenceColumnName = args[2].ToString();
-                                                            sequenceFixedWidth = args[3].ToString();
-                                                            formatString = args[4].ToString();
+                                                            intersectLayerName = args[0].ToString().Trim();
+                                                            intersectLayerFieldName = args[1].ToString().Trim();
+                                                            //genIdAreaFieldName = args[2].ToString().Trim();
+                                                            sequenceColumnName = args[2].ToString().Trim();
+                                                            sequenceFixedWidth = args[3].ToString().Trim();
+                                                            formatString = args[4].ToString().Trim();
                                                             break;
                                                         case 6:  // columnName|sequenceFixedWidth|formatString|onlyWhenNull
                                                             //formatString must contain [seq] and [id]  and may contain [area] plus any desired text
-                                                            intersectLayerName = args[0].ToString();
-                                                            intersectLayerFieldName = args[1].ToString();
-                                                            //genIdAreaFieldName = args[2].ToString();
-                                                            sequenceColumnName = args[2].ToString();
-                                                            sequenceFixedWidth = args[3].ToString();
-                                                            formatString = args[4].ToString();
+                                                            intersectLayerName = args[0].ToString().Trim();
+                                                            intersectLayerFieldName = args[1].ToString().Trim();
+                                                            //genIdAreaFieldName = args[2].ToString().Trim();
+                                                            sequenceColumnName = args[2].ToString().Trim();
+                                                            sequenceFixedWidth = args[3].ToString().Trim();
+                                                            formatString = args[4].ToString().Trim();
                                                             onlyWhenNull = args[5].ToString().ToUpper() == "TRUE" ? true : false;
                                                             break;
 
@@ -11261,10 +11907,11 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bn") + sequenceColumnName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bo"));
 
                                                         qFilter = new QueryFilterClass();
-                                                        qFilter.WhereClause = "SEQNAME = '" + sequenceColumnName + "'";
-                                                        cCurs = AAState._gentab.Update(qFilter, false);
-                                                        sequenceColumnNum = AAState._gentab.Fields.FindField("SEQCOUNTER");
-                                                        sequenceIntColumnNum = AAState._gentab.Fields.FindField("SEQINTERV");
+
+                                                        qFilter.WhereClause = AAState._seqNameField + " = '" + sequenceColumnName + "'";
+                                                        //cCurs = AAState._gentab.Update(qFilter, false);
+                                                        sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
+                                                        sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
                                                         ITransactions pTras = null;
 
                                                         long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
@@ -11314,7 +11961,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID_BY_INTERSECT: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID_BY_INTERSECT: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -11540,6 +12187,15 @@ namespace ArcGIS4LocalGovernment
                                                                     {
                                                                         intDigits = val.ToString().Split('.')[1].Length;
                                                                     }
+                                                                    else if (val.ToString().IndexOf(",") >= 0)
+                                                                    {
+                                                                        intDigits = val.ToString().Split(',')[1].Length;
+                                                                    }
+                                                                    else if (val.ToString().IndexOf("'") >= 0)
+                                                                    {
+                                                                        intDigits = val.ToString().Split('\'')[1].Length;
+                                                                    }
+
                                                                     else
                                                                     {
                                                                         intDigits = 2;
@@ -11623,14 +12279,14 @@ namespace ArcGIS4LocalGovernment
                                                     catch (Exception ex)
                                                     {
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14av") + inObject.Class.AliasName + " with OID of " + inObject.OID);
-                                                        AAState.WriteLine("                         " + ex.Message);
+                                                        AAState.WriteLine("                         " + ex.ToString());
                                                     }
                                                 }
 
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "EXPRESSION: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "EXPRESSION: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -11667,7 +12323,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "EXPRESSION: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "EXPRESSION: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -11715,28 +12371,35 @@ namespace ArcGIS4LocalGovernment
                                                         autoCommit = args[5].ToString().Trim().ToLower() == "true" ? true : false;
 
                                                     }
-                                                    int countFld = 1;
-                                                    if (args.Length == 6)
+                                                    else if (args.Length == 7)
                                                     {
+                                                        autoCommit = args[6].ToString().Trim().ToLower() == "true" ? true : false;
 
-                                                        if (!Globals.IsNumeric(args[5].ToString().Trim()))
+                                                    }
+                                                    int countFld = 1;
+                                                    if (args.Length >= 6)
+                                                    {
+                                                        if (args[5].ToString().Trim() != "")
                                                         {
-                                                            int fldx = Globals.GetFieldIndex(inObject.Fields, args[5].ToString().Trim());
-
-                                                            if (fldx > 0)
+                                                            if (!Globals.IsNumeric(args[5].ToString().Trim()))
                                                             {
-                                                                string tempVal = inObject.get_Value(fldx).ToString();
-                                                                if (Globals.IsNumeric(tempVal))
-                                                                    countFld = Convert.ToInt32(tempVal);
+                                                                int fldx = Globals.GetFieldIndex(inObject.Fields, args[5].ToString().Trim());
 
+                                                                if (fldx > 0)
+                                                                {
+                                                                    string tempVal = inObject.get_Value(fldx).ToString();
+                                                                    if (Globals.IsNumeric(tempVal))
+                                                                        countFld = Convert.ToInt32(tempVal);
+
+
+                                                                }
 
                                                             }
+                                                            else
+                                                            {
+                                                                countFld = Convert.ToInt32(args[5].ToString().Trim());
 
-                                                        }
-                                                        else
-                                                        {
-                                                            countFld = Convert.ToInt32(args[5].ToString().Trim());
-
+                                                            }
                                                         }
 
                                                     }
@@ -11871,7 +12534,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CREATE_LINKED_RECORD" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "CREATE_LINKED_RECORD" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -12235,7 +12898,7 @@ namespace ArcGIS4LocalGovernment
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_INTERSECTING_FEATURE" + Environment.NewLine + ex.Message);
+                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "UPDATE_INTERSECTING_FEATURE" + Environment.NewLine + ex.ToString());
                                                 }
 
                                                 finally
@@ -12444,7 +13107,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MULTI_FIELD_INTERSECT: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "MULTI_FIELD_INTERSECT: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -12490,7 +13153,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         if (args.GetLength(0) >= 5)
                                                         {
-                                                            delim = args[4].ToString();
+                                                            delim = args[4].ToString().Trim();
                                                         }
                                                         else
                                                         {
@@ -12499,7 +13162,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         if (args.GetLength(0) >= 6)
                                                         {
-                                                            sortOrder = args[5].ToString();
+                                                            sortOrder = args[5].ToString().Trim();
                                                         }
                                                         else
                                                         {
@@ -12857,7 +13520,7 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             catch (Exception ex)
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.Message);
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.ToString());
 
                                                             }
 
@@ -12880,7 +13543,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECT_STATS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECT_STATS: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -13011,7 +13674,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.Message);
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.ToString());
 
                                                         }
                                                     }
@@ -13021,7 +13684,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECT_COUNT: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECT_COUNT: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -13032,7 +13695,7 @@ namespace ArcGIS4LocalGovernment
                                             try
                                             {
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FEATURE_STATS");
-                                                if (inFeature != null & valData != null)
+                                                if (inObject != null & valData != null)
                                                 {
 
                                                     sourceFieldName = "";
@@ -13042,7 +13705,7 @@ namespace ArcGIS4LocalGovernment
                                                     // Parse arguments
                                                     args = valData.Split('|');
                                                     int AverageCount = 0;
-                                                    if (args.GetLength(0) > 1)
+                                                    if (args.Length > 1)
                                                     {
                                                         string delim = ",";
                                                         string sortOrder = "none";
@@ -13050,14 +13713,14 @@ namespace ArcGIS4LocalGovernment
 
 
                                                         string[] sourceFieldNames = args[0].ToString().Split(',');
-                                                        string statType = args[1].ToString();
-                                                        if (args.GetLength(0) >= 2)
+                                                        string statType = args[1].ToString().Trim();
+                                                        if (args.Length > 2)
                                                         {
-                                                            delim = args[2].ToString();
+                                                            delim = args[2].ToString().Trim();
                                                         }
-                                                        if (args.GetLength(0) >= 3)
+                                                        if (args.Length > 3)
                                                         {
-                                                            sortOrder = args[3].ToString();
+                                                            sortOrder = args[3].ToString().Trim();
                                                         }
                                                         double result = -999999.1;
                                                         string textRes = "";
@@ -13070,7 +13733,7 @@ namespace ArcGIS4LocalGovernment
                                                             for (int i = 0; i < sourceFieldNames.Length; i++)
                                                             {
 
-                                                                sourceFieldName = sourceFieldNames[i].ToString();
+                                                                sourceFieldName = sourceFieldNames[i].ToString().Trim();
                                                                 if (sourceFieldName != "")
                                                                 {
 
@@ -13223,7 +13886,7 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             catch (Exception ex)
                                                             {
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.Message);
+                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.ToString());
 
                                                             }
 
@@ -13246,7 +13909,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FEATURE_STATS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "FEATURE_STATS: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -13261,10 +13924,10 @@ namespace ArcGIS4LocalGovernment
                                                 switch (args.GetLength(0))
                                                 {
                                                     case 1:
-                                                        sourceFieldName = args[0].ToString();
+                                                        sourceFieldName = args[0].ToString().Trim();
                                                         break;
                                                     case 2:
-                                                        sourceFieldName = args[1].ToString();
+                                                        sourceFieldName = args[1].ToString().Trim();
                                                         break;
 
                                                     default: break;
@@ -13322,7 +13985,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 catch (Exception ex)
                                                                 {
-                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.Message);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.ToString());
 
                                                                 }
 
@@ -13348,7 +14011,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_EDGE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_EDGE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -13358,6 +14021,7 @@ namespace ArcGIS4LocalGovernment
                                         case "INTERSECTING_FEATURE":
                                             try
                                             {
+                                                bool switchToPrompt = false;
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "INTERSECTING_FEATURE");
                                                 if (inFeature != null & valData != null)
                                                 {
@@ -13378,11 +14042,11 @@ namespace ArcGIS4LocalGovernment
                                                         {
                                                             case 2:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                sourceFieldName = args[1].ToString();
+                                                                sourceFieldName = args[1].ToString().Trim();
                                                                 break;
                                                             case 3:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                sourceFieldName = args[1].ToString();
+                                                                sourceFieldName = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
                                                                     case "PROMPT":
@@ -13397,6 +14061,10 @@ namespace ArcGIS4LocalGovernment
                                                                     case "C":
                                                                         strOpt = AAState.intersectOptions.Centroid;
                                                                         break;
+                                                                    case "CP":
+                                                                        strOpt = AAState.intersectOptions.Centroid;
+                                                                        switchToPrompt = true;
+                                                                        break;
                                                                     case "F":
                                                                         strOpt = AAState.intersectOptions.First;
                                                                         break;
@@ -13409,14 +14077,23 @@ namespace ArcGIS4LocalGovernment
                                                                     case "S":
                                                                         strOpt = AAState.intersectOptions.Start;
                                                                         break;
+                                                                    case "SP":
+                                                                        strOpt = AAState.intersectOptions.Start;
+                                                                        switchToPrompt = true;
+                                                                        break;
                                                                     case "E":
                                                                         strOpt = AAState.intersectOptions.End;
+
+                                                                        break;
+                                                                    case "EP":
+                                                                        strOpt = AAState.intersectOptions.End;
+                                                                        switchToPrompt = true;
                                                                         break;
                                                                 }
                                                                 break;
                                                             case 4:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                sourceFieldName = args[1].ToString();
+                                                                sourceFieldName = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
                                                                     case "PROMPT":
@@ -13431,6 +14108,10 @@ namespace ArcGIS4LocalGovernment
                                                                     case "C":
                                                                         strOpt = AAState.intersectOptions.Centroid;
                                                                         break;
+                                                                    case "CP":
+                                                                        strOpt = AAState.intersectOptions.Centroid;
+                                                                        switchToPrompt = true;
+                                                                        break;
                                                                     case "F":
                                                                         strOpt = AAState.intersectOptions.First;
                                                                         break;
@@ -13443,11 +14124,20 @@ namespace ArcGIS4LocalGovernment
                                                                     case "S":
                                                                         strOpt = AAState.intersectOptions.Start;
                                                                         break;
+                                                                    case "SP":
+                                                                        strOpt = AAState.intersectOptions.Start;
+                                                                        switchToPrompt = true;
+                                                                        break;
                                                                     case "E":
                                                                         strOpt = AAState.intersectOptions.End;
+
+                                                                        break;
+                                                                    case "EP":
+                                                                        strOpt = AAState.intersectOptions.End;
+                                                                        switchToPrompt = true;
                                                                         break;
                                                                 }
-                                                                nullOnNone = args[3].ToString();
+                                                                nullOnNone = args[3].ToString().Trim();
                                                                 break;
                                                             default: break;
                                                         }
@@ -13550,6 +14240,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.ToPoint, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                     pLyLine = null;
                                                                                     pLine = null;
+
                                                                                 }
                                                                                 else if (strOpt == AAState.intersectOptions.Start &&
                                                                                  (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
@@ -13560,6 +14251,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, pLyLine.FromPoint, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                     pLyLine = null;
                                                                                     pLine = null;
+
                                                                                 }
                                                                                 else
                                                                                 {
@@ -13567,6 +14259,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 pSRResolution = null;
                                                                                 pSRResolution2 = null;
+
                                                                             }
                                                                             catch
                                                                             {
@@ -13594,6 +14287,10 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, mapTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                 }
+                                                                            }
+                                                                            if (switchToPrompt)
+                                                                            {
+                                                                                strOpt = AAState.intersectOptions.PromptMulti;
                                                                             }
                                                                             if (sFilter == null)
                                                                             {
@@ -13984,7 +14681,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_FEATURE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_FEATURE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -14017,12 +14714,12 @@ namespace ArcGIS4LocalGovernment
                                                             break;
                                                         case 2:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            valTrue = args[1].ToString();
+                                                            valTrue = args[1].ToString().Trim();
                                                             break;
                                                         case 3:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            valTrue = args[1].ToString();
-                                                            valFalse = args[2].ToString();
+                                                            valTrue = args[1].ToString().Trim();
+                                                            valFalse = args[2].ToString().Trim();
 
                                                             break;
                                                         default: break;
@@ -14238,7 +14935,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_BOOLEAN: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_BOOLEAN: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -14266,7 +14963,7 @@ namespace ArcGIS4LocalGovernment
                                                             break;
                                                         case 2:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            formatString = args[1].ToString();
+                                                            formatString = args[1].ToString().Trim();
                                                             break;
                                                         default: break;
                                                     }
@@ -14310,7 +15007,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_RASTER: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_RASTER: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -14342,11 +15039,11 @@ namespace ArcGIS4LocalGovernment
                                                                 break;
                                                             case 2:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                formatString = args[1].ToString();
+                                                                formatString = args[1].ToString().Trim();
                                                                 break;
                                                             case 3:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                formatString = args[1].ToString();
+                                                                formatString = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
                                                                     case "PROMPT":
@@ -14371,7 +15068,7 @@ namespace ArcGIS4LocalGovernment
                                                                 break;
                                                             case 4:
                                                                 sourceLayerNames = args[0].ToString().Split(',');
-                                                                formatString = args[1].ToString();
+                                                                formatString = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
                                                                     case "PROMPT":
@@ -14525,7 +15222,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_LAYER_DETAILS: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_LAYER_DETAILS: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -14556,10 +15253,10 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         for (int i = 0; i < sourceLayerNames.Length; i++)
                                                         {
-                                                            sourceLayerName = sourceLayerNames[i].ToString();
+                                                            sourceLayerName = sourceLayerNames[i].ToString().Trim();
                                                             if (sourceLayerName != "")
 
-                                                                sourceLayerName = args[i].ToString();
+                                                                sourceLayerName = args[i].ToString().Trim();
                                                             if (i == 0)
                                                                 i++;
                                                             boolLayerOrFC = true;
@@ -14809,7 +15506,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_FEATURE_DISTANCE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "INTERSECTING_FEATURE_DISTANCE: " + ex.ToString());
                                             }
                                             finally
                                             {
@@ -14839,11 +15536,11 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         case 2:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            sourceFieldName = args[1].ToString();
+                                                            sourceFieldName = args[1].ToString().Trim();
                                                             break;
                                                         case 3:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            sourceFieldName = args[1].ToString();
+                                                            sourceFieldName = args[1].ToString().Trim();
 
                                                             Double.TryParse(args[2], out searchDistance);
                                                             break;
@@ -14853,10 +15550,10 @@ namespace ArcGIS4LocalGovernment
 
                                                         case 5:
                                                             sourceLayerNames = args[0].ToString().Split(',');
-                                                            sourceFieldName = args[1].ToString();
+                                                            sourceFieldName = args[1].ToString().Trim();
                                                             Double.TryParse(args[2], out searchDistance);
-                                                            sourceMatField = args[3].ToString();
-                                                            targetMatField = args[4].ToString();
+                                                            sourceMatField = args[3].ToString().Trim();
+                                                            targetMatField = args[4].ToString().Trim();
                                                             break;
                                                         default:
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain168"));
@@ -14868,7 +15565,7 @@ namespace ArcGIS4LocalGovernment
                                                     {
                                                         for (int i = 0; i < sourceLayerNames.Length; i++)
                                                         {
-                                                            sourceLayerName = sourceLayerNames[i].ToString();
+                                                            sourceLayerName = sourceLayerNames[i].ToString().Trim();
                                                             if (sourceLayerName != "")
                                                             {
                                                                 boolLayerOrFC = true;
@@ -15113,7 +15810,7 @@ namespace ArcGIS4LocalGovernment
                                             }
                                             catch (Exception ex)
                                             {
-                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "NEAREST_FEATURE: " + ex.Message);
+                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "NEAREST_FEATURE: " + ex.ToString());
 
                                             }
                                             finally
@@ -15130,8 +15827,8 @@ namespace ArcGIS4LocalGovernment
                                 }
                                 catch (Exception ex)
                                 {
-                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain179") + tableName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain180") + strFldNames[0] + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain181") + valMethod + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain182") + valData + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain183") + ex.Message, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain184"));
-                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain185") + tableName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain180") + strFldNames[0] + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain181") + valMethod + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain182") + valData + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain183") + ex.Message);
+                                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain179") + tableName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain180") + strFldNames[0] + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain181") + valMethod + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain182") + valData + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain183") + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain184"));
+                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain185") + tableName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain180") + strFldNames[0] + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain181") + valMethod + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain182") + valData + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain183") + ex.ToString());
                                 }
                             }
                             else
@@ -15260,7 +15957,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain189") + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain190") + ex.Message, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain184"));
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain189") + System.Environment.NewLine + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain190") + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain184"));
                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain189"));
                 return false;
 
@@ -15331,7 +16028,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain192") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain192") + ex.ToString());
 
             }
         }
@@ -15353,7 +16050,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain193") + ex.Message);
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain193") + ex.ToString());
             }
         }
 
@@ -16028,7 +16725,7 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + ex.Message);
+                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + ex.ToString());
             }
             finally
             {

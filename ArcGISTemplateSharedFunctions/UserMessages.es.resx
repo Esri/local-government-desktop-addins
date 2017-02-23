@@ -3478,7 +3478,7 @@
   </data>
   <data name="ConfigDlgBackupConfig" xml:space="preserve">
     <value>Copia de seguridad de la configuración actual</value>
-    <comment>Needs translation</comment>
+    <comment>Needs Translation</comment>
   </data>
   <data name="Category_Style" xml:space="preserve">
     <value>Predeterminado</value>
@@ -3488,7 +3488,6 @@
   </data>
   <data name="FieldWrongType" xml:space="preserve">
     <value>The field type does not match the value</value>
-    <comment>The field type does not match the value</comment>
   </data>
   <data name="dynamicValueTableMissing" xml:space="preserve">
     <value>DynamicValue Table is required to activate the Attribute Assistant</value>

@@ -36,10 +36,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.gpBxConfig = new System.Windows.Forms.GroupBox();
             this.btnPreviewLoaded = new System.Windows.Forms.Button();
-            this.btnReload = new System.Windows.Forms.Button();
             this.lblConfig = new System.Windows.Forms.Label();
             this.txtBxLoadedConfig = new System.Windows.Forms.TextBox();
             this.gpBxconfigFiles = new System.Windows.Forms.GroupBox();
+            this.chkBxBackupConfig = new System.Windows.Forms.CheckBox();
             this.btnPreview = new System.Windows.Forms.Button();
             this.gpBxConfig.SuspendLayout();
             this.gpBxconfigFiles.SuspendLayout();
@@ -95,7 +95,6 @@
             // gpBxConfig
             // 
             this.gpBxConfig.Controls.Add(this.btnPreviewLoaded);
-            this.gpBxConfig.Controls.Add(this.btnReload);
             this.gpBxConfig.Controls.Add(this.lblConfig);
             this.gpBxConfig.Controls.Add(this.txtBxLoadedConfig);
             this.gpBxConfig.Controls.Add(this.label1);
@@ -110,23 +109,13 @@
             // 
             // btnPreviewLoaded
             // 
-            this.btnPreviewLoaded.Location = new System.Drawing.Point(316, 52);
+            this.btnPreviewLoaded.Location = new System.Drawing.Point(315, 40);
             this.btnPreviewLoaded.Name = "btnPreviewLoaded";
             this.btnPreviewLoaded.Size = new System.Drawing.Size(145, 23);
             this.btnPreviewLoaded.TabIndex = 5;
             this.btnPreviewLoaded.Text = "Preview";
             this.btnPreviewLoaded.UseVisualStyleBackColor = true;
             this.btnPreviewLoaded.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnReload
-            // 
-            this.btnReload.Location = new System.Drawing.Point(316, 23);
-            this.btnReload.Name = "btnReload";
-            this.btnReload.Size = new System.Drawing.Size(145, 23);
-            this.btnReload.TabIndex = 7;
-            this.btnReload.Text = "Reload";
-            this.btnReload.UseVisualStyleBackColor = true;
-            this.btnReload.Click += new System.EventHandler(this.btnReload_Click);
             // 
             // lblConfig
             // 
@@ -148,6 +137,7 @@
             // 
             // gpBxconfigFiles
             // 
+            this.gpBxconfigFiles.Controls.Add(this.chkBxBackupConfig);
             this.gpBxconfigFiles.Controls.Add(this.btnPreview);
             this.gpBxconfigFiles.Controls.Add(this.btnLoadConfig);
             this.gpBxconfigFiles.Controls.Add(this.cboConfigs);
@@ -158,6 +148,18 @@
             this.gpBxconfigFiles.TabIndex = 6;
             this.gpBxconfigFiles.TabStop = false;
             this.gpBxconfigFiles.Text = "Configuration Files";
+            // 
+            // chkBxBackupConfig
+            // 
+            this.chkBxBackupConfig.AutoSize = true;
+            this.chkBxBackupConfig.Checked = true;
+            this.chkBxBackupConfig.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkBxBackupConfig.Location = new System.Drawing.Point(164, 61);
+            this.chkBxBackupConfig.Name = "chkBxBackupConfig";
+            this.chkBxBackupConfig.Size = new System.Drawing.Size(80, 17);
+            this.chkBxBackupConfig.TabIndex = 5;
+            this.chkBxBackupConfig.Text = "checkBox1";
+            this.chkBxBackupConfig.UseVisualStyleBackColor = true;
             // 
             // btnPreview
             // 
@@ -183,6 +185,7 @@
             this.gpBxConfig.ResumeLayout(false);
             this.gpBxConfig.PerformLayout();
             this.gpBxconfigFiles.ResumeLayout(false);
+            this.gpBxconfigFiles.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -199,7 +202,7 @@
         private System.Windows.Forms.TextBox txtBxLoadedConfig;
         private System.Windows.Forms.GroupBox gpBxconfigFiles;
         private System.Windows.Forms.Button btnPreview;
-        private System.Windows.Forms.Button btnReload;
         private System.Windows.Forms.Button btnPreviewLoaded;
+        private System.Windows.Forms.CheckBox chkBxBackupConfig;
     }
 }

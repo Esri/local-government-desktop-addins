@@ -50,7 +50,6 @@ namespace A4LGSharedFunctions
     public partial class ConfigFormNoLog : Form
     {
         ConfigEntries m_LoadedConfig;
-        ReloadMonitor m_ReloadMonitor;
         public ConfigFormNoLog()
         {
             InitializeComponent();
@@ -66,41 +65,37 @@ namespace A4LGSharedFunctions
                 this.btnPreview.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgPreview");
                 this.lblConfig.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgLoadedConfig");
                 this.gpBxconfigFiles.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgConfigFiles");
-             
+                this.chkBxBackupConfig.Text = A4LGSharedFunctions.Localizer.GetString("ConfigDlgBackupConfig");
             }
             catch
             { }
             initForm();
 
-            m_ReloadMonitor = new ReloadMonitor();
-            if (m_ReloadMonitor == null)
-                MessageBox.Show("Reloading config file is not enabled, error in event handler");
-
-
         }
         private string configType;
         private void initForm()
         {
-            
+
             txtBxPath.Text = ConfigUtil.generateUserCachePath();
 
             List<ConfigEntries> ConfigNames = ConfigUtil.GetAllConfigFilesNames(true);
-
-            foreach (ConfigEntries pConEn in ConfigNames)
+            if (ConfigNames != null)
             {
-                if (pConEn.Loaded == true)
+                foreach (ConfigEntries pConEn in ConfigNames)
                 {
-                    m_LoadedConfig = pConEn;
-                    txtBxLoadedConfig.Text = pConEn.Name;
-                    ConfigNames.Remove(pConEn);
-                    break;
+                    if (pConEn.Loaded == true)
+                    {
+                        m_LoadedConfig = pConEn;
+                        txtBxLoadedConfig.Text = pConEn.Name;
+                        ConfigNames.Remove(pConEn);
+                        break;
+                    }
                 }
+
+                cboConfigs.DataSource = ConfigNames;
+                cboConfigs.DisplayMember = "Name";
+
             }
-
-            cboConfigs.DataSource = ConfigNames;
-            cboConfigs.DisplayMember = "Name";
-
-            
         }
         private void btnOpenLoc_Click(object sender, EventArgs e)
         {
@@ -131,31 +126,23 @@ namespace A4LGSharedFunctions
             {
                 if (cboConfigs.Items.Count == 0) return;
 
-                ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem));
+                string name = ConfigUtil.ChangeConfig(m_LoadedConfig, ((ConfigEntries)cboConfigs.SelectedItem), chkBxBackupConfig.Checked);
+                initForm();
+                //txtBxLoadedConfig.Text = name;
+                //List<ConfigEntries> ConfigNames = ConfigUtil.GetAllConfigFilesNames(true);
+                //if (ConfigNames != null)
+                //{
+                
+                //    cboConfigs.DataSource = ConfigNames;
+                //    cboConfigs.DisplayMember = "Name";
 
-            
-                m_ReloadMonitor.Reload();
-
+                //}
                 MessageBox.Show("Config file has been changed");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("btnLoadConfig\n" + ex.Message);
+                MessageBox.Show("btnLoadConfig\n" + ex.ToString());
 
-            }
-        }
-
-        private void btnReload_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                m_ReloadMonitor.Reload();
-
-                MessageBox.Show("Config file has been reloaded");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error in Reload Click: " + ex.Message);
             }
         }
 
@@ -176,7 +163,7 @@ namespace A4LGSharedFunctions
 
         }
 
-      
+
 
     }
 }

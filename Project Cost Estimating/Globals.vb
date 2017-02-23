@@ -185,7 +185,7 @@ Namespace My
 
                     Return displayTransformation.ToMapPoint(CInt(Fix(screenPoint.X)), CInt(Fix(screenPoint.Y)))
                 Catch ex As Exception
-                    MsgBox("Error in the Project Costing Tools - Globals.Functions: GetMapCoordinatesFromScreenCoordinates" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Project Costing Tools - Globals.Functions: GetMapCoordinatesFromScreenCoordinates" & vbCrLf & ex.ToString())
                 End Try
 
             End Function
@@ -204,12 +204,12 @@ Namespace My
                     Return pScPnt
 
                 Catch ex As Exception
-                    MsgBox("Error in Project Costing Tools - Globals.Functions: GetScreenCoordinatesFromMapCoordinates" & vbCrLf & ex.Message)
+                    MsgBox("Error in Project Costing Tools - Globals.Functions: GetScreenCoordinatesFromMapCoordinates" & vbCrLf & ex.ToString())
                 End Try
 
             End Function
             Friend Shared Function getClassName(ByVal Dataset As IDataset) As String
-                    
+
                 If Dataset.BrowseName <> "" And Dataset.BrowseName.Contains(".") Then
                     Return Dataset.BrowseName.Substring(Dataset.BrowseName.LastIndexOf(".") + 1)
 
@@ -274,7 +274,7 @@ Namespace My
 
                     Return pRetLay
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - FindLayers" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - FindLayers" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -331,7 +331,7 @@ Namespace My
 
                     Return Nothing
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - FindLayer" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - FindLayer" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -362,7 +362,7 @@ Namespace My
                     pTableCollection = Nothing
                     Return Nothing
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - FindTable" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - FindTable" & vbCrLf & ex.ToString())
                     Return Nothing
 
                 End Try
@@ -406,7 +406,7 @@ Namespace My
                     pTableCollection = Nothing
                     Return False
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - TableExist" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - TableExist" & vbCrLf & ex.ToString())
                     Return False
 
                 End Try
@@ -429,33 +429,33 @@ Namespace My
                     Do Until pLay Is Nothing
                         Try
 
-                        
-                        If pLay.Valid Then
 
-                            If UCase(pLay.Name) = UCase(sLName) Then
+                            If pLay.Valid Then
 
-                                Return True
+                                If UCase(pLay.Name) = UCase(sLName) Then
 
+                                    Return True
+
+                                End If
+                                If TypeOf pLay Is IDataset Then
+                                    pDataset = pLay
+                                    If UCase(pDataset.BrowseName) = UCase(sLName) Then
+                                        Return True
+
+
+                                    End If
+                                    If UCase(pDataset.FullName.NameString) = UCase(sLName) Then
+                                        Return True
+
+                                    End If
+                                    If UCase(pDataset.FullName.NameString).Substring(pDataset.FullName.NameString.LastIndexOf(".") + 1) = UCase(sLName) Then
+                                        Return True
+                                    End If
+                                    If UCase(pDataset.BrowseName).Substring(pDataset.BrowseName.LastIndexOf(".") + 1) = UCase(sLName) Then
+                                        Return True
+                                    End If
+                                End If
                             End If
-                            If TypeOf pLay Is IDataset Then
-                                pDataset = pLay
-                                If UCase(pDataset.BrowseName) = UCase(sLName) Then
-                                    Return True
-
-
-                                End If
-                                If UCase(pDataset.FullName.NameString) = UCase(sLName) Then
-                                    Return True
-
-                                End If
-                                If UCase(pDataset.FullName.NameString).Substring(pDataset.FullName.NameString.LastIndexOf(".") + 1) = UCase(sLName) Then
-                                    Return True
-                                End If
-                                If UCase(pDataset.BrowseName).Substring(pDataset.BrowseName.LastIndexOf(".") + 1) = UCase(sLName) Then
-                                    Return True
-                                End If
-                            End If
-                        End If
                         Catch ex As Exception
 
                         End Try
@@ -468,7 +468,7 @@ Namespace My
                     Return False
 
                 Catch ex As Exception
-                    MsgBox("Error in LayerExist: " & ex.Message)
+                    MsgBox("Error in LayerExist: " & ex.ToString())
 
                     Return False
 
@@ -486,7 +486,7 @@ Namespace My
                     pContextMenu.Add(pUID)
                     Return pContextMenu
                 Catch ex As Exception
-                    MsgBox("Error creating context menu - CreateContext" & vbCrLf & ex.Message)
+                    MsgBox("Error creating context menu - CreateContext" & vbCrLf & ex.ToString())
                     Return Nothing
 
                 Finally
@@ -504,7 +504,7 @@ Namespace My
                     Return My.ArcMap.Application.Document.CommandBars.Find(pUID)
 
                 Catch ex As Exception
-                    MsgBox("Error finding command item - GetCommand" & vbCrLf & ex.Message)
+                    MsgBox("Error finding command item - GetCommand" & vbCrLf & ex.ToString())
                     Return Nothing
 
                 Finally
@@ -521,10 +521,76 @@ Namespace My
                     Return pEditLayers.IsEditable(My.Globals.Functions.FindLayer(LayerName))
 
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - Globals: isEditable" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - Globals: isEditable" & vbCrLf & ex.ToString())
 
 
                 End Try
+            End Function
+            Friend Shared Function get_linear_unit(pGeo As IGeometry) As ILinearUnit
+                If TypeOf pGeo.SpatialReference Is IProjectedCoordinateSystem Then
+                    Dim pPrjCoord As IProjectedCoordinateSystem
+
+                    pPrjCoord = pGeo.SpatialReference
+
+                    Return pPrjCoord.CoordinateUnit
+
+                Else
+                    Dim pGeoCoord As IGeographicCoordinateSystem
+
+                    pGeoCoord = pGeo.SpatialReference
+
+                    Return pGeoCoord.CoordinateUnit
+                    'pGeoCoord = Nothing
+
+                End If
+            End Function
+            Friend Shared Function getMeasureOfGeo(pGeo As IGeometry, useGeodetic As Boolean, unit As ILinearUnit) As Double
+                Dim pLinUnit As ILinearUnit = Nothing
+                If unit Is Nothing Then
+                    pLinUnit = get_linear_unit(pGeo)
+                Else
+                    pLinUnit = unit
+                End If
+
+                Select Case pGeo.GeometryType
+                    Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline
+                        Try
+
+                            If useGeodetic = True Then
+                                Try
+                                    Dim pCurveGeop As IPolycurveGeodetic
+                                    pCurveGeop = CType(pGeo, IPolycurve)
+                                    Return pCurveGeop.LengthGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pLinUnit)
+                                Catch ex As Exception
+                                    Return CType(pGeo, ICurve).Length
+                                End Try
+                            Else
+                                Return CType(pGeo, ICurve).Length
+                            End If
+
+                        Catch ex As Exception
+                        End Try
+                    Case ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolygon
+                        Try
+                            If useGeodetic = True Then
+                                Try
+                                    Dim pPolyGeop As IAreaGeodetic
+                                    pPolyGeop = CType(pGeo, IPolygon)
+                                    Return Math.Abs(pPolyGeop.AreaGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pLinUnit))
+
+                                Catch ex As Exception
+                                    Return Math.Abs(CType(pGeo, IArea).Area)
+
+                                End Try
+                            Else
+                                Return Math.Abs(CType(pGeo, IArea).Area)
+                            End If
+
+                        Catch ex As Exception
+
+                        End Try
+                End Select
+                Return Nothing
             End Function
             Friend Shared Function ConvertFeetToMapUnits(ByVal unitsFeet As Double) As Double
 
@@ -550,6 +616,22 @@ Namespace My
                     'pGeoCoord = Nothing
 
                 End If
+            End Function
+            Friend Shared Function unitToLinearUnit(unit As String) As ILinearUnit
+
+                Dim spatialReferenceFactory As ISpatialReferenceFactory2 = New SpatialReferenceEnvironment
+                Select Case UCase(unit)
+                    Case "FEET", "FOOT"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_Foot)
+                    Case "METER"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_Meter)
+                    Case "MILE", "MILES"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_SurveyMile)
+                    Case "KILOMETER"
+                        Return spatialReferenceFactory.CreateUnit(esriSRUnitType.esriSRUnit_Kilometer)
+                End Select
+                Return Nothing
+             
             End Function
             Friend Shared Function ConvertUnitType2(ByVal linearUnit As ESRI.ArcGIS.Geometry.ILinearUnit) _
                                                 As ESRI.ArcGIS.esriSystem.esriUnits
@@ -664,7 +746,7 @@ Namespace My
                     iuc = Nothing
                     Return convertedValue
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: ConvertUnits" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: ConvertUnits" & vbCrLf & ex.ToString())
 
                     Return 0.0
 
@@ -692,7 +774,7 @@ Namespace My
 
                     Return pArrList
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: DomainToList" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: DomainToList" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -721,7 +803,7 @@ Namespace My
 
                     Return pArrList
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: SubtypeToList" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: SubtypeToList" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -741,7 +823,7 @@ Namespace My
                     Next i
                     Return Value
                 Catch ex As Exception
-                    '  MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainDisplay" & vbCrLf & ex.Message)
+                    '  MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainDisplay" & vbCrLf & ex.ToString())
                     Return Value
                 End Try
             End Function
@@ -759,7 +841,7 @@ Namespace My
                     Next i
                     Return Display
                 Catch ex As Exception
-                    '    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainValue" & vbCrLf & ex.Message)
+                    '    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainValue" & vbCrLf & ex.ToString())
                     Return Display
                 End Try
             End Function
@@ -791,7 +873,7 @@ Namespace My
                     Return -99
 
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainValue" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetDomainValue" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -833,7 +915,7 @@ Namespace My
 
 
                     Catch ex As Exception
-                        MsgBox("Error in the Costing Tools - CIPProjectWindow: GetGraphicShape" & vbCrLf & ex.Message)
+                        MsgBox("Error in the Costing Tools - CIPProjectWindow: GetGraphicShape" & vbCrLf & ex.ToString())
 
                         Return Nothing
                     Finally
@@ -844,7 +926,7 @@ Namespace My
 
 
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetGraphicShape" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: GetGraphicShape" & vbCrLf & ex.ToString())
 
                     Return Nothing
 
@@ -934,7 +1016,7 @@ Namespace My
 
                     Return i
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: getSubtypeCount" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: getSubtypeCount" & vbCrLf & ex.ToString())
                     Return Nothing
                 End Try
             End Function
@@ -970,7 +1052,7 @@ Namespace My
                     pEnumSubTypes = Nothing
 
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: getSubtypeValesAtIndex" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: getSubtypeValesAtIndex" & vbCrLf & ex.ToString())
 
                 End Try
 
@@ -992,7 +1074,7 @@ Namespace My
 
                     Next i
                 Catch ex As Exception
-                    MsgBox("Error in the Costing Tools - CIPProjectWindow: my.Globals.Functions.DomainValuesAtIndex" & vbCrLf & ex.Message)
+                    MsgBox("Error in the Costing Tools - CIPProjectWindow: my.Globals.Functions.DomainValuesAtIndex" & vbCrLf & ex.ToString())
 
                 End Try
 
@@ -1023,10 +1105,10 @@ Namespace My
                 End If
                 Return retVal
             End Function
-                 
+
 
             Public Shared Function GetConfigFiles() As String()
-              
+
                 Dim pPathToUserFolder As String = getUserFolder("ArcGISSolutions", "ProjectCostingTools")
                 If File.Exists(System.IO.Path.Combine(pPathToUserFolder, "ProjectCost.Config")) Then
                     Return {System.IO.Path.Combine(pPathToUserFolder, "ProjectCost.Config")}
@@ -1108,7 +1190,7 @@ Namespace My
 
                     Return defaultValue
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return defaultValue
                 End Try
             End Function
@@ -1152,7 +1234,7 @@ Namespace My
 
                     Return defaultValue
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return defaultValue
                 End Try
             End Function
@@ -1196,7 +1278,7 @@ Namespace My
 
                     Return defaultValue
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return defaultValue
                 End Try
             End Function
@@ -1315,7 +1397,7 @@ Namespace My
 
                     Return ""
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return ""
                 End Try
             End Function
@@ -1329,7 +1411,7 @@ Namespace My
                         Return strConfigVal
                     End If
                 Catch ex As Exception
-                    System.Windows.Forms.MessageBox.Show(ex.Message)
+                    System.Windows.Forms.MessageBox.Show(ex.ToString())
                     Return defaultValue
                 End Try
             End Function
@@ -1385,7 +1467,7 @@ Namespace My
                 End Property
                 Public Function getValue() As String
                     Return m_Value
-                    
+
                 End Function
                 Public Function getDisplay() As String
                     Return m_Display

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -264,6 +264,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserMessages.es-ES.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserMessages.es.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserMessages.es.resx</DependentUpon>
+    </Compile>
     <Compile Include="UserMessages.fr-FR.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -311,6 +316,7 @@
       <LastGenOutput>UserMessages.es-ES.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserMessages.es.resx" />
     <EmbeddedResource Include="UserMessages.fr-FR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>UserMessages.fr-FR.Designer.cs</LastGenOutput>
