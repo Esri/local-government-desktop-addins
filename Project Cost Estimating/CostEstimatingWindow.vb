@@ -5983,10 +5983,21 @@ Partial Public Class CostEstimatingWindow
                     pNewGeoCol = New Polyline
                     pNewGeoCol.AddGeometry(pGeoColl.Geometry(0))
                     pPolyLine1 = pNewGeoCol
+                    Try
+                        pPolyLine1.SpatialReference = pElem.Geometry.SpatialReference
+                    Catch ex As Exception
+
+                    End Try
+
 
                     pNewGeoCol = New Polyline
                     pNewGeoCol.AddGeometry(pGeoColl.Geometry(1))
                     pPolyLine2 = pNewGeoCol
+                    Try
+                        pPolyLine2.SpatialReference = pElem.Geometry.SpatialReference
+                    Catch ex As Exception
+
+                    End Try
 
                     RemoveGraphic(strTag)
 
