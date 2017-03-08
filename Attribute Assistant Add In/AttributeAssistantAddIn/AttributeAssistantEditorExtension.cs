@@ -11980,6 +11980,7 @@ namespace ArcGIS4LocalGovernment
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "EXPRESSION");
                                                 if (inObject != null & valData != null)
                                                 {
+                                                    IRowChanges inChanges = inObject as IRowChanges;
                                                     int intTargetFld = -1;
                                                     if (intFldIdxs.Count == 0)
                                                     {
@@ -11991,23 +11992,47 @@ namespace ArcGIS4LocalGovernment
                                                     }
 
                                                     newValue = valData;
-                                                    for (int i = 0; i <= inObject.Fields.FieldCount; i++)
+                                                    for (int i = 0; i <= inObject.Fields.FieldCount * 2 + 1; i++)
                                                     {
 
                                                         string strTmpFldName;
                                                         int intTmpIdx;
-                                                        if (i == inObject.Fields.FieldCount)
-                                                        {
-                                                            testField = inObject.Fields.get_Field(intFldIdxs[0]);
-                                                            strTmpFldName = "#";
-                                                            intTmpIdx = intFldIdxs[0];
-                                                        }
-                                                        else
-                                                        {
+                                                        if (i < inObject.Fields.FieldCount) {
                                                             testField = inObject.Fields.get_Field(i);
                                                             strTmpFldName = testField.Name;
                                                             intTmpIdx = i;
                                                         }
+
+                                                        else if (i < inObject.Fields.FieldCount * 2) {
+                                                            intTmpIdx = i - inObject.Fields.FieldCount;
+                                                            testField = inObject.Fields.get_Field(intTmpIdx);
+                                                            strTmpFldName = "~" + testField.Name;
+                                                            
+                                                        }
+                                                        else {
+                                                            testField = inObject.Fields.get_Field(intFldIdxs[0]);
+                                                            strTmpFldName = "#";
+                                                            intTmpIdx = intFldIdxs[0];
+                                                        }
+
+                                                        //if (i == inObject.Fields.FieldCount)
+                                                        //{
+                                                        //    testField = inObject.Fields.get_Field(intFldIdxs[0]);
+                                                        //    strTmpFldName = "#";
+                                                        //    intTmpIdx = intFldIdxs[0];
+                                                        //}
+                                                        //else if (i == inObject.Fields.FieldCount +1)
+                                                        //{
+                                                        //    testField = inObject.Fields.get_Field(intFldIdxs[0]);
+                                                        //    strTmpFldName = "$";
+                                                        //    intTmpIdx = intFldIdxs[0];
+                                                        //}
+                                                        //else
+                                                        //{
+                                                        //    testField = inObject.Fields.get_Field(i);
+                                                        //    strTmpFldName = testField.Name;
+                                                        //    intTmpIdx = i;
+                                                        //}
 
 
                                                         int indFld = newValue.ToUpper().IndexOf("[" + strTmpFldName.ToUpper() + "]");
@@ -12021,11 +12046,20 @@ namespace ArcGIS4LocalGovernment
                                                             string tmpStr2 = newValue.Substring(indFld + fldLen + 1);
                                                             newValue = tmpStr1 + "_REPLACE_VAL_" + tmpStr2;
 
+                                                            object field_value = inObject.get_Value(intTmpIdx);
+                                                            if (strTmpFldName.IndexOf("~") >= 0 &&  mode != "ON_CREATE")
+                                                            {
+                                                                if (inChanges.get_ValueChanged(intTmpIdx))
+                                                                {
+                                                                    field_value = inChanges.get_OriginalValue(intTmpIdx);
+                                                                }
+                                                           
+                                                            }
                                                             switch (testField.Type)
                                                             {
                                                                 case esriFieldType.esriFieldTypeString:
 
-                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "" || inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                    if (field_value == null || field_value.ToString() == "" || field_value == DBNull.Value)
                                                                     {
                                                                         if (newValue.Contains("IsNull"))
                                                                         {
@@ -12039,21 +12073,21 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "True");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == null)
+                                                                        else if (field_value == null)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                        else if (field_value == DBNull.Value)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                        else if (field_value.ToString() == "")
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
                                                                         }
                                                                         else
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
                                                                         }
 
 
@@ -12078,14 +12112,14 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                     }
-                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
 
 
                                                                     break;
                                                                 case esriFieldType.esriFieldTypeDate:
 
 
-                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "" || inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                    if (field_value == null || field_value.ToString() == "" || field_value == DBNull.Value)
                                                                     {
                                                                         if (newValue.Contains("IsNull([" + "_REPLACE_VAL_" + "])"))
                                                                         {
@@ -12099,21 +12133,21 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "True");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == null)
+                                                                        else if (field_value == null)
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                        else if (field_value == DBNull.Value)
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");//"\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");//"\"" + field_value.ToString() + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                        else if (field_value.ToString() == "")
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
                                                                         }
                                                                         else
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + field_value.ToString() + "\")");
                                                                         }
 
                                                                     }
@@ -12130,13 +12164,13 @@ namespace ArcGIS4LocalGovernment
                                                                     }
 
 
-                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + field_value.ToString() + "\")");
 
                                                                     break;
                                                                 case esriFieldType.esriFieldTypeSingle:
                                                                 case esriFieldType.esriFieldTypeDouble:
 
-                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                    if (field_value == null || field_value.ToString() == "")
                                                                     {
                                                                         if (newValue.Contains("IsNull"))
                                                                         {
@@ -12150,21 +12184,21 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "True");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == null)
+                                                                        else if (field_value == null)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                        else if (field_value == DBNull.Value)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                        else if (field_value.ToString() == "")
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
                                                                         else
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "" + inObject.get_Value(intTmpIdx).ToString() + "");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "" + field_value.ToString() + "");
                                                                         }
                                                                     }
                                                                     else
@@ -12179,7 +12213,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                     }
                                                                     double val;
-                                                                    Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
+                                                                    Double.TryParse(field_value.ToString(), out val);
 
 
                                                                     int intDigits = 2;
@@ -12206,7 +12240,7 @@ namespace ArcGIS4LocalGovernment
                                                                     break;
 
                                                                 default:
-                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                    if (field_value == null || field_value.ToString() == "")
                                                                     {
                                                                         if (newValue.Contains("IsNull"))
                                                                         {
@@ -12220,21 +12254,21 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "True");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == null)
+                                                                        else if (field_value == null)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                        else if (field_value == DBNull.Value)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                        else if (field_value.ToString() == "")
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
                                                                         else
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "" + inObject.get_Value(intTmpIdx).ToString() + "");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "" + field_value.ToString() + "");
                                                                         }
                                                                     }
                                                                     else
@@ -12249,7 +12283,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                     }
-                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", inObject.get_Value(intTmpIdx).ToString());
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", field_value.ToString());
                                                                     break;
                                                             }
                                                             indFld = newValue.ToUpper().IndexOf("[" + testField.Name.ToUpper() + "]");
