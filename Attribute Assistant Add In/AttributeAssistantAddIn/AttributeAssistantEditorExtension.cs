@@ -6069,6 +6069,7 @@ namespace ArcGIS4LocalGovernment
                                                             AAState.WriteLine("                     " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ca") + valData);
 
                                                             args = valData.Split('|');
+                                                            
                                                             int connectionCnt = Globals.getConnectionCount(inFeature);
 
                                                             foreach (string fldConPair in args)
@@ -6078,9 +6079,9 @@ namespace ArcGIS4LocalGovernment
                                                                 if (fldCon.Length == 1)
                                                                 {
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain51"));
-                                                                    if (Globals.IsNumeric(fldCon[0]))
+                                                                    if (Globals.IsNumeric(fldCon[0].ToString().Trim()))
                                                                     {
-                                                                        if (connectionCnt == Convert.ToInt32(fldCon[0]))
+                                                                        if (connectionCnt == Convert.ToInt32(fldCon[0].ToString().Trim()))
                                                                         {
                                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                             validFeat = true;
@@ -6101,7 +6102,7 @@ namespace ArcGIS4LocalGovernment
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain51"));
                                                                         if (fldCon.Length == 2)
                                                                         {
-                                                                            if (connectionCnt == Convert.ToInt32(fldCon[1]))
+                                                                            if (connectionCnt == Convert.ToInt32(fldCon[1].ToString().Trim()))
                                                                             {
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                                 validFeat = true;
@@ -6111,7 +6112,7 @@ namespace ArcGIS4LocalGovernment
                                                                         }
                                                                         if (fldCon.Length > 2)
                                                                         {
-                                                                            if (connectionCnt >= Convert.ToInt32(fldCon[1]) && connectionCnt <= Convert.ToInt32(fldCon[2]))
+                                                                            if (connectionCnt >= Convert.ToInt32(fldCon[1].ToString().Trim()) && connectionCnt <= Convert.ToInt32(fldCon[2].ToString().Trim()))
                                                                             {
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                                 validFeat = true;
@@ -6122,13 +6123,13 @@ namespace ArcGIS4LocalGovernment
 
                                                                     }
 
-                                                                    else if (inFeature.get_Value(intFldIdxs[0]).ToString() == fldCon[0])
+                                                                    else if (inFeature.get_Value(intFldIdxs[0]).ToString() == fldCon[0].ToString().Trim())
                                                                     {
 
 
                                                                         if (fldCon.Length == 2)
                                                                         {
-                                                                            if (connectionCnt == Convert.ToInt32(fldCon[1]))
+                                                                            if (connectionCnt == Convert.ToInt32(fldCon[1].ToString().Trim()))
                                                                             {
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                                 validFeat = true;
@@ -6138,7 +6139,7 @@ namespace ArcGIS4LocalGovernment
                                                                         }
                                                                         if (fldCon.Length > 2)
                                                                         {
-                                                                            if (connectionCnt >= Convert.ToInt32(fldCon[1]) && connectionCnt <= Convert.ToInt32(fldCon[2]))
+                                                                            if (connectionCnt >= Convert.ToInt32(fldCon[1].ToString().Trim()) && connectionCnt <= Convert.ToInt32(fldCon[2].ToString().Trim()))
                                                                             {
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                                 validFeat = true;

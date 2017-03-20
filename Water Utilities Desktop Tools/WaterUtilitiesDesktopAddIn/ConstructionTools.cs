@@ -487,19 +487,34 @@ namespace A4WaterUtilities
                 bool twoPoint = false;
                 (ArcMap.Application.Document as IMxDocument).FocusMap.ClearSelection();
                 List<IFeature> pLstFeat = null;
+                string storeOrder = "";
                 if (Control.ModifierKeys == Keys.Control)
                 {
-                    twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, false, out pLstFeat);
+                    twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, false, out pLstFeat, out  storeOrder);
                 }
                 else
                 {
-                    twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, true, out pLstFeat);
+                    twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, true, out pLstFeat, out  storeOrder);
                 }
 
-                foreach (IFeature pFt in pLstFeat)
+                if (storeOrder.ToUpper() == "points".ToUpper())
                 {
-                    pFt.Store();
-                }
+                    foreach (IFeature pFt in pLstFeat)
+                    {
+                        try
+                        {
+                            pFt.Store();
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("errorOnIFeatureStore"));
+                            m_editor.AbortOperation();
+                            return;
+                        }
+
+                    }
+                }               
                 if (twoPoint)
                 {
 
@@ -523,7 +538,18 @@ namespace A4WaterUtilities
                         segColTest.AddSegment(testSegment, ref Missing, ref Missing);
 
                         pFeat = Globals.CreateFeature(segColTest as IGeometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, false, true);
-                        pFeat.Store();
+                       
+                        try
+                        {
+                            pFeat.Store();
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("errorOnIFeatureStore"));
+                            m_editor.AbortOperation();
+                            return;
+                        }
                         pESeg.Next(out testSegment, ref partIndex, ref segmentIndex);
                     }
                 }
@@ -533,7 +559,24 @@ namespace A4WaterUtilities
                     pFeat.Store();
 
                 }
+                if (storeOrder.ToUpper() != "points".ToUpper())
+                {
+                    foreach (IFeature pFt in pLstFeat)
+                    {
+                        try
+                        {
+                            pFt.Store();
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("errorOnIFeatureStore"));
+                            m_editor.AbortOperation();
+                            return;
+                        }
 
+                    }
+                }
 
                 pLstFeat = null;
 
@@ -542,7 +585,12 @@ namespace A4WaterUtilities
 
 
             }
-            catch { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CrtLnWithPts") + "\n" + ex.ToString());
+                m_editor.AbortOperation();
+
+            }
             finally
             {
                 pFeat = null;
@@ -563,10 +611,11 @@ namespace A4WaterUtilities
     {
         private IEditor3 m_editor;
         private IEditEvents_Event m_editEvents;
+        private IEditEvents2_Event m_editEvents2;
         private IEditEvents5_Event m_editEvents5;
         private IEditSketch3 m_edSketch;
         private IShapeConstructor m_csc;
-
+        private bool m_aborted = false;
         public AddPointSplitLine()
         {
             ConfigUtil.type = "water";
@@ -574,6 +623,7 @@ namespace A4WaterUtilities
             m_editor = ArcMap.Editor as IEditor3;
             m_editEvents = m_editor as IEditEvents_Event;
             m_editEvents5 = m_editor as IEditEvents5_Event;
+            m_editEvents2 = m_editor as IEditEvents2_Event;
         }
 
         protected override void OnUpdate()
@@ -602,6 +652,7 @@ namespace A4WaterUtilities
             m_editEvents.OnSketchModified += OnSketchModified;
             m_editEvents5.OnShapeConstructorChanged += OnShapeConstructorChanged;
             m_editEvents.OnSketchFinished += OnSketchFinished;
+            //m_editEvents2.OnAbort += onAbort;
 
         }
 
@@ -610,6 +661,7 @@ namespace A4WaterUtilities
             m_editEvents.OnSketchModified -= OnSketchModified;
             m_editEvents5.OnShapeConstructorChanged -= OnShapeConstructorChanged;
             m_editEvents.OnSketchFinished -= OnSketchFinished;
+            //m_editEvents2.OnAbort -= onAbort;
             return true;
         }
 
@@ -629,6 +681,13 @@ namespace A4WaterUtilities
             //else
             //    m_edSketch.FinishSketch();
         }
+
+        //private void onAbort()
+        //{
+
+        //    m_aborted = true;
+        //}
+
 
         private void OnSketchModified()
         {
@@ -659,15 +718,20 @@ namespace A4WaterUtilities
 
                 pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate as IEditTemplate, m_editor, ArcMap.Application, false, false, true);
 
-
-
-
                 GeometryTools.SplitLinesAtClick(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5), m_edSketch.Geometry as IPoint, false, true, false);
 
-
-
-                pFeat.Store();
-                m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AddPtsAndSplitLn"));
+                try
+                {
+                    pFeat.Store();
+                    m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AddPtsAndSplitLn"));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("errorOnIFeatureStore"));
+                    m_editor.AbortOperation();
+                }
+                
+               
 
             }
             catch (Exception ex)
@@ -733,7 +797,6 @@ namespace A4WaterUtilities
             m_editEvents.OnSketchModified += OnSketchModified;
             m_editEvents5.OnShapeConstructorChanged += OnShapeConstructorChanged;
             m_editEvents.OnSketchFinished += OnSketchFinished;
-
         }
 
         protected override bool OnDeactivate()

@@ -401,7 +401,7 @@ namespace A4LGSharedFunctions
         public string PointAtVertices { get; set; }
         
         [XmlElement("Store_Order")]
-        [System.ComponentModel.DefaultValue("Active")]
+        [System.ComponentModel.DefaultValue("Points")]
         public string Store_Order { get; set; }
 
     }

@@ -4714,6 +4714,15 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The edit was cancelled.  This is likely due to a rule defined in the Attribute Assistant, causing the edited feature to be invalid.  Please turn off the Attribute Assistant and try again if you wish to make this edit..
+        /// </summary>
+        internal static string errorOnIFeatureStore {
+            get {
+                return ResourceManager.GetString("errorOnIFeatureStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export asset .
         /// </summary>
         internal static string ExportAsset {
