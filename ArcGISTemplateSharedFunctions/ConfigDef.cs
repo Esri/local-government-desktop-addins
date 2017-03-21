@@ -560,20 +560,21 @@ namespace A4LGSharedFunctions
 
         [XmlElement("SplitUpdateAndAdd")]
         [System.ComponentModel.DefaultValue(true)]
-        public bool SplitUpdateAndAdd {
+        public bool SplitUpdateAndAdd
+        {
             get
             {
-                 return _SplitUpdateAndAdd;
+                return _SplitUpdateAndAdd;
             }
             set
             {
-                if (value !=_SplitUpdateAndAdd)
+                if (value != _SplitUpdateAndAdd)
                 {
                     _SplitUpdateAndAdd = value;
                 }
-               
-            }
 
+            }
+        }
         [XmlArray("Fields"), XmlArrayItem(ElementName = "Field", Type = typeof(Field))]
         public Field[] Fields { get; set; }
 
