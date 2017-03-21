@@ -368,10 +368,10 @@ namespace A4LGSharedFunctions
     [XmlRootAttribute(ElementName = "ConstructLineWithPointsDetails", IsNullable = false)]
     public class ConstructLineWithPointsDetails
     {
-
+        private string _Store_Order = "Points";
         public ConstructLineWithPointsDetails()
         {
-
+            _Store_Order = "Points";
         }
         [XmlElement("Line_LayerName")]
         public string Line_LayerName { get; set; }
@@ -402,17 +402,29 @@ namespace A4LGSharedFunctions
         
         [XmlElement("Store_Order")]
         [System.ComponentModel.DefaultValue("Points")]
-        public string Store_Order { get; set; }
+        public string Store_Order {
+
+            get { 
+                return _Store_Order; 
+            }
+            set
+            {
+                if (_Store_Order != value)
+                {
+                    _Store_Order = value;
+                }
+            }
+        }
 
     }
 
     [XmlRootAttribute(ElementName = "ConnectClosestDetails", IsNullable = false)]
     public class ConnectClosestDetails
     {
-
+        private string _Store_Order = "Lines";
         public ConnectClosestDetails()
         {
-
+            _Store_Order = "Lines";
         }
         //public ConnectClosestDetails(string pointLayerName, string connectLineLayerName,
         //                           int connectLineSubtype, string connectLineFieldName,
@@ -447,9 +459,19 @@ namespace A4LGSharedFunctions
         public string Reset_Flow { get; set; }
         
         [XmlElement("Store_Order")]
-        [System.ComponentModel.DefaultValue("Active")]
-        public string Store_Order { get; set; }
-
+        [System.ComponentModel.DefaultValue("Lines")]
+        public string Store_Order {
+            get { 
+                return _Store_Order; 
+            }
+            set
+            {
+                if (_Store_Order != value)
+                {
+                    _Store_Order = value;
+                }
+            }
+        }
     }
 
     [XmlRootAttribute(ElementName = "AttributeTransferDetails", IsNullable = false)]
@@ -525,8 +547,10 @@ namespace A4LGSharedFunctions
     [XmlRootAttribute(ElementName = "MergeSplitGeoNetFeatures", IsNullable = false)]
     public class MergeSplitGeoNetFeatures
     {
+        bool _SplitUpdateAndAdd = true;
         public MergeSplitGeoNetFeatures()
         {
+            _SplitUpdateAndAdd = true;
         }
         [XmlElement("MergeSplitElev")]
         public string MergeSplitElev { get; set; }
@@ -536,7 +560,19 @@ namespace A4LGSharedFunctions
 
         [XmlElement("SplitUpdateAndAdd")]
         [System.ComponentModel.DefaultValue(true)]
-        public bool SplitUpdateAndAdd{ get; set; }
+        public bool SplitUpdateAndAdd {
+            get
+            {
+                 return _SplitUpdateAndAdd;
+            }
+            set
+            {
+                if (value !=_SplitUpdateAndAdd)
+                {
+                    _SplitUpdateAndAdd = value;
+                }
+               
+            }
 
         [XmlArray("Fields"), XmlArrayItem(ElementName = "Field", Type = typeof(Field))]
         public Field[] Fields { get; set; }

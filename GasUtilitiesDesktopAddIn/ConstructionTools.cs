@@ -497,7 +497,10 @@ namespace A4GasUtilities
                 {
                     twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, true, out pLstFeat, out  storeOrder);
                 }
-
+                if (storeOrder == null)
+                {
+                    storeOrder = "Points";
+                }
                 if (storeOrder.ToUpper() == "points".ToUpper())
                 {
                     foreach (IFeature pFt in pLstFeat)
@@ -583,7 +586,13 @@ namespace A4GasUtilities
 
                 m_editor.StopOperation("Create line with points");
             }
-            catch { }
+             
+            catch (Exception ex)
+            {
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CrtLnWithPts") + "\n" + ex.ToString());
+                m_editor.AbortOperation();
+
+            }
             finally
             {
                 pFeat = null;

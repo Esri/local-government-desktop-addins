@@ -496,7 +496,10 @@ namespace A4WaterUtilities
                 {
                     twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, true, out pLstFeat, out  storeOrder);
                 }
-
+                if (storeOrder == null)
+                {
+                    storeOrder = "Points";
+                }
                 if (storeOrder.ToUpper() == "points".ToUpper())
                 {
                     foreach (IFeature pFt in pLstFeat)
