@@ -294,7 +294,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Config.es-CL.xml" />
-    <Content Include="Config.es.xml" />
+    <Content Include="Config.es.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>
