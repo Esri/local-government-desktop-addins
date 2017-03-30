@@ -259,6 +259,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UserMessages.resx</DependentUpon>
     </Compile>
+    <Compile Include="UserMessages.es-CL.Designer.cs">
+      <DependentUpon>UserMessages.es-CL.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="UserMessages.es.Designer.cs">
       <DependentUpon>UserMessages.es.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -310,6 +315,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SelectTemplateForm.resx">
       <DependentUpon>SelectTemplateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserMessages.es-CL.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>UserMessages.es-CL.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UserMessages.es.resx">
       <Generator>ResXFileCodeGenerator</Generator>

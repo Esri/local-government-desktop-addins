@@ -293,6 +293,8 @@
       <Link>loaded.gas.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Config.es-CL.xml" />
+    <Content Include="Config.es.xml" />
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>
