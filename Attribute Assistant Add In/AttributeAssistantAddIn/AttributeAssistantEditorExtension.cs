@@ -12056,6 +12056,10 @@ namespace ArcGIS4LocalGovernment
                                                                 if (inChanges.get_ValueChanged(intTmpIdx))
                                                                 {
                                                                     field_value = inChanges.get_OriginalValue(intTmpIdx);
+                                                                    if (field_value == null || field_value == DBNull.Value)
+                                                                    {
+                                                                        field_value = "\"<Null>\"";
+                                                                    }
                                                                 }
 
                                                             }
