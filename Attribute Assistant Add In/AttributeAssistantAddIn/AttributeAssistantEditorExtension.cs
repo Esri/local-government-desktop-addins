@@ -12546,25 +12546,41 @@ namespace ArcGIS4LocalGovernment
                                                                                             if (targetFieldSplit.Length > 1)
                                                                                             {
                                                                                                 fldValueIdx = Globals.GetFieldIndex(inObject.Fields, targetFieldSplit[0]);
-                                                                                                if (targetFieldSplit[1].ToUpper() == "p)".ToUpper())
+                                                                                                if (fldValueIdx == -1)
                                                                                                 {
-                                                                                                    if (inChanges.get_ValueChanged(fldValueIdx))
-                                                                                                    {
-                                                                                                        valueToSet = inChanges.get_OriginalValue(fldValueIdx);
-                                                                                                    }
-                                                                                                    else {
-                                                                                                        inObject.get_Value(fldValueIdx);
-                                                                                                    }
+                                                                                                    valueToSet = targetFieldNames[kl];
                                                                                                 }
                                                                                                 else
                                                                                                 {
-                                                                                                    inObject.get_Value(fldValueIdx);
+
+                                                                                                    if (targetFieldSplit[1].ToUpper() == "p)".ToUpper())
+                                                                                                    {
+                                                                                                        if (inChanges.get_ValueChanged(fldValueIdx))
+                                                                                                        {
+                                                                                                            valueToSet = inChanges.get_OriginalValue(fldValueIdx);
+                                                                                                        }
+                                                                                                        else
+                                                                                                        {
+                                                                                                            valueToSet = inObject.get_Value(fldValueIdx);
+                                                                                                        }
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        valueToSet = inObject.get_Value(fldValueIdx);
+                                                                                                    }
                                                                                                 }
                                                                                             }
                                                                                             else
                                                                                             {
                                                                                                 fldValueIdx = Globals.GetFieldIndex(inObject.Fields, targetFieldNames[kl]);
-                                                                                                valueToSet = inObject.get_Value(fldValueIdx);
+                                                                                                if (fldValueIdx == -1) {
+                                                                                                    valueToSet = targetFieldNames[kl];
+                                                                                                }
+                                                                                                else {
+                                                                                                    valueToSet = inObject.get_Value(fldValueIdx);
+                                                                                                }
+
+                                                                                                
                                                                                             }
                                                                                             
                                                                                             try
