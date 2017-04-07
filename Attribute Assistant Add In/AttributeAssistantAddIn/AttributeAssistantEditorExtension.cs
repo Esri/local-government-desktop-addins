@@ -12545,8 +12545,8 @@ namespace ArcGIS4LocalGovernment
                                                                                             string[] targetFieldSplit = targetFieldNames[kl].Split('(');
                                                                                             if (targetFieldNames[kl].Contains("~") == true)
                                                                                             {
-                                                                                                targetFieldNames[kl] = targetFieldNames[kl].Replace("~", "");
-                                                                                                fldValueIdx = Globals.GetFieldIndex(inObject.Fields, targetFieldNames[kl]);
+                                                                                                string fieldName_without = targetFieldNames[kl].Replace("~", "");
+                                                                                                fldValueIdx = Globals.GetFieldIndex(inObject.Fields, fieldName_without);
                                                                                                 if (fldValueIdx == -1)
                                                                                                 {
                                                                                                     valueToSet = targetFieldNames[kl];
