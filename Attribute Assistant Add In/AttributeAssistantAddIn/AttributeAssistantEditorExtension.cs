@@ -12543,9 +12543,10 @@ namespace ArcGIS4LocalGovernment
                                                                                             int fldValueIdx;
                                                                                             object valueToSet = null;
                                                                                             string[] targetFieldSplit = targetFieldNames[kl].Split('(');
-                                                                                            if (targetFieldSplit.Length > 1)
+                                                                                            if (targetFieldNames[kl].Contains("~") == true)
                                                                                             {
-                                                                                                fldValueIdx = Globals.GetFieldIndex(inObject.Fields, targetFieldSplit[0]);
+                                                                                                targetFieldNames[kl] = targetFieldNames[kl].Replace("~", "");
+                                                                                                fldValueIdx = Globals.GetFieldIndex(inObject.Fields, targetFieldNames[kl]);
                                                                                                 if (fldValueIdx == -1)
                                                                                                 {
                                                                                                     valueToSet = targetFieldNames[kl];
@@ -12553,21 +12554,16 @@ namespace ArcGIS4LocalGovernment
                                                                                                 else
                                                                                                 {
 
-                                                                                                    if (targetFieldSplit[1].ToUpper() == "p)".ToUpper())
+                                                                                                   
+                                                                                                    if (inChanges.get_ValueChanged(fldValueIdx))
                                                                                                     {
-                                                                                                        if (inChanges.get_ValueChanged(fldValueIdx))
-                                                                                                        {
-                                                                                                            valueToSet = inChanges.get_OriginalValue(fldValueIdx);
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            valueToSet = inObject.get_Value(fldValueIdx);
-                                                                                                        }
+                                                                                                        valueToSet = inChanges.get_OriginalValue(fldValueIdx);
                                                                                                     }
                                                                                                     else
                                                                                                     {
                                                                                                         valueToSet = inObject.get_Value(fldValueIdx);
                                                                                                     }
+                                                                                                   
                                                                                                 }
                                                                                             }
                                                                                             else
