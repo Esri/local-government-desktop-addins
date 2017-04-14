@@ -291,9 +291,9 @@ namespace ArcGIS4LocalGovernment
 
             if (_dt == null)
             {
-
                 return false;
             }
+      
             _dv = new DataView(_dt);
             _gentab = Globals.FindTable(ArcMap.Document.FocusMap, _sequenceTableName);
 
@@ -308,8 +308,13 @@ namespace ArcGIS4LocalGovernment
         }
         public static void initDynTable()
         {
-            _dt = getConfigDataTable();
-
+            DataTable temp_dt;
+            temp_dt = getConfigDataTable();
+            if (temp_dt != null)
+            {
+                _dt = temp_dt;
+            }
+            temp_dt = null;
 
         }
         private static DataTable getConfigDataTable()
@@ -368,7 +373,8 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain0") + ex.ToString());
+                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain0") + ex.ToString());
+                //MessageBox.Show();
                 return null;
             }
         }
@@ -1403,11 +1409,8 @@ namespace ArcGIS4LocalGovernment
                 catch { }
             }
 
-            catch (Exception ex)
-            {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain5") + ex.ToString());
-
-            }
+            catch
+            { }
         }
         protected override bool OnSetState(ESRI.ArcGIS.Desktop.AddIns.ExtensionState state)
         {
