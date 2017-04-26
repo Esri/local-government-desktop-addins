@@ -281,6 +281,7 @@
     <Content Include="..\..\Configs\loaded.aa.config">
       <Link>loaded.aa.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <AddInContent Include="Config.es-CL.xml">
       <SubType>Designer</SubType>
