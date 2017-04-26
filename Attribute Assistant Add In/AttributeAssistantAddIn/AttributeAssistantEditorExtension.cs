@@ -1050,6 +1050,7 @@ namespace ArcGIS4LocalGovernment
 
         private bool _enabledOnStart = true;
 
+        private bool _enabledOnStartEditing = false;
         private IFeatureLayer intersectLayer;
         private bool boolLayerOrFC = false;
         private IStandaloneTable intersectTable;
@@ -1098,6 +1099,7 @@ namespace ArcGIS4LocalGovernment
             AAState._sequenceTableName = ConfigUtil.GetConfigValue("AttributeAssistant_GenerateId_TableName", AAState._sequenceTableName);
             AAState._CheckEnvelope = ConfigUtil.GetConfigValue("AttributeAssistant_CheckEnvelope ", AAState._CheckEnvelope);
             _enabledOnStart = ConfigUtil.GetConfigValue("AttributeAssistant_EnabledOnStartUp", _enabledOnStart);
+            _enabledOnStartEditing = ConfigUtil.GetConfigValue("AttributeAssistant_EnabledOnStartEditing", _enabledOnStartEditing);
             _agsOnlineLocators = ConfigUtil.GetConfigValue("Geocoder", _agsOnlineLocators);
             if (_agsOnlineLocators[_agsOnlineLocators.Length - 1] == '/')
             {
@@ -1494,9 +1496,15 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+
                 AAState.initDynTable();
 
-
+                if (AAState.PerformUpdates == false && this._enabledOnStartEditing)
+                {
+                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1b"));
+                    AAState.PerformUpdates = true;
+                    AAState.initEditing();
+                }
 
                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_11a"));
                 if (AAState.PerformUpdates && AAState.Debug().ToUpper() == "TRUE")
