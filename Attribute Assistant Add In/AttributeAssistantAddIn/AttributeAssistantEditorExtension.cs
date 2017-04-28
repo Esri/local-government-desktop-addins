@@ -293,7 +293,7 @@ namespace ArcGIS4LocalGovernment
             {
                 return false;
             }
-      
+
             _dv = new DataView(_dt);
             _gentab = Globals.FindTable(ArcMap.Document.FocusMap, _sequenceTableName);
 
@@ -393,7 +393,7 @@ namespace ArcGIS4LocalGovernment
             }
 
         }
-        public static void createLastValuePropertySet()
+        public static void createLastValuePropertySet(bool clear = false)
         {
             try
             {
@@ -401,7 +401,7 @@ namespace ArcGIS4LocalGovernment
                     return;
 
                 object nullObject = null;
-                if (AAState.lastValueProperties == null || _clearLastValue == true)
+                if (AAState.lastValueProperties == null || _clearLastValue == true || clear)
                 {
                     AAState.lastValueProperties = new PropertySetClass();
                 }
@@ -439,7 +439,7 @@ namespace ArcGIS4LocalGovernment
                     }
                     else
                     {
-                        if (_clearLastValue)
+                        if (_clearLastValue || clear)
                         {
                             LastValueEntry lstV = new LastValueEntry();
                             lstV.Value = nullObject;
@@ -998,7 +998,7 @@ namespace ArcGIS4LocalGovernment
             }
         }
         public static bool _clearLastValue = false;
-
+        public static bool _clearLastValueStopEdit = false;
     }
 
     public class AttributeAssistantEditorExtension : ESRI.ArcGIS.Desktop.AddIns.Extension
@@ -1105,10 +1105,15 @@ namespace ArcGIS4LocalGovernment
             {
                 _agsOnlineLocators = _agsOnlineLocators.Substring(0, _agsOnlineLocators.Length - 1);
             }
-            if (ConfigUtil.GetConfigValue("AttributeAssistant_ClearLastValue", _agsOnlineLocators).ToUpper() == "TRUE")
+            if (ConfigUtil.GetConfigValue("AttributeAssistant_ClearLastValue", "FALSE").ToUpper() == "TRUE")
                 AAState._clearLastValue = true;
             else
                 AAState._clearLastValue = false;
+
+            if (ConfigUtil.GetConfigValue("AttributeAssistant_ClearLastValueStopEdit", "FALSE").ToUpper() == "TRUE")
+                AAState._clearLastValueStopEdit = true;
+            else
+                AAState._clearLastValueStopEdit = false;
 
             if (ConfigUtil.GetConfigValue("BypassEditOperationCheck", "FALSE").ToUpper() == "TRUE")
                 AAState._bypassEditOperationCheck = true;
@@ -1241,11 +1246,11 @@ namespace ArcGIS4LocalGovernment
 
             //Wire editor events.
             AAState._editEvents = (IEditEvents_Event)_editor;
-            AAState._editEvents.OnStartEditing += OnStartEditing;
-
-
-            AAState._editEvents.OnStopEditing += OnStopEditing;
             AAState._editEvents2 = (IEditEvents2_Event)_editor;// SG Jan 2003-
+            AAState._editEvents.OnStartEditing += OnStartEditing;
+            AAState._editEvents.OnStopEditing += OnStopEditing;
+            AAState._editEvents2.OnSaveEdits += OnSaveEditing;
+           
 
             try
             {
@@ -1390,9 +1395,10 @@ namespace ArcGIS4LocalGovernment
 
                         //Wire editor events.
                         AAState._editEvents = (IEditEvents_Event)AAState._editor;
+                        AAState._editEvents2 = (IEditEvents2_Event)AAState._editor;// SG Jan 2003
                         AAState._editEvents.OnStartEditing -= OnStartEditing;
                         AAState._editEvents.OnStopEditing -= OnStopEditing;
-                        AAState._editEvents2 = (IEditEvents2_Event)AAState._editor;// SG Jan 2003
+                        AAState._editEvents2.OnSaveEdits -= OnSaveEditing;
                         //AAState._editor = null;
                         //AAState._editEvents = null;
                         //AAState._editEvents2 = null;  // SG Jan 2003
@@ -1496,7 +1502,11 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
-
+                //Start editing is a result of a save, as a save stops editing and saves
+                if (SaveClicked == true) {
+                    SaveClicked = false;
+                    return;
+                }
                 AAState.initDynTable();
 
                 if (AAState.PerformUpdates == false && this._enabledOnStartEditing)
@@ -1546,10 +1556,20 @@ namespace ArcGIS4LocalGovernment
         }
         private void OnStopEditing(Boolean save)
         {
+            if (SaveClicked == true) {
+                return;
+            }
             UnInitFabricState();
+            if (AAState._clearLastValueStopEdit == true) {
+                AAState.createLastValuePropertySet(true);
+            }
         }
-
-
+        private bool SaveClicked = false;
+        private void OnSaveEditing()
+        {
+            SaveClicked = true;
+           
+        }
         private void OnChangeGeoFeature(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
 
@@ -12565,7 +12585,7 @@ namespace ArcGIS4LocalGovernment
                                                                                                 else
                                                                                                 {
 
-                                                                                                   
+
                                                                                                     if (inChanges.get_ValueChanged(fldValueIdx))
                                                                                                     {
                                                                                                         valueToSet = inChanges.get_OriginalValue(fldValueIdx);
@@ -12574,22 +12594,24 @@ namespace ArcGIS4LocalGovernment
                                                                                                     {
                                                                                                         valueToSet = inObject.get_Value(fldValueIdx);
                                                                                                     }
-                                                                                                   
+
                                                                                                 }
                                                                                             }
                                                                                             else
                                                                                             {
                                                                                                 fldValueIdx = Globals.GetFieldIndex(inObject.Fields, targetFieldNames[kl]);
-                                                                                                if (fldValueIdx == -1) {
+                                                                                                if (fldValueIdx == -1)
+                                                                                                {
                                                                                                     valueToSet = targetFieldNames[kl];
                                                                                                 }
-                                                                                                else {
+                                                                                                else
+                                                                                                {
                                                                                                     valueToSet = inObject.get_Value(fldValueIdx);
                                                                                                 }
 
-                                                                                                
+
                                                                                             }
-                                                                                            
+
                                                                                             try
                                                                                             {
                                                                                                 pNewRow.set_Value(fldToPopIdx, valueToSet);
@@ -14134,6 +14156,7 @@ namespace ArcGIS4LocalGovernment
                                             try
                                             {
                                                 bool switchToPrompt = false;
+                                                bool valSet = false;
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "INTERSECTING_FEATURE");
                                                 if (inFeature != null & valData != null)
                                                 {
@@ -14318,17 +14341,33 @@ namespace ArcGIS4LocalGovernment
                                                                             AAState.WriteLine("                  map tolerance: " + mapTol.ToString());
                                                                             try
                                                                             {
-                                                                                ISpatialReferenceResolution pSRResolution;
+                                                                                
 
                                                                                 ISpatialReferenceResolution pSRResolution2;
 
+                                                                                pSRResolution2 = AAState._editor.Map.SpatialReference as ISpatialReferenceResolution;
+
+                                                                                
+                                                                                var spatialRef = AAState._editor.Map.SpatialReference;
+                                                                                double calculatedToleranceMap = 0.0;
+
+                                                                                if (spatialRef != null && spatialRef.HasXYPrecision())
+                                                                                {
+                                                                                    var spRefTolerance = spatialRef as ISpatialReferenceTolerance;
+                                                                                    if (spRefTolerance != null && spRefTolerance.XYToleranceValid == esriSRToleranceEnum.esriSRToleranceOK)
+                                                                                    {
+                                                                                        calculatedToleranceMap = spRefTolerance.XYTolerance;
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        calculatedToleranceMap = -1.0;
+                                                                                    }
+                                                                                }
                                                                                 double dblTol = Globals.GetXYTolerance(sourceLayer);
                                                                                 //pSRResolution = ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference) as ISpatialReferenceResolution;
 
                                                                                 //dblTol = pSRResolution.get_XYResolution(false);
                                                                                 dblTol = dblTol * 10;
-
-                                                                                pSRResolution2 = AAState._editor.Map.SpatialReference as ISpatialReferenceResolution;
 
                                                                                 double dblTol2 = pSRResolution2.get_XYResolution(false);
                                                                                 dblTol2 = dblTol2 * 10;
@@ -14339,10 +14378,11 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 AAState.WriteLine("                  spatial tolerance: " + dblTol.ToString());
 
-                                                                                if (mapTol > dblTol)
-                                                                                {
-                                                                                    dblTol = mapTol;
-                                                                                }
+                                                                                //if (mapTol > dblTol)
+                                                                                //{
+                                                                                //    dblTol = mapTol;
+                                                                                //}
+                                                                            
                                                                                 if (strOpt == AAState.intersectOptions.End &&
                                                                                    (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
                                                                                 {
@@ -14369,8 +14409,20 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                 }
-                                                                                pSRResolution = null;
+                                                                               
                                                                                 pSRResolution2 = null;
+                                                                                try
+                                                                                {
+                                                                                    string unitName = Globals.GetSpatRefUnitName(sFilter.Geometry.SpatialReference, false);
+                                                                                    double areaTest = (sFilter.Geometry as IArea).Area;
+                                                                                    AAState.WriteLine("Size of search polygon: " + areaTest + " in " + unitName + " ref " + sFilter.Geometry.SpatialReference.Name);
+                                                                                }
+                                                                                catch
+                                                                                {
+
+                                                                                }
+                                                                               
+
 
                                                                             }
                                                                             catch
@@ -14531,6 +14583,26 @@ namespace ArcGIS4LocalGovernment
                                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + test);
                                                                                         inObject.set_Value(intFldIdxs[0], sourceFeature.get_Value(sourceField));
                                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
+                                                                                        valSet = true;
+                                                                                        Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
+                                                                                        pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        pOp.Value = sourceFeature.get_Value(sourceField);
+
+                                                                                        if (pOp.Display.Trim() != "")
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
+
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
+
+                                                                                        }
+                                                                                        pOp.OID = sourceFeature.OID;
+                                                                                        pOp.LayerName = sourceLayer.Name;
+
+                                                                                        pFoundFeat.Add(pOp);
+                                                                                        
                                                                                         found = true;
                                                                                     }
                                                                                 }
@@ -14716,7 +14788,7 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             AAState.WriteLine("                  Feature count: " + pFoundFeat.Count);
                                                             AAState.WriteLine("                  Option: " + strOpt.ToString());
-                                                            if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.PromptMulti)
+                                                            if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.PromptMulti && valSet ==false)
                                                             {
                                                                 Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList);
                                                                 if (strRetVal == null)
@@ -14744,7 +14816,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
 
                                                             }
-                                                            else if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.Last)
+                                                            else if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.Last && valSet == false)
                                                             {
 
 

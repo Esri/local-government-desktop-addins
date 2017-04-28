@@ -11118,7 +11118,7 @@ namespace A4LGSharedFunctions
         {
 
             bool hasXY;
-            ISpatialReferenceResolution pSRResolution = null;
+           
             try
             {
                 if (FeatureLayer == null)
@@ -11129,15 +11129,16 @@ namespace A4LGSharedFunctions
                     return .000001;
 
                 hasXY = ((FeatureLayer.FeatureClass as IGeoDataset).SpatialReference).HasXYPrecision();
-
                 if (hasXY)
                 {
 
-
-                    pSRResolution = ((FeatureLayer.FeatureClass as IGeoDataset).SpatialReference) as ISpatialReferenceResolution;
-                    double dblTol;
-
-                    dblTol = pSRResolution.get_XYResolution(false);
+                    double dblTol = .00000000001;
+                    var spRefTolerance = (FeatureLayer.FeatureClass as IGeoDataset).SpatialReference as ISpatialReferenceTolerance;
+                    if (spRefTolerance != null && spRefTolerance.XYToleranceValid == esriSRToleranceEnum.esriSRToleranceOK)
+                    {
+                        dblTol = spRefTolerance.XYTolerance;
+                    }
+                   
                     if (dblTol < .0000000001)
                     {
                         dblTol = .00000001;
@@ -11156,7 +11157,7 @@ namespace A4LGSharedFunctions
             }
             finally
             {
-                pSRResolution = null;
+               
             }
         }
         public static Boolean pointscoincident(IPoint pntOne, IPoint pntTwo)
