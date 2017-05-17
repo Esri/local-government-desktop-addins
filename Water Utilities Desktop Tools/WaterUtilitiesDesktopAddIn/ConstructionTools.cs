@@ -721,11 +721,28 @@ namespace A4WaterUtilities
 
                 pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate as IEditTemplate, m_editor, ArcMap.Application, false, false, true);
 
-                GeometryTools.SplitLinesAtClick(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5), m_edSketch.Geometry as IPoint, false, true, false);
+                bool splitOccured = GeometryTools.SplitLinesAtClick(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5), m_edSketch.Geometry as IPoint, false, true, false);
 
                 try
                 {
-                    pFeat.Store();
+                    //Check to see if the source feature is the Junction FC, if so, and a edge was split, the junction will be created, do not create it as to not construct an orphaned junction
+                    //https://github.com/Esri/local-government-desktop-addins/issues/239
+                    bool storeFeature = true;
+                    INetworkFeature netFeature = pFeat as INetworkFeature;
+                    if (netFeature != null)
+                    {
+                          if (pFeat.Class.ObjectClassID == netFeature.GeometricNetwork.OrphanJunctionFeatureClass.FeatureClassID &&
+                             pFeat.Class.CLSID.Value.ToString() == netFeature.GeometricNetwork.OrphanJunctionFeatureClass.CLSID.Value.ToString() &&
+                             splitOccured == true)
+                          {
+                              storeFeature =false;
+                          }
+                      
+                    }
+                    if (storeFeature == true) { 
+                     pFeat.Store();
+                    }
+                    netFeature = null;
                     m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AddPtsAndSplitLn"));
                 }
                 catch (Exception ex)

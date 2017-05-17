@@ -1670,7 +1670,7 @@ namespace A4WaterUtilities
         //        pSplitResFeat = null;
         //    }
         //}
-        public static void SplitLinesAtClick(IApplication app, string SplitSuspendAA, double SplitAtLocationSnap, double SkipDistance, IPoint SplitPoint, bool onlySelectedFeatures, bool ignoreTolerence, bool logEditOperation)
+        public static bool SplitLinesAtClick(IApplication app, string SplitSuspendAA, double SplitAtLocationSnap, double SkipDistance, IPoint SplitPoint, bool onlySelectedFeatures, bool ignoreTolerence, bool logEditOperation)
         {
 
             ESRI.ArcGIS.Framework.ICommandItem pCmd = null;
@@ -1713,7 +1713,7 @@ namespace A4WaterUtilities
             //ISet pSet = null;
             //IFeature pSplitResFeat = null;
 
-
+            bool splitOccured = false;
             try
             {
                 m_Config = ConfigUtil.GetMergeSplitConfig();
@@ -1732,7 +1732,7 @@ namespace A4WaterUtilities
                 if (editor.EditState != esriEditState.esriStateEditing)
                 {
                     MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("MustBEditg"), A4LGSharedFunctions.Localizer.GetString("GeometryToolsLbl_4"));
-                    return;
+                    return splitOccured;
                 }
 
                 //Get enumeration of editable layers
@@ -1800,6 +1800,7 @@ namespace A4WaterUtilities
                 progressDialog.Title = A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_7");
                 progressDialog.Animation = ESRI.ArcGIS.Framework.esriProgressAnimationTypes.esriDownloadFile;
 
+                
                 //Create an edit operation enabling undo/redo
                 if (logEditOperation)
                     editor.StartOperation();
@@ -1853,245 +1854,20 @@ namespace A4WaterUtilities
 
 
                         lineFeature = lineFCursor.NextFeature();
+                        
                         while (!(lineFeature == null))
                         {
-                            Globals.splitLineWithPoint(lineFeature, SplitPoint, SplitAtLocationSnap, pFldsNames, strFormValu, app, m_Config[0].SplitUpdateAndAdd);
-                            //featureEdit = lineFeature as IFeatureEdit2;
-                            //hitTest = lineFeature.ShapeCopy as IHitTest;
-                            //pHitPnt = new PointClass();
-                            //double pHitDist = -1;
-                            //int pHitPrt = -1;
-                            //int pHitSeg = -1;
-                            //bool pHitSide = false;
-                            //bool hit = hitTest.HitTest(SplitPoint, SplitAtLocationSnap, esriGeometryHitPartType.esriGeometryPartBoundary, pHitPnt, pHitDist, pHitPrt, pHitSeg, pHitSide);
+                            ISet retVal = Globals.splitLineWithPoint(lineFeature, SplitPoint, SplitAtLocationSnap, pFldsNames, strFormValu, app, m_Config[0].SplitUpdateAndAdd);
 
-                            //if (hit)
-                            //{
-                            //    if (ignoreTolerence == true && (pHitDist == 0.0 || pHitDist == -1.0))
-                            //    {
-
-                            //        //Split feature
-                            //        topoOpEndStart = pHitPnt as ITopologicalOperator;
-                            //        polyEndStart = topoOpEndStart.Buffer(SkipDistance) as IPolygon;
-                            //        relOp = polyEndStart as IRelationalOperator;
-                            //        curve = lineFeature.Shape as ICurve;
-                            //        if (!(relOp.Contains(curve.FromPoint)) &&
-                            //            !(relOp.Contains(curve.ToPoint)))
-                            //        {
-                            //            Globals.FlashGeometry(pHitPnt, Globals.GetColor(255, 0, 0), mxdoc.ActiveView.ScreenDisplay, 150);
-
-
-
-
-                            //            double dblHighVal = 0;
-                            //            double dblLowVal = 0;
-                            //            int intHighIdx = -1;
-                            //            int intLowIdx = -1;
-                            //            foreach (MergeSplitFlds FldNam in pFldsNames)
-                            //            {
-                            //                FldNam.Value = lineFeature.get_Value(FldNam.FieldIndex).ToString();
-                            //                if (FldNam.SplitType.ToUpper() == "MAX")
-                            //                {
-                            //                    if (FldNam.Value != null)
-                            //                    {
-                            //                        if (FldNam.Value != "")
-                            //                        {
-
-                            //                            dblHighVal = Convert.ToDouble(FldNam.Value);
-                            //                            intHighIdx = FldNam.FieldIndex;
-                            //                        }
-                            //                    }
-                            //                }
-                            //                else if (FldNam.SplitType.ToUpper() == "MIN")
-                            //                {
-                            //                    if (FldNam.Value != null)
-                            //                    {
-                            //                        if (FldNam.Value != "")
-                            //                        {
-
-                            //                            dblLowVal = Convert.ToDouble(FldNam.Value);
-                            //                            intLowIdx = FldNam.FieldIndex;
-                            //                        }
-                            //                    }
-                            //                }
-
-
-                            //            }
-                            //            if (intHighIdx > -1 && intLowIdx > -1)
-                            //            {
-                            //                double len = ((ICurve)(lineFeature.Shape as IPolyline)).Length;
-
-                            //                double splitDist = Globals.PointDistanceOnLine(pHitPnt, lineFeature.Shape as IPolyline, 2, out pHitPnt);
-                            //                double percentSplit = splitDist / len;
-                            //                double dblMidVal;
-                            //                if (m_Config[0].SplitFormatString == "")
-                            //                {
-                            //                    dblMidVal = dblLowVal + ((dblHighVal - dblLowVal) * percentSplit);
-                            //                }
-                            //                else
-                            //                {
-                            //                    dblMidVal = Convert.ToDouble(string.Format(m_Config[0].SplitFormatString, dblLowVal + ((dblHighVal - dblLowVal) * percentSplit)));
-
-                            //                }
-
-
-                            //                //Split feature
-                            //                pSet = featureEdit.SplitWithUpdate(pHitPnt);
-
-                            //                if (pSet.Count == 1)
-                            //                {
-                            //                    while ((pSplitResFeat = pSet.Next() as IFeature) != null)
-                            //                    {
-                            //                        if ((pSplitResFeat.ShapeCopy as IPolyline).FromPoint.X == pHitPnt.X && (pSplitResFeat.ShapeCopy as IPolyline).FromPoint.Y == pHitPnt.Y)
-                            //                        {
-                            //                            pSplitResFeat.set_Value(intHighIdx, dblMidVal);
-                            //                        }
-                            //                        else if ((pSplitResFeat.ShapeCopy as IPolyline).ToPoint.X == pHitPnt.X && (pSplitResFeat.ShapeCopy as IPolyline).ToPoint.Y == pHitPnt.Y)
-                            //                        {
-                            //                            pSplitResFeat.set_Value(intLowIdx, dblMidVal);
-
-                            //                        }
-                            //                    }
-
-                            //                }
-                            //                if ((lineFeature.ShapeCopy as IPolyline).FromPoint.X == pHitPnt.X && (lineFeature.ShapeCopy as IPolyline).FromPoint.Y == pHitPnt.Y)
-                            //                {
-                            //                    lineFeature.set_Value(intHighIdx, dblMidVal);
-                            //                }
-                            //                else if ((lineFeature.ShapeCopy as IPolyline).ToPoint.X == pHitPnt.X && (lineFeature.ShapeCopy as IPolyline).ToPoint.Y == pHitPnt.Y)
-                            //                {
-                            //                    lineFeature.set_Value(intLowIdx, dblMidVal);
-
-                            //                }
-                            //            }
-                            //            else
-                            //                featureEdit.SplitWithUpdate(pHitPnt);
-
-                            //            //mxdoc.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, hitTest, mxdoc.ActiveView.Extent);
-                            //            mxdoc.ActiveView.Refresh();
-
-                            //            //mxdoc.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, curve, mxdoc.ActiveView.Extent);
-                            //        }
-
-                            //        topoOpEndStart = null;
-                            //        polyEndStart = null;
-                            //        relOp = null;
-                            //        curve = null;
-
-
-                            //    }
-                            //    else if (ignoreTolerence == false)
-                            //    {
-
-                            //        //Split feature
-                            //        topoOpEndStart = pHitPnt as ITopologicalOperator;
-                            //        polyEndStart = topoOpEndStart.Buffer(SkipDistance) as IPolygon;
-                            //        relOp = polyEndStart as IRelationalOperator;
-                            //        curve = lineFeature.ShapeCopy as ICurve;
-                            //        if (!(relOp.Contains(curve.FromPoint)) &&
-                            //            !(relOp.Contains(curve.ToPoint)))
-                            //        {
-                            //            //Split feature
-                            //            Globals.FlashGeometry(pHitPnt, Globals.GetColor(255, 0, 0), mxdoc.ActiveView.ScreenDisplay, 150);
-
-
-                            //            double dblHighVal = 0;
-                            //            double dblLowVal = 0;
-                            //            int intHighIdx = -1;
-                            //            int intLowIdx = -1;
-                            //            foreach (MergeSplitFlds FldNam in pFldsNames)
-                            //            {
-                            //                FldNam.Value = lineFeature.get_Value(FldNam.FieldIndex).ToString();
-                            //                if (FldNam.SplitType.ToUpper() == "MAX")
-                            //                {
-                            //                    if (FldNam.Value != null)
-                            //                    {
-                            //                        if (FldNam.Value != "")
-                            //                        {
-
-                            //                            dblHighVal = Convert.ToDouble(FldNam.Value);
-                            //                            intHighIdx = FldNam.FieldIndex;
-                            //                        }
-                            //                    }
-                            //                }
-                            //                else if (FldNam.SplitType.ToUpper() == "MIN")
-                            //                {
-                            //                    if (FldNam.Value != null)
-                            //                    {
-                            //                        if (FldNam.Value != "")
-                            //                        {
-
-                            //                            dblLowVal = Convert.ToDouble(FldNam.Value);
-                            //                            intLowIdx = FldNam.FieldIndex;
-                            //                        }
-                            //                    }
-                            //                }
-
-
-                            //            }
-                            //            if (intHighIdx > -1 && intLowIdx > -1)
-                            //            {
-                            //                double len = ((ICurve)(lineFeature.Shape as IPolyline)).Length;
-
-                            //                double splitDist = Globals.PointDistanceOnLine(pHitPnt, lineFeature.Shape as IPolyline, 2, out pHitPnt);
-                            //                double percentSplit = splitDist / len;
-                            //                double dblMidVal;
-                            //                if (m_Config[0].SplitFormatString == "")
-                            //                {
-                            //                    dblMidVal = dblLowVal + ((dblHighVal - dblLowVal) * percentSplit);
-                            //                }
-                            //                else
-                            //                {
-                            //                    dblMidVal = Convert.ToDouble(string.Format(m_Config[0].SplitFormatString, dblLowVal + ((dblHighVal - dblLowVal) * percentSplit)));
-
-                            //                }
-
-
-                            //                //Split feature
-                            //                pSet = featureEdit.SplitWithUpdate(pHitPnt);
-
-                            //                if (pSet.Count == 1)
-                            //                {
-                            //                    while ((pSplitResFeat = pSet.Next() as IFeature) != null)
-                            //                    {
-                            //                        if ((pSplitResFeat.ShapeCopy as IPolyline).FromPoint.X == pHitPnt.X && (pSplitResFeat.ShapeCopy as IPolyline).FromPoint.Y == pHitPnt.Y)
-                            //                        {
-                            //                            pSplitResFeat.set_Value(intHighIdx, dblMidVal);
-                            //                        }
-                            //                        else if ((pSplitResFeat.ShapeCopy as IPolyline).ToPoint.X == pHitPnt.X && (pSplitResFeat.ShapeCopy as IPolyline).ToPoint.Y == pHitPnt.Y)
-                            //                        {
-                            //                            pSplitResFeat.set_Value(intLowIdx, dblMidVal);
-
-                            //                        }
-                            //                    }
-
-                            //                }
-                            //                if ((lineFeature.ShapeCopy as IPolyline).FromPoint.X == pHitPnt.X && (lineFeature.ShapeCopy as IPolyline).FromPoint.Y == pHitPnt.Y)
-                            //                {
-                            //                    lineFeature.set_Value(intHighIdx, dblMidVal);
-                            //                }
-                            //                else if ((lineFeature.ShapeCopy as IPolyline).ToPoint.X == pHitPnt.X && (lineFeature.ShapeCopy as IPolyline).ToPoint.Y == pHitPnt.Y)
-                            //                {
-                            //                    lineFeature.set_Value(intLowIdx, dblMidVal);
-
-                            //                }
-                            //            }
-                            //            else
-                            //                featureEdit.SplitWithUpdate(pHitPnt);
-                            //        }
-
-                            //        topoOpEndStart = null;
-                            //        polyEndStart = null;
-                            //        relOp = null;
-                            //        curve = null;
-
-                            //    }
-                            //}
                             if (lineFeature != null)
                             {
                                 System.Runtime.InteropServices.Marshal.ReleaseComObject(lineFeature);
                             }
                             lineFeature = lineFCursor.NextFeature();
+                            if (retVal != null && retVal.Count > 0)
+                            {
+                                splitOccured = true;
+                            }
                         }
                         if (lineCursor != null)
                         {
@@ -2115,7 +1891,7 @@ namespace A4WaterUtilities
                         editor.AbortOperation();
 
 
-                    return;
+                    return splitOccured;
                 }
                 finally
                 {
@@ -2128,12 +1904,13 @@ namespace A4WaterUtilities
                 //Stop the edit operation 
                 if (logEditOperation)
                     editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("GeometryToolsProc_9"));
+                
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1") + "\n" + ex.ToString(), A4LGSharedFunctions.Localizer.GetString("GeometryToolsRealName_1"));
-                return;
+                return splitOccured;
             }
             finally
             {
@@ -2172,17 +1949,9 @@ namespace A4WaterUtilities
                 poly = null;
                 lineSel = null;
                 lineFeature = null;
-                //featureEdit = null;
-                //hitTest = null;
-                //pHitPnt = null;
-                //topoOpEndStart = null;
-                //polyEndStart = null;
-                //relOp = null;
-                //curve = null;
-
-
-
+                
             }
+            return splitOccured;
         }
         public static void testEditing(IApplication app)
         {
