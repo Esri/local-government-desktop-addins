@@ -3224,6 +3224,7 @@ namespace ArcGIS4LocalGovernment
 
                                             try
                                             {
+                                                
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FIELD_TRIGGER");
                                                 if (inObject != null & valData != null)
                                                 {
@@ -3261,7 +3262,12 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                         continue;
                                                     }
-                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]))
+                                                    //if (pRowCh.get_ValueChanged(intFldIdxs[0]))
+                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true || mode == "ON_MANUAL" ||
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Manual || 
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Geo || 
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Change ||
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Create)
                                                     {
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ax"));
                                                         if (inObject.get_Value(intFldIdxs[0]).ToString() == valToCheck)
