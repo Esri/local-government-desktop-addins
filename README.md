@@ -14,7 +14,7 @@ The ArcGIS for Local Government Desktop Add-ins include a series of desktop tool
 
 ## Instructions
 
-### Esri Solutions 
+### Esri Solutions
 
 Esri's provides a number of solutions that utilize these toolsets
 * [Address Data Management] (http://solutions.arcgis.com/local-government/help/address-management/)
@@ -23,7 +23,7 @@ Esri's provides a number of solutions that utilize these toolsets
 * [Street Tree Inventory] (http://solutions.arcgis.com/local-government/help/sign-inventory/)
 * [Signal Inventory] (http://solutions.arcgis.com/local-government/help/signal-inventory/)
 * [Sidewalk Inventory] (http://solutions.arcgis.com/local-government/help/sidewalk-inventory/)
-* [Water Utility Network Editing] (http://solutions.arcgis.com/local-government/water-utilities/help/network-editing/)     
+* [Water Utility Network Editing] (http://solutions.arcgis.com/local-government/water-utilities/help/network-editing/)
 
 ### Additional Help
 
@@ -86,6 +86,3 @@ limitations under the License.
 
 A copy of the license is available in the repository's
 [LICENSE.txt](LICENSE.txt) file.
-
-[](Esri Tags: ArcGISSolutions Local-Government Water-Utility Utility Utilities Local Government Desktop Addins Water Attribute-Assistant Desktop-Addins Water-Utility-Network-Editing Water-Utility-Network-Reporting Capital-Planning Visual-Basic)
-[](Esri Language: C-Sharp)
