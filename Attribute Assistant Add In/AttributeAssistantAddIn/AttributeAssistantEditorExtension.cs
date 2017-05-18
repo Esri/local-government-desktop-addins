@@ -473,7 +473,7 @@ namespace ArcGIS4LocalGovernment
                             else
                             {
                                 args = valData.Split('|');
-                                if (args.Length == 2)
+                                if (args.Length >= 2)
                                 {
                                     nullObject = args[1] as System.Object;
 
@@ -1250,7 +1250,7 @@ namespace ArcGIS4LocalGovernment
             AAState._editEvents.OnStartEditing += OnStartEditing;
             AAState._editEvents.OnStopEditing += OnStopEditing;
             AAState._editEvents2.OnSaveEdits += OnSaveEditing;
-           
+
 
             try
             {
@@ -1503,7 +1503,8 @@ namespace ArcGIS4LocalGovernment
             try
             {
                 //Start editing is a result of a save, as a save stops editing and saves
-                if (SaveClicked == true) {
+                if (SaveClicked == true)
+                {
                     SaveClicked = false;
                     return;
                 }
@@ -1556,11 +1557,13 @@ namespace ArcGIS4LocalGovernment
         }
         private void OnStopEditing(Boolean save)
         {
-            if (SaveClicked == true) {
+            if (SaveClicked == true)
+            {
                 return;
             }
             UnInitFabricState();
-            if (AAState._clearLastValueStopEdit == true) {
+            if (AAState._clearLastValueStopEdit == true)
+            {
                 AAState.createLastValuePropertySet(true);
             }
         }
@@ -1568,7 +1571,7 @@ namespace ArcGIS4LocalGovernment
         private void OnSaveEditing()
         {
             SaveClicked = true;
-           
+
         }
         private void OnChangeGeoFeature(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
@@ -2468,57 +2471,95 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14k") + "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND VALUEMETHOD = 'Last_Value'");
                     AAState._dv.RowFilter = "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND VALUEMETHOD = 'Last_Value'";
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14l") + AAState._dv.Count.ToString());
-
+                    bool UpdateValueOnCreate = true;
                     if (AAState._dv.Count > 0)
                     {
                         IRowChanges pRowChLast = inObject as IRowChanges;
                         for (int retRows = 0; retRows < AAState._dv.Count; retRows++)
                         {
+                            UpdateValueOnCreate = true;
                             DataRowView drv = AAState._dv[retRows];
                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14m") + drv["FIELDNAME"].ToString());
 
-                            int fldLoc = inObject.Fields.FindField(drv["FIELDNAME"].ToString());
-
-                            if (fldLoc > 0)
+                            //Check the value info to determine if the last value array entry should be changed on create.  This will bypass values in an edit template and values add from a split operation
+                            string valDataTemp = drv["VALUEINFO"].ToString().Trim();
+                            if (valDataTemp.Contains(Environment.NewLine))
                             {
-                                AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14n") + fldLoc);
-
-                                if (pRowChLast.get_ValueChanged(fldLoc))
+                                valDataTemp = valDataTemp.Substring(0, valDataTemp.IndexOf(Environment.NewLine));
+                            }
+                            if (!String.IsNullOrEmpty(valDataTemp))
+                            {
+                                args = valDataTemp.Split('|');
+                                if (args.Length == 3)
                                 {
-                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14o"));
-
-                                    try
+                                    if (args[2].ToString().ToUpper() == "FALSE" && mode == "ON_CREATE")
                                     {
-                                        LastValueEntry lstVal = (AAState.lastValueProperties.GetProperty(drv["FIELDNAME"].ToString()) as LastValueEntry);
+                                        UpdateValueOnCreate = false;
+                                    }
+                                }
 
-                                        if (lstVal != null)
+                            }
+                            if (UpdateValueOnCreate == true)
+                            {
+                                int fldLoc = inObject.Fields.FindField(drv["FIELDNAME"].ToString());
+
+                                if (fldLoc > 0)
+                                {
+                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14n") + fldLoc);
+
+                                    if (pRowChLast.get_ValueChanged(fldLoc))
+                                    {
+                                        AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14o"));
+
+                                        try
                                         {
+                                            LastValueEntry lstVal = (AAState.lastValueProperties.GetProperty(drv["FIELDNAME"].ToString()) as LastValueEntry);
 
-
-                                            if (inObject.get_Value(fldLoc) != null)
+                                            if (lstVal != null)
                                             {
-                                                if (inObject.get_Value(fldLoc) != DBNull.Value)
+
+
+                                                if (inObject.get_Value(fldLoc) != null)
                                                 {
-
-
-                                                    if (lstVal.Value != null)
+                                                    if (inObject.get_Value(fldLoc) != DBNull.Value)
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
-                                                        AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc).ToString());
-                                                        lstVal.Value = inObject.get_Value(fldLoc);
 
-                                                        AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+
+                                                        if (lstVal.Value != null)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
+                                                            AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc).ToString());
+                                                            lstVal.Value = inObject.get_Value(fldLoc);
+
+                                                            AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+                                                        }
+
+                                                        else
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
+                                                            AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc));
+                                                            lstVal.Value = inObject.get_Value(fldLoc);
+
+                                                            AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+                                                        }
+
                                                     }
-
                                                     else
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
-                                                        AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc));
-                                                        lstVal.Value = inObject.get_Value(fldLoc);
+                                                        if (mode == "ON_CREATE")
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14q"));
 
-                                                        AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+                                                        }
+                                                        else
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
+                                                            AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": NULL");
+                                                            lstVal.Value = null;
+                                                            AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+                                                        }
+
                                                     }
-
                                                 }
                                                 else
                                                 {
@@ -2533,57 +2574,41 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": NULL");
                                                         lstVal.Value = null;
                                                         AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
-                                                    }
 
+                                                    }
                                                 }
+
                                             }
                                             else
                                             {
-                                                if (mode == "ON_CREATE")
-                                                {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14q"));
+                                                lstVal = new LastValueEntry();
+                                                lstVal.Value = inObject.get_Value(fldLoc);
 
-                                                }
-                                                else
+                                                lstVal.On_Manual = Globals.toBoolean(drv["ON_MANUAL"].ToString());
+                                                lstVal.On_Create = Globals.toBoolean(drv["ON_CREATE"].ToString());
+                                                lstVal.On_ChangeAtt = Globals.toBoolean(drv["ON_CHANGE"].ToString());
+                                                if (drv["ON_CHANGEGEO"] != null)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
-                                                    AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": NULL");
-                                                    lstVal.Value = null;
-                                                    AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
-
+                                                    lstVal.On_ChangeGeo = Globals.toBoolean(drv["ON_CHANGEGEO"].ToString());
                                                 }
+                                                AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+
                                             }
 
                                         }
-                                        else
+                                        catch
                                         {
-                                            lstVal = new LastValueEntry();
-                                            lstVal.Value = inObject.get_Value(fldLoc);
 
-                                            lstVal.On_Manual = Globals.toBoolean(drv["ON_MANUAL"].ToString());
-                                            lstVal.On_Create = Globals.toBoolean(drv["ON_CREATE"].ToString());
-                                            lstVal.On_ChangeAtt = Globals.toBoolean(drv["ON_CHANGE"].ToString());
-                                            if (drv["ON_CHANGEGEO"] != null)
-                                            {
-                                                lstVal.On_ChangeGeo = Globals.toBoolean(drv["ON_CHANGEGEO"].ToString());
-                                            }
-                                            AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
 
                                         }
 
+
                                     }
-                                    catch
+                                    else
                                     {
-
+                                        AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14r"));
 
                                     }
-
-
-                                }
-                                else
-                                {
-                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14r"));
-
                                 }
                             }
                         }
@@ -2591,12 +2616,6 @@ namespace ArcGIS4LocalGovernment
                         pRowChLast = null;
 
                     }
-
-
-
-
-
-
 
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14s") + inObject.Class.AliasName);
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14k") + "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND " + modeVal);
@@ -3224,7 +3243,7 @@ namespace ArcGIS4LocalGovernment
 
                                             try
                                             {
-                                                
+
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FIELD_TRIGGER");
                                                 if (inObject != null & valData != null)
                                                 {
@@ -3264,8 +3283,8 @@ namespace ArcGIS4LocalGovernment
                                                     }
                                                     //if (pRowCh.get_ValueChanged(intFldIdxs[0]))
                                                     if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true || mode == "ON_MANUAL" ||
-                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Manual || 
-                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Geo || 
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Manual ||
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Geo ||
                                                         AAState.triggerByTools == AAState.TriggerByToolsOptions.Change ||
                                                         AAState.triggerByTools == AAState.TriggerByToolsOptions.Create)
                                                     {
@@ -14347,13 +14366,13 @@ namespace ArcGIS4LocalGovernment
                                                                             AAState.WriteLine("                  map tolerance: " + mapTol.ToString());
                                                                             try
                                                                             {
-                                                                                
+
 
                                                                                 ISpatialReferenceResolution pSRResolution2;
 
                                                                                 pSRResolution2 = AAState._editor.Map.SpatialReference as ISpatialReferenceResolution;
 
-                                                                                
+
                                                                                 var spatialRef = AAState._editor.Map.SpatialReference;
                                                                                 double calculatedToleranceMap = 0.0;
 
@@ -14388,7 +14407,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 //{
                                                                                 //    dblTol = mapTol;
                                                                                 //}
-                                                                            
+
                                                                                 if (strOpt == AAState.intersectOptions.End &&
                                                                                    (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
                                                                                 {
@@ -14415,7 +14434,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                 }
-                                                                               
+
                                                                                 pSRResolution2 = null;
                                                                                 try
                                                                                 {
@@ -14427,7 +14446,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
 
                                                                                 }
-                                                                               
+
 
 
                                                                             }
@@ -14608,7 +14627,7 @@ namespace ArcGIS4LocalGovernment
                                                                                         pOp.LayerName = sourceLayer.Name;
 
                                                                                         pFoundFeat.Add(pOp);
-                                                                                        
+
                                                                                         found = true;
                                                                                     }
                                                                                 }
@@ -14794,7 +14813,7 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             AAState.WriteLine("                  Feature count: " + pFoundFeat.Count);
                                                             AAState.WriteLine("                  Option: " + strOpt.ToString());
-                                                            if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.PromptMulti && valSet ==false)
+                                                            if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.PromptMulti && valSet == false)
                                                             {
                                                                 Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList);
                                                                 if (strRetVal == null)
