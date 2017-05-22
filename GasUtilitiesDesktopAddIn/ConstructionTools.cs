@@ -488,16 +488,37 @@ namespace A4GasUtilities
                 bool twoPoint = false;
                 (ArcMap.Application.Document as IMxDocument).FocusMap.ClearSelection();
                 List<IFeature> pLstFeat = null;
+                string storeOrder = "";
                 if (Control.ModifierKeys == Keys.Control)
                 {
-                    twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, false, out pLstFeat);
+                    twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, false, out pLstFeat, out  storeOrder);
                 }
                 else
                 {
-                    twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, true, out pLstFeat);
+                    twoPoint = CreateLineWithEndPoints.CreatePoints(ArcMap.Application, ConfigUtil.GetLinePointAtEndsConfig(), m_edSketch.Geometry as IPolyline, (IFeatureLayer)m_editor.CurrentTemplate.Layer, true, out pLstFeat, out  storeOrder);
                 }
+                if (storeOrder == null)
+                {
+                    storeOrder = "Points";
+                }
+                if (storeOrder.ToUpper() == "points".ToUpper())
+                {
+                    foreach (IFeature pFt in pLstFeat)
+                    {
+                        try
+                        {
+                            pFt.Store();
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("errorOnIFeatureStore"));
+                            m_editor.AbortOperation();
+                            return;
+                        }
 
-
+                    }
+                }
                 if (twoPoint)
                 {
 
@@ -521,7 +542,17 @@ namespace A4GasUtilities
                         segColTest.AddSegment(testSegment, ref Missing, ref Missing);
 
                         pFeat = Globals.CreateFeature(segColTest as IGeometry, m_editor.CurrentTemplate, m_editor, ArcMap.Application, false, false, true);
-                        pFeat.Store();
+                        try
+                        {
+                            pFeat.Store();
+
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("errorOnIFeatureStore"));
+                            m_editor.AbortOperation();
+                            return;
+                        }
                         pESeg.Next(out testSegment, ref partIndex, ref segmentIndex);
                     }
                 }
@@ -532,15 +563,36 @@ namespace A4GasUtilities
 
                 }
 
-                foreach (IFeature pFt in pLstFeat)
+                if (storeOrder.ToUpper() != "points".ToUpper())
                 {
-                    pFt.Store();
+                    foreach (IFeature pFt in pLstFeat)
+                    {
+                        try
+                        {
+                            pFt.Store();
+                            
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("errorOnIFeatureStore"));
+                            m_editor.AbortOperation();
+                            return;
+                        }
+
+                    }
                 }
+
                 pLstFeat = null;
 
                 m_editor.StopOperation("Create line with points");
             }
-            catch { }
+             
+            catch (Exception ex)
+            {
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("CrtLnWithPts") + "\n" + ex.ToString());
+                m_editor.AbortOperation();
+
+            }
             finally
             {
                 pFeat = null;
@@ -650,7 +702,7 @@ namespace A4GasUtilities
         private void OnSketchFinished()
         {
             ConfigUtil.type = "gas";
-            IFeature pFeat;
+            IFeature pFeat = null;
             try
             {
 
@@ -658,31 +710,55 @@ namespace A4GasUtilities
 
                 pFeat = Globals.CreateFeature(m_edSketch.Geometry, m_editor.CurrentTemplate as IEditTemplate, m_editor, ArcMap.Application, false, false, true);
 
+                bool splitOccured = GeometryTools.SplitLinesAtClick(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5), m_edSketch.Geometry as IPoint, false, true, false);
+
+                try
+                {
+                    //Check to see if the source feature is the Junction FC, if so, and a edge was split, the junction will be created, do not create it as to not construct an orphaned junction
+                    //https://github.com/Esri/local-government-desktop-addins/issues/239
+                    bool storeFeature = true;
+                    INetworkFeature netFeature = pFeat as INetworkFeature;
+                    if (netFeature != null)
+                    {
+                        if (pFeat.Class.ObjectClassID == netFeature.GeometricNetwork.OrphanJunctionFeatureClass.FeatureClassID &&
+                           pFeat.Class.CLSID.Value.ToString() == netFeature.GeometricNetwork.OrphanJunctionFeatureClass.CLSID.Value.ToString() &&
+                           splitOccured == true)
+                        {
+                            storeFeature = false;
+                        }
+
+                    }
+                    if (storeFeature == true)
+                    {
+                        pFeat.Store();
+                    }
+                    netFeature = null;
+                    m_editor.StopOperation(A4LGSharedFunctions.Localizer.GetString("AddPtsAndSplitLn"));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("errorOnIFeatureStore"));
+                    m_editor.AbortOperation();
+                }
 
 
 
-                GeometryTools.SplitLinesAtClick(ArcMap.Application, ConfigUtil.GetConfigValue("SplitLinesSuspendAA", "true"), ConfigUtil.GetConfigValue("SplitLinesAtLocation_Snap", 10.0), ConfigUtil.GetConfigValue("SplitLines_SkipDistance", .5), m_edSketch.Geometry as IPoint, false, true, false);
-
-
-
-                pFeat.Store();
-                m_editor.StopOperation("Add Point and split line");
-                (ArcMap.Application.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, pFeat, null);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error in the Add Point and Split\n" + ex.ToString());
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorInThe") + A4LGSharedFunctions.Localizer.GetString("AddPtsAndSplitLn") + "\n" + ex.ToString());
                 m_editor.AbortOperation();
 
             }
             finally
             {
-               
-                 
+                if (pFeat != null)
+                {
+                    (ArcMap.Application.Document as IMxDocument).ActiveView.PartialRefresh(esriViewDrawPhase.esriViewAll, pFeat, null);
+                }
                 pFeat = null;
             }
         }
-
 
     }
 

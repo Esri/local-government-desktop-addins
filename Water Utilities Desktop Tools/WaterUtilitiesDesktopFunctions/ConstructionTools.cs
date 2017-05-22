@@ -56,10 +56,10 @@ namespace A4WaterUtilities
     public static class CreateLineWithEndPoints
     {
 
-        public static bool CreatePoints(IApplication app, List<ConstructLineWithPointsDetails> linesWithPointsDetails, IPolyline line, IFeatureLayer SourceLayer, bool bUseTemplate, out List<IFeature> pLstFeat)
+        public static bool CreatePoints(IApplication app, List<ConstructLineWithPointsDetails> linesWithPointsDetails, IPolyline line, IFeatureLayer SourceLayer, bool bUseTemplate, out List<IFeature> pLstFeat, out string storeOrder)
         {
             pLstFeat = null;
-
+            storeOrder = "points";
             IFeatureLayer pStartPointLayer = null;
             IFeatureLayer pAlongPointLayer = null;
             IFeatureLayer pEndPointLayer = null;
@@ -115,7 +115,7 @@ namespace A4WaterUtilities
                     if (pAlongPointLayer == null && pEndPointLayer == null && pStartPointLayer == null)
                         continue;
                     pCur = line;// as ICurve; 
-
+                    storeOrder = pDet.Store_Order;
                     if (bUseTemplate)
                     {
                         //pEditTempStart = Globals.PromptAndGetEditTemplate(app, pStartPointLayer, pDet.Point_Start_EditTemplate, "Template for Start Layer: " + pStartPointLayer.Name);

@@ -2652,4 +2652,7 @@
   <data name="dynamicValueTableMissing" xml:space="preserve">
     <value>DynamicValue Table is required to activate the Attribute Assistant</value>
   </data>
+  <data name="errorOnIFeatureStore" xml:space="preserve">
+    <value>The edit was cancelled.  This is likely due to a rule defined in the Attribute Assistant, causing the edited feature to be invalid.</value>
+  </data>
 </root>

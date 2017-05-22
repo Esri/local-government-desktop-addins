@@ -3494,4 +3494,8 @@
     <value>DynamicValue Table is required to activate the Attribute Assistant</value>
     <comment>Needs Translation</comment>
   </data>
+  <data name="errorOnIFeatureStore" xml:space="preserve">
+    <value>The edit was cancelled.  This is likely due to a rule defined in the Attribute Assistant, causing the edited feature to be invalid.</value>
+    <comment>Needs Localization</comment>
+  </data>
 </root>
