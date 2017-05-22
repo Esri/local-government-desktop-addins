@@ -299,6 +299,7 @@
     <Content Include="Config.es.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Config.pt-BR.xml" />
     <None Include="Images\Open2.png" />
   </ItemGroup>
   <ItemGroup>
