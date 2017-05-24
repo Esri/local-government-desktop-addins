@@ -3300,8 +3300,16 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             try
                                                             {
-                                                                inObject.set_Value(chngFldIdx, valToSet);
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
+                                                                if (valToSet == "<Null>")
+                                                                {
+                                                                    inObject.set_Value(chngFldIdx, DBNull.Value);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
+                                                                }
+                                                                else {
+                                                                    inObject.set_Value(chngFldIdx, valToSet);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));                                                                
+                                                                }
+
                                                             }
                                                             catch
                                                             {
