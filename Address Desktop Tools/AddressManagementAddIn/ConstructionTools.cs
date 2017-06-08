@@ -258,27 +258,33 @@ namespace A4LGAddressManagement
 
         protected sealed override void OnMouseMove(MouseEventArgs arg)
         {
-            m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
-            UpdateMapTip();
+            if (m_csc != null) { 
+                m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+                UpdateMapTip();
+            }
         }
 
         protected sealed override void OnKeyUp(KeyEventArgs arg)
         {
-            m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
-            if (arg.KeyCode == Keys.A)
+            if (m_csc != null)
             {
-                var autoIncrement = new AutoIncrementWindow(m_settings.AutoIncrement);
-
-                var mxPtr = new IntPtr(ArcMap.Application.hWnd);
-                if (autoIncrement.ShowDialog(Control.FromHandle(mxPtr)) == DialogResult.OK)
+                m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
+                if (arg.KeyCode == Keys.A)
                 {
-                    m_settings.AutoIncrement = Convert.ToInt16(autoIncrement.GetIncrementValue());
+                    var autoIncrement = new AutoIncrementWindow(m_settings.AutoIncrement);
+
+                    var mxPtr = new IntPtr(ArcMap.Application.hWnd);
+                    if (autoIncrement.ShowDialog(Control.FromHandle(mxPtr)) == DialogResult.OK)
+                    {
+                        m_settings.AutoIncrement = Convert.ToInt16(autoIncrement.GetIncrementValue());
+                    }
                 }
             }
         }
 
         private void OnSketchModified()
         {
+
             if (Globals.IsShapeConstructorOkay(m_csc))
                 m_csc.SketchModified();
 

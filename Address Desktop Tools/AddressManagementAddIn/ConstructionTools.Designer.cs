@@ -186,22 +186,15 @@ namespace A4LGAddressManagement
         #region Tool input overriding methods
         protected sealed override void OnMouseDown(MouseEventArgs arg)
         {
-            m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
-        }
-
-        protected sealed override void OnMouseUp(MouseEventArgs arg)
-        {
-            m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
-        }
-
-        protected sealed override void OnKeyDown(KeyEventArgs arg)
-        {
-            m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
+            if (m_csc != null)
+                m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override bool OnContextMenu(int x, int y)
         {
-            return m_csc.OnContextMenu(x, y);
+            if (m_csc != null)
+                return m_csc.OnContextMenu(x, y);
+            else return false;
         }
 
         protected sealed override void OnRefresh(int hDC)
