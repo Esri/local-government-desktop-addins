@@ -10990,9 +10990,34 @@ namespace A4LGSharedFunctions
                     if (intHighIdx > -1 && intLowIdx > -1)
                     {
                         double len = ((ICurve)(lineFeature.Shape as IPolyline)).Length;
+                        //double len2 = len;
+                        //if (lineFeature.Shape.GeometryType == esriGeometryType.esriGeometryLine || lineFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolyline)
+                        //{
+                        //    if ((lineFeature.Class as IGeoDataset).SpatialReference is IProjectedCoordinateSystem)
+                        //    {
+                        //        IPolycurveGeodetic pCurDes = (IPolycurveGeodetic)lineFeature.Shape;
+                        //        if (pCurDes != null)
+                        //        {
+                        //            IProjectedCoordinateSystem pProjSys = (IProjectedCoordinateSystem)(lineFeature.Class as IGeoDataset).SpatialReference;
 
-                        double splitDist = Globals.PointDistanceOnLine(pHitPnt, lineFeature.Shape as IPolyline, 2, out pHitPnt);
-                        double percentSplit = splitDist / len;
+                        //            len2 = pCurDes.get_LengthGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pProjSys.CoordinateUnit);
+
+                        //            pProjSys = null;
+
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        ICurve curve = (ICurve)lineFeature.Shape;
+                        //        if (curve != null)
+                        //        {
+                        //            len2 = curve.Length;
+                        //        }
+                        //    }
+                        }
+                        
+                        double splitDist = Globals.PointDistanceOnLine(pHitPnt, lineFeature.Shape as IPolyline, 22, out pHitPnt);
+                        double percentSplit = (len - splitDist) / len;
 
                         if (SplitFormatString == "")
                         {
@@ -12084,7 +12109,7 @@ namespace A4LGSharedFunctions
 
                     if (Globals.IsNumeric(iMegSeg.MMax.ToString()) == false || Globals.IsNumeric(iMegSeg.MMin.ToString()) == false)
                     {
-                        return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                        return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
                     }
                     else if (iMegSeg.MMax != iMegSeg.MMin)
                     {
@@ -12099,13 +12124,13 @@ namespace A4LGSharedFunctions
                             if (Globals.IsNumeric(pDbl[0].ToString()) == false)
 
                                 //return outDistAlongCurve;
-                                return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                                return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
                             else
-                                return Convert.ToDouble(pDbl[0].ToString(string.Format("N", DecimalPlaces)));
+                                return Convert.ToDouble(pDbl[0].ToString(string.Format("F" + DecimalPlaces)));
                             //return pDbl[0];
                         }
                         else
-                            return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                            return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
                         //return outDistAlongCurve;
 
 
@@ -12114,13 +12139,13 @@ namespace A4LGSharedFunctions
                     {
 
 
-                        return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                        return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
                         //  return outDistAlongCurve;
 
                     }
                 }
                 else
-                    return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                    return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
             }
             catch (Exception ex)
             {
