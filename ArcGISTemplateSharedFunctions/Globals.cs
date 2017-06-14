@@ -11014,7 +11014,7 @@ namespace A4LGSharedFunctions
                         //            len2 = curve.Length;
                         //        }
                         //    }
-                        }
+                        //}
                         
                         double splitDist = Globals.PointDistanceOnLine(pHitPnt, lineFeature.Shape as IPolyline, 22, out pHitPnt);
                         double percentSplit = (len - splitDist) / len;
