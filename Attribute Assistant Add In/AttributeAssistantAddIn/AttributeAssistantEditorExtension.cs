@@ -1120,6 +1120,11 @@ namespace ArcGIS4LocalGovernment
             else
                 AAState._bypassEditOperationCheck = false;
 
+            if (ConfigUtil.GetConfigValue("OnCreateWhenSplit", "FALSE").ToUpper() == "TRUE")
+                AAState._onCreateWhenSplit = true;
+            else
+                AAState._onCreateWhenSplit = false;
+
             AAState._seqNameField = ConfigUtil.GetConfigValue("SequenceName", AAState._seqNameField);
             AAState._seqCounterField = ConfigUtil.GetConfigValue("SequenceCounter", AAState._seqCounterField);
             AAState._seqIntervalField = ConfigUtil.GetConfigValue("SequenceInterval", AAState._seqIntervalField);
