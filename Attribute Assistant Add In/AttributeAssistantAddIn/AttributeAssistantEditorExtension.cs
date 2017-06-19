@@ -149,7 +149,7 @@ namespace ArcGIS4LocalGovernment
         public static Dictionary<int, ITable> _fabricInMemTablesLookUp;
         public static bool _CheckEnvelope = false;
         public static bool _bypassEditOperationCheck = false;
-
+        public static bool _onCreateWhenSplit = false;
         // Declare configuration variables 
         public static string _defaultsTableName = "DynamicValue";
         public static string _sequenceTableName = "GenerateId";
@@ -1840,6 +1840,20 @@ namespace ArcGIS4LocalGovernment
                     _LastMode = "";
                     _LastFC = "";
                     return;
+                }
+                if (AAState._onCreateWhenSplit == true) { 
+                // SG Jun 2017 - add a check that will trigger on_create when splitting/cutting features
+                IApplication _myApp = ArcMap.Application;
+                string name = _myApp.CurrentTool.Name;
+                // The even more solid logic here would be the 2nd last OID == inObject.OID
+                // but checking the current tool does a good job indicating the source of the onChangeGeo event
+                if (_LastOID != inObject.OID && mode == "ON_CHANGEGEO" && _LastFC == inObject.Class.AliasName && (name == "Editor_SplitTool" || name == "Editor_CutPolygonsTool"))
+                {
+                    string changes = "";
+                    changes = "This: " + inObject.OID.ToString() + " Last: " + _LastOID.ToString() + " - " + mode;
+                    AAState.WriteLine("Sending ON_CREATE for " + name + ": " + changes);
+                    sendEvent(inObject, "ON_CREATE");
+                }
                 }
                 _LastOID = inObject.OID;
                 _LastMode = mode;

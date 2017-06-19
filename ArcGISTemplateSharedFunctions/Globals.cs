@@ -8467,7 +8467,7 @@ namespace A4LGSharedFunctions
                 }
                 else
                 {
-                    return (string)tmpForm.cboSelectTemplate.SelectedItem;
+                    return tmpForm.cboSelectTemplate.SelectedItem.ToString();
                 }
             }
             catch
@@ -13368,11 +13368,11 @@ namespace A4LGSharedFunctions
                 for (int i = 0; i <= CodedValue.CodeCount - 1; i++)
                 {
                     if (CodedValue.get_Name(i).ToString() == Display.ToString())
-                        return (string)CodedValue.get_Value(i);
+                        return CodedValue.get_Value(i).ToString();
 
 
                 }
-                return (string)Display;
+                return Display.ToString();
             }
             catch (Exception ex)
             {
