@@ -44,7 +44,7 @@ namespace A4WaterUtilities
 {
     public partial class frmMergeGNLines : Form
     {
-        private string  ConcatDelim  = ",";
+        private string ConcatDelim = ",";
 
         private static IApplication _app;
         private static IEditor m_editor;
@@ -300,7 +300,39 @@ namespace A4WaterUtilities
                 pSubtypes = (ISubtypes)m_FeatLay.FeatureClass;
                 if (pSubtypes.HasSubtype)
                 {
-                    lSubTypeCode = (int)pAttributeFeature.get_Value(pSubtypes.SubtypeFieldIndex);
+                    try
+                    {
+                        object val = pAttributeFeature.get_Value(pSubtypes.SubtypeFieldIndex);
+                        if (val == null || val == DBNull.Value){
+                            lSubTypeCode = pSubtypes.DefaultSubtypeCode;
+                        }
+                        else if (Globals.IsInteger(val.ToString()))
+                        {
+                            lSubTypeCode = Convert.ToInt32(val.ToString());
+                            IList<Globals.DomSubList> subList = Globals.SubtypeToList(pSubtypes);
+                            bool fldValid = false;
+                            foreach (Globals.DomSubList sub in subList)
+                            {
+                                if (sub.Value == lSubTypeCode.ToString())
+                                {
+                                    fldValid = true;
+                                    break;
+                                }
+                            }
+                            if (!fldValid) {
+                                lSubTypeCode = pSubtypes.DefaultSubtypeCode;
+                            }
+                         
+                        }
+                        else
+                        {
+                            lSubTypeCode = pSubtypes.DefaultSubtypeCode;
+                        }
+                        
+                    }
+                    catch {
+                        lSubTypeCode = pSubtypes.DefaultSubtypeCode;
+                    }
 
                 }
                 else
@@ -713,6 +745,7 @@ namespace A4WaterUtilities
 
                 this.Close();
             }
+            
             catch (Exception ex)
             {
                 if (ex.ToString().ToString().Contains("Key cannot be null"))
@@ -768,7 +801,7 @@ namespace A4WaterUtilities
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn")  + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + ex.ToString());
+                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ErrorOn") + A4LGSharedFunctions.Localizer.GetString("MergeOprt_5") + "\r\n" + ex.ToString());
             }
 
         }
