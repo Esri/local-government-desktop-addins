@@ -8447,7 +8447,7 @@ namespace ArcGIS4LocalGovernment
                                                     if (!String.IsNullOrEmpty(valData))
                                                     {
                                                         args = valData.Split('|');
-                                                        if (args.Length == 1)
+                                                        if (args.Length >= 1)
                                                         {
 
                                                             if (args[0].ToUpper() == "TRUE")
