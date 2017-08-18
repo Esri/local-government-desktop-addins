@@ -1906,7 +1906,7 @@ namespace A4WaterUtilities
                                 else
                                     pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
                                 pAlongFeatures.Add(pAlongFeat);
-                                if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
+                                if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && !(pPointAlongLayer.PointAlongDistance == 100 && pPointAlongLayer.DistanceIsPercent == true) )
                                 {
                                     pAlongShapes.Add(pAlongFeat.ShapeCopy);
                                 }
