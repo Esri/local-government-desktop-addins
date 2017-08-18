@@ -215,7 +215,9 @@
     <AddInContent Include="Images\Config2.png" />
     <AddInContent Include="Config.es-ES.xml" />
     <Content Include="Config.es-CL.xml" />
-    <Content Include="Config.es.xml" />
+    <Content Include="Config.es.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Images\Old\AttributeAssistantAddIn.png" />
     <Content Include="Images\Old\AttributeAssistantToogleOff.bmp" />
     <Content Include="Images\Old\AttributeAssistantToogleOff.png" />
