@@ -9247,7 +9247,7 @@ namespace A4LGSharedFunctions
                 feature.Shape = geo;
                 rowSubtype = feature as IRowSubtypes;
                 pSub = pfeatureClass as ISubtypes;
-                if (pSub.HasSubtype)
+                if (pSub != null && pSub.HasSubtype)
                     rowSubtype.SubtypeCode = pSub.DefaultSubtypeCode;
                 rowSubtype.InitDefaultValues();
                 //if (feature is INetworkFeature)
@@ -13302,7 +13302,7 @@ namespace A4LGSharedFunctions
                 ISubtypes pSub = Feature.Class as ISubtypes;
                 IDomain pDom;
                 ICodedValueDomain pCVDom;
-                if (pSub.HasSubtype)
+                if (pSub != null && pSub.HasSubtype)
                 {
                     if (pSub.SubtypeFieldName.ToUpper() == Field.Name.ToUpper())
                     {

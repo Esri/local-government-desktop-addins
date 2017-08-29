@@ -23,7 +23,7 @@
   <Image>Images\WaterUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>8/18/2017</Date>
+  <Date>8/29/2017</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
