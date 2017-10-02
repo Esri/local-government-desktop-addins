@@ -765,7 +765,8 @@ namespace A4LGAddressManagement
                             {
                                 IEditTemplate pEditTemp;
                                 //pEditTemp = Globals.PromptAndGetEditTemplate(app, pointLayer, createPointDet.ReferencePointEditTemplate.Trim());
-                                pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pointLayer, createPointDet.ReferencePointEditTemplate.Trim());
+                                pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pointLayer, createPointDet.ReferencePointEditTemplate.Trim(),
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), pointLayer.Name));
                                 pPointFeat = Globals.CreateFeature(pPnt, pEditTemp, pEditor, app, false, false, true);
                                 pEditTemp = null;
                             }

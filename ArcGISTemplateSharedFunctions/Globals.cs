@@ -8227,7 +8227,7 @@ namespace A4LGSharedFunctions
                 {
                     int idx = Globals.GetEditTemplateCount(Layer);
 
-                    if (idx == 0)
+                    if (idx <= 0)
                     {
                         return null;
                     }

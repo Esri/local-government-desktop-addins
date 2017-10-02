@@ -81,7 +81,7 @@ namespace ArcGIS4LocalGovernment
     }
     public static class AAState
     {
-        public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature, Start, End, Highest}
+        public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature, Start, End, Highest }
         public static ESRI.ArcGIS.esriSystem.IPropertySet2 lastValueProperties;
         public static string _filePath = "";
         public enum TriggerByToolsOptions { Edit, Create, Change, Geo, Manual }
@@ -3476,7 +3476,7 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     string[] tempSplt = sourceLayerName.Split('(');
                                                                     sourceLayerName = tempSplt[0];
-                                                                    pTbl = Globals.FindTableLayerOrFC(AAState._editor.Map, sourceLayerName,ref boolLayerOrFC) as IStandaloneTable;
+                                                                    pTbl = Globals.FindTableLayerOrFC(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC) as IStandaloneTable;
                                                                     if (tempSplt[1].ToUpper().Contains("LAYER)"))
                                                                     {
                                                                         boolLayerOrFC = true;
@@ -3617,10 +3617,11 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     intRecFound = pTbl.Table.RowCount(pQFilt);
                                                                 }
-                                                                else {
+                                                                else
+                                                                {
                                                                     intRecFound = pTbl.Table.RowCount(pQFilt);
                                                                 }
-                                                                
+
                                                             }
                                                             else
                                                             {
@@ -3628,7 +3629,8 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     intRecFound = sourceLayer.FeatureClass.FeatureCount(pQFilt);
                                                                 }
-                                                                else {    
+                                                                else
+                                                                {
                                                                     intRecFound = sourceLayer.FeatureClass.FeatureCount(pQFilt);
                                                                 }
                                                             }
@@ -3666,7 +3668,8 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             pCurs = pTbl.Table.Search(pQFilt, true);
                                                                         }
-                                                                        else {
+                                                                        else
+                                                                        {
                                                                             pCurs = pTbl.Table.Search(pQFilt, true);
                                                                         }
                                                                     }
@@ -3676,7 +3679,8 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             pCurs = sourceLayer.Search(pQFilt, true) as ICursor;
                                                                         }
-                                                                        else {
+                                                                        else
+                                                                        {
                                                                             pCurs = sourceLayer.FeatureClass.Search(pQFilt, true) as ICursor;
                                                                         }
                                                                     }
@@ -5937,7 +5941,7 @@ namespace ArcGIS4LocalGovernment
                                                 string targetValue;
                                                 IRowChanges pRowCh = null;
                                                 IFeature pNewFeat = null;
-                                                 IField pTarField = null;
+                                                IField pTarField = null;
                                                 try
                                                 {
 
@@ -6009,7 +6013,8 @@ namespace ArcGIS4LocalGovernment
                                                             case 3:
                                                                 if (args[2].Trim() != "")
                                                                 {
-                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim());
+                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim(),
+                                                                    String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), pTargetFL.Name));
 
                                                                 }
                                                                 else
@@ -6021,7 +6026,8 @@ namespace ArcGIS4LocalGovernment
                                                                 if (args[2].Trim() != "")
                                                                 {
 
-                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim());
+                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim(),
+                                                                    String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), pTargetFL.Name));
                                                                 }
                                                                 else
                                                                 {
@@ -6034,7 +6040,8 @@ namespace ArcGIS4LocalGovernment
                                                                 if (args[2].Trim() != "")
                                                                 {
 
-                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim());
+                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim(),
+                                                                        String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), pTargetFL.Name));
                                                                 }
                                                                 else
                                                                 {
@@ -6111,27 +6118,30 @@ namespace ArcGIS4LocalGovernment
 
                                                                         }
                                                                     }
-                                                                    else {
+                                                                    else
+                                                                    {
                                                                         try
                                                                         {
-                                                                             pTarField = pTargetFL.FeatureClass.Fields.get_Field(intTarFldIdx);
-                                                                             if (pTarField.Type != esriFieldType.esriFieldTypeDouble &&
-                                                                                 pTarField.Type != esriFieldType.esriFieldTypeSingle) {
-                                                                                     double dblToSet;
-                                                                                     Double.TryParse(strSrcFldName, out dblToSet);
-                                                                                     pNewFeat.set_Value(intTarFldIdx, dblToSet);
-                                                                             }  
-                                                                             else if (pTarField.Type != esriFieldType.esriFieldTypeInteger &&
-                                                                                 pTarField.Type != esriFieldType.esriFieldTypeSmallInteger)
-                                                                             {
-                                                                                  int intToSet;
-                                                                                  Int32.TryParse(strSrcFldName, out intToSet);
-                                                                                  pNewFeat.set_Value(intTarFldIdx, intToSet);
-                                                                             }
-                                                                             else { 
-                                                                               pNewFeat.set_Value(intTarFldIdx, strSrcFldName);
-                                                                             }
-                                                               
+                                                                            pTarField = pTargetFL.FeatureClass.Fields.get_Field(intTarFldIdx);
+                                                                            if (pTarField.Type != esriFieldType.esriFieldTypeDouble &&
+                                                                                pTarField.Type != esriFieldType.esriFieldTypeSingle)
+                                                                            {
+                                                                                double dblToSet;
+                                                                                Double.TryParse(strSrcFldName, out dblToSet);
+                                                                                pNewFeat.set_Value(intTarFldIdx, dblToSet);
+                                                                            }
+                                                                            else if (pTarField.Type != esriFieldType.esriFieldTypeInteger &&
+                                                                                pTarField.Type != esriFieldType.esriFieldTypeSmallInteger)
+                                                                            {
+                                                                                int intToSet;
+                                                                                Int32.TryParse(strSrcFldName, out intToSet);
+                                                                                pNewFeat.set_Value(intTarFldIdx, intToSet);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                pNewFeat.set_Value(intTarFldIdx, strSrcFldName);
+                                                                            }
+
                                                                         }
                                                                         catch
                                                                         {
@@ -6139,13 +6149,13 @@ namespace ArcGIS4LocalGovernment
 
                                                                         }
                                                                     }
-                                                                    
+
                                                                 }
 
                                                             }
                                                         }
                                                         IFields pTarFields = pTargetFL.FeatureClass.Fields;
-                                                       
+
                                                         for (int i = 0; i < pTarFields.FieldCount; i++)
                                                         {
                                                             pTarField = pTarFields.get_Field(i);
@@ -14942,19 +14952,20 @@ namespace ArcGIS4LocalGovernment
                                                             AAState.WriteLine("                  Feature count: " + pFoundFeat.Count);
                                                             AAState.WriteLine("                  Option: " + strOpt.ToString());
                                                             Globals.OptionsToPresent strRetVal = null;
-                                                           
+
                                                             if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.Highest && valSet == false)
                                                             {
-                                                                
+
                                                                 int highestOID = -1;
-                                                                foreach (var option in pFoundFeat) {
-                                                                    if (option.OID > highestOID )
+                                                                foreach (var option in pFoundFeat)
+                                                                {
+                                                                    if (option.OID > highestOID)
                                                                     {
                                                                         highestOID = option.OID;
                                                                         strRetVal = option;
                                                                     }
                                                                 }
-                                                                 if (strRetVal == null)
+                                                                if (strRetVal == null)
                                                                 {
                                                                     AAState.WriteLine("                  selected value from highest ID was null ");
                                                                 }
@@ -16309,10 +16320,10 @@ namespace ArcGIS4LocalGovernment
                             }
 
                             AAState.WriteLine("    ------------------------------------------------");
-                           
+
 
                         }
-                      
+
                     }
 
                 }

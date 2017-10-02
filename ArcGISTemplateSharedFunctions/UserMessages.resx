@@ -2664,4 +2664,7 @@
   <data name="templatePromptEnd" xml:space="preserve">
     <value>Select a the template for {0} at the end of the line.</value>
   </data>
+  <data name="templatePrompt" xml:space="preserve">
+    <value>Select a the template for {0}.</value>
+  </data>
 </root>
