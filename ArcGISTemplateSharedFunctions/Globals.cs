@@ -2486,12 +2486,12 @@ namespace A4LGSharedFunctions
         }
 
         public static IPolyline CreateAngledLineFromLocationOnLine(IPoint inPoint, IFeatureLayer mainLayer, bool boolLayerOrFC,
-           double RadianAngle, double LineLength, string AddAngleToLineAngle, bool StartAtInput, bool CheckSelection, out IFeature mainFeature, double searchDistance = 0 )
+           double RadianAngle, double LineLength, string AddAngleToLineAngle, bool StartAtInput, bool CheckSelection, out IFeature mainFeature, double searchDistance = 0)
         {
 
             IPoint snapPnt = null;
             IPolyline pPolyline = null;
-          
+
             IPoint pNewPt = null;
             IConstructPoint2 pConsPoint = null;
             //double dAlong;
@@ -2600,7 +2600,7 @@ namespace A4LGSharedFunctions
 
                 // snapPnt = null;
                 pPolyline = null;
-                
+
                 pNewPt = null;
                 pConsPoint = null;
             }
@@ -8201,17 +8201,17 @@ namespace A4LGSharedFunctions
                     return null;
                 return Globals.GetEditTemplate(SelectedTemplate, Layer);
             }
-
         }
-
         public static IEditTemplate PromptAndGetEditTemplate(IFeatureLayer Layer, string DefaultTemplate)
         {
-
             return PromptAndGetEditTemplate(Layer, DefaultTemplate, "Select a template for " + Layer.Name);
         }
 
-        public static IEditTemplate PromptAndGetEditTemplateGraphic(IFeatureLayer Layer, string DefaultTemplate)
+        public static IEditTemplate PromptAndGetEditTemplateGraphic(IFeatureLayer Layer, string DefaultTemplate, string caption)
         {
+            if (caption == null) {
+                caption = "Select a template for " + Layer.Name;
+            }
             SelectTemplateFormGraphic pForm = null;
             DialogResult result;
             IEditTemplate pEditTemp = null;
@@ -8240,7 +8240,7 @@ namespace A4LGSharedFunctions
                     else
                     {
                         pForm = new SelectTemplateFormGraphic(Layer);
-                        pForm.lblLayer.Text = "Select a template for " + Layer.Name;
+                        pForm.lblLayer.Text = caption;
                         //pForm.LoadListView();
 
                         result = pForm.ShowDialog();
@@ -8447,7 +8447,7 @@ namespace A4LGSharedFunctions
                 {
                     frmWidth = Convert.ToInt32(tmpF.Width);
                 }
-          
+
                 g = null;
                 tmpForm.setWidth(frmWidth);
                 tmpForm.showCancelButton();
@@ -9122,8 +9122,9 @@ namespace A4LGSharedFunctions
                         }
                     }
                 }
-                catch { 
-                
+                catch
+                {
+
                 }
                 pfeatureClass = FeatureLay.FeatureClass;
                 if (checkForExisting)
@@ -10891,7 +10892,7 @@ namespace A4LGSharedFunctions
         #endregion
 
         #region GeometryTools
-        public static ISet splitLineWithPoint(IFeature lineFeature, IPoint SplitPoint, double SnapTol, IList<MergeSplitFlds> pFldsNames, string SplitFormatString, IApplication app,bool trySplitUpdateFirst)
+        public static ISet splitLineWithPoint(IFeature lineFeature, IPoint SplitPoint, double SnapTol, IList<MergeSplitFlds> pFldsNames, string SplitFormatString, IApplication app, bool trySplitUpdateFirst)
         {
             IHitTest hitTest = null;
             IFeatureEdit2 featureEdit = null;
@@ -11015,7 +11016,7 @@ namespace A4LGSharedFunctions
                         //        }
                         //    }
                         //}
-                        
+
                         double splitDist = Globals.PointDistanceOnLine(pHitPnt, lineFeature.Shape as IPolyline, 22, out pHitPnt);
                         double percentSplit = (len - splitDist) / len;
 
@@ -11039,7 +11040,7 @@ namespace A4LGSharedFunctions
                         }
                         else
                         {
-                           
+
                             try
                             {
                                 pSet = featureEdit.Split(pHitPnt);
@@ -11143,7 +11144,7 @@ namespace A4LGSharedFunctions
         {
 
             bool hasXY;
-           
+
             try
             {
                 if (FeatureLayer == null)
@@ -11163,7 +11164,7 @@ namespace A4LGSharedFunctions
                     {
                         dblTol = spRefTolerance.XYTolerance;
                     }
-                   
+
                     if (dblTol < .0000000001)
                     {
                         dblTol = .00000001;
@@ -11182,7 +11183,7 @@ namespace A4LGSharedFunctions
             }
             finally
             {
-               
+
             }
         }
         public static Boolean pointscoincident(IPoint pntOne, IPoint pntTwo)
@@ -15789,6 +15790,67 @@ namespace A4LGSharedFunctions
         #endregion
 
         #region TableTools
+        public static IStandaloneTable FindTableLayerOrFC(IMap pMap, string sLName, ref bool FoundAsFeatureLayer)
+        {
+            FoundAsFeatureLayer = false;
+            try
+            {
+                IDataset pDataset;
+                char[] c = new char[] { '.' };
+                IStandaloneTable stTable;
+                IStandaloneTableCollection stTableColl = (IStandaloneTableCollection)pMap;
+                long count = stTableColl.StandaloneTableCount;
+                if (count > 0)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        stTable = stTableColl.get_StandaloneTable(i);
+                        if (stTable.Valid)
+                        {
+                            if (stTable.Name.ToLower() == sLName.ToLower())
+                            {
+                                FoundAsFeatureLayer = true;
+                                return stTable;
+                            }
+                        }
+                    }
+                    for (int i = 0; i < count; i++)
+                    {
+                        stTable = stTableColl.get_StandaloneTable(i);
+                        if (stTable.Valid)
+                        {
+                            pDataset = (IDataset)stTable.Table;
+                            if (pDataset != null)
+                            {
+                                if (pDataset.BrowseName.ToUpper() == sLName.ToUpper())
+                                {
+                                    return stTable;
+                                }
+                                if (pDataset.FullName.NameString.ToUpper() == sLName.ToUpper())
+                                {
+                                    return stTable;
+                                }
+                                if (pDataset.BrowseName.ToUpper().Substring(pDataset.BrowseName.LastIndexOf(".") + 1) == sLName.ToUpper())
+                                {
+                                    return stTable;
+                                }
+                                if (pDataset.FullName.NameString.ToUpper().Substring(pDataset.FullName.NameString.LastIndexOf(".") + 1) == sLName.ToUpper())
+                                {
+                                    return stTable;
+                                }
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("FindTable: " + ex.ToString());
+                return null;
+            }
+
+        }
         public static ITable FindTable(IApplication app, string sLName)
         {
             IStandaloneTable pStand = FindStandAloneTable(((IMxDocument)app.Document).FocusMap, sLName);

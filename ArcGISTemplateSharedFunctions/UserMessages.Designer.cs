@@ -7558,6 +7558,33 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select a the template for {0} along the line..
+        /// </summary>
+        internal static string templatePromptAlong {
+            get {
+                return ResourceManager.GetString("templatePromptAlong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a the template for {0} at the beginning of the line..
+        /// </summary>
+        internal static string templatePromptBegin {
+            get {
+                return ResourceManager.GetString("templatePromptBegin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a the template for {0} at the end of the line..
+        /// </summary>
+        internal static string templatePromptEnd {
+            get {
+                return ResourceManager.GetString("templatePromptEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         internal static string Test {
