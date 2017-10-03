@@ -3363,6 +3363,7 @@ namespace ArcGIS4LocalGovernment
                                                 IRowChanges pRowCh = null;
                                                 ISQLSyntax sqlSyntax = null;
                                                 IQueryFilter pQFilt = null;
+                                                IDisplayTable displayTable = null;
                                                 try
                                                 {
                                                     if ((valData != null) && (inObject != null))
@@ -3615,6 +3616,7 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 if (boolLayerOrFC)
                                                                 {
+                                                                  
                                                                     intRecFound = pTbl.Table.RowCount(pQFilt);
                                                                 }
                                                                 else
@@ -3666,7 +3668,10 @@ namespace ArcGIS4LocalGovernment
                                                                     {
                                                                         if (boolLayerOrFC)
                                                                         {
-                                                                            pCurs = pTbl.Table.Search(pQFilt, true);
+                                                                            displayTable = (IDisplayTable)pTbl;
+                                                                            //ITableDefinition tblDef = (ITableDefinition)pTbl;
+                                                                            pCurs = displayTable.SearchDisplayTable(pQFilt, true);
+                                                                            //pCurs = pTbl.Table.Search(pQFilt, true);
                                                                         }
                                                                         else
                                                                         {
@@ -3692,13 +3697,18 @@ namespace ArcGIS4LocalGovernment
                                                                     if (pCurs != null)
                                                                         Marshal.ReleaseComObject(pCurs);
                                                                     pCurs = null;
-
+                                                                    if (pLst.Count == 0) {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
+                                                                        AAState._editor.AbortOperation();
+                                                                        return false;
+                                                                    }
                                                                     string disFld = "";
                                                                     for (int j = 0; j < sourceFieldNames.Length; j++)
                                                                     {
                                                                         disFld = disFld == "" ? sourceFieldNames[j] : disFld + "|" + sourceFieldNames[j];
 
                                                                     }
+                                                                    
                                                                     string selectVal = Globals.showOptionsForm(pLst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
                                                                     if (selectVal == "||Cancelled||" && valueIsNull == true)
                                                                     { }
