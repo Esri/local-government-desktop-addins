@@ -6123,15 +6123,15 @@ namespace ArcGIS4LocalGovernment
                                                                         try
                                                                         {
                                                                             pTarField = pTargetFL.FeatureClass.Fields.get_Field(intTarFldIdx);
-                                                                            if (pTarField.Type != esriFieldType.esriFieldTypeDouble &&
-                                                                                pTarField.Type != esriFieldType.esriFieldTypeSingle)
+                                                                            if (pTarField.Type == esriFieldType.esriFieldTypeDouble ||
+                                                                                pTarField.Type == esriFieldType.esriFieldTypeSingle)
                                                                             {
                                                                                 double dblToSet;
                                                                                 Double.TryParse(strSrcFldName, out dblToSet);
                                                                                 pNewFeat.set_Value(intTarFldIdx, dblToSet);
                                                                             }
-                                                                            else if (pTarField.Type != esriFieldType.esriFieldTypeInteger &&
-                                                                                pTarField.Type != esriFieldType.esriFieldTypeSmallInteger)
+                                                                            else if (pTarField.Type == esriFieldType.esriFieldTypeInteger ||
+                                                                                pTarField.Type == esriFieldType.esriFieldTypeSmallInteger)
                                                                             {
                                                                                 int intToSet;
                                                                                 Int32.TryParse(strSrcFldName, out intToSet);
