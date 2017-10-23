@@ -692,9 +692,7 @@ namespace A4WaterUtilities
 
             IPoint point = ArcMap.Document.CurrentLocation;
             GeoNetTools.TraceFlow(ref point, ArcMap.Application, esriFlowMethod.esriFMDownstream, SnapTol, traceIndeterminate, selectEdges);
-
-
-            point = null;
+          
         }
 
 
@@ -844,6 +842,15 @@ namespace A4WaterUtilities
                 }
             }
             point = null;
+            ISelectionEvents selEvents = null;
+            selEvents = (ISelectionEvents)((ArcMap.Document as IMxDocument).FocusMap);
+
+            if (selEvents != null)
+            {
+                selEvents.SelectionChanged();
+
+
+            }
         }
 
 

@@ -3563,6 +3563,16 @@ namespace A4WaterUtilities
                     pProDFact = null;
                     return;
                 }
+
+                ISelectionEvents selEvents = null;
+                selEvents = (ISelectionEvents)((app.Document as IMxDocument).FocusMap);
+
+                if (selEvents != null)
+                {
+                    selEvents.SelectionChanged();
+
+
+                }
                 ((IMxDocument)app.Document).ActiveView.Refresh();
 
                 return;
@@ -6283,7 +6293,7 @@ namespace A4WaterUtilities
 
                 //Draw edge graphics
                 IEnvelope env = Globals.DrawEdges(ref map, ref gn, ref edgeEIDs);
-
+               
                 return edgeEIDs.Count.ToString();
 
 
