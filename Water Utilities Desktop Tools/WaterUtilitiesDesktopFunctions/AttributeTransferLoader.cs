@@ -114,13 +114,13 @@ namespace A4WaterUtilities
 
                         for (int i = 0; i < attConfig.FromToFields.Length; i++)
                         {
-                            if (attConfig.FromToFields[i] == null || attConfig.FromToFields[i] == null)
+                            if (attConfig.FromToFields[i] == null)
                             {
                                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttrTrasftLoadRError_1"));
                                 return;
 
                             }
-                            if (attConfig.FromToFields[i].SourceField == null || attConfig.FromToFields[i].SourceField == null)
+                            if (attConfig.FromToFields[i].SourceField == null || attConfig.FromToFields[i].TargetField == null)
                             {
                                 MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttrTrasftLoadRError_1"));
                                 return;
