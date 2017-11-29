@@ -3616,7 +3616,7 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 if (boolLayerOrFC)
                                                                 {
-                                                                  
+
                                                                     intRecFound = pTbl.Table.RowCount(pQFilt);
                                                                 }
                                                                 else
@@ -3697,7 +3697,8 @@ namespace ArcGIS4LocalGovernment
                                                                     if (pCurs != null)
                                                                         Marshal.ReleaseComObject(pCurs);
                                                                     pCurs = null;
-                                                                    if (pLst.Count == 0) {
+                                                                    if (pLst.Count == 0)
+                                                                    {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
                                                                         AAState._editor.AbortOperation();
                                                                         return false;
@@ -3708,7 +3709,7 @@ namespace ArcGIS4LocalGovernment
                                                                         disFld = disFld == "" ? sourceFieldNames[j] : disFld + "|" + sourceFieldNames[j];
 
                                                                     }
-                                                                    
+
                                                                     string selectVal = Globals.showOptionsForm(pLst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
                                                                     if (selectVal == "||Cancelled||" && valueIsNull == true)
                                                                     { }
@@ -7716,25 +7717,35 @@ namespace ArcGIS4LocalGovernment
 
                                                                         for (int h = 0; h < doc.DocumentElement.FirstChild.ChildNodes.Count - 1; h++)
                                                                         {
-                                                                            if (doc.DocumentElement.FirstChild.ChildNodes[h].Name.Contains("Match") == false)
+                                                                            if (doc.DocumentElement.FirstChild.ChildNodes[h].Name.ToLower() == "Match_Addr".ToLower())
                                                                             {
-                                                                                if (val == "")
-                                                                                {
-                                                                                    val = doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (val.EndsWith(","))
-                                                                                        val = val + " " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
-                                                                                    else
-                                                                                        val = val + ", " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
-
-                                                                                }
+                                                                                val = doc.DocumentElement.FirstChild.ChildNodes[h].InnerText.Trim();
+                                                                                break;
                                                                             }
-
-                                                                            val = val.Trim();
                                                                         }
+                                                                        if (val == "")
+                                                                        {
+                                                                            for (int h = 0; h < doc.DocumentElement.FirstChild.ChildNodes.Count - 1; h++)
+                                                                            {
+                                                                                if (doc.DocumentElement.FirstChild.ChildNodes[h].Name.Contains("Match") == false)
+                                                                                {
+                                                                                    if (val == "")
+                                                                                    {
+                                                                                        val = doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        if (val.EndsWith(","))
+                                                                                            val = val + " " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
+                                                                                        else
+                                                                                            val = val + ", " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
 
+                                                                                    }
+                                                                                }
+
+                                                                                val = val.Trim();
+                                                                            }
+                                                                        }
                                                                         inFeature.set_Value(intFldIdxs[0], val);
 
                                                                     }
@@ -11807,15 +11818,15 @@ namespace ArcGIS4LocalGovernment
                                                         qFilter.WhereClause = AAState._seqNameField + " = '" + sequenceColumnName + "'";
                                                         sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
                                                         sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
-                                                        ITransactions pTras = null;
 
-                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
+                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum);
                                                         Debug.WriteLine(sequenceValue.ToString());
-                                                        pTras = null;
 
                                                         if (sequenceValue == -1)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ao"));
+                                                            MessageBox.Show("Unable to retreive a valid sequences from the generate ID table, review the log for more information.");
+
                                                         }
 
                                                         else
@@ -12105,14 +12116,14 @@ namespace ArcGIS4LocalGovernment
                                                         //cCurs = AAState._gentab.Update(qFilter, false);
                                                         sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
                                                         sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
-                                                        ITransactions pTras = null;
 
-                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
-                                                        pTras = null;
+                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum);
 
                                                         if (sequenceValue == -1)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14au"));
+                                                            MessageBox.Show("Unable to retreive a valid sequences from the generate ID table, review the log for more information.");
+
                                                         }
                                                         else
                                                         {
@@ -17173,141 +17184,189 @@ namespace ArcGIS4LocalGovernment
 
 
         }
+        //public void StartEditSession(IFeatureWorkspace featureWorkspace, esriMultiuserEditSessionMode editSessionMode)
+        //{
 
-        public long unversionedEdit(IQueryFilter qFilterGen, int sequenceColumnNum, int idxSeqField, int curLoop, ref ITransactions transactions)
+
+
+        //        //perform edit tasks here, edit operations can be used
+
+        //    }
+        //    else MessageBox.Show("workspace does not support this type of edit session mode");
+        //}
+        public void ListSchemaLocksForObjectClass(IDataset objectClass)
         {
-            long sequenceValue = -1;
-            using (ComReleaser comReleaser = new ComReleaser())
+            //Get an exclusive schema lock on the dataset.
+            ISchemaLock schemaLock = (ISchemaLock)objectClass;
+
+            // Get an enumerator over the current schema locks.
+            IEnumSchemaLockInfo enumSchemaLockInfo = null;
+            schemaLock.GetCurrentSchemaLocks(out enumSchemaLockInfo);
+
+            // Iterate through the locks.
+            ISchemaLockInfo schemaLockInfo = null;
+            while ((schemaLockInfo = enumSchemaLockInfo.Next()) != null)
             {
+                Console.WriteLine("{0} : {1} : {2}", schemaLockInfo.TableName,
+                  schemaLockInfo.UserName, schemaLockInfo.SchemaLockType);
+            }
+        }
 
-                if (AAState._gentabWorkspace.IsInEditOperation)
+        public long unversionedEdit(IQueryFilter qFilterGen, int sequenceColumnNum, int idxSeqField)
+        {
+            //ISchemaLock schemaLock = null;
+            try
+            {
+               // ListSchemaLocksForObjectClass((IDataset)AAState._gentab);
+
+                int sequenceInt = 1;
+                IRow search_row = null;
+                IRow seq_row = null;
+                ICursor search_cursor;
+
+
+                // Use ITable.Update to create an update cursor.
+                search_cursor = AAState._gentab.Search(qFilterGen, true);
+
+                search_row = search_cursor.NextRow();
+                if (search_row != null)
                 {
-                    // throw new Exception("Cannot use ITransactions during an edit operation.");
-                }
-                // Begin a transaction.
-                if (transactions == null)
-                {
-                    transactions = (ITransactions)AAState._gentabWorkspace;
-                }
-
-                transactions.StartTransaction();
-                try
-                {
-                    // Use ITable.Update to create an update cursor.
-                    ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, true);
-                    comReleaser.ManageLifetime(seq_updateCursor);
-
-                    IRow seq_row = null;
-                    seq_row = seq_updateCursor.NextRow();
-                    int sequenceInt = 1;
-
-                    if (seq_row != null)
+                    if (idxSeqField > 0)
                     {
-                        if (idxSeqField > 0)
+                        object seqInt = search_row.get_Value(idxSeqField);
+                        if (seqInt != null)
                         {
-                            object seqInt = seq_row.get_Value(idxSeqField);
-                            if (seqInt != null)
-                            {
-                                if (seqInt != DBNull.Value)
-                                    try
-                                    {
-                                        sequenceInt = Convert.ToInt32(seqInt);
-                                    }
-                                    catch
-                                    {
-
-                                    }
-                            }
-                        }
-                        object seqValue = seq_row.get_Value(sequenceColumnNum);
-
-                        if (seqValue == null)
-                        {
-                            sequenceValue = 0;
-                        }
-                        else if (seqValue.ToString() == "")
-                        {
-                            sequenceValue = 0;
-                        }
-                        else
-                            try
-                            {
-                                sequenceValue = Convert.ToInt64(seqValue);
-                            }
-                            catch
-                            {
-                                sequenceValue = 0;
-                            }
-
-                        AAState.WriteLine("                  " + sequenceValue + " is the existing value and the interval is " + sequenceInt + ": " + DateTime.Now.ToString("h:mm:ss tt"));
-
-                        sequenceValue = sequenceValue + sequenceInt;
-
-                        seq_row.set_Value(sequenceColumnNum, sequenceValue);
-                        AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.Now.ToString("h:mm:ss tt"));
-
-                        seq_updateCursor.UpdateRow(seq_row);
-
-                        transactions.CommitTransaction();
-
-                        seq_updateCursor = AAState._gentab.Search(qFilter, true);
-                        if (seq_row != null)
-                        {
-                            seqValue = seq_row.get_Value(sequenceColumnNum);
-
-                            if (seqValue == null)
-                            {
-                                return sequenceValue;
-                            }
-                            else if (seqValue.ToString() == "")
-                            {
-                                return sequenceValue;
-                            }
-                            else
+                            if (seqInt != DBNull.Value)
                                 try
                                 {
-                                    if (sequenceValue == Convert.ToInt64(seqValue))
-                                    {
-                                        return sequenceValue;
-                                    }
-                                    else
-                                    {
-                                        if (curLoop > 30)
-                                        {
-                                            MessageBox.Show("A unique ID could not be generated after 30 attempts: " + DateTime.Now.ToString("h:mm:ss tt"));
-                                        }
-                                        else
-                                        {
-                                            return unversionedEdit(qFilterGen, sequenceColumnNum, idxSeqField, curLoop + 1, ref transactions);
-                                        }
-                                    }
+                                    sequenceInt = Convert.ToInt32(seqInt);
                                 }
                                 catch
                                 {
-                                    return sequenceValue;
+
                                 }
                         }
-                        return sequenceValue;
-                    }
-                    else
-                    {
-                        AAState.WriteLine("                  No records found in Generate ID table" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
-                        transactions.AbortTransaction();
-                        return -1;
                     }
                 }
-                catch (COMException comExc)
-                {
-                    AAState.WriteLine("                  Error saving transaction to DB" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(search_cursor);
 
-                    // If an error occurs during the inserts and updates, rollback the transaction.
-                    transactions.AbortTransaction();
+
+                //schemaLock = (ISchemaLock)(IDataset)AAState._gentab;
+                //try
+                //{
+
+                //    schemaLock.ChangeSchemaLock(esriSchemaLock.esriExclusiveSchemaLock);
+                //}
+                //catch (COMException comExc)
+                //{
+                //    AAState.WriteLine("                  Error saving transaction to DB" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+                //    return -1;
+                //}
+                long sequenceValue = -1;
+                ITransactions transactions;
+                transactions = (ITransactions)AAState._gentabWorkspace;
+                var sdeWorkspace = ((IDataset)AAState._gentab).Workspace.Type == esriWorkspaceType.esriRemoteDatabaseWorkspace;
+
+                long seqValCompare;
+                object seqObj;
+                bool startTrans = false;
+
+                if (transactions.InTransaction)
+                {
+                    startTrans = true;
+                }
+                else
+                {
+                    transactions.StartTransaction();
+                }
+
+
+
+                ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, false);
+
+                seq_row = seq_updateCursor.NextRow();
+                seqObj = seq_row.get_Value(sequenceColumnNum);
+                sequenceValue = seqForm(seqObj);
+                AAState.WriteLine("                  " + sequenceValue + " is the existing value and the interval is " + sequenceInt + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+
+                int checkCount = 1;
+                bool val_set = false;
+                for (checkCount = 0; checkCount <= 50; checkCount++)
+                {
+                    sequenceValue = sequenceValue + sequenceInt;
+                    search_cursor = AAState._gentab.Search(qFilterGen, true);
+                    search_row = search_cursor.NextRow();
+                    seqObj = search_row.get_Value(sequenceColumnNum);
+                    seqValCompare = seqForm(seqObj);
+                    if (sequenceValue > seqValCompare)
+                    {
+                        //ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, false);
+                        //comReleaser.ManageLifetime(seq_updateCursor);
+                        //seq_row = seq_updateCursor.NextRow();
+                        seq_row.set_Value(sequenceColumnNum, sequenceValue);
+                        seq_updateCursor.UpdateRow(seq_row);
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(seq_updateCursor);
+                        transactions.CommitTransaction();
+                        //schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
+                        if (startTrans)
+                        {
+                            transactions.StartTransaction();
+                        }
+
+
+                        AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.Now.ToString("h:mm:ss tt") + " - loop count/trans count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
+                        val_set = true;
+                        break;
+
+                    }
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(search_cursor);
+                }
+
+                if (val_set == false)
+                {
+                    AAState.WriteLine("                  No records found in Generate ID table" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+                    //if (schemaLock != null)
+                    //{
+                    //    schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
+                    //}
                     return -1;
                 }
 
-
+                return sequenceValue;
             }
 
+
+            catch (COMException comExc)
+            {
+                AAState.WriteLine("                  Error saving transaction to DB" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+                //if (schemaLock != null)
+                //{
+                //    schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
+                //}
+                return -1;
+            }
+        }
+        private long seqForm(object seqValue)
+        {
+            if (seqValue == null)
+            {
+                return 0;
+            }
+            else if (seqValue.ToString() == "")
+            {
+                return 0;
+            }
+            else
+            {
+                try
+                {
+                    return Convert.ToInt64(seqValue);
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
         }
         #endregion
     }
