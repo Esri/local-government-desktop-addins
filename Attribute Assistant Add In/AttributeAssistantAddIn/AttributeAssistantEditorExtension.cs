@@ -17307,7 +17307,7 @@ namespace ArcGIS4LocalGovernment
                         seq_updateCursor.UpdateRow(seq_row);
                         System.Runtime.InteropServices.Marshal.ReleaseComObject(seq_updateCursor);
                         transactions.CommitTransaction();
-                        AAState.WriteLine("                  " + sequenceValue + " is the existing value and the interval is " + sequenceInt + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));       
+                        AAState.WriteLine("                  " + sequenceValue + " is the existing value and the interval is " + sequenceInt + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff", CultureInfo.InvariantCulture));
                         //schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
                         if (startTrans)
                         {
@@ -17315,18 +17315,21 @@ namespace ArcGIS4LocalGovernment
                         }
 
 
-                        AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture) + " - loop count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
+                        AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff", CultureInfo.InvariantCulture) + " - loop count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
                         val_set = true;
                         break;
 
                     }
-                    AAState.WriteLine("                   search at: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture) + " - loop count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
+                    else {
+                        AAState.WriteLine("                   conflict found: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff", CultureInfo.InvariantCulture) + " - loop count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
+                    }
+                    
                     System.Runtime.InteropServices.Marshal.ReleaseComObject(search_cursor);
                 }
 
                 if (val_set == false)
                 {
-                    AAState.WriteLine("                  No records found in Generate ID table" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+                    AAState.WriteLine("                  No records found in Generate ID table" + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff", CultureInfo.InvariantCulture));
                     //if (schemaLock != null)
                     //{
                     //    schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
