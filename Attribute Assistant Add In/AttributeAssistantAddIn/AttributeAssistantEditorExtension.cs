@@ -17281,14 +17281,14 @@ namespace ArcGIS4LocalGovernment
                 }
 
 
+                AAState.WriteLine("                  search Started:" +  DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
 
                 ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, false);
 
                 seq_row = seq_updateCursor.NextRow();
                 seqObj = seq_row.get_Value(sequenceColumnNum);
                 sequenceValue = seqForm(seqObj);
-                AAState.WriteLine("                  " + sequenceValue + " is the existing value and the interval is " + sequenceInt + ": " + DateTime.Now.ToString("h:mm:ss tt"));
-
+                
                 int checkCount = 1;
                 bool val_set = false;
                 for (checkCount = 0; checkCount <= 50; checkCount++)
@@ -17307,6 +17307,7 @@ namespace ArcGIS4LocalGovernment
                         seq_updateCursor.UpdateRow(seq_row);
                         System.Runtime.InteropServices.Marshal.ReleaseComObject(seq_updateCursor);
                         transactions.CommitTransaction();
+                        AAState.WriteLine("                  " + sequenceValue + " is the existing value and the interval is " + sequenceInt + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));       
                         //schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
                         if (startTrans)
                         {
@@ -17314,11 +17315,12 @@ namespace ArcGIS4LocalGovernment
                         }
 
 
-                        AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.Now.ToString("h:mm:ss tt") + " - loop count/trans count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
+                        AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture) + " - loop count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
                         val_set = true;
                         break;
 
                     }
+                    AAState.WriteLine("                   search at: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture) + " - loop count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
                     System.Runtime.InteropServices.Marshal.ReleaseComObject(search_cursor);
                 }
 
