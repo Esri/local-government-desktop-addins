@@ -999,6 +999,7 @@ namespace ArcGIS4LocalGovernment
         }
         public static bool _clearLastValue = false;
         public static bool _clearLastValueStopEdit = false;
+        public static string _generateIDStoreProceName = null;
     }
 
     public class AttributeAssistantEditorExtension : ESRI.ArcGIS.Desktop.AddIns.Extension
@@ -1124,6 +1125,8 @@ namespace ArcGIS4LocalGovernment
                 AAState._onCreateWhenSplit = true;
             else
                 AAState._onCreateWhenSplit = false;
+
+            AAState._generateIDStoreProceName = (ConfigUtil.GetConfigValue("GenerateIDStoreProceName", null));
 
             AAState._seqNameField = ConfigUtil.GetConfigValue("SequenceName", AAState._seqNameField);
             AAState._seqCounterField = ConfigUtil.GetConfigValue("SequenceCounter", AAState._seqCounterField);
@@ -11819,7 +11822,7 @@ namespace ArcGIS4LocalGovernment
                                                         sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
                                                         sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
 
-                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum);
+                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, sequenceColumnName);
                                                         Debug.WriteLine(sequenceValue.ToString());
 
                                                         if (sequenceValue == -1)
@@ -12117,7 +12120,7 @@ namespace ArcGIS4LocalGovernment
                                                         sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
                                                         sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
 
-                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum);
+                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, sequenceColumnName);
 
                                                         if (sequenceValue == -1)
                                                         {
@@ -17212,17 +17215,47 @@ namespace ArcGIS4LocalGovernment
             }
         }
 
-        public long unversionedEdit(IQueryFilter qFilterGen, int sequenceColumnNum, int idxSeqField)
+        public long unversionedEdit(IQueryFilter qFilterGen, int sequenceColumnNum, int idxSeqField, string seqParam)
         {
             //ISchemaLock schemaLock = null;
             try
             {
-               // ListSchemaLocksForObjectClass((IDataset)AAState._gentab);
+                long sequenceValue = -1;
+                ICursor search_cursor;
+                IRow search_row = null;
+                bool sdeWorkspace = ((IDataset)AAState._gentab).Workspace.Type == esriWorkspaceType.esriRemoteDatabaseWorkspace;
+                if (sdeWorkspace && AAState._generateIDStoreProceName != null && AAState._generateIDStoreProceName != "")
+                {
+                    try
+                    {
+                        IQueryDef queryDef = ((IFeatureWorkspace)((IDataset)AAState._gentab).Workspace).CreateQueryDef();
+                        queryDef.Tables = ((IDataset)AAState._gentab).BrowseName;// "UN.GENERATEID";
+                        queryDef.SubFields = AAState._generateIDStoreProceName + "('" + seqParam + "')";// + AAState._seqCounterField;
+                        queryDef.WhereClause = qFilterGen.WhereClause;
+
+                        search_cursor = queryDef.Evaluate();
+                        search_row = search_cursor.NextRow();
+                        if (search_row != null)
+                        {
+                            sequenceValue = Convert.ToInt64(search_row.get_Value(0));
+                            AAState.WriteLine("                  store procedure return: " + sequenceValue + " - " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
+                            return sequenceValue;
+                        }
+
+                    }
+                    catch
+                    {
+                        AAState.WriteLine("                  Accesing store procedure failed: " + AAState._generateIDStoreProceName + "('" + seqParam + "')  - " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
+
+                    }
+
+                }
+                // ListSchemaLocksForObjectClass((IDataset)AAState._gentab);
 
                 int sequenceInt = 1;
-                IRow search_row = null;
+
                 IRow seq_row = null;
-                ICursor search_cursor;
+
 
 
                 // Use ITable.Update to create an update cursor.
@@ -17250,6 +17283,12 @@ namespace ArcGIS4LocalGovernment
                 }
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(search_cursor);
 
+                //if (AAState._generateIDStoreProceName != null && AAState._generateIDStoreProceName = "") { 
+                //    IWorkspace pWorkSpace =(IWorkspace) AAState._gentabWorkspace;
+                //    pWorkSpace.ExecuteSQL("BEGIN" + AAState._generateIDStoreProceName + "(" + args + "); END;";
+
+                //IWorkSpace:ExecuteSQL "BEGIN <owner>.<stored_procedure_name>("<optional_arguments>"); END;"
+                //}
 
                 //schemaLock = (ISchemaLock)(IDataset)AAState._gentab;
                 //try
@@ -17262,10 +17301,9 @@ namespace ArcGIS4LocalGovernment
                 //    AAState.WriteLine("                  Error saving transaction to DB" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
                 //    return -1;
                 //}
-                long sequenceValue = -1;
+
                 ITransactions transactions;
                 transactions = (ITransactions)AAState._gentabWorkspace;
-                var sdeWorkspace = ((IDataset)AAState._gentab).Workspace.Type == esriWorkspaceType.esriRemoteDatabaseWorkspace;
 
                 long seqValCompare;
                 object seqObj;
@@ -17281,14 +17319,14 @@ namespace ArcGIS4LocalGovernment
                 }
 
 
-                AAState.WriteLine("                  search Started:" +  DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
+                AAState.WriteLine("                  search Started:" + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
 
                 ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, false);
 
                 seq_row = seq_updateCursor.NextRow();
                 seqObj = seq_row.get_Value(sequenceColumnNum);
                 sequenceValue = seqForm(seqObj);
-                
+
                 int checkCount = 1;
                 bool val_set = false;
                 for (checkCount = 0; checkCount <= 50; checkCount++)
@@ -17320,10 +17358,11 @@ namespace ArcGIS4LocalGovernment
                         break;
 
                     }
-                    else {
+                    else
+                    {
                         AAState.WriteLine("                   conflict found: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff", CultureInfo.InvariantCulture) + " - loop count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
                     }
-                    
+
                     System.Runtime.InteropServices.Marshal.ReleaseComObject(search_cursor);
                 }
 
