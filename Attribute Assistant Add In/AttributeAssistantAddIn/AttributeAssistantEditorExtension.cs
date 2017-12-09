@@ -7473,8 +7473,8 @@ namespace ArcGIS4LocalGovernment
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain95"));
                                                     // Set the search tolerance for reverse geocoding.
                                                     reverseGeocodingProperties = (IReverseGeocodingProperties)reverseGeocoding;
-                                                    reverseGeocodingProperties.SearchDistance = 100;
-                                                    reverseGeocodingProperties.SearchDistanceUnits = esriUnits.esriFeet;
+                                                    reverseGeocodingProperties.SearchDistance = 1;
+                                                    reverseGeocodingProperties.SearchDistanceUnits = esriUnits.esriMiles;
                                                     reverseGeocoding.InitDefaults();
 
                                                     // Find the address nearest the Point.
