@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("")> 
 <Assembly: AssemblyCompany("ESRI")> 
 <Assembly: AssemblyProduct("ArcGISCostEstimatingTools")> 
-<Assembly: AssemblyCopyright("Copyright © ESRI 2015")> 
+<Assembly: AssemblyCopyright("Copyright © ESRI 2018")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(True)> 

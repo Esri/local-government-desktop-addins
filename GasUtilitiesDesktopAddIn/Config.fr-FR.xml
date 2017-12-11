@@ -1,14 +1,14 @@
-﻿<!--  | Version 10.4  | Copyright 2016 Esri  |  | Licensed under the Apache License, Version 2.0 (the "License");  | you may not use this file except in compliance with the License.  | You may obtain a copy of the License at  |  |    http://www.apache.org/licenses/LICENSE-2.0  |  | Unless required by applicable law or agreed to in writing, software  | distributed under the License is distributed on an "AS IS" BASIS,  | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  | See the License for the specific language governing permissions and  | limitations under the License. -->
+﻿<!--  | Version 1.17.2018  | Copyright 2018 Esri  |  | Licensed under the Apache License, Version 2.0 (the "License");  | you may not use this file except in compliance with the License.  | You may obtain a copy of the License at  |  |    http://www.apache.org/licenses/LICENSE-2.0  |  | Unless required by applicable law or agreed to in writing, software  | distributed under the License is distributed on an "AS IS" BASIS,  | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  | See the License for the specific language governing permissions and  | limitations under the License. -->
 
 <ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Gas Utility Network Tools</Name>
   <AddInID>{AF706D91-5AC0-40B2-890A-8B504C2191FA}</AddInID>
   <Description>ArcMap tools for Gas Utilities</Description>
-  <Version>2017.12.8</Version>
+  <Version>2018.1.17</Version>
   <Image>Images\GasUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>12/8/2017</Date>
+  <Date>1/17/2018</Date>
   <Targets>
     <Target name="Desktop" version="10.1"/>
   </Targets>
