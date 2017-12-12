@@ -1080,7 +1080,7 @@ Partial Public Class CostEstimatingWindow
                                 pDateTime.Font = My.Globals.Constants.c_Fnt
                                 'pDateTime.CustomFormat = "m/d/yyyy"
                                 pDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-                                pDateTime.CustomFormat = "M-d-yy" ' h:mm tt"
+                                pDateTime.CustomFormat = "M-d-yyyy" ' h:mm tt"
                                 pDateTime.ShowCheckBox = True
                                 pDateTime.Tag = strfld
                                 pDateTime.Name = "dtEdt" & strfld
