@@ -1,6 +1,6 @@
 ﻿/*
- | Version 10.4
- | Copyright 2014 Esri
+ | Version 1.17.2018
+ | Copyright 2018 ESRI
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -2486,12 +2486,12 @@ namespace A4LGSharedFunctions
         }
 
         public static IPolyline CreateAngledLineFromLocationOnLine(IPoint inPoint, IFeatureLayer mainLayer, bool boolLayerOrFC,
-           double RadianAngle, double LineLength, string AddAngleToLineAngle, bool StartAtInput, bool CheckSelection, out IFeature mainFeature, double searchDistance = 0 )
+           double RadianAngle, double LineLength, string AddAngleToLineAngle, bool StartAtInput, bool CheckSelection, out IFeature mainFeature, double searchDistance = 0)
         {
 
             IPoint snapPnt = null;
             IPolyline pPolyline = null;
-          
+
             IPoint pNewPt = null;
             IConstructPoint2 pConsPoint = null;
             //double dAlong;
@@ -2600,7 +2600,7 @@ namespace A4LGSharedFunctions
 
                 // snapPnt = null;
                 pPolyline = null;
-                
+
                 pNewPt = null;
                 pConsPoint = null;
             }
@@ -8201,17 +8201,17 @@ namespace A4LGSharedFunctions
                     return null;
                 return Globals.GetEditTemplate(SelectedTemplate, Layer);
             }
-
         }
-
         public static IEditTemplate PromptAndGetEditTemplate(IFeatureLayer Layer, string DefaultTemplate)
         {
-
             return PromptAndGetEditTemplate(Layer, DefaultTemplate, "Select a template for " + Layer.Name);
         }
 
-        public static IEditTemplate PromptAndGetEditTemplateGraphic(IFeatureLayer Layer, string DefaultTemplate)
+        public static IEditTemplate PromptAndGetEditTemplateGraphic(IFeatureLayer Layer, string DefaultTemplate, string caption)
         {
+            if (caption == null) {
+                caption = "Select a template for " + Layer.Name;
+            }
             SelectTemplateFormGraphic pForm = null;
             DialogResult result;
             IEditTemplate pEditTemp = null;
@@ -8227,7 +8227,7 @@ namespace A4LGSharedFunctions
                 {
                     int idx = Globals.GetEditTemplateCount(Layer);
 
-                    if (idx == 0)
+                    if (idx <= 0)
                     {
                         return null;
                     }
@@ -8240,7 +8240,7 @@ namespace A4LGSharedFunctions
                     else
                     {
                         pForm = new SelectTemplateFormGraphic(Layer);
-                        pForm.lblLayer.Text = "Select a template for " + Layer.Name;
+                        pForm.lblLayer.Text = caption;
                         //pForm.LoadListView();
 
                         result = pForm.ShowDialog();
@@ -8447,7 +8447,7 @@ namespace A4LGSharedFunctions
                 {
                     frmWidth = Convert.ToInt32(tmpF.Width);
                 }
-          
+
                 g = null;
                 tmpForm.setWidth(frmWidth);
                 tmpForm.showCancelButton();
@@ -8467,7 +8467,7 @@ namespace A4LGSharedFunctions
                 }
                 else
                 {
-                    return (string)tmpForm.cboSelectTemplate.SelectedItem;
+                    return tmpForm.cboSelectTemplate.SelectedItem.ToString();
                 }
             }
             catch
@@ -9122,8 +9122,9 @@ namespace A4LGSharedFunctions
                         }
                     }
                 }
-                catch { 
-                
+                catch
+                {
+
                 }
                 pfeatureClass = FeatureLay.FeatureClass;
                 if (checkForExisting)
@@ -9247,7 +9248,7 @@ namespace A4LGSharedFunctions
                 feature.Shape = geo;
                 rowSubtype = feature as IRowSubtypes;
                 pSub = pfeatureClass as ISubtypes;
-                if (pSub.HasSubtype)
+                if (pSub != null && pSub.HasSubtype)
                     rowSubtype.SubtypeCode = pSub.DefaultSubtypeCode;
                 rowSubtype.InitDefaultValues();
                 //if (feature is INetworkFeature)
@@ -10891,7 +10892,7 @@ namespace A4LGSharedFunctions
         #endregion
 
         #region GeometryTools
-        public static ISet splitLineWithPoint(IFeature lineFeature, IPoint SplitPoint, double SnapTol, IList<MergeSplitFlds> pFldsNames, string SplitFormatString, IApplication app,bool trySplitUpdateFirst)
+        public static ISet splitLineWithPoint(IFeature lineFeature, IPoint SplitPoint, double SnapTol, IList<MergeSplitFlds> pFldsNames, string SplitFormatString, IApplication app, bool trySplitUpdateFirst)
         {
             IHitTest hitTest = null;
             IFeatureEdit2 featureEdit = null;
@@ -10990,9 +10991,34 @@ namespace A4LGSharedFunctions
                     if (intHighIdx > -1 && intLowIdx > -1)
                     {
                         double len = ((ICurve)(lineFeature.Shape as IPolyline)).Length;
+                        //double len2 = len;
+                        //if (lineFeature.Shape.GeometryType == esriGeometryType.esriGeometryLine || lineFeature.Shape.GeometryType == esriGeometryType.esriGeometryPolyline)
+                        //{
+                        //    if ((lineFeature.Class as IGeoDataset).SpatialReference is IProjectedCoordinateSystem)
+                        //    {
+                        //        IPolycurveGeodetic pCurDes = (IPolycurveGeodetic)lineFeature.Shape;
+                        //        if (pCurDes != null)
+                        //        {
+                        //            IProjectedCoordinateSystem pProjSys = (IProjectedCoordinateSystem)(lineFeature.Class as IGeoDataset).SpatialReference;
 
-                        double splitDist = Globals.PointDistanceOnLine(pHitPnt, lineFeature.Shape as IPolyline, 2, out pHitPnt);
-                        double percentSplit = splitDist / len;
+                        //            len2 = pCurDes.get_LengthGeodetic(esriGeodeticType.esriGeodeticTypeGeodesic, pProjSys.CoordinateUnit);
+
+                        //            pProjSys = null;
+
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        ICurve curve = (ICurve)lineFeature.Shape;
+                        //        if (curve != null)
+                        //        {
+                        //            len2 = curve.Length;
+                        //        }
+                        //    }
+                        //}
+
+                        double splitDist = Globals.PointDistanceOnLine(pHitPnt, lineFeature.Shape as IPolyline, 22, out pHitPnt);
+                        double percentSplit = (len - splitDist) / len;
 
                         if (SplitFormatString == "")
                         {
@@ -11014,7 +11040,7 @@ namespace A4LGSharedFunctions
                         }
                         else
                         {
-                           
+
                             try
                             {
                                 pSet = featureEdit.Split(pHitPnt);
@@ -11118,7 +11144,7 @@ namespace A4LGSharedFunctions
         {
 
             bool hasXY;
-            ISpatialReferenceResolution pSRResolution = null;
+
             try
             {
                 if (FeatureLayer == null)
@@ -11129,15 +11155,16 @@ namespace A4LGSharedFunctions
                     return .000001;
 
                 hasXY = ((FeatureLayer.FeatureClass as IGeoDataset).SpatialReference).HasXYPrecision();
-
                 if (hasXY)
                 {
 
+                    double dblTol = .00000000001;
+                    var spRefTolerance = (FeatureLayer.FeatureClass as IGeoDataset).SpatialReference as ISpatialReferenceTolerance;
+                    if (spRefTolerance != null && spRefTolerance.XYToleranceValid == esriSRToleranceEnum.esriSRToleranceOK)
+                    {
+                        dblTol = spRefTolerance.XYTolerance;
+                    }
 
-                    pSRResolution = ((FeatureLayer.FeatureClass as IGeoDataset).SpatialReference) as ISpatialReferenceResolution;
-                    double dblTol;
-
-                    dblTol = pSRResolution.get_XYResolution(false);
                     if (dblTol < .0000000001)
                     {
                         dblTol = .00000001;
@@ -11156,7 +11183,7 @@ namespace A4LGSharedFunctions
             }
             finally
             {
-                pSRResolution = null;
+
             }
         }
         public static Boolean pointscoincident(IPoint pntOne, IPoint pntTwo)
@@ -12083,7 +12110,7 @@ namespace A4LGSharedFunctions
 
                     if (Globals.IsNumeric(iMegSeg.MMax.ToString()) == false || Globals.IsNumeric(iMegSeg.MMin.ToString()) == false)
                     {
-                        return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                        return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
                     }
                     else if (iMegSeg.MMax != iMegSeg.MMin)
                     {
@@ -12098,13 +12125,13 @@ namespace A4LGSharedFunctions
                             if (Globals.IsNumeric(pDbl[0].ToString()) == false)
 
                                 //return outDistAlongCurve;
-                                return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                                return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
                             else
-                                return Convert.ToDouble(pDbl[0].ToString(string.Format("N", DecimalPlaces)));
+                                return Convert.ToDouble(pDbl[0].ToString(string.Format("F" + DecimalPlaces)));
                             //return pDbl[0];
                         }
                         else
-                            return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                            return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
                         //return outDistAlongCurve;
 
 
@@ -12113,13 +12140,13 @@ namespace A4LGSharedFunctions
                     {
 
 
-                        return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                        return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
                         //  return outDistAlongCurve;
 
                     }
                 }
                 else
-                    return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("N", DecimalPlaces)));
+                    return Convert.ToDouble(outDistAlongCurve.ToString(string.Format("F" + DecimalPlaces)));
             }
             catch (Exception ex)
             {
@@ -13276,7 +13303,7 @@ namespace A4LGSharedFunctions
                 ISubtypes pSub = Feature.Class as ISubtypes;
                 IDomain pDom;
                 ICodedValueDomain pCVDom;
-                if (pSub.HasSubtype)
+                if (pSub != null && pSub.HasSubtype)
                 {
                     if (pSub.SubtypeFieldName.ToUpper() == Field.Name.ToUpper())
                     {
@@ -13342,11 +13369,11 @@ namespace A4LGSharedFunctions
                 for (int i = 0; i <= CodedValue.CodeCount - 1; i++)
                 {
                     if (CodedValue.get_Name(i).ToString() == Display.ToString())
-                        return (string)CodedValue.get_Value(i);
+                        return CodedValue.get_Value(i).ToString();
 
 
                 }
-                return (string)Display;
+                return Display.ToString();
             }
             catch (Exception ex)
             {
@@ -15763,6 +15790,67 @@ namespace A4LGSharedFunctions
         #endregion
 
         #region TableTools
+        public static IStandaloneTable FindTableLayerOrFC(IMap pMap, string sLName, ref bool FoundAsFeatureLayer)
+        {
+            FoundAsFeatureLayer = false;
+            try
+            {
+                IDataset pDataset;
+                char[] c = new char[] { '.' };
+                IStandaloneTable stTable;
+                IStandaloneTableCollection stTableColl = (IStandaloneTableCollection)pMap;
+                long count = stTableColl.StandaloneTableCount;
+                if (count > 0)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        stTable = stTableColl.get_StandaloneTable(i);
+                        if (stTable.Valid)
+                        {
+                            if (stTable.Name.ToLower() == sLName.ToLower())
+                            {
+                                FoundAsFeatureLayer = true;
+                                return stTable;
+                            }
+                        }
+                    }
+                    for (int i = 0; i < count; i++)
+                    {
+                        stTable = stTableColl.get_StandaloneTable(i);
+                        if (stTable.Valid)
+                        {
+                            pDataset = (IDataset)stTable.Table;
+                            if (pDataset != null)
+                            {
+                                if (pDataset.BrowseName.ToUpper() == sLName.ToUpper())
+                                {
+                                    return stTable;
+                                }
+                                if (pDataset.FullName.NameString.ToUpper() == sLName.ToUpper())
+                                {
+                                    return stTable;
+                                }
+                                if (pDataset.BrowseName.ToUpper().Substring(pDataset.BrowseName.LastIndexOf(".") + 1) == sLName.ToUpper())
+                                {
+                                    return stTable;
+                                }
+                                if (pDataset.FullName.NameString.ToUpper().Substring(pDataset.FullName.NameString.LastIndexOf(".") + 1) == sLName.ToUpper())
+                                {
+                                    return stTable;
+                                }
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("FindTable: " + ex.ToString());
+                return null;
+            }
+
+        }
         public static ITable FindTable(IApplication app, string sLName)
         {
             IStandaloneTable pStand = FindStandAloneTable(((IMxDocument)app.Document).FocusMap, sLName);

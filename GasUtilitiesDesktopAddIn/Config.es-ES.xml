@@ -1,6 +1,6 @@
 ﻿<!--
- | Version 10.4
- | Copyright 2016 Esri
+ | Version 1.17.2018
+ | Copyright 2018 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@
   <Name>Gas Utility Network Tools</Name>
   <AddInID>{AF706D91-5AC0-40B2-890A-8B504C2191FA}</AddInID>
   <Description>ArcMap tools for Gas Utilities</Description>
-  <Version>2017.1.15</Version>
+  <Version>2018.1.17</Version>
   <Image>Images\GasUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>12/6/2016</Date>
+  <Date>1/17/2018</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>

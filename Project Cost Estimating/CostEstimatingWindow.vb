@@ -1,6 +1,6 @@
 ﻿
-' | Version 10.4
-' | Copyright 2016 Esri
+' | Version 1.17.2018
+' | Copyright 2018 Esri
 ' |
 ' | Licensed under the Apache License, Version 2.0 (the "License");
 ' | you may not use this file except in compliance with the License.
@@ -1080,7 +1080,7 @@ Partial Public Class CostEstimatingWindow
                                 pDateTime.Font = My.Globals.Constants.c_Fnt
                                 'pDateTime.CustomFormat = "m/d/yyyy"
                                 pDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-                                pDateTime.CustomFormat = "M-d-yy" ' h:mm tt"
+                                pDateTime.CustomFormat = "M-d-yyyy" ' h:mm tt"
                                 pDateTime.ShowCheckBox = True
                                 pDateTime.Tag = strfld
                                 pDateTime.Name = "dtEdt" & strfld

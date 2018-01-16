@@ -1,6 +1,6 @@
 ﻿/*
- | Version 10.4
- | Copyright 2014 Esri
+ | Version 1.17.2018
+ | Copyright 2018 ESRI
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -56,10 +56,10 @@ namespace A4WaterUtilities
     public static class CreateLineWithEndPoints
     {
 
-        public static bool CreatePoints(IApplication app, List<ConstructLineWithPointsDetails> linesWithPointsDetails, IPolyline line, IFeatureLayer SourceLayer, bool bUseTemplate, out List<IFeature> pLstFeat)
+        public static bool CreatePoints(IApplication app, List<ConstructLineWithPointsDetails> linesWithPointsDetails, IPolyline line, IFeatureLayer SourceLayer, bool bUseTemplate, out List<IFeature> pLstFeat, out string storeOrder)
         {
             pLstFeat = null;
-
+            storeOrder = "points";
             IFeatureLayer pStartPointLayer = null;
             IFeatureLayer pAlongPointLayer = null;
             IFeatureLayer pEndPointLayer = null;
@@ -102,7 +102,7 @@ namespace A4WaterUtilities
                     {
                         if (pEndPointLayer.FeatureClass == null)
                             pEndPointLayer = null;
-                        else if (!Globals.IsEditable(ref pEndPointLayer, ref editor))
+                            else if (!Globals.IsEditable(ref pEndPointLayer, ref editor))
                             pEndPointLayer = null;
                     }
                     if (pAlongPointLayer != null)
@@ -115,6 +115,8 @@ namespace A4WaterUtilities
                     if (pAlongPointLayer == null && pEndPointLayer == null && pStartPointLayer == null)
                         continue;
                     pCur = line;// as ICurve; 
+                    storeOrder = pDet.Store_Order;
+                    IPointCollection pPointCollection = (IPointCollection)line;
 
                     if (bUseTemplate)
                     {
@@ -124,16 +126,20 @@ namespace A4WaterUtilities
                         //pEditTempEnd = Globals.PromptAndGetEditTemplate(app, pEndPointLayer, pDet.Point_End_EditTemplate, "Template for End Layer: " + pEndPointLayer.Name);
                         if (pStartPointLayer != null)
                         {
-                            pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, pDet.Point_Start_EditTemplate);
+                            
+                            pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, pDet.Point_Start_EditTemplate, 
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptBegin"),pStartPointLayer.Name));
                         }
-                        if (pAlongPointLayer != null)
+                        if (pAlongPointLayer != null && pPointCollection.PointCount > 2)
                         {
-                            pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, pDet.Point_Along_EditTemplate);
+                            pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, pDet.Point_Along_EditTemplate,
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptAlong"), pAlongPointLayer.Name));
 
                         }
                         if (pEndPointLayer != null)
                         {
-                            pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, pDet.Point_End_EditTemplate);
+                            pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, pDet.Point_End_EditTemplate,
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptEnd"), pEndPointLayer.Name));
                         }
 
 
@@ -147,16 +153,19 @@ namespace A4WaterUtilities
                         //pEditTempEnd = Globals.PromptAndGetEditTemplate(app, pEndPointLayer, "", "Template for End Layer: " + pEndPointLayer.Name);
                         if (pStartPointLayer != null)
                         {
-                            pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, "");
+                            pEditTempStart = Globals.PromptAndGetEditTemplateGraphic(pStartPointLayer, "",
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptBegin"), pStartPointLayer.Name));
                         }
 
-                        if (pAlongPointLayer != null)
+                        if (pAlongPointLayer != null && pPointCollection.PointCount > 2)
                         {
-                            pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, "");
+                            pEditTempAlong = Globals.PromptAndGetEditTemplateGraphic(pAlongPointLayer, "",
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptAlong"), pAlongPointLayer.Name));
                         }
                         if (pEndPointLayer != null)
                         {
-                            pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, "");
+                            pEditTempEnd = Globals.PromptAndGetEditTemplateGraphic(pEndPointLayer, "",
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptEnd"), pEndPointLayer.Name));
                         }
 
 
@@ -483,12 +492,14 @@ namespace A4WaterUtilities
                         if (bUseTemplate)
                         {
                             //pEditTemp = Globals.PromptAndGetEditTemplate(app, connectLineFLayer, (connectClosestLayers[k] as ConnectClosestDetails).Line_EditTemplate);
-                            pEditTemp = Globals.PromptAndGetEditTemplateGraphic(connectLineFLayer, (connectClosestLayers[k] as ConnectClosestDetails).Line_EditTemplate);
+                            pEditTemp = Globals.PromptAndGetEditTemplateGraphic(connectLineFLayer, (connectClosestLayers[k] as ConnectClosestDetails).Line_EditTemplate,
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), connectLineFLayer.Name));
                         }
                         else
                         {
                             //pEditTemp = Globals.PromptAndGetEditTemplate(app, connectLineFLayer, "");
-                            pEditTemp = Globals.PromptAndGetEditTemplateGraphic(connectLineFLayer, "");
+                            pEditTemp = Globals.PromptAndGetEditTemplateGraphic(connectLineFLayer, "",
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), connectLineFLayer.Name));
                         }
 
                         pNearestFeature = Globals.GetClosestFeatureIgnoreExistingLineFeature((connectClosestLayers[k] as ConnectClosestDetails).Search_Threshold,
@@ -782,13 +793,15 @@ namespace A4WaterUtilities
 
                         if (bUseTemplate)
                         {
-                            pEditTemp = Globals.PromptAndGetEditTemplateGraphic(connectLineFLayer, connectClosestLayers[k].Line_EditTemplate);
+                            pEditTemp = Globals.PromptAndGetEditTemplateGraphic(connectLineFLayer, connectClosestLayers[k].Line_EditTemplate,
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), connectLineFLayer.Name));
                             //pEditTemp = Globals.PromptAndGetEditTemplate(app, connectLineFLayer, connectClosestLayers[k].Line_EditTemplate);
                         }
                         else
                         {
                             //pEditTemp = Globals.PromptAndGetEditTemplate(app, connectLineFLayer, "");
-                            pEditTemp = Globals.PromptAndGetEditTemplateGraphic(connectLineFLayer, "");
+                            pEditTemp = Globals.PromptAndGetEditTemplateGraphic(connectLineFLayer, "",
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), connectLineFLayer.Name));
                         }
 
                         sel = pointFeatureSelection.SelectionSet as ISelectionSet2;
@@ -1137,11 +1150,14 @@ namespace A4WaterUtilities
                     if (useDefaultTemplate)
                     {
                         //pLateralLineEditTemp = Globals.PromptAndGetEditTemplate(app, targetLineFLayer, addLateralsDetails[k].LateralLine_EditTemplate);
-                        pLateralLineEditTemp = Globals.PromptAndGetEditTemplateGraphic(targetLineFLayer, addLateralsDetails[k].LateralLine_EditTemplate);
+                        pLateralLineEditTemp = Globals.PromptAndGetEditTemplateGraphic(targetLineFLayer, addLateralsDetails[k].LateralLine_EditTemplate,
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), targetLineFLayer.Name));
                     }
                     else
                     {
-                        pLateralLineEditTemp = Globals.PromptAndGetEditTemplateGraphic(targetLineFLayer, "");
+                        pLateralLineEditTemp = Globals.PromptAndGetEditTemplateGraphic(targetLineFLayer, "",
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), targetLineFLayer.Name));
+
                         //pLateralLineEditTemp = Globals.PromptAndGetEditTemplate(app, targetLineFLayer, "");
                     }
 
@@ -1243,12 +1259,14 @@ namespace A4WaterUtilities
                                     }
                                     if (useDefaultTemplate)
                                     {
-                                        pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplateGraphic(pointAlongLayer.PointAlongLayer, addLateralsDetails[k].PointAlong[j].EditTemplate);
+                                        pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplateGraphic(pointAlongLayer.PointAlongLayer, addLateralsDetails[k].PointAlong[j].EditTemplate,
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptAlong"), pointAlongLayer.PointAlongLayer.Name));
                                         //pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplate(app, pointAlongLayer.PointAlongLayer, addLateralsDetails[k].PointAlong[j].EditTemplate);
                                     }
                                     else
                                     {
-                                        pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplateGraphic(pointAlongLayer.PointAlongLayer, "");
+                                        pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplateGraphic(pointAlongLayer.PointAlongLayer, "",
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptAlong"), pointAlongLayer.PointAlongLayer.Name));
                                         //pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplate(app, pointAlongLayer.PointAlongLayer, "");
                                     }
 
@@ -1906,7 +1924,7 @@ namespace A4WaterUtilities
                                 else
                                     pAlongFeat = Globals.AddPointAlongLine(ref app, ref editor, polyline as ICurve, pPointAlongLayer.PointAlongLayer, pPointAlongLayer.PointAlongDistance, pPointAlongLayer.DistanceIsPercent, pPointAlongLayer.PointAlongEditTemplate, false);
                                 pAlongFeatures.Add(pAlongFeat);
-                                if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && (pPointAlongLayer.PointAlongDistance != 100 && pPointAlongLayer.DistanceIsPercent != true))
+                                if (pPointAlongLayer.Split && pPointAlongLayer.PointAlongDistance != 0 && !(pPointAlongLayer.PointAlongDistance == 100 && pPointAlongLayer.DistanceIsPercent == true) )
                                 {
                                     pAlongShapes.Add(pAlongFeat.ShapeCopy);
                                 }
@@ -3601,11 +3619,13 @@ namespace A4WaterUtilities
                     if (useDefaultTemplate)
                     {
                         //pLateralLineEditTemp = Globals.PromptAndGetEditTemplate(app, targetLineFLayer, addLateralsDetails[k].LateralLine_EditTemplate);
-                        pLateralLineEditTemp = Globals.PromptAndGetEditTemplateGraphic(targetLineFLayer, addLateralsDetails[k].LateralLine_EditTemplate);
+                        pLateralLineEditTemp = Globals.PromptAndGetEditTemplateGraphic(targetLineFLayer, addLateralsDetails[k].LateralLine_EditTemplate,
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), targetLineFLayer.Name));
                     }
                     else
                     {
-                        pLateralLineEditTemp = Globals.PromptAndGetEditTemplateGraphic(targetLineFLayer, "");
+                        pLateralLineEditTemp = Globals.PromptAndGetEditTemplateGraphic(targetLineFLayer, "",
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), targetLineFLayer.Name));
                         //pLateralLineEditTemp = Globals.PromptAndGetEditTemplate(app, targetLineFLayer, "");
                     }
 
@@ -3708,12 +3728,14 @@ namespace A4WaterUtilities
                                     }
                                     if (useDefaultTemplate)
                                     {
-                                        pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplateGraphic(pointAlongLayer.PointAlongLayer, addLateralsDetails[k].PointAlong[j].EditTemplate);
+                                        pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplateGraphic(pointAlongLayer.PointAlongLayer, addLateralsDetails[k].PointAlong[j].EditTemplate,
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptAlong"), pointAlongLayer.PointAlongLayer.Name));
                                         //pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplate(app, pointAlongLayer.PointAlongLayer, addLateralsDetails[k].PointAlong[j].EditTemplate);
                                     }
                                     else
                                     {
-                                        pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplateGraphic(pointAlongLayer.PointAlongLayer, "");
+                                        pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplateGraphic(pointAlongLayer.PointAlongLayer, "",
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePromptAlong"), pointAlongLayer.PointAlongLayer.Name));
                                         //pointAlongLayer.PointAlongEditTemplate = Globals.PromptAndGetEditTemplate(app, pointAlongLayer.PointAlongLayer, "");
                                     }
 

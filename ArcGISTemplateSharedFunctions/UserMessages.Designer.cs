@@ -4714,6 +4714,15 @@ namespace A4LGSharedFunctions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The edit was cancelled.  This is likely due to a rule defined in the Attribute Assistant, causing the edited feature to be invalid..
+        /// </summary>
+        internal static string errorOnIFeatureStore {
+            get {
+                return ResourceManager.GetString("errorOnIFeatureStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export asset .
         /// </summary>
         internal static string ExportAsset {
@@ -7545,6 +7554,42 @@ namespace A4LGSharedFunctions {
         internal static string SubTpChange {
             get {
                 return ResourceManager.GetString("SubTpChange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a the template for {0}..
+        /// </summary>
+        internal static string templatePrompt {
+            get {
+                return ResourceManager.GetString("templatePrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a the template for {0} along the line..
+        /// </summary>
+        internal static string templatePromptAlong {
+            get {
+                return ResourceManager.GetString("templatePromptAlong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a the template for {0} at the beginning of the line..
+        /// </summary>
+        internal static string templatePromptBegin {
+            get {
+                return ResourceManager.GetString("templatePromptBegin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a the template for {0} at the end of the line..
+        /// </summary>
+        internal static string templatePromptEnd {
+            get {
+                return ResourceManager.GetString("templatePromptEnd", resourceCulture);
             }
         }
         

@@ -1,0 +1,115 @@
+﻿<!--
+ | Version 1.17.2018
+ | Copyright 2018 Esri
+ |
+ | Licensed under the Apache License, Version 2.0 (the "License");
+ | you may not use this file except in compliance with the License.
+ | You may obtain a copy of the License at
+ |
+ |    http://www.apache.org/licenses/LICENSE-2.0
+ |
+ | Unless required by applicable law or agreed to in writing, software
+ | distributed under the License is distributed on an "AS IS" BASIS,
+ | WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ | See the License for the specific language governing permissions and
+ | limitations under the License.
+-->
+
+<ESRI.Configuration xmlns="http://schemas.esri.com/Desktop/AddIns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Attribute Assistant</Name>
+  <AddInID>{5CAD338F-775E-44D8-A342-8DC123BF8E7B}</AddInID>
+  <Description>Allows attributes to be automatically populated as features are created or modified based on a series of user defined rules.</Description>
+   <Version>2018.1.17</Version>
+  <Image>Images\AttributeAssistantAddIn64.png</Image>
+  <Author>Esri., Inc.</Author>
+  <Company>Esri., Inc.</Company>
+  <Date>1/17/2018</Date>
+  <Targets>
+    <Target name="Desktop" version="10.1" />
+  </Targets>
+  <AddIn language="CLR" library="AttributeAssistant.dll" namespace="ArcGIS4LocalGovernment">
+    <ArcMap>
+
+      <!-- <Extensions>
+        <Extension id="ArcGIS4LocalGovernment_AttributeAssistantEditorExtension" class="AttributeAssistantEditorExtension" autoLoad="true" productName="Attribute Assistant Extension" showInExtensionDialog="false" />
+      </Extensions>-->
+      <Extensions>
+        <Extension id="ArcGIS4LocalGovernment_AttributeAssistantEditorExtension" class="AttributeAssistantEditorExtension" autoLoad="true" productName="Extensión Asistente de atributos" showInExtensionDialog="false" />
+      </Extensions>
+
+      <Commands>
+        <!--<Button id="ArcGIS4LocalGovernment_AttributeAssistantToggleCommand" class="AttributeAssistantToggleCommand" onDemand="false" message="Toggles the Attribute Assistant add-in on (green version) and off (red verison)." caption="Turn Attribute Assistant On/Off" tip="Turn Attribute Assistant On/Off" category="ArcGIS for Local Government" image="Images\AttributeAssistantToggleOnSolidOffAddIn.png">
+          <Help heading="Attribute Assistant On/Off " />
+        </Button>-->
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantToggleCommand" class="AttributeAssistantToggleCommand" onDemand="false" message="Enciende (en verde) y Apaga (en rojo) el Asistente de atributos" caption="Encender/Apagar Asistente de atributos" tip="Encender/Apagar Asistente de atributos" category="ArcGIS for Local Government" image="Images\AttributeAssistantToggleOnSolidOffAddIn.png">
+          <Help heading="Asistente de atributos Encendido/Apagado " />
+        </Button>
+        <!--<Button id="ArcGIS4LocalGovernment_RunChangeRulesCommand" class="RunChangeRulesCommand" message="Triggers a change event on each selected feature. If the Attribute Assistant is on, all rules defined in the Dynamic Value table will be processed." caption="Run change rules for selected features" tip="Run change rules for selected features" category="ArcGIS for Local Government" image="Images\RunChangeRules.png">
+          <Help heading="Run Change Rules" />
+        </Button>-->
+        <Button id="ArcGIS4LocalGovernment_RunChangeRulesCommand" class="RunChangeRulesCommand" message="Desencadena un evento de cambio en cada entidad seleccionada. Si el asistente de atributos está encendido, se procesan todas las reglas definidas en la tabla Valor Dinámico (DynamicValue)." caption="Ejecutar reglas de cambio en los elementos seleccionados" tip="Ejecutar reglas de cambio en los elementos seleccionados" category="ArcGIS for Local Government" image="Images\RunChangeRules.png">
+          <Help heading="Ejecutar reglas de cambio" />
+        </Button>
+        <!--<Button id="ArcGIS4LocalGovernment_RunChangeGeoRulesCommand" class="RunChangeGeoRulesCommand" message="Triggers a change geometry event on each selected feature. If the Attribute Assistant is on, all rules defined in the Dynamic Value table will be processed." caption="Run change geometry rules for selected features" tip="Run change geometry rules for selected features" category="ArcGIS for Local Government" image="Images\RunChangeGeoRules.png">
+          <Help heading="Run Change Geometry Rules" />
+        </Button>-->
+        <Button id="ArcGIS4LocalGovernment_RunChangeGeoRulesCommand" class="RunChangeGeoRulesCommand" message="Desencadena un evento de cambio de geometría en cada entidad seleccionada. Si el asistente de atributos está encendido, se procesan todas las reglas definidas en la tabla Valor Dinámico (DynamicValue)." caption="Ejecutar reglas de cambio de geometría en los elementos seleccionados" tip="Ejecutar reglas de cambio de geometría en los elementos seleccionados" category="ArcGIS for Local Government" image="Images\RunChangeGeoRules.png">
+          <Help heading="Ejecutar reglas de cambio de geometría" />
+        </Button>
+        <!--<Button id="ArcGIS4LocalGovernment_RunManualRulesCommand" class="RunManualRulesCommand" message="Triggers a manual event on each selected feature. If the Attribute Assistant is on, all rules defined in the Dynamic Value table will be processed." caption="Run manual rules for selected features" tip="Run manual rules for selected features" category="ArcGIS for Local Government" image="Images\RunManualRules.png">
+          <Help heading="Run Manual Rules" />
+        </Button>-->
+        <Button id="ArcGIS4LocalGovernment_RunManualRulesCommand" class="RunManualRulesCommand" message="Desencadena un evento manual en cada entidad seleccionada. Si el asistente de atributos está encendido, se procesan todas las reglas definidas en la tabla Valor Dinámico (DynamicValue)." caption="Ejecutar reglas manuales en las entidades seleccionadas" tip="Ejecutar reglas manuales en las entidades seleccionadas" category="ArcGIS for Local Government" image="Images\RunManualRules.png">
+          <Help heading="Ejecutar reglas manuales" />
+        </Button>
+        <!--<Button id="ArcGIS4LocalGovernment_RunCreateRulesCommand" class="RunCreateRulesCommand" message="Triggers a create event on each selected feature. If the Attribute Assistant is on, all rules defined in the Dynamic Value table will be processed." caption="Run create rules for selected features" tip="Run create rules for selected features" category="ArcGIS for Local Government" image="Images\RunCreateRules.png">
+          <Help heading="Run Create Rules" />
+        </Button>-->
+        <Button id="ArcGIS4LocalGovernment_RunCreateRulesCommand" class="RunCreateRulesCommand" message="Desencadena un evento de creación en cada entidad seleccionada. Si el asistente de atributos está encendido, se procesan todas las reglas definidas en la tabla Valor Dinámico (DynamicValue)." caption="Ejecutar reglas de creación en las entidades seleccionadas" tip="Ejecutar reglas de creación en las entidades seleccionadas" category="ArcGIS for Local Government" image="Images\RunCreateRules.png">
+          <Help heading="Ejecutar reglas de creación" />
+        </Button>
+        <!--<Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendOffCommand" class="AttributeAssistantSuspendOffCommand" onDemand="false" message="Toggle suspension - Attribute Assistant" caption="Toggle suspension - Attribute Assistant" tip="Toggle Suspension on Attribute Assistant." category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOnOff.png">
+          <Help heading="Attribute Assistant On/Off " />
+        </Button>-->
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendOffCommand" class="AttributeAssistantSuspendOffCommand" onDemand="false" message="Alternar suspensión - Asistente de atributos" caption="Alternar suspensión - Asistente de atributos" tip="Alternar suspensión en el Asistente de atributos." category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOnOff.png">
+          <Help heading="Asistente de atributos Encendido/Apagado " />
+        </Button>
+        <!--<Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendOnCommand" class="AttributeAssistantSuspendOnCommand" onDemand="false" message="Turn On Suspension on Attribute Assistant" caption="Turn On Suspension on Attribute Assistant" tip="Turn On Suspension on Attribute Assistant." category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOn.png">
+          <Help heading="Attribute Assistant On/Off " />
+        </Button>-->
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendOnCommand" class="AttributeAssistantSuspendOnCommand" onDemand="false" message="Activar suspensión en el Asistente de atributos" caption="Activar suspensión en el Asistente de atributos" tip="Activar suspensión en el Asistente de atributos." category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOn.png">
+          <Help heading="Asistente de atributos Encendido/Apagado " />
+        </Button>
+        <!--<Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendCommand" class="AttributeAssistantSuspendCommand" onDemand="false" message="Turn Off Suspension on Attribute Assistant" caption="Turn Off Suspension on Attribute Assistant" tip="Turn Off Suspension on Attribute Assistant." category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOff.png">
+          <Help heading="Attribute Assistant On/Off " />
+        </Button>-->
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantSuspendCommand" class="AttributeAssistantSuspendCommand" onDemand="false" message="Desactivar suspensión en el Asistente de atributos" caption="Desactivar suspensión en el Asistente de atributos" tip="Desactivar suspensión en el Asistente de atributos." category="ArcGIS for Local Government" image="Images\AttributeAssistantToogleOff.png">
+          <Help heading="Asistente de atributos Encendido/Apagado " />
+        </Button>
+        <!--<Button id="ArcGIS4LocalGovernment_AttributeAssistantLoadLastValue" class="AttributeAssistantLoadLastValue" onDemand="false" message="Presents a dialog box to view and update each Last Value field listed in the Dynamic Value table." caption="Load last value array" tip="Load last value array" category="ArcGIS for Local Government" image="Images\LoadLastValue.png">
+          <Help heading="Attribute Assistant On/Off " />
+        </Button>-->
+        <Button id="ArcGIS4LocalGovernment_AttributeAssistantLoadLastValue" class="AttributeAssistantLoadLastValue" onDemand="false" message="Presenta un cuadro de diálogo para ver y actualizar cada campo de Último valor de la tabla Valor Dinámico (DynamicValue)." caption="Cargar los valores de las reglas de Último Valor" tip="Cargar los valores de las reglas de Último Valor" category="ArcGIS for Local Government" image="Images\LoadLastValue.png">
+          <Help heading="Asistente de atributos Encendido/Apagado " />
+        </Button>
+        <!--<Button id="ArcGIS4LocalGovernment_ShowConfigForm" class="ShowConfigForm" message="Presents a dialog box for viewing the currently loaded configuration file and the location of the configuration file, and for loading another configuration file." caption="Show Config Information" tip="Show Config Information" category="ArcGIS for Local Government" image="Images\Config2.png" />-->
+        <Button id="ArcGIS4LocalGovernment_ShowConfigForm" class="ShowConfigForm" message="Presenta un cuadro de diálogo para ver el archivo de configuración cargado actualmente y su ubicación, así como para cargar otro archivo de configuración." caption="Mostrar información de configuración" tip="Mostrar información de configuración" category="ArcGIS for Local Government" image="Images\Config2.png" />
+      </Commands>
+      <Toolbars>
+        <!--<Toolbar id="ArcGIS4LocalGovernment_AttributeAssistantToolbar" caption="Attribute Assistant" -->
+        <Toolbar id="ArcGIS4LocalGovernment_AttributeAssistantToolbar" caption="Asistente de atributos" showInitially="false">
+          <Items>
+
+            <Button refID="ArcGIS4LocalGovernment_AttributeAssistantToggleCommand" separator="true" />
+            <Button refID="ArcGIS4LocalGovernment_RunChangeRulesCommand" separator="false" />
+            <Button refID="ArcGIS4LocalGovernment_RunChangeGeoRulesCommand" separator="false" />
+            <Button refID="ArcGIS4LocalGovernment_RunManualRulesCommand" separator="false" />
+            <Button refID="ArcGIS4LocalGovernment_RunCreateRulesCommand" separator="false" />
+            <Button refID="ArcGIS4LocalGovernment_AttributeAssistantLoadLastValue" separator="false" />
+            <Button refID="ArcGIS4LocalGovernment_ShowConfigForm" separator="true" />
+          </Items>
+        </Toolbar>
+      </Toolbars>
+    </ArcMap>
+  </AddIn>
+</ESRI.Configuration>

@@ -1,6 +1,6 @@
 ﻿/*
- | Version 10.4
- | Copyright 2016 Esri
+ | Version 1.17.2018
+ | Copyright 2018 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -692,9 +692,7 @@ namespace A4WaterUtilities
 
             IPoint point = ArcMap.Document.CurrentLocation;
             GeoNetTools.TraceFlow(ref point, ArcMap.Application, esriFlowMethod.esriFMDownstream, SnapTol, traceIndeterminate, selectEdges);
-
-
-            point = null;
+          
         }
 
 
@@ -844,6 +842,15 @@ namespace A4WaterUtilities
                 }
             }
             point = null;
+            ISelectionEvents selEvents = null;
+            selEvents = (ISelectionEvents)((ArcMap.Document as IMxDocument).FocusMap);
+
+            if (selEvents != null)
+            {
+                selEvents.SelectionChanged();
+
+
+            }
         }
 
 

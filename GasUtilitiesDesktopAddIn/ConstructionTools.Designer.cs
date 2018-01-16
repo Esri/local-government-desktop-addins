@@ -16,30 +16,30 @@ namespace A4GasUtilities
         protected sealed override void OnMouseDown(MouseEventArgs arg)
         {
             if (m_csc != null)
-            m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+                m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseMove(MouseEventArgs arg)
         {
-            if (m_csc !=  null)
+            if (m_csc != null)
                 m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseUp(MouseEventArgs arg)
         {
             if (m_csc != null)
-            m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+                m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnKeyDown(KeyEventArgs arg)
         {
             if (m_csc != null)
-            m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
+                m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
         }
         protected sealed override void OnKeyUp(KeyEventArgs arg)
         {
             if (m_csc != null)
-            m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
+                m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
         }
 
         protected sealed override bool OnContextMenu(int x, int y)
@@ -54,7 +54,7 @@ namespace A4GasUtilities
             if (m_csc != null)
                 m_csc.Refresh(hDC);
         }
-
+        
         //int translations
         private int mousebutton2int(MouseEventArgs arg)
         {
@@ -347,31 +347,38 @@ namespace A4GasUtilities
         #region Tool input overriding methods
         protected sealed override void OnMouseDown(MouseEventArgs arg)
         {
-            m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseMove(MouseEventArgs arg)
         {
-            m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseUp(MouseEventArgs arg)
         {
-            m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnKeyDown(KeyEventArgs arg)
         {
-            m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
+            if (m_csc != null)
+                m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
         }
         protected sealed override void OnKeyUp(KeyEventArgs arg)
         {
-            m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
+            if (m_csc != null)
+                m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
         }
 
         protected sealed override bool OnContextMenu(int x, int y)
         {
-            return m_csc.OnContextMenu(x, y);
+            if (m_csc != null)
+                return m_csc.OnContextMenu(x, y);
+            else return false;
         }
 
         protected sealed override void OnRefresh(int hDC)
@@ -510,31 +517,38 @@ namespace A4GasUtilities
         #region Tool input overriding methods
         protected sealed override void OnMouseDown(MouseEventArgs arg)
         {
-            m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseMove(MouseEventArgs arg)
         {
-            m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseUp(MouseEventArgs arg)
         {
-            m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnKeyDown(KeyEventArgs arg)
         {
-            m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
+            if (m_csc != null)
+                m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
         }
         protected sealed override void OnKeyUp(KeyEventArgs arg)
         {
-            m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
+            if (m_csc != null)
+                m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
         }
 
         protected sealed override bool OnContextMenu(int x, int y)
         {
-            return m_csc.OnContextMenu(x, y);
+            if (m_csc != null)
+                return m_csc.OnContextMenu(x, y);
+            else return false;
         }
 
         protected sealed override void OnRefresh(int hDC)
@@ -673,31 +687,38 @@ namespace A4GasUtilities
         #region Tool input overriding methods
         protected sealed override void OnMouseDown(MouseEventArgs arg)
         {
-            m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseMove(MouseEventArgs arg)
         {
-            m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseUp(MouseEventArgs arg)
         {
-            m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnKeyDown(KeyEventArgs arg)
         {
-            m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
+            if (m_csc != null)
+                m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
         }
         protected sealed override void OnKeyUp(KeyEventArgs arg)
         {
-            m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
+            if (m_csc != null)
+                m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
         }
 
         protected sealed override bool OnContextMenu(int x, int y)
         {
-            return m_csc.OnContextMenu(x, y);
+            if (m_csc != null)
+                return m_csc.OnContextMenu(x, y);
+            else return false;
         }
 
         protected sealed override void OnRefresh(int hDC)
@@ -835,31 +856,38 @@ namespace A4GasUtilities
         #region Tool input overriding methods
         protected sealed override void OnMouseDown(MouseEventArgs arg)
         {
-            m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseDown(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseMove(MouseEventArgs arg)
         {
-            m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseMove(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnMouseUp(MouseEventArgs arg)
         {
-            m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
+            if (m_csc != null)
+                m_csc.OnMouseUp(mousebutton2int(arg), mouseshift2int(arg), arg.X, arg.Y);
         }
 
         protected sealed override void OnKeyDown(KeyEventArgs arg)
         {
-            m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
+            if (m_csc != null)
+                m_csc.OnKeyDown((int)arg.KeyCode, keyshift2int(arg));
         }
         protected sealed override void OnKeyUp(KeyEventArgs arg)
         {
-            m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
+            if (m_csc != null)
+                m_csc.OnKeyUp((int)arg.KeyCode, keyshift2int(arg));
         }
 
         protected sealed override bool OnContextMenu(int x, int y)
         {
-            return m_csc.OnContextMenu(x, y);
+            if (m_csc != null)
+                return m_csc.OnContextMenu(x, y);
+            else return false;
         }
 
         protected sealed override void OnRefresh(int hDC)

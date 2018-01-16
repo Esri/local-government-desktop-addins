@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Esri")]
 [assembly: AssemblyProduct("AdressManagementFunctions")]
-[assembly: AssemblyCopyright("Copyright © Esri 2015")]
+[assembly: AssemblyCopyright("Copyright © ESRI 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

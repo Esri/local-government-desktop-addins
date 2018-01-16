@@ -2652,4 +2652,19 @@
   <data name="dynamicValueTableMissing" xml:space="preserve">
     <value>DynamicValue Table is required to activate the Attribute Assistant</value>
   </data>
+  <data name="errorOnIFeatureStore" xml:space="preserve">
+    <value>The edit was cancelled.  This is likely due to a rule defined in the Attribute Assistant, causing the edited feature to be invalid.</value>
+  </data>
+  <data name="templatePromptAlong" xml:space="preserve">
+    <value>Select a the template for {0} along the line.</value>
+  </data>
+  <data name="templatePromptBegin" xml:space="preserve">
+    <value>Select a the template for {0} at the beginning of the line.</value>
+  </data>
+  <data name="templatePromptEnd" xml:space="preserve">
+    <value>Select a the template for {0} at the end of the line.</value>
+  </data>
+  <data name="templatePrompt" xml:space="preserve">
+    <value>Select a the template for {0}.</value>
+  </data>
 </root>

@@ -281,12 +281,20 @@
     <Content Include="..\..\Configs\loaded.aa.config">
       <Link>loaded.aa.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
+    <AddInContent Include="Config.es-CL.xml">
+      <SubType>Designer</SubType>
+    </AddInContent>
+    <AddInContent Include="Config.es.xml">
+      <SubType>Designer</SubType>
+    </AddInContent>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\Configs\loaded.water.config">
       <Link>loaded.water.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

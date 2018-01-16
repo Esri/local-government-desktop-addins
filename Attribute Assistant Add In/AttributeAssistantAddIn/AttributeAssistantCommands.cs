@@ -1,6 +1,6 @@
 ﻿/*
- | Version 10.4
- | Copyright 2016 Esri
+ | Version 1.17.2018
+ | Copyright 2018 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -397,7 +397,7 @@ namespace ArcGIS4LocalGovernment
 
                         //Get list of feature layers
                         UID geoFeatureLayerID = new UIDClass();
-                        geoFeatureLayerID.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
+                        geoFeatureLayerID.Value = "{6CA416B1-E160-11D2-9F4E-00C04F6BC78E}";//"{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
                         IEnumLayer enumLayer = map.get_Layers(((ESRI.ArcGIS.esriSystem.UID)geoFeatureLayerID), true);
                         IFeatureLayer fLayer;
                         IFeatureSelection fSel;
@@ -413,7 +413,14 @@ namespace ArcGIS4LocalGovernment
                             while ((layer = enumLayer.Next()) != null)
                             {
                                 // Verify that this is a valid, visible layer and that this layer is editable
-                                fLayer = (IFeatureLayer)layer;
+                                if (layer is IFeatureLayer || layer is IAnnotationLayer)
+                                {
+                                    fLayer = (IFeatureLayer)layer;
+                                }
+                                else
+                                {
+                                    continue;
+                                }
 
                                 bool bIsEditableFabricLayer = (fLayer is ICadastralFabricSubLayer2);
                                 if (bIsEditableFabricLayer)
@@ -786,7 +793,7 @@ namespace ArcGIS4LocalGovernment
 
                         //Get list of feature layers
                         UID geoFeatureLayerID = new UIDClass();
-                        geoFeatureLayerID.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
+                        geoFeatureLayerID.Value = "{6CA416B1-E160-11D2-9F4E-00C04F6BC78E}";//"{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
                         IEnumLayer enumLayer = map.get_Layers(((ESRI.ArcGIS.esriSystem.UID)geoFeatureLayerID), true);
                         IFeatureLayer fLayer;
                         IFeatureSelection fSel;
@@ -800,7 +807,14 @@ namespace ArcGIS4LocalGovernment
                             while ((layer = enumLayer.Next()) != null)
                             {
                                 // Verify that this is a valid, visible layer and that this layer is editable
-                                fLayer = (IFeatureLayer)layer;
+                                if (layer is IFeatureLayer || layer is IAnnotationLayer)
+                                {
+                                    fLayer = (IFeatureLayer)layer;
+                                }
+                                else
+                                {
+                                    continue;
+                                }
                                 bool bIsEditableFabricLayer = (fLayer is ICadastralFabricSubLayer2);
                                 if (bIsEditableFabricLayer)
                                 {
@@ -1051,7 +1065,7 @@ namespace ArcGIS4LocalGovernment
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
-                        
+
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
                         ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -1091,7 +1105,7 @@ namespace ArcGIS4LocalGovernment
 
                         //Get list of feature layers
                         UID geoFeatureLayerID = new UIDClass();
-                        geoFeatureLayerID.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
+                        geoFeatureLayerID.Value = "{6CA416B1-E160-11D2-9F4E-00C04F6BC78E}";//"{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
                         IEnumLayer enumLayer = map.get_Layers(((ESRI.ArcGIS.esriSystem.UID)geoFeatureLayerID), true);
                         IFeatureLayer fLayer;
                         IFeatureSelection fSel;
@@ -1104,7 +1118,14 @@ namespace ArcGIS4LocalGovernment
                             while ((layer = enumLayer.Next()) != null)
                             {
                                 // Verify that this is a valid, visible layer and that this layer is editable
-                                fLayer = (IFeatureLayer)layer;
+                                //if (layer.GetType().Equals(typeof(ESRI.ArcGIS.Carto.IFeatureLayer))){
+                                if (layer is IFeatureLayer || layer is IAnnotationLayer)
+                                {
+                                    fLayer = (IFeatureLayer)layer;
+                                }
+                                else {
+                                    continue;
+                                }
                                 bool bIsEditableFabricLayer = (fLayer is ICadastralFabricSubLayer2);
                                 if (bIsEditableFabricLayer)
                                 {
@@ -1441,7 +1462,7 @@ namespace ArcGIS4LocalGovernment
                         A4LGSharedFunctions.Localizer.GetString("Confirm"), System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
 
-               
+
                         ESRI.ArcGIS.esriSystem.ITrackCancel trackCancel = new ESRI.ArcGIS.Display.CancelTrackerClass();
 
                         ESRI.ArcGIS.Framework.IProgressDialogFactory progressDialogFactory = new ESRI.ArcGIS.Framework.ProgressDialogFactoryClass();
@@ -1478,7 +1499,7 @@ namespace ArcGIS4LocalGovernment
 
                         //Get list of feature layers
                         UID geoFeatureLayerID = new UIDClass();
-                        geoFeatureLayerID.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
+                        geoFeatureLayerID.Value = "{6CA416B1-E160-11D2-9F4E-00C04F6BC78E}";//"{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";
                         IEnumLayer enumLayer = map.get_Layers(((ESRI.ArcGIS.esriSystem.UID)geoFeatureLayerID), true);
                         IFeatureLayer fLayer;
                         IFeatureSelection fSel;
@@ -1492,7 +1513,15 @@ namespace ArcGIS4LocalGovernment
                             while ((layer = enumLayer.Next()) != null)
                             {
                                 // Verify that this is a valid, visible layer and that this layer is editable
-                                fLayer = (IFeatureLayer)layer;
+                                if (layer is IFeatureLayer || layer is IAnnotationLayer)
+                                {
+                                    fLayer = (IFeatureLayer)layer;
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+
                                 bool bIsEditableFabricLayer = (fLayer is ICadastralFabricSubLayer2);
                                 if (bIsEditableFabricLayer)
                                 {
@@ -1543,7 +1572,7 @@ namespace ArcGIS4LocalGovernment
                                                 Debug.WriteLine(progressVal.ToString() + " : Count is " + fSel.SelectionSet.Count);
                                                 //feat.Shape = feat.Shape;
                                                 //feat.set_Value(0, feat.get_Value(0));
-                                               
+
                                                 AAState.FeatureCreate(pObj);
                                                 feat.Store();
                                             }
@@ -1596,7 +1625,7 @@ namespace ArcGIS4LocalGovernment
                         }
                         catch (Exception ex)
                         {
-               
+
                             editor.AbortOperation();
                             ran = false;
                             MessageBox.Show("RunCreateRule\n" + ex.ToString() + " \n" + lastLay + ": " + lastOID, ex.Source);
@@ -1731,7 +1760,7 @@ namespace ArcGIS4LocalGovernment
             finally
             {
                 AAState.triggerByTools = AAState.TriggerByToolsOptions.Edit;
-               
+
                 if (ran)
                     //  MessageBox.Show("Process has completed successfully");
 

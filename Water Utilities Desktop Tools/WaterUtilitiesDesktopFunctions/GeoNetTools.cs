@@ -1,6 +1,6 @@
 ﻿/*
- | Version 10.4
- | Copyright 2014 Esri
+ | Version 1.17.2018
+ | Copyright 2018 ESRI
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -3563,6 +3563,16 @@ namespace A4WaterUtilities
                     pProDFact = null;
                     return;
                 }
+
+                ISelectionEvents selEvents = null;
+                selEvents = (ISelectionEvents)((app.Document as IMxDocument).FocusMap);
+
+                if (selEvents != null)
+                {
+                    selEvents.SelectionChanged();
+
+
+                }
                 ((IMxDocument)app.Document).ActiveView.Refresh();
 
                 return;
@@ -6283,7 +6293,7 @@ namespace A4WaterUtilities
 
                 //Draw edge graphics
                 IEnvelope env = Globals.DrawEdges(ref map, ref gn, ref edgeEIDs);
-
+               
                 return edgeEIDs.Count.ToString();
 
 
@@ -7956,7 +7966,7 @@ namespace A4WaterUtilities
 
                     foreach (tapDetails tpDet in SewerColTap)
                     {
-                        double distDown;
+                        double distDown = 0.0;
                         if (tpDet.Added == true)
                             continue;
                         if (pFromPnt.X < pToPnt.X)
@@ -7966,8 +7976,14 @@ namespace A4WaterUtilities
                                 distDown = tpDet.M - pFromPnt.X;
 
                             }
-                            else
+                            else if (tpDet.M == pToPnt.X)
+                            {
+                                distDown = pSegment.Length;
+                            }
+                            else {
                                 continue;
+                            }
+                                
                         }
                         else
                         {
@@ -7976,26 +7992,34 @@ namespace A4WaterUtilities
                                 distDown = tpDet.M - pToPnt.X;
 
                             }
+                            else if (tpDet.M == pToPnt.X)
+                            {
+                                distDown = 0;
+                            }
                             else
+                            {
                                 continue;
+                            }
+                            //else
+                            //    distDown = tpDet.M;
                         }
-                        {
+                        
 
-                            pSegment.QueryPoint(esriSegmentExtension.esriNoExtension, distDown, false, pMidPnt);
-                            //if (pMidPnt.X == tpDet.M)
-                            //{
-                            pRowBuff = pTapTable.CreateRowBuffer();
-                            pRowBuff.set_Value(pRowBuff.Fields.FindField("ELEVATION"), pMidPnt.Y);//2
-                            pRowBuff.set_Value(pRowBuff.Fields.FindField("MEASURE"), tpDet.M);//3
-                            pRowBuff.set_Value(pRowBuff.Fields.FindField("FACILITYID"), tpDet.tapID);//4
-                            pRowBuff.set_Value(pRowBuff.Fields.FindField("LABEL"), tpDet.tapLabel);//4
-                            //pRowBuff.set_Value(pRowBuff.Fields.FindField("LABEL"), mainDetail.Label);//4
-                            pTapCursor.InsertRow(pRowBuff);
-                            tpDet.Added = true;
+                        pSegment.QueryPoint(esriSegmentExtension.esriNoExtension, distDown, false, pMidPnt);
+                        //if (pMidPnt.X == tpDet.M)
+                        //{
+                        pRowBuff = pTapTable.CreateRowBuffer();
+                        pRowBuff.set_Value(pRowBuff.Fields.FindField("ELEVATION"), pMidPnt.Y);//2
+                        pRowBuff.set_Value(pRowBuff.Fields.FindField("MEASURE"), tpDet.M);//3
+                        pRowBuff.set_Value(pRowBuff.Fields.FindField("FACILITYID"), tpDet.tapID);//4
+                        pRowBuff.set_Value(pRowBuff.Fields.FindField("LABEL"), tpDet.tapLabel);//4
+                        //pRowBuff.set_Value(pRowBuff.Fields.FindField("LABEL"), mainDetail.Label);//4
+                        pTapCursor.InsertRow(pRowBuff);
+                        tpDet.Added = true;
                             //SewerColTap.Remove(tpDet);
 
                             // }
-                        }
+                        
                     }
 
 

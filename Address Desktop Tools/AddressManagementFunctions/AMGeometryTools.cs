@@ -1,6 +1,6 @@
 ﻿/*
- | Version 10.4
- | Copyright 2016 Esri
+ | Version 1.17.2018
+ | Copyright 2018 Esri
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -765,7 +765,8 @@ namespace A4LGAddressManagement
                             {
                                 IEditTemplate pEditTemp;
                                 //pEditTemp = Globals.PromptAndGetEditTemplate(app, pointLayer, createPointDet.ReferencePointEditTemplate.Trim());
-                                pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pointLayer, createPointDet.ReferencePointEditTemplate.Trim());
+                                pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pointLayer, createPointDet.ReferencePointEditTemplate.Trim(),
+                                String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), pointLayer.Name));
                                 pPointFeat = Globals.CreateFeature(pPnt, pEditTemp, pEditor, app, false, false, true);
                                 pEditTemp = null;
                             }

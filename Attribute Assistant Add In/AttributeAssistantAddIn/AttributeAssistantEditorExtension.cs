@@ -1,6 +1,6 @@
 ﻿/*
- | Version 10.4
- | Copyright 2014 Esri
+ | Version 1.17.2018
+ | Copyright 2018 ESRI
  |
  | Licensed under the Apache License, Version 2.0 (the "License");
  | you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ namespace ArcGIS4LocalGovernment
     }
     public static class AAState
     {
-        public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature, Start, End }
+        public enum intersectOptions { Centroid, PromptMulti, First, Last, Feature, Start, End, Highest }
         public static ESRI.ArcGIS.esriSystem.IPropertySet2 lastValueProperties;
         public static string _filePath = "";
         public enum TriggerByToolsOptions { Edit, Create, Change, Geo, Manual }
@@ -149,7 +149,7 @@ namespace ArcGIS4LocalGovernment
         public static Dictionary<int, ITable> _fabricInMemTablesLookUp;
         public static bool _CheckEnvelope = false;
         public static bool _bypassEditOperationCheck = false;
-
+        public static bool _onCreateWhenSplit = false;
         // Declare configuration variables 
         public static string _defaultsTableName = "DynamicValue";
         public static string _sequenceTableName = "GenerateId";
@@ -291,9 +291,9 @@ namespace ArcGIS4LocalGovernment
 
             if (_dt == null)
             {
-
                 return false;
             }
+
             _dv = new DataView(_dt);
             _gentab = Globals.FindTable(ArcMap.Document.FocusMap, _sequenceTableName);
 
@@ -308,8 +308,13 @@ namespace ArcGIS4LocalGovernment
         }
         public static void initDynTable()
         {
-            _dt = getConfigDataTable();
-
+            DataTable temp_dt;
+            temp_dt = getConfigDataTable();
+            if (temp_dt != null)
+            {
+                _dt = temp_dt;
+            }
+            temp_dt = null;
 
         }
         private static DataTable getConfigDataTable()
@@ -368,7 +373,8 @@ namespace ArcGIS4LocalGovernment
             }
             catch (Exception ex)
             {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain0") + ex.ToString());
+                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain0") + ex.ToString());
+                //MessageBox.Show();
                 return null;
             }
         }
@@ -387,7 +393,7 @@ namespace ArcGIS4LocalGovernment
             }
 
         }
-        public static void createLastValuePropertySet()
+        public static void createLastValuePropertySet(bool clear = false)
         {
             try
             {
@@ -395,7 +401,7 @@ namespace ArcGIS4LocalGovernment
                     return;
 
                 object nullObject = null;
-                if (AAState.lastValueProperties == null || _clearLastValue == true)
+                if (AAState.lastValueProperties == null || _clearLastValue == true || clear)
                 {
                     AAState.lastValueProperties = new PropertySetClass();
                 }
@@ -433,7 +439,7 @@ namespace ArcGIS4LocalGovernment
                     }
                     else
                     {
-                        if (_clearLastValue)
+                        if (_clearLastValue || clear)
                         {
                             LastValueEntry lstV = new LastValueEntry();
                             lstV.Value = nullObject;
@@ -467,7 +473,7 @@ namespace ArcGIS4LocalGovernment
                             else
                             {
                                 args = valData.Split('|');
-                                if (args.Length == 2)
+                                if (args.Length >= 2)
                                 {
                                     nullObject = args[1] as System.Object;
 
@@ -992,7 +998,8 @@ namespace ArcGIS4LocalGovernment
             }
         }
         public static bool _clearLastValue = false;
-
+        public static bool _clearLastValueStopEdit = false;
+        public static string _generateIDStoreProceName = null;
     }
 
     public class AttributeAssistantEditorExtension : ESRI.ArcGIS.Desktop.AddIns.Extension
@@ -1044,6 +1051,7 @@ namespace ArcGIS4LocalGovernment
 
         private bool _enabledOnStart = true;
 
+        private bool _enabledOnStartEditing = false;
         private IFeatureLayer intersectLayer;
         private bool boolLayerOrFC = false;
         private IStandaloneTable intersectTable;
@@ -1092,20 +1100,33 @@ namespace ArcGIS4LocalGovernment
             AAState._sequenceTableName = ConfigUtil.GetConfigValue("AttributeAssistant_GenerateId_TableName", AAState._sequenceTableName);
             AAState._CheckEnvelope = ConfigUtil.GetConfigValue("AttributeAssistant_CheckEnvelope ", AAState._CheckEnvelope);
             _enabledOnStart = ConfigUtil.GetConfigValue("AttributeAssistant_EnabledOnStartUp", _enabledOnStart);
+            _enabledOnStartEditing = ConfigUtil.GetConfigValue("AttributeAssistant_EnabledOnStartEditing", _enabledOnStartEditing);
             _agsOnlineLocators = ConfigUtil.GetConfigValue("Geocoder", _agsOnlineLocators);
             if (_agsOnlineLocators[_agsOnlineLocators.Length - 1] == '/')
             {
                 _agsOnlineLocators = _agsOnlineLocators.Substring(0, _agsOnlineLocators.Length - 1);
             }
-            if (ConfigUtil.GetConfigValue("AttributeAssistant_ClearLastValue", _agsOnlineLocators).ToUpper() == "TRUE")
+            if (ConfigUtil.GetConfigValue("AttributeAssistant_ClearLastValue", "FALSE").ToUpper() == "TRUE")
                 AAState._clearLastValue = true;
             else
                 AAState._clearLastValue = false;
+
+            if (ConfigUtil.GetConfigValue("AttributeAssistant_ClearLastValueStopEdit", "FALSE").ToUpper() == "TRUE")
+                AAState._clearLastValueStopEdit = true;
+            else
+                AAState._clearLastValueStopEdit = false;
 
             if (ConfigUtil.GetConfigValue("BypassEditOperationCheck", "FALSE").ToUpper() == "TRUE")
                 AAState._bypassEditOperationCheck = true;
             else
                 AAState._bypassEditOperationCheck = false;
+
+            if (ConfigUtil.GetConfigValue("OnCreateWhenSplit", "FALSE").ToUpper() == "TRUE")
+                AAState._onCreateWhenSplit = true;
+            else
+                AAState._onCreateWhenSplit = false;
+
+            AAState._generateIDStoreProceName = (ConfigUtil.GetConfigValue("GenerateIDStoreProceName", null));
 
             AAState._seqNameField = ConfigUtil.GetConfigValue("SequenceName", AAState._seqNameField);
             AAState._seqCounterField = ConfigUtil.GetConfigValue("SequenceCounter", AAState._seqCounterField);
@@ -1233,11 +1254,11 @@ namespace ArcGIS4LocalGovernment
 
             //Wire editor events.
             AAState._editEvents = (IEditEvents_Event)_editor;
-            AAState._editEvents.OnStartEditing += OnStartEditing;
-
-
-            AAState._editEvents.OnStopEditing += OnStopEditing;
             AAState._editEvents2 = (IEditEvents2_Event)_editor;// SG Jan 2003-
+            AAState._editEvents.OnStartEditing += OnStartEditing;
+            AAState._editEvents.OnStopEditing += OnStopEditing;
+            AAState._editEvents2.OnSaveEdits += OnSaveEditing;
+
 
             try
             {
@@ -1382,9 +1403,10 @@ namespace ArcGIS4LocalGovernment
 
                         //Wire editor events.
                         AAState._editEvents = (IEditEvents_Event)AAState._editor;
+                        AAState._editEvents2 = (IEditEvents2_Event)AAState._editor;// SG Jan 2003
                         AAState._editEvents.OnStartEditing -= OnStartEditing;
                         AAState._editEvents.OnStopEditing -= OnStopEditing;
-                        AAState._editEvents2 = (IEditEvents2_Event)AAState._editor;// SG Jan 2003
+                        AAState._editEvents2.OnSaveEdits -= OnSaveEditing;
                         //AAState._editor = null;
                         //AAState._editEvents = null;
                         //AAState._editEvents2 = null;  // SG Jan 2003
@@ -1403,11 +1425,8 @@ namespace ArcGIS4LocalGovernment
                 catch { }
             }
 
-            catch (Exception ex)
-            {
-                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain5") + ex.ToString());
-
-            }
+            catch
+            { }
         }
         protected override bool OnSetState(ESRI.ArcGIS.Desktop.AddIns.ExtensionState state)
         {
@@ -1491,9 +1510,20 @@ namespace ArcGIS4LocalGovernment
 
             try
             {
+                //Start editing is a result of a save, as a save stops editing and saves
+                if (SaveClicked == true)
+                {
+                    SaveClicked = false;
+                    return;
+                }
                 AAState.initDynTable();
 
-
+                if (AAState.PerformUpdates == false && this._enabledOnStartEditing)
+                {
+                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantMess_1b"));
+                    AAState.PerformUpdates = true;
+                    AAState.initEditing();
+                }
 
                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_11a"));
                 if (AAState.PerformUpdates && AAState.Debug().ToUpper() == "TRUE")
@@ -1535,10 +1565,22 @@ namespace ArcGIS4LocalGovernment
         }
         private void OnStopEditing(Boolean save)
         {
+            if (SaveClicked == true)
+            {
+                return;
+            }
             UnInitFabricState();
+            if (AAState._clearLastValueStopEdit == true)
+            {
+                AAState.createLastValuePropertySet(true);
+            }
         }
+        private bool SaveClicked = false;
+        private void OnSaveEditing()
+        {
+            SaveClicked = true;
 
-
+        }
         private void OnChangeGeoFeature(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
 
@@ -1806,6 +1848,22 @@ namespace ArcGIS4LocalGovernment
                     _LastMode = "";
                     _LastFC = "";
                     return;
+                }
+                if (AAState._onCreateWhenSplit == true)
+                {
+                    // SG Jun 2017 - add a check that will trigger on_create when splitting/cutting features
+                    IApplication _myApp = ArcMap.Application;
+                    string name = _myApp.CurrentTool.Name;
+                    // The even more solid logic here would be the 2nd last OID == inObject.OID
+                    // but checking the current tool does a good job indicating the source of the onChangeGeo event
+                    if (_LastOID != inObject.OID && mode == "ON_CHANGEGEO" && _LastFC == inObject.Class.AliasName && (name == "Editor_SplitTool" || name == "Editor_CutPolygonsTool"))
+                    {
+                        string changes = "";
+                        changes = "This: " + inObject.OID.ToString() + " Last: " + _LastOID.ToString() + " - " + mode;
+                        AAState.WriteLine("Change mode from ON_CHANGEGEO to ON_CREATE for " + name + ": " + changes);
+                        mode = "ON_CREATE";
+                        //sendEvent(inObject, "ON_CREATE");
+                    }
                 }
                 _LastOID = inObject.OID;
                 _LastMode = mode;
@@ -2265,6 +2323,8 @@ namespace ArcGIS4LocalGovernment
 
         public bool SetDynamicValues(IObject inObject, string mode, out List<IObject> ChangeFeatureList, out List<IObject> NewFeatureList, out List<IObject> ChangeFeatureGeoList)
         {
+            bool storeObject = false;
+
             NumberFormatInfo nfi = new CultureInfo(A4LGSharedFunctions.Localizer.GetString("AA_CultureInfo"), false).NumberFormat;
             nfi.NumberGroupSeparator = "";
             nfi.NumberDecimalSeparator = ".";
@@ -2437,57 +2497,95 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14k") + "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND VALUEMETHOD = 'Last_Value'");
                     AAState._dv.RowFilter = "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND VALUEMETHOD = 'Last_Value'";
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14l") + AAState._dv.Count.ToString());
-
+                    bool UpdateValueOnCreate = true;
                     if (AAState._dv.Count > 0)
                     {
                         IRowChanges pRowChLast = inObject as IRowChanges;
                         for (int retRows = 0; retRows < AAState._dv.Count; retRows++)
                         {
+                            UpdateValueOnCreate = true;
                             DataRowView drv = AAState._dv[retRows];
                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14m") + drv["FIELDNAME"].ToString());
 
-                            int fldLoc = inObject.Fields.FindField(drv["FIELDNAME"].ToString());
-
-                            if (fldLoc > 0)
+                            //Check the value info to determine if the last value array entry should be changed on create.  This will bypass values in an edit template and values add from a split operation
+                            string valDataTemp = drv["VALUEINFO"].ToString().Trim();
+                            if (valDataTemp.Contains(Environment.NewLine))
                             {
-                                AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14n") + fldLoc);
-
-                                if (pRowChLast.get_ValueChanged(fldLoc))
+                                valDataTemp = valDataTemp.Substring(0, valDataTemp.IndexOf(Environment.NewLine));
+                            }
+                            if (!String.IsNullOrEmpty(valDataTemp))
+                            {
+                                args = valDataTemp.Split('|');
+                                if (args.Length == 3)
                                 {
-                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14o"));
-
-                                    try
+                                    if (args[2].ToString().ToUpper() == "FALSE" && mode == "ON_CREATE")
                                     {
-                                        LastValueEntry lstVal = (AAState.lastValueProperties.GetProperty(drv["FIELDNAME"].ToString()) as LastValueEntry);
+                                        UpdateValueOnCreate = false;
+                                    }
+                                }
 
-                                        if (lstVal != null)
+                            }
+                            if (UpdateValueOnCreate == true)
+                            {
+                                int fldLoc = inObject.Fields.FindField(drv["FIELDNAME"].ToString());
+
+                                if (fldLoc > 0)
+                                {
+                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14n") + fldLoc);
+
+                                    if (pRowChLast.get_ValueChanged(fldLoc))
+                                    {
+                                        AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14o"));
+
+                                        try
                                         {
+                                            LastValueEntry lstVal = (AAState.lastValueProperties.GetProperty(drv["FIELDNAME"].ToString()) as LastValueEntry);
 
-
-                                            if (inObject.get_Value(fldLoc) != null)
+                                            if (lstVal != null)
                                             {
-                                                if (inObject.get_Value(fldLoc) != DBNull.Value)
+
+
+                                                if (inObject.get_Value(fldLoc) != null)
                                                 {
-
-
-                                                    if (lstVal.Value != null)
+                                                    if (inObject.get_Value(fldLoc) != DBNull.Value)
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
-                                                        AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc).ToString());
-                                                        lstVal.Value = inObject.get_Value(fldLoc);
 
-                                                        AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+
+                                                        if (lstVal.Value != null)
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
+                                                            AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc).ToString());
+                                                            lstVal.Value = inObject.get_Value(fldLoc);
+
+                                                            AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+                                                        }
+
+                                                        else
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
+                                                            AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc));
+                                                            lstVal.Value = inObject.get_Value(fldLoc);
+
+                                                            AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+                                                        }
+
                                                     }
-
                                                     else
                                                     {
-                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
-                                                        AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": " + inObject.get_Value(fldLoc));
-                                                        lstVal.Value = inObject.get_Value(fldLoc);
+                                                        if (mode == "ON_CREATE")
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14q"));
 
-                                                        AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+                                                        }
+                                                        else
+                                                        {
+                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
+                                                            AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": NULL");
+                                                            lstVal.Value = null;
+                                                            AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+                                                        }
+
                                                     }
-
                                                 }
                                                 else
                                                 {
@@ -2502,57 +2600,41 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": NULL");
                                                         lstVal.Value = null;
                                                         AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
-                                                    }
 
+                                                    }
                                                 }
+
                                             }
                                             else
                                             {
-                                                if (mode == "ON_CREATE")
-                                                {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14q"));
+                                                lstVal = new LastValueEntry();
+                                                lstVal.Value = inObject.get_Value(fldLoc);
 
-                                                }
-                                                else
+                                                lstVal.On_Manual = Globals.toBoolean(drv["ON_MANUAL"].ToString());
+                                                lstVal.On_Create = Globals.toBoolean(drv["ON_CREATE"].ToString());
+                                                lstVal.On_ChangeAtt = Globals.toBoolean(drv["ON_CHANGE"].ToString());
+                                                if (drv["ON_CHANGEGEO"] != null)
                                                 {
-                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14p"));
-                                                    AAState.WriteLine("                           " + drv["FIELDNAME"].ToString() + ": NULL");
-                                                    lstVal.Value = null;
-                                                    AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
-
+                                                    lstVal.On_ChangeGeo = Globals.toBoolean(drv["ON_CHANGEGEO"].ToString());
                                                 }
+                                                AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
+
                                             }
 
                                         }
-                                        else
+                                        catch
                                         {
-                                            lstVal = new LastValueEntry();
-                                            lstVal.Value = inObject.get_Value(fldLoc);
 
-                                            lstVal.On_Manual = Globals.toBoolean(drv["ON_MANUAL"].ToString());
-                                            lstVal.On_Create = Globals.toBoolean(drv["ON_CREATE"].ToString());
-                                            lstVal.On_ChangeAtt = Globals.toBoolean(drv["ON_CHANGE"].ToString());
-                                            if (drv["ON_CHANGEGEO"] != null)
-                                            {
-                                                lstVal.On_ChangeGeo = Globals.toBoolean(drv["ON_CHANGEGEO"].ToString());
-                                            }
-                                            AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstVal);
 
                                         }
 
+
                                     }
-                                    catch
+                                    else
                                     {
-
+                                        AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14r"));
 
                                     }
-
-
-                                }
-                                else
-                                {
-                                    AAState.WriteLine("       " + drv["FIELDNAME"].ToString() + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14r"));
-
                                 }
                             }
                         }
@@ -2560,12 +2642,6 @@ namespace ArcGIS4LocalGovernment
                         pRowChLast = null;
 
                     }
-
-
-
-
-
-
 
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14s") + inObject.Class.AliasName);
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14k") + "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND " + modeVal);
@@ -3053,7 +3129,7 @@ namespace ArcGIS4LocalGovernment
                                                 IRowChanges pRowCh = null;
                                                 if (valData != null)
                                                 {
-                                                    
+
 
                                                     args = valData.Split('|');
 
@@ -3081,7 +3157,7 @@ namespace ArcGIS4LocalGovernment
                                                             continue;
                                                     }
 
-                                                    
+
                                                     IDocumentInfo2 pDocInfo = (IDocumentInfo2)(ArcMap.Document as IMapDocument);
                                                     string resultValue = null;
                                                     switch (valType.ToUpper())
@@ -3137,7 +3213,7 @@ namespace ArcGIS4LocalGovernment
 
                                                     if (resultValue != null)
                                                     {
-                                                    
+
                                                         if (fieldToStoreResults >= 0)
                                                         {
                                                             IField pTarField = inObject.Fields.get_Field(fieldToStoreResults);
@@ -3193,6 +3269,7 @@ namespace ArcGIS4LocalGovernment
 
                                             try
                                             {
+
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FIELD_TRIGGER");
                                                 if (inObject != null & valData != null)
                                                 {
@@ -3230,7 +3307,12 @@ namespace ArcGIS4LocalGovernment
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                         continue;
                                                     }
-                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]))
+                                                    //if (pRowCh.get_ValueChanged(intFldIdxs[0]))
+                                                    if (pRowCh.get_ValueChanged(intFldIdxs[0]) == true || mode == "ON_MANUAL" ||
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Manual ||
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Geo ||
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Change ||
+                                                        AAState.triggerByTools == AAState.TriggerByToolsOptions.Create)
                                                     {
                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ax"));
                                                         if (inObject.get_Value(intFldIdxs[0]).ToString() == valToCheck)
@@ -3244,8 +3326,17 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             try
                                                             {
-                                                                inObject.set_Value(chngFldIdx, valToSet);
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
+                                                                if (valToSet == "<Null>")
+                                                                {
+                                                                    inObject.set_Value(chngFldIdx, DBNull.Value);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
+                                                                }
+                                                                else
+                                                                {
+                                                                    inObject.set_Value(chngFldIdx, valToSet);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
+                                                                }
+
                                                             }
                                                             catch
                                                             {
@@ -3275,6 +3366,7 @@ namespace ArcGIS4LocalGovernment
                                                 IRowChanges pRowCh = null;
                                                 ISQLSyntax sqlSyntax = null;
                                                 IQueryFilter pQFilt = null;
+                                                IDisplayTable displayTable = null;
                                                 try
                                                 {
                                                     if ((valData != null) && (inObject != null))
@@ -3382,7 +3474,43 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             else
                                                             {
-                                                                pTbl = Globals.FindStandAloneTable(AAState._editor.Map, sourceLayerName) as IStandaloneTable;
+
+
+                                                                if (sourceLayerName.Contains("("))
+                                                                {
+                                                                    string[] tempSplt = sourceLayerName.Split('(');
+                                                                    sourceLayerName = tempSplt[0];
+                                                                    pTbl = Globals.FindTableLayerOrFC(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC) as IStandaloneTable;
+                                                                    if (tempSplt[1].ToUpper().Contains("LAYER)"))
+                                                                    {
+                                                                        boolLayerOrFC = true;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURELAYER)"))
+                                                                    {
+                                                                        boolLayerOrFC = true;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURECLASS)"))
+                                                                    {
+                                                                        boolLayerOrFC = false;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("CLASS)"))
+                                                                    {
+                                                                        boolLayerOrFC = false;
+                                                                    }
+                                                                    else if (tempSplt[1].ToUpper().Contains("FEATURE)"))
+                                                                    {
+                                                                        boolLayerOrFC = false;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        boolLayerOrFC = true;
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    pTbl = Globals.FindTableLayerOrFC(AAState._editor.Map, sourceLayerName, ref boolLayerOrFC) as IStandaloneTable;
+                                                                }
+
 
                                                                 if (pTbl != null)
                                                                 {
@@ -3391,7 +3519,6 @@ namespace ArcGIS4LocalGovernment
                                                                         pFlds = pTbl.Table.Fields;
                                                                         pDs = pTbl.Table as IDataset;
                                                                         layNameFnd = pTbl.Name;
-
                                                                         matchingLayFnd = true;
                                                                     }
                                                                 }
@@ -3490,11 +3617,27 @@ namespace ArcGIS4LocalGovernment
                                                             int intRecFound = 0;
                                                             if (sourceLayer == null)
                                                             {
-                                                                intRecFound = pTbl.Table.RowCount(pQFilt);
+                                                                if (boolLayerOrFC)
+                                                                {
+
+                                                                    intRecFound = pTbl.Table.RowCount(pQFilt);
+                                                                }
+                                                                else
+                                                                {
+                                                                    intRecFound = pTbl.Table.RowCount(pQFilt);
+                                                                }
+
                                                             }
                                                             else
                                                             {
-                                                                intRecFound = sourceLayer.FeatureClass.FeatureCount(pQFilt);
+                                                                if (boolLayerOrFC)
+                                                                {
+                                                                    intRecFound = sourceLayer.FeatureClass.FeatureCount(pQFilt);
+                                                                }
+                                                                else
+                                                                {
+                                                                    intRecFound = sourceLayer.FeatureClass.FeatureCount(pQFilt);
+                                                                }
                                                             }
 
                                                             AAState.WriteLine("                  " + intRecFound + " rows found using " + sqlString);
@@ -3503,9 +3646,6 @@ namespace ArcGIS4LocalGovernment
                                                             {
 
                                                                 pQFilt.WhereClause = sqlStringUpper;
-
-
-
                                                                 AAState.WriteLine("                  " + pQFilt.WhereClause + " used to search for matching record");
                                                                 if (sourceLayer == null)
                                                                 {
@@ -3515,29 +3655,42 @@ namespace ArcGIS4LocalGovernment
                                                                 {
                                                                     intRecFound = sourceLayer.FeatureClass.FeatureCount(pQFilt);
                                                                 }
-                                                                AAState.WriteLine("                  " + intRecFound + " rows found");
-
+                                                                AAState.WriteLine("                  " + intRecFound + " rows found on the feature class");
 
                                                                 if (intRecFound == 0)
                                                                 {
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
                                                                     AAState._editor.AbortOperation();
                                                                     return false;
-
-
                                                                 }
-
                                                                 else
                                                                 {
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain20"));
                                                                     ICursor pCurs = null;
                                                                     if (sourceLayer == null)
                                                                     {
-                                                                        pCurs = pTbl.Table.Search(pQFilt, true);
+                                                                        if (boolLayerOrFC)
+                                                                        {
+                                                                            displayTable = (IDisplayTable)pTbl;
+                                                                            //ITableDefinition tblDef = (ITableDefinition)pTbl;
+                                                                            pCurs = displayTable.SearchDisplayTable(pQFilt, true);
+                                                                            //pCurs = pTbl.Table.Search(pQFilt, true);
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            pCurs = pTbl.Table.Search(pQFilt, true);
+                                                                        }
                                                                     }
                                                                     else
                                                                     {
-                                                                        pCurs = sourceLayer.FeatureClass.Search(pQFilt, true) as ICursor;
+                                                                        if (boolLayerOrFC)
+                                                                        {
+                                                                            pCurs = sourceLayer.Search(pQFilt, true) as ICursor;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            pCurs = sourceLayer.FeatureClass.Search(pQFilt, true) as ICursor;
+                                                                        }
                                                                     }
 
                                                                     pQFilt = null;
@@ -3547,13 +3700,19 @@ namespace ArcGIS4LocalGovernment
                                                                     if (pCurs != null)
                                                                         Marshal.ReleaseComObject(pCurs);
                                                                     pCurs = null;
-
+                                                                    if (pLst.Count == 0)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
+                                                                        AAState._editor.AbortOperation();
+                                                                        return false;
+                                                                    }
                                                                     string disFld = "";
                                                                     for (int j = 0; j < sourceFieldNames.Length; j++)
                                                                     {
                                                                         disFld = disFld == "" ? sourceFieldNames[j] : disFld + "|" + sourceFieldNames[j];
 
                                                                     }
+
                                                                     string selectVal = Globals.showOptionsForm(pLst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
                                                                     if (selectVal == "||Cancelled||" && valueIsNull == true)
                                                                     { }
@@ -3676,7 +3835,9 @@ namespace ArcGIS4LocalGovernment
                                                             if (flx > 0)
                                                             {
                                                                 inObject.set_Value(flx, pRowCh.get_OriginalValue(intFldIdxs[0]));
-                                                                inObject.Store();
+                                                                //inObject.Store();
+                                                                //Changing store to be called at the end of the rules to ensure change events are properly handled
+                                                                storeObject = true;
 
                                                             }
                                                         }
@@ -5794,6 +5955,7 @@ namespace ArcGIS4LocalGovernment
                                                 string targetValue;
                                                 IRowChanges pRowCh = null;
                                                 IFeature pNewFeat = null;
+                                                IField pTarField = null;
                                                 try
                                                 {
 
@@ -5801,9 +5963,6 @@ namespace ArcGIS4LocalGovernment
                                                     if ((valData != null) && (inFeature != null))
                                                     {
                                                         AAState.WriteLine("                     " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cb"));
-
-
-
                                                         AAState.WriteLine("                     " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ca") + valData);
                                                         //field name is the field to Check
                                                         //value|Layer|tempalte|Cut or Copy|field-toField
@@ -5846,8 +6005,6 @@ namespace ArcGIS4LocalGovernment
                                                             continue;
                                                         }
 
-
-
                                                         if (pTargetFL.FeatureClass.ShapeType != (inFeature.Class as IFeatureClass).ShapeType)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "COPY_FEATURE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bf"));
@@ -5870,7 +6027,8 @@ namespace ArcGIS4LocalGovernment
                                                             case 3:
                                                                 if (args[2].Trim() != "")
                                                                 {
-                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim());
+                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim(),
+                                                                    String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), pTargetFL.Name));
 
                                                                 }
                                                                 else
@@ -5882,7 +6040,8 @@ namespace ArcGIS4LocalGovernment
                                                                 if (args[2].Trim() != "")
                                                                 {
 
-                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim());
+                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim(),
+                                                                    String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), pTargetFL.Name));
                                                                 }
                                                                 else
                                                                 {
@@ -5895,7 +6054,8 @@ namespace ArcGIS4LocalGovernment
                                                                 if (args[2].Trim() != "")
                                                                 {
 
-                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim());
+                                                                    pEditTemp = Globals.PromptAndGetEditTemplateGraphic(pTargetFL, args[2].Trim(),
+                                                                        String.Format(A4LGSharedFunctions.Localizer.GetString("templatePrompt"), pTargetFL.Name));
                                                                 }
                                                                 else
                                                                 {
@@ -5951,29 +6111,65 @@ namespace ArcGIS4LocalGovernment
                                                                 string strTarFldName = fldMatch[1];
                                                                 int intSrcFldIdx = Globals.GetFieldIndex((inFeature.Class as IFeatureClass).Fields, (strSrcFldName));
                                                                 int intTarFldIdx = Globals.GetFieldIndex(pTargetFL.FeatureClass.Fields, strTarFldName);
-                                                                if (intSrcFldIdx == -1 || intTarFldIdx == -1)
+                                                                if (intTarFldIdx == -1)
                                                                 {
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "COPY_FEATURE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bc"));
                                                                 }
                                                                 else
                                                                 {
+                                                                    //Add target field to field list so it is not overwritten by matching source field
                                                                     targFilds.Add(strTarFldName.ToUpper());
-
-                                                                    try
+                                                                    //If the source field was found, use the value from that field, else use the valve as is
+                                                                    if (intSrcFldIdx != -1)
                                                                     {
-                                                                        pNewFeat.set_Value(intTarFldIdx, inFeature.get_Value(intSrcFldIdx));
-                                                                    }
-                                                                    catch
-                                                                    {
-                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "COPY_FEATURE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bb") + strFlpPair);
+                                                                        try
+                                                                        {
+                                                                            pNewFeat.set_Value(intTarFldIdx, inFeature.get_Value(intSrcFldIdx));
+                                                                        }
+                                                                        catch
+                                                                        {
+                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "COPY_FEATURE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bb") + strFlpPair);
 
+                                                                        }
                                                                     }
+                                                                    else
+                                                                    {
+                                                                        try
+                                                                        {
+                                                                            pTarField = pTargetFL.FeatureClass.Fields.get_Field(intTarFldIdx);
+                                                                            if (pTarField.Type == esriFieldType.esriFieldTypeDouble ||
+                                                                                pTarField.Type == esriFieldType.esriFieldTypeSingle)
+                                                                            {
+                                                                                double dblToSet;
+                                                                                Double.TryParse(strSrcFldName, out dblToSet);
+                                                                                pNewFeat.set_Value(intTarFldIdx, dblToSet);
+                                                                            }
+                                                                            else if (pTarField.Type == esriFieldType.esriFieldTypeInteger ||
+                                                                                pTarField.Type == esriFieldType.esriFieldTypeSmallInteger)
+                                                                            {
+                                                                                int intToSet;
+                                                                                Int32.TryParse(strSrcFldName, out intToSet);
+                                                                                pNewFeat.set_Value(intTarFldIdx, intToSet);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                pNewFeat.set_Value(intTarFldIdx, strSrcFldName);
+                                                                            }
+
+                                                                        }
+                                                                        catch
+                                                                        {
+                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "COPY_FEATURE: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14bb") + strFlpPair);
+
+                                                                        }
+                                                                    }
+
                                                                 }
 
                                                             }
                                                         }
                                                         IFields pTarFields = pTargetFL.FeatureClass.Fields;
-                                                        IField pTarField = null;
+
                                                         for (int i = 0; i < pTarFields.FieldCount; i++)
                                                         {
                                                             pTarField = pTarFields.get_Field(i);
@@ -6069,6 +6265,7 @@ namespace ArcGIS4LocalGovernment
                                                             AAState.WriteLine("                     " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ca") + valData);
 
                                                             args = valData.Split('|');
+
                                                             int connectionCnt = Globals.getConnectionCount(inFeature);
 
                                                             foreach (string fldConPair in args)
@@ -6078,9 +6275,9 @@ namespace ArcGIS4LocalGovernment
                                                                 if (fldCon.Length == 1)
                                                                 {
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain51"));
-                                                                    if (Globals.IsNumeric(fldCon[0]))
+                                                                    if (Globals.IsNumeric(fldCon[0].ToString().Trim()))
                                                                     {
-                                                                        if (connectionCnt == Convert.ToInt32(fldCon[0]))
+                                                                        if (connectionCnt == Convert.ToInt32(fldCon[0].ToString().Trim()))
                                                                         {
                                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                             validFeat = true;
@@ -6101,7 +6298,7 @@ namespace ArcGIS4LocalGovernment
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain51"));
                                                                         if (fldCon.Length == 2)
                                                                         {
-                                                                            if (connectionCnt == Convert.ToInt32(fldCon[1]))
+                                                                            if (connectionCnt == Convert.ToInt32(fldCon[1].ToString().Trim()))
                                                                             {
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                                 validFeat = true;
@@ -6111,7 +6308,7 @@ namespace ArcGIS4LocalGovernment
                                                                         }
                                                                         if (fldCon.Length > 2)
                                                                         {
-                                                                            if (connectionCnt >= Convert.ToInt32(fldCon[1]) && connectionCnt <= Convert.ToInt32(fldCon[2]))
+                                                                            if (connectionCnt >= Convert.ToInt32(fldCon[1].ToString().Trim()) && connectionCnt <= Convert.ToInt32(fldCon[2].ToString().Trim()))
                                                                             {
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                                 validFeat = true;
@@ -6122,13 +6319,13 @@ namespace ArcGIS4LocalGovernment
 
                                                                     }
 
-                                                                    else if (inFeature.get_Value(intFldIdxs[0]).ToString() == fldCon[0])
+                                                                    else if (inFeature.get_Value(intFldIdxs[0]).ToString() == fldCon[0].ToString().Trim())
                                                                     {
 
 
                                                                         if (fldCon.Length == 2)
                                                                         {
-                                                                            if (connectionCnt == Convert.ToInt32(fldCon[1]))
+                                                                            if (connectionCnt == Convert.ToInt32(fldCon[1].ToString().Trim()))
                                                                             {
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                                 validFeat = true;
@@ -6138,7 +6335,7 @@ namespace ArcGIS4LocalGovernment
                                                                         }
                                                                         if (fldCon.Length > 2)
                                                                         {
-                                                                            if (connectionCnt >= Convert.ToInt32(fldCon[1]) && connectionCnt <= Convert.ToInt32(fldCon[2]))
+                                                                            if (connectionCnt >= Convert.ToInt32(fldCon[1].ToString().Trim()) && connectionCnt <= Convert.ToInt32(fldCon[2].ToString().Trim()))
                                                                             {
                                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain52"));
                                                                                 validFeat = true;
@@ -7276,8 +7473,8 @@ namespace ArcGIS4LocalGovernment
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain95"));
                                                     // Set the search tolerance for reverse geocoding.
                                                     reverseGeocodingProperties = (IReverseGeocodingProperties)reverseGeocoding;
-                                                    reverseGeocodingProperties.SearchDistance = 100;
-                                                    reverseGeocodingProperties.SearchDistanceUnits = esriUnits.esriFeet;
+                                                    reverseGeocodingProperties.SearchDistance = 1;
+                                                    reverseGeocodingProperties.SearchDistanceUnits = esriUnits.esriMiles;
                                                     reverseGeocoding.InitDefaults();
 
                                                     // Find the address nearest the Point.
@@ -7523,25 +7720,35 @@ namespace ArcGIS4LocalGovernment
 
                                                                         for (int h = 0; h < doc.DocumentElement.FirstChild.ChildNodes.Count - 1; h++)
                                                                         {
-                                                                            if (doc.DocumentElement.FirstChild.ChildNodes[h].Name.Contains("Match") == false)
+                                                                            if (doc.DocumentElement.FirstChild.ChildNodes[h].Name.ToLower() == "Match_Addr".ToLower())
                                                                             {
-                                                                                if (val == "")
-                                                                                {
-                                                                                    val = doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    if (val.EndsWith(","))
-                                                                                        val = val + " " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
-                                                                                    else
-                                                                                        val = val + ", " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
-
-                                                                                }
+                                                                                val = doc.DocumentElement.FirstChild.ChildNodes[h].InnerText.Trim();
+                                                                                break;
                                                                             }
-
-                                                                            val = val.Trim();
                                                                         }
+                                                                        if (val == "")
+                                                                        {
+                                                                            for (int h = 0; h < doc.DocumentElement.FirstChild.ChildNodes.Count - 1; h++)
+                                                                            {
+                                                                                if (doc.DocumentElement.FirstChild.ChildNodes[h].Name.Contains("Match") == false)
+                                                                                {
+                                                                                    if (val == "")
+                                                                                    {
+                                                                                        val = doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        if (val.EndsWith(","))
+                                                                                            val = val + " " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
+                                                                                        else
+                                                                                            val = val + ", " + doc.DocumentElement.FirstChild.ChildNodes[h].InnerText;
 
+                                                                                    }
+                                                                                }
+
+                                                                                val = val.Trim();
+                                                                            }
+                                                                        }
                                                                         inFeature.set_Value(intFldIdxs[0], val);
 
                                                                     }
@@ -8360,7 +8567,7 @@ namespace ArcGIS4LocalGovernment
                                                     if (!String.IsNullOrEmpty(valData))
                                                     {
                                                         args = valData.Split('|');
-                                                        if (args.Length == 1)
+                                                        if (args.Length >= 1)
                                                         {
 
                                                             if (args[0].ToUpper() == "TRUE")
@@ -11614,15 +11821,15 @@ namespace ArcGIS4LocalGovernment
                                                         qFilter.WhereClause = AAState._seqNameField + " = '" + sequenceColumnName + "'";
                                                         sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
                                                         sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
-                                                        ITransactions pTras = null;
 
-                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
+                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, sequenceColumnName);
                                                         Debug.WriteLine(sequenceValue.ToString());
-                                                        pTras = null;
 
                                                         if (sequenceValue == -1)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + "GENERATE_ID: " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ao"));
+                                                            MessageBox.Show("Unable to retreive a valid sequences from the generate ID table, review the log for more information.");
+
                                                         }
 
                                                         else
@@ -11912,14 +12119,14 @@ namespace ArcGIS4LocalGovernment
                                                         //cCurs = AAState._gentab.Update(qFilter, false);
                                                         sequenceColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqCounterField);
                                                         sequenceIntColumnNum = Globals.GetFieldIndex(AAState._gentab.Fields, AAState._seqIntervalField);
-                                                        ITransactions pTras = null;
 
-                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, 1, ref pTras);
-                                                        pTras = null;
+                                                        long sequenceValue = unversionedEdit(qFilter, sequenceColumnNum, sequenceIntColumnNum, sequenceColumnName);
 
                                                         if (sequenceValue == -1)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14au"));
+                                                            MessageBox.Show("Unable to retreive a valid sequences from the generate ID table, review the log for more information.");
+
                                                         }
                                                         else
                                                         {
@@ -11980,6 +12187,7 @@ namespace ArcGIS4LocalGovernment
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "EXPRESSION");
                                                 if (inObject != null & valData != null)
                                                 {
+                                                    IRowChanges inChanges = inObject as IRowChanges;
                                                     int intTargetFld = -1;
                                                     if (intFldIdxs.Count == 0)
                                                     {
@@ -11991,23 +12199,50 @@ namespace ArcGIS4LocalGovernment
                                                     }
 
                                                     newValue = valData;
-                                                    for (int i = 0; i <= inObject.Fields.FieldCount; i++)
+                                                    for (int i = 0; i <= inObject.Fields.FieldCount * 2 + 1; i++)
                                                     {
 
                                                         string strTmpFldName;
                                                         int intTmpIdx;
-                                                        if (i == inObject.Fields.FieldCount)
-                                                        {
-                                                            testField = inObject.Fields.get_Field(intFldIdxs[0]);
-                                                            strTmpFldName = "#";
-                                                            intTmpIdx = intFldIdxs[0];
-                                                        }
-                                                        else
+                                                        if (i < inObject.Fields.FieldCount)
                                                         {
                                                             testField = inObject.Fields.get_Field(i);
                                                             strTmpFldName = testField.Name;
                                                             intTmpIdx = i;
                                                         }
+
+                                                        else if (i < inObject.Fields.FieldCount * 2)
+                                                        {
+                                                            intTmpIdx = i - inObject.Fields.FieldCount;
+                                                            testField = inObject.Fields.get_Field(intTmpIdx);
+                                                            strTmpFldName = "~" + testField.Name;
+
+                                                        }
+                                                        else
+                                                        {
+                                                            testField = inObject.Fields.get_Field(intFldIdxs[0]);
+                                                            strTmpFldName = "#";
+                                                            intTmpIdx = intFldIdxs[0];
+                                                        }
+
+                                                        //if (i == inObject.Fields.FieldCount)
+                                                        //{
+                                                        //    testField = inObject.Fields.get_Field(intFldIdxs[0]);
+                                                        //    strTmpFldName = "#";
+                                                        //    intTmpIdx = intFldIdxs[0];
+                                                        //}
+                                                        //else if (i == inObject.Fields.FieldCount +1)
+                                                        //{
+                                                        //    testField = inObject.Fields.get_Field(intFldIdxs[0]);
+                                                        //    strTmpFldName = "$";
+                                                        //    intTmpIdx = intFldIdxs[0];
+                                                        //}
+                                                        //else
+                                                        //{
+                                                        //    testField = inObject.Fields.get_Field(i);
+                                                        //    strTmpFldName = testField.Name;
+                                                        //    intTmpIdx = i;
+                                                        //}
 
 
                                                         int indFld = newValue.ToUpper().IndexOf("[" + strTmpFldName.ToUpper() + "]");
@@ -12021,11 +12256,24 @@ namespace ArcGIS4LocalGovernment
                                                             string tmpStr2 = newValue.Substring(indFld + fldLen + 1);
                                                             newValue = tmpStr1 + "_REPLACE_VAL_" + tmpStr2;
 
+                                                            object field_value = inObject.get_Value(intTmpIdx);
+                                                            if (strTmpFldName.IndexOf("~") >= 0 && mode != "ON_CREATE")
+                                                            {
+                                                                if (inChanges.get_ValueChanged(intTmpIdx))
+                                                                {
+                                                                    field_value = inChanges.get_OriginalValue(intTmpIdx);
+                                                                    if (field_value == null || field_value == DBNull.Value)
+                                                                    {
+                                                                        field_value = "\"<Null>\"";
+                                                                    }
+                                                                }
+
+                                                            }
                                                             switch (testField.Type)
                                                             {
                                                                 case esriFieldType.esriFieldTypeString:
 
-                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "" || inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                    if (field_value == null || field_value.ToString() == "" || field_value == DBNull.Value)
                                                                     {
                                                                         if (newValue.Contains("IsNull"))
                                                                         {
@@ -12039,21 +12287,21 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "True");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == null)
+                                                                        else if (field_value == null)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                        else if (field_value == DBNull.Value)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                        else if (field_value.ToString() == "")
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
                                                                         }
                                                                         else
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
                                                                         }
 
 
@@ -12078,14 +12326,14 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                     }
-                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
 
 
                                                                     break;
                                                                 case esriFieldType.esriFieldTypeDate:
 
 
-                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "" || inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                    if (field_value == null || field_value.ToString() == "" || field_value == DBNull.Value)
                                                                     {
                                                                         if (newValue.Contains("IsNull([" + "_REPLACE_VAL_" + "])"))
                                                                         {
@@ -12099,21 +12347,21 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "True");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == null)
+                                                                        else if (field_value == null)
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                        else if (field_value == DBNull.Value)
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");//"\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");//"\"" + field_value.ToString() + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                        else if (field_value.ToString() == "")
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + inObject.get_Value(intTmpIdx).ToString() + "\"");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
                                                                         }
                                                                         else
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + field_value.ToString() + "\")");
                                                                         }
 
                                                                     }
@@ -12130,13 +12378,13 @@ namespace ArcGIS4LocalGovernment
                                                                     }
 
 
-                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + inObject.get_Value(intTmpIdx).ToString() + "\")");
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "CDATE(\"" + field_value.ToString() + "\")");
 
                                                                     break;
                                                                 case esriFieldType.esriFieldTypeSingle:
                                                                 case esriFieldType.esriFieldTypeDouble:
 
-                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                    if (field_value == null || field_value.ToString() == "")
                                                                     {
                                                                         if (newValue.Contains("IsNull"))
                                                                         {
@@ -12150,21 +12398,21 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "True");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == null)
+                                                                        else if (field_value == null)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                        else if (field_value == DBNull.Value)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                        else if (field_value.ToString() == "")
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
                                                                         else
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "" + inObject.get_Value(intTmpIdx).ToString() + "");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "" + field_value.ToString() + "");
                                                                         }
                                                                     }
                                                                     else
@@ -12179,7 +12427,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                     }
                                                                     double val;
-                                                                    Double.TryParse(inObject.get_Value(intTmpIdx).ToString(), out val);
+                                                                    Double.TryParse(field_value.ToString(), out val);
 
 
                                                                     int intDigits = 2;
@@ -12206,7 +12454,7 @@ namespace ArcGIS4LocalGovernment
                                                                     break;
 
                                                                 default:
-                                                                    if (inObject.get_Value(intTmpIdx) == null || inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                    if (field_value == null || field_value.ToString() == "")
                                                                     {
                                                                         if (newValue.Contains("IsNull"))
                                                                         {
@@ -12220,21 +12468,21 @@ namespace ArcGIS4LocalGovernment
                                                                         {
                                                                             newValue = newValue.Replace("ISNULL([" + "_REPLACE_VAL_" + "])", "True");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == null)
+                                                                        else if (field_value == null)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx) == DBNull.Value)
+                                                                        else if (field_value == DBNull.Value)
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
-                                                                        else if (inObject.get_Value(intTmpIdx).ToString() == "")
+                                                                        else if (field_value.ToString() == "")
                                                                         {
                                                                             newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + "\"");
                                                                         }
                                                                         else
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "" + inObject.get_Value(intTmpIdx).ToString() + "");
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "" + field_value.ToString() + "");
                                                                         }
                                                                     }
                                                                     else
@@ -12249,7 +12497,7 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                     }
-                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", inObject.get_Value(intTmpIdx).ToString());
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", field_value.ToString());
                                                                     break;
                                                             }
                                                             indFld = newValue.ToUpper().IndexOf("[" + testField.Name.ToUpper() + "]");
@@ -12404,133 +12652,194 @@ namespace ArcGIS4LocalGovernment
 
                                                     }
                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bt"));
-                                                    if (sourceFieldNames.Length > 0)
+                                                    bool cont = true;
+                                                    IRowChanges inChanges = inObject as IRowChanges;
+                                                    if (intFldIdxs.Count == 1)
                                                     {
 
-                                                        int fldIDToCopyIdx = Globals.GetFieldIndex(inObject.Fields, sourceIDFieldName);
-                                                        for (int i = 0; i < sourceLayerNames.Length; i++)
+                                                        if (inChanges.get_ValueChanged(intFldIdxs[0]))
                                                         {
-                                                            sourceLayerName = sourceLayerNames[i].ToString().Trim();
+                                                            cont = true;
+                                                        }
+                                                        else
+                                                        {
+                                                            cont = false;
+                                                        }
 
-                                                            if (sourceLayerName != "")
+                                                    }
+                                                    if (cont)
+                                                    {
+                                                        if (sourceFieldNames.Length > 0)
+                                                        {
+
+                                                            int fldIDToCopyIdx = Globals.GetFieldIndex(inObject.Fields, sourceIDFieldName);
+                                                            for (int i = 0; i < sourceLayerNames.Length; i++)
                                                             {
+                                                                sourceLayerName = sourceLayerNames[i].ToString().Trim();
 
-                                                                // Get layer
-                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain122"));
-                                                                bool FCorLayerSource = true;
-                                                                sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref FCorLayerSource);
-
-                                                                if (sourceLayer != null)
+                                                                if (sourceLayerName != "")
                                                                 {
-                                                                    AAState.WriteLine("                  " + sourceLayerName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
 
-                                                                }
-                                                                else
-                                                                {
-                                                                    ITable pTable = Globals.FindTable(AAState._editor.Map, sourceLayerName);
-                                                                    if (pTable != null)
+                                                                    // Get layer
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain122"));
+                                                                    bool FCorLayerSource = true;
+                                                                    sourceLayer = (IFeatureLayer)Globals.FindLayer(AAState._editor.Map, sourceLayerName, ref FCorLayerSource);
+
+                                                                    if (sourceLayer != null)
                                                                     {
+                                                                        AAState.WriteLine("                  " + sourceLayerName + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bb"));
 
-                                                                        ISubtypes subtypes = (ISubtypes)pTable;
-
-                                                                        IEnumSubtype enumSubtype;
-                                                                        IRowSubtypes rowSubtypes = null;
-                                                                        int subtypeCode = 0;
-                                                                        string subtypeName;
-                                                                        if (subtypes.HasSubtype)
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        ITable pTable = Globals.FindTable(AAState._editor.Map, sourceLayerName);
+                                                                        if (pTable != null)
                                                                         {
-                                                                            enumSubtype = subtypes.Subtypes;
-                                                                            subtypeName = enumSubtype.Next(out subtypeCode);
 
-                                                                        }
-                                                                        enumSubtype = null;
-                                                                        int fldIDToPopIdx = Globals.GetFieldIndex(pTable.Fields, targetIDFieldName);
-                                                                        if (fldIDToPopIdx > -1)
-                                                                        {
-                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain123"));
-                                                                            IRow pNewRow;
-                                                                            for (int j = 0; j < countFld; j++)
+                                                                            ISubtypes subtypes = (ISubtypes)pTable;
+
+                                                                            IEnumSubtype enumSubtype;
+                                                                            IRowSubtypes rowSubtypes = null;
+                                                                            int subtypeCode = 0;
+                                                                            string subtypeName;
+                                                                            if (subtypes.HasSubtype)
                                                                             {
-                                                                                pNewRow = pTable.CreateRow();
+                                                                                enumSubtype = subtypes.Subtypes;
+                                                                                subtypeName = enumSubtype.Next(out subtypeCode);
 
-                                                                                rowSubtypes = (IRowSubtypes)pNewRow;
-                                                                                if (subtypes.HasSubtype)
+                                                                            }
+                                                                            enumSubtype = null;
+                                                                            int fldIDToPopIdx = Globals.GetFieldIndex(pTable.Fields, targetIDFieldName);
+                                                                            if (fldIDToPopIdx > -1)
+                                                                            {
+                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain123"));
+                                                                                IRow pNewRow;
+                                                                                for (int j = 0; j < countFld; j++)
                                                                                 {
-                                                                                    rowSubtypes.SubtypeCode = subtypeCode;
-                                                                                }
+                                                                                    pNewRow = pTable.CreateRow();
 
-                                                                                // Initialize any default values the feature has.
-                                                                                rowSubtypes.InitDefaultValues();
-                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain124"));
-                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain125"));
-                                                                                try
-                                                                                {
-                                                                                    pNewRow.set_Value(fldIDToPopIdx, inObject.get_Value(fldIDToCopyIdx));
-
-                                                                                }
-                                                                                catch
-                                                                                {
-                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + inObject.get_Value(fldIDToCopyIdx) + " to field: " + targetIDFieldName);
-                                                                                }
-                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain126"));
-                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain127"));
-
-
-                                                                                if (sourceFieldNames.Length == targetFieldNames.Length)
-                                                                                {
-                                                                                    for (int kl = 0; kl < sourceFieldNames.Length; kl++)
+                                                                                    rowSubtypes = (IRowSubtypes)pNewRow;
+                                                                                    if (subtypes.HasSubtype)
                                                                                     {
+                                                                                        rowSubtypes.SubtypeCode = subtypeCode;
+                                                                                    }
 
-                                                                                        int fldToPopIdx = Globals.GetFieldIndex(pTable.Fields, sourceFieldNames[kl]);
-                                                                                        int fldValueIdx = Globals.GetFieldIndex(inObject.Fields, targetFieldNames[kl]);
-                                                                                        try
-                                                                                        {
-                                                                                            pNewRow.set_Value(fldToPopIdx, inObject.get_Value(fldValueIdx));
+                                                                                    // Initialize any default values the feature has.
+                                                                                    rowSubtypes.InitDefaultValues();
+                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain124"));
+                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain125"));
+                                                                                    try
+                                                                                    {
+                                                                                        pNewRow.set_Value(fldIDToPopIdx, inObject.get_Value(fldIDToCopyIdx));
 
-                                                                                        }
-                                                                                        catch
+                                                                                    }
+                                                                                    catch
+                                                                                    {
+                                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + inObject.get_Value(fldIDToCopyIdx) + " to field: " + targetIDFieldName);
+                                                                                    }
+                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain126"));
+                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain127"));
+
+
+                                                                                    if (sourceFieldNames.Length == targetFieldNames.Length)
+                                                                                    {
+                                                                                        for (int kl = 0; kl < sourceFieldNames.Length; kl++)
                                                                                         {
-                                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + sourceFieldNames[kl] + " to field: " + targetFieldNames[kl]);
+                                                                                            int fldToPopIdx = Globals.GetFieldIndex(pTable.Fields, sourceFieldNames[kl]);
+                                                                                            int fldValueIdx;
+                                                                                            object valueToSet = null;
+                                                                                            string[] targetFieldSplit = targetFieldNames[kl].Split('(');
+                                                                                            if (targetFieldNames[kl].Contains("~") == true)
+                                                                                            {
+                                                                                                string fieldName_without = targetFieldNames[kl].Replace("~", "");
+                                                                                                fldValueIdx = Globals.GetFieldIndex(inObject.Fields, fieldName_without);
+                                                                                                if (fldValueIdx == -1)
+                                                                                                {
+                                                                                                    valueToSet = targetFieldNames[kl];
+                                                                                                }
+                                                                                                else
+                                                                                                {
+
+
+                                                                                                    if (inChanges.get_ValueChanged(fldValueIdx))
+                                                                                                    {
+                                                                                                        valueToSet = inChanges.get_OriginalValue(fldValueIdx);
+                                                                                                    }
+                                                                                                    else
+                                                                                                    {
+                                                                                                        valueToSet = inObject.get_Value(fldValueIdx);
+                                                                                                    }
+
+                                                                                                }
+                                                                                            }
+                                                                                            else
+                                                                                            {
+                                                                                                fldValueIdx = Globals.GetFieldIndex(inObject.Fields, targetFieldNames[kl]);
+                                                                                                if (fldValueIdx == -1)
+                                                                                                {
+                                                                                                    valueToSet = targetFieldNames[kl];
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    valueToSet = inObject.get_Value(fldValueIdx);
+                                                                                                }
+
+
+                                                                                            }
+
+                                                                                            try
+                                                                                            {
+                                                                                                pNewRow.set_Value(fldToPopIdx, valueToSet);
+
+                                                                                            }
+                                                                                            catch
+                                                                                            {
+                                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + sourceFieldNames[kl] + " to field: " + targetFieldNames[kl]);
+                                                                                            }
                                                                                         }
                                                                                     }
+                                                                                    if (autoCommit)
+                                                                                    {
+                                                                                        pNewRow.Store();
+
+                                                                                    }
+
+                                                                                    if (NewFeatureList == null)
+                                                                                    {
+                                                                                        NewFeatureList = new List<IObject>();
+                                                                                    }
+                                                                                    IObject featobj = pNewRow as IObject;
+
+
+                                                                                    if (featobj != null)
+                                                                                    {
+                                                                                        NewFeatureList.Add(featobj);
+                                                                                    }
+
+                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain128"));
                                                                                 }
-                                                                                if (autoCommit)
-                                                                                {
-                                                                                    pNewRow.Store();
 
-                                                                                }
-
-                                                                                if (NewFeatureList == null)
-                                                                                {
-                                                                                    NewFeatureList = new List<IObject>();
-                                                                                }
-                                                                                IObject featobj = pNewRow as IObject;
-
-
-                                                                                if (featobj != null)
-                                                                                {
-                                                                                    NewFeatureList.Add(featobj);
-                                                                                }
-
-                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain128"));
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14k"));
                                                                             }
 
+
+
                                                                         }
-                                                                        else
-                                                                        {
-                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14k"));
-                                                                        }
-
-
-
                                                                     }
                                                                 }
                                                             }
+
+
                                                         }
 
-
                                                     }
-
+                                                    else
+                                                    {
+                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain64"));
+                                                    }
                                                 }
                                                 catch (Exception ex)
                                                 {
@@ -12573,7 +12882,7 @@ namespace ArcGIS4LocalGovernment
                                                         break;
                                                     }
                                                     bool cont = true;
-                                                    if (intFldIdxs.Count > 1)
+                                                    if (intFldIdxs.Count >= 1)
                                                     {
                                                         IRowChanges inChanges = inObject as IRowChanges;
                                                         if (inChanges.get_ValueChanged(intFldIdxs[0]))
@@ -14022,6 +14331,7 @@ namespace ArcGIS4LocalGovernment
                                             try
                                             {
                                                 bool switchToPrompt = false;
+                                                bool valSet = false;
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "INTERSECTING_FEATURE");
                                                 if (inFeature != null & valData != null)
                                                 {
@@ -14049,6 +14359,12 @@ namespace ArcGIS4LocalGovernment
                                                                 sourceFieldName = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
+                                                                    case "HIGHEST":
+                                                                        strOpt = AAState.intersectOptions.Highest;
+                                                                        break;
+                                                                    case "H":
+                                                                        strOpt = AAState.intersectOptions.Highest;
+                                                                        break;
                                                                     case "PROMPT":
                                                                         strOpt = AAState.intersectOptions.PromptMulti;
                                                                         break;
@@ -14096,6 +14412,12 @@ namespace ArcGIS4LocalGovernment
                                                                 sourceFieldName = args[1].ToString().Trim();
                                                                 switch (args[2].ToString().ToUpper())
                                                                 {
+                                                                    case "HIGHEST":
+                                                                        strOpt = AAState.intersectOptions.Highest;
+                                                                        break;
+                                                                    case "H":
+                                                                        strOpt = AAState.intersectOptions.Highest;
+                                                                        break;
                                                                     case "PROMPT":
                                                                         strOpt = AAState.intersectOptions.PromptMulti;
                                                                         break;
@@ -14206,17 +14528,33 @@ namespace ArcGIS4LocalGovernment
                                                                             AAState.WriteLine("                  map tolerance: " + mapTol.ToString());
                                                                             try
                                                                             {
-                                                                                ISpatialReferenceResolution pSRResolution;
+
 
                                                                                 ISpatialReferenceResolution pSRResolution2;
 
+                                                                                pSRResolution2 = AAState._editor.Map.SpatialReference as ISpatialReferenceResolution;
+
+
+                                                                                var spatialRef = AAState._editor.Map.SpatialReference;
+                                                                                double calculatedToleranceMap = 0.0;
+
+                                                                                if (spatialRef != null && spatialRef.HasXYPrecision())
+                                                                                {
+                                                                                    var spRefTolerance = spatialRef as ISpatialReferenceTolerance;
+                                                                                    if (spRefTolerance != null && spRefTolerance.XYToleranceValid == esriSRToleranceEnum.esriSRToleranceOK)
+                                                                                    {
+                                                                                        calculatedToleranceMap = spRefTolerance.XYTolerance;
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        calculatedToleranceMap = -1.0;
+                                                                                    }
+                                                                                }
                                                                                 double dblTol = Globals.GetXYTolerance(sourceLayer);
                                                                                 //pSRResolution = ((sourceLayer.FeatureClass as IGeoDataset).SpatialReference) as ISpatialReferenceResolution;
 
                                                                                 //dblTol = pSRResolution.get_XYResolution(false);
                                                                                 dblTol = dblTol * 10;
-
-                                                                                pSRResolution2 = AAState._editor.Map.SpatialReference as ISpatialReferenceResolution;
 
                                                                                 double dblTol2 = pSRResolution2.get_XYResolution(false);
                                                                                 dblTol2 = dblTol2 * 10;
@@ -14227,10 +14565,11 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 AAState.WriteLine("                  spatial tolerance: " + dblTol.ToString());
 
-                                                                                if (mapTol > dblTol)
-                                                                                {
-                                                                                    dblTol = mapTol;
-                                                                                }
+                                                                                //if (mapTol > dblTol)
+                                                                                //{
+                                                                                //    dblTol = mapTol;
+                                                                                //}
+
                                                                                 if (strOpt == AAState.intersectOptions.End &&
                                                                                    (inFeature.Class as IFeatureClass).ShapeType == esriGeometryType.esriGeometryPolyline)
                                                                                 {
@@ -14257,8 +14596,20 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
                                                                                     sFilter = Globals.createSpatialFilter(sourceLayer, inFeature, dblTol, strOpt == AAState.intersectOptions.Centroid, AAState._editor.Map.SpatialReference);
                                                                                 }
-                                                                                pSRResolution = null;
+
                                                                                 pSRResolution2 = null;
+                                                                                try
+                                                                                {
+                                                                                    string unitName = Globals.GetSpatRefUnitName(sFilter.Geometry.SpatialReference, false);
+                                                                                    double areaTest = (sFilter.Geometry as IArea).Area;
+                                                                                    AAState.WriteLine("Size of search polygon: " + areaTest + " in " + unitName + " ref " + sFilter.Geometry.SpatialReference.Name);
+                                                                                }
+                                                                                catch
+                                                                                {
+
+                                                                                }
+
+
 
                                                                             }
                                                                             catch
@@ -14345,7 +14696,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 if (sourceFeature.Class != inFeature.Class)
                                                                                 {
                                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain146"));
-                                                                                    if (strOpt == AAState.intersectOptions.PromptMulti)
+                                                                                    if (strOpt == AAState.intersectOptions.PromptMulti || strOpt == AAState.intersectOptions.Highest)
                                                                                     {
 
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
@@ -14419,13 +14770,33 @@ namespace ArcGIS4LocalGovernment
                                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + test);
                                                                                         inObject.set_Value(intFldIdxs[0], sourceFeature.get_Value(sourceField));
                                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
+                                                                                        valSet = true;
+                                                                                        Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
+                                                                                        pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
+                                                                                        pOp.Value = sourceFeature.get_Value(sourceField);
+
+                                                                                        if (pOp.Display.Trim() != "")
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + pOp.Display + " value = " + pOp.Value.ToString();
+
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            pOp.Display = sourceLayer.Name + ": " + sourceFeature.OID + " value = " + pOp.Value.ToString();
+
+                                                                                        }
+                                                                                        pOp.OID = sourceFeature.OID;
+                                                                                        pOp.LayerName = sourceLayer.Name;
+
+                                                                                        pFoundFeat.Add(pOp);
+
                                                                                         found = true;
                                                                                     }
                                                                                 }
                                                                                 else if (sourceFeature.Class == inFeature.Class && sourceFeature.OID != inFeature.OID)
                                                                                 {
                                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain148"));
-                                                                                    if (strOpt == AAState.intersectOptions.PromptMulti)
+                                                                                    if (strOpt == AAState.intersectOptions.PromptMulti || strOpt == AAState.intersectOptions.Highest)
                                                                                     {
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
@@ -14516,7 +14887,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 sourceFeature = fCursor.NextFeature();
                                                                                 while (sourceFeature != null)
                                                                                 {
-                                                                                    if (strOpt == AAState.intersectOptions.PromptMulti)
+                                                                                    if (strOpt == AAState.intersectOptions.PromptMulti || strOpt == AAState.intersectOptions.Highest)
                                                                                     {
                                                                                         Globals.OptionsToPresent pOp = new Globals.OptionsToPresent();
                                                                                         pOp.Display = sourceFeature.get_Value(Globals.GetFieldIndex(sourceFeature.Fields, sourceLayer.DisplayField)).ToString();
@@ -14604,9 +14975,42 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             AAState.WriteLine("                  Feature count: " + pFoundFeat.Count);
                                                             AAState.WriteLine("                  Option: " + strOpt.ToString());
-                                                            if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.PromptMulti)
+                                                            Globals.OptionsToPresent strRetVal = null;
+
+                                                            if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.Highest && valSet == false)
                                                             {
-                                                                Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList);
+
+                                                                int highestOID = -1;
+                                                                foreach (var option in pFoundFeat)
+                                                                {
+                                                                    if (option.OID > highestOID)
+                                                                    {
+                                                                        highestOID = option.OID;
+                                                                        strRetVal = option;
+                                                                    }
+                                                                }
+                                                                if (strRetVal == null)
+                                                                {
+                                                                    AAState.WriteLine("                  selected value from highest ID was null ");
+                                                                }
+                                                                else if (strRetVal.OID == -1)
+                                                                {
+                                                                    AAState.WriteLine("                  Error in highest ID: " + strRetVal.Display);
+                                                                }
+                                                                else
+                                                                {
+                                                                    string test = strRetVal.Value.ToString();//sourceFeature.get_Value(sourceField).ToString();
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + test);
+
+                                                                    inObject.set_Value(intFldIdxs[0], strRetVal.Value);
+                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14az"));
+
+                                                                    found = true;
+                                                                }
+                                                            }
+                                                            else if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.PromptMulti && valSet == false)
+                                                            {
+                                                                strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList);
                                                                 if (strRetVal == null)
                                                                 {
                                                                     AAState.WriteLine("                  selected value from prompt was null ");
@@ -14632,14 +15036,8 @@ namespace ArcGIS4LocalGovernment
                                                                 }
 
                                                             }
-                                                            else if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.Last)
+                                                            else if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.Last && valSet == false)
                                                             {
-
-
-
-                                                                //sourceFeature = sourceLayer.FeatureClass.GetFeature(pFoundFeat[pFoundFeat.Count - 1].OID);
-
-
 
                                                                 string test = pFoundFeat[pFoundFeat.Count - 1].Value.ToString(); //sourceFeature.get_Value(sourceField).ToString();
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + test);
@@ -15837,7 +16235,6 @@ namespace ArcGIS4LocalGovernment
 
                             }
 
-
                             try
                             {
                                 if (intFldIdxs.Count > 0 && strFldNames.Count > 0)
@@ -15948,9 +16345,24 @@ namespace ArcGIS4LocalGovernment
 
                             AAState.WriteLine("    ------------------------------------------------");
 
+
                         }
 
                     }
+
+                }
+                try
+                {
+                    if (storeObject == true)
+                    {
+                        //Store the object after all rules have processed, used to handle previous value
+                        inObject.Store();
+
+
+                    }
+                }
+                catch
+                {
 
                 }
                 return true;
@@ -16775,141 +17187,230 @@ namespace ArcGIS4LocalGovernment
 
 
         }
+        //public void StartEditSession(IFeatureWorkspace featureWorkspace, esriMultiuserEditSessionMode editSessionMode)
+        //{
 
-        public long unversionedEdit(IQueryFilter qFilterGen, int sequenceColumnNum, int idxSeqField, int curLoop, ref ITransactions transactions)
+
+
+        //        //perform edit tasks here, edit operations can be used
+
+        //    }
+        //    else MessageBox.Show("workspace does not support this type of edit session mode");
+        //}
+        public void ListSchemaLocksForObjectClass(IDataset objectClass)
         {
-            long sequenceValue = -1;
-            using (ComReleaser comReleaser = new ComReleaser())
+            //Get an exclusive schema lock on the dataset.
+            ISchemaLock schemaLock = (ISchemaLock)objectClass;
+
+            // Get an enumerator over the current schema locks.
+            IEnumSchemaLockInfo enumSchemaLockInfo = null;
+            schemaLock.GetCurrentSchemaLocks(out enumSchemaLockInfo);
+
+            // Iterate through the locks.
+            ISchemaLockInfo schemaLockInfo = null;
+            while ((schemaLockInfo = enumSchemaLockInfo.Next()) != null)
             {
+                Console.WriteLine("{0} : {1} : {2}", schemaLockInfo.TableName,
+                  schemaLockInfo.UserName, schemaLockInfo.SchemaLockType);
+            }
+        }
 
-                if (AAState._gentabWorkspace.IsInEditOperation)
+        public long unversionedEdit(IQueryFilter qFilterGen, int sequenceColumnNum, int idxSeqField, string seqParam)
+        {
+            //ISchemaLock schemaLock = null;
+            try
+            {
+                long sequenceValue = -1;
+                ICursor search_cursor;
+                IRow search_row = null;
+                bool sdeWorkspace = ((IDataset)AAState._gentab).Workspace.Type == esriWorkspaceType.esriRemoteDatabaseWorkspace;
+                if (sdeWorkspace && AAState._generateIDStoreProceName != null && AAState._generateIDStoreProceName != "")
                 {
-                    // throw new Exception("Cannot use ITransactions during an edit operation.");
-                }
-                // Begin a transaction.
-                if (transactions == null)
-                {
-                    transactions = (ITransactions)AAState._gentabWorkspace;
-                }
-
-                transactions.StartTransaction();
-                try
-                {
-                    // Use ITable.Update to create an update cursor.
-                    ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, true);
-                    comReleaser.ManageLifetime(seq_updateCursor);
-
-                    IRow seq_row = null;
-                    seq_row = seq_updateCursor.NextRow();
-                    int sequenceInt = 1;
-
-                    if (seq_row != null)
+                    try
                     {
-                        if (idxSeqField > 0)
-                        {
-                            object seqInt = seq_row.get_Value(idxSeqField);
-                            if (seqInt != null)
-                            {
-                                if (seqInt != DBNull.Value)
-                                    try
-                                    {
-                                        sequenceInt = Convert.ToInt32(seqInt);
-                                    }
-                                    catch
-                                    {
+                        IQueryDef queryDef = ((IFeatureWorkspace)((IDataset)AAState._gentab).Workspace).CreateQueryDef();
+                        queryDef.Tables = ((IDataset)AAState._gentab).BrowseName;// "UN.GENERATEID";
+                        queryDef.SubFields = AAState._generateIDStoreProceName + "('" + seqParam + "')";// + AAState._seqCounterField;
+                        queryDef.WhereClause = qFilterGen.WhereClause;
 
-                                    }
-                            }
+                        search_cursor = queryDef.Evaluate();
+                        search_row = search_cursor.NextRow();
+                        if (search_row != null)
+                        {
+                            sequenceValue = Convert.ToInt64(search_row.get_Value(0));
+                            AAState.WriteLine("                  store procedure return: " + sequenceValue + " - " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
+                            return sequenceValue;
                         }
-                        object seqValue = seq_row.get_Value(sequenceColumnNum);
 
-                        if (seqValue == null)
+                    }
+                    catch
+                    {
+                        AAState.WriteLine("                  Accesing store procedure failed: " + AAState._generateIDStoreProceName + "('" + seqParam + "')  - " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
+
+                    }
+
+                }
+                // ListSchemaLocksForObjectClass((IDataset)AAState._gentab);
+
+                int sequenceInt = 1;
+
+                IRow seq_row = null;
+
+
+
+                // Use ITable.Update to create an update cursor.
+                search_cursor = AAState._gentab.Search(qFilterGen, true);
+
+                search_row = search_cursor.NextRow();
+                if (search_row != null)
+                {
+                    if (idxSeqField > 0)
+                    {
+                        object seqInt = search_row.get_Value(idxSeqField);
+                        if (seqInt != null)
                         {
-                            sequenceValue = 0;
-                        }
-                        else if (seqValue.ToString() == "")
-                        {
-                            sequenceValue = 0;
-                        }
-                        else
-                            try
-                            {
-                                sequenceValue = Convert.ToInt64(seqValue);
-                            }
-                            catch
-                            {
-                                sequenceValue = 0;
-                            }
-
-                        AAState.WriteLine("                  " + sequenceValue + " is the existing value and the interval is " + sequenceInt + ": " + DateTime.Now.ToString("h:mm:ss tt"));
-
-                        sequenceValue = sequenceValue + sequenceInt;
-
-                        seq_row.set_Value(sequenceColumnNum, sequenceValue);
-                        AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.Now.ToString("h:mm:ss tt"));
-
-                        seq_updateCursor.UpdateRow(seq_row);
-
-                        transactions.CommitTransaction();
-
-                        seq_updateCursor = AAState._gentab.Search(qFilter, true);
-                        if (seq_row != null)
-                        {
-                            seqValue = seq_row.get_Value(sequenceColumnNum);
-
-                            if (seqValue == null)
-                            {
-                                return sequenceValue;
-                            }
-                            else if (seqValue.ToString() == "")
-                            {
-                                return sequenceValue;
-                            }
-                            else
+                            if (seqInt != DBNull.Value)
                                 try
                                 {
-                                    if (sequenceValue == Convert.ToInt64(seqValue))
-                                    {
-                                        return sequenceValue;
-                                    }
-                                    else
-                                    {
-                                        if (curLoop > 30)
-                                        {
-                                            MessageBox.Show("A unique ID could not be generated after 30 attempts: " + DateTime.Now.ToString("h:mm:ss tt"));
-                                        }
-                                        else
-                                        {
-                                            return unversionedEdit(qFilterGen, sequenceColumnNum, idxSeqField, curLoop + 1, ref transactions);
-                                        }
-                                    }
+                                    sequenceInt = Convert.ToInt32(seqInt);
                                 }
                                 catch
                                 {
-                                    return sequenceValue;
+
                                 }
                         }
-                        return sequenceValue;
+                    }
+                }
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(search_cursor);
+
+                //if (AAState._generateIDStoreProceName != null && AAState._generateIDStoreProceName = "") { 
+                //    IWorkspace pWorkSpace =(IWorkspace) AAState._gentabWorkspace;
+                //    pWorkSpace.ExecuteSQL("BEGIN" + AAState._generateIDStoreProceName + "(" + args + "); END;";
+
+                //IWorkSpace:ExecuteSQL "BEGIN <owner>.<stored_procedure_name>("<optional_arguments>"); END;"
+                //}
+
+                //schemaLock = (ISchemaLock)(IDataset)AAState._gentab;
+                //try
+                //{
+
+                //    schemaLock.ChangeSchemaLock(esriSchemaLock.esriExclusiveSchemaLock);
+                //}
+                //catch (COMException comExc)
+                //{
+                //    AAState.WriteLine("                  Error saving transaction to DB" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+                //    return -1;
+                //}
+
+                ITransactions transactions;
+                transactions = (ITransactions)AAState._gentabWorkspace;
+
+                long seqValCompare;
+                object seqObj;
+                bool startTrans = false;
+
+                if (transactions.InTransaction)
+                {
+                    startTrans = true;
+                }
+                else
+                {
+                    transactions.StartTransaction();
+                }
+
+
+                AAState.WriteLine("                  search Started:" + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture));
+
+                ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, false);
+
+                seq_row = seq_updateCursor.NextRow();
+                seqObj = seq_row.get_Value(sequenceColumnNum);
+                sequenceValue = seqForm(seqObj);
+
+                int checkCount = 1;
+                bool val_set = false;
+                for (checkCount = 0; checkCount <= 50; checkCount++)
+                {
+                    sequenceValue = sequenceValue + sequenceInt;
+                    search_cursor = AAState._gentab.Search(qFilterGen, true);
+                    search_row = search_cursor.NextRow();
+                    seqObj = search_row.get_Value(sequenceColumnNum);
+                    seqValCompare = seqForm(seqObj);
+                    if (sequenceValue > seqValCompare)
+                    {
+                        //ICursor seq_updateCursor = AAState._gentab.Update(qFilterGen, false);
+                        //comReleaser.ManageLifetime(seq_updateCursor);
+                        //seq_row = seq_updateCursor.NextRow();
+                        seq_row.set_Value(sequenceColumnNum, sequenceValue);
+                        seq_updateCursor.UpdateRow(seq_row);
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(seq_updateCursor);
+                        transactions.CommitTransaction();
+                        AAState.WriteLine("                  " + sequenceValue + " is the existing value and the interval is " + sequenceInt + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff", CultureInfo.InvariantCulture));
+                        //schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
+                        if (startTrans)
+                        {
+                            transactions.StartTransaction();
+                        }
+
+
+                        AAState.WriteLine("                  " + seq_row.Fields.get_Field(sequenceColumnNum).AliasName + " changed to " + sequenceValue + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff", CultureInfo.InvariantCulture) + " - loop count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
+                        val_set = true;
+                        break;
+
                     }
                     else
                     {
-                        AAState.WriteLine("                  No records found in Generate ID table" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
-                        transactions.AbortTransaction();
-                        return -1;
+                        AAState.WriteLine("                   conflict found: " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff", CultureInfo.InvariantCulture) + " - loop count:" + checkCount.ToString()); //+ "/" + transCheck.ToString());
                     }
-                }
-                catch (COMException comExc)
-                {
-                    AAState.WriteLine("                  Error saving transaction to DB" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
 
-                    // If an error occurs during the inserts and updates, rollback the transaction.
-                    transactions.AbortTransaction();
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(search_cursor);
+                }
+
+                if (val_set == false)
+                {
+                    AAState.WriteLine("                  No records found in Generate ID table" + ": " + DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fffff", CultureInfo.InvariantCulture));
+                    //if (schemaLock != null)
+                    //{
+                    //    schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
+                    //}
                     return -1;
                 }
 
-
+                return sequenceValue;
             }
 
+
+            catch (COMException comExc)
+            {
+                AAState.WriteLine("                  Error saving transaction to DB" + ": " + DateTime.Now.ToString("h:mm:ss tt"));
+                //if (schemaLock != null)
+                //{
+                //    schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
+                //}
+                return -1;
+            }
+        }
+        private long seqForm(object seqValue)
+        {
+            if (seqValue == null)
+            {
+                return 0;
+            }
+            else if (seqValue.ToString() == "")
+            {
+                return 0;
+            }
+            else
+            {
+                try
+                {
+                    return Convert.ToInt64(seqValue);
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
         }
         #endregion
     }
