@@ -3,6 +3,10 @@ Replace <Owner> with the owner of the table
 If you changed the name of the table, and fields adjust
   GENERATEID.SEQCOUNTER
   SEQNAME
+
+Create a public synonym to allow this to be accessed to others. Not just owner
+
+create public synonym sequence_name for yourSchema.sequence_name;
 */
 
 CREATE OR REPLACE FUNCTION GETNEXTVALUE 
@@ -12,7 +16,7 @@ CREATE OR REPLACE FUNCTION GETNEXTVALUE
 PRAGMA AUTONOMOUS_TRANSACTION;
 cnumber number;
 BEGIN
-  update <ONWER>.GENERATEID set <ONWER>.GENERATEID.SEQCOUNTER = (<ONWER>.GENERATEID.SEQCOUNTER + <ONWER>.GGENERATEID.SEQCOUNTER) where SEQNAME = SEQUENCENAME;
+  update <ONWER>.GENERATEID set <ONWER>.GENERATEID.SEQCOUNTER = (<ONWER>.GENERATEID.SEQCOUNTER + <ONWER>.GGENERATEID.SEQINTERV) where SEQNAME = SEQUENCENAME;
   commit;
   SELECT SEQCOUNTER into cnumber FROM UN.GENERATEID WHERE SEQNAME = SEQUENCENAME;
   RETURN cnumber;
