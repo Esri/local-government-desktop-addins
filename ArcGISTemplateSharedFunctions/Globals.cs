@@ -3463,9 +3463,50 @@ namespace A4LGSharedFunctions
             }
 
         }
-        # endregion
+        #endregion
 
-        # region Conversion
+        #region Conversion
+        public static List<List<string>> CursorToListOfList(ref ICursor pCur, int[] FieldIndex)
+        {
+            try
+            {
+                List<string> keys = new List<string>();
+                List<List<string>> vals = new List<List<string>>();
+                IRow pRow;
+                while ((pRow = pCur.NextRow()) != null)
+                {
+                    List<string> inner_vals = new List<string>();
+                    string keyVal = "";
+                    for (int i = 0; i < FieldIndex.Length; i++)
+                    {
+
+                        if (pRow.get_Value(FieldIndex[i]) == null || pRow.get_Value(FieldIndex[i]) == DBNull.Value)
+                        {
+                            inner_vals.Add(null);
+                            keyVal = keyVal == "" ? "<_NULL_>" : keyVal + "|" + "<_NULL_>";
+                        }
+                        else
+                        {
+                            
+                            inner_vals.Add(pRow.get_Value(FieldIndex[i]).ToString());
+                            keyVal = keyVal == "" ? pRow.get_Value(FieldIndex[i]).ToString() : keyVal + "|" + pRow.get_Value(FieldIndex[i]).ToString();
+                        }
+                    }
+                    if (keys.Contains(keyVal) == false) {
+                        keys.Add(keyVal);
+                        vals.Add(inner_vals);
+                    }
+                }
+                pRow = null;
+
+                return vals;
+            }
+            catch
+            {
+                return null;
+            }
+            finally { }
+        }
         public static List<string> CursorToList(ref ICursor pCur, int[] FieldIndex)
         {
             try
@@ -3479,13 +3520,28 @@ namespace A4LGSharedFunctions
                     string dis = "";
                     for (int i = 0; i < FieldIndex.Length; i++)
                     {
-                        if (dis == "")
+                        if (i == 0)
                         {
-                            dis = pRow.get_Value(FieldIndex[i]).ToString();
+                            if (pRow.get_Value(FieldIndex[i]) == null || pRow.get_Value(FieldIndex[i]) == DBNull.Value)
+                            {
+                                dis = "<NULL>";
+                            }
+                            else
+                            {
+                                dis = pRow.get_Value(FieldIndex[i]).ToString();
+                            }
+                            
                         }
                         else
                         {
-                            dis = dis + " " + (char)150 + " " + pRow.get_Value(FieldIndex[i]).ToString();
+                            if (pRow.get_Value(FieldIndex[i]) == null || pRow.get_Value(FieldIndex[i]) == DBNull.Value)
+                            {
+                                dis = dis + " " + (char)150 + " " + "<NULL>";
+                            }
+                            else {
+                                dis = dis + " " + (char)150 + " " + pRow.get_Value(FieldIndex[i]).ToString();
+
+                            }
                         }
                     }
                     vals.Add(dis.Trim());
@@ -8385,7 +8441,51 @@ namespace A4LGSharedFunctions
 
             //return "";
         }
+        public static OptionsToPresent showOptionsFormWithCancel (IList<OptionsToPresent> features, string LayerName, string caption, ComboBoxStyle dropDownStyle)
+        {
+            try
+            {
+                if (features.Count == 1)
+                {
+                    return features[0];
+                }
 
+                SelectOptionForm tmpForm = new SelectOptionForm();
+                tmpForm.lblLayer.Text = caption;
+                Graphics g = tmpForm.cboSelectTemplate.CreateGraphics();
+                int frmWidth = getLongestText(features, tmpForm.cboSelectTemplate.Font, ref g);
+                SizeF tmpF = g.MeasureString(caption, tmpForm.lblLayer.Font);
+                if (Convert.ToInt32(tmpF.Width) > frmWidth)
+                {
+                    frmWidth = Convert.ToInt32(tmpF.Width);
+                }
+                g = null;
+                tmpForm.setWidth(frmWidth);
+                tmpForm.showCancelButton();
+                tmpForm.cboSelectTemplate.DataSource = features;
+                tmpForm.cboSelectTemplate.ValueMember = "OID";
+                tmpForm.cboSelectTemplate.DisplayMember = "Display";
+                tmpForm.cboSelectTemplate.DropDownStyle = dropDownStyle;
+                tmpForm.FormClosing += new FormClosingEventHandler(tmpForm_FormClosing);
+                tmpForm.StartPosition = FormStartPosition.CenterScreen;
+                tmpForm.ShowDialog();
+                if (tmpForm.Cancel == true)
+                {
+                    return null;
+                }
+                else
+                {
+                    return (OptionsToPresent)tmpForm.cboSelectTemplate.SelectedItem;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new OptionsToPresent(-1, ex.ToString(), "", null);
+
+            }
+
+            //return "";
+        }
         public static int getLongestText(IList<string> options, System.Drawing.Font fnt, ref Graphics g)
         {
             int maxLen = 0;

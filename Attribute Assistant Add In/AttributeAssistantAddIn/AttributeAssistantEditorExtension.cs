@@ -1492,7 +1492,7 @@ namespace ArcGIS4LocalGovernment
                     if (Globals.getEditor(ArcMap.Application).CurrentTask != null)
                         System.Diagnostics.Debug.WriteLine(Globals.getEditor(ArcMap.Application).CurrentTask.Name);
                 };
-                Events2.BeforeStopEditing += delegate(bool save) { OnBeforeStopEditing(save); };
+                Events2.BeforeStopEditing += delegate (bool save) { OnBeforeStopEditing(save); };
             }
             catch (Exception ex)
             {
@@ -3367,6 +3367,7 @@ namespace ArcGIS4LocalGovernment
                                                 ISQLSyntax sqlSyntax = null;
                                                 IQueryFilter pQFilt = null;
                                                 IDisplayTable displayTable = null;
+                                                bool new_value_blank = false;
                                                 try
                                                 {
                                                     if ((valData != null) && (inObject != null))
@@ -3379,6 +3380,10 @@ namespace ArcGIS4LocalGovernment
                                                             if (pRowCh.get_ValueChanged(intFldIdxs[i]) == true)
                                                             {
                                                                 valueChanged = true;
+                                                                if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
+                                                                {
+                                                                    new_value_blank = true;
+                                                                }
                                                                 break;
 
                                                             }
@@ -3560,6 +3565,15 @@ namespace ArcGIS4LocalGovernment
                                                                 sqlUpp = "UPPER";
                                                             }
                                                             bool valueIsNull = false;
+
+                                                            if (inObject.get_Value(intFldIdxs[0]) == null || inObject.get_Value(intFldIdxs[0]) == "" || inObject.get_Value(intFldIdxs[0]) == DBNull.Value)
+                                                            {
+                                                                if (valueIsNull == false)
+                                                                {
+                                                                    valueIsNull = true;
+                                                                }
+
+                                                            }
                                                             for (int i = 0; i < sourceFieldNames.Length; i++)
                                                             {
                                                                 sourceFieldNums[i] = Globals.GetFieldIndex(pFlds, sourceFieldNames[i].Trim());
@@ -3570,15 +3584,30 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                 }
-                                                                if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
-                                                                {
-                                                                    if (valueIsNull == false)
-                                                                    {
-                                                                        valueIsNull = true;
-                                                                    }
+                                                                //if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
+                                                                //{
+                                                                //    if (valueIsNull == false)
+                                                                //    {
+                                                                //        valueIsNull = true;
+                                                                //    }
 
+                                                                //}
+                                                                if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == DBNull.Value || inObject.get_Value(intFldIdxs[i]) == "")
+                                                                {
+                                                                    // Do nothing as we want possible options to come back
+
+                                                                    //if (sqlString == "")
+                                                                    //{
+                                                                    //    sqlString = pFlds.get_Field(sourceFieldNums[i]).Name + " is NULL";
+                                                                    //    sqlStringUpper = pFlds.get_Field(sourceFieldNums[i]).Name + " is NULL";
+                                                                    //}
+                                                                    //else
+                                                                    //{
+                                                                    //    sqlString = sqlString + " AND " + pFlds.get_Field(sourceFieldNums[i]).Name + " is NULL";
+                                                                    //    sqlStringUpper = sqlStringUpper + " AND " + pFlds.get_Field(sourceFieldNums[i]).Name + " is NULL";
+                                                                    //}
                                                                 }
-                                                                if (pFlds.get_Field(sourceFieldNums[i]).Type == esriFieldType.esriFieldTypeString)
+                                                                else if (pFlds.get_Field(sourceFieldNums[i]).Type == esriFieldType.esriFieldTypeString)
                                                                 {
 
                                                                     if (sqlString == "")
@@ -3609,9 +3638,11 @@ namespace ArcGIS4LocalGovernment
                                                                 }
 
                                                             }
+                                                            if (sqlString != "")
+                                                            {
+                                                                sqlString = "1=1";
+                                                            }
                                                             pQFilt.WhereClause = sqlString;
-
-
 
                                                             AAState.WriteLine("                  " + pQFilt.WhereClause + " used to search for matching record");
                                                             int intRecFound = 0;
@@ -3696,7 +3727,7 @@ namespace ArcGIS4LocalGovernment
                                                                     pQFilt = null;
 
 
-                                                                    List<string> pLst = Globals.CursorToList(ref pCurs, sourceFieldNums);
+                                                                    List<List<string>> pLst = Globals.CursorToListOfList(ref pCurs, sourceFieldNums);
                                                                     if (pCurs != null)
                                                                         Marshal.ReleaseComObject(pCurs);
                                                                     pCurs = null;
@@ -3710,33 +3741,65 @@ namespace ArcGIS4LocalGovernment
                                                                     for (int j = 0; j < sourceFieldNames.Length; j++)
                                                                     {
                                                                         disFld = disFld == "" ? sourceFieldNames[j] : disFld + "|" + sourceFieldNames[j];
-
+                                                                        //disFld = disFld + "|" + sourceFieldNames[j];
                                                                     }
 
-                                                                    string selectVal = Globals.showOptionsForm(pLst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
-                                                                    if (selectVal == "||Cancelled||" && valueIsNull == true)
-                                                                    { }
-                                                                    else if (selectVal == "||Cancelled||" && valueIsNull == false)
+                                                                    List<Globals.OptionsToPresent> display_opt = new List<Globals.OptionsToPresent>();
+                                                                    foreach (List<string> str_itm in pLst)
+                                                                    {
+                                                                        Globals.OptionsToPresent lookup_itm = new Globals.OptionsToPresent();
+                                                                        lookup_itm.Value = str_itm;
+                                                                        string dis_string = "";
+                                                                        foreach (string part_item in str_itm)
+                                                                        {
+                                                                            if (part_item != null)
+                                                                            {
+                                                                                dis_string = dis_string == "" ? part_item : dis_string + " " + part_item;
+                                                                            }
+                                                                        }
+                                                                        lookup_itm.Display = dis_string;
+                                                                        display_opt.Add(lookup_itm);
+                                                                    }
+
+                                                                    Globals.OptionsToPresent selectedOption = Globals.showOptionsFormWithCancel(display_opt, layNameFnd, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
+                                                                    //string selectVal = Globals.showOptionsForm(display_opt, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
+                                                                    if (selectedOption == null && new_value_blank == true)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
+                                                                    }
+                                                                    else if (selectedOption == null)
                                                                     {
                                                                         AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
                                                                         AAState._editor.AbortOperation();
                                                                         return false;
 
                                                                     }
+                                                                    else if (selectedOption.OID == -1)
+                                                                    {
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain19"));
+                                                                        AAState._editor.AbortOperation();
+                                                                        return false;
+
+                                                                    }
+
                                                                     else
                                                                     {
-                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain22") + selectVal);
+                                                                        AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain22") + selectedOption.Display);
                                                                         if (sourceFieldNums.Length == 1)
                                                                         {
-                                                                            inObject.set_Value(intFldIdxs[0], selectVal);
+                                                                            inObject.set_Value(intFldIdxs[0], selectedOption.Display);
                                                                         }
                                                                         else
                                                                         {
-                                                                            string[] strVals = selectVal.Split((char)150);
+
+                                                                            List<string> strVals = selectedOption.Value as List<string>;
 
                                                                             for (int i = 0; i < sourceFieldNums.Length; i++)
                                                                             {
-                                                                                inObject.set_Value(intFldIdxs[i], (strVals[i].Trim()));
+                                                                                if (strVals[i] != null)
+                                                                                {
+                                                                                    inObject.set_Value(intFldIdxs[i], (strVals[i].Trim()));
+                                                                                }
                                                                             }
                                                                         }
 
@@ -3752,7 +3815,6 @@ namespace ArcGIS4LocalGovernment
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain23"));
                                                             }
                                                             pQFilt = null;
-
 
 
 

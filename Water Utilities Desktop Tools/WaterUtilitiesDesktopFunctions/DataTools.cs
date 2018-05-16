@@ -206,7 +206,7 @@ namespace A4WaterUtilities
                 {
                     try
                     {
-                        ExcelApp = new Excel.ApplicationClass();
+                        ExcelApp = new Excel.Application(); //new Excel.ApplicationClass();
                     }
                     catch
                     {
@@ -273,7 +273,7 @@ namespace A4WaterUtilities
 
                     try
                     {
-                        ExcelApp = new Excel.ApplicationClass();
+                        ExcelApp = new Excel.Application(); //new Excel.ApplicationClass();
                     }
                     catch
                     {
@@ -332,7 +332,7 @@ namespace A4WaterUtilities
                 {
                     try
                     {
-                        ExcelApp = new Excel.ApplicationClass();
+                        ExcelApp = new Excel.Application(); //new Excel.ApplicationClass();
                     }
                     catch
                     {
