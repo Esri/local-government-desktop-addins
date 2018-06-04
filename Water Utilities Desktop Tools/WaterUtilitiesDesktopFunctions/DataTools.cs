@@ -206,7 +206,7 @@ namespace A4WaterUtilities
                 {
                     try
                     {
-                        ExcelApp = new Excel.Application(); //new Excel.ApplicationClass();
+                        ExcelApp = new Excel.ApplicationClass();
                     }
                     catch
                     {
@@ -273,7 +273,7 @@ namespace A4WaterUtilities
 
                     try
                     {
-                        ExcelApp = new Excel.Application(); //new Excel.ApplicationClass();
+                        ExcelApp =  new Excel.ApplicationClass();
                     }
                     catch
                     {
@@ -332,7 +332,7 @@ namespace A4WaterUtilities
                 {
                     try
                     {
-                        ExcelApp = new Excel.Application(); //new Excel.ApplicationClass();
+                        ExcelApp = new Excel.ApplicationClass();
                     }
                     catch
                     {
@@ -588,6 +588,7 @@ namespace A4WaterUtilities
 
                     //For each column
                     Col = 0;
+                    object value_to_set;
                     for (j = 0; j < TableFields.FieldCount; j++)
                     {
                         CurField = TableFields.get_Field(j);
@@ -596,8 +597,21 @@ namespace A4WaterUtilities
                         if ((CurField.Type != esriFieldType.esriFieldTypeBlob) && (CurField.Type != esriFieldType.esriFieldTypeGeometry))
                         {
                             Col += 1;
-                            ExcelSheet.Cells[Row, Col] = Feat.get_Value(j);
-
+                          
+                            try
+                            {
+                                value_to_set = Feat.get_Value(j);
+                            }
+                            catch {
+                                value_to_set = "Unable to retreive value";
+                            }
+                            try { 
+                                ExcelSheet.Cells[Row, Col] = value_to_set;
+                            }
+                            catch
+                            {
+                                ExcelSheet.Cells[Row, Col] = "Unable to retreive value";
+                            }
                             if (UseDescriptions == true && subtype == -99999)
                             {
                                 Domain = CurField.Domain;
