@@ -12356,11 +12356,13 @@ namespace ArcGIS4LocalGovernment
                                                                         }
                                                                         else if (field_value.ToString() == "")
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
+                                                                            //encode double quote
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString().Replace("\"", "_|-|_") + "\"");
                                                                         }
                                                                         else
                                                                         {
-                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
+                                                                            //encode double quote
+                                                                            newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString().Replace("\"", "_|-|_") + "\"");
                                                                         }
 
 
@@ -12385,7 +12387,8 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                     }
-                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString() + "\"");
+                                                                    //encode double quote
+                                                                    newValue = newValue.Replace("[" + "_REPLACE_VAL_" + "]", "\"" + field_value.ToString().Replace("\"", "_|-|_") + "\"");
 
 
                                                                     break;
@@ -12571,6 +12574,8 @@ namespace ArcGIS4LocalGovernment
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14br") + newValue);
 
                                                             newValue = script.Eval(newValue).ToString();
+                                                            //re-encode double quote
+                                                            newValue = newValue.Replace("_|-|_", "\"");
                                                             if (newValue.ToUpper() == "<Null>".ToUpper())
                                                             {
                                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain119"));
