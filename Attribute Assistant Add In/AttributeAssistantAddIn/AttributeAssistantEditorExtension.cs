@@ -3574,6 +3574,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
 
                                                             }
+                                                            bool null_present = false;
                                                             for (int i = 0; i < sourceFieldNames.Length; i++)
                                                             {
                                                                 sourceFieldNums[i] = Globals.GetFieldIndex(pFlds, sourceFieldNames[i].Trim());
@@ -3584,17 +3585,11 @@ namespace ArcGIS4LocalGovernment
 
 
                                                                 }
-                                                                //if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == "" || inObject.get_Value(intFldIdxs[i]) == DBNull.Value)
-                                                                //{
-                                                                //    if (valueIsNull == false)
-                                                                //    {
-                                                                //        valueIsNull = true;
-                                                                //    }
-
-                                                                //}
                                                                 if (inObject.get_Value(intFldIdxs[i]) == null || inObject.get_Value(intFldIdxs[i]) == DBNull.Value || inObject.get_Value(intFldIdxs[i]) == "")
                                                                 {
-                                                                    // Do nothing as we want possible options to come back
+                                                                    // set a flag to know that a null field was skipped,
+
+                                                                    null_present = true;
 
                                                                     //if (sqlString == "")
                                                                     //{
@@ -3672,8 +3667,10 @@ namespace ArcGIS4LocalGovernment
                                                             }
 
                                                             AAState.WriteLine("                  " + intRecFound + " rows found using " + sqlString);
-
-                                                            if (intRecFound != 1)
+                                                            if (intRecFound == 1 && null_present == true) {
+                                                                //Extact match and no nulls sent to query, means an 100% match was found
+                                                            }
+                                                            else if (intRecFound != 1)
                                                             {
 
                                                                 pQFilt.WhereClause = sqlStringUpper;
