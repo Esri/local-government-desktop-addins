@@ -3487,12 +3487,13 @@ namespace A4LGSharedFunctions
                         }
                         else
                         {
-                            
+
                             inner_vals.Add(pRow.get_Value(FieldIndex[i]).ToString());
                             keyVal = keyVal == "" ? pRow.get_Value(FieldIndex[i]).ToString() : keyVal + "|" + pRow.get_Value(FieldIndex[i]).ToString();
                         }
                     }
-                    if (keys.Contains(keyVal) == false) {
+                    if (keys.Contains(keyVal) == false)
+                    {
                         keys.Add(keyVal);
                         vals.Add(inner_vals);
                     }
@@ -3530,7 +3531,7 @@ namespace A4LGSharedFunctions
                             {
                                 dis = pRow.get_Value(FieldIndex[i]).ToString();
                             }
-                            
+
                         }
                         else
                         {
@@ -3538,7 +3539,8 @@ namespace A4LGSharedFunctions
                             {
                                 dis = dis + " " + (char)150 + " " + "<NULL>";
                             }
-                            else {
+                            else
+                            {
                                 dis = dis + " " + (char)150 + " " + pRow.get_Value(FieldIndex[i]).ToString();
 
                             }
@@ -3882,6 +3884,69 @@ namespace A4LGSharedFunctions
 
             return -1;
 
+
+        }
+        public static bool DigitizedAgainstFlow(IFeature pFeature)
+        {
+
+            INetworkClass netFC = null;
+            IGeometricNetwork gnet = null;
+            IUtilityNetwork unet = null;
+            INetElements netelems = null;
+            IEnumNetEID enumNetEID = null;
+            IEdgeFeature edgeFeat = null;
+            IComplexNetworkFeature complexNetFeat = null;
+            try
+            {
+                netFC = pFeature.Class as INetworkClass;
+                if (netFC != null)
+                {
+                    int iEID;
+
+                    ISimpleEdgeFeature simpleEdgeFeat = null;
+                    gnet = netFC.GeometricNetwork;
+                    unet = gnet.Network as IUtilityNetwork;
+                    netelems = unet as INetElements;
+                    edgeFeat = pFeature as IEdgeFeature;
+                    complexNetFeat = pFeature as IComplexNetworkFeature;
+                    simpleEdgeFeat = pFeature as ISimpleEdgeFeature;
+
+                    //Get the first (or only) element id for this feature
+                    iEID = -1101;
+                    complexNetFeat = edgeFeat as IComplexNetworkFeature;
+                    if (complexNetFeat != null)
+                    {
+                        enumNetEID = netelems.GetEIDs(pFeature.Class.ObjectClassID, pFeature.OID, esriElementType.esriETEdge);
+                        enumNetEID.Reset();
+                        iEID = enumNetEID.Last();
+                    }
+                    else
+                    {
+                        iEID = simpleEdgeFeat.EID;
+                    }
+
+                    //If this element is digitized against the flow...
+                    if ((iEID > -1) && (unet.GetFlowDirection(iEID) == esriFlowDirection.esriFDAgainstFlow))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                netFC = null;
+                gnet = null;
+                unet = null;
+                netelems = null;
+                enumNetEID = null;
+                edgeFeat = null;
+                complexNetFeat = null;
+            }
 
         }
         public static ESRI.ArcGIS.Geodatabase.esriFlowDirection GetFlowDirectionAtLocation(IFeature pFeature, IFeatureLayer targetLineFLayer, IPoint pPnt, double toler)
@@ -8265,7 +8330,8 @@ namespace A4LGSharedFunctions
 
         public static IEditTemplate PromptAndGetEditTemplateGraphic(IFeatureLayer Layer, string DefaultTemplate, string caption)
         {
-            if (caption == null) {
+            if (caption == null)
+            {
                 caption = "Select a template for " + Layer.Name;
             }
             SelectTemplateFormGraphic pForm = null;
@@ -8441,7 +8507,7 @@ namespace A4LGSharedFunctions
 
             //return "";
         }
-        public static OptionsToPresent showOptionsFormWithCancel (IList<OptionsToPresent> features, string LayerName, string caption, ComboBoxStyle dropDownStyle)
+        public static OptionsToPresent showOptionsFormWithCancel(IList<OptionsToPresent> features, string LayerName, string caption, ComboBoxStyle dropDownStyle)
         {
             try
             {

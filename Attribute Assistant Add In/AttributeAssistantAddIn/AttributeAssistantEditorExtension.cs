@@ -10158,6 +10158,7 @@ namespace ArcGIS4LocalGovernment
                                             try
                                             {
                                                 bool includeFCName = false;
+                                                bool checkFlow = false;
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "FROM_JUNCTION_FIELD");
                                                 if (valData == null)
                                                 {
@@ -10202,13 +10203,27 @@ namespace ArcGIS4LocalGovernment
                                                                     netRestrictField = args[2].ToString().Trim();
                                                                     netRestrictValue = args[3].ToString().Trim();
                                                                     includeFCName = args[4].ToString().ToUpper() == "TRUE" ? true : false;
-
+                                                                    break;
+                                                                case 6:  // sequenceColumnName|sequenceFixedWidth|formatString
+                                                                    netField = args[0].ToString().Trim();
+                                                                    netRestrictFC = args[1].ToString().Trim();
+                                                                    netRestrictField = args[2].ToString().Trim();
+                                                                    netRestrictValue = args[3].ToString().Trim();
+                                                                    includeFCName = args[4].ToString().ToUpper() == "TRUE" ? true : false;
+                                                                    checkFlow = args[5].ToString().ToUpper() == "TRUE" ? true : false;
                                                                     break;
                                                                 default: break;
                                                             }
 
                                                             iEdgeFeat = (IEdgeFeature)netFeat;
-                                                            iJuncFeat = iEdgeFeat.FromJunctionFeature;
+                                                            if (checkFlow == true && Globals.DigitizedAgainstFlow(inFeature))
+                                                            {
+                                                                iJuncFeat = iEdgeFeat.ToJunctionFeature;
+                                                            }
+                                                            else {
+                                                                iJuncFeat = iEdgeFeat.FromJunctionFeature;
+                                                            
+                                                            }
                                                             string strClsName;
                                                             if (netRestrictFC != "")
                                                             {
@@ -10294,7 +10309,7 @@ namespace ArcGIS4LocalGovernment
                                             {
 
                                                 bool includeFCName = false;
-
+                                                bool checkFlow = false;
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "TO_JUNCTION_FIELD");
                                                 if (valData == null)
                                                 {
@@ -10341,14 +10356,29 @@ namespace ArcGIS4LocalGovernment
                                                                     netRestrictField = args[2].ToString().Trim();
                                                                     netRestrictValue = args[3].ToString().Trim();
                                                                     includeFCName = args[4].ToString().ToUpper() == "TRUE" ? true : false;
-
+                                                                    break;
+                                                                case 6:  // sequenceColumnName|sequenceFixedWidth|formatString
+                                                                    netField = args[0].ToString().Trim();
+                                                                    netRestrictFC = args[1].ToString().Trim();
+                                                                    netRestrictField = args[2].ToString().Trim();
+                                                                    netRestrictValue = args[3].ToString().Trim();
+                                                                    includeFCName = args[4].ToString().ToUpper() == "TRUE" ? true : false;
+                                                                    checkFlow = args[5].ToString().ToUpper() == "TRUE" ? true : false;
                                                                     break;
                                                                 default: break;
                                                             }
 
-
                                                             iEdgeFeat = (IEdgeFeature)netFeat;
-                                                            iJuncFeat = iEdgeFeat.ToJunctionFeature;
+                                                            if (checkFlow == true && Globals.DigitizedAgainstFlow(inFeature))
+                                                            {
+                                                                iJuncFeat = iEdgeFeat.FromJunctionFeature;
+                                                            }
+                                                            else
+                                                            {
+                                                                iJuncFeat = iEdgeFeat.ToJunctionFeature;
+
+                                                            }
+
                                                             string strClsName;
                                                             if (netRestrictFC != "")
                                                             {
