@@ -150,6 +150,8 @@ namespace ArcGIS4LocalGovernment
         public static bool _CheckEnvelope = false;
         public static bool _bypassEditOperationCheck = false;
         public static bool _onCreateWhenSplit = false;
+        public static bool _showCommentsOnPrompt = false;
+        
         // Declare configuration variables 
         public static string _defaultsTableName = "DynamicValue";
         public static string _sequenceTableName = "GenerateId";
@@ -1126,6 +1128,12 @@ namespace ArcGIS4LocalGovernment
             else
                 AAState._onCreateWhenSplit = false;
 
+            if (ConfigUtil.GetConfigValue("ShowCommentsOnPrompt", "FALSE").ToUpper() == "TRUE")
+                AAState._showCommentsOnPrompt = true;
+            else
+                AAState._showCommentsOnPrompt = false;
+
+            
             AAState._generateIDStoreProceName = (ConfigUtil.GetConfigValue("GenerateIDStoreProceName", null));
 
             AAState._seqNameField = ConfigUtil.GetConfigValue("SequenceName", AAState._seqNameField);
@@ -2324,7 +2332,7 @@ namespace ArcGIS4LocalGovernment
         public bool SetDynamicValues(IObject inObject, string mode, out List<IObject> ChangeFeatureList, out List<IObject> NewFeatureList, out List<IObject> ChangeFeatureGeoList)
         {
             bool storeObject = false;
-
+            string comments_for_row = null;
             NumberFormatInfo nfi = new CultureInfo(A4LGSharedFunctions.Localizer.GetString("AA_CultureInfo"), false).NumberFormat;
             nfi.NumberGroupSeparator = "";
             nfi.NumberDecimalSeparator = ".";
@@ -2665,6 +2673,8 @@ namespace ArcGIS4LocalGovernment
 
                         for (int retRows = 0; retRows < AAState._dv.Count; retRows++)
                         {
+                            comments_for_row = null;
+
                             DataRowView drv = AAState._dv[retRows];
 
                             AAState.WriteLine("    ------------------------------------------------");
@@ -2678,7 +2688,15 @@ namespace ArcGIS4LocalGovernment
                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ac") + drv["ON_CHANGE"].ToString());
                             if (AAState._dv.Table.Columns.Contains("RUNORDER"))
                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ad") + drv["RUNORDER"].ToString());
-
+                            if (AAState._dv.Table.Columns.Contains("COMMENTS"))
+                            {
+                                
+                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ad") + drv["COMMENTS"].ToString());
+                                if (AAState._showCommentsOnPrompt == true)
+                                {
+                                    comments_for_row = drv["COMMENTS"].ToString();
+                                }
+                            }
                             AAState.WriteLine("");
 
                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ae"));
@@ -3758,7 +3776,7 @@ namespace ArcGIS4LocalGovernment
                                                                         display_opt.Add(lookup_itm);
                                                                     }
 
-                                                                    Globals.OptionsToPresent selectedOption = Globals.showOptionsFormWithCancel(display_opt, layNameFnd, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
+                                                                    Globals.OptionsToPresent selectedOption = Globals.showOptionsFormWithCancel(display_opt, layNameFnd, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList, comments_for_row);
                                                                     //string selectVal = Globals.showOptionsForm(display_opt, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain21") + disFld, ComboBoxStyle.DropDownList);
                                                                     if (selectedOption == null && new_value_blank == true)
                                                                     {
@@ -4799,7 +4817,7 @@ namespace ArcGIS4LocalGovernment
                                                                     }
                                                                     else
                                                                     {
-                                                                        Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList);
+                                                                        Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList,comments_for_row);
                                                                         if (strRetVal == null)
                                                                         {
                                                                             AAState.WriteLine("                  selected value from prompt was null ");
@@ -5532,7 +5550,7 @@ namespace ArcGIS4LocalGovernment
                                                                 lst = Globals.SubtypeToList(pSubType);
                                                                 if (inObject.get_Value(pSubType.SubtypeFieldIndex) == null || inObject.get_Value(pSubType.SubtypeFieldIndex) == "" || inObject.get_Value(pSubType.SubtypeFieldIndex) == DBNull.Value)
                                                                 {
-                                                                    dmRetVal = Globals.showValuesOptionsForm(lst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + inObject.Class.AliasName + ":" + pSubType.SubtypeFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + inObject.Class.AliasName + ":" + pSubType.SubtypeFieldName, ComboBoxStyle.DropDownList);
+                                                                    dmRetVal = Globals.showValuesOptionsForm(lst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + inObject.Class.AliasName + ":" + pSubType.SubtypeFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + inObject.Class.AliasName + ":" + pSubType.SubtypeFieldName, ComboBoxStyle.DropDownList, comments_for_row);
                                                                     inObject.set_Value(pSubType.SubtypeFieldIndex, dmRetVal.Value);
 
                                                                     intSub = Convert.ToInt32(dmRetVal.Value);
@@ -5557,7 +5575,7 @@ namespace ArcGIS4LocalGovernment
                                                                             {
                                                                                 IList<string> pVals = new List<string>();
 
-                                                                                string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + inObject.Class.AliasName + ":" + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + inObject.Class.AliasName + ":" + strFldAlias[l], ComboBoxStyle.DropDown);
+                                                                                string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + inObject.Class.AliasName + ":" + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + inObject.Class.AliasName + ":" + strFldAlias[l], ComboBoxStyle.DropDown, comments_for_row);
 
                                                                                 try
                                                                                 {
@@ -5583,7 +5601,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 if (inObject.get_Value(intFldIdxs[l]) == null || inObject.get_Value(intFldIdxs[l]) == "" || inObject.get_Value(intFldIdxs[l]) == DBNull.Value)
                                                                                 {
 
-                                                                                    dmRetVal = Globals.showValuesOptionsForm(lst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDownList);
+                                                                                    dmRetVal = Globals.showValuesOptionsForm(lst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDownList, comments_for_row);
                                                                                     try
                                                                                     {
                                                                                         inObject.set_Value(intFldIdxs[l], dmRetVal.Value);
@@ -5602,7 +5620,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
 
                                                                                     IList<string> pVals = new List<string>();
-                                                                                    string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown);
+                                                                                    string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown, comments_for_row);
 
                                                                                     try
                                                                                     {
@@ -5649,7 +5667,7 @@ namespace ArcGIS4LocalGovernment
                                                                             {
 
                                                                                 IList<string> pVals = new List<string>();
-                                                                                string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown);
+                                                                                string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown, comments_for_row);
 
                                                                                 try
                                                                                 {
@@ -5674,7 +5692,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                                     lst = Globals.DomainToList(pDom);
 
-                                                                                    dmRetVal = Globals.showValuesOptionsForm(lst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDownList);
+                                                                                    dmRetVal = Globals.showValuesOptionsForm(lst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDownList, comments_for_row);
                                                                                     try
                                                                                     {
                                                                                         inObject.set_Value(intFldIdxs[l], dmRetVal.Value);
@@ -5693,7 +5711,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 {
 
                                                                                     IList<string> pVals = new List<string>();
-                                                                                    string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown);
+                                                                                    string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown, comments_for_row);
 
                                                                                     try
                                                                                     {
@@ -5737,7 +5755,7 @@ namespace ArcGIS4LocalGovernment
                                                                         {
 
                                                                             IList<string> pVals = new List<string>();
-                                                                            string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown);
+                                                                            string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown, comments_for_row);
                                                                             try
                                                                             {
                                                                                 inObject.set_Value(intFldIdxs[l], strRetVal);
@@ -5761,7 +5779,7 @@ namespace ArcGIS4LocalGovernment
 
                                                                                 lst = Globals.DomainToList(pDom);
 
-                                                                                dmRetVal = Globals.showValuesOptionsForm(lst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDownList);
+                                                                                dmRetVal = Globals.showValuesOptionsForm(lst, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDownList, comments_for_row);
                                                                                 try
                                                                                 {
                                                                                     inObject.set_Value(intFldIdxs[l], dmRetVal.Value);
@@ -5780,7 +5798,7 @@ namespace ArcGIS4LocalGovernment
                                                                             {
 
                                                                                 IList<string> pVals = new List<string>();
-                                                                                string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown);
+                                                                                string strRetVal = Globals.showValuesOptionsForm(pVals, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bw") + " " + strFldAlias[l], ComboBoxStyle.DropDown, comments_for_row);
                                                                                 try
                                                                                 {
                                                                                     inObject.set_Value(intFldIdxs[l], strRetVal);
@@ -15104,7 +15122,7 @@ namespace ArcGIS4LocalGovernment
                                                             }
                                                             else if (pFoundFeat.Count > 0 && strOpt == AAState.intersectOptions.PromptMulti && valSet == false)
                                                             {
-                                                                strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList);
+                                                                strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDownList, comments_for_row);
                                                                 if (strRetVal == null)
                                                                 {
                                                                     AAState.WriteLine("                  selected value from prompt was null ");
@@ -15669,7 +15687,7 @@ namespace ArcGIS4LocalGovernment
                                                         }
                                                         if (strOpt == AAState.intersectOptions.PromptMulti && strFiles.Count > 0)
                                                         {
-                                                            Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain162") + ": " + strFldNames[0], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain163") + ": " + strFldNames[0], ComboBoxStyle.DropDownList);
+                                                            Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain162") + ": " + strFldNames[0], A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain163") + ": " + strFldNames[0], ComboBoxStyle.DropDownList, comments_for_row);
 
                                                             if (strRetVal == null)
                                                             {

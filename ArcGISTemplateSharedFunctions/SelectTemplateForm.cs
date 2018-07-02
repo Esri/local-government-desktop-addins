@@ -79,6 +79,7 @@ namespace A4LGSharedFunctions
         private void SelectTemplateForm_Resize(object sender, EventArgs e)
         {
             cboSelectTemplate.Width = this.Width - 50 - cboSelectTemplate.Left;
+            comments.Width = this.Width - 50 - comments.Left;
         }
     }
 }

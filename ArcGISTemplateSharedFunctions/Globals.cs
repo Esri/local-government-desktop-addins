@@ -8317,7 +8317,7 @@ namespace A4LGSharedFunctions
             }
             else
             {
-                string SelectedTemplate = Globals.showValuesOptionsForm(strTemplateNames, Layer.Name, caption, ComboBoxStyle.DropDownList);
+                string SelectedTemplate = Globals.showValuesOptionsForm(strTemplateNames, Layer.Name, caption, ComboBoxStyle.DropDownList,null);
                 if (SelectedTemplate == "")
                     return null;
                 return Globals.GetEditTemplate(SelectedTemplate, Layer);
@@ -8327,7 +8327,6 @@ namespace A4LGSharedFunctions
         {
             return PromptAndGetEditTemplate(Layer, DefaultTemplate, "Select a template for " + Layer.Name);
         }
-
         public static IEditTemplate PromptAndGetEditTemplateGraphic(IFeatureLayer Layer, string DefaultTemplate, string caption)
         {
             if (caption == null)
@@ -8395,7 +8394,7 @@ namespace A4LGSharedFunctions
         }
 
 
-        public static string showValuesOptionsForm(IList<string> values, string LabelValue, string FormCaption, ComboBoxStyle cboSt)
+        public static string showValuesOptionsForm(IList<string> values, string LabelValue, string FormCaption, ComboBoxStyle cboSt, string comments_for_row)
         {
             try
             {
@@ -8407,6 +8406,7 @@ namespace A4LGSharedFunctions
                 SelectTemplateForm tmpForm = new SelectTemplateForm();
                 tmpForm.lblLayer.Text = LabelValue;
                 tmpForm.Text = FormCaption;
+                tmpForm.comments.Text = comments_for_row;
                 tmpForm.cboSelectTemplate.DataSource = values;
                 tmpForm.setComboType(cboSt);
                 Graphics g = tmpForm.cboSelectTemplate.CreateGraphics();
@@ -8430,8 +8430,7 @@ namespace A4LGSharedFunctions
 
             //return "";
         }
-
-        public static DomSubList showValuesOptionsForm(IList<DomSubList> values, string LabelValue, string FormCaption, ComboBoxStyle cboSt)
+        public static DomSubList showValuesOptionsForm(IList<DomSubList> values, string LabelValue, string FormCaption, ComboBoxStyle cboSt, string comments_for_row)
         {
             try
             {
@@ -8443,6 +8442,7 @@ namespace A4LGSharedFunctions
                 SelectTemplateForm tmpForm = new SelectTemplateForm();
                 tmpForm.lblLayer.Text = LabelValue;
                 tmpForm.Text = FormCaption;
+                tmpForm.comments.Text = comments_for_row;
                 tmpForm.cboSelectTemplate.DataSource = values;
                 tmpForm.cboSelectTemplate.ValueMember = "Value";
                 tmpForm.cboSelectTemplate.DisplayMember = "Display";
@@ -8470,7 +8470,7 @@ namespace A4LGSharedFunctions
 
             //return "";
         }
-        public static OptionsToPresent showOptionsForm(IList<OptionsToPresent> features, string LayerName, string caption, ComboBoxStyle dropDownStyle)
+        public static OptionsToPresent showOptionsForm(IList<OptionsToPresent> features, string LayerName, string caption, ComboBoxStyle dropDownStyle,string comments_for_row)
         {
             try
             {
@@ -8481,6 +8481,7 @@ namespace A4LGSharedFunctions
 
                 SelectOptionForm tmpForm = new SelectOptionForm();
                 tmpForm.lblLayer.Text = caption;
+                tmpForm.comments.Text = comments_for_row;
                 Graphics g = tmpForm.cboSelectTemplate.CreateGraphics();
                 int frmWidth = getLongestText(features, tmpForm.cboSelectTemplate.Font, ref g);
                 SizeF tmpF = g.MeasureString(caption, tmpForm.lblLayer.Font);
@@ -8507,17 +8508,18 @@ namespace A4LGSharedFunctions
 
             //return "";
         }
-        public static OptionsToPresent showOptionsFormWithCancel(IList<OptionsToPresent> features, string LayerName, string caption, ComboBoxStyle dropDownStyle)
+        public static OptionsToPresent showOptionsFormWithCancel(IList<OptionsToPresent> features, string LayerName, string caption, ComboBoxStyle dropDownStyle, string comments_for_row)
         {
             try
             {
-                if (features.Count == 1)
-                {
-                    return features[0];
-                }
+                //if (features.Count == 1)
+                //{
+                //    return features[0];
+                //}
 
                 SelectOptionForm tmpForm = new SelectOptionForm();
                 tmpForm.lblLayer.Text = caption;
+                tmpForm.comments.Text = comments_for_row;
                 Graphics g = tmpForm.cboSelectTemplate.CreateGraphics();
                 int frmWidth = getLongestText(features, tmpForm.cboSelectTemplate.Font, ref g);
                 SizeF tmpF = g.MeasureString(caption, tmpForm.lblLayer.Font);
@@ -8594,7 +8596,7 @@ namespace A4LGSharedFunctions
             return maxLen;
 
         }
-        public static string showOptionsForm(List<string> options, string caption, ComboBoxStyle dropDownStyle)
+        public static string showOptionsForm(List<string> options, string caption, ComboBoxStyle dropDownStyle, string comments_for_row)
         {
             try
             {
@@ -8606,6 +8608,7 @@ namespace A4LGSharedFunctions
                 SelectOptionForm tmpForm = new SelectOptionForm();
 
                 tmpForm.lblLayer.Text = caption;
+                tmpForm.comments.Text = comments_for_row;
                 Graphics g = tmpForm.cboSelectTemplate.CreateGraphics();
                 int frmWidth = getLongestText(options, tmpForm.cboSelectTemplate.Font, ref g);
                 SizeF tmpF = g.MeasureString(caption, tmpForm.lblLayer.Font);

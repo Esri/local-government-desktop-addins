@@ -616,7 +616,7 @@ namespace A4WaterUtilities
                         pLay = pLays.Next();
                     }
                     //MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.ToString(), ex.Source);
-                    string strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsBatchBarrier"), ComboBoxStyle.DropDownList);
+                    string strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsBatchBarrier"), ComboBoxStyle.DropDownList,null);
                     if (strRetVal != null && strRetVal != "||Cancelled||")
                     {
                         pFl = (IFeatureLayer)Globals.FindLayer(app, strRetVal, ref fndAsLayer);
