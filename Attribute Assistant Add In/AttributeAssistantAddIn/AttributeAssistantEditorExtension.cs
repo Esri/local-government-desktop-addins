@@ -3711,6 +3711,7 @@ namespace ArcGIS4LocalGovernment
                                                                 }
                                                                 else
                                                                 {
+                                                                    string displayName = "";
                                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain20"));
                                                                     ICursor pCurs = null;
                                                                     if (sourceLayer == null)
@@ -3718,6 +3719,7 @@ namespace ArcGIS4LocalGovernment
                                                                         if (boolLayerOrFC)
                                                                         {
                                                                             displayTable = (IDisplayTable)pTbl;
+                                                                            displayName = pTbl.Name;
                                                                             //ITableDefinition tblDef = (ITableDefinition)pTbl;
                                                                             pCurs = displayTable.SearchDisplayTable(pQFilt, true);
                                                                             //pCurs = pTbl.Table.Search(pQFilt, true);
@@ -3725,6 +3727,7 @@ namespace ArcGIS4LocalGovernment
                                                                         else
                                                                         {
                                                                             pCurs = pTbl.Table.Search(pQFilt, true);
+                                                                            displayName = pTbl.Name;
                                                                         }
                                                                     }
                                                                     else
@@ -3732,10 +3735,12 @@ namespace ArcGIS4LocalGovernment
                                                                         if (boolLayerOrFC)
                                                                         {
                                                                             pCurs = sourceLayer.Search(pQFilt, true) as ICursor;
+                                                                            displayName = sourceLayer.Name;
                                                                         }
                                                                         else
                                                                         {
                                                                             pCurs = sourceLayer.FeatureClass.Search(pQFilt, true) as ICursor;
+                                                                            displayName = sourceLayer.FeatureClass.AliasName;
                                                                         }
                                                                     }
 
@@ -3752,10 +3757,10 @@ namespace ArcGIS4LocalGovernment
                                                                         AAState._editor.AbortOperation();
                                                                         return false;
                                                                     }
-                                                                    string disFld = "";
+                                                                    string disFld = displayName + ": ";
                                                                     for (int j = 0; j < sourceFieldNames.Length; j++)
                                                                     {
-                                                                        disFld = disFld == "" ? sourceFieldNames[j] : disFld + "|" + sourceFieldNames[j];
+                                                                        disFld = j == 0 ? disFld + sourceFieldNames[j] : disFld + "|" + sourceFieldNames[j];
                                                                         //disFld = disFld + "|" + sourceFieldNames[j];
                                                                     }
 
