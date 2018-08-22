@@ -5224,7 +5224,7 @@ Partial Public Class CostEstimatingWindow
 
             s_dgCIP.Rows.Remove(s_dgCIP.SelectedRows(0))
             RowRemoved(strTag)
-
+            setProjectCostAndTotal()
         Catch ex As Exception
             MsgBox("Error in the Costing Tools -  CIPProjectWindow: deleteRecord" & vbCrLf & ex.ToString())
 
