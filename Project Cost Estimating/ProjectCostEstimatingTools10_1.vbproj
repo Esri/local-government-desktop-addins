@@ -102,6 +102,12 @@
       <DependentUpon>Config.esriaddinx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="LengthTip.Designer.vb">
+      <DependentUpon>LengthTip.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LengthTip.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -119,6 +125,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LengthTip.resx">
+      <DependentUpon>LengthTip.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
