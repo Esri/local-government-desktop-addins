@@ -25,7 +25,6 @@ Imports ESRI.ArcGIS.ADF.CATIDs
 Imports ESRI.ArcGIS.Framework
 Imports ESRI.ArcGIS.Display
 Imports ESRI.ArcGIS.ArcMapUI
-
 Imports ESRI.ArcGIS.esriSystem
 Imports ESRI.ArcGIS.Carto
 Imports System.Windows.Forms
@@ -61,6 +60,14 @@ Public Class CreateAssetForGrid
 
         End Try
     End Sub
+
+    Private Function IsInputNumeric(input As String) As Boolean
+        If String.IsNullOrWhiteSpace(input) Then Return False
+        If IsNumeric(input) Then Return True
+        Dim parts() As String = input.Split("/"c)
+        If parts.Length <> 2 Then Return False
+        Return IsNumeric(parts(0)) AndAlso IsNumeric(parts(1))
+    End Function
     Protected Overrides Sub OnKeyDown(ByVal arg As ESRI.ArcGIS.Desktop.AddIns.Tool.KeyEventArgs)
         Try
 
@@ -88,8 +95,17 @@ Public Class CreateAssetForGrid
                 End If
                 m_pNewPolyFeedback = Nothing
                 OnRefresh(My.ArcMap.Document.ActiveView.ScreenDisplay.hDC)
+                destroyMapTip()
+            ElseIf arg.KeyCode = Keys.L And arg.Control = True Then
+                'If m_pSketchType = SketchType.Polyline Then
+                '    Dim lengthValve As String = InputBox("Length of line segment", "Enter length", " ")
 
+                '    If IsInputNumeric(lengthValve) Then
+                '        OnMouseDown()
+                '    End If
 
+                '    MyBase.OnKeyDown(arg)
+                'End If
             End If
             'Dim pKeyEv As ESRI.ArcGIS.Desktop.AddIns.Tool.KeyEventArgs
             'pKeyEv = ESRI.ArcGIS.Desktop.AddIns.Tool.KeyEventArgs
@@ -110,13 +126,17 @@ Public Class CreateAssetForGrid
         ArcGIS4LocalGovernment.CostEstimatingWindow.SelectTool(ArcGIS4LocalGovernment.CostEstimatingWindow.CIPTools.Sketch, False)
 
         screenDisplay = Nothing
-
+        destroyMapTip()
         Return MyBase.OnDeactivate()
     End Function
+    Private m_pSR As ISpatialReference
     Protected Overrides Sub OnActivate()
         Try
 
-
+            Dim pApp As IMxApplication = CType(My.ArcMap.Application, ESRI.ArcGIS.ArcMapUI.IMxApplication)
+            Dim pDoc As IMxDocument = pApp.Document
+            Dim pMap As IMap = pDoc.FocusMap ' document may contain many maps, this is the acive one'
+            m_pSR = pMap.SpatialReference
 
             ArcGIS4LocalGovernment.CostEstimatingWindow.SelectTool(ArcGIS4LocalGovernment.CostEstimatingWindow.CIPTools.Sketch, True)
             resetType()
@@ -146,6 +166,7 @@ Public Class CreateAssetForGrid
         MyBase.OnDoubleClick()
     End Sub
 
+    Private m_line_points As IPointCollection = Nothing
     Protected Overrides Sub OnMouseDown(ByVal arg As ESRI.ArcGIS.Desktop.AddIns.Tool.MouseEventArgs)
         Try
 
@@ -165,10 +186,12 @@ Public Class CreateAssetForGrid
 
 
             If m_pSketchType = SketchType.Point Then
+                m_line_points = Nothing
                 ArcGIS4LocalGovernment.CostEstimatingWindow.AddGraphicSketch(pMPnt)
 
 
             ElseIf m_pSketchType = SketchType.Polygon Then
+                m_line_points = Nothing
                 If m_pNewPolyFeedback Is Nothing Then
                     Dim pSLineSymFeed As ISimpleLineSymbol
                     Dim pRGB As IRgbColor
@@ -201,6 +224,8 @@ Public Class CreateAssetForGrid
 
             ElseIf m_pSketchType = SketchType.Polyline Then
                 If m_pNewLineFeedback Is Nothing Then
+                    Dim temp_polyline As IPolyline = New PolylineClass
+                    m_line_points = temp_polyline
                     Dim pSLineSymFeed As ISimpleLineSymbol
                     Dim pRGB As IRgbColor
 
@@ -222,7 +247,6 @@ Public Class CreateAssetForGrid
                     'Set the new Feedback's Display and StartPoint
                     m_pNewLineFeedback.Display = My.ArcMap.Document.ActiveView.ScreenDisplay
                     m_pNewLineFeedback.Start(pMPnt)
-
                     pSLineSymFeed = Nothing
                     pRGB = Nothing
 
@@ -230,6 +254,8 @@ Public Class CreateAssetForGrid
                     m_pNewLineFeedback.AddPoint(pMPnt)
 
                 End If
+                m_line_points.AddPoint(pMPnt)
+
 
 
             End If
@@ -290,6 +316,8 @@ Public Class CreateAssetForGrid
 
                 If m_pNewLineFeedback IsNot Nothing Then
                     m_pNewLineFeedback.MoveTo(m_pPt)
+                    UpdateMapTip(arg)
+
                 End If
 
 
@@ -335,9 +363,18 @@ Public Class CreateAssetForGrid
     End Enum
 #End Region
 #Region "Private Functions"
+    Private Sub destroyMapTip()
+        If Not m_lengthMaptip Is Nothing Then
+            m_lengthMaptip.Visible = False
+            m_lengthMaptip = Nothing
+        End If
+
+
+    End Sub
+
     Private Sub finishSketch()
         Try
-
+            destroyMapTip()
             If m_pSketchType = SketchType.Point Then
 
             ElseIf m_pSketchType = SketchType.Polygon Then
@@ -381,12 +418,33 @@ Public Class CreateAssetForGrid
 
         End Try
     End Sub
+    Private Sub UpdateMapTip(arg As ESRI.ArcGIS.Desktop.AddIns.Tool.MouseEventArgs)
+        If m_lengthMaptip Is Nothing Then Return
+        Dim pMPnt As IPoint = My.ArcMap.ThisApplication.Display.DisplayTransformation.ToMapPoint(arg.X, arg.Y)
+
+        'Dim screenDisplay As ESRI.ArcGIS.Display.IScreenDisplay = My.ArcMap.Document.ActiveView.ScreenDisplay
+
+        'Dim displayTransformation As ESRI.ArcGIS.Display.IDisplayTransformation = screenDisplay.DisplayTransformation
+
+        'My.ArcMap.ThisApplication.Display.DisplayTransformation.FromMapPoint(pMPnt, x, y)
+        'displayTransformation.FromMapPoint(pMPnt, x, y)
+
+        m_lengthMaptip.SetLabel(getLength(pMPnt))
+        m_lengthMaptip.Top = System.Windows.Forms.Cursor.Position.Y - 20
+        m_lengthMaptip.Left = System.Windows.Forms.Cursor.Position.X + 5
+
+
+        m_lengthMaptip.Visible = True
+
+    End Sub
+    Private m_lengthMaptip As LengthTip
     Private Sub resetType()
 
         Try
 
 
-
+            'Initialize address map tip
+            m_lengthMaptip = Nothing
             Dim pTarget As ArcGIS4LocalGovernment.CostEstimatingWindow.layerAndTypes = ArcGIS4LocalGovernment.CostEstimatingWindow.GetTarget
             If pTarget Is Nothing Then
                 m_pSketchType = SketchType.none
@@ -399,6 +457,11 @@ Public Class CreateAssetForGrid
 
             ElseIf pTarget.getGeoType = ESRI.ArcGIS.Geometry.esriGeometryType.esriGeometryPolyline Then
                 m_pSketchType = SketchType.Polyline
+                m_lengthMaptip = New LengthTip()
+
+                Dim mxPtr As IntPtr = New IntPtr(My.ArcMap.Document.ActiveView.ScreenDisplay.hWnd)
+                m_lengthMaptip.Show(Control.FromHandle(mxPtr))
+                m_lengthMaptip.Visible = False
 
             End If
             pTarget = Nothing
@@ -513,6 +576,29 @@ Public Class CreateAssetForGrid
             MsgBox("Error in the Costing Tools - CIPSketchNewCandidate: setSnappingForLayer" & vbCrLf & ex.ToString())
         End Try
     End Sub
+    Private Function getLength(curPnt As IPoint) As Double
+
+
+        Dim pClone As IClone = m_line_points
+        Dim tempPC As IPointCollection = pClone.Clone()
+        tempPC.AddPoint(curPnt)
+        Dim polyline As IPolyline = tempPC
+        polyline.SpatialReference = m_pSR
+        If TypeOf (m_pSR) Is IProjectedCoordinateSystem Then
+
+            Dim pCurDes As IPolycurveGeodetic = polyline
+
+            If Not pCurDes Is Nothing Then
+                Dim pProjSys As IProjectedCoordinateSystem = m_pSR
+                Return pCurDes.LengthGeodetic(0, pProjSys.CoordinateUnit)
+
+
+            End If
+        Else
+            Dim curve As ICurve = polyline
+            Return curve.Length
+        End If
+    End Function
     Private Sub RefreshSnapWindow()
         Try
 

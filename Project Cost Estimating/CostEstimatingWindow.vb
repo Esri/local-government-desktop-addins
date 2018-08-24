@@ -976,10 +976,10 @@ Partial Public Class CostEstimatingWindow
                         If pDom Is Nothing Then
 
 
-                            If pDc.Type = esriFieldType.esriFieldTypeString Or _
-                               pDc.Type = esriFieldType.esriFieldTypeDouble Or _
-                               pDc.Type = esriFieldType.esriFieldTypeInteger Or _
-                                pDc.Type = esriFieldType.esriFieldTypeSingle Or _
+                            If pDc.Type = esriFieldType.esriFieldTypeString Or
+                               pDc.Type = esriFieldType.esriFieldTypeDouble Or
+                               pDc.Type = esriFieldType.esriFieldTypeInteger Or
+                                pDc.Type = esriFieldType.esriFieldTypeSingle Or
                                pDc.Type = esriFieldType.esriFieldTypeSmallInteger Then
 
                                 'Create a lable for the field name
@@ -2035,7 +2035,7 @@ Partial Public Class CostEstimatingWindow
                     End If
 
 
-                    loadRecord(pfeat.Shape, strType, strType, strID, strCost, strAddCost, strLen, strTotCost, strExt1, strExt2, _
+                    loadRecord(pfeat.Shape, strType, strType, strID, strCost, strAddCost, strLen, strTotCost, strExt1, strExt2,
                                pLastFeatFiltField1, pLastFeatFiltField2, strOID, strPro1, strPro2, strStrat, strAction, strMulti, strNotes)
 
 
@@ -2298,7 +2298,7 @@ Partial Public Class CostEstimatingWindow
 
 
                                             Else
-                                                 CType(cCntrlPnl, ComboBox).SelectedValue = pFeat.Value(pFeat.Fields.FindField(strFld)).ToString()
+                                                CType(cCntrlPnl, ComboBox).SelectedValue = pFeat.Value(pFeat.Fields.FindField(strFld)).ToString()
                                             End If
 
 

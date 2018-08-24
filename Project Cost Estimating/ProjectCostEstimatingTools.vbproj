@@ -180,6 +180,12 @@
       <DependentUpon>Config.esriaddinx</DependentUpon>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Include="LengthTip.Designer.vb">
+      <DependentUpon>LengthTip.vb</DependentUpon>
+    </Compile>
+    <Compile Include="LengthTip.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -197,6 +203,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LengthTip.resx">
+      <DependentUpon>LengthTip.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -237,10 +246,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="CreateAssetForGrid.vb" />
-    <Compile Include="CustomPanel.vb">
+	<Compile Include="CustomPanel.vb">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Globals.vb" />
+    </Compile>    <Compile Include="Globals.vb" />
     <Compile Include="myDG.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -303,6 +311,9 @@
   <ItemGroup>
     <Content Include="Images\Flash.bmp" />
     <Content Include="Images\splitSelected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <PropertyGroup>
     <ZipFileExtension>esriAddIn</ZipFileExtension>
