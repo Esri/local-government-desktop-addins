@@ -7654,17 +7654,19 @@ Partial Public Class CostEstimatingWindow
                                     'strSourceLayer = pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefNameField))
                                     Try
                                         If pFeat.Value(pFeat.Fields.FindField(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefIDField)))) Is Nothing Then
-                                            MsgBox("The ID is missing for asset with an OID of " & pFeat.OID & " in " & strSourceLayerNameConfig & vbCrLf & "Skipping this asset")
+                                            strSourceLayerID = "Not Found"
+                                            'MsgBox("The ID is missing for asset with an OID of " & pFeat.OID & " in " & strSourceLayerNameConfig & vbCrLf & "Skipping this asset")
 
-                                            pFeat = pFCursor.NextFeature
+                                            'pFeat = pFCursor.NextFeature
 
-                                            Continue Do
+                                            'Continue Do
                                         ElseIf pFeat.Value(pFeat.Fields.FindField(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefIDField)))) Is DBNull.Value Then
-                                            MsgBox("The ID is missing for asset with an OID of " & pFeat.OID & " in " & strSourceLayerNameConfig & vbCrLf & "Skipping this asset")
+                                            strSourceLayerID = "Not Found"
+                                            'MsgBox("The ID is missing for asset with an OID of " & pFeat.OID & " in " & strSourceLayerNameConfig & vbCrLf & "Skipping this asset")
 
-                                            pFeat = pFCursor.NextFeature
+                                            'pFeat = pFCursor.NextFeature
 
-                                            Continue Do
+                                            'Continue Do
                                         Else
                                             strSourceLayerID = pFeat.Value(pFeat.Fields.FindField(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefIDField))))
                                         End If

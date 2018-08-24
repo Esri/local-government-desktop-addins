@@ -31,7 +31,8 @@ Partial Class LengthTip
         Me.mapTipLabel.Dock = System.Windows.Forms.DockStyle.Fill
         Me.mapTipLabel.Location = New System.Drawing.Point(0, 0)
         Me.mapTipLabel.Name = "mapTipLabel"
-        Me.mapTipLabel.Size = New System.Drawing.Size(39, 13)
+        Me.mapTipLabel.Padding = New System.Windows.Forms.Padding(4, 4, 2, 2)
+        Me.mapTipLabel.Size = New System.Drawing.Size(45, 19)
         Me.mapTipLabel.TabIndex = 0
         Me.mapTipLabel.Text = "Label1"
         '
@@ -39,14 +40,15 @@ Partial Class LengthTip
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.AutoSize = True
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BackColor = System.Drawing.Color.Yellow
-        Me.ClientSize = New System.Drawing.Size(172, 49)
+        Me.ClientSize = New System.Drawing.Size(172, 28)
         Me.ControlBox = False
         Me.Controls.Add(Me.mapTipLabel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "LengthTip"
+        Me.ShowIcon = False
+        Me.ShowInTaskbar = False
         Me.Text = "LengthTip"
         Me.ResumeLayout(False)
         Me.PerformLayout()
