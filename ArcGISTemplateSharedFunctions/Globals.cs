@@ -2664,17 +2664,8 @@ namespace A4LGSharedFunctions
         public static double ConvertArithmeticToGeographic(double Angle)
         {
 
-            Angle = 270 - Angle;
-            if (Angle < 0)
-            {
-                Angle = 360 + Angle;
-            }
-            if (Angle > 360)
-            {
-                Angle = Angle - 360;
-            }
-            return Angle;
-
+            return (450 - Angle) % 360;
+            
         }
         public static double GetAngleOfLineAtDistance(IPolyline inLine, double distance)
         {

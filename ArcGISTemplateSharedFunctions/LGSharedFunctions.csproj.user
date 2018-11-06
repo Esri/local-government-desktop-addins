@@ -11,4 +11,8 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
     <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files %28x86%29\ArcGIS\Desktop10.6\bin\ArcMap.exe</StartProgram>
+  </PropertyGroup>
 </Project>

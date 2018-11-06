@@ -235,7 +235,7 @@ namespace A4LGSharedFunctions
 
                 case 1:
                     //One line such as at valves
-                    if (diametersWithPoints[0].location == "From")
+                    if (diametersWithPoints[0].location == "To")
                     {
                         if (diametersWithPoints[0].angle >= 180)
                         {
@@ -251,7 +251,6 @@ namespace A4LGSharedFunctions
                     {
                         return diametersWithPoints[0].angle;
                     }
-                    return diametersWithPoints[0].angle;
                 case 2:
                     //Two lines such as at reducers Or at tee fittings where line is not broken
 
@@ -277,38 +276,33 @@ namespace A4LGSharedFunctions
                         {
                             if (Globals.pointscoincident(diametersWithPoints[0].pntStart, diametersWithPoints[1].pntStart))
                             {
-                                //Checked
-                                return diametersWithPoints[0].angle;
+                                //checked
+                                if (diametersWithPoints[0].angle >= 180)
+                                {
+                                    return diametersWithPoints[0].angle - 180;
+                                }
+                                else
+                                {
+                                    return diametersWithPoints[0].angle + 180;
+                                }
                             }
                             else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntEnd))
                             {
-                                //Checked
-                                if (diametersWithPoints[0].angle >= 180)
-                                {
-                                    return diametersWithPoints[0].angle - 180;
-                                }
-                                else
-                                {
-                                    return diametersWithPoints[0].angle + 180;
-                                }
+                                //checked
+                                return diametersWithPoints[0].angle;
+
                             }
                             else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntStart))
                             {
-                                //Checked
-                                if (diametersWithPoints[0].angle >= 180)
-                                {
-                                    return diametersWithPoints[0].angle - 180;
-                                }
-                                else
-                                {
-                                    return diametersWithPoints[0].angle + 180;
-                                }
+                                //checked
+                                return diametersWithPoints[0].angle;
 
                             }
                             else
                             {
-                                //Checked
-                                return diametersWithPoints[0].angle;
+                                //checked
+                                return diametersWithPoints[1].angle;
+                                
                             }
 
 
@@ -317,29 +311,25 @@ namespace A4LGSharedFunctions
                         {
                             if (Globals.pointscoincident(diametersWithPoints[0].pntStart, diametersWithPoints[1].pntStart))
                             {
-                                //Checked
-                                return diametersWithPoints[1].angle;
+                                //checked
+                                if (diametersWithPoints[1].angle >= 180)
+                                {
+                                    return diametersWithPoints[1].angle - 180;
+                                }
+                                else
+                                {
+                                    return diametersWithPoints[1].angle + 180;
+                                }
+                                
                             }
                             else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntEnd))
                             {
-                                //Checked
-                                if (diametersWithPoints[1].angle >= 180)
-                                {
-                                    return diametersWithPoints[1].angle - 180;
-                                }
-                                else
-                                {
-                                    return diametersWithPoints[1].angle + 180;
-                                }
+                                //checked
+                                return diametersWithPoints[1].angle;
                             }
                             else if (Globals.pointscoincident(diametersWithPoints[0].pntEnd, diametersWithPoints[1].pntStart))
                             {
-                                //Checked
-                                return diametersWithPoints[1].angle;
-                            }
-                            else
-                            {
-                                //Checked
+                                //checked
                                 if (diametersWithPoints[1].angle >= 180)
                                 {
                                     return diametersWithPoints[1].angle - 180;
@@ -348,6 +338,12 @@ namespace A4LGSharedFunctions
                                 {
                                     return diametersWithPoints[1].angle + 180;
                                 }
+                            }
+                            else
+                            {
+                                //checked
+                                return diametersWithPoints[0].angle;
+                                
                             }
                         }
                         else
@@ -378,11 +374,11 @@ namespace A4LGSharedFunctions
                         {
                             if (diametersWithPoints[2].angle >= 180)
                             {
-                                return diametersWithPoints[2].angle - 180;
+                                return diametersWithPoints[2].angle;
                             }
                             else
                             {
-                                return diametersWithPoints[2].angle + 180;
+                                return diametersWithPoints[2].angle;
                             }
 
                         }
@@ -397,11 +393,12 @@ namespace A4LGSharedFunctions
                         {
                             if (diametersWithPoints[1].angle >= 180)
                             {
-                                return diametersWithPoints[1].angle - 180;
+                                return diametersWithPoints[1].angle + 180;
                             }
                             else
                             {
-                                return diametersWithPoints[1].angle + 180;
+                                return diametersWithPoints[1].angle - 180;
+                                
                             }
 
                         }
@@ -417,11 +414,13 @@ namespace A4LGSharedFunctions
                         {
                             if (diametersWithPoints[0].angle >= 180)
                             {
-                                return diametersWithPoints[0].angle - 180;
+                                //checked
+                                return diametersWithPoints[0].angle;
+                                
                             }
                             else
                             {
-                                return diametersWithPoints[0].angle + 180;
+                                return diametersWithPoints[0].angle;
                             }
 
                         }
