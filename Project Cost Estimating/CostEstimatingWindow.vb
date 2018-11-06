@@ -112,7 +112,10 @@ Partial Public Class CostEstimatingWindow
 
     Private Shared s_chkProject As Label
     Private Shared s_gpBoxAfterOverwrite As Panel
-
+    Private Shared s_rdoBtnShowDetails As RadioButton
+    Private Shared s_rdoBtnShowLayers As RadioButton
+    Private Shared s_rdoBtnShowCan As RadioButton
+    Private Shared s_firstTime As Boolean = True
     Private Shared s_numCIPInvCount As System.Windows.Forms.NumericUpDown
     Public Sub init()
 
@@ -205,6 +208,9 @@ Partial Public Class CostEstimatingWindow
 
             s_gpBoxAfterOverwrite = gpBoxAfterOverwrite
 
+            s_rdoBtnShowDetails = rdoBtnShowDetails
+            s_rdoBtnShowCan = rdoBtnShowCan
+            s_rdoBtnShowLayers = rdoBtnShowLayers
             ' Add any initialization after the InitializeComponent() call.
             makeImagesTrans()
             InitGrid()
@@ -909,13 +915,13 @@ Partial Public Class CostEstimatingWindow
                             pCBox.Width = My.Globals.Constants.c_ControlWidth
                             pCBox.Height = pCBox.Height + 5
                             pCBox.DropDownStyle = ComboBoxStyle.DropDownList
-
                             pCBox.Font = My.Globals.Constants.c_Fnt
                             pCBox.DataBindings.DefaultDataSourceUpdateMode = DataSourceUpdateMode.Never
 
                             pCBox.DataSource = My.Globals.Functions.SubtypeToList(pSubType)
                             pCBox.DisplayMember = "Display"
                             pCBox.ValueMember = "Value"
+
                             ' pCmdBox.MaxLength = pDc.Length
 
 
@@ -970,10 +976,10 @@ Partial Public Class CostEstimatingWindow
                         If pDom Is Nothing Then
 
 
-                            If pDc.Type = esriFieldType.esriFieldTypeString Or _
-                               pDc.Type = esriFieldType.esriFieldTypeDouble Or _
-                               pDc.Type = esriFieldType.esriFieldTypeInteger Or _
-                                pDc.Type = esriFieldType.esriFieldTypeSingle Or _
+                            If pDc.Type = esriFieldType.esriFieldTypeString Or
+                               pDc.Type = esriFieldType.esriFieldTypeDouble Or
+                               pDc.Type = esriFieldType.esriFieldTypeInteger Or
+                                pDc.Type = esriFieldType.esriFieldTypeSingle Or
                                pDc.Type = esriFieldType.esriFieldTypeSmallInteger Then
 
                                 'Create a lable for the field name
@@ -1342,6 +1348,7 @@ Partial Public Class CostEstimatingWindow
                                     pCBox.DataSource = My.Globals.Functions.DomainToList(pCV)
                                     pCBox.DisplayMember = "Display"
                                     pCBox.ValueMember = "Value"
+
                                     ' pCmdBox.MaxLength = pDc.Length
 
 
@@ -1708,6 +1715,7 @@ Partial Public Class CostEstimatingWindow
                                         pCBox.DisplayMember = "Display"
                                         pCBox.ValueMember = "Value"
                                         pCBox.Visible = True
+
                                         pCBox.Refresh()
 
                                         Dim codeVal As String = "", displayVal As String = ""
@@ -2027,7 +2035,7 @@ Partial Public Class CostEstimatingWindow
                     End If
 
 
-                    loadRecord(pfeat.Shape, strType, strType, strID, strCost, strAddCost, strLen, strTotCost, strExt1, strExt2, _
+                    loadRecord(pfeat.Shape, strType, strType, strID, strCost, strAddCost, strLen, strTotCost, strExt1, strExt2,
                                pLastFeatFiltField1, pLastFeatFiltField2, strOID, strPro1, strPro2, strStrat, strAction, strMulti, strNotes)
 
 
@@ -2290,7 +2298,7 @@ Partial Public Class CostEstimatingWindow
 
 
                                             Else
-                                                CType(cCntrlPnl, ComboBox).SelectedValue = pFeat.Value(pFeat.Fields.FindField(strFld))
+                                                CType(cCntrlPnl, ComboBox).SelectedValue = pFeat.Value(pFeat.Fields.FindField(strFld)).ToString()
                                             End If
 
 
@@ -4622,7 +4630,7 @@ Partial Public Class CostEstimatingWindow
         Try
             If pGeo.IsEmpty Then Return 0
 
-
+            Dim pFLDef As IFeatureLayerDefinition = pFeatLayer
             Dim pSpatFilt As ISpatialFilter = New SpatialFilter
             pSpatFilt.GeometryField = pFeatLayer.FeatureClass.ShapeFieldName
             pSpatFilt.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects
@@ -4630,7 +4638,9 @@ Partial Public Class CostEstimatingWindow
             If sql <> "" Then
                 pSpatFilt.WhereClause = sql
             End If
-
+            If pFLDef.DefinitionExpression <> "" Then
+                pSpatFilt.WhereClause = If(pSpatFilt.WhereClause = "", pFLDef.DefinitionExpression, pFLDef.DefinitionExpression & " AND " & pSpatFilt.WhereClause)
+            End If
             getFeatureCount = pFeatLayer.FeatureClass.FeatureCount(pSpatFilt)
             pSpatFilt = Nothing
 
@@ -6331,15 +6341,19 @@ Partial Public Class CostEstimatingWindow
 
         End Try
     End Sub
+    Private Shared Sub showDetails()
+        s_gpBxCIPCan.Visible = False
+        s_gpBxCIPCostingLayers.Visible = False
+        s_gpBxCIPPrj.Visible = True
+        s_gpBxCIPInven.Visible = False
+        Call gpBxCIPCostingLayers_Resize(Nothing, Nothing)
+    End Sub
+
     Private Shared Sub rdoBtnShowDetails_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdoBtnShowDetails.CheckedChanged
         Try
-            If CType(sender, RadioButton).Checked = True Then
-                s_gpBxCIPCan.Visible = False
-                s_gpBxCIPCostingLayers.Visible = False
-                s_gpBxCIPPrj.Visible = True
-                s_gpBxCIPInven.Visible = False
-                Call gpBxCIPCostingLayers_Resize(Nothing, Nothing)
 
+            If CType(sender, RadioButton).Checked = True Then
+                showDetails()
             End If
         Catch ex As Exception
             MsgBox("Error in the Costing Tools - CIPProjectWindow: rdoBtnShowDetails_CheckedChanged" & vbCrLf & ex.ToString())
@@ -7356,6 +7370,17 @@ Partial Public Class CostEstimatingWindow
             If pFeat Is Nothing Then Return
 
             ClearControl()
+            If s_firstTime = True Then
+
+                If s_rdoBtnShowCan.Checked Then
+                    showDetails()
+                    rdoBtnShowCan_CheckedChanged(s_rdoBtnShowCan, Nothing)
+                ElseIf s_rdoBtnShowLayers.Checked Then
+                    showDetails()
+                    rdoBtnShowLayers_CheckedChanged(s_rdoBtnShowLayers, Nothing)
+                End If
+                s_firstTime = False
+            End If
 
 
             Dim strPrjName As String = loadProjectToForm(pFeat)
@@ -7597,7 +7622,7 @@ Partial Public Class CostEstimatingWindow
                                 pSpatQ.Geometry = pEnv
                                 pSpatQ.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects
                                 pSpatQ.GeometryField = pAssetFl.FeatureClass.ShapeFieldName
-                                Dim pFCursor As IFeatureCursor = pAssetFl.FeatureClass.Search(pSpatQ, True)
+                                Dim pFCursor As IFeatureCursor = pAssetFl.Search(pSpatQ, True)
                                 Dim pFeat As IFeature = pFCursor.NextFeature
                                 Dim loopCnt As Integer = 1
 
@@ -7629,17 +7654,19 @@ Partial Public Class CostEstimatingWindow
                                     'strSourceLayer = pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefNameField))
                                     Try
                                         If pFeat.Value(pFeat.Fields.FindField(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefIDField)))) Is Nothing Then
-                                            MsgBox("The ID is missing for asset with an OID of " & pFeat.OID & " in " & strSourceLayerNameConfig & vbCrLf & "Skipping this asset")
+                                            strSourceLayerID = "Not Found"
+                                            'MsgBox("The ID is missing for asset with an OID of " & pFeat.OID & " in " & strSourceLayerNameConfig & vbCrLf & "Skipping this asset")
 
-                                            pFeat = pFCursor.NextFeature
+                                            'pFeat = pFCursor.NextFeature
 
-                                            Continue Do
+                                            'Continue Do
                                         ElseIf pFeat.Value(pFeat.Fields.FindField(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefIDField)))) Is DBNull.Value Then
-                                            MsgBox("The ID is missing for asset with an OID of " & pFeat.OID & " in " & strSourceLayerNameConfig & vbCrLf & "Skipping this asset")
+                                            strSourceLayerID = "Not Found"
+                                            'MsgBox("The ID is missing for asset with an OID of " & pFeat.OID & " in " & strSourceLayerNameConfig & vbCrLf & "Skipping this asset")
 
-                                            pFeat = pFCursor.NextFeature
+                                            'pFeat = pFCursor.NextFeature
 
-                                            Continue Do
+                                            'Continue Do
                                         Else
                                             strSourceLayerID = pFeat.Value(pFeat.Fields.FindField(pDefRow.Value(pDefRow.Fields.FindField(My.Globals.Constants.c_CIPDefIDField))))
                                         End If
@@ -8103,6 +8130,10 @@ Partial Public Class CostEstimatingWindow
                 'add controls from the overlview layer
                 AddControls()
                 ShuffleControls(False)
+                For Each tb As TabPage In s_tbCntCIPDetails.TabPages
+                    tb.Show()
+                Next
+
             End If
             'If cboCIPInvTypes.DataSource Is Nothing Then
             '    Dim pInvTbl As ITable = FindTable(c_CIPInvLayName, m_pMxDoc.FocusMap)
