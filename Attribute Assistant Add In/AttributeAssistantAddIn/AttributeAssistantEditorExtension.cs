@@ -1652,15 +1652,38 @@ namespace ArcGIS4LocalGovernment
                     }
                     else
                     {
+                        
+                     
                         pFeatChange = (IFeatureChanges)inFeature;
+                        IRowChanges this_row_changes = (IRowChanges)inFeature;
                         if (pFeatChange.ShapeChanged)
                         {
                             if (bIsFabricRecord)
                             {
-                                if (pFeatChange.OriginalShape.IsEmpty)
-                                    sendEvent(obj, "ON_CREATE"); //original shape empty, but shape change means new parcel
-                                else
-                                    sendEvent(obj, "ON_CHANGE");//treat geometry changes as standard change for fabric
+
+                                //Only apply this special logic to parcels
+                                if (inFeature.Fields.FindField("joined") > 0)
+                                {
+                                    //Check the std error fields to determine if the feature is a new feature or a feature that was a joined parcel and unjoined
+                                    bool new_feature = true;
+                                    int test_field_idx = inFeature.Fields.FindField("shapestderrore");
+                                    if (test_field_idx >= 0)
+                                    {
+
+                                        object val_to_test = this_row_changes.get_OriginalValue(test_field_idx);//inFeature.get_Value(test_field_idx);
+                                        if (val_to_test != DBNull.Value && val_to_test != null)
+                                        {
+                                            new_feature = false;
+                                        }
+                                    }
+                                    if (pFeatChange.OriginalShape.IsEmpty && new_feature)
+                                        sendEvent(obj, "ON_CREATE"); //original shape empty, but shape change means new parcel
+                                    else
+                                        sendEvent(obj, "ON_CHANGE");//treat geometry changes as standard change for fabric
+                                }
+                                else {
+                                    sendEvent(obj, "ON_CHANGE");
+                                }
                             }
                             else
                                 sendEvent(obj, "ON_CHANGEGEO");
