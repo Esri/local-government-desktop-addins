@@ -12663,7 +12663,7 @@ namespace A4LGSharedFunctions
                                         newPointColl.AddPoint(turnPoint, ref Missing, ref Missing);
                                     }
 
-                                    newPointColl.AddPoint(pNewPnt, ref Missing, ref Missing);
+                                    newPointColl.AddPoint(toPoint, ref Missing, ref Missing);
                                 }
 
                                 //newPolyLine = new PolylineClass();

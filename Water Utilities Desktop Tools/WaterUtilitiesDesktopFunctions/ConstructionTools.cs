@@ -2815,6 +2815,7 @@ namespace A4WaterUtilities
                     constTempPt2 = (IConstructPoint)tempPt2;
                     constTempPt2.ConstructAlong(tempLine, esriSegmentExtension.esriNoExtension, dist, false);
                     turnPoint = (IPoint)constTempPt2;
+
                 }
                 else
                     turnPoint = null;
