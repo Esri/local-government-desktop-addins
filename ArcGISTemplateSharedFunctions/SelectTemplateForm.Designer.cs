@@ -37,28 +37,28 @@
             // lblLayer
             // 
             this.lblLayer.AutoSize = true;
-            this.lblLayer.Location = new System.Drawing.Point(22, 25);
-            this.lblLayer.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLayer.Location = new System.Drawing.Point(15, 16);
             this.lblLayer.Name = "lblLayer";
-            this.lblLayer.Size = new System.Drawing.Size(51, 20);
+            this.lblLayer.Size = new System.Drawing.Size(35, 13);
             this.lblLayer.TabIndex = 0;
             this.lblLayer.Text = "label1";
             // 
             // cboSelectTemplate
             // 
+            this.cboSelectTemplate.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cboSelectTemplate.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cboSelectTemplate.FormattingEnabled = true;
-            this.cboSelectTemplate.Location = new System.Drawing.Point(22, 62);
-            this.cboSelectTemplate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cboSelectTemplate.Location = new System.Drawing.Point(15, 40);
             this.cboSelectTemplate.Name = "cboSelectTemplate";
-            this.cboSelectTemplate.Size = new System.Drawing.Size(414, 28);
+            this.cboSelectTemplate.Size = new System.Drawing.Size(277, 21);
             this.cboSelectTemplate.TabIndex = 1;
+            this.cboSelectTemplate.TextChanged += new System.EventHandler(this.cboSelectTemplate_TextChanged);
             // 
             // btnSelect
             // 
-            this.btnSelect.Location = new System.Drawing.Point(22, 103);
-            this.btnSelect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSelect.Location = new System.Drawing.Point(15, 67);
             this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(112, 35);
+            this.btnSelect.Size = new System.Drawing.Size(75, 23);
             this.btnSelect.TabIndex = 2;
             this.btnSelect.Text = "Select";
             this.btnSelect.UseVisualStyleBackColor = true;
@@ -66,22 +66,22 @@
             // 
             // comments
             // 
-            this.comments.Location = new System.Drawing.Point(152, 103);
+            this.comments.Location = new System.Drawing.Point(101, 67);
+            this.comments.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.comments.Name = "comments";
-            this.comments.Size = new System.Drawing.Size(284, 55);
+            this.comments.Size = new System.Drawing.Size(189, 36);
             this.comments.TabIndex = 3;
             // 
             // SelectTemplateForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(628, 260);
+            this.ClientSize = new System.Drawing.Size(419, 169);
             this.ControlBox = false;
             this.Controls.Add(this.comments);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.cboSelectTemplate);
             this.Controls.Add(this.lblLayer);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectTemplateForm";

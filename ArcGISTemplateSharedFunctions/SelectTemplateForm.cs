@@ -44,10 +44,10 @@ namespace A4LGSharedFunctions
             //s_lblLayer =  lblLayer;
             //s_cboSelectTemplate = cboSelectTemplate ;
         }
-
+        private int list_count;
         private void SelectTemplateForm_Load(object sender, EventArgs e)
         {
-
+            list_count = cboSelectTemplate.Items.Count;
         }
 
         private void btnSelect_Click(object sender, EventArgs e)
@@ -80,6 +80,21 @@ namespace A4LGSharedFunctions
         {
             cboSelectTemplate.Width = this.Width - 50 - cboSelectTemplate.Left;
             comments.Width = this.Width - 50 - comments.Left;
+        }
+
+        private void cboSelectTemplate_TextChanged(object sender, EventArgs e)
+        {
+            if (cboSelectTemplate.DataSource == null || list_count == 0)
+            {
+                return;
+            }
+            
+            if (cboSelectTemplate.SelectedIndex == -1)
+            {
+                btnSelect.Enabled = false;
+                return;
+            }
+            btnSelect.Enabled = true;
         }
     }
 }

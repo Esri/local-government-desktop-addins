@@ -88,9 +88,10 @@ namespace A4LGSharedFunctions
             this.Close();
 
         }
-
+        private int list_count;
         private void SelectFeatureForm_Load_1(object sender, EventArgs e)
         {
+            list_count = cboSelectTemplate.Items.Count;
 
         }
         public void setWidth(int Width)
@@ -126,5 +127,37 @@ namespace A4LGSharedFunctions
             cboSelectTemplate.Width = this.Width - 50 - cboSelectTemplate.Left;
             comments.Width = this.Width - 50 - comments.Left;
         }
+
+        private void cboSelectTemplate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void cboSelectTemplate_SelectedValueChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void cboSelectTemplate_TextChanged(object sender, EventArgs e)
+        {
+            if (cboSelectTemplate.DataSource == null || list_count == 0)
+            {
+                return;
+            }
+
+            if (cboSelectTemplate.SelectedIndex == -1)
+            {
+                btnSelect.Enabled = false;
+                return;
+            }
+            btnSelect.Enabled = true;
+        }
+
+        private void cboSelectTemplate_TextUpdate(object sender, EventArgs e)
+        {
+           
+        }
+
+       
     }
 }
