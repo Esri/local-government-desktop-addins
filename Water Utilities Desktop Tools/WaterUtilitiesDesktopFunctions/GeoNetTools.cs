@@ -616,7 +616,7 @@ namespace A4WaterUtilities
                         pLay = pLays.Next();
                     }
                     //MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("GeoNetToolsLbl_1") + "\n" + ex.ToString(), ex.Source);
-                    string strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsBatchBarrier"), ComboBoxStyle.DropDownList,null);
+                    string strRetVal = Globals.showOptionsForm(strFiles, A4LGSharedFunctions.Localizer.GetString("GeoNetToolsBatchBarrier"), ComboBoxStyle.DropDownList, null);
                     if (strRetVal != null && strRetVal != "||Cancelled||")
                     {
                         pFl = (IFeatureLayer)Globals.FindLayer(app, strRetVal, ref fndAsLayer);
@@ -1116,10 +1116,10 @@ namespace A4WaterUtilities
                 }
 
 
-                startNetFlag = Globals.GetJunctionFlag(ref pPnt, ref pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out  pFlagDisplay, true) as INetFlag;
+                startNetFlag = Globals.GetJunctionFlag(ref pPnt, ref pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out pFlagDisplay, true) as INetFlag;
                 if (startNetFlag == null)
                 {
-                    startNetFlag = Globals.GetEdgeFlag(ref pPnt, ref pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out distanceAlong, out  pFlagDisplay, true) as INetFlag;
+                    startNetFlag = Globals.GetEdgeFlag(ref pPnt, ref pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out distanceAlong, out pFlagDisplay, true) as INetFlag;
                 }
 
                 //Set network to trace
@@ -1139,8 +1139,9 @@ namespace A4WaterUtilities
 
                     pID.Value = "esriEditorExt.UtilityNetworkAnalysisExt";
                     pNetAnalysisExt = (INetworkAnalysisExt)app.FindExtensionByCLSID(pID);
-                    Globals.SetCurrentNetwork(ref pNetAnalysisExt, ref  gn);
-                    Globals.AddFlagToGN(ref pNetAnalysisExt, ref  gn, ref pFlagDisplay);
+                    Globals.SetCurrentNetwork(ref pNetAnalysisExt, ref gn);
+
+                    Globals.AddFlagToGN(ref pNetAnalysisExt, ref gn, ref pFlagDisplay, pMap);
                     //  pFlagDisplay
                     pNetAnalysisExt = null;
                     pID = null;
@@ -1253,10 +1254,10 @@ namespace A4WaterUtilities
                         return true;
                     }
                 }
-                startNetFlag = Globals.GetJunctionFlag(ref pPnt, ref  pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out  pFlagDisplay, false) as INetFlag;
+                startNetFlag = Globals.GetJunctionFlag(ref pPnt, ref pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out pFlagDisplay, false) as INetFlag;
                 if (startNetFlag == null)
                 {
-                    startNetFlag = Globals.GetEdgeFlag(ref pPnt, ref pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out distanceAlong, out  pFlagDisplay, false) as INetFlag;
+                    startNetFlag = Globals.GetEdgeFlag(ref pPnt, ref pMap, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out distanceAlong, out pFlagDisplay, false) as INetFlag;
                 }
 
                 //Set network to trace
@@ -1277,7 +1278,7 @@ namespace A4WaterUtilities
                     pID.Value = "esriEditorExt.UtilityNetworkAnalysisExt";
                     pNetAnalysisExt = (INetworkAnalysisExt)app.FindExtensionByCLSID(pID);
                     Globals.SetCurrentNetwork(ref pNetAnalysisExt, ref gn);
-                    Globals.AddBarrierToGN(pNetAnalysisExt, gn, pFlagDisplay);
+                    Globals.AddBarrierToGN(pNetAnalysisExt, gn, pFlagDisplay, pMap);
                     //  pFlagDisplay
                     pNetAnalysisExt = null;
                     pID = null;
@@ -2102,7 +2103,7 @@ namespace A4WaterUtilities
                     {
                         count = 0;
                         FCorLayer = true;
-                        featureLayer = Globals.FindLayer((IMap)mxDoc.FocusMap, ((IDataset)featureClass).Name, ref  FCorLayer) as IFeatureLayer;
+                        featureLayer = Globals.FindLayer((IMap)mxDoc.FocusMap, ((IDataset)featureClass).Name, ref FCorLayer) as IFeatureLayer;
                         if (featureLayer != null)
                         {
                             //Handle all non-orphan junction feature layers
@@ -2294,7 +2295,7 @@ namespace A4WaterUtilities
                 mxdoc = app.Document as IMxDocument;
                 map = mxdoc.ActiveView.FocusMap;
                 SnapTol = Globals.ConvertPixelsToMap(SnapTol, map);
-               
+
                 string[] strValveFLs = ISOvalveFeatureLayerName.Split('|');
                 // string[] strOpValues = .Split('|');
                 valveFLs = new IFeatureLayer[strValveFLs.Length];//(IFeatureLayer)Globals.FindLayer(map, valveFLName);
@@ -2453,7 +2454,7 @@ namespace A4WaterUtilities
                                 retEnv = new EnvelopeClass();
                                 pTmpPnt = feat.ShapeCopy as IPoint;
 
-                                retEnv.DefineFromPoints(1, ref  pTmpPnt);
+                                retEnv.DefineFromPoints(1, ref pTmpPnt);
                                 retEnv.Expand(SnapTol / 2, SnapTol / 2, false);
                                 pTmpPnt = null;
 
@@ -2463,7 +2464,7 @@ namespace A4WaterUtilities
 
                                 pTmpPnt = feat.ShapeCopy as IPoint;
                                 ptmpEnv = new EnvelopeClass();
-                                ptmpEnv.DefineFromPoints(1, ref  pTmpPnt);
+                                ptmpEnv.DefineFromPoints(1, ref pTmpPnt);
                                 ptmpEnv.Expand(SnapTol / 2, SnapTol / 2, false);
                                 retEnv.Union(ptmpEnv);
 
@@ -2482,7 +2483,7 @@ namespace A4WaterUtilities
 
                             // MessageBox.Show("Valve: " + targetFeature.get_Value(targetFeature.Fields.FindField(valveFLayer.DisplayField)).ToString() + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
                             if (showMessage)
-                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ValveFrom") + valveFLayer.Name + ": " + disEx + opField.AliasName +  A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
+                                MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("ValveFrom") + valveFLayer.Name + ": " + disEx + opField.AliasName + A4LGSharedFunctions.Localizer.GetString("IsNowOperable") + disVal);
 
                             Globals.FlashGeometry(feat.Shape, Globals.GetColor(255, 0, 0), mxdoc.ActiveView.ScreenDisplay, 150);
 
@@ -3536,7 +3537,7 @@ namespace A4WaterUtilities
                 //Draw graphic point at start location of trace
                 if (pNetAnalysisExt != null)
                 {
-                    Globals.AddFlagToGN(ref pNetAnalysisExt, ref gn, ref pFlagDisplay);
+                    Globals.AddFlagToGN(ref pNetAnalysisExt, ref gn, ref pFlagDisplay, map);
                 }
                 else
                 {
@@ -3824,7 +3825,7 @@ namespace A4WaterUtilities
                 {
                     for (int l = 0; l < x.Length; l++)
                     {
-                        startNetFlag.Add(Globals.GetEdgeFlag(x[l], y[l], ref  map, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out distanceAlong, out pFlagDisplay, true) as INetFlag);
+                        startNetFlag.Add(Globals.GetEdgeFlag(x[l], y[l], ref map, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out distanceAlong, out pFlagDisplay, true) as INetFlag);
                         pFlagsDisplay.Add(pFlagDisplay);
 
                     }
@@ -4088,7 +4089,7 @@ namespace A4WaterUtilities
                     //                             out EID, out distanceAlong, out  pFlagDisplay, Flag);
                     bool Flag = true;
                     netFlag2 = Globals.GetEdgeFlagWithGN(ref pTmpPnt, ref map, ref gn, snapTol, out snappedPoint,
-                                                 out EID, out distanceAlong, out  pFlagDisplay, Flag) as INetFlag;
+                                                 out EID, out distanceAlong, out pFlagDisplay, Flag) as INetFlag;
                     // Globals.AddTwoJunctionFlagsToTraceSolver(ref traceFlowSolver, netFlag1, netFlag2);
                     Globals.AddTwoJunctionFlagsToTraceSolver(ref traceFlowSolver, startNetFlag[0], netFlag2);
 
@@ -4399,7 +4400,7 @@ namespace A4WaterUtilities
         public static string TraceIsolation(double[] x, double[] y, IApplication app, string sourceFLName, string valveFLName, string operableFieldNameValves, string operableFieldNameSources,
                                   double snapTol, bool processEvent, string[] opValues, string addSQL, bool traceIndeterminate, bool ZeroSourceCont, bool selectEdges, string MeterName,
                                   string MeterCritField, string MeterCritVal, string closedValveQuery, IFeatureLayer mainsFL, out IPolyline mergedLines, out List<int> lineOIDs, bool addResultsAsLayer,
-                                   bool suppressDialog= false)
+                                   bool suppressDialog = false)
         {
 
             mergedLines = null;
@@ -4605,7 +4606,7 @@ namespace A4WaterUtilities
                 {
                     for (int l = 0; l < x.Length; l++)
                     {
-                        startNetFlag.Add(Globals.GetEdgeFlag(x[l], y[l], ref  map, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out distanceAlong, out pFlagDisplay, true) as INetFlag);
+                        startNetFlag.Add(Globals.GetEdgeFlag(x[l], y[l], ref map, ref gnList, snapTol, ref gnIdx, out snappedPoint, out EID, out distanceAlong, out pFlagDisplay, true) as INetFlag);
                         pFlagsDisplay.Add(pFlagDisplay);
 
                     }
@@ -5828,7 +5829,7 @@ namespace A4WaterUtilities
 
                 //Open identify dialog with selected features
                 //IdentifySelected(map);
-             
+
                 if (snappedPoint != null)
                 {
                     snappedPoint.Project(map.SpatialReference);
@@ -5860,7 +5861,8 @@ namespace A4WaterUtilities
                     {
                         foreach (IFlagDisplay pFgDi in pFlagsDisplay)
                         {
-                            Globals.AddFlagToGN(ref pNetAnalysisExt, ref gn, pFgDi);
+
+                            Globals.AddFlagToGN(ref pNetAnalysisExt, ref gn, pFgDi, map);
 
                             // Globals.AddPointGraphic(map, pFgDi.Geometry as IPoint, false);
                         }
@@ -5903,11 +5905,11 @@ namespace A4WaterUtilities
                 if (processEvent)
                 {
                     if (selectEdges)
-                        Globals.SelectEdges(ref map, ref  gn, ref edgeEIDs);
+                        Globals.SelectEdges(ref map, ref gn, ref edgeEIDs);
                     else
-                        Globals.DrawEdges(ref map, ref  gn, ref edgeEIDs);
+                        Globals.DrawEdges(ref map, ref gn, ref edgeEIDs);
                 }
-                mergedLines = Globals.MergeEdges(ref map, ref  gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
+                mergedLines = Globals.MergeEdges(ref map, ref gn, ref edgeEIDs, ref mainsFL, out lineOIDs);
 
                 returnVal = Globals.SelectValveJunctions(ref map, ref hasSourceValveHT, ref valveFLs, processEvent) + "_" + returnVal;
 
@@ -5920,8 +5922,70 @@ namespace A4WaterUtilities
                 if (addResultsAsLayer)
                 {
 
+                    INetworkAnalysisExtBarriers pNetworkAnalysisExtBarriers = (INetworkAnalysisExtBarriers)pNetAnalysisExt;
+                    INetworkAnalysisExtFlags pNetworkAnalysisExtFlags = (INetworkAnalysisExtFlags)pNetAnalysisExt;
 
-                    Globals.TraceResultsToLayer(ref app, ref  gn, ref enumEidInfoJunc, ref enumEidInfoEdge, ref hasSourceValveHT, ref valveFLs);
+
+                    List<IFlagDisplay> pBarsDisplay = new List<IFlagDisplay>();
+                    long lngFlagCount = pNetworkAnalysisExtBarriers.EdgeBarrierCount;
+                    if (lngFlagCount != 0)
+                    {
+                        for (int i = 0; i < lngFlagCount; i++)
+                        {
+                            pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtBarriers.get_EdgeBarrier(i);
+                            pBarsDisplay.Add(pFlagDisplay);
+                        }
+                    }
+                    lngFlagCount = pNetworkAnalysisExtBarriers.JunctionBarrierCount;
+                    if (lngFlagCount != 0)
+                    {
+                        for (int i = 0; i < lngFlagCount; i++)
+                        {
+                            pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtBarriers.get_JunctionBarrier(i);
+                            pBarsDisplay.Add(pFlagDisplay);
+                        }
+                    }
+
+                    pFlagsDisplay = new List<IFlagDisplay>();
+                    lngFlagCount = pNetworkAnalysisExtFlags.JunctionFlagCount;
+                    if (lngFlagCount != 0)
+                    {
+                        for (int i = 0; i < lngFlagCount; i++)
+                        {
+                            pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtFlags.get_JunctionFlag(i);
+                            pFlagsDisplay.Add(pFlagDisplay);
+                        }
+                    }
+                    lngFlagCount = pNetworkAnalysisExtFlags.EdgeFlagCount;
+                    if (lngFlagCount != 0)
+                    {
+                        for (int i = 0; i < lngFlagCount; i++)
+                        {
+                            pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtFlags.get_EdgeFlag(i);
+                            pFlagsDisplay.Add(pFlagDisplay);
+                        }
+                    }
+                    Globals.TraceResultsToLayer(ref app, ref gn, ref enumEidInfoJunc, ref enumEidInfoEdge, ref hasSourceValveHT, ref valveFLs);
+                    
+                    if (pNetworkAnalysisExtFlags.EdgeFlagCount == 0 && pNetworkAnalysisExtFlags.JunctionFlagCount == 0)
+                    {
+                        if (processEvent)
+                        {
+                            if (pNetAnalysisExt != null)
+                            {
+                                foreach (IFlagDisplay pFgDi in pFlagsDisplay)
+                                {
+                                    Globals.AddFlagToGN(ref pNetAnalysisExt, ref gn, pFgDi, map);
+
+                                }
+                                foreach (IFlagDisplay pFgDi in pBarsDisplay)
+                                {
+                                    Globals.AddBarrierToGN(pNetAnalysisExt, gn, pFgDi, map);
+
+                                }
+                            }
+                        }
+                    }
 
                 }
                 ((IMxDocument)app.Document).UpdateContents();
@@ -5941,7 +6005,7 @@ namespace A4WaterUtilities
 
                     pStepPro.Message = A4LGSharedFunctions.Localizer.GetString("Complete");
                     pStepPro.Step();
-                   
+
                 }
 
 
@@ -6202,7 +6266,7 @@ namespace A4WaterUtilities
                     {
 
                         pNetFlags.Add(Globals.GetJunctionFlag(Xs[i], Ys[i], ref map, ref gnList, snapTol, ref gnIdx,
-                                    out snappedPoint, out EID, out  pFlagDisplay, true) as INetFlag);
+                                    out snappedPoint, out EID, out pFlagDisplay, true) as INetFlag);
 
                         //Set network to trace
                         if (gnIdx > -1)
@@ -6212,7 +6276,7 @@ namespace A4WaterUtilities
                     }
                     else
                     {
-                        pNetFlags.Add(Globals.GetJunctionFlagWithGN(Xs[i], Ys[i], ref map, ref gn, ref snapTol, out snappedPoint, out EID, out  pFlagDisplay, true) as INetFlag);
+                        pNetFlags.Add(Globals.GetJunctionFlagWithGN(Xs[i], Ys[i], ref map, ref gn, ref snapTol, out snappedPoint, out EID, out pFlagDisplay, true) as INetFlag);
 
                     }
                 }
@@ -6286,14 +6350,14 @@ namespace A4WaterUtilities
                 //Select junction features
                 map.ClearSelection();
                 IJunctionFlag[] junctionFlag = null;
-                Globals.SelectJunctions(ref map, ref  gn, ref juncEIDs, ref junctionFlag, "", "", "", true);
+                Globals.SelectJunctions(ref map, ref gn, ref juncEIDs, ref junctionFlag, "", "", "", true);
                 if (selectEdges)
                     Globals.SelectEdges(ref map, ref gn, ref edgeEIDs);
                 edgeEIDs.Reset();
 
                 //Draw edge graphics
                 IEnvelope env = Globals.DrawEdges(ref map, ref gn, ref edgeEIDs);
-               
+
                 return edgeEIDs.Count.ToString();
 
 
@@ -7980,10 +8044,11 @@ namespace A4WaterUtilities
                             {
                                 distDown = pSegment.Length;
                             }
-                            else {
+                            else
+                            {
                                 continue;
                             }
-                                
+
                         }
                         else
                         {
@@ -8003,7 +8068,7 @@ namespace A4WaterUtilities
                             //else
                             //    distDown = tpDet.M;
                         }
-                        
+
 
                         pSegment.QueryPoint(esriSegmentExtension.esriNoExtension, distDown, false, pMidPnt);
                         //if (pMidPnt.X == tpDet.M)
@@ -8016,10 +8081,10 @@ namespace A4WaterUtilities
                         //pRowBuff.set_Value(pRowBuff.Fields.FindField("LABEL"), mainDetail.Label);//4
                         pTapCursor.InsertRow(pRowBuff);
                         tpDet.Added = true;
-                            //SewerColTap.Remove(tpDet);
+                        //SewerColTap.Remove(tpDet);
 
-                            // }
-                        
+                        // }
+
                     }
 
 

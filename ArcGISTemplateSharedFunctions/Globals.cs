@@ -803,7 +803,6 @@ namespace A4LGSharedFunctions
             IGeometry pGeo = null;
             IMap map = null;
 
-
             bool re;
             System.DateTime dateTimeValue;
             try
@@ -5652,10 +5651,16 @@ namespace A4LGSharedFunctions
                     else
                         pFlagDisplay.Symbol = CreateNetworkFlagBarrierSymbol(flagType.JunctionBarrier) as ISymbol;
                 }
-                pFlagDisplay.ClientClassID = FCID;
-                pFlagDisplay.FeatureClassID = FID;
+                pFlagDisplay.FeatureClassID = FCID;
+                pFlagDisplay.FID = FID;
                 pFlagDisplay.SubID = subID;
-                pFlagDisplay.Geometry = snappedPoint;
+                
+                
+                IPoint newPnt = new PointClass();
+                newPnt.X = snappedPoint.X;
+                newPnt.Y = snappedPoint.Y;
+                newPnt.SpatialReference = snappedPoint.SpatialReference;
+                pFlagDisplay.Geometry = newPnt;
                 return edgeFlag as IEdgeFlag;
             }
             catch
@@ -5672,7 +5677,7 @@ namespace A4LGSharedFunctions
 
 
         }
-        public static IEdgeFlag GetEdgeFlag(double x, double y, ref  IMap map, ref List<IGeometricNetwork> gnList, double snapTol, ref int gnIdx, out IPoint snappedPoint, out int EID, out double distanceAlong, out  IFlagDisplay pFlagDisplay, bool Flag)
+        public static IEdgeFlag GetEdgeFlag(double x, double y, ref  IMap map, ref List<IGeometricNetwork> gnList, double snapTol, ref int gnIdx, out IPoint snappedPoint, out int EID, out double distanceAlong, out IFlagDisplay pFlagDisplay, bool Flag)
         {
 
             //Initialize output variables
@@ -5950,7 +5955,7 @@ namespace A4LGSharedFunctions
                 pNetSolver = null;
             }
         }
-        public static void AddFlagToGN(ref INetworkAnalysisExt pNetworkAnalysisExt, ref ESRI.ArcGIS.Geodatabase.IGeometricNetwork pGeomNet, IFlagDisplay pFlagDsiplay)
+        public static void AddFlagToGN(ref INetworkAnalysisExt pNetworkAnalysisExt, ref ESRI.ArcGIS.Geodatabase.IGeometricNetwork pGeomNet, IFlagDisplay pFlagDsiplay, IMap map)
         {
             INetworkAnalysisExtFlags pNetworkAnalysisExtFlags = null;
 
@@ -5963,7 +5968,9 @@ namespace A4LGSharedFunctions
 
 
                 pNetworkAnalysisExtFlags = (INetworkAnalysisExtFlags)pNetworkAnalysisExt;
-
+                IPoint pnt = pFlagDsiplay.Geometry as IPoint;
+                pnt.Project(map.SpatialReference);
+                pFlagDsiplay.Geometry = pnt;
 
 
                 if (pFlagDsiplay is IEdgeFlagDisplay)
@@ -5989,7 +5996,7 @@ namespace A4LGSharedFunctions
 
 
         }
-        public static void AddFlagToGN(ref INetworkAnalysisExt pNetworkAnalysisExt, ref ESRI.ArcGIS.Geodatabase.IGeometricNetwork pGeomNet, ref  IFlagDisplay pFlagDsiplay)
+        public static void AddFlagToGN(ref INetworkAnalysisExt pNetworkAnalysisExt, ref ESRI.ArcGIS.Geodatabase.IGeometricNetwork pGeomNet, ref  IFlagDisplay pFlagDsiplay, IMap map)
         {
             INetworkAnalysisExtFlags pNetworkAnalysisExtFlags = null;
 
@@ -6003,12 +6010,15 @@ namespace A4LGSharedFunctions
 
                 pNetworkAnalysisExtFlags = (INetworkAnalysisExtFlags)pNetworkAnalysisExt;
 
-
-
+                IPoint pnt = pFlagDsiplay.Geometry as IPoint;
+                pnt.Project(map.SpatialReference);
+                pFlagDsiplay.Geometry = pnt;
+                
                 if (pFlagDsiplay is IEdgeFlagDisplay)
                 {
 
-                    pNetworkAnalysisExtFlags.AddEdgeFlag(pFlagDsiplay as IEdgeFlagDisplay);
+                    IEdgeFlagDisplay ped = pFlagDsiplay as IEdgeFlagDisplay;
+                    pNetworkAnalysisExtFlags.AddEdgeFlag(ped);
 
                 }
                 else
@@ -6029,7 +6039,7 @@ namespace A4LGSharedFunctions
 
         }
 
-        public static void AddBarrierToGN(INetworkAnalysisExt pNetworkAnalysisExt, ESRI.ArcGIS.Geodatabase.IGeometricNetwork pGeomNet, IFlagDisplay pFlagDsiplay)
+        public static void AddBarrierToGN(INetworkAnalysisExt pNetworkAnalysisExt, ESRI.ArcGIS.Geodatabase.IGeometricNetwork pGeomNet, IFlagDisplay pFlagDsiplay, IMap map)
         {
             INetworkAnalysisExtBarriers pNetworkAnalysisExtBar = null;
             try
@@ -6042,6 +6052,9 @@ namespace A4LGSharedFunctions
 
                 pNetworkAnalysisExtBar = (INetworkAnalysisExtBarriers)pNetworkAnalysisExt;
 
+                IPoint pnt = pFlagDsiplay.Geometry as IPoint;
+                pnt.Project(map.SpatialReference);
+                pFlagDsiplay.Geometry = pnt;
 
 
                 if (pFlagDsiplay is IEdgeFlagDisplay)
@@ -6064,7 +6077,7 @@ namespace A4LGSharedFunctions
             }
 
         }
-        public static void AddBarrierToGN(INetworkAnalysisExt pNetworkAnalysisExt, ESRI.ArcGIS.Geodatabase.IGeometricNetwork pGeomNet, ref IFlagDisplay pFlagDsiplay)
+        public static void AddBarrierToGN(INetworkAnalysisExt pNetworkAnalysisExt, ESRI.ArcGIS.Geodatabase.IGeometricNetwork pGeomNet, ref IFlagDisplay pFlagDsiplay, IMap map)
         {
             INetworkAnalysisExtBarriers pNetworkAnalysisExtBar = null;
             try
@@ -6077,6 +6090,9 @@ namespace A4LGSharedFunctions
 
                 pNetworkAnalysisExtBar = (INetworkAnalysisExtBarriers)pNetworkAnalysisExt;
 
+                IPoint pnt = pFlagDsiplay.Geometry as IPoint;
+                pnt.Project(map.SpatialReference);
+                pFlagDsiplay.Geometry = pnt;
 
 
                 if (pFlagDsiplay is IEdgeFlagDisplay)
@@ -6756,11 +6772,12 @@ namespace A4LGSharedFunctions
                             //assign to a local IFlagDisplay and IEdgeFlagDisplay variables
                             pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtBarriers.get_JunctionBarrier(i);
 
-                            pCl = (IClone)pFlagDisplay.Geometry;
+                            IPoint pNew_Pnt = new PointClass();
+                            pNew_Pnt.X = (pFlagDisplay.Geometry as IPoint).X;
+                            pNew_Pnt.Y = (pFlagDisplay.Geometry as IPoint).Y;
+                            pNew_Pnt.SpatialReference = (pFlagDisplay.Geometry as IPoint).SpatialReference;
 
-
-
-                            Barriers.Add((IPoint)pCl.Clone());
+                            Barriers.Add(pNew_Pnt);
 
                         }
 
@@ -6773,9 +6790,12 @@ namespace A4LGSharedFunctions
                         {
                             //assign to a local IFlagDisplay and IEdgeFlagDisplay variables
                             pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtBarriers.get_EdgeBarrier(i);
+                            IPoint pNew_Pnt = new PointClass();
+                            pNew_Pnt.X = (pFlagDisplay.Geometry as IPoint).X;
+                            pNew_Pnt.Y = (pFlagDisplay.Geometry as IPoint).Y;
+                            pNew_Pnt.SpatialReference = (pFlagDisplay.Geometry as IPoint).SpatialReference;
 
-                            pCl = (IClone)pFlagDisplay.Geometry;
-                            Barriers.Add((IPoint)pCl.Clone());
+                            Barriers.Add(pNew_Pnt);
 
                         }
 
@@ -6793,8 +6813,12 @@ namespace A4LGSharedFunctions
                         {
                             //assign to a local IFlagDisplay and IEdgeFlagDisplay variables
                             pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtFlags.get_EdgeFlag(i);
-                            pCl = (IClone)pFlagDisplay.Geometry;
-                            Flags.Add((IPoint)pCl.Clone());
+                            IPoint pNew_Pnt = new PointClass();
+                            pNew_Pnt.X = (pFlagDisplay.Geometry as IPoint).X;
+                            pNew_Pnt.Y = (pFlagDisplay.Geometry as IPoint).Y;
+                            pNew_Pnt.SpatialReference = (pFlagDisplay.Geometry as IPoint).SpatialReference;
+
+                            Flags.Add(pNew_Pnt);
 
                         }
 
@@ -6812,8 +6836,12 @@ namespace A4LGSharedFunctions
                         {
                             //assign to a local IFlagDisplay variable
                             pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtFlags.get_JunctionFlag(i);
-                            pCl = (IClone)pFlagDisplay.Geometry;
-                            Flags.Add((IPoint)pCl.Clone());
+                            IPoint pNew_Pnt = new PointClass();
+                            pNew_Pnt.X = (pFlagDisplay.Geometry as IPoint).X;
+                            pNew_Pnt.Y = (pFlagDisplay.Geometry as IPoint).Y;
+                            pNew_Pnt.SpatialReference = (pFlagDisplay.Geometry as IPoint).SpatialReference;
+
+                            Flags.Add(pNew_Pnt);
 
                         }
 
