@@ -7331,8 +7331,6 @@ namespace ArcGIS4LocalGovernment
 
 
                                                 }
-                                                if (row != null)
-                                                    Marshal.ReleaseComObject(cCurs);
 
                                                 row = null;
 
