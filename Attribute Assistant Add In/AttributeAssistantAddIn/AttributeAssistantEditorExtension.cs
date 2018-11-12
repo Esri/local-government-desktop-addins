@@ -151,7 +151,7 @@ namespace ArcGIS4LocalGovernment
         public static bool _bypassEditOperationCheck = false;
         public static bool _onCreateWhenSplit = false;
         public static bool _showCommentsOnPrompt = false;
-        
+
         // Declare configuration variables 
         public static string _defaultsTableName = "DynamicValue";
         public static string _sequenceTableName = "GenerateId";
@@ -1133,7 +1133,7 @@ namespace ArcGIS4LocalGovernment
             else
                 AAState._showCommentsOnPrompt = false;
 
-            
+
             AAState._generateIDStoreProceName = (ConfigUtil.GetConfigValue("GenerateIDStoreProceName", null));
 
             AAState._seqNameField = ConfigUtil.GetConfigValue("SequenceName", AAState._seqNameField);
@@ -1652,8 +1652,8 @@ namespace ArcGIS4LocalGovernment
                     }
                     else
                     {
-                        
-                     
+
+
                         pFeatChange = (IFeatureChanges)inFeature;
                         IRowChanges this_row_changes = (IRowChanges)inFeature;
                         if (pFeatChange.ShapeChanged)
@@ -1681,7 +1681,8 @@ namespace ArcGIS4LocalGovernment
                                     else
                                         sendEvent(obj, "ON_CHANGE");//treat geometry changes as standard change for fabric
                                 }
-                                else {
+                                else
+                                {
                                     sendEvent(obj, "ON_CHANGE");
                                 }
                             }
@@ -2713,7 +2714,7 @@ namespace ArcGIS4LocalGovernment
                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ad") + drv["RUNORDER"].ToString());
                             if (AAState._dv.Table.Columns.Contains("COMMENTS"))
                             {
-                                
+
                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ad") + drv["COMMENTS"].ToString());
                                 if (AAState._showCommentsOnPrompt == true)
                                 {
@@ -3708,7 +3709,8 @@ namespace ArcGIS4LocalGovernment
                                                             }
 
                                                             AAState.WriteLine("                  " + intRecFound + " rows found using " + sqlString);
-                                                            if (intRecFound == 1 && null_present == true) {
+                                                            if (intRecFound == 1 && null_present == true)
+                                                            {
                                                                 //Extact match and no nulls sent to query, means an 100% match was found
                                                             }
                                                             else if (intRecFound != 1)
@@ -4573,15 +4575,20 @@ namespace ArcGIS4LocalGovernment
                                                 IField pFldTemp = null;
                                                 try
                                                 {
+                                                    string statType = null;
+                                                    string delim = ",";
+                                                    string sortOrder = "none";
+
                                                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "COPY_LINKED_RECORD");
                                                     if (!String.IsNullOrEmpty(valData))
                                                     {
                                                         args = valData.Split('|');
-                                                        if (args.Length != 4)
+                                                        if (args.Length < 4)
                                                         {
                                                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ad"));
                                                             break;
                                                         }
+
                                                     }
                                                     else
                                                     {
@@ -4598,11 +4605,50 @@ namespace ArcGIS4LocalGovernment
 
                                                     found = false;
                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bs"));
-                                                    targetLayerNames = args[0].ToString().Split(',');
-                                                    targetFieldName = args[1].ToString().Trim();
                                                     string targetLayerName = "";
-                                                    string sourceIDFieldName = args[2].ToString().Trim();
-                                                    string targetIDFieldName = args[3].ToString().Trim();
+                                                    string sourceIDFieldName = "";
+                                                    string targetIDFieldName = "";
+                                                    targetIDFieldName = "";
+                                                    targetLayerNames = new string[] { };
+                                                    switch (args.GetLength(0))
+                                                    {
+
+                                                        case 4:
+                                                            targetLayerNames = args[0].ToString().Split(',');
+                                                            targetFieldName = args[1].ToString().Trim();
+                                                            sourceIDFieldName = args[2].ToString().Trim();
+                                                            targetIDFieldName = args[3].ToString().Trim();
+                                                            break;
+                                                        case 5:
+                                                            targetLayerNames = args[0].ToString().Split(',');
+                                                            targetFieldName = args[1].ToString().Trim();
+                                                            sourceIDFieldName = args[2].ToString().Trim();
+                                                            targetIDFieldName = args[3].ToString().Trim();
+                                                            statType = args[4].ToString().Trim();
+                                                            break;
+                                                        case 6:
+                                                            targetLayerNames = args[0].ToString().Split(',');
+                                                            targetFieldName = args[1].ToString().Trim();
+                                                            sourceIDFieldName = args[2].ToString().Trim();
+                                                            targetIDFieldName = args[3].ToString().Trim();
+                                                            statType = args[4].ToString().Trim();
+                                                            delim = args[5].ToString().Trim();
+                                                            break;
+                                                        case 7:
+                                                            targetLayerNames = args[0].ToString().Split(',');
+                                                            targetFieldName = args[1].ToString().Trim();
+                                                            sourceIDFieldName = args[2].ToString().Trim();
+                                                            targetIDFieldName = args[3].ToString().Trim();
+                                                            statType = args[4].ToString().Trim();
+                                                            delim = args[5].ToString().Trim();
+                                                            sortOrder = args[6].ToString().Trim();
+                                                            break;
+                                                        default: break;
+                                                    }
+
+
+
+
                                                     AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14bt"));
                                                     if (targetFieldName != null)
                                                     {
@@ -4845,31 +4891,194 @@ namespace ArcGIS4LocalGovernment
                                                                     }
                                                                     else
                                                                     {
-                                                                        Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDown,comments_for_row);
-                                                                        if (strRetVal == null)
+                                                                        if (statType == null)
                                                                         {
-                                                                            AAState.WriteLine("                  selected value from prompt was null ");
-                                                                        }
-                                                                        else if (strRetVal.OID == -1)
-                                                                        {
-                                                                            AAState.WriteLine("                  Error in prompt form: " + strRetVal.Display);
+                                                                            Globals.OptionsToPresent strRetVal = Globals.showOptionsForm(pFoundFeat, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain149") + sourceFieldName, ComboBoxStyle.DropDown, comments_for_row);
+                                                                            if (strRetVal == null)
+                                                                            {
+                                                                                AAState.WriteLine("                  selected value from prompt was null ");
+                                                                            }
+                                                                            else if (strRetVal.OID == -1)
+                                                                            {
+                                                                                AAState.WriteLine("                  Error in prompt form: " + strRetVal.Display);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
+                                                                                try
+                                                                                {
+                                                                                    AAState.WriteLine("                  trying to set value " + strRetVal.Value.ToString());
+
+                                                                                    inObject.set_Value(intFldIdxs[0], strRetVal.Value);
+                                                                                    AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + strRetVal.Value.ToString());
+
+                                                                                }
+                                                                                catch
+                                                                                {
+                                                                                    AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + strRetVal.Value + " to field: " + strFldNames[0]);
+                                                                                }
+                                                                            }
                                                                         }
                                                                         else
                                                                         {
-                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14cf"));
+                                                                            List<string> concatList = new List<string>();
+                                                                            double result = -999999.1;
+                                                                            string textRes = "";
+                                                                            int AverageCount = 0;
+                                                                            //Stats enabled on rule
+                                                                            foreach (Globals.OptionsToPresent itm in pFoundFeat)
+                                                                            {
+
+                                                                                string test = itm.Value as string;
+                                                                                if (Globals.IsNumeric(test))
+                                                                                {
+                                                                                    double valToTest = Convert.ToDouble(test);
+                                                                                    if (result == -999999.1)
+                                                                                    {
+                                                                                        if (statType.ToUpper() == "CONCAT")
+                                                                                        {
+                                                                                            if (concatList.Contains(test.ToString()) == false)
+                                                                                            {
+                                                                                                concatList.Add(test.ToString());
+
+                                                                                            }
+                                                                                        }
+                                                                                        else
+                                                                                        {
+
+                                                                                            if (statType.ToUpper() == "AVERAGE" || statType.ToUpper() == "MEAN")
+                                                                                            {
+                                                                                                AverageCount++;
+                                                                                            }
+
+                                                                                            result = valToTest;
+                                                                                        }
+
+
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        switch (statType.ToUpper())
+                                                                                        {
+                                                                                            case "MAX":
+                                                                                                if (result < valToTest)
+                                                                                                {
+                                                                                                    result = valToTest;
+
+                                                                                                }
+                                                                                                break;
+                                                                                            case "MIN":
+                                                                                                if (result > valToTest)
+                                                                                                {
+                                                                                                    result = valToTest;
+
+                                                                                                }
+                                                                                                break;
+                                                                                            case "SUM":
+                                                                                                result += valToTest;
+
+
+                                                                                                break;
+                                                                                            case "AVERAGE":
+                                                                                                result += valToTest;
+                                                                                                AverageCount++;
+                                                                                                break;
+                                                                                            case "MEAN":
+                                                                                                result += valToTest;
+                                                                                                AverageCount++;
+
+                                                                                                break;
+                                                                                            case "CONCAT":
+                                                                                                //concatFunc(valToTest.ToString(), ref textRes);
+                                                                                                if (concatList.Contains(test.ToString()) == false)
+                                                                                                {
+                                                                                                    concatList.Add(test.ToString());
+
+                                                                                                }
+
+                                                                                                break;
+                                                                                            default:
+                                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
+                                                                                                break;
+                                                                                        }
+
+                                                                                    }
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    switch (statType.ToUpper())
+                                                                                    {
+
+                                                                                        case "CONCAT":
+                                                                                            //concatFunc(test.ToString(), ref textRes);
+                                                                                            if (concatList.Contains(test.ToString()) == false)
+                                                                                            {
+                                                                                                concatList.Add(test.ToString());
+
+                                                                                            }
+                                                                                            break;
+                                                                                        default:
+                                                                                            AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorWarn_14d") + test);
+
+                                                                                            AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14ai") + test);
+                                                                                            break;
+                                                                                    }
+
+                                                                                }
+
+                                                                            }
                                                                             try
                                                                             {
-                                                                                AAState.WriteLine("                  trying to set value " + strRetVal.Value.ToString());
+                                                                                if (statType.ToUpper() == "CONCAT")
+                                                                                {
+                                                                                    if (sortOrder.ToUpper() == "ASC")
+                                                                                    {
+                                                                                        concatList.Sort((a, b) => a.CompareTo(b));
+                                                                                    }
+                                                                                    else if (sortOrder.ToUpper() == "DESC")
+                                                                                    {
+                                                                                        concatList.Sort((a, b) => -1 * a.CompareTo(b));
+                                                                                    }
 
-                                                                                inObject.set_Value(intFldIdxs[0], strRetVal.Value);
-                                                                                AAState.WriteLine("                  " + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorChain147") + strRetVal.Value.ToString());
+                                                                                    textRes = string.Join(delim, concatList.ToArray());
+                                                                                }
+                                                                                if (textRes != "")
+                                                                                {
+                                                                                    inObject.set_Value(intFldIdxs[0], textRes);
+                                                                                }
+                                                                                else if (result != -999999.1)
+                                                                                {
+                                                                                    if (AverageCount != 0)
+                                                                                    {
+                                                                                        result = result / AverageCount;
+                                                                                    }
+                                                                                    inObject.set_Value(intFldIdxs[0], result);
 
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    IField field = inObject.Fields.get_Field(intFldIdxs[0]);
+                                                                                    object newval = field.DefaultValue;
+                                                                                    if (newval == null)
+                                                                                    {
+                                                                                        if (field.IsNullable)
+                                                                                        {
+                                                                                            inObject.set_Value(intFldIdxs[0], null);
+                                                                                        }
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        inObject.set_Value(intFldIdxs[0], newval);
+                                                                                    }
+                                                                                }
                                                                             }
-                                                                            catch
+                                                                            catch (Exception ex)
                                                                             {
-                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aw") + strRetVal.Value + " to field: " + strFldNames[0]);
+                                                                                AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14a") + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorError_14aj") + ex.ToString());
+
                                                                             }
                                                                         }
+
                                                                     }
                                                                 }
                                                             }
@@ -9276,6 +9485,10 @@ namespace ArcGIS4LocalGovernment
                                                                                     }
                                                                                     else
                                                                                     {
+                                                                                        if (statType.ToUpper() == "AVERAGE" || statType.ToUpper() == "MEAN")
+                                                                                        {
+                                                                                            AverageCount++;
+                                                                                        }
                                                                                         result = valToTest;
                                                                                     }
 
@@ -9537,6 +9750,10 @@ namespace ArcGIS4LocalGovernment
                                                                                     }
                                                                                     else
                                                                                     {
+                                                                                        if (statType.ToUpper() == "AVERAGE" || statType.ToUpper() == "MEAN")
+                                                                                        {
+                                                                                            AverageCount++;
+                                                                                        }
                                                                                         result = valToTest;
                                                                                     }
 
@@ -9798,6 +10015,10 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
+                                                                                    if (statType.ToUpper() == "AVERAGE" || statType.ToUpper() == "MEAN")
+                                                                                    {
+                                                                                        AverageCount++;
+                                                                                    }
                                                                                     result = valToTest;
                                                                                 }
 
@@ -10264,9 +10485,10 @@ namespace ArcGIS4LocalGovernment
                                                             {
                                                                 iJuncFeat = iEdgeFeat.ToJunctionFeature;
                                                             }
-                                                            else {
+                                                            else
+                                                            {
                                                                 iJuncFeat = iEdgeFeat.FromJunctionFeature;
-                                                            
+
                                                             }
                                                             string strClsName;
                                                             if (netRestrictFC != "")
@@ -13725,6 +13947,10 @@ namespace ArcGIS4LocalGovernment
                                                                                                 }
                                                                                                 else
                                                                                                 {
+                                                                                                    if (statType.ToUpper() == "AVERAGE" || statType.ToUpper() == "MEAN")
+                                                                                                    {
+                                                                                                        AverageCount++;
+                                                                                                    }
                                                                                                     result = valToTest;
                                                                                                 }
                                                                                             }
@@ -13818,6 +14044,10 @@ namespace ArcGIS4LocalGovernment
                                                                                                 }
                                                                                                 else
                                                                                                 {
+                                                                                                    if (statType.ToUpper() == "AVERAGE" || statType.ToUpper() == "MEAN")
+                                                                                                    {
+                                                                                                        AverageCount++;
+                                                                                                    }
                                                                                                     result = valToTest;
                                                                                                 }
 
@@ -14205,6 +14435,10 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 else
                                                                                 {
+                                                                                    if (statType.ToUpper() == "AVERAGE" || statType.ToUpper() == "MEAN")
+                                                                                    {
+                                                                                        AverageCount++;
+                                                                                    }
                                                                                     result = valToTest;
                                                                                 }
 
