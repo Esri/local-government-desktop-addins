@@ -19,12 +19,12 @@
   <AddInID>{7a5d203d-aa12-43bc-895e-443a7536b6ab}</AddInID>
   <Description>A cost estimating toolset for ArcGIS. This toolset uses existing GIS Information and a series of lookup tables to provide a replacement or rehab cost for an asset. It can also be used to design or sketch new infrastructure.</Description>
 
-  <Version>2018.8.24</Version>
+  <Version>2018.11.12</Version>
   <Image>Images\CIPAddIn64.png</Image>
  
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>8/24/2018</Date>
+  <Date>11/12/2018</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
