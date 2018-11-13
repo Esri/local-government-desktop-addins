@@ -741,7 +741,7 @@ namespace ArcGIS4LocalGovernment
 
 
 
-
+                AAState.WireFabricEvents();
                 _editEvents.OnChangeFeature += FeatureChange;
                 _editEvents.OnCreateFeature += FeatureCreate;
                 _editEvents2.BeforeStopOperation += StopOperation; // SG Jan 2013
@@ -752,7 +752,7 @@ namespace ArcGIS4LocalGovernment
             {
 
                 AAState.PerformUpdates = false;
-
+                AAState.UnWireFabricEvents();
                 _editEvents.OnChangeFeature -= FeatureChange;
                 _editEvents.OnCreateFeature -= FeatureCreate;
                 _editEvents2.BeforeStopOperation -= StopOperation; // SG Jan 2013
@@ -763,6 +763,62 @@ namespace ArcGIS4LocalGovernment
 
             ArcMap.Application.StatusBar.set_Message(0, A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorDone_3a"));
         }
+        public static void WireFabricEvents()
+        {
+            if (AAState._editor is null || AAState.PerformUpdates == false) { 
+                return;
+            }
+            if (AAState._objectClassEventList == null)
+                AAState._objectClassEventList = new List<ESRI.ArcGIS.Geodatabase.IObjectClassEvents_Event>();
+
+            //create event handler for each fabric class in the edit workspace
+            try
+            {
+                AAState._objectClassEventList.Clear();
+                for (int i = 0; i < AAState._fabricObjectClassIds.Count; i++)
+                {
+                    IObjectClass pObjClass = (IObjectClass)AAState._fabricObjectClasses.get_Element(i);
+                    IDataset pDS = (IDataset)pObjClass;
+                    if (pDS.Workspace.Equals(AAState._editor.EditWorkspace))
+                    {
+                        //Create event handler.
+                        ESRI.ArcGIS.Geodatabase.IObjectClassEvents_Event ev = (ESRI.ArcGIS.Geodatabase.IObjectClassEvents_Event)pObjClass;
+                        // Commnented out change event, this was causing the change to be called twice
+                        //ev.OnChange += new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnChangeEventHandler(AAState.FabricRowChange);
+                        ev.OnChange += new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnChangeEventHandler(AAState.FabricGeometryRowChange);
+                        ev.OnCreate += new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnCreateEventHandler(AAState.FabricRowCreate);
+                        AAState._objectClassEventList.Add(ev);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString() + " in Wire Fabric Events");
+            }
+        }
+
+        public static void UnWireFabricEvents()
+        {
+            if (AAState._objectClassEventList == null)
+                return;
+
+            try
+            {
+                for (int i = AAState._objectClassEventList.Count - 1; i >= 0; i--)
+                {
+                    // Commnented out change event, this was causing the change to be called twice
+                    // AAState._objectClassEventList[i].OnChange -= AAState.FabricRowChange;
+                    AAState._objectClassEventList[i].OnChange -= AAState.FabricGeometryRowChange;
+                    AAState._objectClassEventList[i].OnCreate -= AAState.FabricRowCreate;
+                }
+                AAState._objectClassEventList.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString() + " in UnWire Fabric Events");
+            }
+        }
+
         public static void StopChangeMonitor()
         {
             _editEvents.OnChangeFeature -= FeatureChange;
@@ -806,7 +862,7 @@ namespace ArcGIS4LocalGovernment
 
 
 
-
+                AAState.UnWireFabricEvents();
                 _editEvents.OnChangeFeature -= FeatureChange;
                 _editEvents.OnCreateFeature -= FeatureCreate;
                 _editEvents2.BeforeStopOperation -= StopOperation; // SG Jan 2013
@@ -914,25 +970,40 @@ namespace ArcGIS4LocalGovernment
 
         public static void FabricGeometryRowChange(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
+            //This method was updated to handle both the row and geometry changes - MM
+            if (AAState.PerformUpdates != true)
+            {
+                return;
+            }
             if (obj is IFeature)
             {
                 IFeatureChanges pFeatChanges = obj as IFeatureChanges;
                 if (!pFeatChanges.ShapeChanged)
-                    return;
+                    if (InMemTableExistsForRow(obj))
+                        FeatureChange(obj);
                 if (pFeatChanges.OriginalShape.IsEmpty) //means new fabric parcel
-                    return;
+                    if (InMemTableExistsForRow(obj))
+                        FeatureChange(obj);
             }
 
             if (InMemTableExistsForRow(obj))
                 FeatureGeoChange(obj);
         }
-        public static void FabricRowChange(ESRI.ArcGIS.Geodatabase.IObject obj)
-        {
-            if (InMemTableExistsForRow(obj))
-                FeatureChange(obj);
-        }
+        //public static void FabricRowChange(ESRI.ArcGIS.Geodatabase.IObject obj)
+        //{
+        //    if (AAState.PerformUpdates != true)
+        //    {
+        //        return;
+        //    }
+        //    if (InMemTableExistsForRow(obj))
+        //        FeatureChange(obj);
+        //}
         public static void FabricRowCreate(ESRI.ArcGIS.Geodatabase.IObject obj)
         {
+            if (AAState.PerformUpdates != true)
+            {
+                return;
+            }
             if (InMemTableExistsForRow(obj))
                 FeatureCreate(obj);
         }
@@ -1555,12 +1626,14 @@ namespace ArcGIS4LocalGovernment
                         IWorkspaceEditControl pWorkspaceEditControl = AAState._editor.EditWorkspace as IWorkspaceEditControl;
                         if (pWorkspaceEditControl != null)
                         {
+                            //This is causing the issue with the parcel fabric.  Duplicate is causign a parcel that looks unjoined, even when joined. 
                             pWorkspaceEditControl.SetStoreEventsRequired();
                         }
                         pWorkspaceEditControl = null;
-                        InitFabricState();
+
                     }
                 }
+                InitFabricState();
 
             }
             catch (Exception ex)
@@ -2180,53 +2253,6 @@ namespace ArcGIS4LocalGovernment
 
 
 
-        public void WireFabricEvents()
-        {
-
-            if (AAState._objectClassEventList == null)
-                AAState._objectClassEventList = new List<ESRI.ArcGIS.Geodatabase.IObjectClassEvents_Event>();
-
-            //create event handler for each fabric class in the edit workspace
-            try
-            {
-                AAState._objectClassEventList.Clear();
-                for (int i = 0; i < AAState._fabricObjectClassIds.Count; i++)
-                {
-                    IObjectClass pObjClass = (IObjectClass)AAState._fabricObjectClasses.get_Element(i);
-                    //Create event handler.
-                    ESRI.ArcGIS.Geodatabase.IObjectClassEvents_Event ev = (ESRI.ArcGIS.Geodatabase.IObjectClassEvents_Event)pObjClass;
-                    ev.OnChange += new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnChangeEventHandler(AAState.FabricRowChange);
-                    ev.OnChange += new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnChangeEventHandler(AAState.FabricGeometryRowChange);
-                    ev.OnCreate += new ESRI.ArcGIS.Geodatabase.IObjectClassEvents_OnCreateEventHandler(AAState.FabricRowCreate);
-                    AAState._objectClassEventList.Add(ev);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString() + " in Wire Fabric Events");
-            }
-        }
-
-        public void UnWireFabricEvents()
-        {
-            if (AAState._objectClassEventList == null)
-                return;
-
-            try
-            {
-                for (int i = AAState._objectClassEventList.Count - 1; i >= 0; i--)
-                {
-                    AAState._objectClassEventList[i].OnChange -= AAState.FabricRowChange;
-                    AAState._objectClassEventList[i].OnChange -= AAState.FabricGeometryRowChange;
-                    AAState._objectClassEventList[i].OnCreate -= AAState.FabricRowCreate;
-                }
-                AAState._objectClassEventList.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString() + " in UnWire Fabric Events");
-            }
-        }
 
         public void InitFabricState()
         {
@@ -2272,7 +2298,7 @@ namespace ArcGIS4LocalGovernment
                         AAState._fabricObjectClassIds.Add(iObjClassID);
                 }
 
-                WireFabricEvents();
+                AAState.WireFabricEvents();
 
             }
         }
@@ -2283,7 +2309,7 @@ namespace ArcGIS4LocalGovernment
                 return;
             try
             {
-                UnWireFabricEvents();
+                AAState.UnWireFabricEvents();
                 AAState._objectClassEventList = null;
                 AAState._fabricObjectClasses = null;
                 AAState._fabricObjectClassIds = null;
@@ -2301,7 +2327,7 @@ namespace ArcGIS4LocalGovernment
             IFeatureLayer pParcelFabricSubLayer = null;
             UID pId = new UIDClass();
             pId.Value = "{BA381F2B-F621-4F45-8F78-101F65B5BBE6}"; //ICadastralFabricSubLayer
-            IMap pMap = AAState._editor.Map;
+            IMap pMap = ArcMap.Document.FocusMap as IMap;
             IEnumLayer pEnumLayer = pMap.get_Layers(pId, true);
             pEnumLayer.Reset();
             ILayer pLayer = pEnumLayer.Next();
@@ -2310,8 +2336,7 @@ namespace ArcGIS4LocalGovernment
                 pCFSubLyr = (ICadastralFabricSubLayer)pLayer;
                 pParcelFabricSubLayer = (IFeatureLayer)pCFSubLyr;
                 IDataset pDS = (IDataset)pParcelFabricSubLayer.FeatureClass;
-                if (pDS.Workspace.Equals(AAState._editor.EditWorkspace))
-                    CFParcelFabricSubLayers2.Add(pParcelFabricSubLayer);
+                CFParcelFabricSubLayers2.Add(pParcelFabricSubLayer);
                 pLayer = pEnumLayer.Next();
             }
             CFSubLayers = CFParcelFabricSubLayers2;
@@ -2330,7 +2355,7 @@ namespace ArcGIS4LocalGovernment
             //pId.Value = "{E156D7E5-22AF-11D3-9F99-00C04F6BC78E}";//IGeoFeatureLayer
             pId.Value = "{BA381F2B-F621-4F45-8F78-101F65B5BBE6}"; //ICadastralFabricSubLayer
 
-            IMap pMap = AAState._editor.Map;
+            IMap pMap = ArcMap.Document.FocusMap as IMap;
             IEnumLayer pEnumLayer = pMap.get_Layers(pId, true);
             pEnumLayer.Reset();
             ILayer pLayer = pEnumLayer.Next();
@@ -2341,8 +2366,8 @@ namespace ArcGIS4LocalGovernment
                 {
                     pParcelFabricSubLayer = (IFeatureLayer)pCFSubLyr;
                     IDataset pDS = (IDataset)pParcelFabricSubLayer.FeatureClass;
-                    if (pDS.Workspace.Equals(AAState._editor.EditWorkspace))
-                        CFParcelFabricSubLayers2.Add(pParcelFabricSubLayer);
+                   
+                   CFParcelFabricSubLayers2.Add(pParcelFabricSubLayer);
                 }
                 pLayer = pEnumLayer.Next();
             }
