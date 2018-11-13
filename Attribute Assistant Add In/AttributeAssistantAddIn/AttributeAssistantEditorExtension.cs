@@ -767,7 +767,7 @@ namespace ArcGIS4LocalGovernment
         }
         public static void WireFabricEvents()
         {
-            if (AAState._editor is null || AAState.PerformUpdates == false) { 
+            if (AAState._editor == null || AAState.PerformUpdates == false) { 
                 return;
             }
             if (AAState._objectClassEventList == null)
