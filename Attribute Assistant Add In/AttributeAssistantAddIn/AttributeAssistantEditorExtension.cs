@@ -151,6 +151,8 @@ namespace ArcGIS4LocalGovernment
         public static bool _bypassEditOperationCheck = false;
         public static bool _onCreateWhenSplit = false;
         public static bool _showCommentsOnPrompt = false;
+        public static bool _setStoreEventsRequired = true;
+
 
         // Declare configuration variables 
         public static string _defaultsTableName = "DynamicValue";
@@ -1204,7 +1206,12 @@ namespace ArcGIS4LocalGovernment
             else
                 AAState._showCommentsOnPrompt = false;
 
+            if (ConfigUtil.GetConfigValue("SetStoreEventsRequired", "TRUE").ToUpper() == "TRUE")
+                AAState._setStoreEventsRequired = true;
+            else
+                AAState._setStoreEventsRequired = false;
 
+            
             AAState._generateIDStoreProceName = (ConfigUtil.GetConfigValue("GenerateIDStoreProceName", null));
 
             AAState._seqNameField = ConfigUtil.GetConfigValue("SequenceName", AAState._seqNameField);
@@ -1627,7 +1634,9 @@ namespace ArcGIS4LocalGovernment
                         if (pWorkspaceEditControl != null)
                         {
                             //This is causing the issue with the parcel fabric.  Duplicate is causign a parcel that looks unjoined, even when joined. 
-                            pWorkspaceEditControl.SetStoreEventsRequired();
+                            if (AAState._setStoreEventsRequired == true) { 
+                                pWorkspaceEditControl.SetStoreEventsRequired();
+                            }
                         }
                         pWorkspaceEditControl = null;
 
