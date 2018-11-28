@@ -770,7 +770,7 @@ namespace ArcGIS4LocalGovernment
             if (AAState._fabricObjectClassIds == null || AAState._fabricObjectClassIds.Count == 0) {
                 return;
             }
-            if (AAState._editor is null || AAState.PerformUpdates == false) { 
+            if (AAState._editor == null || AAState.PerformUpdates == false) { 
                 return;
             }
             if (AAState._objectClassEventList == null)
