@@ -767,6 +767,9 @@ namespace ArcGIS4LocalGovernment
         }
         public static void WireFabricEvents()
         {
+            if (AAState._fabricObjectClassIds == null || AAState._fabricObjectClassIds.Count == 0) {
+                return;
+            }
             if (AAState._editor is null || AAState.PerformUpdates == false) { 
                 return;
             }
@@ -14261,6 +14264,7 @@ namespace ArcGIS4LocalGovernment
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14as") + "INTERSECT_STATS");
                                             }
                                             break;
+                                        case "INTERSECTING_COUNT":
                                         case "INTERSECT_COUNT":
                                             try
                                             {
