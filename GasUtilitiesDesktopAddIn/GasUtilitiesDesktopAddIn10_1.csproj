@@ -229,6 +229,7 @@
       <Link>loaded.water.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Config.es-ES.xml" />
     <Content Include="Config.fr-FR.xml" />
     <None Include="Images\Open2.png" />
     <AddInContent Include="Images\ExportFlagBarriers.png" />
