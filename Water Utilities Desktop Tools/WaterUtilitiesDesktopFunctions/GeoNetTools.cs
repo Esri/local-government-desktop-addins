@@ -4701,6 +4701,23 @@ namespace A4WaterUtilities
                     val_eids = closed_valve_eids.ToArray();
                 }
 
+                if (val_eids.Length > 0)
+                {
+                    if (pJunctionElementBarriers == null)
+                    {
+                        netElementBarriersClose = new NetElementBarriersClass() as INetElementBarriersGEN;
+                        netElementBarriersClose.ElementType = esriElementType.esriETJunction;
+                        netElementBarriersClose.Network = gn.Network;
+                    }
+                    else
+                    {
+                        netElementBarriersClose = pJunctionElementBarriers as INetElementBarriersGEN;
+                    }
+
+
+                    netElementBarriersClose.SetBarriersByEID(ref val_eids);
+                    pJunctionElementBarriers = netElementBarriersClose as INetElementBarriers;
+                }
                 valBarFeat = null;
                 pQFValBar = null;
                 if (pCurValBar != null)
@@ -5020,9 +5037,17 @@ namespace A4WaterUtilities
 
                 //Create barriers based on all operable valves
                 pointAlong++;
-                netElementBarriers = new NetElementBarriersClass() as INetElementBarriersGEN;
-                netElementBarriers.ElementType = esriElementType.esriETJunction;
-                netElementBarriers.Network = gn.Network;
+                if (pJunctionElementBarriers == null)
+                {
+                    netElementBarriers = new NetElementBarriersClass() as INetElementBarriersGEN;
+                    netElementBarriers.ElementType = esriElementType.esriETJunction;
+                    netElementBarriers.Network = gn.Network;
+
+                }
+                else {
+                    netElementBarriers = pJunctionElementBarriers as INetElementBarriersGEN;
+
+                }
 
                 userIds = Globals.GetOperableValveOIDs(valveFCs.ToArray(), operableFieldNameValves, opValues, addSQL);
                 if (userIds == null)
@@ -5102,6 +5127,7 @@ namespace A4WaterUtilities
                                 if (usrid.Length > 0)
                                 {
                                     netElementBarriers.SetBarriers(valveFC.FeatureClassID, ref usrid);  //error here after sum
+                                  
                                     nb = netElementBarriers as INetElementBarriers;
                                     netSolver.set_ElementBarriers(esriElementType.esriETJunction, nb);
                                 }
@@ -5297,22 +5323,7 @@ namespace A4WaterUtilities
                 Globals.AddFlagsToTraceSolver(pNetFlags.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
 
 
-                if (val_eids.Length > 0)
-                {
-                    if (pJunctionElementBarriers == null)
-                    {
-                        netElementBarriersClose = new NetElementBarriersClass() as INetElementBarriersGEN;
-                        netElementBarriersClose.ElementType = esriElementType.esriETJunction;
-                        netElementBarriersClose.Network = gn.Network;
-                    }
-                    else {
-                        netElementBarriersClose = pJunctionElementBarriers as INetElementBarriersGEN;
-                    }
-                   
-
-                    netElementBarriersClose.SetBarriersByEID(ref val_eids);
-                    pJunctionElementBarriers = netElementBarriersClose as INetElementBarriers;
-                }
+               
                 Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers);
 
 
@@ -5735,6 +5746,11 @@ namespace A4WaterUtilities
                                         netElementBarriers.SetBarriers(tempBarIDS.ClassID, ref barIDs);
                                         setBar = true;
                                     }
+                                }
+                                if (val_eids.Length > 0) {
+                                    netElementBarriers.SetBarriersByEID(ref val_eids);
+                                    setBar = true;
+                                
                                 }
                                 if (setBar)//required, it would produce an error if there where no other barriers
                                 {
