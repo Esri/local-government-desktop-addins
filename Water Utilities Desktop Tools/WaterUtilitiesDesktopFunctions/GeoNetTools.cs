@@ -4483,7 +4483,8 @@ namespace A4WaterUtilities
             Hashtable sourceDirectEIDInfoHT = null;
             INetFlag netFlag1 = null;
             INetFlag netFlag2 = null;
-
+            INetworkAnalysisExtBarriers pNetworkAnalysisExtBarriers = null;
+            long lngFlagCount;
             try
             {
                 map = ((app.Document as IMxDocument).FocusMap);
@@ -4635,7 +4636,26 @@ namespace A4WaterUtilities
 
 
                 traceFlowSolver = Globals.CreateTraceFlowSolverFromToolbar(ref pNetAnalysisExt, out pEdgeFlags, out pJunctionFlags, out pEdgeElementBarriers, out pJunctionElementBarriers, out pSelectionSetBarriers) as ITraceFlowSolverGEN;
+                //Get the user barriers so they can be added to the trace to get operable values
+                
+                pNetworkAnalysisExtBarriers = (INetworkAnalysisExtBarriers)pNetAnalysisExt;
+                lngFlagCount = pNetworkAnalysisExtBarriers.JunctionBarrierCount;
+                List<int> userJuncBarriers = new List<int>();
+                int[] userJuncEIDs = new int[0];
+                if (lngFlagCount != 0)
+                {
+                    INetElements pNetElements = gn.Network as INetElements;
 
+                    for (int i = 0; i < lngFlagCount; i++)
+                    {
+
+                        pFlagDisplay = (IFlagDisplay)pNetworkAnalysisExtBarriers.get_JunctionBarrier(i);
+                        userJuncBarriers.Add(pNetElements.GetEID(pFlagDisplay.FeatureClassID, pFlagDisplay.FID, pFlagDisplay.SubID, esriElementType.esriETJunction));
+                    }
+                }
+                if (userJuncBarriers.Count > 0) {
+                    userJuncEIDs = userJuncBarriers.ToArray();
+                }
                 strValveFLs = valveFLName.Split('|');
 
 
@@ -4695,7 +4715,7 @@ namespace A4WaterUtilities
                         }
                     }
                 }
-                int[] val_eids = null;
+                int[] val_eids = new int[0];
                 if (closed_valve_eids.Count > 0)
                 {
                     val_eids = closed_valve_eids.ToArray();
@@ -5035,19 +5055,14 @@ namespace A4WaterUtilities
                 }
 
 
-                //Create barriers based on all operable valves
+                //Create barriers based on all operable valves and closed valves, need to look user barriers also
                 pointAlong++;
-                if (pJunctionElementBarriers == null)
-                {
-                    netElementBarriers = new NetElementBarriersClass() as INetElementBarriersGEN;
-                    netElementBarriers.ElementType = esriElementType.esriETJunction;
-                    netElementBarriers.Network = gn.Network;
 
-                }
-                else {
-                    netElementBarriers = pJunctionElementBarriers as INetElementBarriersGEN;
+                netElementBarriers = new NetElementBarriersClass() as INetElementBarriersGEN;
+                netElementBarriers.ElementType = esriElementType.esriETJunction;
+                netElementBarriers.Network = gn.Network;
 
-                }
+
 
                 userIds = Globals.GetOperableValveOIDs(valveFCs.ToArray(), operableFieldNameValves, opValues, addSQL);
                 if (userIds == null)
@@ -5127,12 +5142,23 @@ namespace A4WaterUtilities
                                 if (usrid.Length > 0)
                                 {
                                     netElementBarriers.SetBarriers(valveFC.FeatureClassID, ref usrid);  //error here after sum
-                                  
-                                    nb = netElementBarriers as INetElementBarriers;
-                                    netSolver.set_ElementBarriers(esriElementType.esriETJunction, nb);
                                 }
                                 idxUser++;
                             }
+                            //If there are closed valves add to barriers
+                            if (val_eids.Length > 0)
+                            {
+                                netElementBarriers.SetBarriersByEID(ref val_eids);
+                            }
+                            //If the user specified barriers
+                            if (userJuncEIDs.Length > 0) {
+                                netElementBarriers.SetBarriersByEID(ref userJuncEIDs);
+
+                            }
+                            nb = netElementBarriers as INetElementBarriers;
+
+                            Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref nb, ref pSelectionSetBarriers);
+
                         }
                         catch (Exception ex)
                         {
@@ -5323,7 +5349,7 @@ namespace A4WaterUtilities
                 Globals.AddFlagsToTraceSolver(pNetFlags.ToArray(), ref traceFlowSolver, out junctionFlag, out edgeFlag);
 
 
-               
+
                 Globals.AddBarriersToSolver(ref traceFlowSolver, ref pEdgeElementBarriers, ref pJunctionElementBarriers, ref pSelectionSetBarriers);
 
 
@@ -5432,7 +5458,7 @@ namespace A4WaterUtilities
                 //    {
                 //        netElementBarriersClose = pJunctionElementBarriers as INetElementBarriersGEN;
                 //    }
-                    
+
                 //    netElementBarriersClose.SetBarriersByEID(ref val_eids);
                 //    pJunctionElementBarriers = netElementBarriersClose as INetElementBarriers;
                 //}
@@ -5517,7 +5543,7 @@ namespace A4WaterUtilities
                 //    {
                 //        netElementBarriersClose = pJunctionElementBarriers as INetElementBarriersGEN;
                 //    }
-                    
+
                 //    netElementBarriersClose.SetBarriersByEID(ref val_eids);
                 //    pJunctionElementBarriers = netElementBarriersClose as INetElementBarriers;
                 //}
@@ -5706,7 +5732,7 @@ namespace A4WaterUtilities
                             //    {
                             //        netElementBarriersClose = pJunctionElementBarriers as INetElementBarriersGEN;
                             //    }
-                                
+
                             //    netElementBarriersClose.SetBarriersByEID(ref val_eids);
                             //    pJunctionElementBarriers = netElementBarriersClose as INetElementBarriers;
                             //}
@@ -5747,10 +5773,11 @@ namespace A4WaterUtilities
                                         setBar = true;
                                     }
                                 }
-                                if (val_eids.Length > 0) {
+                                if (val_eids.Length > 0)
+                                {
                                     netElementBarriers.SetBarriersByEID(ref val_eids);
                                     setBar = true;
-                                
+
                                 }
                                 if (setBar)//required, it would produce an error if there where no other barriers
                                 {
@@ -5839,7 +5866,7 @@ namespace A4WaterUtilities
                 //    {
                 //        netElementBarriersClose = pJunctionElementBarriers as INetElementBarriersGEN;
                 //    }
-                    
+
                 //    netElementBarriersClose.SetBarriersByEID(ref val_eids);
                 //    pJunctionElementBarriers = netElementBarriersClose as INetElementBarriers;
                 //}
@@ -5966,12 +5993,12 @@ namespace A4WaterUtilities
                 if (addResultsAsLayer)
                 {
 
-                    INetworkAnalysisExtBarriers pNetworkAnalysisExtBarriers = (INetworkAnalysisExtBarriers)pNetAnalysisExt;
+                    pNetworkAnalysisExtBarriers = (INetworkAnalysisExtBarriers)pNetAnalysisExt;
                     INetworkAnalysisExtFlags pNetworkAnalysisExtFlags = (INetworkAnalysisExtFlags)pNetAnalysisExt;
 
 
                     List<IFlagDisplay> pBarsDisplay = new List<IFlagDisplay>();
-                    long lngFlagCount = pNetworkAnalysisExtBarriers.EdgeBarrierCount;
+                    lngFlagCount = pNetworkAnalysisExtBarriers.EdgeBarrierCount;
                     if (lngFlagCount != 0)
                     {
                         for (int i = 0; i < lngFlagCount; i++)
