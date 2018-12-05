@@ -7233,6 +7233,7 @@ namespace A4LGSharedFunctions
             UID pId = null;
             IEnumLayer enumLayer = null;
             ILayer layer = null;
+            System.Collections.Generic.List<int> oidAddList;
             try
             {
                 pOIDs = new List<int>();
@@ -7266,6 +7267,7 @@ namespace A4LGSharedFunctions
                 int MeterFldLoc = -1;
                 while (layer != null)
                 {
+                    oidAddList = new System.Collections.Generic.List<int>();
                     fLayer = (IFeatureLayer)layer;
                     dataset = (IDataset)fLayer;
                     //&& fLayer.Selectable
@@ -7302,7 +7304,8 @@ namespace A4LGSharedFunctions
                                         }
                                     }
                                     if (selectJunc)
-                                        selectionSet.Add(eidInfo.Feature.OID);
+                                        //selectionSet.Add(eidInfo.Feature.OID);
+                                        oidAddList.Add(eidInfo.Feature.OID);
                                 }
                                 else if (pOIDs.Contains(eidInfo.Feature.OID) == false)
                                 {
@@ -7317,7 +7320,9 @@ namespace A4LGSharedFunctions
                                         }
                                     }
                                     if (selectJunc)
-                                        selectionSet.Add(eidInfo.Feature.OID);
+                                        //selectionSet.Add(eidInfo.Feature.OID);
+                                        oidAddList.Add(eidInfo.Feature.OID);
+
                                 }
                             }
 
@@ -7326,11 +7331,16 @@ namespace A4LGSharedFunctions
                         if (selectJunc)
                         {
                             featSel = (IFeatureSelection)fLayer;
-                            if (selectionSet != null && selectionSet.Count > 0)
-                            {
+                            if (oidAddList.Count > 0) {
+                                int[] oidAddListArr = oidAddList.ToArray();
+                                selectionSet.AddList(oidAddListArr.Length, ref oidAddListArr[0]);
                                 featSel.SelectionSet = selectionSet;
-
                             }
+                            //if (selectionSet != null && selectionSet.Count > 0)
+                            //{
+                            //    featSel.SelectionSet = selectionSet;
+
+                            //}
                         }
                     }
                     layer = enumLayer.Next();
@@ -7380,6 +7390,7 @@ namespace A4LGSharedFunctions
             UID pId = null;
             IEnumLayer enumLayer = null;
             ILayer layer = null;
+            System.Collections.Generic.List<int> oidAddList;
             try
             {
 
@@ -7403,6 +7414,7 @@ namespace A4LGSharedFunctions
                 layer = enumLayer.Next();
                 while (layer != null)
                 {
+                    oidAddList = new System.Collections.Generic.List<int>();
                     fLayer = (IFeatureLayer)layer;
                     dataset = (IDataset)fLayer;
                     if (fLayer.Valid &&
@@ -7419,17 +7431,22 @@ namespace A4LGSharedFunctions
                         {
                             if (eidInfo.Feature.Class.ObjectClassID == fLayer.FeatureClass.FeatureClassID)
                             {
-
-                                selectionSet.Add(eidInfo.Feature.OID);
+                                //selectionSet.Add(eidInfo.Feature.OID);
+                                oidAddList.Add(eidInfo.Feature.OID);
                             }
                             eidInfo = enumEidInfo.Next();
                         }
                         featSel = (IFeatureSelection)fLayer;
-                        if (selectionSet != null && selectionSet.Count > 0)
+                        if (oidAddList.Count > 0)
                         {
+                            int[] oidAddListArr = oidAddList.ToArray();
+                            selectionSet.AddList(oidAddListArr.Length, ref oidAddListArr[0]);
                             featSel.SelectionSet = selectionSet;
-
                         }
+                        //if (selectionSet != null && selectionSet.Count > 0)
+                        //{
+                        //    featSel.SelectionSet = selectionSet;
+                        //}
 
                     }
                     layer = enumLayer.Next();
