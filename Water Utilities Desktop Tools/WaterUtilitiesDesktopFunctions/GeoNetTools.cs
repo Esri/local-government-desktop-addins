@@ -2344,7 +2344,13 @@ namespace A4WaterUtilities
 
                 foreach (IFeatureLayer valveFLayer in valveFLs)
                 {
-
+                    if (valveFLayer == null) {
+                        continue;
+                    }
+                    if (valveFLayer.FeatureClass == null)
+                    {
+                        continue;
+                    }
                     if (point != null)
                     {
 
@@ -2531,6 +2537,9 @@ namespace A4WaterUtilities
 
                     foreach (IFeatureLayer sourceFLayer in sourceFLs)
                     {
+                        if (sourceFLayer == null) {
+                            continue;
+                        }
                         fcursor = null;
                         if (sourceFLayer == null)
                         {
