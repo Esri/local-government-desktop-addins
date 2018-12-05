@@ -4,11 +4,11 @@
   <Name>Gas Utility Network Tools</Name>
   <AddInID>{AF706D91-5AC0-40B2-890A-8B504C2191FA}</AddInID>
   <Description>ArcMap tools for Gas Utilities</Description>
-  <Version>2018.11.12</Version>
+  <Version>2018.11.30</Version>
   <Image>Images\GasUtilitiesDesktopAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>11/12/2018</Date>
+  <Date>11/30/2018</Date>
   <Targets>
     <Target name="Desktop" version="10.1"/>
   </Targets>
