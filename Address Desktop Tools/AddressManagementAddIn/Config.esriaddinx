@@ -22,11 +22,11 @@
   <AddInID>{00d1d3d9-b338-4498-9585-00d2e81e1e0e}</AddInID>
   <Description>ArcMap Address Management Toolset</Description>
 
-   <Version>2019.2.14</Version>
+   <Version>2020.8.31</Version>
   <Image>Images\AddressManagementAddIn64.png</Image>
   <Author>Esri., Inc.</Author>
   <Company>Esri., Inc.</Company>
-  <Date>2/14/2019</Date>
+  <Date>8/31/2020</Date>
   <Targets>
     <Target name="Desktop" version="10.1" />
   </Targets>
