@@ -9219,7 +9219,6 @@ namespace ArcGIS4LocalGovernment
                                                                                 AAState.WriteLine("                  " + netField + " field not found in edge");
                                                                             }
                                                                             pRow = null;
-                                                                            break;
 
 
                                                                         }
@@ -9383,8 +9382,6 @@ namespace ArcGIS4LocalGovernment
                                                                                 AAState.WriteLine("                  " + iSJunc + A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14am"));
                                                                             }
                                                                             pRow = null;
-
-                                                                            break;
 
 
                                                                         }
@@ -11189,7 +11186,7 @@ namespace ArcGIS4LocalGovernment
                                                                                 }
                                                                                 pRow = null;
 
-                                                                                break;
+                                                                           
 
 
                                                                             }
@@ -11369,7 +11366,7 @@ namespace ArcGIS4LocalGovernment
                                                                                     AAState.WriteLine("                  " + netField + " field not found in edge");
                                                                                 }
                                                                                 pRow = null;
-                                                                                break;
+                                                                 
 
 
                                                                             }
@@ -11965,8 +11962,6 @@ namespace ArcGIS4LocalGovernment
                                                                                     ChangeFeatureList.Add(((IFeature)iEdgeFeat));
                                                                                 }
 
-                                                                                break;
-
 
                                                                             }
                                                                         }
@@ -12095,7 +12090,6 @@ namespace ArcGIS4LocalGovernment
                                                                                     ChangeFeatureList.Add(((IFeature)iEdgeFeat));
                                                                                 }
 
-                                                                                break;
 
                                                                             }
                                                                         }
