@@ -479,7 +479,15 @@ namespace ArcGIS4LocalGovernment
                                 args = valData.Split('|');
                                 if (args.Length >= 2)
                                 {
-                                    nullObject = args[1] as System.Object;
+                                    if (args[1].Trim() == "")
+                                    {
+                                        nullObject = null;
+                                    }
+                                    else 
+                                    {
+                                        nullObject = args[1] as System.Object;
+                                    }
+                               
 
                                 }
                             }
