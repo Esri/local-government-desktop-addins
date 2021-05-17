@@ -404,7 +404,7 @@ namespace ArcGIS4LocalGovernment
                 if (AAState._dt == null)
                     return;
 
-                object nullObject = null;
+              
                 if (AAState.lastValueProperties == null || _clearLastValue == true || clear)
                 {
                     AAState.lastValueProperties = new PropertySetClass();
@@ -436,6 +436,7 @@ namespace ArcGIS4LocalGovernment
 
                 foreach (DataRowView drv in dv)
                 {
+                    object row_value = null;
                     if (drv["FIELDNAME"].ToString() == "SHAPE")
                     {
                         MessageBox.Show(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_1g"));
@@ -446,7 +447,35 @@ namespace ArcGIS4LocalGovernment
                         if (_clearLastValue || clear)
                         {
                             LastValueEntry lstV = new LastValueEntry();
-                            lstV.Value = nullObject;
+                            string valData = drv["VALUEINFO"].ToString().Trim();
+                            if (valData.Contains(Environment.NewLine))
+                            {
+                                valData = valData.Substring(0, valData.IndexOf(Environment.NewLine));
+
+
+                            }
+                            if (valData.Trim() == "")
+                            {
+                                row_value = null;
+                            }
+                            else
+                            {
+                                args = valData.Split('|');
+                                if (args.Length >= 2)
+                                {
+                                    if (args[1].Trim().ToLower() == "<null>" || args[1].Trim() == "")
+                                    {
+                                        row_value = null;
+                                    }
+                                    else
+                                    {
+                                        row_value = args[1] as System.Object;
+                                    }
+
+
+                                }
+                            }
+                            lstV.Value = row_value;
                             lstV.On_ChangeAtt = Globals.toBoolean(drv["ON_CHANGE"].ToString());
 
                             if (drv.DataView.Table.Columns["ON_CHANGEGEO"] != null)
@@ -472,20 +501,20 @@ namespace ArcGIS4LocalGovernment
                             }
                             if (valData.Trim() == "")
                             {
-                                nullObject = null;
+                                row_value = null;
                             }
                             else
                             {
                                 args = valData.Split('|');
                                 if (args.Length >= 2)
                                 {
-                                    if (args[1].Trim() == "")
+                                    if (args[1].Trim().ToLower() == "<null>" || args[1].Trim() == "")
                                     {
-                                        nullObject = null;
+                                        row_value = null;
                                     }
                                     else 
                                     {
-                                        nullObject = args[1] as System.Object;
+                                        row_value = args[1] as System.Object;
                                     }
                                
 
@@ -494,10 +523,10 @@ namespace ArcGIS4LocalGovernment
                             try
                             {
                                 object temp = AAState.lastValueProperties.GetProperty(drv["FIELDNAME"].ToString());
-                                if (nullObject != null && temp == null)
+                                if (temp == null)
                                 {
                                     LastValueEntry lstV = new LastValueEntry();
-                                    lstV.Value = nullObject;
+                                    lstV.Value = row_value;
                                     lstV.On_ChangeAtt = Globals.toBoolean(drv["ON_CHANGE"].ToString());
                                     if (drv.DataView.Table.Columns["ON_CHANGEGEO"] != null)
                                     {
@@ -510,12 +539,20 @@ namespace ArcGIS4LocalGovernment
                                     lstV = null;
 
                                 }
+                                else
+                                {
+                                    LastValueEntry lstV = new LastValueEntry();
+                                    lstV.Value = row_value;
+                                    AAState.lastValueProperties.SetProperty(drv["FIELDNAME"].ToString(), lstV);
+                                    lstV = null;
+
+                                }
                             }
                             catch
                             {
 
                                 LastValueEntry lstV = new LastValueEntry();
-                                lstV.Value = nullObject;
+                                lstV.Value = row_value;
                                 lstV.On_ChangeAtt = Globals.toBoolean(drv["ON_CHANGE"].ToString());
                                 if (drv.DataView.Table.Columns["ON_CHANGEGEO"] != null)
                                 {
