@@ -3,4 +3,4 @@ Preview release of the Local Government Add ins.  These are not supported.  For 
 [Issues and enhancements in this build](
   https://github.com/Esri/local-government-desktop-addins/labels/Installed)
   
-Lasted Build: 8/31/2020
+Lasted Build: 5/17/2021
