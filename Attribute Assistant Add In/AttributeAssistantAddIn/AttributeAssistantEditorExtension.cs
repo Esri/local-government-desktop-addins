@@ -2611,18 +2611,25 @@ namespace ArcGIS4LocalGovernment
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14k") + "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND VALUEMETHOD = 'Last_Value'");
                     AAState._dv.RowFilter = "(TABLENAME = '*' OR TABLENAME = '" + tableName + "' OR TABLENAME like '" + tableName + "|*' OR TABLENAME like '" + tableName + "|%') AND VALUEMETHOD = 'Last_Value'";
                     AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14l") + AAState._dv.Count.ToString());
-                    bool UpdateValueOnCreate = true;
+                    bool UpdateValue = true;
                     if (AAState._dv.Count > 0)
                     {
                         IRowChanges pRowChLast = inObject as IRowChanges;
                         for (int retRows = 0; retRows < AAState._dv.Count; retRows++)
                         {
-                            UpdateValueOnCreate = true;
+                            UpdateValue = true;
                             DataRowView drv = AAState._dv[retRows];
                             AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14m") + drv["FIELDNAME"].ToString());
 
                             //Check the value info to determine if the last value array entry should be changed on create.  This will bypass values in an edit template and values add from a split operation
                             string valDataTemp = drv["VALUEINFO"].ToString().Trim();
+                            bool test_On_Create = Globals.toBoolean(drv["ON_CREATE"].ToString());
+                            bool test_On_ChangeAtt = Globals.toBoolean(drv["ON_CHANGE"].ToString());
+                            bool test_On_ChangeGeo = false;
+                            if (drv["ON_CHANGEGEO"] != null)
+                            {
+                                test_On_ChangeGeo = Globals.toBoolean(drv["ON_CHANGEGEO"].ToString());
+                            }
                             if (valDataTemp.Contains(Environment.NewLine))
                             {
                                 valDataTemp = valDataTemp.Substring(0, valDataTemp.IndexOf(Environment.NewLine));
@@ -2634,12 +2641,25 @@ namespace ArcGIS4LocalGovernment
                                 {
                                     if (args[2].ToString().ToUpper() == "FALSE" && mode == "ON_CREATE")
                                     {
-                                        UpdateValueOnCreate = false;
+                                        UpdateValue = false;
                                     }
+                                    
                                 }
 
                             }
-                            if (UpdateValueOnCreate == true)
+                            if (mode == "ON_CHANGEGEO" && test_On_ChangeGeo == false)
+                            {
+                                UpdateValue = false;
+                            }
+                            else if (mode == "ON_CHANGE" && test_On_ChangeAtt == false)
+                            {
+                                UpdateValue = false;
+                            }
+                            else if (mode == "ON_CREATE" && test_On_Create == false)
+                            {
+                                UpdateValue = false;
+                            }
+                            if (UpdateValue == true)
                             {
                                 int fldLoc = inObject.Fields.FindField(drv["FIELDNAME"].ToString());
 
@@ -2780,6 +2800,7 @@ namespace ArcGIS4LocalGovernment
                         for (int retRows = 0; retRows < AAState._dv.Count; retRows++)
                         {
                             comments_for_row = null;
+                            bool skip_update_lastvalue = false;
 
                             DataRowView drv = AAState._dv[retRows];
 
@@ -8311,17 +8332,36 @@ namespace ArcGIS4LocalGovernment
 
                                                 AAState.WriteLine(A4LGSharedFunctions.Localizer.GetString("AttributeAssistantEditorMess_14ar") + "LAST_VALUE");
                                                 bool CheckForValue = false;
+                                                skip_update_lastvalue = false;
                                                 if (!String.IsNullOrEmpty(valData))
                                                 {
                                                     args = valData.Split('|');
-                                                    if (args.Length > 0)
+                                                    if (args.Length == 1)
                                                     {
                                                         if (args[0].ToString().ToUpper() == "TRUE")
                                                         {
                                                             CheckForValue = true;
                                                         }
                                                     }
+                                                    else if (args.Length == 2)
+                                                    {
+                                                        if (args[0].ToString().ToUpper() == "TRUE")
+                                                        {
+                                                            CheckForValue = true;
+                                                        }
 
+                                                    }
+                                                    else if (args.Length == 3)
+                                                    {
+                                                        if (args[0].ToString().ToUpper() == "TRUE")
+                                                        {
+                                                            CheckForValue = true;
+                                                        }
+                                                        if (args[2].ToString().ToUpper() == "FALSE")
+                                                        {
+                                                            skip_update_lastvalue = true;
+                                                        }
+                                                    }
                                                 }
                                                 else
                                                 {
@@ -16686,7 +16726,7 @@ namespace ArcGIS4LocalGovernment
 
                             try
                             {
-                                if (intFldIdxs.Count > 0 && strFldNames.Count > 0)
+                                if (intFldIdxs.Count > 0 && strFldNames.Count > 0 && skip_update_lastvalue == false)
                                 {
                                     for (int p = 0; p < strFldNames.Count; p++)
                                     {
