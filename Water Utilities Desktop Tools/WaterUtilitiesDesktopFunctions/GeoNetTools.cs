@@ -964,14 +964,25 @@ namespace A4WaterUtilities
                                 net = gn.Network;
                                 if (editor.EditWorkspace.Equals(gn.FeatureDataset.Workspace))
                                 {
-
+                                    int error_count = 0;
                                     unet = net as IUtilityNetworkGEN;
                                     edgeEIDs = net.CreateNetBrowser(esriElementType.esriETEdge);
                                     edgeEIDs.Reset(); int edgeEID;
                                     for (long j = 0; j < edgeEIDs.Count; j++)
                                     {
                                         edgeEID = edgeEIDs.Next();
-                                        unet.SetFlowDirection(edgeEID, esriFlowDirection.esriFDWithFlow);
+                                        try
+                                        {
+                                            unet.SetFlowDirection(edgeEID, esriFlowDirection.esriFDWithFlow);
+                                       
+                                        }
+                                           catch (Exception ex)
+                                        {
+                                            error_count += 1;
+                                        }
+                                    }
+                                    if (error_count > 0) {
+                                        MessageBox.Show("Error were encountered during update, the geoemtric network may have build issues, check feature classes for duplicate Global IDs and run the repair GN tools");
                                     }
                                     calcCount += 1;
                                 }
